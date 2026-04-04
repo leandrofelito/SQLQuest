@@ -1,0 +1,81 @@
+{
+  "slug": "select-basico",
+  "titulo": "SELECT Básico",
+  "descricao": "Aprenda a buscar dados de qualquer tabela",
+  "icone": "🔍",
+  "ordem": 1,
+  "xpTotal": 600,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O que é SELECT?",
+      "conteudo": { "emoji": "🔍", "subtitulo": "O comando mais usado em SQL" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Para que serve",
+      "conteudo": { "blocos": [
+        "SELECT é o comando que busca dados de um banco de dados.",
+        "Você diz quais colunas quer ver e de qual tabela buscar.",
+        "É como perguntar ao banco: 'me mostre essas informações'."
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Como se escreve",
+      "conteudo": { "blocos": [
+        "A estrutura básica é: SELECT coluna FROM tabela",
+        "Para ver todas as colunas, use o asterisco: SELECT * FROM tabela",
+        "Você pode selecionar várias colunas separadas por vírgula."
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo rápido",
+      "conteudo": { "cor": "verde", "itens": [
+        "SELECT escolhe as colunas",
+        "FROM indica a tabela",
+        "* significa todas as colunas",
+        "Separe colunas com vírgula"
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 1",
+      "conteudo": {
+        "instrucao": "Busque o nome e email de todos os usuários da tabela.",
+        "dica": "Pense em quais colunas você precisa e como separar duas colunas no SELECT.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE usuarios (id INTEGER, nome TEXT, email TEXT, cidade TEXT); INSERT INTO usuarios VALUES (1,'Ana','ana@email.com','SP'),(2,'Carlos','carlos@email.com','RJ'),(3,'Maria','maria@email.com','MG');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["nome", "email"], "min_rows": 3 }
+      }
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Aliases com AS",
+      "conteudo": { "blocos": [
+        "Você pode renomear colunas no resultado usando AS.",
+        "Exemplo: SELECT nome AS 'Nome Completo' FROM usuarios",
+        "O AS não muda o banco, só o nome exibido no resultado."
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 2",
+      "conteudo": {
+        "instrucao": "Busque todas as colunas da tabela de produtos.",
+        "dica": "Existe um atalho especial para selecionar todas as colunas de uma vez.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE produtos (id INTEGER, nome TEXT, preco REAL, categoria TEXT, estoque INTEGER); INSERT INTO produtos VALUES (1,'Notebook',3200.00,'Eletronicos',15),(2,'Mouse',89.90,'Eletronicos',120),(3,'Mesa',450.00,'Moveis',8),(4,'Cadeira',890.00,'Moveis',25);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["id","nome","preco","categoria","estoque"], "min_rows": 4 }
+      }
+    },
+    {
+      "ordem": 8, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Parabéns!",
+      "conteudo": { "mensagem": "Você dominou o SELECT básico!", "xpGanho": 250 }
+    }
+  ]
+}

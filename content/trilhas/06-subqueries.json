@@ -1,0 +1,144 @@
+{
+  "slug": "subqueries",
+  "titulo": "Subqueries",
+  "descricao": "Consultas dentro de consultas para resultados poderosos",
+  "icone": "🔭",
+  "ordem": 6,
+  "xpTotal": 900,
+  "etapas": [
+    {
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "O que são Subqueries?",
+      "conteudo": {
+        "emoji": "🔭",
+        "subtitulo": "Consultas aninhadas para análises mais profundas"
+      }
+    },
+    {
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Subquery no WHERE",
+      "conteudo": {
+        "blocos": [
+          "Uma subquery é uma consulta SQL dentro de outra consulta.",
+          "Ela aparece entre parênteses e pode estar no WHERE, FROM ou SELECT.",
+          "Exemplo: SELECT nome FROM produtos WHERE preco > (SELECT AVG(preco) FROM produtos)"
+        ]
+      }
+    },
+    {
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Subquery no FROM",
+      "conteudo": {
+        "blocos": [
+          "Você pode usar uma subquery como se fosse uma tabela temporária.",
+          "Basta colocá-la no FROM e dar um alias com AS.",
+          "Exemplo: SELECT * FROM (SELECT nome, preco FROM produtos WHERE estoque > 0) AS disponiveis"
+        ]
+      }
+    },
+    {
+      "ordem": 4,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Operadores IN e EXISTS",
+      "conteudo": {
+        "blocos": [
+          "IN verifica se um valor está na lista retornada pela subquery.",
+          "Exemplo: SELECT * FROM pedidos WHERE cliente_id IN (SELECT id FROM clientes WHERE cidade = 'SP')",
+          "EXISTS verifica se a subquery retorna alguma linha — útil para checar existência."
+        ]
+      }
+    },
+    {
+      "ordem": 5,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Resumo rápido",
+      "conteudo": {
+        "cor": "azul",
+        "itens": [
+          "Subquery é uma SELECT dentro de outra SELECT",
+          "Sempre entre parênteses",
+          "Pode estar no WHERE, FROM ou SELECT",
+          "IN e EXISTS são operadores comuns com subqueries",
+          "No FROM precisa de alias com AS"
+        ]
+      }
+    },
+    {
+      "ordem": 6,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Exercício 1 — Subquery no WHERE",
+      "conteudo": {
+        "instrucao": "Busque o nome e preço de todos os produtos com preço acima da média.",
+        "dica": "Calcule a média dentro do WHERE usando uma subquery com AVG(preco).",
+        "placeholder": "SELECT nome, preco FROM ...",
+        "schema": "CREATE TABLE produtos (id INTEGER, nome TEXT, preco REAL, categoria TEXT); INSERT INTO produtos VALUES (1,'Notebook',3200.00,'Eletronicos'),(2,'Mouse',89.90,'Eletronicos'),(3,'Mesa',450.00,'Moveis'),(4,'Monitor',1200.00,'Eletronicos'),(5,'Cadeira',890.00,'Moveis'),(6,'Teclado',250.00,'Eletronicos');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "preco"],
+          "min_rows": 2
+        }
+      }
+    },
+    {
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Exercício 2 — Subquery com IN",
+      "conteudo": {
+        "instrucao": "Busque o nome e email dos clientes que fizeram pelo menos um pedido.",
+        "dica": "Use IN com uma subquery que seleciona os cliente_id distintos da tabela pedidos.",
+        "placeholder": "SELECT nome, email FROM clientes WHERE ...",
+        "schema": "CREATE TABLE clientes (id INTEGER, nome TEXT, email TEXT, cidade TEXT); CREATE TABLE pedidos (id INTEGER, cliente_id INTEGER, total REAL, status TEXT); INSERT INTO clientes VALUES (1,'Ana','ana@email.com','SP'),(2,'Bruno','bruno@email.com','RJ'),(3,'Carla','carla@email.com','MG'),(4,'Diego','diego@email.com','SP'); INSERT INTO pedidos VALUES (1,1,350.00,'pago'),(2,1,120.00,'pago'),(3,3,890.00,'pendente'),(4,3,45.00,'pago');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "email"],
+          "min_rows": 2
+        }
+      }
+    },
+    {
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Exercício 3 — Subquery no FROM",
+      "conteudo": {
+        "instrucao": "Usando uma subquery no FROM, calcule a média dos totais de pedidos pagos.",
+        "dica": "Filtre os pedidos com status='pago' na subquery, depois use AVG no resultado.",
+        "placeholder": "SELECT AVG(total) FROM (...) AS ...",
+        "schema": "CREATE TABLE pedidos (id INTEGER, cliente_id INTEGER, total REAL, status TEXT); INSERT INTO pedidos VALUES (1,1,350.00,'pago'),(2,2,120.00,'cancelado'),(3,3,890.00,'pago'),(4,1,45.00,'pago'),(5,4,670.00,'pendente'),(6,2,200.00,'pago');",
+        "checkType": "aggregate",
+        "checkConfig": {
+          "min_rows": 1
+        }
+      }
+    },
+    {
+      "ordem": 9,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Subqueries dominadas!",
+      "conteudo": {
+        "mensagem": "Você aprendeu a criar consultas aninhadas poderosas!",
+        "xpGanho": 350
+      }
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "slug": "filtragem",
+  "titulo": "Filtragem com WHERE",
+  "descricao": "Filtre dados com WHERE, LIKE, IN e BETWEEN",
+  "icone": "🎯",
+  "ordem": 2,
+  "xpTotal": 700,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Filtrando dados",
+      "conteudo": { "emoji": "🎯", "subtitulo": "Encontre exatamente o que precisa" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O comando WHERE",
+      "conteudo": { "blocos": [
+        "WHERE é usado para filtrar linhas de uma tabela.",
+        "Só as linhas que satisfazem a condição são retornadas.",
+        "Exemplo: SELECT * FROM clientes WHERE cidade = 'SP'"
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Operadores de comparação",
+      "conteudo": { "blocos": [
+        "= igual, <> diferente, > maior, < menor, >= maior ou igual, <= menor ou igual.",
+        "Para texto, sempre use aspas simples: WHERE nome = 'Ana'",
+        "Para números, sem aspas: WHERE preco > 100"
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 1 — WHERE básico",
+      "conteudo": {
+        "instrucao": "Busque todos os produtos com preço maior que 500.",
+        "dica": "Use WHERE com o operador > para comparar o preço.",
+        "placeholder": "SELECT * FROM produtos WHERE ...",
+        "schema": "CREATE TABLE produtos (id INTEGER, nome TEXT, preco REAL, categoria TEXT); INSERT INTO produtos VALUES (1,'Notebook',3200,'Eletronicos'),(2,'Mouse',89,'Eletronicos'),(3,'Mesa',450,'Moveis'),(4,'Cadeira',890,'Moveis'),(5,'Monitor',1200,'Eletronicos');",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "LIKE — busca por padrão",
+      "conteudo": { "blocos": [
+        "LIKE permite buscar por padrões em texto.",
+        "% representa qualquer sequência de caracteres.",
+        "Exemplo: WHERE nome LIKE 'A%' busca nomes que começam com A."
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "IN e BETWEEN",
+      "conteudo": { "blocos": [
+        "IN verifica se um valor está numa lista: WHERE cidade IN ('SP', 'RJ', 'MG')",
+        "BETWEEN verifica um intervalo: WHERE preco BETWEEN 100 AND 500",
+        "Ambos tornam a query mais legível que múltiplos OR."
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo de filtros",
+      "conteudo": { "cor": "azul", "itens": [
+        "WHERE filtra linhas por condição",
+        "LIKE busca por padrão com %",
+        "IN verifica lista de valores",
+        "BETWEEN verifica intervalo inclusivo"
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 2 — LIKE e IN",
+      "conteudo": {
+        "instrucao": "Busque clientes das cidades SP e RJ usando IN.",
+        "dica": "Use WHERE cidade IN (...) com as cidades entre parênteses.",
+        "placeholder": "SELECT * FROM clientes WHERE ...",
+        "schema": "CREATE TABLE clientes (id INTEGER, nome TEXT, cidade TEXT, email TEXT); INSERT INTO clientes VALUES (1,'Ana','SP','ana@email.com'),(2,'Carlos','RJ','c@email.com'),(3,'Maria','MG','m@email.com'),(4,'João','SP','j@email.com'),(5,'Lucia','BA','l@email.com');",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 3 — BETWEEN",
+      "conteudo": {
+        "instrucao": "Busque pedidos com valor entre 100 e 500 reais.",
+        "dica": "BETWEEN inclui os extremos — 100 e 500 também entram no resultado.",
+        "placeholder": "SELECT * FROM pedidos WHERE ...",
+        "schema": "CREATE TABLE pedidos (id INTEGER, cliente TEXT, valor REAL, data TEXT); INSERT INTO pedidos VALUES (1,'Ana',50.00,'2024-01-01'),(2,'Carlos',150.00,'2024-01-02'),(3,'Maria',500.00,'2024-01-03'),(4,'João',99.99,'2024-01-04'),(5,'Lucia',350.00,'2024-01-05');",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Filtragem dominada!",
+      "conteudo": { "mensagem": "Você já sabe filtrar dados como um profissional!", "xpGanho": 350 }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "trilhas": "Trilhas",
+    "ranking": "Ranking",
+    "certs": "Certs",
+    "perfil": "Perfil"
+  },
+  "home": {
+    "hello": "Olá,",
+    "loading": "Carregando trilhas..."
+  },
+  "trilha": {
+    "etapas": "etapas",
+    "iniciar": "Iniciar",
+    "continuar": "Continuar →",
+    "concluida": "Concluída ✓",
+    "bloqueada": "🔒 Bloqueada",
+    "indice": "Índice",
+    "descricao": "Descrição"
+  },
+  "exercicio": {
+    "verificar": "Verificar",
+    "continuar": "Continuar →",
+    "correto": "Correto!",
+    "dica": "Mostrar dica",
+    "aguarde": "Aguarde {sec}s..."
+  },
+  "upgrade": {
+    "titulo": "Assinar Pro",
+    "preco": "R$29,99",
+    "cta": "OBTENHA PRO PARA VIDA ÚTIL",
+    "continuar": "Continuar com anúncios",
+    "desconto": "80% OFF"
+  },
+  "cert": {
+    "titulo": "Certificado de Conclusão",
+    "emitidoEm": "Data de emissão",
+    "codigo": "Código de validação",
+    "autentico": "✓ Certificado Autêntico",
+    "baixar": "⬇ Baixar PDF",
+    "compartilhar": "🔗 Compartilhar"
+  },
+  "login": {
+    "tagline": "Aprenda SQL do básico ao avançado",
+    "entrar": "Entrar com Google"
+  },
+  "errors": {
+    "naoAutenticado": "Não autenticado",
+    "naoEncontrado": "Não encontrado"
+  }
+}

@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  image        String?
+  isPro        Boolean   @default(false)
+  isAdmin      Boolean   @default(false)
+  proAt        DateTime?
+  totalXp      Int       @default(0)
+  streak       Int       @default(0)
+  lastActiveAt DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  accounts     Account[]
+  sessions     Session[]
+  progressos   Progresso[]
+  pagamentos   Pagamento[]
+  certificados Certificado[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Trilha {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titulo      String
+  descricao   String
+  icone       String
+  ordem       Int      @unique
+  totalEtapas Int
+  xpTotal     Int
+  publicada   Boolean  @default(false)
+  criadaEm   DateTime @default(now())
+
+  etapas       Etapa[]
+  progressos   Progresso[]
+  certificados Certificado[]
+}
+
+model Etapa {
+  id         String   @id @default(cuid())
+  trilhaId   String
+  ordem      Int
+  tipo       String
+  titulo     String
+  conteudo   Json
+  xpReward   Int      @default(50)
+  temAnuncio Boolean  @default(false)
+  criadaEm  DateTime @default(now())
+
+  trilha     Trilha      @relation(fields: [trilhaId], references: [id], onDelete: Cascade)
+  progressos Progresso[]
+
+  @@unique([trilhaId, ordem])
+}
+
+model Progresso {
+  id           String   @id @default(cuid())
+  userId       String
+  trilhaId     String
+  etapaId      String
+  xpGanho      Int      @default(0)
+  tentativas   Int      @default(1)
+  usouDica     Boolean  @default(false)
+  concluidaEm DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trilha Trilha @relation(fields: [trilhaId], references: [id], onDelete: Cascade)
+  etapa  Etapa  @relation(fields: [etapaId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, etapaId])
+}
+
+model Pagamento {
+  id              String   @id @default(cuid())
+  userId          String
+  stripeSessionId String   @unique
+  valor           Int
+  status          String   @default("pending")
+  criadoEm       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Certificado {
+  id         String   @id @default(cuid())
+  userId     String
+  trilhaId   String
+  hash       String   @unique @default(cuid())
+  emitidoEm DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trilha Trilha @relation(fields: [trilhaId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trilhaId])
+}

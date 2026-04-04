@@ -1,0 +1,93 @@
+{
+  "slug": "having",
+  "titulo": "HAVING",
+  "descricao": "Filtre grupos com HAVING após o GROUP BY",
+  "icone": "🔬",
+  "ordem": 4,
+  "xpTotal": 650,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Filtrando grupos",
+      "conteudo": { "emoji": "🔬", "subtitulo": "HAVING filtra depois de agrupar" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "WHERE vs HAVING",
+      "conteudo": { "blocos": [
+        "WHERE filtra linhas ANTES de agrupar.",
+        "HAVING filtra grupos DEPOIS do GROUP BY.",
+        "Use HAVING quando a condição envolve uma função de agregação."
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Sintaxe do HAVING",
+      "conteudo": { "blocos": [
+        "SELECT categoria, COUNT(*) FROM produtos GROUP BY categoria HAVING COUNT(*) > 2",
+        "Você pode usar qualquer função de agregação no HAVING.",
+        "A ordem é: SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY"
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Quando usar cada um",
+      "conteudo": { "cor": "laranja", "itens": [
+        "WHERE — filtra linhas individuais",
+        "GROUP BY — agrupa linhas iguais",
+        "HAVING — filtra os grupos criados",
+        "ORDER BY — ordena o resultado final"
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 1",
+      "conteudo": {
+        "instrucao": "Mostre apenas as categorias com mais de 2 produtos.",
+        "dica": "Agrupe por categoria e use HAVING COUNT(*) > 2 para filtrar.",
+        "placeholder": "SELECT categoria, COUNT(*) FROM produtos ...",
+        "schema": "CREATE TABLE produtos (id INTEGER, nome TEXT, categoria TEXT, preco REAL); INSERT INTO produtos VALUES (1,'A','Eletronicos',100),(2,'B','Eletronicos',200),(3,'C','Eletronicos',300),(4,'D','Moveis',400),(5,'E','Moveis',500),(6,'F','Roupas',600);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 2 }
+      }
+    },
+    {
+      "ordem": 6, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 2",
+      "conteudo": {
+        "instrucao": "Mostre departamentos com salário médio acima de 5000.",
+        "dica": "Use AVG(salario) no HAVING para filtrar pela média.",
+        "placeholder": "SELECT departamento, AVG(salario) FROM funcionarios ...",
+        "schema": "CREATE TABLE funcionarios (id INTEGER, nome TEXT, departamento TEXT, salario REAL); INSERT INTO funcionarios VALUES (1,'Ana','TI',8000),(2,'Carlos','TI',7000),(3,'Maria','RH',3000),(4,'João','RH',3500),(5,'Lucia','TI',9000),(6,'Pedro','Vendas',6000);",
+        "checkType": "aggregate",
+        "checkConfig": { "min_rows": 2 }
+      }
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Combinando WHERE e HAVING",
+      "conteudo": { "blocos": [
+        "Você pode usar WHERE e HAVING na mesma query.",
+        "WHERE filtra primeiro, depois GROUP BY agrupa, depois HAVING filtra.",
+        "Exemplo: busque apenas produtos ativos, agrupe e filtre por quantidade."
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 3 — WHERE + HAVING",
+      "conteudo": {
+        "instrucao": "Mostre clientes que fizeram mais de 1 pedido com valor total acima de 200.",
+        "dica": "Use WHERE para excluir pedidos cancelados, GROUP BY cliente, HAVING para filtrar.",
+        "placeholder": "SELECT cliente, COUNT(*), SUM(valor) FROM pedidos WHERE ...",
+        "schema": "CREATE TABLE pedidos (id INTEGER, cliente TEXT, valor REAL, status TEXT); INSERT INTO pedidos VALUES (1,'Ana',100,'pago'),(2,'Ana',150,'pago'),(3,'Carlos',80,'pago'),(4,'Maria',300,'pago'),(5,'Maria',250,'cancelado'),(6,'João',50,'pago');",
+        "checkType": "aggregate",
+        "checkConfig": { "min_rows": 1 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "HAVING dominado!",
+      "conteudo": { "mensagem": "Você agora filtra grupos com precisão!", "xpGanho": 300 }
+    }
+  ]
+}

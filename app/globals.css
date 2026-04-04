@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #080a0f;
+    --surface: #0f1117;
+    --surface2: #161820;
+    --surface3: #1e2028;
+    --border: #2a2d3a;
+    --border2: #363a4a;
+    --purple: #8b5cf6;
+    --purple2: #a78bfa;
+    --green: #10b981;
+    --green2: #34d399;
+    --gold: #f59e0b;
+    --red: #ef4444;
+    --orange: #f97316;
+  }
+
+  * { -webkit-tap-highlight-color: transparent; }
+
+  ::-webkit-scrollbar { display: none; }
+  * { scrollbar-width: none; }
+
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
+    background: var(--bg);
+  }
+}
+
+@layer utilities {
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-top { padding-top: env(safe-area-inset-top); }
+}

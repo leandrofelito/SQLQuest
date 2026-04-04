@@ -1,0 +1,160 @@
+{
+  "slug": "window-functions",
+  "titulo": "Window Functions",
+  "descricao": "RANK, LAG, PARTITION BY e o poder das janelas analíticas",
+  "icone": "🪟",
+  "ordem": 8,
+  "xpTotal": 1000,
+  "etapas": [
+    {
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Window Functions",
+      "conteudo": {
+        "emoji": "🪟",
+        "subtitulo": "Analise dados por grupos sem perder o detalhe das linhas"
+      }
+    },
+    {
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "O que são Window Functions?",
+      "conteudo": {
+        "blocos": [
+          "Window Functions calculam valores sobre um conjunto de linhas relacionadas.",
+          "Ao contrário do GROUP BY, elas não colapsam as linhas — cada linha mantém seu resultado.",
+          "A sintaxe usa OVER(): SELECT nome, salario, AVG(salario) OVER() FROM funcionarios"
+        ]
+      }
+    },
+    {
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "PARTITION BY — janelas por grupo",
+      "conteudo": {
+        "blocos": [
+          "PARTITION BY divide os dados em grupos (janelas) para o cálculo.",
+          "Cada grupo é processado independentemente.",
+          "Exemplo: AVG(salario) OVER(PARTITION BY departamento) calcula a média por departamento"
+        ]
+      }
+    },
+    {
+      "ordem": 4,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "RANK e ROW_NUMBER",
+      "conteudo": {
+        "blocos": [
+          "RANK() atribui uma posição para cada linha dentro da janela.",
+          "RANK() pula posições em caso de empate. ROW_NUMBER() nunca repete.",
+          "Exemplo: RANK() OVER(ORDER BY salario DESC) — classifica do maior para o menor."
+        ]
+      }
+    },
+    {
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "LAG e LEAD — comparar com outras linhas",
+      "conteudo": {
+        "blocos": [
+          "LAG(coluna) acessa o valor da linha ANTERIOR dentro da janela.",
+          "LEAD(coluna) acessa o valor da linha SEGUINTE.",
+          "Muito útil para comparar períodos: vendas deste mês vs. mês passado."
+        ]
+      }
+    },
+    {
+      "ordem": 6,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Resumo rápido",
+      "conteudo": {
+        "cor": "laranja",
+        "itens": [
+          "OVER() define a janela de análise",
+          "PARTITION BY divide em grupos sem colapsar linhas",
+          "ORDER BY dentro do OVER define a ordem da janela",
+          "RANK() classifica com pulos em empates",
+          "ROW_NUMBER() numera sem repetição",
+          "LAG() = linha anterior, LEAD() = linha seguinte"
+        ]
+      }
+    },
+    {
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Exercício 1 — RANK por salário",
+      "conteudo": {
+        "instrucao": "Crie um ranking de funcionários do maior para o menor salário usando RANK(). Mostre nome, salario e a coluna de ranking.",
+        "dica": "Use RANK() OVER(ORDER BY salario DESC) AS ranking na cláusula SELECT.",
+        "placeholder": "SELECT nome, salario, RANK() OVER(...) AS ranking FROM ...",
+        "schema": "CREATE TABLE funcionarios (id INTEGER, nome TEXT, departamento TEXT, salario REAL); INSERT INTO funcionarios VALUES (1,'Ana','Eng',8500),(2,'Bruno','Mkt',5200),(3,'Carla','Eng',9200),(4,'Diego','Mkt',4800),(5,'Eva','Eng',8500),(6,'Felipe','RH',6100),(7,'Gabi','RH',5800);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "salario"],
+          "min_rows": 7
+        }
+      }
+    },
+    {
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Exercício 2 — RANK por departamento",
+      "conteudo": {
+        "instrucao": "Classifique os funcionários pelo salário dentro de cada departamento. Mostre nome, departamento, salario e ranking.",
+        "dica": "Use PARTITION BY departamento dentro do OVER para criar janelas por departamento.",
+        "placeholder": "SELECT nome, departamento, salario,\n  RANK() OVER(PARTITION BY ... ORDER BY ...) AS ranking\nFROM funcionarios",
+        "schema": "CREATE TABLE funcionarios (id INTEGER, nome TEXT, departamento TEXT, salario REAL); INSERT INTO funcionarios VALUES (1,'Ana','Eng',8500),(2,'Bruno','Mkt',5200),(3,'Carla','Eng',9200),(4,'Diego','Mkt',4800),(5,'Eva','Eng',7800),(6,'Felipe','Mkt',6100);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "departamento", "salario"],
+          "min_rows": 6
+        }
+      }
+    },
+    {
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Exercício 3 — LAG para comparar meses",
+      "conteudo": {
+        "instrucao": "Para cada mês de vendas, mostre o mês, o total e o total do mês anterior usando LAG().",
+        "dica": "Use LAG(total) OVER(ORDER BY mes) AS mes_anterior. Ordene os resultados por mes.",
+        "placeholder": "SELECT mes, total,\n  LAG(total) OVER(ORDER BY mes) AS mes_anterior\nFROM vendas_mensais\nORDER BY mes",
+        "schema": "CREATE TABLE vendas_mensais (mes INTEGER, total REAL); INSERT INTO vendas_mensais VALUES (1,12500),(2,15200),(3,11800),(4,18900),(5,21000),(6,19500);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["mes", "total"],
+          "min_rows": 6
+        }
+      }
+    },
+    {
+      "ordem": 10,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Window Functions dominadas!",
+      "conteudo": {
+        "mensagem": "Você concluiu todas as trilhas do SQLQuest. Parabéns, mestre do SQL!",
+        "xpGanho": 400
+      }
+    }
+  ]
+}

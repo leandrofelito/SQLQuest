@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "trilhas": "Trails",
+    "ranking": "Ranking",
+    "certs": "Certs",
+    "perfil": "Profile"
+  },
+  "home": {
+    "hello": "Hello,",
+    "loading": "Loading trails..."
+  },
+  "trilha": {
+    "etapas": "steps",
+    "iniciar": "Start",
+    "continuar": "Continue →",
+    "concluida": "Completed ✓",
+    "bloqueada": "🔒 Locked",
+    "indice": "Index",
+    "descricao": "Description"
+  },
+  "exercicio": {
+    "verificar": "Check",
+    "continuar": "Continue →",
+    "correto": "Correct!",
+    "dica": "Show hint",
+    "aguarde": "Wait {sec}s..."
+  },
+  "upgrade": {
+    "titulo": "Go Pro",
+    "preco": "R$29.99",
+    "cta": "GET PRO FOR LIFE",
+    "continuar": "Continue with ads",
+    "desconto": "80% OFF"
+  },
+  "cert": {
+    "titulo": "Certificate of Completion",
+    "emitidoEm": "Issue date",
+    "codigo": "Validation code",
+    "autentico": "✓ Authentic Certificate",
+    "baixar": "⬇ Download PDF",
+    "compartilhar": "🔗 Share"
+  },
+  "login": {
+    "tagline": "Learn SQL from basics to advanced",
+    "entrar": "Sign in with Google"
+  },
+  "errors": {
+    "naoAutenticado": "Not authenticated",
+    "naoEncontrado": "Not found"
+  }
+}
