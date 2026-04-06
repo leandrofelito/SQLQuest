@@ -1,0 +1,88 @@
+{
+  "slug": "elite-tuning-performance",
+  "titulo": "Desafios de Elite: Tuning e Performance",
+  "descricao": "Prove que você domina performance real: SARGability, Covering Indexes e otimização de JOINs — com análise do Plano de Execução do PostgreSQL.",
+  "icone": "🏎️",
+  "ordem": 22,
+  "xpTotal": 450,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Desafios de Elite: Tuning e Performance",
+      "conteudo": { "emoji": "🏎️", "subtitulo": "Escreva queries que o PostgreSQL executa na velocidade máxima — sem varreduras desnecessárias" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O que é um Plano de Execução?",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "EXPLAIN ANALYZE", "def": "Comando PostgreSQL que mostra como o banco planeja e executa sua query: quais índices usou, quantas linhas varreu, e quanto tempo cada etapa levou." },
+        { "type": "code", "code": "EXPLAIN ANALYZE\nSELECT nome, email FROM clientes WHERE cidade = 'São Paulo';\n\n-- Com índice e query SARGable:\n-- Index Scan using idx_clientes_cidade on clientes\n--   Index Cond: (cidade = 'São Paulo')\n--   Rows Removed by Filter: 0\n\n-- Com UPPER() na coluna:\n-- Seq Scan on clientes  (cost=0..450.00 rows=2 ...)\n--   Filter: (upper(cidade) = 'SÃO PAULO')\n--   Rows Removed by Filter: 99998", "lese": "A query com UPPER() força uma varredura em 100.000 linhas; a query SARGable vai direto ao índice e retorna apenas as linhas corretas — a diferença é de segundos versus milissegundos" },
+        { "type": "nota", "texto": "Regra de ouro: nunca aplique funções sobre colunas indexadas no WHERE. O índice é ignorado e o banco varre a tabela inteira." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "exercicio", "temAnuncio": false, "xpReward": 60,
+      "titulo": "SARGability — Predicados que Respeitam Índices",
+      "conteudo": {
+        "instrucao": "A tabela `clientes` tem um índice em `cidade`. Retorne o `nome` e `email` dos clientes de 'São Paulo'.\n\n⚡ **Desafio de Elite:** Escreva a query de forma SARGable — compare diretamente com o valor, sem funções ou conversões sobre a coluna indexada. Especifique apenas as colunas necessárias.",
+        "dica": "Use WHERE cidade = 'São Paulo' diretamente, sem UPPER() nem CAST(). Especifique nome e email em vez de SELECT * para simular um covering index.",
+        "placeholder": "SELECT nome, email FROM clientes WHERE ...",
+        "schema": "CREATE TABLE clientes (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, email TEXT NOT NULL, cidade TEXT NOT NULL); INSERT INTO clientes VALUES (1,'Ana Silva','ana@email.com','São Paulo'), (2,'Bruno Souza','bruno@email.com','Rio de Janeiro'), (3,'Carla Lima','carla@email.com','São Paulo'), (4,'Diego Pinto','diego@email.com','Belo Horizonte'), (5,'Elena Costa','elena@email.com','São Paulo');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["nome", "email"], "min_rows": 3 },
+        "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
+        "explicacaoTecnica": "No PostgreSQL, `WHERE UPPER(cidade) = 'SÃO PAULO'` impede o uso do índice em `cidade` — o banco força um **Sequential Scan** em toda a tabela (custo O(n)). Com `WHERE cidade = 'São Paulo'`, o planner usa um **Index Scan** (custo O(log n)). Adicionar `INCLUDE (nome, email)` ao índice transforma isso em um **Index-Only Scan** — sem nem tocar a tabela. Isso é visível em `EXPLAIN ANALYZE` pela linha `Index Only Scan using idx_clientes_cidade...`."
+      }
+    },
+    {
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 70,
+      "titulo": "Covering Index — Zero Acesso à Tabela",
+      "conteudo": {
+        "instrucao": "A tabela `pedidos` tem um índice em `status`. Retorne `produto` e `valor` dos pedidos com `status = 'entregue'`.\n\n⚡ **Desafio de Elite:** Evite `SELECT *` — projete apenas as colunas cobertas pelo índice para simular um Index-Only Scan no PostgreSQL.",
+        "dica": "Escreva SELECT produto, valor FROM pedidos WHERE status = 'entregue'. Com SELECT *, o PostgreSQL precisa acessar a tabela (heap) mesmo tendo o índice.",
+        "placeholder": "SELECT produto, valor FROM pedidos WHERE ...",
+        "schema": "CREATE TABLE pedidos (id INTEGER PRIMARY KEY, cliente_id INTEGER NOT NULL, produto TEXT NOT NULL, valor REAL NOT NULL, status TEXT NOT NULL); INSERT INTO pedidos VALUES (1,1,'Laptop Pro',4500.00,'entregue'), (2,2,'Mouse Gamer',150.00,'pendente'), (3,1,'Teclado Mecânico',350.00,'entregue'), (4,3,'Monitor 4K',2800.00,'cancelado'), (5,2,'Headset',400.00,'entregue'), (6,3,'Webcam',250.00,'pendente');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["produto", "valor"], "min_rows": 3 },
+        "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
+        "explicacaoTecnica": "Com `SELECT *`, o PostgreSQL vai ao índice para encontrar os IDs dos pedidos entregues, mas depois precisa voltar à tabela (heap) para buscar todas as colunas — chamado de **heap fetch**. Com `CREATE INDEX ON pedidos(status) INCLUDE (produto, valor)`, as colunas ficam dentro do índice. Usando `SELECT produto, valor WHERE status = 'entregue'`, o PostgreSQL executa um **Index-Only Scan** sem tocar a tabela. O `EXPLAIN ANALYZE` mostraria `Heap Fetches: 0`, o que indica performance máxima."
+      }
+    },
+    {
+      "ordem": 5, "tipo": "exercicio", "temAnuncio": false, "xpReward": 80,
+      "titulo": "Join Otimizado — Predicate Pushdown",
+      "conteudo": {
+        "instrucao": "Retorne `nome` e `salario` dos funcionários do departamento 'Engenharia' com salário acima de 8000.\n\n⚡ **Desafio de Elite:** Filtre na cláusula WHERE com ambas as condições e especifique as colunas — não use SELECT *. Isso permite ao planner do PostgreSQL reduzir as linhas antes do JOIN.",
+        "dica": "JOIN departamentos d ON f.dept_id = d.id WHERE d.nome = 'Engenharia' AND f.salario > 8000. Filtrar cedo reduz o custo do hash join.",
+        "placeholder": "SELECT f.nome, f.salario\nFROM funcionarios f\n  JOIN departamentos d ON ...\nWHERE ...",
+        "schema": "CREATE TABLE departamentos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL); CREATE TABLE funcionarios (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, dept_id INTEGER NOT NULL, salario REAL NOT NULL); INSERT INTO departamentos VALUES (1,'Engenharia'),(2,'Marketing'),(3,'Vendas'); INSERT INTO funcionarios VALUES (1,'Alice',1,8500),(2,'Bob',2,5500),(3,'Carol',1,9200),(4,'Dan',3,6100),(5,'Eve',1,8100),(6,'Frank',2,4900);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["nome", "salario"], "min_rows": 3 },
+        "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
+        "explicacaoTecnica": "Sem filtros explícitos, o PostgreSQL pode usar um **Hash Join** que carrega todas as linhas na memória antes de filtrar. Com `WHERE d.nome = 'Engenharia' AND f.salario > 8000`, o **predicate pushdown** reduz o volume antes da junção — o planner pode escolher um **Nested Loop** mais eficiente quando o conjunto já é pequeno. O `EXPLAIN ANALYZE` mostraria `Rows Removed by Filter` muito menor e o custo total cai drasticamente em tabelas reais com milhões de registros."
+      }
+    },
+    {
+      "ordem": 6, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Padrões de Elite Dominados",
+      "conteudo": {
+        "cor": "roxo",
+        "itens": [
+          "Queries SARGable usam o índice diretamente sem funções no WHERE",
+          "SELECT com colunas específicas permite Index-Only Scan (Heap Fetches: 0)",
+          "Filtros no WHERE antes do JOIN ativam predicate pushdown no planner",
+          "EXPLAIN ANALYZE revela Sequential Scan vs Index Scan vs Index-Only Scan",
+          "Covering Index (INCLUDE) elimina acesso à tabela principal"
+        ]
+      }
+    },
+    {
+      "ordem": 7, "tipo": "conclusao", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Você é um DBA de Elite",
+      "conteudo": {
+        "mensagem": "Você domina as técnicas que separam queries medianas de queries de alta performance. SARGability, Covering Indexes e predicate pushdown são agora parte do seu arsenal.",
+        "xpGanho": 210
+      }
+    }
+  ]
+}

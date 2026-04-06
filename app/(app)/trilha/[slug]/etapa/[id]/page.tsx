@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TelaIntro } from '@/components/microlicao/TelaIntro'
@@ -8,6 +8,7 @@ import { TelaResumo } from '@/components/microlicao/TelaResumo'
 import { TelaExercicio } from '@/components/microlicao/TelaExercicio'
 import { TelaConclusao } from '@/components/microlicao/TelaConclusao'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
+import { LevelUpToast } from '@/components/ui/LevelUpToast'
 import { useUser } from '@/hooks/useUser'
 import type { ConteudoIntro, ConteudoTexto, ConteudoResumo, ConteudoExercicio, ConteudoConclusao } from '@/types'
 
@@ -39,9 +40,13 @@ export default function EtapaPage() {
   const [todasEtapas, setTodasEtapas] = useState<{ id: string; ordem: number }[]>([])
   const [showAnuncio, setShowAnuncio] = useState(false)
   const [xpGanho, setXpGanho] = useState(0)
+  const [estrelasGanhas, setEstrelasGanhas] = useState(0)
   const [showXpPop, setShowXpPop] = useState(false)
+  const [novaConquistaRanking, setNovaConquistaRanking] = useState<string | null>(null)
+  const [levelUp, setLevelUp] = useState<{ anterior: number; atual: number } | null>(null)
   const [trilhaConcluida, setTrilhaConcluida] = useState(false)
   const [loading, setLoading] = useState(true)
+  const proximaEtapaAposLevelUpRef = useRef<(() => void) | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -75,7 +80,7 @@ export default function EtapaPage() {
     load()
   }, [id, slug, router, isPro])
 
-  async function salvarProgresso(xp: number, usouDica: boolean, tentativas: number, primeiraTentativa: boolean) {
+  async function salvarProgresso(estrelas: number, dicasUsadas: number, tentativas: number, token: string) {
     if (!etapa || !trilha) return
     const res = await fetch('/api/progresso', {
       method: 'POST',
@@ -83,16 +88,22 @@ export default function EtapaPage() {
       body: JSON.stringify({
         trilhaId: trilha.id,
         etapaId: etapa.id,
-        usouDica,
-        tentativas,
-        primeiraTentativa,
+        token,
       }),
     })
     const data = await res.json()
-    if (!data.jaFeito && data.xpGanho > 0) {
+    if (data.xpGanho > 0) {
       setXpGanho(data.xpGanho)
+      setEstrelasGanhas(data.estrelas ?? estrelas)
       setShowXpPop(true)
-      setTimeout(() => setShowXpPop(false), 2500)
+      setTimeout(() => setShowXpPop(false), 3000)
+    }
+    if (data.novasConquistasRanking?.length > 0) {
+      setNovaConquistaRanking(data.novasConquistasRanking[0])
+      setTimeout(() => setNovaConquistaRanking(null), 5000)
+    }
+    if (data.nivelAtual > data.nivelAnterior) {
+      setLevelUp({ anterior: data.nivelAnterior, atual: data.nivelAtual })
     }
     return data
   }
@@ -188,21 +199,31 @@ export default function EtapaPage() {
               <div className="h-[calc(100vh-4rem)] flex flex-col overflow-y-auto">
                 <TelaExercicio
                   titulo={etapa.titulo}
+                  etapaId={etapa.id}
                   conteudo={etapa.conteudo as ConteudoExercicio}
                   xpReward={etapa.xpReward}
                   isPro={isPro}
-                  onConcluido={async (xp, usouDica, tentativas, primeiraTentativa) => {
-                    await salvarProgresso(xp, usouDica, tentativas, primeiraTentativa)
-                    if (!isPro) {
-                      const key = 'sq_exercicios_count'
-                      const count = (parseInt(localStorage.getItem(key) ?? '0', 10) || 0) + 1
-                      localStorage.setItem(key, String(count))
-                      if (count % 3 === 0) {
-                        setShowAnuncio(true)
-                        return
+                  onConcluido={async (estrelas, dicasUsadas, tentativas, token) => {
+                    const data = await salvarProgresso(estrelas, dicasUsadas, tentativas, token)
+
+                    const seguirEmFrente = () => {
+                      if (!isPro) {
+                        const key = 'sq_exercicios_count'
+                        const count = (parseInt(localStorage.getItem(key) ?? '0', 10) || 0) + 1
+                        localStorage.setItem(key, String(count))
+                        if (count % 3 === 0) {
+                          setShowAnuncio(true)
+                          return
+                        }
                       }
+                      proximaEtapa()
                     }
-                    proximaEtapa()
+
+                    if (data?.nivelAtual > data?.nivelAnterior) {
+                      proximaEtapaAposLevelUpRef.current = seguirEmFrente
+                    } else {
+                      seguirEmFrente()
+                    }
                   }}
                 />
               </div>
@@ -230,13 +251,47 @@ export default function EtapaPage() {
       <AnimatePresence>
         {showXpPop && (
           <motion.div
-            className="fixed top-20 right-4 z-50 bg-amber-500 text-black font-bold text-sm px-4 py-2 rounded-full shadow-lg"
+            className="fixed top-20 right-4 z-50 flex items-center gap-2 bg-amber-500 text-black font-bold text-sm px-4 py-2 rounded-full shadow-lg"
             initial={{ opacity: 0, y: -20, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            +{xpGanho} XP 🏆
+            <span>{'★'.repeat(estrelasGanhas)}{'☆'.repeat(3 - estrelasGanhas)}</span>
+            <span>+{xpGanho} XP</span>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Notificação de conquista de ranking */}
+      <AnimatePresence>
+        {novaConquistaRanking && (
+          <motion.div
+            className="fixed bottom-24 left-1/2 z-50 -translate-x-1/2 flex items-center gap-3 rounded-2xl border border-yellow-400/40 bg-[#1a1a0a] px-5 py-3 shadow-xl"
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 30 }}
+          >
+            <span className="text-2xl">🏆</span>
+            <div>
+              <p className="text-yellow-300 font-bold text-sm leading-tight">Nova conquista desbloqueada!</p>
+              <p className="text-yellow-400/80 text-xs">{novaConquistaRanking}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Level Up Toast */}
+      <AnimatePresence>
+        {levelUp !== null && (
+          <LevelUpToast
+            nivelAnterior={levelUp.anterior}
+            nivelAtual={levelUp.atual}
+            onDismiss={() => {
+              setLevelUp(null)
+              proximaEtapaAposLevelUpRef.current?.()
+              proximaEtapaAposLevelUpRef.current = null
+            }}
+          />
         )}
       </AnimatePresence>
 

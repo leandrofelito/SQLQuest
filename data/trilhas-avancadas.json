@@ -1,0 +1,487 @@
+{
+  "trilhas": [
+    {
+      "slug": "detetive-bi",
+      "titulo": "Detetive de Dados",
+      "icone": "🕵️",
+      "ordem": 13,
+      "nivel": "avancado",
+      "descricao": "Analise dados como um detetive: use Joins complexos, Window Functions e técnicas de limpeza para extrair inteligência de negócio.",
+      "totalEtapas": 12,
+      "etapas": [
+        {
+          "ordem": 1,
+          "titulo": "O Caso dos Dados Sujos",
+          "tipo": "texto",
+          "objetivo": "Entender o papel do analista de BI e por que a qualidade dos dados é crítica para decisões de negócio.",
+          "conceitos": ["Análise exploratória", "Qualidade de dados", "Perfil de dados"]
+        },
+        {
+          "ordem": 2,
+          "titulo": "TRIM e COALESCE — Limpando a Cena do Crime",
+          "tipo": "exercicio",
+          "objetivo": "Usar TRIM para remover espaços em branco e COALESCE para substituir valores NULL por defaults significativos.",
+          "conceitos": ["TRIM", "LTRIM", "RTRIM", "COALESCE", "NULLIF"],
+          "xpReward": 30
+        },
+        {
+          "ordem": 3,
+          "titulo": "INNER JOIN com Múltiplas Tabelas",
+          "tipo": "exercicio",
+          "objetivo": "Unir três ou mais tabelas em um único SELECT, interpretando o diagrama ER e evitando produtos cartesianos.",
+          "conceitos": ["INNER JOIN", "Múltiplas tabelas", "Alias de tabela", "Diagrama ER"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 4,
+          "titulo": "LEFT JOIN — Encontrando os Desaparecidos",
+          "tipo": "exercicio",
+          "objetivo": "Identificar registros sem correspondência (ex: clientes sem pedidos) usando LEFT JOIN e filtrando NULLs.",
+          "conceitos": ["LEFT JOIN", "IS NULL", "Anti-join pattern"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 5,
+          "titulo": "SELF JOIN — Quem Reporta para Quem?",
+          "tipo": "exercicio",
+          "objetivo": "Aplicar SELF JOIN em uma tabela hierárquica de funcionários para mapear estrutura de gestão.",
+          "conceitos": ["SELF JOIN", "Hierarquias", "Recursividade simples"],
+          "xpReward": 40
+        },
+        {
+          "ordem": 6,
+          "titulo": "Introdução às Window Functions",
+          "tipo": "texto",
+          "objetivo": "Compreender a diferença entre funções de agregação com GROUP BY e Window Functions com OVER().",
+          "conceitos": ["OVER()", "PARTITION BY", "ORDER BY dentro de janela", "Frame de janela"]
+        },
+        {
+          "ordem": 7,
+          "titulo": "ROW_NUMBER e RANK — A Corrida pelo Pódio",
+          "tipo": "exercicio",
+          "objetivo": "Usar ROW_NUMBER() e RANK() para classificar vendedores por receita dentro de cada região.",
+          "conceitos": ["ROW_NUMBER()", "RANK()", "DENSE_RANK()", "PARTITION BY"],
+          "xpReward": 40
+        },
+        {
+          "ordem": 8,
+          "titulo": "LAG e LEAD — Comparando Períodos",
+          "tipo": "exercicio",
+          "objetivo": "Calcular variação de vendas mês a mês com LAG() sem precisar de self-join ou subquery.",
+          "conceitos": ["LAG()", "LEAD()", "Análise de séries temporais", "Variação percentual"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 9,
+          "titulo": "SUM e AVG com OVER() — Totais Acumulados",
+          "tipo": "exercicio",
+          "objetivo": "Construir um relatório com total acumulado (running total) e média móvel de 3 períodos.",
+          "conceitos": ["SUM() OVER()", "AVG() OVER()", "ROWS BETWEEN", "Running total"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 10,
+          "titulo": "Agregações Avançadas com ROLLUP",
+          "tipo": "exercicio",
+          "objetivo": "Gerar subtotais e grand total automaticamente com GROUP BY ROLLUP, sem UNION ALL manual.",
+          "conceitos": ["GROUP BY ROLLUP", "CUBE", "GROUPING SETS", "GROUPING()"],
+          "xpReward": 50
+        },
+        {
+          "ordem": 11,
+          "titulo": "CTEs para Análise em Camadas",
+          "tipo": "exercicio",
+          "objetivo": "Usar Common Table Expressions (WITH) para organizar análises complexas em etapas legíveis.",
+          "conceitos": ["WITH (CTE)", "CTE recursiva", "Legibilidade", "Reuso de subquery"],
+          "xpReward": 50
+        },
+        {
+          "ordem": 12,
+          "titulo": "Relatório Final: Dashboard do Detetive",
+          "tipo": "exercicio",
+          "objetivo": "Combinar JOIN, Window Functions e CTE para produzir um relatório executivo completo de vendas por região.",
+          "conceitos": ["Integração de técnicas", "Dashboard SQL", "Relatório executivo"],
+          "xpReward": 60
+        }
+      ]
+    },
+    {
+      "slug": "performance-tuning",
+      "titulo": "Mestre da Performance",
+      "icone": "⚡",
+      "ordem": 14,
+      "nivel": "avancado",
+      "descricao": "Domine EXPLAIN ANALYZE, índices e sargability para transformar queries lentas em consultas de alta velocidade.",
+      "totalEtapas": 10,
+      "etapas": [
+        {
+          "ordem": 1,
+          "titulo": "Por que Minha Query é Lenta?",
+          "tipo": "texto",
+          "objetivo": "Entender o ciclo de planejamento e execução de uma query no PostgreSQL e os conceitos de custo e cardinalidade.",
+          "conceitos": ["Query planner", "Custo de I/O", "Cardinalidade", "Estatísticas do banco"]
+        },
+        {
+          "ordem": 2,
+          "titulo": "EXPLAIN — Lendo o Plano de Execução",
+          "tipo": "exercicio",
+          "objetivo": "Interpretar a saída do EXPLAIN para identificar Sequential Scans, Hash Joins e seus custos estimados.",
+          "conceitos": ["EXPLAIN", "Sequential Scan", "Index Scan", "Hash Join", "Nested Loop"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 3,
+          "titulo": "EXPLAIN ANALYZE — Realidade vs Estimativa",
+          "tipo": "exercicio",
+          "objetivo": "Comparar custo planejado com tempo real usando EXPLAIN ANALYZE e identificar divergências de cardinalidade.",
+          "conceitos": ["EXPLAIN ANALYZE", "Actual Time", "Rows estimadas vs reais", "Buffers"],
+          "xpReward": 40
+        },
+        {
+          "ordem": 4,
+          "titulo": "Criando Índices Simples",
+          "tipo": "exercicio",
+          "objetivo": "Criar um índice B-tree em colunas de alta seletividade e verificar a melhoria no plano de execução.",
+          "conceitos": ["CREATE INDEX", "B-tree", "Seletividade", "Index Scan vs Seq Scan"],
+          "xpReward": 40
+        },
+        {
+          "ordem": 5,
+          "titulo": "Sargability — Escrevendo Queries que Usam Índices",
+          "tipo": "exercicio",
+          "objetivo": "Identificar e corrigir predicados não-sargable (funções no WHERE) que impedem o uso de índices.",
+          "conceitos": ["Sargability", "SARGable predicates", "Funções no WHERE", "Implicit cast"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 6,
+          "titulo": "Índices Compostos e Cobertura",
+          "tipo": "exercicio",
+          "objetivo": "Criar índices compostos na ordem correta (ESQ) e índices de cobertura (INCLUDE) para evitar acesso à tabela.",
+          "conceitos": ["Índice composto", "Column order", "Covering index", "INCLUDE"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 7,
+          "titulo": "Índices Parciais — Precisão Cirúrgica",
+          "tipo": "exercicio",
+          "objetivo": "Criar índices parciais com WHERE para indexar apenas o subconjunto relevante de dados (ex: pedidos ativos).",
+          "conceitos": ["Partial index", "CREATE INDEX WHERE", "Tamanho de índice", "Manutenção"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 8,
+          "titulo": "VACUUM e ANALYZE — Manutenção do Motor",
+          "tipo": "texto",
+          "objetivo": "Entender table bloat, dead tuples e como VACUUM e ANALYZE mantêm a saúde do banco e as estatísticas atualizadas.",
+          "conceitos": ["VACUUM", "AUTOVACUUM", "ANALYZE", "Dead tuples", "Table bloat", "pg_stat_user_tables"]
+        },
+        {
+          "ordem": 9,
+          "titulo": "Identificando Queries Problemáticas com pg_stat",
+          "tipo": "exercicio",
+          "objetivo": "Consultar pg_stat_statements e pg_stat_user_indexes para encontrar queries lentas e índices não utilizados.",
+          "conceitos": ["pg_stat_statements", "pg_stat_user_indexes", "Índices não usados", "mean_exec_time"],
+          "xpReward": 50
+        },
+        {
+          "ordem": 10,
+          "titulo": "Refatoração Final: De 10s para 0.1s",
+          "tipo": "exercicio",
+          "objetivo": "Otimizar uma query complexa com múltiplos problemas (full scan, função no WHERE, falta de índice) usando todas as técnicas da trilha.",
+          "conceitos": ["Diagnóstico completo", "Refatoração de query", "Índice composto", "EXPLAIN ANALYZE antes/depois"],
+          "xpReward": 70
+        }
+      ]
+    },
+    {
+      "slug": "seguranca-governanca",
+      "titulo": "Segurança e Governança",
+      "icone": "🔐",
+      "ordem": 15,
+      "nivel": "avancado",
+      "descricao": "Implemente segurança de banco de dados com LGPD em mente: Roles, Permissions, Triggers de Auditoria e técnicas de Data Masking.",
+      "totalEtapas": 11,
+      "etapas": [
+        {
+          "ordem": 1,
+          "titulo": "LGPD e o Banco de Dados",
+          "tipo": "texto",
+          "objetivo": "Compreender os princípios da LGPD aplicados a dados em banco: finalidade, necessidade, transparência e segurança.",
+          "conceitos": ["LGPD", "Dados pessoais", "Dados sensíveis", "Princípio da necessidade", "Controlador vs Operador"]
+        },
+        {
+          "ordem": 2,
+          "titulo": "Roles e Usuários — Quem Pode o Quê",
+          "tipo": "exercicio",
+          "objetivo": "Criar roles com privilégios mínimos (least privilege) e atribuí-las a usuários específicos.",
+          "conceitos": ["CREATE ROLE", "CREATE USER", "GRANT", "REVOKE", "Least privilege"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 3,
+          "titulo": "Permissions em Objetos — Tabelas e Schemas",
+          "tipo": "exercicio",
+          "objetivo": "Controlar acesso granular a tabelas, views e schemas, diferenciando permissões de leitura, escrita e administração.",
+          "conceitos": ["GRANT SELECT", "GRANT INSERT/UPDATE/DELETE", "GRANT ON SCHEMA", "Column-level privileges"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 4,
+          "titulo": "Row-Level Security — Dados Só para o Dono",
+          "tipo": "exercicio",
+          "objetivo": "Implementar Row-Level Security (RLS) para que cada usuário veja apenas seus próprios dados, sem lógica na aplicação.",
+          "conceitos": ["ALTER TABLE ENABLE ROW LEVEL SECURITY", "CREATE POLICY", "current_user", "USING clause"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 5,
+          "titulo": "Views de Segurança — Abstraindo Dados Sensíveis",
+          "tipo": "exercicio",
+          "objetivo": "Criar views que expõem apenas colunas não-sensíveis, usando-as como interface pública para tabelas privadas.",
+          "conceitos": ["CREATE VIEW", "Security barrier view", "SECURITY DEFINER", "Separação de acesso"],
+          "xpReward": 40
+        },
+        {
+          "ordem": 6,
+          "titulo": "Data Masking — CPF, E-mail e Telefone",
+          "tipo": "exercicio",
+          "objetivo": "Implementar mascaramento de dados sensíveis com funções SQL para exibição segura em relatórios e logs.",
+          "conceitos": ["SUBSTRING", "OVERLAY", "REGEXP_REPLACE", "Mascaramento parcial", "Pseudoanonimização"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 7,
+          "titulo": "Hashing e Não-Reversibilidade",
+          "tipo": "texto",
+          "objetivo": "Entender quando usar hashing (MD5, SHA-256 via pgcrypto) vs criptografia reversível e as implicações de LGPD para cada abordagem.",
+          "conceitos": ["pgcrypto", "digest()", "SHA-256", "Hashing vs Encryption", "Anonimização irreversível"]
+        },
+        {
+          "ordem": 8,
+          "titulo": "Trigger de Auditoria — Quem Mudou o Quê",
+          "tipo": "exercicio",
+          "objetivo": "Criar uma tabela de auditoria e um trigger que registra automaticamente INSERT, UPDATE e DELETE com usuário e timestamp.",
+          "conceitos": ["CREATE TRIGGER", "BEFORE/AFTER", "TG_OP", "NEW/OLD", "Tabela de auditoria", "current_user"],
+          "xpReward": 55
+        },
+        {
+          "ordem": 9,
+          "titulo": "Trigger de Validação — Impedindo Dados Inválidos",
+          "tipo": "exercicio",
+          "objetivo": "Usar triggers BEFORE INSERT/UPDATE para validar regras de negócio complexas que CHECK CONSTRAINT não cobre.",
+          "conceitos": ["BEFORE trigger", "RAISE EXCEPTION", "Validação customizada", "Vs CHECK CONSTRAINT"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 10,
+          "titulo": "Soft Delete com Trigger — Nunca Apague, Apenas Oculte",
+          "tipo": "exercicio",
+          "objetivo": "Converter DELETEs em soft deletes automaticamente via trigger, mantendo histórico e atendendo LGPD para auditabilidade.",
+          "conceitos": ["Soft delete", "deleted_at", "INSTEAD OF trigger", "Views sobre soft delete"],
+          "xpReward": 50
+        },
+        {
+          "ordem": 11,
+          "titulo": "Conformidade LGPD: Direito ao Esquecimento",
+          "tipo": "exercicio",
+          "objetivo": "Implementar o processo técnico de anonimização de dados de um usuário que solicitou exclusão, preservando integridade referencial.",
+          "conceitos": ["Anonimização vs Exclusão", "Integridade referencial", "UPDATE para anonimizar", "Auditoria do processo"],
+          "xpReward": 60
+        }
+      ]
+    },
+    {
+      "slug": "elite-tuning-performance",
+      "titulo": "Desafios de Elite: Tuning e Performance",
+      "icone": "🏎️",
+      "ordem": 17,
+      "nivel": "avancado",
+      "descricao": "Prove que você domina performance real: SARGability, uso cirúrgico de índices e otimização de joins — com análise do Plano de Execução do PostgreSQL.",
+      "totalEtapas": 5,
+      "etapas": [
+        {
+          "ordem": 1,
+          "titulo": "O que é um Plano de Execução?",
+          "tipo": "texto",
+          "objetivo": "Entender como o Query Planner do PostgreSQL decide entre Sequential Scan, Index Scan e Index-Only Scan, e por que escrever a query certa muda tudo.",
+          "conceitos": ["EXPLAIN ANALYZE", "Sequential Scan", "Index Scan", "Index-Only Scan", "Cost model", "Predicate pushdown"]
+        },
+        {
+          "ordem": 2,
+          "titulo": "SARGability — Predicados que Respeitam Índices",
+          "tipo": "exercicio",
+          "objetivo": "Escrever uma query SARGable que aproveite o índice em 'cidade', retornando apenas as colunas necessárias.",
+          "conceitos": ["SARGability", "Index Scan", "Funções no WHERE", "Implicit cast"],
+          "xpReward": 60,
+          "conteudo": {
+            "instrucao": "A tabela `clientes` tem um índice em `cidade`. Retorne o `nome` e `email` dos clientes de 'São Paulo'.\n\n⚡ **Desafio de Elite:** Escreva a query de forma SARGable — evite funções ou conversões sobre a coluna indexada, e especifique apenas as colunas que precisa.",
+            "dica": "Use WHERE cidade = 'São Paulo' diretamente, sem UPPER() nem CAST(). E evite SELECT * — especifique nome e email para simular um covering index.",
+            "placeholder": "SELECT nome, email FROM clientes WHERE ...",
+            "schema": "CREATE TABLE clientes (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, email TEXT NOT NULL, cidade TEXT NOT NULL); INSERT INTO clientes VALUES (1,'Ana Silva','ana@email.com','São Paulo'), (2,'Bruno Souza','bruno@email.com','Rio de Janeiro'), (3,'Carla Lima','carla@email.com','São Paulo'), (4,'Diego Pinto','diego@email.com','Belo Horizonte'), (5,'Elena Costa','elena@email.com','São Paulo');",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["nome", "email"], "min_rows": 3 },
+            "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
+            "explicacaoTecnica": "No PostgreSQL, `WHERE UPPER(cidade) = 'SÃO PAULO'` impede o uso do índice em `cidade` — o banco força um **Sequential Scan** em toda a tabela (custo O(n)). Com `WHERE cidade = 'São Paulo'`, o planner usa um **Index Scan** (custo O(log n)). Adicionar `INCLUDE (nome, email)` ao índice transforma isso em um **Index-Only Scan** — sem nem tocar a tabela. Isso é visível em `EXPLAIN ANALYZE` pela linha `Index Only Scan using idx_clientes_cidade...`."
+          }
+        },
+        {
+          "ordem": 3,
+          "titulo": "Covering Index — Zero Acesso à Tabela",
+          "tipo": "exercicio",
+          "objetivo": "Simular o comportamento de um Covering Index retornando exatamente as colunas cobertas pelo índice.",
+          "conceitos": ["Covering index", "INCLUDE", "Index-Only Scan", "Heap access", "SELECT *"],
+          "xpReward": 70,
+          "conteudo": {
+            "instrucao": "A tabela `pedidos` tem um índice em `status`. Retorne `produto` e `valor` dos pedidos com `status = 'entregue'`.\n\n⚡ **Desafio de Elite:** Evite `SELECT *` — projete apenas as colunas cobertas pelo índice para simular um Index-Only Scan.",
+            "dica": "Escreva SELECT produto, valor FROM pedidos WHERE status = 'entregue'. Com SELECT *, o PostgreSQL precisa acessar a tabela (heap) mesmo tendo o índice.",
+            "placeholder": "SELECT produto, valor FROM pedidos WHERE ...",
+            "schema": "CREATE TABLE pedidos (id INTEGER PRIMARY KEY, cliente_id INTEGER NOT NULL, produto TEXT NOT NULL, valor REAL NOT NULL, status TEXT NOT NULL); INSERT INTO pedidos VALUES (1,1,'Laptop Pro',4500.00,'entregue'), (2,2,'Mouse Gamer',150.00,'pendente'), (3,1,'Teclado Mecânico',350.00,'entregue'), (4,3,'Monitor 4K',2800.00,'cancelado'), (5,2,'Headset',400.00,'entregue'), (6,3,'Webcam',250.00,'pendente');",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["produto", "valor"], "min_rows": 3 },
+            "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
+            "explicacaoTecnica": "Com `SELECT *`, o PostgreSQL vai ao índice para encontrar os `id`s dos pedidos entregues, mas depois precisa voltar à tabela (heap) para buscar todas as outras colunas — chamado de **heap fetch**. Criando `CREATE INDEX ON pedidos(status) INCLUDE (produto, valor)`, as colunas ficam dentro do índice. Com `SELECT produto, valor WHERE status = 'entregue'`, o PostgreSQL usa um **Index-Only Scan** e nunca toca a tabela principal. O `EXPLAIN ANALYZE` mostraria `Heap Fetches: 0`."
+          }
+        },
+        {
+          "ordem": 4,
+          "titulo": "Join Otimizado — Predicate Pushdown",
+          "tipo": "exercicio",
+          "objetivo": "Escrever um JOIN eficiente com filtros aplicados antes da junção, retornando apenas as colunas necessárias.",
+          "conceitos": ["Predicate pushdown", "Hash Join", "Nested Loop", "Join order", "Filter vs Recheck"],
+          "xpReward": 80,
+          "conteudo": {
+            "instrucao": "Retorne `nome` e `salario` dos funcionários do departamento 'Engenharia' com salário acima de 8000.\n\n⚡ **Desafio de Elite:** Filtre na cláusula WHERE (não apenas no SELECT), especifique as colunas e aplique ambas as condições para que o planner minimize as linhas antes do JOIN.",
+            "dica": "JOIN departamentos ON f.dept_id = d.id WHERE d.nome = 'Engenharia' AND f.salario > 8000. Filtrar cedo reduz o custo do hash join.",
+            "placeholder": "SELECT f.nome, f.salario FROM funcionarios f ...",
+            "schema": "CREATE TABLE departamentos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL); CREATE TABLE funcionarios (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, dept_id INTEGER NOT NULL, salario REAL NOT NULL); INSERT INTO departamentos VALUES (1,'Engenharia'),(2,'Marketing'),(3,'Vendas'); INSERT INTO funcionarios VALUES (1,'Alice',1,8500),(2,'Bob',2,5500),(3,'Carol',1,9200),(4,'Dan',3,6100),(5,'Eve',1,8100),(6,'Frank',2,4900);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["nome", "salario"], "min_rows": 3 },
+            "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
+            "explicacaoTecnica": "Sem filtros explícitos no WHERE, o PostgreSQL pode optar por um **Hash Join** que carrega todas as linhas de `funcionarios` e `departamentos` na memória antes de filtrar. Ao adicionar `WHERE d.nome = 'Engenharia' AND f.salario > 8000`, o **predicate pushdown** reduz o volume antes da junção. O planner pode escolher um **Nested Loop** mais eficiente quando o conjunto já é pequeno. O `EXPLAIN ANALYZE` mostraria `Rows Removed by Filter` menor, e o custo total cai drasticamente em tabelas grandes."
+          }
+        },
+        {
+          "ordem": 5,
+          "titulo": "Você é um DBA de Elite",
+          "tipo": "conclusao",
+          "objetivo": "Consolidar o domínio de SARGability, Covering Indexes e otimização de JOINs.",
+          "conceitos": ["EXPLAIN ANALYZE", "Index-Only Scan", "Predicate pushdown", "SARGability"]
+        }
+      ]
+    },
+    {
+      "slug": "sql-para-devs",
+      "titulo": "SQL para Desenvolvedores",
+      "icone": "💻",
+      "ordem": 16,
+      "nivel": "avancado",
+      "descricao": "Do zero ao banco em produção: DDL, DML avançado, Normalização (1NF a 3NF) e manipulação de dados semiestruturados com JSONB.",
+      "totalEtapas": 13,
+      "etapas": [
+        {
+          "ordem": 1,
+          "titulo": "Criando um Banco do Zero",
+          "tipo": "texto",
+          "objetivo": "Entender o fluxo completo de criação de um banco de dados relacional: do levantamento de requisitos ao primeiro CREATE TABLE.",
+          "conceitos": ["CREATE DATABASE", "Schemas", "Planejamento de estrutura", "Ambiente de desenvolvimento"]
+        },
+        {
+          "ordem": 2,
+          "titulo": "DDL Completo — CREATE TABLE com Constraints",
+          "tipo": "exercicio",
+          "objetivo": "Criar tabelas com PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK e DEFAULT usando tipos de dados adequados.",
+          "conceitos": ["CREATE TABLE", "PRIMARY KEY", "FOREIGN KEY", "UNIQUE", "CHECK", "DEFAULT", "Tipos de dados"],
+          "xpReward": 30
+        },
+        {
+          "ordem": 3,
+          "titulo": "ALTER TABLE — Evoluindo o Schema Sem Perder Dados",
+          "tipo": "exercicio",
+          "objetivo": "Adicionar, renomear e remover colunas e constraints em produção de forma segura e compatível com dados existentes.",
+          "conceitos": ["ALTER TABLE ADD COLUMN", "ALTER TABLE DROP COLUMN", "ALTER TABLE RENAME", "Migration segura"],
+          "xpReward": 30
+        },
+        {
+          "ordem": 4,
+          "titulo": "1NF — Eliminando Grupos Repetidos",
+          "tipo": "exercicio",
+          "objetivo": "Identificar e corrigir violações da Primeira Forma Normal: valores múltiplos em uma célula e grupos repetitivos de colunas.",
+          "conceitos": ["1NF", "Atomicidade", "Grupos repetitivos", "Tabela de interseção"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 5,
+          "titulo": "2NF — Eliminando Dependências Parciais",
+          "tipo": "exercicio",
+          "objetivo": "Detectar dependências funcionais parciais em tabelas com chave composta e normalizar para a Segunda Forma Normal.",
+          "conceitos": ["2NF", "Chave composta", "Dependência funcional parcial", "Decomposição de tabela"],
+          "xpReward": 40
+        },
+        {
+          "ordem": 6,
+          "titulo": "3NF — Eliminando Dependências Transitivas",
+          "tipo": "exercicio",
+          "objetivo": "Identificar dependências transitivas (A→B→C, onde C depende de A via B) e decompor o schema em 3NF.",
+          "conceitos": ["3NF", "Dependência transitiva", "Decomposição sem perda", "Integridade pós-normalização"],
+          "xpReward": 45
+        },
+        {
+          "ordem": 7,
+          "titulo": "INSERT Avançado — Bulk Insert e INSERT SELECT",
+          "tipo": "exercicio",
+          "objetivo": "Inserir múltiplos registros eficientemente com VALUES múltiplos e usar INSERT...SELECT para popular tabelas a partir de outras.",
+          "conceitos": ["INSERT com múltiplos VALUES", "INSERT...SELECT", "COPY (bulk)", "Performance de inserção"],
+          "xpReward": 30
+        },
+        {
+          "ordem": 8,
+          "titulo": "UPDATE com JOIN — Atualizando com Contexto",
+          "tipo": "exercicio",
+          "objetivo": "Atualizar registros em uma tabela com base em valores de outra tabela usando UPDATE...FROM ou subquery correlacionada.",
+          "conceitos": ["UPDATE FROM", "UPDATE com subquery", "UPDATE com CTE", "UPDATE com WHERE EXISTS"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 9,
+          "titulo": "UPSERT com ON CONFLICT — Insert ou Update",
+          "tipo": "exercicio",
+          "objetivo": "Implementar UPSERT com INSERT...ON CONFLICT para sincronização de dados sem erros de duplicidade.",
+          "conceitos": ["ON CONFLICT DO UPDATE", "ON CONFLICT DO NOTHING", "EXCLUDED", "Idempotência"],
+          "xpReward": 40
+        },
+        {
+          "ordem": 10,
+          "titulo": "DELETE Seguro — Cascades e Soft Deletes",
+          "tipo": "exercicio",
+          "objetivo": "Gerenciar exclusões com ON DELETE CASCADE, RESTRICT e SET NULL, e implementar soft delete via coluna deleted_at.",
+          "conceitos": ["ON DELETE CASCADE", "ON DELETE RESTRICT", "ON DELETE SET NULL", "Soft delete", "TRUNCATE vs DELETE"],
+          "xpReward": 35
+        },
+        {
+          "ordem": 11,
+          "titulo": "JSONB — Dados Semiestruturados no PostgreSQL",
+          "tipo": "texto",
+          "objetivo": "Entender quando usar JSONB vs colunas tradicionais e como o PostgreSQL armazena, indexa e consulta dados JSON.",
+          "conceitos": ["JSONB vs JSON", "Operadores ->  e ->>", "Indexação GIN", "jsonb_set", "jsonb_each"]
+        },
+        {
+          "ordem": 12,
+          "titulo": "Consultando e Filtrando JSONB",
+          "tipo": "exercicio",
+          "objetivo": "Extrair campos, filtrar por valores aninhados e usar o operador @> (contains) para buscas em colunas JSONB.",
+          "conceitos": ["-> e ->>", "@> (contains)", "? (key exists)", "#> (path)", "jsonb_array_elements"],
+          "xpReward": 50
+        },
+        {
+          "ordem": 13,
+          "titulo": "Projeto Final: API de E-commerce do Zero",
+          "tipo": "exercicio",
+          "objetivo": "Modelar e popular um banco completo de e-commerce normalizado em 3NF com metadados de produto em JSONB, usando DDL, DML e UPSERT.",
+          "conceitos": ["Projeto integrador", "3NF aplicada", "JSONB em produção", "Normalização + flexibilidade"],
+          "xpReward": 70
+        }
+      ]
+    }
+  ]
+}

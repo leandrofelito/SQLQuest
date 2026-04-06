@@ -11,6 +11,7 @@ export async function GET() {
       image: true,
       totalXp: true,
       streak: true,
+      prestige: true,
     },
   })
 

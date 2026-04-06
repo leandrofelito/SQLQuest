@@ -31,6 +31,10 @@ export interface ConteudoExercicio {
     expected_rows?: number
     expected_values?: unknown[]
   }
+  /** Aviso exibido quando a query está correta mas usa padrões lentos (ex: SELECT *) */
+  performanceAviso?: string
+  /** Explicação técnica exibida após resposta correta, referenciando o plano de execução */
+  explicacaoTecnica?: string
 }
 
 export interface ConteudoConclusao {

@@ -20,15 +20,17 @@ model User {
   proAt        DateTime?
   totalXp      Int       @default(0)
   streak       Int       @default(0)
+  prestige     Int       @default(0)
   lastActiveAt DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  accounts     Account[]
-  sessions     Session[]
-  progressos   Progresso[]
-  pagamentos   Pagamento[]
-  certificados Certificado[]
+  accounts             Account[]
+  sessions             Session[]
+  progressos           Progresso[]
+  pagamentos           Pagamento[]
+  certificados         Certificado[]
+  conquistasRanking    ConquistaRanking[]
 }
 
 model Account {
@@ -107,6 +109,7 @@ model Progresso {
   xpGanho      Int      @default(0)
   tentativas   Int      @default(1)
   usouDica     Boolean  @default(false)
+  estrelas     Int      @default(0)
   concluidaEm DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -125,6 +128,18 @@ model Pagamento {
   criadoEm       DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ConquistaRanking {
+  id          String   @id @default(cuid())
+  userId      String
+  tipo        String   // "top1" | "top10" | "top100" | "top1000"
+  posicao     Int
+  alcancadaEm DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tipo])
 }
 
 model Certificado {
