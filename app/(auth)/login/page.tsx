@@ -1,7 +1,7 @@
 'use client'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
@@ -15,7 +15,7 @@ const OAUTH_ERRORS: Record<string, string> = {
   Default: 'Ocorreu um erro ao fazer login. Tente novamente.',
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const { status } = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -156,5 +156,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }
