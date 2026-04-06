@@ -59,11 +59,11 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   // ── Medalha (círculos + estrela)
   const mx = width / 2
   const my = cardY + cardH - 130
-  page.drawEllipse({ cx: mx, cy: my, xScale: 38, yScale: 38,
+  page.drawEllipse({ x: mx, y: my, xScale: 38, yScale: 38,
     color: cGold, opacity: 0.12 })
-  page.drawEllipse({ cx: mx, cy: my, xScale: 38, yScale: 38,
+  page.drawEllipse({ x: mx, y: my, xScale: 38, yScale: 38,
     borderColor: cGold, borderWidth: 1.5, opacity: 0.55 })
-  page.drawEllipse({ cx: mx, cy: my, xScale: 27, yScale: 27,
+  page.drawEllipse({ x: mx, y: my, xScale: 27, yScale: 27,
     color: cPurple, opacity: 0.9 })
   const star = '★'
   const starSize = 25
@@ -79,8 +79,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const labelW = fontBold.widthOfTextAtSize(label, labelSize)
   page.drawText(label, {
     x: width / 2 - labelW / 2, y: cardY + cardH - 178,
-    size: labelSize, font: fontBold, color: cPurpleL, characterSpacing: 3,
-  })
+    size: labelSize, font: fontBold, color: cPurpleL,  })
 
   // ── "Certificamos que"
   const sub = 'Certificamos que'
@@ -137,8 +136,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   // Data (esquerda)
   page.drawText('DATA DE EMISSÃO', {
     x: cardX + 60, y: infoY + 18,
-    size: 7, font: fontBold, color: cMuted, characterSpacing: 1,
-  })
+    size: 7, font: fontBold, color: cMuted,  })
   page.drawText(dataFormatada, {
     x: cardX + 60, y: infoY,
     size: 11, font: fontBold, color: cWhite,
@@ -149,8 +147,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const hashW = fontBold.widthOfTextAtSize(hashShort, 9)
   page.drawText('CÓDIGO DE VALIDAÇÃO', {
     x: width / 2 - fontBold.widthOfTextAtSize('CÓDIGO DE VALIDAÇÃO', 7) / 2,
-    y: infoY + 18, size: 7, font: fontBold, color: cMuted, characterSpacing: 1,
-  })
+    y: infoY + 18, size: 7, font: fontBold, color: cMuted,  })
   page.drawText(hashShort, {
     x: width / 2 - hashW / 2, y: infoY,
     size: 9, font: fontBold, color: cPurpleL,
@@ -162,8 +159,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const urlW = fontOblique.widthOfTextAtSize(urlText, 8)
   page.drawText('VERIFICAR CERTIFICADO', {
     x: cardX + cardW - 60 - fontBold.widthOfTextAtSize('VERIFICAR CERTIFICADO', 7),
-    y: infoY + 18, size: 7, font: fontBold, color: cMuted, characterSpacing: 1,
-  })
+    y: infoY + 18, size: 7, font: fontBold, color: cMuted,  })
   page.drawText(urlText, {
     x: cardX + cardW - 60 - urlW, y: infoY,
     size: 8, font: fontOblique, color: cMuted,
