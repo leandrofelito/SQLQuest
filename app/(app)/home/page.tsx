@@ -34,18 +34,10 @@ export default function HomePage() {
   }, [])
 
   const xp = (user as any)?.totalXp ?? 0
-  const streak = (user as any)?.streak ?? 0
 
   return (
     <div className="min-h-screen bg-[#080a0f] pb-24">
-      <Header
-        right={
-          <div className="flex items-center gap-1.5">
-            <span className="text-amber-400">🔥</span>
-            <span className="text-white/70 text-sm font-medium">{streak}</span>
-          </div>
-        }
-      />
+      <Header />
 
       <div className="max-w-3xl mx-auto px-4 pt-4 pb-2">
         {proBought && (
