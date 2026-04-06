@@ -9,24 +9,42 @@ export async function GET() {
 
   const userId = (session.user as any).id as string
 
-  const [progressos, certificados, dbUser] = await Promise.all([
+  const [progressos, certificados, dbUser, trilhas] = await Promise.all([
     prisma.progresso.findMany({
       where: { userId },
       include: { trilha: { select: { slug: true } } },
     }),
     prisma.certificado.findMany({ where: { userId } }),
     prisma.user.findUnique({ where: { id: userId }, select: { totalXp: true, streak: true, isPro: true } }),
+    prisma.trilha.findMany({ select: { slug: true, totalEtapas: true } }),
   ])
 
   const totalXp = dbUser?.totalXp ?? 0
   const streak = dbUser?.streak ?? 0
   const isPro = dbUser?.isPro ?? false
 
-  const etapasIds = new Set(progressos.map(p => p.etapaId))
-  const usouDicaAlguma = progressos.some(p => p.usouDica)
-  const algumNaDicaNaoPrimeira = progressos.some(p => !p.usouDica && p.tentativas === 1)
   const trilhaSlugs = new Set(progressos.map(p => p.trilha.slug))
-  const semDicaAlguma = progressos.length > 0 && !progressos.some(p => p.usouDica)
+  const concluidos = progressos.filter(p => p.xpGanho > 0)
+
+  // Agrupa etapas concluídas por trilha
+  const porTrilha: Record<string, typeof progressos> = {}
+  for (const p of concluidos) {
+    const slug = p.trilha.slug
+    if (!porTrilha[slug]) porTrilha[slug] = []
+    porTrilha[slug].push(p)
+  }
+
+  const totalEtapasPorTrilha = Object.fromEntries(trilhas.map(t => [t.slug, t.totalEtapas]))
+
+  const estudouSegunda = concluidos.some(p => new Date(p.concluidaEm).getDay() === 1)
+  const semDica10 = concluidos.filter(p => !p.usouDica).length >= 10
+  const certeiro5 = concluidos.filter(p => p.tentativas === 1 && !p.usouDica).length >= 5
+  const trilhaSemDica = Object.entries(porTrilha).some(([slug, ps]) =>
+    ps.length >= (totalEtapasPorTrilha[slug] ?? Infinity) && ps.every(p => !p.usouDica)
+  )
+  const trilhaPerfeita = Object.entries(porTrilha).some(([slug, ps]) =>
+    ps.length >= (totalEtapasPorTrilha[slug] ?? Infinity) && ps.every(p => !p.usouDica && p.tentativas === 1)
+  )
 
   const conquistas = [
     {
@@ -133,6 +151,119 @@ export async function GET() {
       nome: 'Mão na Massa',
       desc: 'Conclua a trilha INSERT, UPDATE e DELETE',
       desbloqueada: trilhaSlugs.has('dml-dados'),
+    },
+
+    // --- Fáceis (Retenção) ---
+    {
+      id: 'etapas_5',
+      emoji: '🌱',
+      nome: 'Primeiros Brotos',
+      desc: 'Complete 5 etapas no total',
+      desbloqueada: concluidos.length >= 5,
+    },
+    {
+      id: 'segunda_feira',
+      emoji: '📅',
+      nome: 'Estudioso de Segunda',
+      desc: 'Complete qualquer etapa numa segunda-feira',
+      desbloqueada: estudouSegunda,
+    },
+    {
+      id: 'trilha_filtragem',
+      emoji: '🔎',
+      nome: 'Detetive SQL',
+      desc: 'Conclua a trilha WHERE e Filtragem',
+      desbloqueada: trilhaSlugs.has('filtragem'),
+    },
+    {
+      id: 'streak_14',
+      emoji: '🌊',
+      nome: 'Duas Semanas',
+      desc: 'Mantenha um streak de 14 dias consecutivos',
+      desbloqueada: streak >= 14,
+    },
+
+    // --- Médias (Habilidade) ---
+    {
+      id: 'trilha_groupby',
+      emoji: '📊',
+      nome: 'O Agregador',
+      desc: 'Conclua a trilha GROUP BY e HAVING',
+      desbloqueada: trilhaSlugs.has('groupby-having'),
+    },
+    {
+      id: 'trilhas_5',
+      emoji: '🗺️',
+      nome: 'Explorador',
+      desc: 'Conclua 5 trilhas diferentes',
+      desbloqueada: trilhaSlugs.size >= 5,
+    },
+    {
+      id: 'sem_dica_10',
+      emoji: '🧠',
+      nome: 'Mente Afiada',
+      desc: 'Complete 10 etapas sem usar nenhuma dica',
+      desbloqueada: semDica10,
+    },
+    {
+      id: 'certeiro_5',
+      emoji: '🎯',
+      nome: 'Certeiro',
+      desc: 'Acerte 5 etapas diferentes na primeira tentativa sem dica',
+      desbloqueada: certeiro5,
+    },
+
+    // --- Difíceis (Desafio) ---
+    {
+      id: 'trilha_indices',
+      emoji: '⚙️',
+      nome: 'Otimizador',
+      desc: 'Conclua a trilha Índices — Performance SQL',
+      desbloqueada: trilhaSlugs.has('indices'),
+    },
+    {
+      id: 'etapas_50',
+      emoji: '🏃',
+      nome: 'Maratonista',
+      desc: 'Complete 50 etapas no total',
+      desbloqueada: concluidos.length >= 50,
+    },
+    {
+      id: 'trilha_sem_dica',
+      emoji: '🛡️',
+      nome: 'Zero Erros',
+      desc: 'Conclua qualquer trilha inteira sem usar nenhuma dica',
+      desbloqueada: trilhaSemDica,
+    },
+    {
+      id: 'streak_30',
+      emoji: '🌙',
+      nome: 'Mês Dedicado',
+      desc: 'Mantenha um streak de 30 dias consecutivos',
+      desbloqueada: streak >= 30,
+    },
+
+    // --- Lendárias (Quase Impossíveis) ---
+    {
+      id: 'cert_10',
+      emoji: '🏆',
+      nome: 'Mestre Certificado',
+      desc: 'Conquiste certificados em 10 trilhas diferentes',
+      desbloqueada: certificados.length >= 10,
+    },
+    {
+      id: 'trilha_perfeita',
+      emoji: '💎',
+      nome: 'Perfeccionista',
+      desc: 'Conclua qualquer trilha inteira na primeira tentativa, sem nenhuma dica',
+      desbloqueada: trilhaPerfeita,
+    },
+    {
+      id: 'data_god',
+      emoji: '👑',
+      nome: 'Data God',
+      desc: 'Conclua todas as trilhas do SQLQuest (100% do conteúdo)',
+      desbloqueada: trilhaSlugs.size >= 21,
     },
   ]
 

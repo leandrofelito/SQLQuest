@@ -1,0 +1,101 @@
+{
+  "slug": "alter-drop",
+  "titulo": "ALTER e DROP — Evoluindo Estruturas",
+  "descricao": "Modifique tabelas existentes adicionando colunas, alterando tipos e removendo estruturas com segurança.",
+  "icone": "🔧",
+  "ordem": 16,
+  "xpTotal": 750,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "ALTER e DROP — Bancos Evoluem",
+      "conteudo": { "emoji": "🔧", "subtitulo": "Aprenda a modificar estruturas existentes sem perder dados" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "ALTER TABLE — Modificando Estruturas",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "ALTER TABLE", "def": "Comando DDL para modificar a estrutura de uma tabela existente: adicionar, remover ou alterar colunas e constraints, sem precisar recriar a tabela." },
+        { "type": "code", "code": "-- Adicionar coluna\nALTER TABLE Clientes ADD COLUMN DataNascimento DATE\n\n-- Adicionar coluna com valor padrão\nALTER TABLE Produtos ADD COLUMN Desconto DECIMAL(5,2) DEFAULT 0\n\n-- Adicionar coluna obrigatória (cuidado em tabelas com dados!)\nALTER TABLE Pedidos ADD COLUMN Observacao TEXT", "lese": "ADD COLUMN inclui uma nova coluna na tabela — colunas adicionadas ficam com NULL para registros existentes, a não ser que você defina um DEFAULT" },
+        { "type": "nota", "texto": "Ao adicionar uma coluna NOT NULL sem DEFAULT em uma tabela com dados, o banco vai reclamar. Adicione com DEFAULT primeiro, depois ajuste os dados, depois aplique o NOT NULL." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Renomear e Alterar Tipos",
+      "conteudo": { "blocos": [
+        { "type": "code", "code": "-- Renomear coluna\nALTER TABLE Clientes RENAME COLUMN Telefone TO TelefoneCelular\n\n-- Renomear tabela\nALTER TABLE Usuarios RENAME TO Clientes\n\n-- Alterar tipo de dado (PostgreSQL)\nALTER TABLE Produtos ALTER COLUMN Preco TYPE DECIMAL(12, 2)\n\n-- Alterar para NOT NULL\nALTER TABLE Clientes ALTER COLUMN Email SET NOT NULL\n\n-- Remover NOT NULL\nALTER TABLE Clientes ALTER COLUMN Telefone DROP NOT NULL", "lese": "RENAME COLUMN renomeia sem perder dados; ALTER COLUMN TYPE muda o tipo — cuidado se os dados existentes são compatíveis com o novo tipo; SET NOT NULL garante que o campo será obrigatório" }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Evolua a Tabela de Clientes",
+      "conteudo": {
+        "instrucao": "A tabela Clientes precisa de uma nova coluna. Adicione a coluna PontosFidelidade do tipo INTEGER com valor padrão 0.",
+        "dica": "Use ALTER TABLE Clientes ADD COLUMN PontosFidelidade INTEGER DEFAULT 0",
+        "placeholder": "ALTER TABLE Clientes\nADD COLUMN PontosFidelidade INTEGER DEFAULT 0",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Email TEXT UNIQUE);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ClienteID", "Nome", "Email", "PontosFidelidade"], "min_rows": 0 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "DROP COLUMN e DROP TABLE",
+      "conteudo": { "blocos": [
+        { "type": "code", "code": "-- Remover coluna\nALTER TABLE Clientes DROP COLUMN Fax\n\n-- Remover coluna se existir\nALTER TABLE Clientes DROP COLUMN IF EXISTS Fax\n\n-- Deletar tabela inteira (irreversível!)\nDROP TABLE Temporaria\n\n-- Com segurança\nDROP TABLE IF EXISTS Temporaria", "lese": "DROP COLUMN remove a coluna e todos os dados dela permanentemente; DROP TABLE remove a tabela inteira — sempre use IF EXISTS para evitar erros em scripts" },
+        { "type": "nota", "texto": "⚠️ DROP é irreversível. Não há 'desfazer' sem backup. Em produção, sempre faça backup antes de dropar qualquer coisa." }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "TRUNCATE vs DELETE",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "TRUNCATE TABLE", "def": "Remove TODOS os registros de uma tabela de forma rápida, sem passar pelo log de transações linha a linha. Mais rápido que DELETE para limpar tabelas grandes." },
+        { "type": "code", "code": "-- DELETE: remove com condição (lento para muitos registros)\nDELETE FROM LogsAntigos WHERE Data < '2022-01-01'\n\n-- DELETE sem WHERE: remove tudo (mas lento)\nDELETE FROM Cache\n\n-- TRUNCATE: remove tudo rapidamente\nTRUNCATE TABLE Cache\n\n-- TRUNCATE resetando o autoincremento\nTRUNCATE TABLE Cache RESTART IDENTITY", "lese": "TRUNCATE é muito mais rápido que DELETE para esvaziar tabelas inteiras pois não registra cada linha deletada — mas não aceita WHERE e não pode ser revertido facilmente" },
+        { "type": "nota", "texto": "Use DELETE quando precisar de condição ou precisar reverter. Use TRUNCATE quando quiser esvaziar tabela inteira rápido (ex: tabelas de cache, dados temporários)." }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Remova uma Coluna",
+      "conteudo": {
+        "instrucao": "A coluna Fax ficou obsoleta. Remova-a da tabela Clientes usando ALTER TABLE.",
+        "dica": "Use ALTER TABLE Clientes DROP COLUMN Fax",
+        "placeholder": "ALTER TABLE Clientes DROP COLUMN Fax",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT, Fax TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','ana@email.com',NULL,'SP'),(2,'Carlos','carlos@email.com','1131234567','RJ');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ClienteID", "Nome", "Email", "Cidade"], "min_rows": 2 }
+      }
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Renomeie e Adicione",
+      "conteudo": {
+        "instrucao": "1) Renomeie a coluna Telefone para Celular. 2) Adicione a coluna UltimoAcesso do tipo TEXT. Escreva os dois ALTER TABLE separados.",
+        "dica": "Use RENAME COLUMN para o primeiro e ADD COLUMN para o segundo.",
+        "placeholder": "ALTER TABLE Usuarios RENAME COLUMN Telefone TO Celular;\nALTER TABLE Usuarios ADD COLUMN UltimoAcesso TEXT",
+        "schema": "CREATE TABLE Usuarios (ID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT, Telefone TEXT); INSERT INTO Usuarios VALUES (1,'Ana','ana@email.com','11999'),(2,'Carlos','carlos@email.com','21888');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ID", "Nome", "Email", "Celular", "UltimoAcesso"], "min_rows": 2 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: ALTER e DROP",
+      "conteudo": { "cor": "vermelho", "itens": [
+        "ADD COLUMN: adiciona nova coluna à tabela",
+        "DROP COLUMN: remove coluna e seus dados (irreversível)",
+        "RENAME COLUMN: renomeia sem perder dados",
+        "ALTER COLUMN TYPE: muda o tipo de dado",
+        "DROP TABLE IF EXISTS: remove tabela com segurança",
+        "TRUNCATE: esvazia tabela rapidamente, sem condição"
+      ]}
+    },
+    {
+      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "ALTER e DROP dominados!",
+      "conteudo": { "mensagem": "Bancos de dados evoluem com o sistema. Agora você sabe como adaptar estruturas existentes sem recriar tudo do zero!", "xpGanho": 500 }
+    }
+  ]
+}

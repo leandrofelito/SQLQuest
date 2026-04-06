@@ -1,0 +1,111 @@
+{
+  "slug": "views",
+  "titulo": "Views — Queries que Viram Tabelas",
+  "descricao": "Salve consultas complexas como tabelas virtuais reutilizáveis com CREATE VIEW e simplifique seu SQL.",
+  "icone": "🪟",
+  "ordem": 13,
+  "xpTotal": 750,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Views — Queries que Viram Tabelas",
+      "conteudo": { "emoji": "🪟", "subtitulo": "Salve queries complexas com um nome simples e reutilize como tabela" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O que é uma View?",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "View (Visão)", "def": "Uma query salva no banco de dados com um nome. Quando você consulta uma view, o banco executa a query original por baixo dos panos — ela funciona como uma tabela virtual." },
+        { "type": "code", "code": "-- Sem view: repetir essa query em todo lugar\nSELECT p.Nome, c.NomeCategoria, p.Preco\nFROM Produtos p\nINNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID\nWHERE p.Ativo = 1\n\n-- Com view: uma linha só\nSELECT * FROM vw_ProdutosAtivos", "lese": "Em vez de reescrever o JOIN e o filtro toda vez, criamos a view uma vez e consultamos ela como se fosse uma tabela comum" },
+        { "type": "nota", "texto": "Views não armazenam dados — elas armazenam a definição da query. Os dados sempre vêm das tabelas originais." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "CREATE VIEW — Criando sua Primeira View",
+      "conteudo": { "blocos": [
+        { "type": "code", "code": "CREATE VIEW vw_ProdutosAtivos AS\nSELECT p.ProdutoID, p.Nome, c.NomeCategoria, p.Preco\nFROM Produtos p\nINNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID\nWHERE p.Ativo = 1", "lese": "Cria uma view chamada vw_ProdutosAtivos que une produtos com categorias e filtra apenas os ativos — prefixo vw_ é convenção" },
+        "Agora é só consultar:",
+        { "type": "code", "code": "SELECT * FROM vw_ProdutosAtivos WHERE Preco < 100\nORDER BY NomeCategoria", "lese": "Consulta a view como se fosse uma tabela comum, aplicando filtros e ordenação normalmente" },
+        { "type": "nota", "texto": "Convenção: use prefixo vw_ nos nomes de views para diferenciá-las de tabelas reais." }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Views com Agregações",
+      "conteudo": { "blocos": [
+        "Views são perfeitas para encapsular relatórios com GROUP BY:",
+        { "type": "code", "code": "CREATE VIEW vw_ResumoVendasPorCliente AS\nSELECT\n  c.ClienteID,\n  c.Nome,\n  COUNT(p.PedidoID) AS TotalPedidos,\n  SUM(p.Valor)       AS TotalGasto,\n  AVG(p.Valor)       AS TicketMedio\nFROM Clientes c\nLEFT JOIN Pedidos p ON c.ClienteID = p.ClienteID\nGROUP BY c.ClienteID, c.Nome", "lese": "Cria um resumo de vendas por cliente com contagem de pedidos, total gasto e ticket médio — agora qualquer parte do sistema acessa esse relatório sem reescrever o GROUP BY" }
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Crie uma View de Funcionários de TI",
+      "conteudo": {
+        "instrucao": "Crie uma view chamada vw_FuncionariosTI que retorne o Nome e Salario de todos os funcionários do departamento 'TI'.",
+        "dica": "Use CREATE VIEW vw_FuncionariosTI AS SELECT ... FROM Funcionarios WHERE Departamento = 'TI'",
+        "placeholder": "CREATE VIEW vw_FuncionariosTI AS\nSELECT Nome, Salario\nFROM Funcionarios\nWHERE ...",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Atualizando e Removendo Views",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "CREATE OR REPLACE VIEW", "def": "Atualiza a definição de uma view existente sem precisar deletar e recriar. Se a view não existir, cria uma nova." },
+        { "type": "code", "code": "-- Atualizar a view\nCREATE OR REPLACE VIEW vw_ProdutosAtivos AS\nSELECT p.ProdutoID, p.Nome, c.NomeCategoria, p.Preco, p.Estoque\nFROM Produtos p\nINNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID\nWHERE p.Ativo = 1\n\n-- Remover a view\nDROP VIEW vw_ProdutosAtivos\n\n-- Remover sem erro se não existir\nDROP VIEW IF EXISTS vw_ProdutosAtivos", "lese": "CREATE OR REPLACE atualiza a view sem perder permissões; DROP VIEW remove ela permanentemente; IF EXISTS evita erro se a view já foi deletada" }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Quando Usar e Quando Evitar Views",
+      "conteudo": { "blocos": [
+        { "type": "nota", "texto": "✅ Use views para: padronizar relatórios usados por vários times, simplificar queries complexas com muitos JOINs, controlar quais colunas cada sistema acessa." },
+        { "type": "nota", "texto": "⚠️ Evite views quando: a query muda frequentemente, você precisa de performance máxima (views executam a query toda vez), ou quando uma CTE resolve melhor por ser usada uma única vez." }
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "View de Resumo de Pedidos",
+      "conteudo": {
+        "instrucao": "Crie uma view chamada vw_ResumoPedidos que retorne o ClienteID e o total de pedidos (TotalPedidos) de cada cliente, usando COUNT.",
+        "dica": "Use GROUP BY ClienteID e COUNT(PedidoID) AS TotalPedidos.",
+        "placeholder": "CREATE VIEW vw_ResumoPedidos AS\nSELECT ClienteID, COUNT(...) AS TotalPedidos\nFROM Pedidos\nGROUP BY ...",
+        "schema": "CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (1,1,'Notebook',3200),(2,1,'Mouse',89),(3,2,'Teclado',150),(4,3,'Monitor',1200),(5,2,'Cadeira',890),(6,1,'Headset',350);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Consultando a View",
+      "conteudo": {
+        "instrucao": "Usando a view vw_TopProdutos já criada abaixo, escreva um SELECT que retorne apenas os produtos com Preco acima de 500.",
+        "dica": "Consulte a view como se fosse uma tabela: SELECT * FROM vw_TopProdutos WHERE ...",
+        "placeholder": "SELECT * FROM vw_TopProdutos\nWHERE ...",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50),(3,'Monitor',1200,8),(4,'Teclado',150,30),(5,'Headset',650,15),(6,'Caneta',12,200); CREATE VIEW vw_TopProdutos AS SELECT ProdutoID, Nome, Preco FROM Produtos WHERE Estoque > 5;",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: Views",
+      "conteudo": { "cor": "azul", "itens": [
+        "CREATE VIEW nome AS SELECT ...: cria a view",
+        "CREATE OR REPLACE VIEW: atualiza sem recriar",
+        "DROP VIEW IF EXISTS: remove com segurança",
+        "Views não armazenam dados — executam a query em tempo real",
+        "Use prefixo vw_ por convenção",
+        "Ideal para padronizar relatórios complexos reutilizados"
+      ]}
+    },
+    {
+      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Views dominadas!",
+      "conteudo": { "mensagem": "Agora você sabe como encapsular lógica complexa em views reutilizáveis. Isso é o que separa quem sabe SQL de quem escreve SQL profissional!", "xpGanho": 500 }
+    }
+  ]
+}

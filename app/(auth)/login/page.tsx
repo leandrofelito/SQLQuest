@@ -1,13 +1,24 @@
 'use client'
 import { signIn, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthCallback: 'Erro ao autenticar com Google. Tente novamente.',
+  OAuthSignin: 'Erro ao iniciar login com Google. Tente novamente.',
+  OAuthAccountNotLinked: 'Este email já está cadastrado com outro método de login.',
+  Callback: 'Erro de callback. Tente novamente.',
+  AccessDenied: 'Acesso negado.',
+  Verification: 'Link de verificação inválido ou expirado.',
+  Default: 'Ocorreu um erro ao fazer login. Tente novamente.',
+}
+
 export default function LoginPage() {
   const { status } = useSession()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [form, setForm] = useState({ email: '', password: '' })
   const [erro, setErro] = useState('')
   const [loading, setLoading] = useState(false)
@@ -16,6 +27,13 @@ export default function LoginPage() {
   useEffect(() => {
     if (status === 'authenticated') router.push('/home')
   }, [status, router])
+
+  useEffect(() => {
+    const errorParam = searchParams.get('error')
+    if (errorParam) {
+      setErro(OAUTH_ERRORS[errorParam] ?? OAUTH_ERRORS.Default)
+    }
+  }, [searchParams])
 
   function set(field: string, value: string) {
     setForm(f => ({ ...f, [field]: value }))
@@ -34,6 +52,8 @@ export default function LoginPage() {
 
     if (res?.ok) {
       router.push('/home')
+    } else if (res?.error === 'GoogleAccount') {
+      setErro('Esta conta foi criada com Google. Use o botão "Continuar com Google" acima.')
     } else {
       setErro('Email ou senha incorretos')
     }

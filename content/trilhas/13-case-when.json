@@ -1,0 +1,103 @@
+{
+  "slug": "case-when",
+  "titulo": "CASE WHEN — Lógica Condicional no SQL",
+  "descricao": "Use o if/else do SQL para categorizar dados, criar colunas dinâmicas e fazer pivôs direto na query.",
+  "icone": "🔀",
+  "ordem": 14,
+  "xpTotal": 800,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "CASE WHEN — O if/else do SQL",
+      "conteudo": { "emoji": "🔀", "subtitulo": "Tome decisões dentro das suas queries e transforme dados com lógica condicional" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O que é o CASE WHEN?",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "CASE WHEN", "def": "A estrutura condicional do SQL. Funciona como um if/else: avalia condições em sequência e retorna o valor do primeiro WHEN verdadeiro. Se nenhuma condição for verdadeira, retorna o ELSE (ou NULL se não houver ELSE)." },
+        { "type": "code", "code": "SELECT Nome, Salario,\n  CASE\n    WHEN Salario >= 10000 THEN 'Sênior'\n    WHEN Salario >= 6000  THEN 'Pleno'\n    ELSE 'Júnior'\n  END AS Nivel\nFROM Funcionarios", "lese": "Para cada funcionário, classifica o nível: se salário for 10000 ou mais é Sênior, entre 6000 e 9999 é Pleno, qualquer outro valor é Júnior" },
+        { "type": "nota", "texto": "O CASE termina com END. O ELSE é opcional — sem ele, o resultado é NULL quando nenhuma condição for verdadeira." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "CASE Simples — Comparando um Valor",
+      "conteudo": { "blocos": [
+        "Existe também a forma compacta do CASE, que compara um campo a valores fixos:",
+        { "type": "code", "code": "SELECT Produto,\n  CASE Status\n    WHEN 'A' THEN 'Ativo'\n    WHEN 'I' THEN 'Inativo'\n    WHEN 'P' THEN 'Pendente'\n    ELSE 'Desconhecido'\n  END AS StatusDescricao\nFROM Pedidos", "lese": "Traduz o código de status (A, I, P) para uma descrição legível — a forma compacta coloca o campo logo após CASE" },
+        { "type": "nota", "texto": "A forma compacta só funciona com igualdade. Para comparações como >, <, >= use a forma com WHEN ... THEN." }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Classifique os Produtos por Preço",
+      "conteudo": {
+        "instrucao": "Escreva uma query que retorne o Nome do produto e uma coluna Faixa: 'Barato' se Preco < 100, 'Médio' se entre 100 e 999, e 'Caro' se Preco >= 1000.",
+        "dica": "Use CASE WHEN Preco < 100 THEN 'Barato' WHEN Preco < 1000 THEN 'Médio' ELSE 'Caro' END AS Faixa",
+        "placeholder": "SELECT Nome,\n  CASE\n    WHEN Preco < 100 THEN 'Barato'\n    WHEN Preco < 1000 THEN ...\n    ELSE ...\n  END AS Faixa\nFROM Produtos",
+        "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200),(4,'Teclado',150),(5,'Headset',650),(6,'Caneta',12);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome", "Faixa"], "min_rows": 6 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "CASE dentro de Agregações",
+      "conteudo": { "blocos": [
+        "Um dos usos mais poderosos: usar CASE dentro de SUM ou COUNT para contagens condicionais:",
+        { "type": "code", "code": "SELECT\n  COUNT(*) AS TotalPedidos,\n  SUM(CASE WHEN Valor > 1000 THEN 1 ELSE 0 END) AS PedidosAltos,\n  SUM(CASE WHEN Status = 'cancelado' THEN Valor ELSE 0 END) AS ValorCancelado\nFROM Pedidos", "lese": "Conta todos os pedidos, conta quantos têm valor acima de 1000 (somando 1 para cada), e soma o valor total apenas dos pedidos cancelados — tudo em uma só query" },
+        { "type": "nota", "texto": "SUM(CASE WHEN condição THEN 1 ELSE 0 END) é equivalente a COUNT(CASE WHEN condição THEN 1 END) — ambas contam as ocorrências de uma condição." }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "CASE no ORDER BY — Ordenação Condicional",
+      "conteudo": { "blocos": [
+        "Você pode usar CASE para criar uma ordem personalizada:",
+        { "type": "code", "code": "SELECT Nome, Prioridade\nFROM Tarefas\nORDER BY\n  CASE Prioridade\n    WHEN 'alta'  THEN 1\n    WHEN 'media' THEN 2\n    WHEN 'baixa' THEN 3\n    ELSE 4\n  END", "lese": "Ordena as tarefas por prioridade de forma personalizada: alta primeiro (1), depois média (2), depois baixa (3) — não seria possível com ORDER BY simples pois seria alfabético" }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Bronze, Prata ou Ouro",
+      "conteudo": {
+        "instrucao": "Classifique cada cliente com uma coluna Categoria: 'Ouro' se TotalGasto >= 5000, 'Prata' se >= 1000, 'Bronze' nos demais casos. Retorne Nome e Categoria.",
+        "dica": "Faça um SUM(Valor) agrupado por cliente e use CASE WHEN para classificar no SELECT.",
+        "placeholder": "SELECT c.Nome,\n  CASE\n    WHEN SUM(p.Valor) >= 5000 THEN 'Ouro'\n    WHEN SUM(p.Valor) >= 1000 THEN 'Prata'\n    ELSE 'Bronze'\n  END AS Categoria\nFROM Clientes c\nLEFT JOIN Pedidos p ON c.ClienteID = p.ClienteID\nGROUP BY c.ClienteID, c.Nome",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'),(4,'João'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Valor REAL); INSERT INTO Pedidos VALUES (1,1,3200),(2,1,2100),(3,2,89),(4,2,150),(5,3,4800),(6,4,500);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome", "Categoria"], "min_rows": 4 }
+      }
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Contagem Condicional",
+      "conteudo": {
+        "instrucao": "Em uma única query, retorne: TotalPedidos (todos), PedidosPagos (Status = 'pago') e PedidosPendentes (Status = 'pendente').",
+        "dica": "Use SUM(CASE WHEN Status = 'pago' THEN 1 ELSE 0 END) para cada categoria.",
+        "placeholder": "SELECT\n  COUNT(*) AS TotalPedidos,\n  SUM(CASE WHEN Status = 'pago' THEN 1 ELSE 0 END) AS PedidosPagos,\n  SUM(CASE WHEN Status = 'pendente' THEN 1 ELSE 0 END) AS ...\nFROM Pedidos",
+        "schema": "CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Valor REAL, Status TEXT); INSERT INTO Pedidos VALUES (1,1,3200,'pago'),(2,2,89,'pendente'),(3,1,1200,'pago'),(4,3,450,'cancelado'),(5,2,890,'pendente'),(6,4,150,'pago');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["TotalPedidos", "PedidosPagos", "PedidosPendentes"], "min_rows": 1 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: CASE WHEN",
+      "conteudo": { "cor": "laranja", "itens": [
+        "CASE WHEN condição THEN valor ELSE outro END: forma completa",
+        "CASE campo WHEN valor THEN ... END: forma compacta (apenas igualdade)",
+        "ELSE é opcional — sem ele retorna NULL",
+        "Use no SELECT para criar colunas dinâmicas",
+        "Use dentro de SUM/COUNT para agregações condicionais",
+        "Use no ORDER BY para ordenação personalizada"
+      ]}
+    },
+    {
+      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "CASE WHEN dominado!",
+      "conteudo": { "mensagem": "Agora você tem lógica condicional dentro do SQL. Classificar clientes, traduzir códigos, contar por categoria — tudo sem precisar de código externo!", "xpGanho": 500 }
+    }
+  ]
+}

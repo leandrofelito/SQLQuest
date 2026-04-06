@@ -1,0 +1,111 @@
+{
+  "slug": "crud-completo",
+  "titulo": "CRUD Completo — INSERT, UPDATE e DELETE",
+  "descricao": "Domine as operações de escrita: insira registros únicos e em lote, atualize com precisão e delete com segurança.",
+  "icone": "✏️",
+  "ordem": 17,
+  "xpTotal": 850,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "CRUD — Create, Read, Update, Delete",
+      "conteudo": { "emoji": "✏️", "subtitulo": "Domine todas as operações de escrita do SQL" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "INSERT — Inserindo Dados",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "INSERT INTO", "def": "Adiciona novos registros em uma tabela. Você especifica as colunas e os valores correspondentes." },
+        { "type": "code", "code": "-- Inserir um registro\nINSERT INTO Clientes (Nome, Email, Cidade)\nVALUES ('Ana Silva', 'ana@email.com', 'São Paulo')\n\n-- Inserir múltiplos registros de uma vez\nINSERT INTO Clientes (Nome, Email, Cidade)\nVALUES\n  ('Carlos Souza', 'carlos@email.com', 'Rio de Janeiro'),\n  ('Maria Costa',  'maria@email.com',  'Belo Horizonte'),\n  ('João Lima',    'joao@email.com',   'São Paulo')", "lese": "O primeiro INSERT adiciona um cliente; o segundo insere três de uma vez com uma lista de VALUES separados por vírgula — muito mais eficiente que três INSERTs separados" },
+        { "type": "nota", "texto": "Sempre liste as colunas explicitamente. Não dependa da ordem das colunas da tabela — ela pode mudar com um ALTER TABLE." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "INSERT ... SELECT — Copiando Dados",
+      "conteudo": { "blocos": [
+        "Você pode inserir dados que vêm de outra query:",
+        { "type": "code", "code": "-- Copiar clientes ativos para tabela de backup\nINSERT INTO ClientesBackup (Nome, Email)\nSELECT Nome, Email\nFROM Clientes\nWHERE Ativo = true\n\n-- Popular tabela de log com dados históricos\nINSERT INTO LogVendas (ProdutoID, Quantidade, DataVenda)\nSELECT ProdutoID, SUM(Quantidade), CURRENT_DATE\nFROM ItensPedido\nGROUP BY ProdutoID", "lese": "INSERT ... SELECT combina inserção com consulta — o resultado do SELECT vira os dados inseridos; útil para migrações, backups e população de tabelas derivadas" }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Insira Produtos em Lote",
+      "conteudo": {
+        "instrucao": "Insira 3 produtos de uma vez na tabela Produtos: ('Notebook', 3200), ('Mouse', 89), ('Monitor', 1200). Colunas: Nome e Preco.",
+        "dica": "Use INSERT INTO Produtos (Nome, Preco) VALUES (...), (...), (...)",
+        "placeholder": "INSERT INTO Produtos (Nome, Preco)\nVALUES\n  ('Notebook', 3200),\n  ('Mouse', 89),\n  ('Monitor', 1200)",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco REAL NOT NULL);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "UPDATE — Atualizando Registros",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "UPDATE", "def": "Modifica dados de registros existentes. SEMPRE use WHERE para filtrar quais registros atualizar — sem WHERE você atualiza a tabela inteira!" },
+        { "type": "code", "code": "-- Atualizar um campo\nUPDATE Produtos SET Preco = 2999 WHERE ProdutoID = 1\n\n-- Atualizar múltiplos campos\nUPDATE Clientes\nSET\n  Cidade    = 'Campinas',\n  Telefone  = '19999998888',\n  AtualizadoEm = NOW()\nWHERE ClienteID = 42\n\n-- Atualizar com base no valor atual\nUPDATE Produtos\nSET Preco = Preco * 1.10\nWHERE CategoriaID = 3", "lese": "O primeiro UPDATE muda só o preço de um produto; o segundo atualiza três campos de um cliente específico; o terceiro aplica reajuste de 10% em todos os produtos de uma categoria" },
+        { "type": "nota", "texto": "⚠️ Regra de ouro: antes de qualquer UPDATE, rode um SELECT com o mesmo WHERE para conferir quais registros serão afetados." }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Aplique um Desconto",
+      "conteudo": {
+        "instrucao": "Reduza o preço de todos os produtos com Preco > 1000 em 15%. Use UPDATE com SET Preco = Preco * 0.85.",
+        "dica": "UPDATE Produtos SET Preco = Preco * 0.85 WHERE Preco > 1000",
+        "placeholder": "UPDATE Produtos\nSET Preco = Preco * 0.85\nWHERE Preco > 1000",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200),(4,'Teclado',150),(5,'Servidor',8000);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Preco"], "min_rows": 5 }
+      }
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "DELETE — Deletando com Segurança",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "DELETE FROM", "def": "Remove registros de uma tabela. Como no UPDATE, SEMPRE use WHERE — sem ele você apaga todos os dados da tabela." },
+        { "type": "code", "code": "-- Deletar um registro específico\nDELETE FROM Clientes WHERE ClienteID = 99\n\n-- Deletar com condição composta\nDELETE FROM Logs\nWHERE DataCriacao < '2023-01-01'\n  AND Tipo = 'debug'\n\n-- Soft delete: marcar como inativo em vez de apagar\nUPDATE Clientes\nSET Ativo = false, DeletadoEm = NOW()\nWHERE ClienteID = 99", "lese": "O primeiro DELETE remove um cliente pelo ID; o segundo limpa logs antigos de debug; o terceiro usa soft delete — em vez de apagar, marca como inativo para manter o histórico" },
+        { "type": "nota", "texto": "Soft delete é preferido em sistemas com auditoria: você nunca perde histórico e pode recuperar registros marcados como deletados." }
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "RETURNING — Obtendo o que Foi Alterado",
+      "conteudo": { "blocos": [
+        "Em PostgreSQL, você pode recuperar os dados que foram modificados:",
+        { "type": "code", "code": "-- Inserir e obter o ID gerado\nINSERT INTO Pedidos (ClienteID, Valor)\nVALUES (1, 1500)\nRETURNING PedidoID, CriadoEm\n\n-- Update e confirmar novo valor\nUPDATE Produtos\nSET Estoque = Estoque - 1\nWHERE ProdutoID = 5\nRETURNING ProdutoID, Nome, Estoque\n\n-- Delete e registrar o que foi removido\nDELETE FROM Sessoes\nWHERE Expiracao < NOW()\nRETURNING SessaoID, UsuarioID", "lese": "RETURNING devolve os dados afetados pela operação — muito útil para saber o ID gerado após um INSERT, ou confirmar o novo valor após UPDATE, sem precisar de um SELECT separado" }
+      ]}
+    },
+    {
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Delete Seletivo",
+      "conteudo": {
+        "instrucao": "Delete todos os produtos com Estoque igual a 0 da tabela Produtos.",
+        "dica": "DELETE FROM Produtos WHERE Estoque = 0",
+        "placeholder": "DELETE FROM Produtos WHERE Estoque = 0",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,5),(2,'Mouse',89,0),(3,'Monitor',1200,3),(4,'Teclado',150,0),(5,'Headset',650,12);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: CRUD Completo",
+      "conteudo": { "cor": "verde", "itens": [
+        "INSERT INTO tabela (cols) VALUES (...): insere um ou vários registros",
+        "INSERT INTO tabela SELECT ...: insere resultado de uma query",
+        "UPDATE tabela SET col = valor WHERE condição: sempre use WHERE!",
+        "DELETE FROM tabela WHERE condição: sempre use WHERE!",
+        "Soft delete: marcar como inativo em vez de apagar definitivamente",
+        "RETURNING: retorna os dados afetados pela operação (PostgreSQL)"
+      ]}
+    },
+    {
+      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "CRUD dominado!",
+      "conteudo": { "mensagem": "Agora você controla completamente os dados do banco! Você tem todas as ferramentas para construir o backend de qualquer aplicação.", "xpGanho": 500 }
+    }
+  ]
+}

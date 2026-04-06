@@ -1,0 +1,103 @@
+{
+  "slug": "transacoes",
+  "titulo": "Transações — Tudo ou Nada",
+  "descricao": "Garanta a integridade de operações críticas com BEGIN, COMMIT e ROLLBACK. Aprenda as propriedades ACID.",
+  "icone": "🔒",
+  "ordem": 19,
+  "xpTotal": 750,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Transações — Tudo ou Nada",
+      "conteudo": { "emoji": "🔒", "subtitulo": "Operações críticas devem acontecer completamente ou não acontecer" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O Problema da Transferência Bancária",
+      "conteudo": { "blocos": [
+        "Imagine transferir R$ 1000 da conta A para a conta B:",
+        { "type": "code", "code": "-- Passo 1: debitar conta A\nUPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1\n\n-- 💥 Sistema cai aqui!\n\n-- Passo 2: nunca executado\nUPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2", "lese": "Se o sistema falhar entre os dois UPDATEs, R$ 1000 some do mundo: saiu da conta A mas nunca chegou na conta B — isso é catastrófico" },
+        { "type": "definicao", "termo": "Transação", "def": "Um conjunto de operações que deve ser executado como uma unidade atômica: ou TODAS completam com sucesso, ou NENHUMA é aplicada. Isso garante a consistência dos dados." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "BEGIN, COMMIT e ROLLBACK",
+      "conteudo": { "blocos": [
+        { "type": "code", "code": "BEGIN\n\n  -- Debitar conta A\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- Creditar conta B\n  UPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2;\n\nCOMMIT  -- tudo deu certo: confirma as mudanças", "lese": "BEGIN inicia a transação; os dois UPDATEs são executados; COMMIT confirma tudo de uma vez — se qualquer erro ocorrer antes do COMMIT, nada é salvo" },
+        { "type": "code", "code": "BEGIN\n\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- algo deu errado...\n  ROLLBACK  -- desfaz tudo desde o BEGIN", "lese": "ROLLBACK cancela todas as operações desde o BEGIN — é como um desfazer completo, o banco volta exatamente ao estado anterior" },
+        { "type": "nota", "texto": "BEGIN = abre a transação. COMMIT = confirma tudo. ROLLBACK = cancela tudo. Em caso de erro inesperado, o banco faz ROLLBACK automático." }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Simule uma Transferência",
+      "conteudo": {
+        "instrucao": "Dentro de uma transação, transfira 500 da conta 1 para a conta 2: debite 500 da ContaID=1 e credite 500 na ContaID=2. Confirme com COMMIT.",
+        "dica": "Use BEGIN, depois dois UPDATEs, depois COMMIT.",
+        "placeholder": "BEGIN;\n\nUPDATE Contas SET Saldo = Saldo - 500 WHERE ContaID = 1;\nUPDATE Contas SET Saldo = Saldo + 500 WHERE ContaID = 2;\n\nCOMMIT;",
+        "schema": "CREATE TABLE Contas (ContaID INTEGER PRIMARY KEY, Titular TEXT, Saldo REAL); INSERT INTO Contas VALUES (1,'Ana',3000),(2,'Carlos',1500);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ContaID", "Titular", "Saldo"], "min_rows": 2 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "SAVEPOINT — Pontos de Restauração",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "SAVEPOINT", "def": "Um ponto de restauração dentro de uma transação. Permite fazer ROLLBACK apenas até aquele ponto sem desfazer tudo." },
+        { "type": "code", "code": "BEGIN\n\n  INSERT INTO Pedidos (ClienteID, Valor) VALUES (1, 500);\n\n  SAVEPOINT apos_pedido;\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (99, 'X');\n  -- erro: PedidoID 99 não existe!\n\n  ROLLBACK TO SAVEPOINT apos_pedido;\n  -- desfaz apenas o segundo INSERT, mantém o primeiro\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (1, 'Notebook');\n\nCOMMIT", "lese": "SAVEPOINT cria um ponto intermediário; ROLLBACK TO SAVEPOINT desfaz apenas as operações após o savepoint, preservando o que foi feito antes" }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Propriedades ACID",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "ACID", "def": "As quatro propriedades que garantem a confiabilidade de transações em bancos de dados relacionais." },
+        { "type": "code", "code": "A — Atomicidade:   tudo ou nada. Nunca fica pela metade.\nC — Consistência:  o banco sempre vai de um estado válido a outro.\nI — Isolamento:    transações simultâneas não interferem entre si.\nD — Durabilidade:  após o COMMIT, os dados sobrevivem a falhas.", "lese": "Atomicidade é o tudo ou nada; Consistência garante que as regras do banco nunca são violadas; Isolamento impede que duas transações simultâneas se atrapalhem; Durabilidade garante que dados confirmados não se perdem" },
+        { "type": "nota", "texto": "Todo banco de dados relacional sério (PostgreSQL, MySQL, SQL Server, Oracle) garante ACID por padrão. É por isso que bancos relacionais são confiáveis para dados críticos." }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Transação com Rollback",
+      "conteudo": {
+        "instrucao": "Inicie uma transação, insira um produto ('GadgetX', preco 999), depois use ROLLBACK para cancelar. Então verifique quantos produtos existem com SELECT COUNT(*) FROM Produtos.",
+        "dica": "BEGIN; INSERT ...; ROLLBACK; SELECT COUNT(*) FROM Produtos; — após ROLLBACK o INSERT não persiste.",
+        "placeholder": "BEGIN;\nINSERT INTO Produtos (Nome, Preco) VALUES ('GadgetX', 999);\nROLLBACK;\n\nSELECT COUNT(*) AS Total FROM Produtos",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Total"], "min_rows": 1 }
+      }
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Transação Completa de Estoque",
+      "conteudo": {
+        "instrucao": "Dentro de uma transação: 1) Reduza o Estoque do produto 1 em 2 unidades. 2) Insira um registro em Vendas (ProdutoID=1, Quantidade=2). Confirme com COMMIT.",
+        "dica": "BEGIN; UPDATE Produtos SET Estoque = Estoque - 2 WHERE ProdutoID = 1; INSERT INTO Vendas ...; COMMIT;",
+        "placeholder": "BEGIN;\n\nUPDATE Produtos SET Estoque = Estoque - 2 WHERE ProdutoID = 1;\nINSERT INTO Vendas (ProdutoID, Quantidade) VALUES (1, 2);\n\nCOMMIT;\n\nSELECT * FROM Produtos WHERE ProdutoID = 1",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50); CREATE TABLE Vendas (VendaID INTEGER PRIMARY KEY AUTOINCREMENT, ProdutoID INTEGER, Quantidade INTEGER);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Estoque"], "min_rows": 1 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: Transações",
+      "conteudo": { "cor": "roxo", "itens": [
+        "BEGIN: inicia a transação",
+        "COMMIT: confirma e persiste todas as mudanças",
+        "ROLLBACK: cancela tudo desde o BEGIN",
+        "SAVEPOINT nome: cria ponto de restauração parcial",
+        "ROLLBACK TO SAVEPOINT nome: desfaz apenas até o savepoint",
+        "ACID: Atomicidade, Consistência, Isolamento, Durabilidade"
+      ]}
+    },
+    {
+      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Transações dominadas!",
+      "conteudo": { "mensagem": "Agora você sabe proteger operações críticas. Transferências, reservas, compras — qualquer operação que envolve múltiplos passos deve usar transação!", "xpGanho": 500 }
+    }
+  ]
+}

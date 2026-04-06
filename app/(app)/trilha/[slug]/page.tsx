@@ -58,10 +58,12 @@ export default function TrilhaPage() {
       if (!t) { router.push('/home'); return }
 
       const progressoIds = new Set(progressos.map((p: any) => p.etapaId))
+
       const etapasComStatus = t.etapas.map((e: Etapa) => ({
         ...e,
-        // Exercícios: concluído se tiver progresso. Outros tipos: sempre marcado como concluído (não bloqueiam)
-        concluida: e.tipo === 'exercicio' ? progressoIds.has(e.id) : true,
+        // Apenas exercícios com progresso salvo no banco são marcados como concluídos
+        // Intro/Leitura/Resumo nunca aparecem como verdes — não salvam progresso
+        concluida: e.tipo === 'exercicio' && progressoIds.has(e.id),
       }))
 
       // Percentual calculado apenas sobre exercícios (apenas eles salvam progresso)

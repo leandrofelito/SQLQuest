@@ -6,12 +6,6 @@ export default withAuth(
     const token = req.nextauth.token
     const { pathname } = req.nextUrl
 
-    // Restrição de acesso: só emails autorizados podem usar o site
-    const allowedEmails = process.env.ALLOWED_EMAILS?.split(',').map(e => e.trim()) ?? []
-    if (allowedEmails.length > 0 && token?.email && !allowedEmails.includes(token.email as string)) {
-      return NextResponse.redirect(new URL('/acesso-restrito', req.url))
-    }
-
     if (pathname.startsWith('/admin')) {
       const adminEmails = process.env.ADMIN_EMAILS?.split(',').map(e => e.trim()) ?? []
       if (!token?.email || !adminEmails.includes(token.email as string)) {

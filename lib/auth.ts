@@ -26,7 +26,11 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         })
 
-        if (!user || !user.password) return null
+        if (!user) return null
+
+        if (!user.password) {
+          throw new Error('GoogleAccount')
+        }
 
         const ok = await bcrypt.compare(credentials.password, user.password)
         if (!ok) return null

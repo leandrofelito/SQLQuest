@@ -1,0 +1,107 @@
+{
+  "slug": "constraints",
+  "titulo": "Constraints — Regras que Protegem seus Dados",
+  "descricao": "Aprenda a usar PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK e NOT NULL para criar bancos à prova de dados inválidos.",
+  "icone": "🛡️",
+  "ordem": 20,
+  "xpTotal": 800,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Constraints — As Regras do Jogo",
+      "conteudo": { "emoji": "🛡️", "subtitulo": "Garanta que dados inválidos nunca entrem no banco de dados" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Por que Constraints Existem?",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "Constraint (Restrição)", "def": "Uma regra definida na estrutura da tabela que o banco de dados aplica automaticamente em todo INSERT, UPDATE e DELETE. Se a regra for violada, a operação é rejeitada." },
+        { "type": "code", "code": "-- Sem constraint: dados inválidos entram\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- Preco negativo? O banco aceita sem constraints\n\n-- Com constraint CHECK: o banco rejeita\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- ERROR: new row violates check constraint", "lese": "Sem constraints o banco aceita qualquer valor; com CHECK o banco valida automaticamente — você não precisa checar isso no código da aplicação" },
+        { "type": "nota", "texto": "Princípio: valide dados na camada mais baixa possível. Constraints no banco garantem consistência mesmo que o código da aplicação tenha bugs." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "NOT NULL, DEFAULT e UNIQUE",
+      "conteudo": { "blocos": [
+        { "type": "code", "code": "CREATE TABLE Usuarios (\n  UsuarioID  SERIAL        PRIMARY KEY,\n\n  -- NOT NULL: campo obrigatório\n  Nome       VARCHAR(100)  NOT NULL,\n\n  -- UNIQUE: sem duplicatas\n  Email      VARCHAR(150)  UNIQUE NOT NULL,\n\n  -- DEFAULT: valor padrão quando não informado\n  Ativo      BOOLEAN       DEFAULT true,\n  CriadoEm  TIMESTAMP     DEFAULT NOW(),\n\n  -- UNIQUE em múltiplas colunas\n  CONSTRAINT uq_usuario_doc UNIQUE (TipoDoc, NumeroDoc)\n)", "lese": "NOT NULL impede valores vazios; UNIQUE impede duplicatas; DEFAULT preenche automaticamente quando não informado; UNIQUE em múltiplas colunas garante que a combinação seja única" }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "CHECK — Validando Regras de Negócio",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "CHECK", "def": "Define uma expressão que deve ser verdadeira para qualquer valor inserido ou atualizado na coluna." },
+        { "type": "code", "code": "CREATE TABLE Produtos (\n  ProdutoID  SERIAL  PRIMARY KEY,\n  Nome       TEXT    NOT NULL,\n\n  -- Preço deve ser positivo\n  Preco      DECIMAL(10,2) NOT NULL\n    CONSTRAINT chk_preco_positivo CHECK (Preco > 0),\n\n  -- Desconto entre 0% e 100%\n  Desconto   DECIMAL(5,2)  DEFAULT 0\n    CHECK (Desconto >= 0 AND Desconto <= 100),\n\n  -- Status só aceita valores definidos\n  Status     VARCHAR(20)\n    CHECK (Status IN ('ativo', 'inativo', 'rascunho'))\n)", "lese": "Preco > 0 rejeita valores negativos ou zero; o segundo CHECK garante que desconto é uma porcentagem válida; o terceiro restringe Status a apenas três valores permitidos" }
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Crie Tabela com CHECK",
+      "conteudo": {
+        "instrucao": "Crie a tabela Funcionarios com: ID (INTEGER PRIMARY KEY), Nome (TEXT NOT NULL), Salario (REAL com CHECK que garante Salario > 0), e Nivel (TEXT com CHECK que aceita apenas 'junior', 'pleno', 'senior').",
+        "dica": "Use CHECK (Salario > 0) e CHECK (Nivel IN ('junior', 'pleno', 'senior'))",
+        "placeholder": "CREATE TABLE Funcionarios (\n  ID      INTEGER PRIMARY KEY,\n  Nome    TEXT    NOT NULL,\n  Salario REAL    CHECK (Salario > 0),\n  Nivel   TEXT    CHECK (Nivel IN ('junior', 'pleno', 'senior'))\n)",
+        "schema": "",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ID", "Nome", "Salario", "Nivel"], "min_rows": 0 }
+      }
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "FOREIGN KEY — Integridade Referencial",
+      "conteudo": { "blocos": [
+        { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID  SERIAL  PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     DECIMAL(10,2) CHECK (Valor > 0),\n\n  CONSTRAINT fk_pedido_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE RESTRICT   -- impede deletar cliente com pedidos\n    ON UPDATE CASCADE    -- se o ID do cliente mudar, atualiza aqui\n)", "lese": "ON DELETE RESTRICT é o comportamento mais seguro: impede apagar um cliente que ainda tem pedidos; ON UPDATE CASCADE propaga mudanças de ID automaticamente" },
+        { "type": "code", "code": "-- Opções de ON DELETE:\nON DELETE RESTRICT   -- rejeita a deleção do pai\nON DELETE CASCADE    -- deleta os filhos junto\nON DELETE SET NULL   -- define a FK como NULL nos filhos\nON DELETE NO ACTION  -- similar ao RESTRICT (padrão)", "lese": "RESTRICT é mais seguro (impede remoção acidental); CASCADE é conveniente para limpeza automática; SET NULL mantém o filho mas desvincula do pai" }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Adicionando Constraints em Tabelas Existentes",
+      "conteudo": { "blocos": [
+        { "type": "code", "code": "-- Adicionar CHECK\nALTER TABLE Produtos\nADD CONSTRAINT chk_estoque_positivo CHECK (Estoque >= 0)\n\n-- Adicionar UNIQUE\nALTER TABLE Clientes\nADD CONSTRAINT uq_clientes_cpf UNIQUE (CPF)\n\n-- Adicionar FOREIGN KEY\nALTER TABLE Pedidos\nADD CONSTRAINT fk_pedidos_cliente\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n\n-- Remover constraint\nALTER TABLE Produtos\nDROP CONSTRAINT chk_estoque_positivo", "lese": "ALTER TABLE ADD CONSTRAINT adiciona regras a tabelas que já existem; DROP CONSTRAINT remove uma constraint pelo nome — por isso sempre nomeie suas constraints" }
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Teste as Constraints",
+      "conteudo": {
+        "instrucao": "Tente inserir um funcionário com Salario = -100. O banco deve rejeitar. Depois insira um válido com Salario = 5000 e Nivel = 'pleno'.",
+        "dica": "O INSERT com salário negativo vai falhar (erro esperado). Faça apenas o INSERT válido para passar no exercício.",
+        "placeholder": "INSERT INTO Funcionarios (ID, Nome, Salario, Nivel)\nVALUES (1, 'Ana', 5000, 'pleno')",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 1 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Adicione uma Constraint",
+      "conteudo": {
+        "instrucao": "A tabela Produtos já existe sem validação de preço. Adicione uma constraint chamada chk_preco que garanta que Preco > 0.",
+        "dica": "ALTER TABLE Produtos ADD CONSTRAINT chk_preco CHECK (Preco > 0)",
+        "placeholder": "ALTER TABLE Produtos\nADD CONSTRAINT chk_preco CHECK (Preco > 0)",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 2 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: Constraints",
+      "conteudo": { "cor": "azul", "itens": [
+        "NOT NULL: campo obrigatório",
+        "UNIQUE: sem duplicatas (uma ou múltiplas colunas)",
+        "DEFAULT valor: preenche automaticamente",
+        "CHECK (condição): valida regra de negócio",
+        "FOREIGN KEY ... REFERENCES: integridade referencial",
+        "ON DELETE RESTRICT/CASCADE/SET NULL: comportamento na deleção"
+      ]}
+    },
+    {
+      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Constraints dominadas!",
+      "conteudo": { "mensagem": "Seu banco agora se defende sozinho de dados inválidos. Constraints são a primeira linha de defesa de um sistema confiável!", "xpGanho": 500 }
+    }
+  ]
+}
