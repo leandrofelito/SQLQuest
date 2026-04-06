@@ -5,9 +5,10 @@ import { motion } from 'framer-motion'
 interface AnuncioVideoProps {
   isPro: boolean
   onConcluido: () => void
+  label?: string // ex: "Anúncio 1 de 2"
 }
 
-export function AnuncioVideo({ isPro, onConcluido }: AnuncioVideoProps) {
+export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
   const [tempo, setTempo] = useState(30)
   const pushed = useRef(false)
 
@@ -52,7 +53,7 @@ export function AnuncioVideo({ isPro, onConcluido }: AnuncioVideoProps) {
             {tempo > 0 ? `${tempo}s até o prêmio` : 'Pronto!'}
           </span>
         </div>
-        <div className="text-xs text-white/30">Anúncio</div>
+        <div className="text-xs text-white/30">{label ?? 'Anúncio'}</div>
       </div>
 
       {/* Área do anúncio */}

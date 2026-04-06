@@ -43,7 +43,7 @@ export function BannerPro({ open, onClose, onAssistirAnuncio }: BannerProProps) 
             <div className="text-center mb-6">
               <div className="text-5xl mb-3">🔒</div>
               <h3 className="text-xl font-bold text-white mb-1">Quer acessar gratuitamente?</h3>
-              <p className="text-white/50 text-sm">Assista um anúncio curto ou assine o Pro para acesso total.</p>
+              <p className="text-white/50 text-sm">Assista 2 anúncios curtos ou assine o Pro para acesso total.</p>
             </div>
 
             <div className="space-y-3">

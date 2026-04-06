@@ -190,6 +190,7 @@ export default function EtapaPage() {
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoExercicio}
                   xpReward={etapa.xpReward}
+                  isPro={isPro}
                   onConcluido={async (xp, usouDica, tentativas, primeiraTentativa) => {
                     await salvarProgresso(xp, usouDica, tentativas, primeiraTentativa)
                     if (!isPro) {

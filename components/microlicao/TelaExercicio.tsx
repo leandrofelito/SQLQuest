@@ -5,18 +5,20 @@ import { Button } from '@/components/ui/Button'
 import { useSQL } from '@/hooks/useSQL'
 import { checkAnswer } from '@/lib/check-answer'
 import { getDica, classificarErro } from '@/lib/dicas'
+import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import type { ConteudoExercicio, QueryResult } from '@/types'
 
 interface TelaExercicioProps {
   titulo: string
   conteudo: ConteudoExercicio
   xpReward: number
+  isPro: boolean
   onConcluido: (xp: number, usouDica: boolean, tentativas: number, primeiraTentativa: boolean) => void
 }
 
 type Estado = 'idle' | 'verificando' | 'erro' | 'acerto'
 
-export function TelaExercicio({ titulo, conteudo, xpReward, onConcluido }: TelaExercicioProps) {
+export function TelaExercicio({ titulo, conteudo, xpReward, isPro, onConcluido }: TelaExercicioProps) {
   const [query, setQuery] = useState('')
   const [estado, setEstado] = useState<Estado>('idle')
   const [mensagemErro, setMensagemErro] = useState('')
@@ -24,17 +26,30 @@ export function TelaExercicio({ titulo, conteudo, xpReward, onConcluido }: TelaE
   const [resultado, setResultado] = useState<QueryResult | null>(null)
   const [tentativas, setTentativas] = useState(0)
   const [usouDica, setUsouDica] = useState(false)
+  const [showAnuncioDica, setShowAnuncioDica] = useState(false)
   const { ready, run } = useSQL()
   const primeiraTentativaRef = useRef(true)
+  const dicaPendenteRef = useRef('')
+
+  function resolverDica() {
+    const tipo = mensagemErro ? classificarErro(mensagemErro) : 'generico'
+    return tentativas >= 2 ? conteudo.dica : getDica(tipo)
+  }
 
   function pedirDica() {
     setUsouDica(true)
-    if (tentativas >= 2) {
-      setDicaAtual(conteudo.dica)
+    const dica = resolverDica()
+    if (!isPro) {
+      dicaPendenteRef.current = dica
+      setShowAnuncioDica(true)
     } else {
-      const tipo = mensagemErro ? classificarErro(mensagemErro) : 'generico'
-      setDicaAtual(getDica(tipo))
+      setDicaAtual(dica)
     }
+  }
+
+  function liberarDica() {
+    setShowAnuncioDica(false)
+    setDicaAtual(dicaPendenteRef.current)
   }
 
   async function verificar() {
@@ -183,6 +198,11 @@ export function TelaExercicio({ titulo, conteudo, xpReward, onConcluido }: TelaE
           </>
         )}
       </div>
+
+      {/* Anúncio antes de revelar a dica */}
+      {showAnuncioDica && (
+        <AnuncioVideo isPro={false} label="Anúncio" onConcluido={liberarDica} />
+      )}
     </div>
   )
 }
