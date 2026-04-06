@@ -74,7 +74,7 @@ export default function CertificadosPage() {
             <h3 className="text-white font-bold">Certificados Pro</h3>
             <p className="text-white/50 text-sm">Conclua trilhas e baixe certificados PDF para compartilhar.</p>
             <Button onClick={() => router.push('/upgrade')} fullWidth>
-              Assinar Pro — R$29,99
+              Assinar Pro — R$59,90
             </Button>
           </div>
         )}

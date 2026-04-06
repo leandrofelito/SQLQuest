@@ -322,7 +322,7 @@ export default function PerfilPage() {
         {/* Upgrade se free */}
         {!isPro && (
           <Button onClick={() => router.push('/upgrade')} fullWidth>
-            ⭐ Assinar Pro — R$29,99
+            ⭐ Assinar Pro — R$59,90
           </Button>
         )}
 

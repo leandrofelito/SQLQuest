@@ -104,8 +104,8 @@ export default function UpgradePage() {
               </span>
             </div>
             <p className="text-5xl font-bold text-white">
-              R$<span className="text-[#a78bfa]">29</span>
-              <span className="text-2xl">,99</span>
+              R$<span className="text-[#a78bfa]">59</span>
+              <span className="text-2xl">,90</span>
             </p>
             <p className="text-white/30 text-sm">Pagamento único · Acesso vitalício</p>
           </div>

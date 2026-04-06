@@ -28,7 +28,14 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const [trilhaAlvo, setTrilhaAlvo] = useState<string | null>(null)
   // 0 = nenhum anúncio, 1 = primeiro anúncio, 2 = segundo anúncio
   const [adEtapa, setAdEtapa] = useState<0 | 1 | 2>(0)
-  const [desbloqueadasPorAnuncio, setDesbloqueadasPorAnuncio] = useState<Set<string>>(new Set())
+  const [desbloqueadasPorAnuncio, setDesbloqueadasPorAnuncio] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem('trilhas_desbloqueadas')
+      return saved ? new Set(JSON.parse(saved)) : new Set()
+    } catch {
+      return new Set()
+    }
+  })
 
   function handleBloqueadaClick(slug: string) {
     setTrilhaAlvo(slug)
@@ -47,7 +54,13 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   function segundoAnuncioConcluido() {
     setAdEtapa(0)
     if (trilhaAlvo) {
-      setDesbloqueadasPorAnuncio(prev => new Set(prev).add(trilhaAlvo))
+      setDesbloqueadasPorAnuncio(prev => {
+        const next = new Set(prev).add(trilhaAlvo!)
+        try {
+          localStorage.setItem('trilhas_desbloqueadas', JSON.stringify([...next]))
+        } catch {}
+        return next
+      })
       router.push(`/trilha/${trilhaAlvo}`)
     }
   }
