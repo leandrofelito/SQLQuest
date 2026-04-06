@@ -10,11 +10,6 @@ const withPWA = require('next-pwa')({
       options: { cacheName: 'google-fonts', expiration: { maxEntries: 10, maxAgeSeconds: 365 * 24 * 60 * 60 } },
     },
     {
-      urlPattern: /\/api\/trilhas/,
-      handler: 'StaleWhileRevalidate',
-      options: { cacheName: 'api-trilhas', expiration: { maxEntries: 5, maxAgeSeconds: 60 * 60 } },
-    },
-    {
       urlPattern: /\/sql-wasm\.wasm/,
       handler: 'CacheFirst',
       options: { cacheName: 'wasm', expiration: { maxEntries: 1, maxAgeSeconds: 30 * 24 * 60 * 60 } },

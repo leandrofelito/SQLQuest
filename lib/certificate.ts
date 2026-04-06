@@ -9,95 +9,172 @@ interface CertData {
 
 export async function generateCertificatePDF(data: CertData): Promise<Uint8Array> {
   const pdfDoc = await PDFDocument.create()
-  const page = pdfDoc.addPage([842, 595])
+  // A4 landscape
+  const page = pdfDoc.addPage([841.89, 595.28])
   const { width, height } = page.getSize()
 
-  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
+  const fontBold    = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
   const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica)
+  const fontOblique = await pdfDoc.embedFont(StandardFonts.HelveticaOblique)
 
-  page.drawRectangle({ x: 0, y: 0, width, height, color: rgb(0.05, 0.06, 0.09) })
+  // Cores
+  const cBg     = rgb(0.055, 0.063, 0.094)
+  const cCard   = rgb(0.071, 0.082, 0.118)
+  const cPurple = rgb(0.545, 0.361, 0.969)
+  const cPurpleL = rgb(0.671, 0.549, 0.984)
+  const cGold   = rgb(0.980, 0.761, 0.259)
+  const cWhite  = rgb(0.95, 0.95, 0.98)
+  const cMuted  = rgb(0.55, 0.55, 0.65)
+  const cBorder = rgb(0.14, 0.16, 0.22)
 
-  page.drawRectangle({
-    x: 20, y: 20, width: width - 40, height: height - 40,
-    borderColor: rgb(0.54, 0.36, 0.97), borderWidth: 1.5,
+  // ── Fundo
+  page.drawRectangle({ x: 0, y: 0, width, height, color: cBg })
+
+  // ── Card central
+  const cardX = 40, cardY = 30, cardW = width - 80, cardH = height - 60
+  page.drawRectangle({ x: cardX, y: cardY, width: cardW, height: cardH,
+    color: cCard, borderColor: cBorder, borderWidth: 1 })
+
+  // ── Barra lateral roxa à esquerda
+  page.drawRectangle({ x: cardX, y: cardY, width: 8, height: cardH, color: cPurple })
+
+  // ── Logo
+  page.drawText('SQL', {
+    x: cardX + 28, y: cardY + cardH - 48,
+    size: 22, font: fontBold, color: cPurpleL,
+  })
+  page.drawText('Quest', {
+    x: cardX + 28 + fontBold.widthOfTextAtSize('SQL', 22),
+    y: cardY + cardH - 48,
+    size: 22, font: fontBold, color: cWhite,
   })
 
-  page.drawRectangle({
-    x: 28, y: 28, width: width - 56, height: height - 56,
-    borderColor: rgb(0.54, 0.36, 0.97), borderWidth: 0.5,
-  })
-
-  page.drawText('SQLQuest', {
-    x: 60, y: height - 80,
-    size: 18, font: fontBold, color: rgb(0.67, 0.55, 0.98),
-  })
-
+  // ── Linha separadora topo
   page.drawLine({
-    start: { x: 60, y: height - 90 },
-    end: { x: width - 60, y: height - 90 },
-    thickness: 0.5, color: rgb(0.54, 0.36, 0.97),
+    start: { x: cardX + 24, y: cardY + cardH - 60 },
+    end:   { x: cardX + cardW - 24, y: cardY + cardH - 60 },
+    thickness: 0.5, color: cBorder,
   })
 
-  ;(page as any).drawText('CERTIFICADO DE CONCLUSÃO', {
-    x: width / 2 - 140, y: height - 140,
-    size: 14, font: fontBold,
-    color: rgb(0.54, 0.36, 0.97),
-    characterSpacing: 3,
+  // ── Medalha (círculos + estrela)
+  const mx = width / 2
+  const my = cardY + cardH - 130
+  page.drawEllipse({ cx: mx, cy: my, xScale: 38, yScale: 38,
+    color: cGold, opacity: 0.12 })
+  page.drawEllipse({ cx: mx, cy: my, xScale: 38, yScale: 38,
+    borderColor: cGold, borderWidth: 1.5, opacity: 0.55 })
+  page.drawEllipse({ cx: mx, cy: my, xScale: 27, yScale: 27,
+    color: cPurple, opacity: 0.9 })
+  const star = '★'
+  const starSize = 25
+  const starW = fontBold.widthOfTextAtSize(star, starSize)
+  page.drawText(star, {
+    x: mx - starW / 2, y: my - starSize * 0.36,
+    size: starSize, font: fontBold, color: cGold,
   })
 
-  page.drawText('Certificamos que', {
-    x: width / 2 - 55, y: height - 185,
-    size: 13, font: fontRegular, color: rgb(0.6, 0.6, 0.72),
+  // ── "CERTIFICADO DE CONCLUSÃO"
+  const label = 'CERTIFICADO DE CONCLUSÃO'
+  const labelSize = 10
+  const labelW = fontBold.widthOfTextAtSize(label, labelSize)
+  page.drawText(label, {
+    x: width / 2 - labelW / 2, y: cardY + cardH - 178,
+    size: labelSize, font: fontBold, color: cPurpleL, characterSpacing: 3,
   })
 
-  const nameWidth = fontBold.widthOfTextAtSize(data.userName, 34)
+  // ── "Certificamos que"
+  const sub = 'Certificamos que'
+  const subW = fontOblique.widthOfTextAtSize(sub, 12)
+  page.drawText(sub, {
+    x: width / 2 - subW / 2, y: cardY + cardH - 212,
+    size: 12, font: fontOblique, color: cMuted,
+  })
+
+  // ── Nome do usuário
+  const nameSize = 36
+  const nameW = fontBold.widthOfTextAtSize(data.userName, nameSize)
   page.drawText(data.userName, {
-    x: width / 2 - nameWidth / 2, y: height - 235,
-    size: 34, font: fontBold, color: rgb(0.94, 0.94, 0.98),
+    x: width / 2 - nameW / 2, y: cardY + cardH - 260,
+    size: nameSize, font: fontBold, color: cWhite,
   })
-
+  // Sublinha decorativa
+  const lm = 28
   page.drawLine({
-    start: { x: width / 2 - nameWidth / 2 - 10, y: height - 244 },
-    end: { x: width / 2 + nameWidth / 2 + 10, y: height - 244 },
-    thickness: 0.5, color: rgb(0.54, 0.36, 0.97),
+    start: { x: width / 2 - nameW / 2 - lm, y: cardY + cardH - 270 },
+    end:   { x: width / 2 + nameW / 2 + lm, y: cardY + cardH - 270 },
+    thickness: 1, color: cPurple, opacity: 0.55,
   })
 
-  page.drawText('concluiu com sucesso o curso', {
-    x: width / 2 - 100, y: height - 278,
-    size: 13, font: fontRegular, color: rgb(0.6, 0.6, 0.72),
+  // ── "concluiu com êxito o curso"
+  const conc = 'concluiu com êxito o curso'
+  const concW = fontRegular.widthOfTextAtSize(conc, 12)
+  page.drawText(conc, {
+    x: width / 2 - concW / 2, y: cardY + cardH - 300,
+    size: 12, font: fontRegular, color: cMuted,
   })
 
-  const cursoWidth = fontBold.widthOfTextAtSize(data.trilhaTitulo, 20)
+  // ── Título do curso
+  const cursoSize = 20
+  const cursoW = fontBold.widthOfTextAtSize(data.trilhaTitulo, cursoSize)
   page.drawText(data.trilhaTitulo, {
-    x: width / 2 - cursoWidth / 2, y: height - 315,
-    size: 20, font: fontBold, color: rgb(0.67, 0.55, 0.98),
+    x: width / 2 - cursoW / 2, y: cardY + cardH - 332,
+    size: cursoSize, font: fontBold, color: cPurpleL,
   })
 
+  // ── Divisória
   page.drawLine({
-    start: { x: 60, y: height - 360 },
-    end: { x: width - 60, y: height - 360 },
-    thickness: 0.5, color: rgb(0.54, 0.36, 0.97),
+    start: { x: cardX + 60, y: cardY + cardH - 362 },
+    end:   { x: cardX + cardW - 60, y: cardY + cardH - 362 },
+    thickness: 0.5, color: cBorder,
   })
 
+  // ── Info: Data | Código | URL
+  const infoY = cardY + cardH - 392
   const dataFormatada = data.emitidoEm.toLocaleDateString('pt-BR', {
     day: '2-digit', month: 'long', year: 'numeric',
   })
-  page.drawText('Data de emissão', {
-    x: 80, y: height - 400, size: 10, font: fontRegular, color: rgb(0.45, 0.45, 0.56),
+
+  // Data (esquerda)
+  page.drawText('DATA DE EMISSÃO', {
+    x: cardX + 60, y: infoY + 18,
+    size: 7, font: fontBold, color: cMuted, characterSpacing: 1,
   })
   page.drawText(dataFormatada, {
-    x: 80, y: height - 418, size: 13, font: fontBold, color: rgb(0.75, 0.75, 0.88),
+    x: cardX + 60, y: infoY,
+    size: 11, font: fontBold, color: cWhite,
   })
 
-  page.drawText('Código de validação', {
-    x: width / 2 - 60, y: height - 400, size: 10, font: fontRegular, color: rgb(0.45, 0.45, 0.56),
+  // Código (centro)
+  const hashShort = data.hash.substring(0, 20).toUpperCase()
+  const hashW = fontBold.widthOfTextAtSize(hashShort, 9)
+  page.drawText('CÓDIGO DE VALIDAÇÃO', {
+    x: width / 2 - fontBold.widthOfTextAtSize('CÓDIGO DE VALIDAÇÃO', 7) / 2,
+    y: infoY + 18, size: 7, font: fontBold, color: cMuted, characterSpacing: 1,
   })
-  page.drawText(data.hash.substring(0, 16).toUpperCase(), {
-    x: width / 2 - 60, y: height - 418, size: 13, font: fontBold, color: rgb(0.75, 0.75, 0.88),
+  page.drawText(hashShort, {
+    x: width / 2 - hashW / 2, y: infoY,
+    size: 9, font: fontBold, color: cPurpleL,
   })
 
-  page.drawText(`Validar em: ${process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'}/cert/${data.hash}`, {
-    x: width / 2 - 140, y: 45, size: 9, font: fontRegular, color: rgb(0.35, 0.35, 0.45),
+  // URL (direita)
+  const baseUrl = process.env.NEXT_PUBLIC_URL ?? 'https://sqlquest.com.br'
+  const urlText = `${baseUrl}/cert/${data.hash.substring(0, 12)}`
+  const urlW = fontOblique.widthOfTextAtSize(urlText, 8)
+  page.drawText('VERIFICAR CERTIFICADO', {
+    x: cardX + cardW - 60 - fontBold.widthOfTextAtSize('VERIFICAR CERTIFICADO', 7),
+    y: infoY + 18, size: 7, font: fontBold, color: cMuted, characterSpacing: 1,
+  })
+  page.drawText(urlText, {
+    x: cardX + cardW - 60 - urlW, y: infoY,
+    size: 8, font: fontOblique, color: cMuted,
+  })
+
+  // ── Rodapé
+  const footer = 'SQLQuest — Plataforma de aprendizado SQL gamificada  •  sqlquest.com.br'
+  const footerW = fontRegular.widthOfTextAtSize(footer, 7.5)
+  page.drawText(footer, {
+    x: width / 2 - footerW / 2, y: cardY + 13,
+    size: 7.5, font: fontRegular, color: rgb(0.28, 0.28, 0.38),
   })
 
   return await pdfDoc.save()

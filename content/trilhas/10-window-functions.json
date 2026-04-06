@@ -30,15 +30,39 @@
       ]}
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Numerando por Salário",
+      "conteudo": {
+        "instrucao": "Numere os funcionários por ordem de salário (do maior para o menor) usando ROW_NUMBER.",
+        "dica": "Use ROW_NUMBER() OVER (ORDER BY Salario DESC) para criar a coluna de posição.",
+        "placeholder": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (...) AS Posicao\nFROM Funcionarios",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","Salario","Posicao"], "min_rows": 6 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "DENSE_RANK e NTILE",
       "conteudo": { "blocos": [
-        { "type": "code", "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sem empates)", "lese": "Diferença entre RANK (pula números em empate), DENSE_RANK (não pula) e ROW_NUMBER (sempre sequencial)" },
+        { "type": "code", "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sempre único)", "lese": "Diferença entre RANK (pula números em empate), DENSE_RANK (não pula) e ROW_NUMBER (sempre sequencial)" },
         { "type": "code", "code": "SELECT Nome, Salario,\n  NTILE(4) OVER (ORDER BY Salario DESC) AS Quartil\nFROM Funcionarios", "lese": "Divide os funcionários em 4 grupos iguais (quartis) ordenados por salário — Quartil 1 é o grupo dos maiores salários" }
       ]}
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Ranking por Departamento",
+      "conteudo": {
+        "instrucao": "Ranqueie os funcionários por salário dentro de cada departamento usando RANK com PARTITION BY.",
+        "dica": "Use RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) para ranking por departamento.",
+        "placeholder": "SELECT Nome, Departamento, Salario,\n  RANK() OVER (PARTITION BY ... ORDER BY ...) AS RankDept\nFROM Funcionarios",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","Departamento","Salario","RankDept"], "min_rows": 7 }
+      }
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "LAG e LEAD — Comparando Linhas",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "LAG", "def": "Acessa o valor de uma linha ANTERIOR na janela. Útil para comparar com o período anterior." },
@@ -47,7 +71,7 @@
       ]}
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "SUM e AVG como Window Functions",
       "conteudo": { "blocos": [
         { "type": "code", "code": "SELECT Nome, Salario, Departamento,\n  SUM(Salario) OVER (PARTITION BY Departamento) AS TotalDept,\n  ROUND(100.0 * Salario / SUM(Salario) OVER (PARTITION BY Departamento), 1) AS PctDept\nFROM Funcionarios", "lese": "Para cada funcionário, mostra o salário total do departamento e qual percentual do total aquele funcionário representa — sem colapsar as linhas" },
@@ -55,7 +79,19 @@
       ]}
     },
     {
-      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Comparando com o Mês Anterior",
+      "conteudo": {
+        "instrucao": "Mostre as vendas mensais com uma coluna extra indicando o valor do mês anterior usando LAG.",
+        "dica": "Use LAG(Vendas) OVER (ORDER BY MesNum) para pegar o valor da linha anterior ordenada por número do mês.",
+        "placeholder": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY MesNum) AS MesAnterior\nFROM VendasMensais",
+        "schema": "CREATE TABLE VendasMensais (MesNum INTEGER, Mes TEXT, Vendas REAL); INSERT INTO VendasMensais VALUES (1,'Janeiro',45000),(2,'Fevereiro',52000),(3,'Março',48000),(4,'Abril',61000),(5,'Maio',58000);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Mes","Vendas","MesAnterior"], "min_rows": 5 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
       "titulo": "Resumo: Window Functions",
       "conteudo": { "cor": "roxo", "itens": [
         "função() OVER (...) — sintaxe básica",
@@ -69,31 +105,7 @@
       ]}
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
-      "titulo": "Exercício 1 — ROW_NUMBER",
-      "conteudo": {
-        "instrucao": "Numere os funcionários por ordem de salário (do maior para o menor) usando ROW_NUMBER.",
-        "dica": "Use ROW_NUMBER() OVER (ORDER BY Salario DESC) para criar a coluna de posição.",
-        "placeholder": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (...) AS Posicao\nFROM Funcionarios",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200);",
-        "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Salario","Posicao"], "min_rows": 6 }
-      }
-    },
-    {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
-      "titulo": "Exercício 2 — RANK com PARTITION BY",
-      "conteudo": {
-        "instrucao": "Ranqueie os funcionários por salário dentro de cada departamento (PARTITION BY Departamento).",
-        "dica": "Use RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) para ranking por departamento.",
-        "placeholder": "SELECT Nome, Departamento, Salario,\n  RANK() OVER (PARTITION BY ... ORDER BY ...) AS RankDept\nFROM Funcionarios",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
-        "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Departamento","Salario","RankDept"], "min_rows": 7 }
-      }
-    },
-    {
-      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Window Functions dominadas!",
       "conteudo": { "mensagem": "Parabéns! Window Functions são o topo do SQL analítico. Você agora tem habilidades de Engenheiro de Dados e Analista Avançado!", "xpGanho": 350 }
     }

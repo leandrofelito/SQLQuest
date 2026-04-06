@@ -32,7 +32,19 @@
       ]}
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "titulo": "Explorando uma Tabela",
+      "conteudo": {
+        "instrucao": "A tabela Produtos existe no banco. Use SELECT * para ver todos os seus dados e entender como os campos e registros estão organizados.",
+        "dica": "SELECT * FROM NomeDaTabela traz todos os campos e todos os registros.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Categoria TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200.00,15),(2,'Mouse','Periféricos',89.90,120),(3,'Teclado','Periféricos',149.90,85),(4,'Monitor','Eletrônicos',1200.00,30),(5,'Cadeira','Móveis',890.00,22);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ProdutoID","Nome","Categoria","Preco","Estoque"], "min_rows": 5 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "O que é SQL?",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "SQL", "def": "Structured Query Language (Linguagem de Consulta Estruturada). É a linguagem padrão para conversar com bancos de dados relacionais." },
@@ -41,7 +53,7 @@
       ]}
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "O que é uma Query?",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "Query (Consulta)", "def": "Uma instrução SQL que faz uma pergunta ao banco de dados. É como dizer: 'Me mostre todos os clientes de São Paulo'." },
@@ -51,17 +63,29 @@
       ]}
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 7, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "titulo": "Primeira Query com Filtro",
+      "conteudo": {
+        "instrucao": "Busque apenas os funcionários do departamento 'TI' na tabela Funcionarios.",
+        "dica": "Use WHERE Departamento = 'TI' para filtrar apenas os registros desejados.",
+        "placeholder": "SELECT * FROM ...",
+        "schema": "CREATE TABLE Funcionarios (FuncID INTEGER, Nome TEXT, Cargo TEXT, Salario REAL, Departamento TEXT); INSERT INTO Funcionarios VALUES (1,'Ana Silva','Analista',5500,'TI'),(2,'Carlos Souza','Gerente',9800,'Vendas'),(3,'Maria Santos','Desenvolvedora',7200,'TI'),(4,'João Lima','Designer',5900,'Marketing'),(5,'Paula Cruz','DBA',8100,'TI');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","Departamento"], "min_rows": 3 }
+      }
+    },
+    {
+      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "PRIMARY KEY — Identificador Único",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "PRIMARY KEY (Chave Primária)", "def": "Um campo (ou conjunto de campos) que identifica de forma única cada registro da tabela. Nenhum valor pode se repetir." },
         "Imagine a tabela Clientes: dois clientes podem ter o mesmo nome, mas o ID (chave primária) de cada um é único.",
-        { "type": "code", "code": "-- Tabela com chave primária\nCREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)", "lese": "Cria uma tabela Clientes onde ClienteID é a chave primária — cada cliente tem um ID único e irrepetível" },
+        { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)", "lese": "Cria uma tabela Clientes onde ClienteID é a chave primária — cada cliente tem um ID único e irrepetível" },
         { "type": "nota", "texto": "A PRIMARY KEY nunca pode ser NULL e deve ser única em toda a tabela." }
       ]}
     },
     {
-      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 9, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "FOREIGN KEY — Chave Estrangeira",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "FOREIGN KEY (Chave Estrangeira)", "def": "Um campo em uma tabela que referencia a PRIMARY KEY de outra tabela, criando um relacionamento entre elas." },
@@ -71,7 +95,19 @@
       ]}
     },
     {
-      "ordem": 8, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Buscando por ID",
+      "conteudo": {
+        "instrucao": "Encontre o produto com ProdutoID igual a 3 na tabela Produtos.",
+        "dica": "Use WHERE ProdutoID = 3 para buscar pelo identificador único.",
+        "placeholder": "SELECT * FROM ...",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Categoria TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200),(2,'Mouse','Periféricos',89.90),(3,'Teclado','Periféricos',149.90),(4,'Monitor','Eletrônicos',1200),(5,'Cadeira','Móveis',890);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["ProdutoID","Nome"], "min_rows": 1 }
+      }
+    },
+    {
+      "ordem": 11, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
       "titulo": "Vocabulário Essencial",
       "conteudo": { "cor": "roxo", "itens": [
         "Banco de Dados: sistema organizado para armazenar dados",
@@ -84,8 +120,8 @@
       ]}
     },
     {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
-      "titulo": "Primeiro Contato com SQL",
+      "ordem": 12, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Todos os Dados de uma Vez",
       "conteudo": {
         "instrucao": "Busque todos os dados da tabela Funcionarios para ver como ela está organizada.",
         "dica": "Use SELECT * para selecionar todas as colunas e FROM para indicar a tabela.",
@@ -96,7 +132,7 @@
       }
     },
     {
-      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 13, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Base sólida!",
       "conteudo": { "mensagem": "Você já conhece o vocabulário fundamental do SQL. Agora é hora de aprender a buscar dados!", "xpGanho": 150 }
     }

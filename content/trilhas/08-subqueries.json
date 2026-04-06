@@ -30,7 +30,19 @@
       ]}
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Acima da Média",
+      "conteudo": {
+        "instrucao": "Busque todos os funcionários com salário acima da média salarial geral.",
+        "dica": "Use uma subquery com AVG(Salario) no WHERE para comparar com a média.",
+        "placeholder": "SELECT * FROM Funcionarios\nWHERE Salario > (SELECT ...)",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "Subquery com IN",
       "conteudo": { "blocos": [
         "Uma subquery pode retornar uma lista de valores para ser usada com IN:",
@@ -39,7 +51,19 @@
       ]}
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "titulo": "Clientes com Pedidos",
+      "conteudo": {
+        "instrucao": "Busque os dados dos clientes que fizeram pelo menos um pedido.",
+        "dica": "Use WHERE ClienteID IN (SELECT ClienteID FROM Pedidos) para filtrar apenas clientes com pedidos.",
+        "placeholder": "SELECT * FROM Clientes\nWHERE ClienteID IN (\n  SELECT ...\n)",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'),(4,'João','SP'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,3,'Mouse',89),(103,1,'Teclado',150);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 2 }
+      }
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "Subquery no FROM",
       "conteudo": { "blocos": [
         "Uma subquery pode ser usada como se fosse uma tabela no FROM:",
@@ -48,7 +72,19 @@
       ]}
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Departamentos com Alta Média",
+      "conteudo": {
+        "instrucao": "Use uma subquery no FROM para listar apenas os departamentos cuja média salarial é maior que 6500.",
+        "dica": "Crie a subquery com GROUP BY Departamento e AVG(Salario), depois filtre no WHERE externo.",
+        "placeholder": "SELECT Departamento, MediaSalarial\nFROM (\n  SELECT Departamento, AVG(Salario) AS MediaSalarial\n  FROM Funcionarios\n  GROUP BY Departamento\n) AS resumo\nWHERE ...",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 2 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "EXISTS — Verificando Existência",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "EXISTS", "def": "Verifica se uma subquery retorna pelo menos um resultado. Retorna verdadeiro se a subquery encontrar algum registro." },
@@ -57,7 +93,19 @@
       ]}
     },
     {
-      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "titulo": "Quem tem Pedido Caro?",
+      "conteudo": {
+        "instrucao": "Liste os clientes que têm pelo menos um pedido com valor acima de 500 usando EXISTS.",
+        "dica": "Use WHERE EXISTS (SELECT 1 FROM Pedidos WHERE ClienteID = c.ClienteID AND Valor > 500).",
+        "placeholder": "SELECT * FROM Clientes c\nWHERE EXISTS (\n  SELECT 1 FROM Pedidos p\n  WHERE p.ClienteID = c.ClienteID\n  AND ...\n)",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'),(4,'João','SP'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,3,'Teclado',150),(104,1,'Monitor',1200),(105,4,'Cadeira',890);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 11, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
       "titulo": "Resumo: Subqueries",
       "conteudo": { "cor": "roxo", "itens": [
         "Subquery: query dentro de query, entre parênteses",
@@ -69,31 +117,7 @@
       ]}
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
-      "titulo": "Exercício 1 — Subquery com comparação",
-      "conteudo": {
-        "instrucao": "Busque todos os funcionários com salário acima da média salarial geral.",
-        "dica": "Use uma subquery com AVG(Salario) no WHERE para comparar com a média.",
-        "placeholder": "SELECT * FROM Funcionarios\nWHERE Salario > (SELECT ...)",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
-        "checkType": "count",
-        "checkConfig": { "expected_rows": 3 }
-      }
-    },
-    {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
-      "titulo": "Exercício 2 — Subquery com IN",
-      "conteudo": {
-        "instrucao": "Busque os dados dos clientes que fizeram pelo menos um pedido.",
-        "dica": "Use WHERE ClienteID IN (SELECT ClienteID FROM Pedidos) para filtrar apenas clientes com pedidos.",
-        "placeholder": "SELECT * FROM Clientes\nWHERE ClienteID IN (\n  SELECT ...\n)",
-        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'),(4,'João','SP'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,3,'Mouse',89),(103,1,'Teclado',150);",
-        "checkType": "count",
-        "checkConfig": { "expected_rows": 2 }
-      }
-    },
-    {
-      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 12, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Subqueries dominadas!",
       "conteudo": { "mensagem": "Subqueries abrem um novo mundo de possibilidades. Agora você consegue resolver problemas que seriam impossíveis com queries simples!", "xpGanho": 350 }
     }

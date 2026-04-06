@@ -30,7 +30,19 @@
       ]}
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "titulo": "Navegando pelo ClienteID",
+      "conteudo": {
+        "instrucao": "Liste todos os pedidos e o nome do cliente correspondente, unindo as tabelas Clientes e Pedidos pela chave ClienteID.",
+        "dica": "Use INNER JOIN Clientes ON Pedidos.ClienteID = Clientes.ClienteID.",
+        "placeholder": "SELECT c.Nome, p.Produto, p.Valor\nFROM Pedidos p\nINNER JOIN ...",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',149),(104,3,'Monitor',1200);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","Produto","Valor"], "min_rows": 4 }
+      }
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "Tipos de Relacionamento",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "1 para N (Um para Muitos)", "def": "Um registro de A pode se relacionar com vários de B. Ex: um cliente pode ter muitos pedidos, mas cada pedido pertence a um único cliente." },
@@ -40,7 +52,7 @@
       ]}
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "Constraints — Regras de Dados",
       "conteudo": { "blocos": [
         "Além de chaves, existem outras restrições (constraints) que garantem a qualidade dos dados:",
@@ -49,7 +61,19 @@
       ]}
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 7, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "titulo": "Contando Pedidos por Cliente",
+      "conteudo": {
+        "instrucao": "Conte quantos pedidos cada cliente tem, exibindo o nome do cliente e a quantidade de pedidos. Use GROUP BY após o JOIN.",
+        "dica": "Use COUNT(*) e GROUP BY c.Nome após fazer o JOIN entre as tabelas.",
+        "placeholder": "SELECT c.Nome, COUNT(*) AS TotalPedidos\nFROM Pedidos p\nINNER JOIN ...",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',149),(104,3,'Monitor',1200),(105,1,'Cadeira',890),(106,2,'Webcam',320);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","TotalPedidos"], "min_rows": 3 }
+      }
+    },
+    {
+      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "Índices — Acelerando Consultas",
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "Índice (INDEX)", "def": "Uma estrutura de dados que acelera a busca por registros em uma tabela, como o índice de um livro. A PRIMARY KEY cria um índice automaticamente." },
@@ -58,7 +82,7 @@
       ]}
     },
     {
-      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
       "titulo": "Resumo: Chaves e Relacionamentos",
       "conteudo": { "cor": "roxo", "itens": [
         "PRIMARY KEY: identifica unicamente cada registro",
@@ -72,11 +96,11 @@
       ]}
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
-      "titulo": "Exercício — Consultando Tabelas Relacionadas",
+      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Consultando Tabelas Relacionadas",
       "conteudo": {
         "instrucao": "Liste o nome do funcionário e o nome do departamento ao qual pertence, usando JOIN pela chave estrangeira.",
-        "dica": "Use INNER JOIN unindo DepartamentoID das duas tabelas.",
+        "dica": "Use INNER JOIN unindo DeptID das duas tabelas.",
         "placeholder": "SELECT f.Nome, d.NomeDepartamento\nFROM Funcionarios f\nINNER JOIN ...",
         "schema": "CREATE TABLE Departamentos (DeptID INTEGER PRIMARY KEY, NomeDepartamento TEXT); INSERT INTO Departamentos VALUES (1,'TI'),(2,'Vendas'),(3,'RH'); CREATE TABLE Funcionarios (FuncID INTEGER PRIMARY KEY, Nome TEXT, DeptID INTEGER, Salario REAL, FOREIGN KEY (DeptID) REFERENCES Departamentos(DeptID)); INSERT INTO Funcionarios VALUES (1,'Ana',1,7200),(2,'Carlos',2,9800),(3,'Maria',1,5500),(4,'João',3,4800),(5,'Lucia',2,6200);",
         "checkType": "columns",
@@ -84,7 +108,7 @@
       }
     },
     {
-      "ordem": 9, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Estrutura dominada!",
       "conteudo": { "mensagem": "Agora você entende a espinha dorsal de qualquer banco de dados. Chaves, relacionamentos e constraints garantem dados confiáveis!", "xpGanho": 350 }
     }
