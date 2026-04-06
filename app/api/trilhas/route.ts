@@ -19,10 +19,18 @@ export async function GET() {
   }
 
   const userId = (session.user as any).id
-  const progressos = await prisma.progresso.findMany({
-    where: { userId },
-    select: { etapaId: true, trilhaId: true, xpGanho: true },
-  })
+  const [progressos, desbloqueadas] = await Promise.all([
+    prisma.progresso.findMany({
+      where: { userId },
+      select: { etapaId: true, trilhaId: true, xpGanho: true },
+    }),
+    prisma.trilhaDesbloqueada.findMany({
+      where: { userId },
+      select: { trilhaId: true },
+    }),
+  ])
+
+  const desbloqueadasIds = new Set(desbloqueadas.map(d => d.trilhaId))
 
   const result = trilhas.map(trilha => {
     const progressosTrilha = progressos.filter(p => p.trilhaId === trilha.id)
@@ -36,6 +44,7 @@ export async function GET() {
       progressos: progressosTrilha,
       etapasConcluidas,
       percentualConcluido: pct,
+      desbloqueadaPorAnuncio: desbloqueadasIds.has(trilha.id),
     }
   })
 

@@ -25,12 +25,13 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  accounts             Account[]
-  sessions             Session[]
-  progressos           Progresso[]
-  pagamentos           Pagamento[]
-  certificados         Certificado[]
-  conquistasRanking    ConquistaRanking[]
+  accounts              Account[]
+  sessions              Session[]
+  progressos            Progresso[]
+  pagamentos            Pagamento[]
+  certificados          Certificado[]
+  conquistasRanking     ConquistaRanking[]
+  trilhasDesbloqueadas  TrilhaDesbloqueada[]
 }
 
 model Account {
@@ -79,9 +80,10 @@ model Trilha {
   publicada   Boolean  @default(false)
   criadaEm   DateTime @default(now())
 
-  etapas       Etapa[]
-  progressos   Progresso[]
-  certificados Certificado[]
+  etapas               Etapa[]
+  progressos           Progresso[]
+  certificados         Certificado[]
+  trilhasDesbloqueadas TrilhaDesbloqueada[]
 }
 
 model Etapa {
@@ -148,6 +150,18 @@ model Certificado {
   trilhaId   String
   hash       String   @unique @default(cuid())
   emitidoEm DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trilha Trilha @relation(fields: [trilhaId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trilhaId])
+}
+
+model TrilhaDesbloqueada {
+  id        String   @id @default(cuid())
+  userId    String
+  trilhaId  String
+  criadaEm DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   trilha Trilha @relation(fields: [trilhaId], references: [id], onDelete: Cascade)

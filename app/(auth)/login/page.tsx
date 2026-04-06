@@ -11,7 +11,7 @@ const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: 'Este email já está cadastrado com outro método de login.',
   Callback: 'Erro de callback. Tente novamente.',
   AccessDenied: 'Acesso negado.',
-  Verification: 'Link de verificação inválido ou expirado.',
+  Verification: 'Link de verificação inválido ou expirado. Solicite um novo cadastro.',
   Default: 'Ocorreu um erro ao fazer login. Tente novamente.',
 }
 
@@ -21,6 +21,7 @@ function LoginForm() {
   const searchParams = useSearchParams()
   const [form, setForm] = useState({ email: '', password: '' })
   const [erro, setErro] = useState('')
+  const [sucesso, setSucesso] = useState('')
   const [loading, setLoading] = useState(false)
   const [loadingGoogle, setLoadingGoogle] = useState(false)
 
@@ -31,7 +32,10 @@ function LoginForm() {
 
   useEffect(() => {
     const errorParam = searchParams.get('error')
-    if (errorParam) {
+    const verifiedParam = searchParams.get('verified')
+    if (verifiedParam === '1') {
+      setSucesso('Email confirmado! Agora você já pode fazer login.')
+    } else if (errorParam) {
       setErro(OAUTH_ERRORS[errorParam] ?? OAUTH_ERRORS.Default)
     }
   }, [searchParams])
@@ -55,6 +59,8 @@ function LoginForm() {
       router.push('/home')
     } else if (res?.error === 'GoogleAccount') {
       setErro('Esta conta foi criada com Google. Use o botão "Continuar com Google" acima.')
+    } else if (res?.error === 'EmailNotVerified') {
+      setErro('Confirme seu email antes de fazer login. Verifique sua caixa de entrada.')
     } else {
       setErro('Email ou senha incorretos')
     }
@@ -72,15 +78,12 @@ function LoginForm() {
 
       <div className="relative z-10 w-full max-w-sm sm:max-w-md space-y-6">
         {/* Logo */}
-        <div className="text-center space-y-1">
-          <div className="flex justify-center mb-2">
-            <img src="/icons/icone_app.svg" alt="SQLQuest" className="h-14 w-14" />
-          </div>
-          <h1 className="text-2xl font-bold">
-            <span className="text-[#a78bfa]">SQL</span>
-            <span className="text-white">Quest</span>
-          </h1>
-          <p className="text-white/40 text-sm">Aprenda SQL do básico ao avançado</p>
+        <div className="flex justify-center mb-8">
+          <img
+            src="/icons/sqlquest_logo_escrita.svg"
+            alt="SQLQuest"
+            className="w-[70%] max-w-[260px] min-w-[160px] h-auto"
+          />
         </div>
 
         {/* Google */}
@@ -139,6 +142,12 @@ function LoginForm() {
               className="w-full bg-[#0f1117] border border-[#2a2d3a] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-[#8b5cf6] transition-colors"
             />
           </div>
+
+          {sucesso && (
+            <p className="text-emerald-400 text-sm bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-2.5">
+              ✅ {sucesso}
+            </p>
+          )}
 
           {erro && (
             <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5">

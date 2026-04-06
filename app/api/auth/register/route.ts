@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
-import { sendWelcomeEmail } from '@/lib/email'
+import { randomBytes } from 'crypto'
+import { sendVerificationEmail } from '@/lib/email'
 
 const schema = z.object({
   name: z.string().min(2, 'Nome deve ter ao menos 2 caracteres').max(80),
@@ -32,8 +33,16 @@ export async function POST(req: Request) {
     data: { name, email, password: hash },
   })
 
-  // Send welcome email (non-blocking — failure doesn't affect registration)
-  sendWelcomeEmail(email, name).catch(() => {})
+  // Generate verification token (valid for 24h)
+  const token = randomBytes(32).toString('hex')
+  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000)
+
+  await prisma.verificationToken.create({
+    data: { identifier: email, token, expires },
+  })
+
+  // Send verification email (non-blocking)
+  sendVerificationEmail(email, name, token).catch(() => {})
 
   return NextResponse.json({ ok: true })
 }

@@ -1,12 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
 export default function RegisterPage() {
-  const router = useRouter()
   const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
   const [erro, setErro] = useState('')
   const [loading, setLoading] = useState(false)
@@ -39,18 +37,6 @@ export default function RegisterPage() {
       }
 
       setEmailEnviado(true)
-
-      const login = await signIn('credentials', {
-        email: form.email,
-        password: form.password,
-        redirect: false,
-      })
-
-      if (login?.ok) {
-        router.push('/home')
-      } else {
-        router.push('/login')
-      }
     } finally {
       setLoading(false)
     }
@@ -138,9 +124,12 @@ export default function RegisterPage() {
           )}
 
           {emailEnviado && (
-            <p className="text-emerald-400 text-sm bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-2.5">
-              ✅ Conta criada! Verifique seu email para a confirmação de cadastro.
-            </p>
+            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-3 space-y-1">
+              <p className="text-emerald-400 text-sm font-semibold">✅ Verifique seu email!</p>
+              <p className="text-emerald-300/70 text-xs leading-relaxed">
+                Enviamos um link de confirmação para <strong>{form.email}</strong>. Clique no link para ativar sua conta.
+              </p>
+            </div>
           )}
 
           <Button type="submit" loading={loading} fullWidth size="lg" className="mt-2">

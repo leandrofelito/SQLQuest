@@ -15,6 +15,7 @@ interface TrilhaData {
   totalEtapas: number
   percentualConcluido?: number
   etapasConcluidas?: number
+  desbloqueadaPorAnuncio?: boolean
 }
 
 interface MapaTrilhasProps {
@@ -28,14 +29,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const [trilhaAlvo, setTrilhaAlvo] = useState<string | null>(null)
   // 0 = nenhum anúncio, 1 = primeiro anúncio, 2 = segundo anúncio
   const [adEtapa, setAdEtapa] = useState<0 | 1 | 2>(0)
-  const [desbloqueadasPorAnuncio, setDesbloqueadasPorAnuncio] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem('trilhas_desbloqueadas')
-      return saved ? new Set(JSON.parse(saved)) : new Set()
-    } catch {
-      return new Set()
-    }
-  })
+  // Desbloqueios feitos nesta sessão (otimista), antes do reload
+  const [desbloqueadasSessao, setDesbloqueadasSessao] = useState<Set<string>>(new Set())
 
   function handleBloqueadaClick(slug: string) {
     setTrilhaAlvo(slug)
@@ -51,15 +46,16 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
     setAdEtapa(2)
   }
 
-  function segundoAnuncioConcluido() {
+  async function segundoAnuncioConcluido() {
     setAdEtapa(0)
     if (trilhaAlvo) {
-      setDesbloqueadasPorAnuncio(prev => {
-        const next = new Set(prev).add(trilhaAlvo!)
-        try {
-          localStorage.setItem('trilhas_desbloqueadas', JSON.stringify([...next]))
-        } catch {}
-        return next
+      // Atualização otimista para feedback imediato
+      setDesbloqueadasSessao(prev => new Set(prev).add(trilhaAlvo!))
+      // Persiste no banco vinculado ao usuário logado
+      await fetch('/api/desbloquear-trilha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trilhaSlug: trilhaAlvo }),
       })
       router.push(`/trilha/${trilhaAlvo}`)
     }
@@ -73,7 +69,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           const desbloqueada =
             i === 0 ||
             (trilhas[i - 1]?.percentualConcluido ?? 0) === 100 ||
-            desbloqueadasPorAnuncio.has(trilha.slug)
+            trilha.desbloqueadaPorAnuncio || desbloqueadasSessao.has(trilha.slug)
           return (
             <div
               key={trilha.id}
@@ -100,7 +96,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           const desbloqueada =
             i === 0 ||
             (trilhas[i - 1]?.percentualConcluido ?? 0) === 100 ||
-            desbloqueadasPorAnuncio.has(trilha.slug)
+            trilha.desbloqueadaPorAnuncio || desbloqueadasSessao.has(trilha.slug)
           return (
             <CardTrilha
               key={trilha.id}

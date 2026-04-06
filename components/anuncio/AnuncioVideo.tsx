@@ -10,7 +10,9 @@ interface AnuncioVideoProps {
 
 export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
   const [tempo, setTempo] = useState(30)
+  const [adFailed, setAdFailed] = useState(false)
   const pushed = useRef(false)
+  const adRef = useRef<HTMLModElement>(null)
 
   useEffect(() => {
     if (isPro) {
@@ -18,12 +20,28 @@ export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
       return
     }
 
-    if (!pushed.current) {
-      pushed.current = true
-      try {
-        ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
-      } catch {}
-    }
+    // Aguarda um tick para garantir que o script do AdSense foi carregado
+    const timer = setTimeout(() => {
+      if (!pushed.current) {
+        pushed.current = true
+        try {
+          ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+
+          // Verifica após 3s se o anúncio foi preenchido
+          setTimeout(() => {
+            const ins = adRef.current
+            if (ins) {
+              const status = ins.getAttribute('data-ad-status')
+              if (status === 'unfilled' || status === null) {
+                setAdFailed(true)
+              }
+            }
+          }, 3000)
+        } catch {
+          setAdFailed(true)
+        }
+      }
+    }, 500)
 
     const interval = setInterval(() => {
       setTempo(t => {
@@ -35,7 +53,10 @@ export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
       })
     }, 1000)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearTimeout(timer)
+      clearInterval(interval)
+    }
   }, [isPro, onConcluido])
 
   if (isPro) return null
@@ -59,14 +80,29 @@ export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
       {/* Área do anúncio */}
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-sm">
-          <ins
-            className="adsbygoogle"
-            style={{ display: 'block', textAlign: 'center' }}
-            data-ad-layout="in-article"
-            data-ad-format="fluid"
-            data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
-            data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT}
-          />
+          {adFailed ? (
+            /* Fallback visual quando nenhum anúncio é servido */
+            <div className="flex flex-col items-center justify-center gap-4 py-8 px-6 rounded-2xl border border-white/10 bg-white/5">
+              <div className="w-16 h-16 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center">
+                <svg width="32" height="32" fill="none" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <p className="text-white/60 text-sm text-center">
+                Aguarde alguns segundos para liberar o próximo nível
+              </p>
+            </div>
+          ) : (
+            <ins
+              ref={adRef}
+              className="adsbygoogle"
+              style={{ display: 'block', width: '100%', minHeight: 250 }}
+              data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
+              data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT}
+              data-ad-format="rectangle"
+              data-full-width-responsive="true"
+            />
+          )}
         </div>
       </div>
 

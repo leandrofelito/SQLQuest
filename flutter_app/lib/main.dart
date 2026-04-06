@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
@@ -46,7 +47,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setUserAgent(
-        'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 SQLQuestApp/1.0',
+        'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
       )
       ..setNavigationDelegate(
         NavigationDelegate(
@@ -85,23 +86,19 @@ class _WebViewScreenState extends State<WebViewScreen> {
             children: [
               WebViewWidget(controller: _controller),
               if (_isLoading)
-                const Center(
+                Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(
+                      SvgPicture.asset(
+                        'assets/sqlquest_logo_escrita.svg',
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        fit: BoxFit.contain,
+                      ),
+                      const SizedBox(height: 32),
+                      const CircularProgressIndicator(
                         color: Color(0xFF7C3AED),
                         strokeWidth: 3,
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'SQLQuest',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
-                        ),
                       ),
                     ],
                   ),
