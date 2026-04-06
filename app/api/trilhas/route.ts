@@ -26,8 +26,11 @@ export async function GET() {
 
   const result = trilhas.map(trilha => {
     const progressosTrilha = progressos.filter(p => p.trilhaId === trilha.id)
+    // Só exercícios salvam progresso — usar apenas eles como base do percentual
+    const exercicioEtapas = trilha.etapas.filter(e => e.tipo === 'exercicio')
     const etapasConcluidas = progressosTrilha.length
-    const pct = trilha.totalEtapas > 0 ? Math.round((etapasConcluidas / trilha.totalEtapas) * 100) : 0
+    const totalExercicios = exercicioEtapas.length
+    const pct = totalExercicios > 0 ? Math.min(100, Math.round((etapasConcluidas / totalExercicios) * 100)) : 0
     return {
       ...trilha,
       progressos: progressosTrilha,

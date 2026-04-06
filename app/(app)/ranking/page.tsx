@@ -37,7 +37,7 @@ export default function RankingPage() {
     <div className="min-h-screen bg-[#080a0f] pb-24">
       <Header title="Ranking Global" />
 
-      <div className="px-4 pt-4">
+      <div className="max-w-3xl mx-auto px-4 pt-4">
         {/* Pódio */}
         {podio.length >= 3 && (
           <div className="flex items-end justify-center gap-3 mb-8 pt-4">

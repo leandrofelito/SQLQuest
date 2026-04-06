@@ -1,0 +1,114 @@
+{
+  "slug": "groupby-having",
+  "titulo": "GROUP BY e HAVING",
+  "descricao": "Agrupe dados por categoria e filtre grupos com HAVING para relatórios e análises poderosas.",
+  "icone": "🗂️",
+  "ordem": 6,
+  "xpTotal": 750,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "GROUP BY e HAVING",
+      "conteudo": { "emoji": "🗂️", "subtitulo": "Agrupe e resuma dados por categoria" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "GROUP BY — Agrupando por Categoria",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "GROUP BY", "def": "Agrupa registros com o mesmo valor em uma coluna e aplica funções de agregação em cada grupo." },
+        { "type": "code", "code": "SELECT Departamento, COUNT(*) AS TotalFuncionarios\nFROM Funcionarios\nGROUP BY Departamento", "lese": "Para cada departamento diferente, conta quantos funcionários existem — retorna uma linha por departamento" },
+        { "type": "code", "code": "SELECT Categoria, SUM(Estoque) AS EstoqueTotal\nFROM Produtos\nGROUP BY Categoria", "lese": "Para cada categoria de produto, soma o estoque total disponível" },
+        { "type": "nota", "texto": "Toda coluna no SELECT que não é uma função de agregação (SUM, COUNT, AVG...) deve aparecer no GROUP BY." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "GROUP BY com Múltiplas Colunas",
+      "conteudo": { "blocos": [
+        "Você pode agrupar por mais de uma coluna para criar grupos mais específicos:",
+        { "type": "code", "code": "SELECT Departamento, Cargo, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento, Cargo", "lese": "Conta funcionários agrupados por departamento E cargo — cada combinação de departamento+cargo vira uma linha" },
+        { "type": "code", "code": "SELECT Cidade, Categoria, AVG(Preco) AS PrecoMedio\nFROM Produtos\nGROUP BY Cidade, Categoria", "lese": "Para cada combinação de cidade e categoria, calcula o preço médio dos produtos" }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "HAVING — Filtrando Grupos",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "HAVING", "def": "Filtra grupos criados pelo GROUP BY. É como um WHERE, mas aplicado DEPOIS do agrupamento." },
+        { "type": "code", "code": "SELECT Departamento, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento\nHAVING COUNT(*) > 2", "lese": "Agrupa funcionários por departamento e retorna apenas os departamentos que têm MAIS de 2 funcionários" },
+        { "type": "code", "code": "SELECT Categoria, SUM(Valor) AS TotalVendas\nFROM Pedidos\nGROUP BY Categoria\nHAVING SUM(Valor) >= 10000", "lese": "Mostra apenas as categorias que tiveram 10.000 reais ou mais em vendas totais" }
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "WHERE vs HAVING — A Diferença",
+      "conteudo": { "blocos": [
+        { "type": "nota", "texto": "Esta é uma dúvida muito comum: WHERE e HAVING parecem iguais, mas são aplicados em momentos diferentes!" },
+        { "type": "code", "code": "WHERE → filtra REGISTROS individuais ANTES do agrupamento\nHAVING → filtra GRUPOS DEPOIS do agrupamento", "lese": "WHERE acontece antes do GROUP BY. HAVING acontece depois do GROUP BY." },
+        { "type": "code", "code": "SELECT Departamento, AVG(Salario) AS Media\nFROM Funcionarios\nWHERE Salario > 3000          -- filtra funcionários antes\nGROUP BY Departamento\nHAVING AVG(Salario) > 6000    -- filtra grupos depois", "lese": "Primeiro filtra apenas funcionários com salário > 3000 (WHERE), agrupa por departamento, depois filtra apenas departamentos com média salarial > 6000 (HAVING)" }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Ordem de Execução do SQL",
+      "conteudo": { "blocos": [
+        "O SQL executa as cláusulas em uma ordem específica (diferente da ordem de escrita):",
+        { "type": "code", "code": "1. FROM   → de qual tabela?\n2. WHERE  → quais registros?\n3. GROUP BY → agrupar por quê?\n4. HAVING → quais grupos?\n5. SELECT → quais colunas?\n6. ORDER BY → em que ordem?\n7. LIMIT  → quantos registros?", "lese": "A ordem de execução do SQL: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT" },
+        { "type": "nota", "texto": "Por isso você não pode usar alias do SELECT no WHERE ou HAVING — eles ainda não existem nesse momento da execução!" }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: GROUP BY e HAVING",
+      "conteudo": { "cor": "laranja", "itens": [
+        "GROUP BY: agrupa linhas com o mesmo valor",
+        "Colunas não-agregadas devem estar no GROUP BY",
+        "HAVING: filtra grupos após o agrupamento",
+        "WHERE filtra antes do GROUP BY",
+        "HAVING usa funções de agregação (COUNT, SUM, AVG...)",
+        "Ordem: FROM → WHERE → GROUP BY → HAVING → SELECT"
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 1 — GROUP BY",
+      "conteudo": {
+        "instrucao": "Conte quantos funcionários existem em cada departamento.",
+        "dica": "Selecione Departamento e COUNT(*), depois use GROUP BY Departamento.",
+        "placeholder": "SELECT Departamento, COUNT(*) AS ...",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100),(8,'Bruno','TI',6800);",
+        "checkType": "aggregate",
+        "checkConfig": { "min_rows": 3 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 2 — SUM com GROUP BY",
+      "conteudo": {
+        "instrucao": "Calcule o total de vendas por categoria de produto.",
+        "dica": "Selecione Categoria e SUM(Valor), depois agrupe por Categoria.",
+        "placeholder": "SELECT Categoria, SUM(Valor) AS ...",
+        "schema": "CREATE TABLE Vendas (ID INTEGER, Produto TEXT, Categoria TEXT, Valor REAL, Data TEXT); INSERT INTO Vendas VALUES (1,'Notebook','Eletrônicos',3200,'2024-01'),(2,'Mouse','Eletrônicos',89,'2024-01'),(3,'Mesa','Móveis',450,'2024-01'),(4,'Monitor','Eletrônicos',1200,'2024-02'),(5,'Cadeira','Móveis',890,'2024-02'),(6,'Teclado','Eletrônicos',150,'2024-02');",
+        "checkType": "aggregate",
+        "checkConfig": { "min_rows": 2 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 3 — HAVING",
+      "conteudo": {
+        "instrucao": "Liste apenas as categorias de produto que têm mais de 2 produtos cadastrados.",
+        "dica": "Use GROUP BY Categoria e depois HAVING COUNT(*) > 2.",
+        "placeholder": "SELECT Categoria, COUNT(*) AS Total\nFROM Produtos\nGROUP BY ...",
+        "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Categoria TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200),(2,'Mouse','Eletrônicos',89),(3,'Monitor','Eletrônicos',1200),(4,'Mesa','Móveis',450),(5,'Teclado','Eletrônicos',150),(6,'Cadeira','Móveis',890),(7,'Caneta','Papelaria',5);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 1 }
+      }
+    },
+    {
+      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Agrupamento dominado!",
+      "conteudo": { "mensagem": "GROUP BY e HAVING são fundamentais para qualquer relatório analítico. Você está construindo habilidades de analista de dados!", "xpGanho": 350 }
+    }
+  ]
+}

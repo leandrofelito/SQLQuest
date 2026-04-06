@@ -18,9 +18,10 @@ interface CardTrilhaProps {
   desbloqueada: boolean
   index: number
   onBloqueadaClick?: () => void
+  fullWidth?: boolean
 }
 
-export function CardTrilha({ trilha, desbloqueada, index, onBloqueadaClick }: CardTrilhaProps) {
+export function CardTrilha({ trilha, desbloqueada, index, onBloqueadaClick, fullWidth }: CardTrilhaProps) {
   const router = useRouter()
   const pct = trilha.percentualConcluido ?? 0
   const concluida = pct === 100
@@ -48,7 +49,8 @@ export function CardTrilha({ trilha, desbloqueada, index, onBloqueadaClick }: Ca
       transition={{ delay: index * 0.07 }}
       onClick={handleClick}
       className={cn(
-        'relative w-[165px] rounded-2xl border bg-[#0f1117] cursor-pointer select-none overflow-hidden',
+        'relative rounded-2xl border bg-[#0f1117] cursor-pointer select-none overflow-hidden',
+        fullWidth ? 'w-full' : 'w-[165px]',
         border,
         !desbloqueada && 'opacity-60'
       )}

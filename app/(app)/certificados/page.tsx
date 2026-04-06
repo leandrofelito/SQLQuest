@@ -67,7 +67,7 @@ export default function CertificadosPage() {
     <div className="min-h-screen bg-[#080a0f] pb-24">
       <Header title="Certificados" />
 
-      <div className="px-4 pt-4 space-y-6">
+      <div className="max-w-3xl mx-auto px-4 pt-4 space-y-6">
         {!isPro && (
           <div className="rounded-2xl bg-[#0f1117] border border-[#8b5cf6]/30 p-5 space-y-3 text-center">
             <div className="text-4xl">🏅</div>

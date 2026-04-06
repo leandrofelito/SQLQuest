@@ -1,0 +1,92 @@
+{
+  "slug": "chaves-relacionamentos",
+  "titulo": "Chaves e Relacionamentos",
+  "descricao": "Entenda PRIMARY KEY, FOREIGN KEY, tipos de relacionamento e como criar tabelas com integridade referencial.",
+  "icone": "🔑",
+  "ordem": 8,
+  "xpTotal": 700,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Chaves e Relacionamentos",
+      "conteudo": { "emoji": "🔑", "subtitulo": "A base que mantém os dados organizados e íntegros" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "PRIMARY KEY — Identificador Único",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "PRIMARY KEY", "def": "Campo (ou conjunto de campos) que identifica unicamente cada registro de uma tabela. Não pode ser NULL nem repetido." },
+        { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID  INTEGER PRIMARY KEY,\n  Nome       TEXT NOT NULL,\n  Email      TEXT UNIQUE,\n  CadastroEm TEXT\n)", "lese": "Cria a tabela Clientes onde ClienteID é a chave primária única e obrigatória, Nome não pode ser NULL e Email deve ser único" },
+        { "type": "nota", "texto": "Em bancos de dados modernos, é comum usar AUTOINCREMENT (SQLite) ou SERIAL (PostgreSQL) para gerar IDs automaticamente." }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "FOREIGN KEY — Conectando Tabelas",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "FOREIGN KEY", "def": "Campo em uma tabela que referencia a PRIMARY KEY de outra tabela. Garante que o relacionamento entre dados seja válido." },
+        { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID  INTEGER PRIMARY KEY,\n  ClienteID INTEGER,\n  Produto   TEXT,\n  Valor     REAL,\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n)", "lese": "Cria a tabela Pedidos onde ClienteID é uma chave estrangeira que referencia o ClienteID da tabela Clientes — você só pode inserir um pedido para um cliente que existe" },
+        { "type": "nota", "texto": "A FOREIGN KEY garante integridade referencial: você não pode ter um pedido para um cliente que não existe." }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Tipos de Relacionamento",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "1 para N (Um para Muitos)", "def": "Um registro de A pode se relacionar com vários de B. Ex: um cliente pode ter muitos pedidos, mas cada pedido pertence a um único cliente." },
+        { "type": "code", "code": "1 Cliente → N Pedidos\n1 Categoria → N Produtos\n1 Professor → N Alunos", "lese": "Exemplos de relacionamento 1 para N (um para muitos) — o mais comum em bancos de dados" },
+        { "type": "definicao", "termo": "N para N (Muitos para Muitos)", "def": "Vários registros de A podem se relacionar com vários de B. Ex: um pedido pode ter vários produtos e um produto pode estar em vários pedidos." },
+        { "type": "nota", "texto": "Relacionamentos N:N precisam de uma tabela intermediária (tabela de junção) com duas FOREIGN KEYs." }
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Constraints — Regras de Dados",
+      "conteudo": { "blocos": [
+        "Além de chaves, existem outras restrições (constraints) que garantem a qualidade dos dados:",
+        { "type": "code", "code": "NOT NULL    → campo obrigatório, não pode ser vazio\nUNIQUE     → valor não pode se repetir na coluna\nDEFAULT    → valor padrão se não informado\nCHECK      → validação de valor (ex: Salario > 0)", "lese": "Tabela das principais constraints (restrições) em SQL" },
+        { "type": "code", "code": "CREATE TABLE Funcionarios (\n  ID       INTEGER PRIMARY KEY,\n  Nome     TEXT NOT NULL,\n  Email    TEXT UNIQUE NOT NULL,\n  Salario  REAL CHECK(Salario > 0),\n  Status   TEXT DEFAULT 'ativo'\n)", "lese": "Cria tabela de funcionários com ID único, Nome e Email obrigatórios, Salario deve ser positivo e Status tem 'ativo' como valor padrão" }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Índices — Acelerando Consultas",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "Índice (INDEX)", "def": "Uma estrutura de dados que acelera a busca por registros em uma tabela, como o índice de um livro. A PRIMARY KEY cria um índice automaticamente." },
+        { "type": "code", "code": "CREATE INDEX idx_clientes_email ON Clientes(Email)", "lese": "Cria um índice na coluna Email da tabela Clientes para acelerar buscas por email" },
+        { "type": "nota", "texto": "Índices aceleram leituras (SELECT) mas deixam gravações (INSERT/UPDATE) ligeiramente mais lentas. Use em colunas frequentemente buscadas ou usadas em JOINs." }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: Chaves e Relacionamentos",
+      "conteudo": { "cor": "roxo", "itens": [
+        "PRIMARY KEY: identifica unicamente cada registro",
+        "FOREIGN KEY: conecta tabelas garantindo integridade",
+        "NOT NULL: campo obrigatório",
+        "UNIQUE: valor não pode se repetir",
+        "DEFAULT: valor padrão quando não informado",
+        "CHECK: validação de valor",
+        "1:N é o relacionamento mais comum",
+        "INDEX acelera consultas em colunas frequentes"
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício — Consultando Tabelas Relacionadas",
+      "conteudo": {
+        "instrucao": "Liste o nome do funcionário e o nome do departamento ao qual pertence, usando JOIN pela chave estrangeira.",
+        "dica": "Use INNER JOIN unindo DepartamentoID das duas tabelas.",
+        "placeholder": "SELECT f.Nome, d.NomeDepartamento\nFROM Funcionarios f\nINNER JOIN ...",
+        "schema": "CREATE TABLE Departamentos (DeptID INTEGER PRIMARY KEY, NomeDepartamento TEXT); INSERT INTO Departamentos VALUES (1,'TI'),(2,'Vendas'),(3,'RH'); CREATE TABLE Funcionarios (FuncID INTEGER PRIMARY KEY, Nome TEXT, DeptID INTEGER, Salario REAL, FOREIGN KEY (DeptID) REFERENCES Departamentos(DeptID)); INSERT INTO Funcionarios VALUES (1,'Ana',1,7200),(2,'Carlos',2,9800),(3,'Maria',1,5500),(4,'João',3,4800),(5,'Lucia',2,6200);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","NomeDepartamento"], "min_rows": 5 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Estrutura dominada!",
+      "conteudo": { "mensagem": "Agora você entende a espinha dorsal de qualquer banco de dados. Chaves, relacionamentos e constraints garantem dados confiáveis!", "xpGanho": 350 }
+    }
+  ]
+}

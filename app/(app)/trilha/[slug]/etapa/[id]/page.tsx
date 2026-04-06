@@ -62,18 +62,15 @@ export default function EtapaPage() {
       setTrilha(t)
       setTodasEtapas(t.etapas ?? [])
 
-      // Verifica se trilha ficará concluída após esta etapa
+      // Trilha concluída quando todos os exercícios (únicos que salvam progresso) forem feitos
+      const exercicioIds = new Set((t.etapas ?? []).filter((e: any) => e.tipo === 'exercicio').map((e: any) => e.id))
       const etapasConcluidasIds = new Set(progressos.map((p: any) => p.etapaId))
-      etapasConcluidasIds.add(id) // assume que vai concluir
-      const totalEtapas = (t.etapas ?? []).length
-      setTrilhaConcluida(etapasConcluidasIds.size >= totalEtapas)
+      etapasConcluidasIds.add(id) // assume que esta etapa será concluída
+      const totalExercicios = exercicioIds.size
+      const concluidosExercicios = [...etapasConcluidasIds].filter(eid => exercicioIds.has(eid)).length
+      setTrilhaConcluida(totalExercicios > 0 && concluidosExercicios >= totalExercicios)
 
       setLoading(false)
-
-      // Mostra anúncio se necessário
-      if (etapaData.temAnuncio && !isPro) {
-        setShowAnuncio(true)
-      }
     }
     load()
   }, [id, slug, router, isPro])
@@ -134,7 +131,8 @@ export default function EtapaPage() {
             style={{ width: `${progressoPct}%` }}
           />
         </div>
-        <div className="bg-[#080a0f]/80 backdrop-blur-sm flex items-center justify-between px-4 py-3">
+        <div className="bg-[#080a0f]/80 backdrop-blur-sm">
+        <div className="max-w-3xl mx-auto flex items-center justify-between px-4 py-3">
           <button onClick={() => router.push(`/trilha/${slug}`)} className="text-white/40 hover:text-white transition-colors">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -143,10 +141,11 @@ export default function EtapaPage() {
           <span className="text-white/40 text-sm">{idx + 1} / {ordenadas.length}</span>
           <div className="w-5" />
         </div>
+        </div>
       </div>
 
       {/* Conteúdo */}
-      <div className="flex-1 pt-16">
+      <div className="flex-1 pt-16 max-w-3xl mx-auto w-full">
         <AnimatePresence mode="wait">
           {etapa.tipo === 'intro' && (
             <motion.div key="intro" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -193,6 +192,15 @@ export default function EtapaPage() {
                   xpReward={etapa.xpReward}
                   onConcluido={async (xp, usouDica, tentativas, primeiraTentativa) => {
                     await salvarProgresso(xp, usouDica, tentativas, primeiraTentativa)
+                    if (!isPro) {
+                      const key = 'sq_exercicios_count'
+                      const count = (parseInt(localStorage.getItem(key) ?? '0', 10) || 0) + 1
+                      localStorage.setItem(key, String(count))
+                      if (count % 3 === 0) {
+                        setShowAnuncio(true)
+                        return
+                      }
+                    }
                     proximaEtapa()
                   }}
                 />
@@ -233,7 +241,7 @@ export default function EtapaPage() {
 
       {/* Anúncio */}
       {showAnuncio && (
-        <AnuncioVideo isPro={isPro} onConcluido={() => setShowAnuncio(false)} />
+        <AnuncioVideo isPro={isPro} onConcluido={() => { setShowAnuncio(false); proximaEtapa() }} />
       )}
     </div>
   )

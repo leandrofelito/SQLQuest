@@ -1,102 +1,153 @@
 {
   "slug": "filtragem",
-  "titulo": "Filtragem com WHERE",
-  "descricao": "Filtre dados com WHERE, LIKE, IN e BETWEEN",
+  "titulo": "WHERE — Filtrando Dados",
+  "descricao": "Filtre registros com WHERE, combine condições com AND/OR, use LIKE para padrões e IN para listas.",
   "icone": "🎯",
-  "ordem": 2,
-  "xpTotal": 700,
+  "ordem": 3,
+  "xpTotal": 800,
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Filtrando dados",
-      "conteudo": { "emoji": "🎯", "subtitulo": "Encontre exatamente o que precisa" }
+      "titulo": "Filtrando com WHERE",
+      "conteudo": { "emoji": "🎯", "subtitulo": "Encontre exatamente o que precisa, ignorando o resto" }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "O comando WHERE",
+      "titulo": "O Comando WHERE",
       "conteudo": { "blocos": [
-        "WHERE é usado para filtrar linhas de uma tabela.",
-        "Só as linhas que satisfazem a condição são retornadas.",
-        "Exemplo: SELECT * FROM clientes WHERE cidade = 'SP'"
+        { "type": "definicao", "termo": "WHERE", "def": "Filtra os registros de uma tabela. Apenas as linhas que satisfazem a condição são retornadas." },
+        { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Seleciona todos os campos da tabela Clientes, mas apenas os registros onde a Cidade é igual a 'São Paulo'" },
+        { "type": "code", "code": "SELECT * FROM Produtos WHERE Preco > 500", "lese": "Seleciona todos os campos da tabela Produtos onde o preço é maior que 500" },
+        { "type": "nota", "texto": "Valores de texto usam aspas simples. Valores numéricos não usam aspas." }
       ]}
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Operadores de comparação",
+      "titulo": "Operadores de Comparação",
       "conteudo": { "blocos": [
-        "= igual, <> diferente, > maior, < menor, >= maior ou igual, <= menor ou igual.",
-        "Para texto, sempre use aspas simples: WHERE nome = 'Ana'",
-        "Para números, sem aspas: WHERE preco > 100"
+        "Os operadores de comparação definem a condição do filtro:",
+        { "type": "code", "code": "=    igual a\n<>   diferente de (também pode ser !=)\n>    maior que\n<    menor que\n>=   maior ou igual a\n<=   menor ou igual a", "lese": "Tabela dos operadores de comparação em SQL" },
+        { "type": "code", "code": "SELECT * FROM Funcionarios WHERE Salario >= 5000", "lese": "Seleciona todos os funcionários cujo salário é maior ou igual a 5000" },
+        { "type": "code", "code": "SELECT * FROM Produtos WHERE Estoque <> 0", "lese": "Seleciona todos os produtos onde o estoque é diferente de zero (ou seja, em estoque)" }
       ]}
     },
     {
-      "ordem": 4, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
-      "titulo": "Exercício 1 — WHERE básico",
-      "conteudo": {
-        "instrucao": "Busque todos os produtos com preço maior que 500.",
-        "dica": "Use WHERE com o operador > para comparar o preço.",
-        "placeholder": "SELECT * FROM produtos WHERE ...",
-        "schema": "CREATE TABLE produtos (id INTEGER, nome TEXT, preco REAL, categoria TEXT); INSERT INTO produtos VALUES (1,'Notebook',3200,'Eletronicos'),(2,'Mouse',89,'Eletronicos'),(3,'Mesa',450,'Moveis'),(4,'Cadeira',890,'Moveis'),(5,'Monitor',1200,'Eletronicos');",
-        "checkType": "count",
-        "checkConfig": { "expected_rows": 3 }
-      }
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "AND e OR — Múltiplas Condições",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "AND", "def": "Todas as condições precisam ser verdadeiras para o registro ser retornado." },
+        { "type": "code", "code": "SELECT * FROM Produtos\nWHERE Categoria = 'Eletrônicos' AND Preco < 1000", "lese": "Seleciona produtos que são da categoria Eletrônicos E que custam menos de 1000 — ambas as condições devem ser verdadeiras" },
+        { "type": "definicao", "termo": "OR", "def": "Pelo menos uma das condições precisa ser verdadeira." },
+        { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade = 'São Paulo' OR Cidade = 'Rio de Janeiro'", "lese": "Seleciona clientes que moram em São Paulo OU no Rio de Janeiro — basta uma das condições ser verdadeira" },
+        { "type": "nota", "texto": "Você pode combinar AND e OR usando parênteses para definir a precedência: WHERE (A OR B) AND C" }
+      ]}
     },
     {
       "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "LIKE — busca por padrão",
+      "titulo": "NOT — Negando uma Condição",
       "conteudo": { "blocos": [
-        "LIKE permite buscar por padrões em texto.",
-        "% representa qualquer sequência de caracteres.",
-        "Exemplo: WHERE nome LIKE 'A%' busca nomes que começam com A."
+        { "type": "definicao", "termo": "NOT", "def": "Inverte uma condição. Retorna registros que NÃO satisfazem a condição especificada." },
+        { "type": "code", "code": "SELECT * FROM Produtos WHERE NOT Categoria = 'Móveis'", "lese": "Seleciona todos os produtos que NÃO são da categoria Móveis" },
+        { "type": "code", "code": "SELECT * FROM Clientes WHERE NOT Cidade = 'São Paulo'", "lese": "Seleciona clientes que NÃO moram em São Paulo" },
+        { "type": "nota", "texto": "NOT pode ser combinado com outros operadores: NOT IN, NOT LIKE, NOT BETWEEN — você vai ver isso a seguir!" }
       ]}
     },
     {
       "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "LIKE — Buscando por Padrão",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "LIKE", "def": "Permite buscar registros que correspondem a um padrão de texto. Usa % (qualquer sequência) e _ (qualquer um caractere)." },
+        { "type": "code", "code": "SELECT * FROM Clientes WHERE Nome LIKE 'A%'", "lese": "Seleciona clientes cujo nome começa com a letra A (o % representa qualquer coisa depois)" },
+        { "type": "code", "code": "SELECT * FROM Clientes WHERE Email LIKE '%@gmail.com'", "lese": "Seleciona clientes com email terminando em @gmail.com (qualquer coisa antes do @)" },
+        { "type": "code", "code": "SELECT * FROM Produtos WHERE Nome LIKE '%teclado%'", "lese": "Seleciona produtos que contêm a palavra 'teclado' em qualquer posição do nome" }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "IN e BETWEEN",
       "conteudo": { "blocos": [
-        "IN verifica se um valor está numa lista: WHERE cidade IN ('SP', 'RJ', 'MG')",
-        "BETWEEN verifica um intervalo: WHERE preco BETWEEN 100 AND 500",
-        "Ambos tornam a query mais legível que múltiplos OR."
+        { "type": "definicao", "termo": "IN", "def": "Verifica se um valor está em uma lista. Mais legível que vários OR." },
+        { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade IN ('São Paulo', 'Rio de Janeiro', 'Belo Horizonte')", "lese": "Seleciona clientes que moram em São Paulo, Rio de Janeiro OU Belo Horizonte — equivale a três condições OR" },
+        { "type": "definicao", "termo": "BETWEEN", "def": "Verifica se um valor está dentro de um intervalo (inclusivo — inclui os extremos)." },
+        { "type": "code", "code": "SELECT * FROM Pedidos WHERE Valor BETWEEN 100 AND 500", "lese": "Seleciona pedidos com valor entre 100 e 500 reais, incluindo 100 e 500" }
       ]}
     },
     {
-      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Resumo de filtros",
+      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "IS NULL — Campos Vazios",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "NULL", "def": "Representa a ausência de valor. Não é zero, não é string vazia — é literalmente 'sem informação'." },
+        { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NULL", "lese": "Seleciona clientes que não têm telefone cadastrado (campo Telefone sem valor)" },
+        { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NOT NULL", "lese": "Seleciona apenas clientes que têm telefone cadastrado" },
+        { "type": "nota", "texto": "Nunca use = NULL ou <> NULL — sempre use IS NULL e IS NOT NULL!" }
+      ]}
+    },
+    {
+      "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: WHERE e Filtros",
       "conteudo": { "cor": "azul", "itens": [
-        "WHERE filtra linhas por condição",
-        "LIKE busca por padrão com %",
-        "IN verifica lista de valores",
-        "BETWEEN verifica intervalo inclusivo"
+        "WHERE filtra as linhas que atendem à condição",
+        "AND: todas as condições verdadeiras",
+        "OR: pelo menos uma condição verdadeira",
+        "NOT: inverte a condição",
+        "LIKE '%texto%': busca por padrão no texto",
+        "IN ('a','b','c'): valor em lista",
+        "BETWEEN 100 AND 500: intervalo inclusivo",
+        "IS NULL / IS NOT NULL: verifica campo vazio"
       ]}
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
-      "titulo": "Exercício 2 — LIKE e IN",
+      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 1 — WHERE básico",
       "conteudo": {
-        "instrucao": "Busque clientes das cidades SP e RJ usando IN.",
-        "dica": "Use WHERE cidade IN (...) com as cidades entre parênteses.",
-        "placeholder": "SELECT * FROM clientes WHERE ...",
-        "schema": "CREATE TABLE clientes (id INTEGER, nome TEXT, cidade TEXT, email TEXT); INSERT INTO clientes VALUES (1,'Ana','SP','ana@email.com'),(2,'Carlos','RJ','c@email.com'),(3,'Maria','MG','m@email.com'),(4,'João','SP','j@email.com'),(5,'Lucia','BA','l@email.com');",
+        "instrucao": "Busque todos os produtos com preço maior que 500 reais.",
+        "dica": "Use WHERE com o operador > para filtrar pelo preço.",
+        "placeholder": "SELECT * FROM Produtos WHERE ...",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Mesa',450,'Móveis',8),(4,'Cadeira',890,'Móveis',25),(5,'Monitor',1200,'Eletrônicos',30),(6,'Caneta',5,'Papelaria',500);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
       }
     },
     {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
-      "titulo": "Exercício 3 — BETWEEN",
+      "ordem": 11, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 2 — AND",
       "conteudo": {
-        "instrucao": "Busque pedidos com valor entre 100 e 500 reais.",
-        "dica": "BETWEEN inclui os extremos — 100 e 500 também entram no resultado.",
-        "placeholder": "SELECT * FROM pedidos WHERE ...",
-        "schema": "CREATE TABLE pedidos (id INTEGER, cliente TEXT, valor REAL, data TEXT); INSERT INTO pedidos VALUES (1,'Ana',50.00,'2024-01-01'),(2,'Carlos',150.00,'2024-01-02'),(3,'Maria',500.00,'2024-01-03'),(4,'João',99.99,'2024-01-04'),(5,'Lucia',350.00,'2024-01-05');",
+        "instrucao": "Busque funcionários do departamento TI com salário maior que 6000.",
+        "dica": "Use AND para combinar duas condições: departamento E salário.",
+        "placeholder": "SELECT * FROM Funcionarios WHERE ...",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL, Cargo TEXT); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200,'Dev'),(2,'Carlos','Vendas',9800,'Gerente'),(3,'Maria','TI',5500,'Analista'),(4,'João','TI',8100,'Dev Senior'),(5,'Lucia','RH',4800,'Assistente');",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 2 }
+      }
+    },
+    {
+      "ordem": 12, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 3 — IN",
+      "conteudo": {
+        "instrucao": "Liste os clientes que moram em São Paulo, Rio de Janeiro ou Curitiba.",
+        "dica": "Use WHERE cidade IN (...) com as cidades dentro dos parênteses, separadas por vírgula.",
+        "placeholder": "SELECT * FROM Clientes WHERE ...",
+        "schema": "CREATE TABLE Clientes (ID INTEGER, Nome TEXT, Cidade TEXT, Email TEXT); INSERT INTO Clientes VALUES (1,'Ana','São Paulo','a@email.com'),(2,'Carlos','Rio de Janeiro','c@email.com'),(3,'Maria','Belo Horizonte','m@email.com'),(4,'João','São Paulo','j@email.com'),(5,'Lucia','Curitiba','l@email.com'),(6,'Pedro','Salvador','p@email.com');",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
       }
     },
     {
-      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
-      "titulo": "Filtragem dominada!",
-      "conteudo": { "mensagem": "Você já sabe filtrar dados como um profissional!", "xpGanho": 350 }
+      "ordem": 13, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 4 — LIKE",
+      "conteudo": {
+        "instrucao": "Busque todos os produtos cujo nome começa com 'Mo'.",
+        "dica": "Use LIKE com o % depois do padrão: LIKE 'Mo%'",
+        "placeholder": "SELECT * FROM Produtos WHERE ...",
+        "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Monitor',1200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Notebook',3200,'Eletrônicos'),(4,'Móvel de Escritório',650,'Móveis'),(5,'Teclado',150,'Eletrônicos');",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 14, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Filtros dominados!",
+      "conteudo": { "mensagem": "Agora você sabe filtrar dados com precisão cirúrgica usando WHERE, AND, OR, IN, LIKE e muito mais!", "xpGanho": 450 }
     }
   ]
 }

@@ -7,8 +7,7 @@ export async function initSQL(): Promise<void> {
   if (db) return
   const sqljs = await import('sql.js')
   SQL = await sqljs.default({
-    locateFile: (f: string) =>
-      `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/${f}`,
+    locateFile: () => '/sql-wasm.wasm',
   })
   db = new SQL.Database()
 }

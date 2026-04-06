@@ -1,81 +1,131 @@
 {
   "slug": "select-basico",
-  "titulo": "SELECT Básico",
-  "descricao": "Aprenda a buscar dados de qualquer tabela",
+  "titulo": "SELECT — Lendo Dados",
+  "descricao": "Aprenda a buscar dados com SELECT, escolher colunas, usar aliases e limitar resultados.",
   "icone": "🔍",
-  "ordem": 1,
-  "xpTotal": 600,
+  "ordem": 2,
+  "xpTotal": 750,
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
-      "titulo": "O que é SELECT?",
-      "conteudo": { "emoji": "🔍", "subtitulo": "O comando mais usado em SQL" }
+      "titulo": "O Comando SELECT",
+      "conteudo": { "emoji": "🔍", "subtitulo": "A base de tudo: como buscar dados em qualquer tabela" }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Para que serve",
+      "titulo": "SELECT — A Estrutura Básica",
       "conteudo": { "blocos": [
-        "SELECT é o comando que busca dados de um banco de dados.",
-        "Você diz quais colunas quer ver e de qual tabela buscar.",
-        "É como perguntar ao banco: 'me mostre essas informações'."
+        "SELECT é o comando mais usado em SQL. Com ele você diz ao banco de dados quais dados quer ver.",
+        { "type": "code", "code": "SELECT coluna1, coluna2 FROM NomeDaTabela", "lese": "Seleciona as colunas 'coluna1' e 'coluna2' da tabela 'NomeDaTabela'" },
+        { "type": "code", "code": "SELECT Nome, Email FROM Clientes", "lese": "Seleciona apenas os campos Nome e Email de todos os registros da tabela Clientes" },
+        { "type": "nota", "texto": "A ordem das partes importa: primeiro SELECT (o quê), depois FROM (de onde)." }
       ]}
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Como se escreve",
+      "titulo": "SELECT * — Todas as Colunas",
       "conteudo": { "blocos": [
-        "A estrutura básica é: SELECT coluna FROM tabela",
-        "Para ver todas as colunas, use o asterisco: SELECT * FROM tabela",
-        "Você pode selecionar várias colunas separadas por vírgula."
+        "O asterisco * é um atalho para 'todas as colunas'. Útil para explorar uma tabela.",
+        { "type": "code", "code": "SELECT * FROM Produtos", "lese": "Seleciona TODOS os campos de TODOS os registros da tabela Produtos" },
+        { "type": "nota", "texto": "Evite usar SELECT * em produção em tabelas grandes — selecione apenas as colunas que você realmente precisa." },
+        "Para selecionar múltiplas colunas específicas, separe-as com vírgula:",
+        { "type": "code", "code": "SELECT Nome, Preco, Categoria FROM Produtos", "lese": "Seleciona as colunas Nome, Preco e Categoria de todos os registros da tabela Produtos" }
       ]}
     },
     {
-      "ordem": 4, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Resumo rápido",
-      "conteudo": { "cor": "verde", "itens": [
-        "SELECT escolhe as colunas",
-        "FROM indica a tabela",
-        "* significa todas as colunas",
-        "Separe colunas com vírgula"
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "DISTINCT — Sem Repetição",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "DISTINCT", "def": "Elimina linhas duplicadas no resultado. Útil quando você quer saber quais valores únicos existem numa coluna." },
+        { "type": "code", "code": "SELECT DISTINCT Cidade FROM Clientes", "lese": "Seleciona cada cidade diferente (sem repetir) que aparece na tabela Clientes" },
+        "Sem DISTINCT, se 100 clientes forem de SP, você veria SP 100 vezes. Com DISTINCT, SP aparece uma vez.",
+        { "type": "code", "code": "SELECT DISTINCT Categoria FROM Produtos", "lese": "Retorna cada categoria única de produto, sem duplicatas" }
       ]}
     },
     {
-      "ordem": 5, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
-      "titulo": "Exercício 1",
-      "conteudo": {
-        "instrucao": "Busque o nome e email de todos os usuários da tabela.",
-        "dica": "Pense em quais colunas você precisa e como separar duas colunas no SELECT.",
-        "placeholder": "SELECT ...",
-        "schema": "CREATE TABLE usuarios (id INTEGER, nome TEXT, email TEXT, cidade TEXT); INSERT INTO usuarios VALUES (1,'Ana','ana@email.com','SP'),(2,'Carlos','carlos@email.com','RJ'),(3,'Maria','maria@email.com','MG');",
-        "checkType": "columns",
-        "checkConfig": { "required_columns": ["nome", "email"], "min_rows": 3 }
-      }
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "TOP e LIMIT — Limitando Resultados",
+      "conteudo": { "blocos": [
+        "Às vezes você quer ver só os primeiros registros — para testar, ou para pegar os 'N melhores'.",
+        { "type": "code", "code": "SELECT TOP(10) * FROM Clientes", "lese": "Seleciona os 10 primeiros registros (linhas) da tabela Clientes" },
+        { "type": "code", "code": "SELECT * FROM Produtos LIMIT 5", "lese": "Retorna no máximo 5 registros da tabela Produtos (sintaxe MySQL/PostgreSQL/SQLite)" },
+        { "type": "nota", "texto": "TOP é sintaxe do SQL Server e Access. LIMIT é usado no MySQL, PostgreSQL e SQLite. Aqui no SQLQuest usamos LIMIT." }
+      ]}
     },
     {
       "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Aliases com AS",
+      "titulo": "AS — Renomeando Colunas",
       "conteudo": { "blocos": [
-        "Você pode renomear colunas no resultado usando AS.",
-        "Exemplo: SELECT nome AS 'Nome Completo' FROM usuarios",
-        "O AS não muda o banco, só o nome exibido no resultado."
+        { "type": "definicao", "termo": "AS (Alias)", "def": "Renomeia uma coluna no resultado da query. Não altera o banco de dados, só o nome exibido." },
+        { "type": "code", "code": "SELECT Nome AS 'Nome do Cliente', Email AS 'Endereço de Email'\nFROM Clientes", "lese": "Seleciona Nome (exibido como 'Nome do Cliente') e Email (exibido como 'Endereço de Email') da tabela Clientes" },
+        "Aliases com espaços precisam de aspas simples ou colchetes. Sem espaço, você pode omitir as aspas.",
+        { "type": "code", "code": "SELECT Preco AS PrecoFinal FROM Produtos", "lese": "Seleciona o campo Preco, mas exibe com o nome PrecoFinal no resultado" }
       ]}
     },
     {
-      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
-      "titulo": "Exercício 2",
+      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: SELECT",
+      "conteudo": { "cor": "verde", "itens": [
+        "SELECT col FROM tabela — busca colunas específicas",
+        "SELECT * FROM tabela — busca todas as colunas",
+        "SELECT DISTINCT col FROM tabela — valores únicos",
+        "SELECT TOP(n) * FROM tabela — primeiros N registros (SQL Server)",
+        "SELECT * FROM tabela LIMIT n — primeiros N registros (MySQL/SQLite)",
+        "SELECT col AS alias — renomeia a coluna no resultado"
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 1 — SELECT básico",
       "conteudo": {
-        "instrucao": "Busque todas as colunas da tabela de produtos.",
-        "dica": "Existe um atalho especial para selecionar todas as colunas de uma vez.",
+        "instrucao": "Busque o nome e o email de todos os clientes da tabela.",
+        "dica": "Use SELECT seguido dos nomes das colunas separados por vírgula, depois FROM e o nome da tabela.",
         "placeholder": "SELECT ...",
-        "schema": "CREATE TABLE produtos (id INTEGER, nome TEXT, preco REAL, categoria TEXT, estoque INTEGER); INSERT INTO produtos VALUES (1,'Notebook',3200.00,'Eletronicos',15),(2,'Mouse',89.90,'Eletronicos',120),(3,'Mesa',450.00,'Moveis',8),(4,'Cadeira',890.00,'Moveis',25);",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Email TEXT, Cidade TEXT, Telefone TEXT); INSERT INTO Clientes VALUES (1,'Ana Silva','ana@email.com','São Paulo','11 99999-0001'),(2,'Carlos Souza','carlos@email.com','Rio de Janeiro','21 99999-0002'),(3,'Maria Santos','maria@email.com','Belo Horizonte','31 99999-0003'),(4,'João Lima','joao@email.com','São Paulo','11 99999-0004');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["id","nome","preco","categoria","estoque"], "min_rows": 4 }
+        "checkConfig": { "required_columns": ["Nome", "Email"], "min_rows": 4 }
       }
     },
     {
-      "ordem": 8, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
-      "titulo": "Parabéns!",
-      "conteudo": { "mensagem": "Você dominou o SELECT básico!", "xpGanho": 250 }
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 2 — DISTINCT",
+      "conteudo": {
+        "instrucao": "Liste todas as cidades diferentes (sem repetição) em que há clientes cadastrados.",
+        "dica": "Use DISTINCT antes do nome da coluna para eliminar duplicatas.",
+        "placeholder": "SELECT DISTINCT ...",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Email TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','ana@email.com','São Paulo'),(2,'Carlos','c@email.com','Rio de Janeiro'),(3,'Maria','m@email.com','São Paulo'),(4,'João','j@email.com','Belo Horizonte'),(5,'Lucia','l@email.com','Rio de Janeiro'),(6,'Pedro','p@email.com','Curitiba');",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 4 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 3 — LIMIT",
+      "conteudo": {
+        "instrucao": "Busque apenas os 3 primeiros produtos do catálogo.",
+        "dica": "Use LIMIT no final da query para limitar a quantidade de registros retornados.",
+        "placeholder": "SELECT * FROM Produtos ...",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200.00,'Eletrônicos',15),(2,'Mouse',89.90,'Eletrônicos',120),(3,'Mesa',450.00,'Móveis',8),(4,'Cadeira',890.00,'Móveis',25),(5,'Monitor',1200.00,'Eletrônicos',30),(6,'Teclado',150.00,'Eletrônicos',75);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 11, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 4 — Alias com AS",
+      "conteudo": {
+        "instrucao": "Busque o nome e o preço dos produtos, renomeando 'Nome' para 'Produto' e 'Preco' para 'Valor'.",
+        "dica": "Use AS após cada coluna para dar um novo nome no resultado.",
+        "placeholder": "SELECT Nome AS ...",
+        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200.00,'Eletrônicos'),(2,'Mouse',89.90,'Eletrônicos'),(3,'Mesa',450.00,'Móveis');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Produto", "Valor"], "min_rows": 3 }
+      }
+    },
+    {
+      "ordem": 12, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "SELECT dominado!",
+      "conteudo": { "mensagem": "Você já sabe buscar dados, selecionar colunas, eliminar duplicatas e limitar resultados. Excelente começo!", "xpGanho": 450 }
     }
   ]
 }

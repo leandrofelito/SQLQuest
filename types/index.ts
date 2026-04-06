@@ -1,10 +1,17 @@
+// Rich content block for TelaTexto
+export type BlocoTexto =
+  | string
+  | { type: 'code'; code: string; lese?: string }
+  | { type: 'nota'; texto: string }
+  | { type: 'definicao'; termo: string; def: string }
+
 export interface ConteudoIntro {
   emoji: string
   subtitulo: string
 }
 
 export interface ConteudoTexto {
-  blocos: string[]
+  blocos: BlocoTexto[]
 }
 
 export interface ConteudoResumo {

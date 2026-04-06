@@ -43,34 +43,39 @@ export default function TrilhaPage() {
 
   useEffect(() => {
     async function load() {
-      const [trilhasRes, progressoRes, sessionRes] = await Promise.all([
+      const [trilhasRes, progressoRes, sessionRes, certsRes] = await Promise.all([
         fetch('/api/trilhas'),
         fetch('/api/progresso'),
         fetch('/api/auth/session'),
+        fetch('/api/certificados'),
       ])
       const trilhas = await trilhasRes.json()
       const progressos = await progressoRes.json()
       const session = await sessionRes.json()
+      const certs = await certsRes.json()
 
       const t = trilhas.find((tr: any) => tr.slug === slug)
       if (!t) { router.push('/home'); return }
 
+      const progressoIds = new Set(progressos.map((p: any) => p.etapaId))
       const etapasComStatus = t.etapas.map((e: Etapa) => ({
         ...e,
-        concluida: progressos.some((p: any) => p.etapaId === e.id),
+        // Exercícios: concluído se tiver progresso. Outros tipos: sempre marcado como concluído (não bloqueiam)
+        concluida: e.tipo === 'exercicio' ? progressoIds.has(e.id) : true,
       }))
 
-      const concluidas = etapasComStatus.filter((e: any) => e.concluida).length
-      const pct = t.totalEtapas > 0 ? Math.round((concluidas / t.totalEtapas) * 100) : 0
+      // Percentual calculado apenas sobre exercícios (apenas eles salvam progresso)
+      const exercicios = t.etapas.filter((e: Etapa) => e.tipo === 'exercicio')
+      const concluidas = progressos.filter((p: any) => exercicios.some((e: Etapa) => e.id === p.etapaId)).length
+      const pct = exercicios.length > 0 ? Math.min(100, Math.round((concluidas / exercicios.length) * 100)) : 0
 
       setTrilha({ ...t, etapas: etapasComStatus, percentualConcluido: pct, etapasConcluidas: concluidas })
       setIsPro(session?.user?.isPro ?? false)
 
-      if (pct === 100 && session?.user?.isPro) {
-        try {
-          const certRes = await fetch(`/api/certificado?trilhaId=${t.id}`, { method: 'HEAD' })
-          if (certRes.ok) setCert({ hash: 'found' })
-        } catch {}
+      // Busca o certificado da lista já carregada (sem HEAD request pesado)
+      if (Array.isArray(certs)) {
+        const certDaTrilha = certs.find((c: any) => c.trilha?.id === t.id || c.trilha?.slug === slug)
+        if (certDaTrilha) setCert({ hash: certDaTrilha.hash })
       }
     }
     load()
@@ -84,12 +89,17 @@ export default function TrilhaPage() {
     )
   }
 
-  const etapaAtualOrdem = trilha.etapas.find((e: any) => !e.concluida)?.ordem ?? trilha.totalEtapas
+  // Próximo exercício não concluído determina até onde o usuário chegou
+  const proximoExercicioNaoConcluido = trilha.etapas
+    .filter((e: any) => e.tipo === 'exercicio' && !e.concluida)
+    .sort((a: any, b: any) => a.ordem - b.ordem)[0]
+  const etapaAtualOrdem = proximoExercicioNaoConcluido?.ordem ?? (trilha.etapas[trilha.etapas.length - 1]?.ordem ?? 1)
 
   return (
     <div className="min-h-screen bg-[#080a0f] pb-8">
       <Header showBack backHref="/home" title={trilha.titulo} />
 
+      <div className="max-w-3xl mx-auto">
       {/* Header visual da trilha */}
       <div className="px-4 pt-6 pb-4 text-center space-y-3">
         <div className="text-5xl">{trilha.icone}</div>
@@ -146,6 +156,7 @@ export default function TrilhaPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }

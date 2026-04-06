@@ -9,19 +9,19 @@ import { XpBar } from '@/components/ui/XpBar'
 import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
 
-const CONQUISTAS = [
-  { id: 'primeira_etapa', emoji: '⚡', nome: 'Primeira Etapa', desc: 'Completou a primeira etapa' },
-  { id: 'trilha_1', emoji: '🔍', nome: 'Explorador SQL', desc: 'Completou SELECT Básico' },
-  { id: 'sem_dicas', emoji: '🧠', nome: 'Sem Ajuda', desc: 'Resolveu sem usar dicas' },
-  { id: 'streak_7', emoji: '🔥', nome: 'Semana Firme', desc: '7 dias consecutivos' },
-  { id: 'pro', emoji: '⭐', nome: 'Membro Pro', desc: 'Assinou o plano Pro' },
-  { id: 'cert_1', emoji: '🏅', nome: 'Certificado', desc: 'Conquistou primeiro certificado' },
-]
+interface Conquista {
+  id: string
+  emoji: string
+  nome: string
+  desc: string
+  desbloqueada: boolean
+}
 
 export default function PerfilPage() {
   const { user, isPro } = useUser()
   const router = useRouter()
-  const [stats, setStats] = useState({ etapas: 0, certificados: 0, trilhasPct: 0 })
+  const [stats, setStats] = useState({ etapas: 0, certificados: 0 })
+  const [conquistas, setConquistas] = useState<Conquista[]>([])
   const [loading, setLoading] = useState(false)
 
   const xp = (user as any)?.totalXp ?? 0
@@ -29,17 +29,19 @@ export default function PerfilPage() {
 
   useEffect(() => {
     async function load() {
-      const [progressoRes, certsRes] = await Promise.all([
+      const [progressoRes, certsRes, conquistasRes] = await Promise.all([
         fetch('/api/progresso'),
         fetch('/api/certificados'),
+        fetch('/api/conquistas'),
       ])
       const progressos = await progressoRes.json()
       const certs = await certsRes.json()
+      const conquistasData = await conquistasRes.json()
       setStats({
         etapas: Array.isArray(progressos) ? progressos.length : 0,
         certificados: Array.isArray(certs) ? certs.length : 0,
-        trilhasPct: 0,
       })
+      setConquistas(Array.isArray(conquistasData) ? conquistasData : [])
     }
     load()
   }, [])
@@ -53,7 +55,7 @@ export default function PerfilPage() {
     <div className="min-h-screen bg-[#080a0f] pb-24">
       <Header title="Perfil" />
 
-      <div className="px-4 pt-6 space-y-6">
+      <div className="max-w-3xl mx-auto px-4 pt-6 space-y-6">
         {/* Avatar e info */}
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-[#8b5cf6]/20 border-2 border-[#8b5cf6]/40 flex items-center justify-center text-2xl font-bold text-[#a78bfa]">
@@ -78,7 +80,7 @@ export default function PerfilPage() {
           {[
             { label: 'Streak', value: streak, unit: 'dias', emoji: '🔥' },
             { label: 'Etapas', value: stats.etapas, unit: 'concluídas', emoji: '⚡' },
-            { label: 'Certs', value: stats.certificados, unit: 'ganhos', emoji: '🏅' },
+            { label: 'Certs', value: stats.certificados, unit: 'emitidos', emoji: '🏅' },
           ].map(s => (
             <div key={s.label} className="bg-[#0f1117] border border-[#1e2028] rounded-2xl p-3 text-center">
               <div className="text-xl mb-1">{s.emoji}</div>
@@ -90,19 +92,28 @@ export default function PerfilPage() {
 
         {/* Conquistas */}
         <div>
-          <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-3">Conquistas</h3>
+          <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-3">
+            Conquistas — {conquistas.filter(c => c.desbloqueada).length}/{conquistas.length}
+          </h3>
           <div className="grid grid-cols-3 gap-2">
-            {CONQUISTAS.map((c, i) => (
+            {conquistas.map((c, i) => (
               <motion.div
                 key={c.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.05 }}
-                className="bg-[#0f1117] border border-[#1e2028] rounded-2xl p-3 text-center opacity-40"
+                transition={{ delay: i * 0.04 }}
+                className={`bg-[#0f1117] border rounded-2xl p-3 text-center transition-all ${
+                  c.desbloqueada
+                    ? 'border-[#8b5cf6]/40 shadow-[0_0_12px_rgba(139,92,246,0.15)]'
+                    : 'border-[#1e2028] opacity-35 grayscale'
+                }`}
                 title={c.desc}
               >
                 <div className="text-2xl mb-1">{c.emoji}</div>
                 <p className="text-white text-[10px] font-semibold leading-tight">{c.nome}</p>
+                {c.desbloqueada && (
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] mx-auto mt-1.5" />
+                )}
               </motion.div>
             ))}
           </div>

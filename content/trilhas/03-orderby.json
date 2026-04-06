@@ -1,0 +1,105 @@
+{
+  "slug": "orderby-limit",
+  "titulo": "ORDER BY — Ordenando",
+  "descricao": "Ordene resultados em ordem crescente ou decrescente, combine com LIMIT para pegar os top-N.",
+  "icone": "📊",
+  "ordem": 4,
+  "xpTotal": 600,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Ordenando Resultados",
+      "conteudo": { "emoji": "📊", "subtitulo": "Controle a ordem em que os dados aparecem" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "ORDER BY — Crescente e Decrescente",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "ORDER BY", "def": "Ordena o resultado da query por uma ou mais colunas. Por padrão, ordena em ordem crescente (ASC)." },
+        { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco", "lese": "Seleciona todos os produtos ordenados pelo preço, do menor para o maior (ASC é o padrão)" },
+        { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco DESC", "lese": "Seleciona todos os produtos ordenados pelo preço, do maior para o menor (DESC = decrescente)" },
+        { "type": "code", "code": "SELECT * FROM Clientes ORDER BY Nome ASC", "lese": "Seleciona todos os clientes em ordem alfabética pelo nome (A → Z)" }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Ordenando por Múltiplas Colunas",
+      "conteudo": { "blocos": [
+        "Você pode ordenar por mais de uma coluna separando-as com vírgula. A segunda coluna é usada como critério de desempate.",
+        { "type": "code", "code": "SELECT * FROM Funcionarios\nORDER BY Departamento ASC, Salario DESC", "lese": "Ordena primeiro por departamento (A→Z) e, dentro do mesmo departamento, ordena pelo salário do maior para o menor" },
+        { "type": "nota", "texto": "A ordem das colunas no ORDER BY importa: a primeira coluna é o critério principal, a segunda é o desempate." }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "ORDER BY + LIMIT — Os Top-N",
+      "conteudo": { "blocos": [
+        "Combinar ORDER BY com LIMIT é uma das queries mais usadas na prática: pegar os N melhores ou piores.",
+        { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco DESC\nLIMIT 5", "lese": "Seleciona os 5 produtos mais caros (ordena por preço decrescente e pega os 5 primeiros)" },
+        { "type": "code", "code": "SELECT * FROM Clientes\nORDER BY CadastradoEm DESC\nLIMIT 10", "lese": "Seleciona os 10 clientes mais recentes (ordena pela data de cadastro mais recente primeiro)" },
+        { "type": "nota", "texto": "Sem ORDER BY, LIMIT retorna registros em ordem indeterminada. Sempre combine os dois para resultados previsíveis!" }
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "OFFSET — Pulando Registros",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "OFFSET", "def": "Indica quantos registros pular antes de começar a retornar. Usado para paginação." },
+        { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco ASC\nLIMIT 10 OFFSET 20", "lese": "Pula os primeiros 20 produtos (mais baratos) e retorna os próximos 10 — equivale à página 3 de resultados" },
+        { "type": "nota", "texto": "Paginação = LIMIT (tamanho da página) + OFFSET (quantas páginas pular). Ex: página 2 com 10 por página = LIMIT 10 OFFSET 10." }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Resumo: ORDER BY",
+      "conteudo": { "cor": "verde", "itens": [
+        "ORDER BY coluna ASC: crescente (padrão, A→Z, 0→9)",
+        "ORDER BY coluna DESC: decrescente (Z→A, 9→0)",
+        "ORDER BY col1 ASC, col2 DESC: múltiplos critérios",
+        "LIMIT n: retorna no máximo n registros",
+        "LIMIT n OFFSET k: pula k registros e retorna n"
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 1 — ORDER BY",
+      "conteudo": {
+        "instrucao": "Liste todos os produtos ordenados pelo preço do mais caro ao mais barato.",
+        "dica": "Use ORDER BY com a coluna de preço e a palavra-chave DESC para ordem decrescente.",
+        "placeholder": "SELECT * FROM Produtos ORDER BY ...",
+        "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Monitor',1200,'Eletrônicos'),(4,'Mesa',450,'Móveis'),(5,'Cadeira',890,'Móveis'),(6,'Teclado',150,'Eletrônicos');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","Preco"], "min_rows": 6 }
+      }
+    },
+    {
+      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 2 — TOP 3 mais caros",
+      "conteudo": {
+        "instrucao": "Busque os 3 produtos mais caros da loja.",
+        "dica": "Combine ORDER BY Preco DESC com LIMIT 3 para pegar apenas os 3 primeiros da lista ordenada.",
+        "placeholder": "SELECT * FROM Produtos ...",
+        "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Monitor',1200,'Eletrônicos',30),(4,'Mesa',450,'Móveis',8),(5,'Cadeira',890,'Móveis',25),(6,'Servidor',8500,'Eletrônicos',5);",
+        "checkType": "count",
+        "checkConfig": { "expected_rows": 3 }
+      }
+    },
+    {
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Exercício 3 — Ordenação múltipla",
+      "conteudo": {
+        "instrucao": "Liste os funcionários ordenados por departamento (A→Z) e, dentro do mesmo departamento, pelo salário maior primeiro.",
+        "dica": "Use ORDER BY com dois campos: primeiro Departamento ASC, depois Salario DESC.",
+        "placeholder": "SELECT * FROM Funcionarios ORDER BY ...",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["Nome","Departamento","Salario"], "min_rows": 7 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Ordenação dominada!",
+      "conteudo": { "mensagem": "ORDER BY é uma das ferramentas mais usadas em qualquer projeto. Agora você sabe como exibir dados na ordem certa!", "xpGanho": 350 }
+    }
+  ]
+}

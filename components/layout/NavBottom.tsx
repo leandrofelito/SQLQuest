@@ -47,7 +47,7 @@ export function NavBottom() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-30 bg-[#0f1117] border-t border-[#1e2028] safe-bottom">
-      <div className="flex items-center justify-around px-2 py-2">
+      <div className="max-w-3xl mx-auto flex items-center justify-around px-2 py-2">
         {NAV.map(item => {
           const active = pathname.startsWith(item.href)
           return (

@@ -1,0 +1,104 @@
+{
+  "slug": "fundamentos",
+  "titulo": "Fundamentos do SQL",
+  "descricao": "Entenda o que é banco de dados, tabelas, registros e o vocabulário essencial do SQL antes de escrever a primeira linha.",
+  "icone": "🗄️",
+  "ordem": 1,
+  "xpTotal": 500,
+  "etapas": [
+    {
+      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Bem-vindo ao SQL",
+      "conteudo": { "emoji": "🗄️", "subtitulo": "Entenda como os dados são organizados antes de buscá-los" }
+    },
+    {
+      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O que é um Banco de Dados?",
+      "conteudo": { "blocos": [
+        "Um banco de dados é um sistema organizado para armazenar e recuperar informações.",
+        { "type": "definicao", "termo": "Banco de Dados", "def": "Um conjunto estruturado de dados armazenados eletronicamente, como o estoque de uma loja, os clientes de uma empresa ou os pedidos de um e-commerce." },
+        "Pense numa planilha Excel: ela tem abas (tabelas), linhas (registros) e colunas (campos). Um banco de dados é como várias planilhas conectadas entre si.",
+        { "type": "nota", "texto": "Os bancos de dados mais populares são PostgreSQL, MySQL, SQL Server e SQLite — todos usam SQL!" }
+      ]}
+    },
+    {
+      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Tabelas, Registros e Campos",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "Tabela", "def": "Uma estrutura que organiza dados em linhas e colunas, como uma planilha. Exemplo: tabela 'Clientes', tabela 'Produtos', tabela 'Pedidos'." },
+        { "type": "definicao", "termo": "Registro (linha / row)", "def": "Uma linha da tabela que representa um único item. Na tabela Clientes, cada registro é um cliente diferente." },
+        { "type": "definicao", "termo": "Campo (coluna / column)", "def": "Uma coluna da tabela que representa um atributo. Na tabela Clientes: 'Nome', 'Email', 'Cidade' são campos." },
+        { "type": "nota", "texto": "Registro = linha, Campo = coluna. Guarde isso, pois esses termos aparecem em toda a documentação SQL!" }
+      ]}
+    },
+    {
+      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O que é SQL?",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "SQL", "def": "Structured Query Language (Linguagem de Consulta Estruturada). É a linguagem padrão para conversar com bancos de dados relacionais." },
+        "Com SQL você pode: buscar dados (SELECT), inserir novos dados (INSERT), modificar dados (UPDATE) e apagar dados (DELETE).",
+        { "type": "nota", "texto": "SQL não é case-sensitive: SELECT, select e Select são equivalentes. Por convenção, palavras-chave são escritas em MAIÚSCULAS." }
+      ]}
+    },
+    {
+      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "O que é uma Query?",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "Query (Consulta)", "def": "Uma instrução SQL que faz uma pergunta ao banco de dados. É como dizer: 'Me mostre todos os clientes de São Paulo'." },
+        { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Seleciona todos os campos da tabela Clientes onde a cidade seja igual a 'São Paulo'" },
+        "Toda query começa com um verbo de ação: SELECT (buscar), INSERT (inserir), UPDATE (atualizar) ou DELETE (apagar).",
+        { "type": "nota", "texto": "Neste curso você vai aprender a construir queries cada vez mais poderosas, do básico ao avançado." }
+      ]}
+    },
+    {
+      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "PRIMARY KEY — Identificador Único",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "PRIMARY KEY (Chave Primária)", "def": "Um campo (ou conjunto de campos) que identifica de forma única cada registro da tabela. Nenhum valor pode se repetir." },
+        "Imagine a tabela Clientes: dois clientes podem ter o mesmo nome, mas o ID (chave primária) de cada um é único.",
+        { "type": "code", "code": "-- Tabela com chave primária\nCREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)", "lese": "Cria uma tabela Clientes onde ClienteID é a chave primária — cada cliente tem um ID único e irrepetível" },
+        { "type": "nota", "texto": "A PRIMARY KEY nunca pode ser NULL e deve ser única em toda a tabela." }
+      ]}
+    },
+    {
+      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "titulo": "FOREIGN KEY — Chave Estrangeira",
+      "conteudo": { "blocos": [
+        { "type": "definicao", "termo": "FOREIGN KEY (Chave Estrangeira)", "def": "Um campo em uma tabela que referencia a PRIMARY KEY de outra tabela, criando um relacionamento entre elas." },
+        "Exemplo: a tabela Pedidos tem um campo ClienteID que aponta para o ClienteID da tabela Clientes. Assim você sabe qual cliente fez cada pedido.",
+        { "type": "code", "code": "Tabela Clientes:\n  ClienteID (PK) | Nome    | Email\n  1              | Ana     | ana@email.com\n  2              | Carlos  | carlos@email.com\n\nTabela Pedidos:\n  PedidoID (PK) | ClienteID (FK) | Produto  | Valor\n  101           | 1              | Notebook | 3200\n  102           | 2              | Mouse    | 89", "lese": "ClienteID em Pedidos é uma FOREIGN KEY que aponta para ClienteID em Clientes — por isso sabemos que o pedido 101 é da Ana e o 102 é do Carlos" },
+        { "type": "nota", "texto": "As FOREIGN KEYs são a base dos JOINs que você vai aprender mais adiante!" }
+      ]}
+    },
+    {
+      "ordem": 8, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "titulo": "Vocabulário Essencial",
+      "conteudo": { "cor": "roxo", "itens": [
+        "Banco de Dados: sistema organizado para armazenar dados",
+        "Tabela: estrutura com linhas e colunas (como planilha)",
+        "Registro / Row: uma linha da tabela = um item",
+        "Campo / Column: uma coluna = um atributo dos dados",
+        "Query: instrução SQL que consulta ou modifica dados",
+        "PRIMARY KEY: identificador único de cada registro",
+        "FOREIGN KEY: campo que conecta duas tabelas"
+      ]}
+    },
+    {
+      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "titulo": "Primeiro Contato com SQL",
+      "conteudo": {
+        "instrucao": "Busque todos os dados da tabela Funcionarios para ver como ela está organizada.",
+        "dica": "Use SELECT * para selecionar todas as colunas e FROM para indicar a tabela.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE Funcionarios (FuncionarioID INTEGER, Nome TEXT, Cargo TEXT, Salario REAL, Departamento TEXT); INSERT INTO Funcionarios VALUES (1,'Ana Silva','Analista',5500,'TI'),(2,'Carlos Souza','Gerente',9800,'Vendas'),(3,'Maria Santos','Desenvolvedora',7200,'TI'),(4,'João Lima','Designer',5900,'Marketing');",
+        "checkType": "columns",
+        "checkConfig": { "required_columns": ["FuncionarioID","Nome","Cargo","Salario","Departamento"], "min_rows": 4 }
+      }
+    },
+    {
+      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "titulo": "Base sólida!",
+      "conteudo": { "mensagem": "Você já conhece o vocabulário fundamental do SQL. Agora é hora de aprender a buscar dados!", "xpGanho": 150 }
+    }
+  ]
+}

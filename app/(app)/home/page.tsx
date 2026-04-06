@@ -47,7 +47,7 @@ export default function HomePage() {
         }
       />
 
-      <div className="px-4 pt-4 pb-2">
+      <div className="max-w-3xl mx-auto px-4 pt-4 pb-2">
         {proBought && (
           <div className="mb-4 bg-purple-500/10 border border-purple-500/20 rounded-2xl p-4 text-center">
             <p className="text-purple-300 font-bold">🎉 Bem-vindo ao Pro!</p>
@@ -75,7 +75,9 @@ export default function HomePage() {
           <div className="animate-pulse text-white/30">Carregando trilhas...</div>
         </div>
       ) : (
-        <MapaTrilhas trilhas={trilhas} />
+        <div className="max-w-3xl mx-auto">
+          <MapaTrilhas trilhas={trilhas} />
+        </div>
       )}
 
       <NavBottom />

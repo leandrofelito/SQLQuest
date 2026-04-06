@@ -29,14 +29,14 @@ export function CertPreview({ trilha, isPro, concluida, certificadoHash }: CertP
         </div>
       </div>
 
-      {isPro && certificadoHash ? (
+      {isPro ? (
         <Button
           onClick={() => router.push('/certificados')}
           fullWidth
           size="sm"
           variant="secondary"
         >
-          Ver Certificado
+          {certificadoHash ? '🏅 Ver Certificado' : '⏳ Gerando certificado...'}
         </Button>
       ) : (
         <Button

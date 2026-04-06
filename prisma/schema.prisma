@@ -13,6 +13,7 @@ model User {
   email        String    @unique
   name         String?
   image        String?
+  password     String?
   isPro        Boolean   @default(false)
   isAdmin      Boolean   @default(false)
   proAt        DateTime?

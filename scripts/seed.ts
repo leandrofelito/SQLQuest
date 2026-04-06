@@ -11,21 +11,17 @@ async function seed() {
 
   console.log(`\n🌱 Iniciando seed com ${files.length} trilhas...\n`)
 
+  // Remove trilhas e etapas sem apagar dados de usuário (progressos ficam órfãos mas ok)
+  console.log('🗑️  Limpando trilhas e etapas existentes...')
+  await prisma.etapa.deleteMany()
+  await prisma.trilha.deleteMany()
+  console.log('✅ Limpeza concluída\n')
+
   for (const file of files) {
     const data = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf-8'))
 
-    const trilha = await prisma.trilha.upsert({
-      where: { slug: data.slug },
-      update: {
-        titulo: data.titulo,
-        descricao: data.descricao,
-        icone: data.icone,
-        ordem: data.ordem,
-        totalEtapas: data.etapas.length,
-        xpTotal: data.xpTotal,
-        publicada: true,
-      },
-      create: {
+    const trilha = await prisma.trilha.create({
+      data: {
         slug: data.slug,
         titulo: data.titulo,
         descricao: data.descricao,
@@ -38,16 +34,8 @@ async function seed() {
     })
 
     for (const etapa of data.etapas) {
-      await prisma.etapa.upsert({
-        where: { trilhaId_ordem: { trilhaId: trilha.id, ordem: etapa.ordem } },
-        update: {
-          tipo: etapa.tipo,
-          titulo: etapa.titulo,
-          conteudo: etapa.conteudo,
-          xpReward: etapa.xpReward,
-          temAnuncio: etapa.temAnuncio,
-        },
-        create: {
+      await prisma.etapa.create({
+        data: {
           trilhaId: trilha.id,
           ordem: etapa.ordem,
           tipo: etapa.tipo,
@@ -59,7 +47,7 @@ async function seed() {
       })
     }
 
-    console.log(`✅ ${data.slug} (${data.etapas.length} etapas)`)
+    console.log(`✅ ${data.titulo} (${data.etapas.length} etapas, ${data.xpTotal} XP)`)
   }
 
   await prisma.$disconnect()

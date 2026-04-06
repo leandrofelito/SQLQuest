@@ -14,7 +14,7 @@ export function Header({ title, showBack = false, backHref = '/home', right }: H
 
   return (
     <header className="sticky top-0 z-20 bg-[#080a0f]/80 backdrop-blur-sm border-b border-[#1e2028]">
-      <div className="flex items-center justify-between px-4 h-14">
+      <div className="max-w-3xl mx-auto flex items-center justify-between px-4 h-14">
         <div className="flex items-center gap-3">
           {showBack ? (
             <Link href={backHref} className="text-white/60 hover:text-white p-1 -ml-1">
