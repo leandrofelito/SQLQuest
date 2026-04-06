@@ -1,5 +1,5 @@
 'use client'
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -8,7 +8,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'unauthenticated') router.push('/login')
+    if (status === 'unauthenticated') {
+      router.push('/login')
+      return
+    }
+    if (status === 'authenticated') {
+      const forceLogout = localStorage.getItem('sqlquest_force_logout')
+      if (forceLogout) {
+        // Usuário havia solicitado logout mas o app foi fechado antes de completar
+        localStorage.removeItem('sqlquest_force_logout')
+        signOut({ callbackUrl: '/login' })
+      }
+    }
   }, [status, router])
 
   if (status === 'loading') {

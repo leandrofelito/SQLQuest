@@ -80,32 +80,34 @@ class _WebViewScreenState extends State<WebViewScreen> {
       },
       child: Scaffold(
         backgroundColor: const Color(0xFF0F172A),
-        body: Stack(
-          children: [
-            WebViewWidget(controller: _controller),
-            if (_isLoading)
-              const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: Color(0xFF7C3AED),
-                      strokeWidth: 3,
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      'SQLQuest',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.2,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              WebViewWidget(controller: _controller),
+              if (_isLoading)
+                const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        color: Color(0xFF7C3AED),
+                        strokeWidth: 3,
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 16),
+                      Text(
+                        'SQLQuest',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

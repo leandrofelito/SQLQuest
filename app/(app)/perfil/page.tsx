@@ -119,6 +119,8 @@ export default function PerfilPage() {
 
   async function handleSignOut() {
     setLoading(true)
+    // Salvar flag ANTES do signOut — garante logout mesmo se o app fechar durante a requisição
+    localStorage.setItem('sqlquest_force_logout', '1')
     await signOut({ callbackUrl: '/login' })
   }
 

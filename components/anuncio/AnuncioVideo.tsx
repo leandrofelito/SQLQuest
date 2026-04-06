@@ -61,10 +61,11 @@ export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
         <div className="w-full max-w-sm">
           <ins
             className="adsbygoogle"
-            style={{ display: 'block', width: '100%', minHeight: 250 }}
+            style={{ display: 'block', textAlign: 'center' }}
+            data-ad-layout="in-article"
+            data-ad-format="fluid"
             data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
             data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT}
-            data-ad-format="rectangle"
           />
         </div>
       </div>

@@ -42,3 +42,13 @@ skills-lock.json
 next-env.d.ts
 
 .vercel
+
+# Android build artifacts
+*.keystore
+*.jks
+*.apk
+*.aab
+*.idsig
+manifest-checksum.txt
+.gradle/
+app-release-*/

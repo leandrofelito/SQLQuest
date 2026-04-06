@@ -26,6 +26,7 @@ function LoginForm() {
 
   useEffect(() => {
     if (status === 'authenticated') router.push('/home')
+    if (status === 'unauthenticated') localStorage.removeItem('sqlquest_force_logout')
   }, [status, router])
 
   useEffect(() => {
@@ -72,7 +73,9 @@ function LoginForm() {
       <div className="relative z-10 w-full max-w-sm sm:max-w-md space-y-6">
         {/* Logo */}
         <div className="text-center space-y-1">
-          <div className="text-4xl mb-2">🔍</div>
+          <div className="flex justify-center mb-2">
+            <img src="/icons/icone_app.svg" alt="SQLQuest" className="h-14 w-14" />
+          </div>
           <h1 className="text-2xl font-bold">
             <span className="text-[#a78bfa]">SQL</span>
             <span className="text-white">Quest</span>
