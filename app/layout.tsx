@@ -18,7 +18,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" className={`${syne.variable} ${jetbrains.variable}`}>
       <head>
         <meta name="theme-color" content="#080a0f" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+        {/* PWA / TWA */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="SQLQuest" />
         {process.env.NEXT_PUBLIC_ADSENSE_ID && (
           <Script
             async

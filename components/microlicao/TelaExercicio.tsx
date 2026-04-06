@@ -349,12 +349,40 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           value={query}
           onChange={e => { setQuery(e.target.value); setEstado('idle') }}
           placeholder={conteudo.placeholder}
-          className="w-full h-32 bg-[#0a0c12] border border-[#2a2d3a] rounded-xl p-3 text-[#34d399] font-mono text-sm resize-none outline-none focus:border-[#8b5cf6] transition-colors placeholder-white/20"
-          style={{ userSelect: 'text', WebkitUserSelect: 'text' }}
+          className="w-full h-32 bg-[#0a0c12] border border-[#2a2d3a] rounded-xl p-3 text-[#34d399] font-mono resize-none outline-none focus:border-[#8b5cf6] transition-colors placeholder-white/20"
+          style={{ userSelect: 'text', WebkitUserSelect: 'text', fontSize: '16px' }}
           spellCheck={false}
           autoCapitalize="none"
           autoCorrect="off"
+          inputMode="text"
         />
+        {/* SQL quick-insert toolbar — only visible on touch devices */}
+        <div className="flex gap-1.5 mt-2 overflow-x-auto pb-1 md:hidden">
+          {['SELECT', 'FROM', 'WHERE', 'JOIN', 'ON', 'GROUP BY', 'ORDER BY', '*', ';', '(', ')', "'", '_', '%', ',', '='].map(key => (
+            <button
+              key={key}
+              type="button"
+              onPointerDown={e => {
+                e.preventDefault()
+                const ta = e.currentTarget.closest('.relative')?.querySelector('textarea') as HTMLTextAreaElement | null
+                if (!ta) return
+                const start = ta.selectionStart ?? query.length
+                const end = ta.selectionEnd ?? query.length
+                const insert = key.includes(' ') ? ` ${key} ` : key
+                const next = query.slice(0, start) + insert + query.slice(end)
+                setQuery(next)
+                setEstado('idle')
+                requestAnimationFrame(() => {
+                  ta.focus()
+                  ta.setSelectionRange(start + insert.length, start + insert.length)
+                })
+              }}
+              className="flex-shrink-0 px-2.5 py-1 bg-[#1e2028] border border-[#2a2d3a] rounded-lg text-[#a78bfa] font-mono text-xs whitespace-nowrap active:bg-[#8b5cf6]/20"
+            >
+              {key}
+            </button>
+          ))}
+        </div>
         {!ready && (
           <div className="absolute inset-0 bg-[#080a0f]/80 rounded-xl flex items-center justify-center">
             <span className="text-white/40 text-sm animate-pulse">Iniciando SQL engine...</span>

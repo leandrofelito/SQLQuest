@@ -160,7 +160,7 @@ export default function EtapaPage() {
         <AnimatePresence mode="wait">
           {etapa.tipo === 'intro' && (
             <motion.div key="intro" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="h-[calc(100vh-4rem)] flex flex-col">
+              <div className="h-[calc(100dvh-4rem)] flex flex-col">
                 <TelaIntro
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoIntro}
@@ -172,7 +172,7 @@ export default function EtapaPage() {
 
           {etapa.tipo === 'texto' && (
             <motion.div key="texto" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="h-[calc(100vh-4rem)] flex flex-col">
+              <div className="h-[calc(100dvh-4rem)] flex flex-col">
                 <TelaTexto
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoTexto}
@@ -184,7 +184,7 @@ export default function EtapaPage() {
 
           {etapa.tipo === 'resumo' && (
             <motion.div key="resumo" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="h-[calc(100vh-4rem)] flex flex-col">
+              <div className="h-[calc(100dvh-4rem)] flex flex-col">
                 <TelaResumo
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoResumo}
@@ -196,7 +196,7 @@ export default function EtapaPage() {
 
           {etapa.tipo === 'exercicio' && (
             <motion.div key="exercicio" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="h-[calc(100vh-4rem)] flex flex-col overflow-y-auto">
+              <div className="h-[calc(100dvh-4rem)] flex flex-col overflow-y-auto">
                 <TelaExercicio
                   titulo={etapa.titulo}
                   etapaId={etapa.id}
@@ -232,7 +232,7 @@ export default function EtapaPage() {
 
           {etapa.tipo === 'conclusao' && (
             <motion.div key="conclusao" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="h-[calc(100vh-4rem)] flex flex-col">
+              <div className="h-[calc(100dvh-4rem)] flex flex-col">
                 <TelaConclusao
                   conteudo={etapa.conteudo as ConteudoConclusao}
                   xpGanho={xpGanho}
