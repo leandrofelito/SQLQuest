@@ -82,7 +82,7 @@ function LoginForm() {
           <img
             src="/icons/sqlquest_logo_escrita.svg"
             alt="SQLQuest"
-            className="w-[70%] max-w-[320px] h-auto"
+            className="w-[85%] max-w-[380px] h-auto"
           />
         </div>
 
