@@ -23,8 +23,8 @@ export function Header({ title, showBack = false, backHref = '/home', right }: H
               </svg>
             </Link>
           ) : (
-            <Link href="/home" className="text-[#a78bfa] font-bold text-lg tracking-tight">
-              SQL<span className="text-white">Quest</span>
+            <Link href="/home" className="text-[#8b5cf6] font-bold text-lg tracking-tight">
+              SQL<span className="text-[#FBBF24]">Quest</span>
             </Link>
           )}
           {title && <h1 className="text-white font-bold text-base truncate max-w-[180px]">{title}</h1>}

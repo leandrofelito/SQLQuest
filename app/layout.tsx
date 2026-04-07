@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Syne, JetBrains_Mono } from 'next/font/google'
 import { SessionProvider } from './providers'
-import Script from 'next/script'
 import './globals.css'
 
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne', display: 'swap' })
@@ -27,14 +26,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <link rel="icon" type="image/svg+xml" href="/icons/icone_app.svg" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
-        {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
+        {/* Google AdSense */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4150729063109368"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="bg-[#080a0f] text-white font-syne antialiased">
         <SessionProvider>{children}</SessionProvider>
