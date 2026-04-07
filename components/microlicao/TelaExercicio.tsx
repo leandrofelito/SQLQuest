@@ -103,6 +103,30 @@ function ModalEstrelas({
           })}
         </div>
 
+        {/* Legenda das estrelas */}
+        <motion.div
+          className="flex justify-center gap-4 mb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {[1, 2, 3].map(i => {
+            const earned = i <= estrelas
+            const labels: Record<number, string> = {
+              1: 'Acertou',
+              2: 'Sem dica',
+              3: '1ª tentativa',
+            }
+            return (
+              <div key={i} className="flex flex-col items-center gap-0.5">
+                <span className={`text-[10px] font-semibold ${earned ? 'text-amber-400' : 'text-white/20'}`}>
+                  {labels[i]}
+                </span>
+              </div>
+            )
+          })}
+        </motion.div>
+
         {/* Título */}
         <motion.p
           className="text-white font-bold text-xl mb-1"
@@ -121,7 +145,6 @@ function ModalEstrelas({
           transition={{ delay: 0.7, type: 'spring', stiffness: 250 }}
         >
           <span className="text-amber-400 font-bold text-sm">+{xp} XP</span>
-          <span className="text-amber-400/60 text-xs">adicionados ao perfil</span>
         </motion.div>
 
         {/* Explicação técnica (desafios de elite) */}
@@ -348,7 +371,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         <textarea
           value={query}
           onChange={e => { setQuery(e.target.value); setEstado('idle') }}
-          placeholder={conteudo.placeholder}
+          placeholder="-- Escreva seu SQL aqui"
           className="w-full h-32 bg-[#0a0c12] border border-[#2a2d3a] rounded-xl p-3 text-[#34d399] font-mono resize-none outline-none focus:border-[#8b5cf6] transition-colors placeholder-white/20"
           style={{ userSelect: 'text', WebkitUserSelect: 'text', fontSize: '16px' }}
           spellCheck={false}
@@ -400,14 +423,6 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
             exit={{ opacity: 0 }}
           >
             <p className="text-red-300 text-sm">💡 {dicaAtual || mensagemErro}</p>
-            {tentativas >= 2 && dicasUsadas < 2 && (
-              <button
-                onClick={pedirDica}
-                className="text-xs text-amber-400 underline"
-              >
-                Ver dica extra
-              </button>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -447,9 +462,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         >
           Verificar
         </Button>
-        {estado === 'erro' && tentativas < 2 && (
+        {estado === 'erro' && (
           <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
-            💡 Mostrar dica
+            💡 {isPro ? 'Ver dica' : 'Ver dica (anúncio)'}
           </Button>
         )}
       </div>
