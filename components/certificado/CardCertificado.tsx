@@ -23,31 +23,46 @@ interface CardCertificadoProps {
 export function CardCertificado({ certificado, userName, isPro }: CardCertificadoProps) {
   const router = useRouter()
   const [baixando, setBaixando] = useState(false)
+  const [copiado, setCopiado] = useState(false)
   const emitidoEm = new Date(certificado.emitidoEm)
 
   async function baixarPDF() {
     setBaixando(true)
     try {
       const res = await fetch(`/api/certificado?trilhaId=${certificado.trilha.id}`)
-      if (!res.ok) throw new Error()
+      if (!res.ok) throw new Error('Erro ao gerar PDF')
       const blob = await res.blob()
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
       a.download = `certificado-sqlquest-${certificado.trilha.slug}.pdf`
+      document.body.appendChild(a)
       a.click()
-      URL.revokeObjectURL(url)
-    } catch {}
-    setBaixando(false)
+      document.body.removeChild(a)
+      setTimeout(() => URL.revokeObjectURL(url), 100)
+    } catch (err) {
+      alert('Não foi possível baixar o certificado. Tente novamente.')
+    } finally {
+      setBaixando(false)
+    }
   }
 
-  function compartilhar() {
-    const url = `${process.env.NEXT_PUBLIC_URL ?? ''}/cert/${certificado.hash}`
+  async function compartilhar() {
+    const url = `${process.env.NEXT_PUBLIC_URL ?? window.location.origin}/cert/${certificado.hash}`
     if (navigator.share) {
-      navigator.share({ title: `Certificado SQLQuest — ${certificado.trilha.titulo}`, url })
+      try {
+        await navigator.share({ title: `Certificado SQLQuest — ${certificado.trilha.titulo}`, url })
+      } catch {
+        // usuário cancelou ou erro — tenta copiar
+      }
     } else {
-      navigator.clipboard.writeText(url)
-      alert('Link copiado!')
+      try {
+        await navigator.clipboard.writeText(url)
+        setCopiado(true)
+        setTimeout(() => setCopiado(false), 2000)
+      } catch {
+        alert(`Link: ${url}`)
+      }
     }
   }
 
@@ -109,7 +124,7 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
             ⬇ Baixar PDF
           </Button>
           <Button onClick={compartilhar} size="sm" fullWidth variant="ghost">
-            🔗 Compartilhar
+            {copiado ? '✅ Link copiado!' : '🔗 Compartilhar'}
           </Button>
         </div>
       )}
