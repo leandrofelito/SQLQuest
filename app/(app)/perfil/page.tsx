@@ -137,7 +137,7 @@ export default function PerfilPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080a0f] pb-24">
+    <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+env(safe-area-inset-bottom))]">
       <Header title="Perfil" />
 
       <div className="max-w-3xl mx-auto px-4 pt-6 space-y-6">

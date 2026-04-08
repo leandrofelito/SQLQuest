@@ -150,6 +150,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       child: Scaffold(
         backgroundColor: const Color(0xFF080a0f),
         body: SafeArea(
+          bottom: false,
           child: Stack(
             children: [
               WebViewWidget(controller: _controller),
