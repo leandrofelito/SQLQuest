@@ -4,41 +4,51 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 
-const SLIDES = [
-  {
-    emoji: '📚',
-    titulo: 'Acesso a tudo',
-    desc: '8 trilhas completas de SQL básico ao avançado, sem restrições.',
-  },
-  {
-    emoji: '🏅',
-    titulo: 'Certificados PDF',
-    desc: 'Certificados de conclusão validáveis por link público.',
-  },
-  {
-    emoji: '🚫',
-    titulo: 'Sem anúncios',
-    desc: 'Aprenda sem interrupções. Nenhum anúncio, nunca.',
-  },
-  {
-    emoji: '♾️',
-    titulo: 'Para sempre',
-    desc: 'Pagamento único. Acesso vitalício. Sem mensalidade.',
-  },
-]
+function buildSlides(totalTrilhas: number) {
+  return [
+    {
+      emoji: '📚',
+      titulo: 'Acesso a tudo',
+      desc: `${totalTrilhas} trilhas completas de SQL básico ao avançado, sem restrições.`,
+    },
+    {
+      emoji: '🏅',
+      titulo: 'Certificados PDF',
+      desc: 'Certificados de conclusão validáveis por link público.',
+    },
+    {
+      emoji: '🚫',
+      titulo: 'Sem anúncios',
+      desc: 'Aprenda sem interrupções. Nenhum anúncio, nunca.',
+    },
+    {
+      emoji: '♾️',
+      titulo: 'Para sempre',
+      desc: 'Pagamento único. Acesso vitalício. Sem mensalidade.',
+    },
+  ]
+}
 
 export default function UpgradePage() {
   const router = useRouter()
   const [slideAtual, setSlideAtual] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [slides, setSlides] = useState(() => buildSlides(0))
   const intervalRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
+    fetch('/api/trilhas/count')
+      .then(r => r.json())
+      .then(({ total }) => { if (total > 0) setSlides(buildSlides(total)) })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
     intervalRef.current = setInterval(() => {
-      setSlideAtual(s => (s + 1) % SLIDES.length)
+      setSlideAtual(s => (s + 1) % slides.length)
     }, 2500)
     return () => clearInterval(intervalRef.current)
-  }, [])
+  }, [slides.length])
 
   async function handleCheckout() {
     setLoading(true)
@@ -74,15 +84,15 @@ export default function UpgradePage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.35 }}
             >
-              <div className="text-8xl">{SLIDES[slideAtual].emoji}</div>
-              <h2 className="text-2xl font-bold text-white">{SLIDES[slideAtual].titulo}</h2>
-              <p className="text-white/50 text-base max-w-xs mx-auto">{SLIDES[slideAtual].desc}</p>
+              <div className="text-8xl">{slides[slideAtual].emoji}</div>
+              <h2 className="text-2xl font-bold text-white">{slides[slideAtual].titulo}</h2>
+              <p className="text-white/50 text-base max-w-xs mx-auto">{slides[slideAtual].desc}</p>
             </motion.div>
           </AnimatePresence>
 
           {/* Dots */}
           <div className="flex gap-2">
-            {SLIDES.map((_, i) => (
+            {slides.map((_, i) => (
               <div
                 key={i}
                 onClick={() => setSlideAtual(i)}
