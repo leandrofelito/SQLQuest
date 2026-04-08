@@ -58,7 +58,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const label  = 'CERTIFICADO DE CONCLUSÃO'
   const labelW = fontBold.widthOfTextAtSize(label, 10)
   page.drawText(label, {
-    x: width / 2 - labelW / 2, y: padY + contentH - 172,
+    x: width / 2 - labelW / 2, y: padY + contentH - 222,
     size: 10, font: fontBold, color: cPurpleL,
   })
 
@@ -66,7 +66,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const sub  = 'Certificamos que'
   const subW = fontOblique.widthOfTextAtSize(sub, 12)
   page.drawText(sub, {
-    x: width / 2 - subW / 2, y: padY + contentH - 206,
+    x: width / 2 - subW / 2, y: padY + contentH - 256,
     size: 12, font: fontOblique, color: cMuted,
   })
 
@@ -74,14 +74,14 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const nameSize = 36
   const nameW    = fontBold.widthOfTextAtSize(data.userName, nameSize)
   page.drawText(data.userName, {
-    x: width / 2 - nameW / 2, y: padY + contentH - 254,
+    x: width / 2 - nameW / 2, y: padY + contentH - 304,
     size: nameSize, font: fontBold, color: cWhite,
   })
   // Sublinha decorativa
   const lm = 28
   page.drawLine({
-    start: { x: width / 2 - nameW / 2 - lm, y: padY + contentH - 264 },
-    end:   { x: width / 2 + nameW / 2 + lm, y: padY + contentH - 264 },
+    start: { x: width / 2 - nameW / 2 - lm, y: padY + contentH - 314 },
+    end:   { x: width / 2 + nameW / 2 + lm, y: padY + contentH - 314 },
     thickness: 1, color: cPurple, opacity: 0.55,
   })
 
@@ -89,7 +89,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const conc  = 'concluiu com \xEAxito o curso'
   const concW = fontRegular.widthOfTextAtSize(conc, 12)
   page.drawText(conc, {
-    x: width / 2 - concW / 2, y: padY + contentH - 294,
+    x: width / 2 - concW / 2, y: padY + contentH - 344,
     size: 12, font: fontRegular, color: cMuted,
   })
 
@@ -97,19 +97,19 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const cursoSize = 20
   const cursoW    = fontBold.widthOfTextAtSize(data.trilhaTitulo, cursoSize)
   page.drawText(data.trilhaTitulo, {
-    x: width / 2 - cursoW / 2, y: padY + contentH - 326,
+    x: width / 2 - cursoW / 2, y: padY + contentH - 376,
     size: cursoSize, font: fontBold, color: cPurpleL,
   })
 
   // ── Divisória
   page.drawLine({
-    start: { x: padX + 20, y: padY + contentH - 356 },
-    end:   { x: padX + contentW - 20, y: padY + contentH - 356 },
+    start: { x: padX + 20, y: padY + contentH - 406 },
+    end:   { x: padX + contentW - 20, y: padY + contentH - 406 },
     thickness: 0.5, color: cBorder,
   })
 
   // ── Info: Data | Código | URL
-  const infoY = padY + contentH - 386
+  const infoY = padY + contentH - 436
   let dataFormatada: string
   try {
     dataFormatada = data.emitidoEm.toLocaleDateString('pt-BR', {
