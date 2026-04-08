@@ -29,18 +29,21 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
   async function baixarPDF() {
     setBaixando(true)
     try {
-      const res = await fetch(`/api/certificado?trilhaId=${certificado.trilha.id}`)
-      if (!res.ok) throw new Error('Erro ao gerar PDF')
-      const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `certificado-sqlquest-${certificado.trilha.slug}.pdf`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      setTimeout(() => URL.revokeObjectURL(url), 100)
-    } catch (err) {
+      const html2pdf = (await import('html2pdf.js')).default
+      const elemento = document.getElementById('certificado-card')
+      if (!elemento) throw new Error('Elemento não encontrado')
+
+      await html2pdf()
+        .set({
+          margin: 0,
+          filename: `certificado-sqlquest-${certificado.trilha.slug}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 3, useCORS: true, backgroundColor: '#0f1117' },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+        })
+        .from(elemento)
+        .save()
+    } catch {
       alert('Não foi possível baixar o certificado. Tente novamente.')
     } finally {
       setBaixando(false)
@@ -82,7 +85,7 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
       )}
 
       {/* Certificado visual */}
-      <div className="bg-gradient-to-br from-[#161820] to-[#0a0c12] p-6 space-y-4">
+      <div id="certificado-card" className="bg-gradient-to-br from-[#161820] to-[#0a0c12] p-6 space-y-4">
         {/* Grid decorativo */}
         <div className="absolute inset-0 opacity-5"
           style={{
