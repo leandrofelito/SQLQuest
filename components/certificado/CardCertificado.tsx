@@ -29,22 +29,22 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
   async function baixarPDF() {
     setBaixando(true)
     try {
-      const html2pdf = (await import('html2pdf.js')).default
-      const elemento = document.getElementById('certificado-card')
-      if (!elemento) throw new Error('Elemento não encontrado')
-
-      await html2pdf()
-        .set({
-          margin: 0,
-          filename: `certificado-sqlquest-${certificado.trilha.slug}.pdf`,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 3, useCORS: true, backgroundColor: '#0f1117' },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
-        })
-        .from(elemento)
-        .save()
-    } catch {
-      alert('Não foi possível baixar o certificado. Tente novamente.')
+      const res = await fetch(`/api/certificado?trilhaId=${certificado.trilha.id}`)
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err?.error ?? `HTTP ${res.status}`)
+      }
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `certificado-sqlquest-${certificado.trilha.slug}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      setTimeout(() => URL.revokeObjectURL(url), 100)
+    } catch (err: any) {
+      alert(`Não foi possível baixar o certificado: ${err?.message ?? 'Tente novamente.'}`)
     } finally {
       setBaixando(false)
     }
@@ -56,7 +56,14 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
       try {
         await navigator.share({ title: `Certificado SQLQuest — ${certificado.trilha.titulo}`, url })
       } catch {
-        // usuário cancelou ou erro — tenta copiar
+        // usuário cancelou — tenta copiar como fallback
+        try {
+          await navigator.clipboard.writeText(url)
+          setCopiado(true)
+          setTimeout(() => setCopiado(false), 2000)
+        } catch {
+          alert(`Copie o link: ${url}`)
+        }
       }
     } else {
       try {
@@ -64,7 +71,7 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
         setCopiado(true)
         setTimeout(() => setCopiado(false), 2000)
       } catch {
-        alert(`Link: ${url}`)
+        alert(`Copie o link: ${url}`)
       }
     }
   }
