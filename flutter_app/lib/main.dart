@@ -6,14 +6,21 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 const String _adUnitId = 'ca-app-pub-4150729063109368/8892235156';
 
+const String _appUrl = String.fromEnvironment(
+  'APP_URL',
+  defaultValue: 'https://sqlquest.com.br',
+);
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.transparent,
-  ));
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -76,7 +83,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://sqlquest.com.br'));
+      ..loadRequest(Uri.parse(_appUrl));
   }
 
   void _loadRewardedAd() {
