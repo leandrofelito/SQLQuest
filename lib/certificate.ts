@@ -49,9 +49,9 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   const logoPath = path.join(process.cwd(), 'public', 'icons', 'sqlquest-logo-cert.png')
   const logoPng  = fs.readFileSync(logoPath)
   const logoImg  = await pdfDoc.embedPng(logoPng)
-  const logoSize = 150
+  const logoSize = 180
   const logoX    = width / 2 - logoSize / 2
-  const logoY    = padY + contentH - 200
+  const logoY    = padY + contentH - 225
   page.drawImage(logoImg, { x: logoX, y: logoY, width: logoSize, height: logoSize })
 
   // ── "CERTIFICADO DE CONCLUSÃO"
