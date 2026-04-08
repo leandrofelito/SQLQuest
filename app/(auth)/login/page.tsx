@@ -76,13 +76,13 @@ function LoginForm() {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-sm sm:max-w-md space-y-4">
+      <div className="relative z-10 w-full max-w-sm sm:max-w-md space-y-3">
         {/* Logo */}
-        <div className="flex justify-center pt-2 pb-2">
+        <div className="flex justify-center pt-2 pb-0">
           <img
             src="/icons/sqlquest_logo_escrita.svg"
             alt="SQLQuest"
-            className="w-[75%] max-w-[320px] h-auto"
+            className="w-[65%] max-w-[280px] h-auto"
           />
         </div>
 
