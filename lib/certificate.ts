@@ -86,7 +86,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   })
 
   // ── "concluiu com exito o curso"
-  const conc  = 'concluiu com exito o curso'
+  const conc  = 'concluiu com \xEAxito o curso'
   const concW = fontRegular.widthOfTextAtSize(conc, 12)
   page.drawText(conc, {
     x: width / 2 - concW / 2, y: padY + contentH - 294,
