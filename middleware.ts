@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server'
 
 const MANUTENCAO = process.env.MAINTENANCE_MODE === 'true'
 
+// Rotas públicas — não exigem autenticação
+const PUBLIC_PATHS = ['/login', '/register', '/manutencao', '/cert']
+
 export default withAuth(
   function middleware(req) {
     const { pathname } = req.nextUrl
@@ -23,6 +26,9 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token, req }) => {
+        const { pathname } = req.nextUrl
+        // Rotas públicas passam sem token para evitar loop de redirecionamento
+        if (PUBLIC_PATHS.some(p => pathname.startsWith(p))) return true
         if (MANUTENCAO) return true // deixa passar pro redirect acima
         return !!token
       },
@@ -33,6 +39,7 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|icons|images|api/auth).*)',
+    // Exclui assets estáticos, api/auth e rotas públicas do middleware
+    '/((?!_next/static|_next/image|favicon\\.ico|icons|images|api/auth|login|register|manutencao|cert).*)',
   ],
 }
