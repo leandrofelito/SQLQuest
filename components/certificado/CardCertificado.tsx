@@ -94,7 +94,7 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
       {/* Certificado visual */}
       <div id="certificado-card" className="bg-gradient-to-br from-[#161820] to-[#0a0c12] p-6 space-y-4">
         {/* Grid decorativo */}
-        <div className="absolute inset-0 opacity-5"
+        <div className="absolute inset-0 opacity-5 pointer-events-none"
           style={{
             backgroundImage: 'repeating-linear-gradient(45deg, #8b5cf6 0, #8b5cf6 1px, transparent 0, transparent 50%)',
             backgroundSize: '12px 12px',
