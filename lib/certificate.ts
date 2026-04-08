@@ -65,7 +65,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
     borderColor: cGold, borderWidth: 1.5, opacity: 0.55 })
   page.drawEllipse({ x: mx, y: my, xScale: 27, yScale: 27,
     color: cPurple, opacity: 0.9 })
-  const star = '★'
+  const star = '*'
   const starSize = 25
   const starW = fontBold.widthOfTextAtSize(star, starSize)
   page.drawText(star, {
@@ -172,7 +172,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   })
 
   // ── Rodapé
-  const footer = 'SQLQuest — Plataforma de aprendizado SQL gamificada  •  sqlquest.com.br'
+  const footer = 'SQLQuest - Plataforma de aprendizado SQL gamificada  |  sqlquest.com.br'
   const footerW = fontRegular.widthOfTextAtSize(footer, 7.5)
   page.drawText(footer, {
     x: width / 2 - footerW / 2, y: cardY + 13,
