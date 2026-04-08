@@ -10,6 +10,18 @@ export const metadata: Metadata = {
   title: 'SQLQuest — Aprenda SQL jogando',
   description: 'Plataforma gamificada de ensino de SQL. Do básico ao avançado.',
   manifest: '/manifest.json',
+  openGraph: {
+    title: 'SQLQuest — Aprenda SQL jogando',
+    description: 'Plataforma gamificada de ensino de SQL. Do básico ao avançado.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SQLQuest — Aprenda SQL jogando',
+    description: 'Plataforma gamificada de ensino de SQL. Do básico ao avançado.',
+    images: ['/og-image.png'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -24,7 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="SQLQuest" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-        <link rel="icon" type="image/svg+xml" href="/icons/icone_app.svg" />
+        <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+        <link rel="icon" type="image/svg+xml" href="/icons/icone_app.svg" sizes="any" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
         {/* Google AdSense */}
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
