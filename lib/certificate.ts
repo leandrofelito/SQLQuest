@@ -129,9 +129,15 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
 
   // ── Info: Data | Código | URL
   const infoY = cardY + cardH - 392
-  const dataFormatada = data.emitidoEm.toLocaleDateString('pt-BR', {
-    day: '2-digit', month: 'long', year: 'numeric',
-  })
+  let dataFormatada: string
+  try {
+    dataFormatada = data.emitidoEm.toLocaleDateString('pt-BR', {
+      day: '2-digit', month: 'long', year: 'numeric',
+    })
+  } catch {
+    const d = data.emitidoEm
+    dataFormatada = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
+  }
 
   // Data (esquerda)
   page.drawText('DATA DE EMISSÃO', {

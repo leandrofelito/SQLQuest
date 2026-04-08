@@ -22,17 +22,22 @@ export async function GET(req: Request) {
   })
   if (!cert) return NextResponse.json({ error: 'Certificado não encontrado' }, { status: 404 })
 
-  const pdfBytes = await generateCertificatePDF({
-    userName: user.name ?? 'Usuário',
-    trilhaTitulo: `SQL — ${cert.trilha.titulo}`,
-    hash: cert.hash,
-    emitidoEm: cert.emitidoEm,
-  })
+  try {
+    const pdfBytes = await generateCertificatePDF({
+      userName: user.name ?? 'Usuário',
+      trilhaTitulo: `SQL — ${cert.trilha.titulo}`,
+      hash: cert.hash,
+      emitidoEm: cert.emitidoEm,
+    })
 
-  return new Response(Buffer.from(pdfBytes), {
-    headers: {
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="certificado-sqlquest-${cert.trilha.slug}.pdf"`,
-    },
-  })
+    return new Response(Buffer.from(pdfBytes), {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="certificado-sqlquest-${cert.trilha.slug}.pdf"`,
+      },
+    })
+  } catch (err: any) {
+    console.error('[certificado] generateCertificatePDF error:', err)
+    return NextResponse.json({ error: err?.message ?? 'Erro ao gerar PDF' }, { status: 500 })
+  }
 }
