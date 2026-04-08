@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart' show Share, XFile;
@@ -53,14 +52,26 @@ class WebViewScreen extends StatefulWidget {
   State<WebViewScreen> createState() => _WebViewScreenState();
 }
 
-class _WebViewScreenState extends State<WebViewScreen> {
+class _WebViewScreenState extends State<WebViewScreen>
+    with SingleTickerProviderStateMixin {
   late final WebViewController _controller;
+  late final AnimationController _fadeController;
+  late final Animation<double> _fadeAnimation;
   bool _isLoading = true;
   RewardedAd? _rewardedAd;
 
   @override
   void initState() {
     super.initState();
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeIn,
+    );
+    _fadeController.forward();
     _loadRewardedAd();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -180,6 +191,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   void dispose() {
+    _fadeController.dispose();
     _rewardedAd?.dispose();
     super.dispose();
   }
@@ -206,21 +218,33 @@ class _WebViewScreenState extends State<WebViewScreen> {
             children: [
               WebViewWidget(controller: _controller),
               if (_isLoading)
-                Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/sqlquest_logo_escrita.svg',
-                        width: MediaQuery.of(context).size.width * 0.55,
-                        fit: BoxFit.contain,
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: Container(
+                    color: const Color(0xFF080a0f),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/sqlquest_logo.png',
+                            width: MediaQuery.of(context).size.width * 0.58,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(height: 40),
+                          SizedBox(
+                            width: 28,
+                            height: 28,
+                            child: CircularProgressIndicator(
+                              color: const Color(0xFFB8962E),
+                              backgroundColor:
+                                  const Color(0xFFB8962E).withAlpha(40),
+                              strokeWidth: 2.5,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 32),
-                      const CircularProgressIndicator(
-                        color: Color(0xFF7C3AED),
-                        strokeWidth: 3,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
             ],
