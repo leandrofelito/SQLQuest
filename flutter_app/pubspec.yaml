@@ -37,6 +37,8 @@ dependencies:
   webview_flutter: ^4.10.0
   flutter_svg: ^2.0.10+1
   google_mobile_ads: ^5.1.0
+  share_plus: ^10.1.4
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +97,6 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon.png"
-  adaptive_icon_background: "#080a0f"
+  adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/icon.png"
   min_sdk_android: 21

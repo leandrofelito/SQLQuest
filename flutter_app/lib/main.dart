@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart' show Share, XFile;
 import 'package:webview_flutter/webview_flutter.dart';
 
 const String _adUnitId = 'ca-app-pub-4150729063109368/8892235156';
@@ -70,13 +75,23 @@ class _WebViewScreenState extends State<WebViewScreen> {
           }
         },
       )
+      ..addJavaScriptChannel(
+        'CertificadoBridge',
+        onMessageReceived: (JavaScriptMessage message) {
+          _handleCertificado(message.message);
+        },
+      )
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (_) {
             if (mounted) setState(() => _isLoading = true);
           },
           onPageFinished: (_) {
-            if (mounted) setState(() => _isLoading = false);
+            if (mounted) {
+              setState(() => _isLoading = false);
+              // Injeta flag para o JS saber que está rodando dentro do app nativo
+              _controller.runJavaScript('window.__sqlquestNativeApp = true;');
+            }
           },
           onWebResourceError: (_) {
             if (mounted) setState(() => _isLoading = false);
@@ -84,6 +99,35 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ),
       )
       ..loadRequest(Uri.parse(_appUrl));
+  }
+
+  Future<void> _handleCertificado(String message) async {
+    try {
+      final data = jsonDecode(message) as Map<String, dynamic>;
+      final action = data['action'] as String;
+
+      if (action == 'share') {
+        final url = data['url'] as String;
+        final title = data['title'] as String? ?? 'Certificado SQLQuest';
+        await Share.share('$title\n$url', subject: title);
+      } else if (action == 'download') {
+        final filename = data['filename'] as String;
+        final base64Str = data['base64'] as String;
+        final bytes = base64Decode(base64Str);
+        // Usa documents dir (coberto pelo FileProvider do share_plus)
+        final dir = await getApplicationDocumentsDirectory();
+        final file = File('${dir.path}/$filename');
+        await file.writeAsBytes(bytes);
+        await Share.shareXFiles(
+          [XFile(file.path, mimeType: 'application/pdf')],
+          subject: filename,
+          text: 'Certificado SQLQuest',
+        );
+      }
+    } catch (e) {
+      final msg = e.toString().replaceAll("'", '').replaceAll('"', '');
+      _controller.runJavaScript("alert('Erro ao processar certificado: $msg')");
+    }
   }
 
   void _loadRewardedAd() {

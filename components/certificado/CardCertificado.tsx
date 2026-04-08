@@ -20,6 +20,11 @@ interface CardCertificadoProps {
   isPro: boolean
 }
 
+function isInSQLQuestApp() {
+  if (typeof navigator === 'undefined') return false
+  return navigator.userAgent.includes('SQLQuestApp')
+}
+
 export function CardCertificado({ certificado, userName, isPro }: CardCertificadoProps) {
   const router = useRouter()
   const [baixando, setBaixando] = useState(false)
@@ -35,14 +40,35 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
         throw new Error(err?.error ?? `HTTP ${res.status}`)
       }
       const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `certificado-sqlquest-${certificado.trilha.slug}.pdf`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      setTimeout(() => URL.revokeObjectURL(url), 100)
+
+      if ((window as any).__sqlquestNativeApp || isInSQLQuestApp()) {
+        // Converte blob para base64 e envia ao Flutter para salvar/compartilhar
+        const reader = new FileReader()
+        reader.onload = () => {
+          const base64 = (reader.result as string).split(',')[1]
+          try {
+            ;(window as any).CertificadoBridge.postMessage(
+              JSON.stringify({
+                action: 'download',
+                filename: `certificado-sqlquest-${certificado.trilha.slug}.pdf`,
+                base64,
+              })
+            )
+          } catch (e) {
+            console.error('CertificadoBridge indisponível:', e)
+          }
+        }
+        reader.readAsDataURL(blob)
+      } else {
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `certificado-sqlquest-${certificado.trilha.slug}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        setTimeout(() => URL.revokeObjectURL(url), 100)
+      }
     } catch (err: any) {
       alert(`Não foi possível baixar o certificado: ${err?.message ?? 'Tente novamente.'}`)
     } finally {
@@ -52,9 +78,24 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
 
   async function compartilhar() {
     const url = `${process.env.NEXT_PUBLIC_URL ?? window.location.origin}/cert/${certificado.hash}`
+    const title = `Certificado SQLQuest — ${certificado.trilha.titulo}`
+
+    if ((window as any).__sqlquestNativeApp || isInSQLQuestApp()) {
+      // Abre o share sheet nativo do Android via Flutter
+      try {
+        ;(window as any).CertificadoBridge.postMessage(
+          JSON.stringify({ action: 'share', url, title })
+        )
+        return
+      } catch (e) {
+        console.error('CertificadoBridge indisponível:', e)
+        // fallback para navigator.share abaixo
+      }
+    }
+
     if (navigator.share) {
       try {
-        await navigator.share({ title: `Certificado SQLQuest — ${certificado.trilha.titulo}`, url })
+        await navigator.share({ title, url })
       } catch {
         // usuário cancelou — tenta copiar como fallback
         try {

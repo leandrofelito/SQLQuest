@@ -37,7 +37,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content="SQLQuest" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <link rel="icon" type="image/png" href="/icons/favicon.png" />
-        <link rel="icon" type="image/svg+xml" href="/icons/icone_app.svg" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
         {/* Google AdSense */}
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
