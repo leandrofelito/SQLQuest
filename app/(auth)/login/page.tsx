@@ -160,7 +160,7 @@ function LoginForm() {
           </Button>
         </form>
 
-        <p className="text-center text-white/30 text-sm">
+        <p className="text-center text-white/30 text-sm pb-6">
           Não tem conta?{' '}
           <Link href="/register" className="text-[#a78bfa] hover:underline">
             Criar conta grátis
