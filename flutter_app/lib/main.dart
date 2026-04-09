@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart' show Share, XFile;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 const String _adUnitId = 'ca-app-pub-4150729063109368/8892235156';
@@ -18,6 +19,10 @@ const String _appUrl = String.fromEnvironment(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
+
+  final prefs = await SharedPreferences.getInstance();
+  final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -25,11 +30,12 @@ void main() async {
       systemNavigationBarColor: Colors.transparent,
     ),
   );
-  runApp(const MyApp());
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +46,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF7C3AED)),
         useMaterial3: true,
       ),
-      home: const WebViewScreen(),
+      home: WebViewScreen(isLoggedIn: isLoggedIn),
     );
   }
 }
 
 class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({super.key});
+  final bool isLoggedIn;
+  const WebViewScreen({super.key, required this.isLoggedIn});
 
   @override
   State<WebViewScreen> createState() => _WebViewScreenState();
@@ -73,10 +80,26 @@ class _WebViewScreenState extends State<WebViewScreen>
     );
     _fadeController.forward();
     _loadRewardedAd();
+
+    // Se já logado, abre direto na home — evita o flash da tela de login
+    final initialUrl =
+        widget.isLoggedIn ? '$_appUrl/home' : _appUrl;
+
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setUserAgent(
         'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 SQLQuestApp/1.0',
+      )
+      ..addJavaScriptChannel(
+        'SessionBridge',
+        onMessageReceived: (JavaScriptMessage message) async {
+          final prefs = await SharedPreferences.getInstance();
+          if (message.message == 'login') {
+            await prefs.setBool('isLoggedIn', true);
+          } else if (message.message == 'logout') {
+            await prefs.setBool('isLoggedIn', false);
+          }
+        },
       )
       ..addJavaScriptChannel(
         'AdMobBridge',
@@ -97,11 +120,16 @@ class _WebViewScreenState extends State<WebViewScreen>
           onPageStarted: (_) {
             if (mounted) setState(() => _isLoading = true);
           },
-          onPageFinished: (_) {
+          onPageFinished: (url) async {
             if (mounted) {
               setState(() => _isLoading = false);
-              // Injeta flag para o JS saber que está rodando dentro do app nativo
               _controller.runJavaScript('window.__sqlquestNativeApp = true;');
+
+              // Sessão expirou: o servidor redirecionou para /login
+              if (url.contains('/login')) {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('isLoggedIn', false);
+              }
             }
           },
           onWebResourceError: (_) {
@@ -109,7 +137,7 @@ class _WebViewScreenState extends State<WebViewScreen>
           },
         ),
       )
-      ..loadRequest(Uri.parse(_appUrl));
+      ..loadRequest(Uri.parse(initialUrl));
   }
 
   Future<void> _handleCertificado(String message) async {
@@ -125,7 +153,6 @@ class _WebViewScreenState extends State<WebViewScreen>
         final filename = data['filename'] as String;
         final base64Str = data['base64'] as String;
         final bytes = base64Decode(base64Str);
-        // Usa documents dir (coberto pelo FileProvider do share_plus)
         final dir = await getApplicationDocumentsDirectory();
         final file = File('${dir.path}/$filename');
         await file.writeAsBytes(bytes);
@@ -158,7 +185,6 @@ class _WebViewScreenState extends State<WebViewScreen>
 
   void _showRewardedAd() {
     if (_rewardedAd == null) {
-      // Sem anúncio disponível — libera o usuário sem recompensar
       _controller.runJavaScript("window.onAdMobResult('dismissed')");
       _loadRewardedAd();
       return;
@@ -169,8 +195,6 @@ class _WebViewScreenState extends State<WebViewScreen>
         ad.dispose();
         _rewardedAd = null;
         _loadRewardedAd();
-        // Se o usuário fechou sem ganhar recompensa (não deveria acontecer
-        // em rewarded, mas cobre o caso de fechar antes do fim)
         _controller.runJavaScript("window.onAdMobResult('dismissed')");
       },
       onAdFailedToShowFullScreenContent: (ad, error) {

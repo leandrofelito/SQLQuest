@@ -81,51 +81,41 @@ function ModalEstrelas({
         exit={{ y: 80, scale: 0.92 }}
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
       >
-        {/* Estrelas */}
-        <div className="flex justify-center gap-3 mb-5">
-          {[1, 2, 3].map(i => {
+        {/* Estrelas + Legendas (cada par alinhado na mesma coluna) */}
+        <div className="flex justify-center gap-6 mb-5">
+          {([
+            { label: 'Acertou' },
+            { label: 'Sem dica' },
+            { label: '1ª tentativa' },
+          ] as const).map(({ label }, idx) => {
+            const i = idx + 1
             const filled = i <= estrelas
             return (
-              <motion.div
-                key={i}
-                initial={{ scale: 0, rotate: -90 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{
-                  delay: 0.15 * i,
-                  type: 'spring',
-                  stiffness: 260,
-                  damping: 18,
-                }}
-              >
-                <StarIcon filled={filled} size={40} />
-              </motion.div>
-            )
-          })}
-        </div>
-
-        {/* Legenda das estrelas */}
-        <motion.div
-          className="flex justify-center gap-4 mb-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          {[1, 2, 3].map(i => {
-            const earned = i <= estrelas
-            const labels: Record<number, string> = {
-              1: 'Acertou',
-              2: 'Sem dica',
-              3: '1ª tentativa',
-            }
-            return (
-              <div key={i} className="flex flex-col items-center gap-0.5">
-                <span className={`text-[10px] font-semibold ${earned ? 'text-amber-400' : 'text-white/20'}`}>
-                  {labels[i]}
-                </span>
+              <div key={i} className="flex flex-col items-center gap-1.5">
+                <motion.div
+                  initial={{ scale: 0, rotate: -90 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{
+                    delay: 0.15 * i,
+                    type: 'spring',
+                    stiffness: 260,
+                    damping: 18,
+                  }}
+                >
+                  <StarIcon filled={filled} size={40} />
+                </motion.div>
+                <motion.span
+                  className={`text-[10px] font-semibold ${filled ? 'text-amber-400' : 'text-white/20'}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  {label}
+                </motion.span>
               </div>
             )
           })}
-        </motion.div>
+        </div>
 
         {/* Título */}
         <motion.p

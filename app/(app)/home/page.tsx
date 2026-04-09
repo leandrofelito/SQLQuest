@@ -27,6 +27,10 @@ export default function HomePage() {
   const proBought = searchParams.get('pro') === '1'
 
   useEffect(() => {
+    // Sinaliza ao app Flutter que o login foi bem-sucedido
+    if (typeof window !== 'undefined' && (window as any).__sqlquestNativeApp) {
+      (window as any).SessionBridge?.postMessage('login')
+    }
     fetch('/api/trilhas')
       .then(r => r.json())
       .then(setTrilhas)

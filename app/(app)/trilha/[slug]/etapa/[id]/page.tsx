@@ -63,11 +63,25 @@ export default function EtapaPage() {
       const t = trilhas.find((tr: any) => tr.slug === slug)
       if (!t || !etapaData?.id) { router.push(`/trilha/${slug}`); return }
 
+      // Guard: bloqueia acesso direto via URL se a etapa anterior não foi concluída
+      const ordenadas: { id: string; ordem: number }[] = [...(t.etapas ?? [])].sort(
+        (a: any, b: any) => a.ordem - b.ordem
+      )
+      const idxAtual = ordenadas.findIndex((e) => e.id === id)
+      if (idxAtual > 0) {
+        const progressoIds = new Set(progressos.map((p: any) => p.etapaId))
+        const etapaAnterior = ordenadas[idxAtual - 1]
+        if (!progressoIds.has(etapaAnterior.id)) {
+          router.push(`/trilha/${slug}`)
+          return
+        }
+      }
+
       setEtapa(etapaData)
       setTrilha(t)
       setTodasEtapas(t.etapas ?? [])
 
-      // Trilha concluída quando todos os exercícios (únicos que salvam progresso) forem feitos
+      // Trilha concluída quando todos os exercícios forem feitos
       const exercicioIds = new Set((t.etapas ?? []).filter((e: any) => e.tipo === 'exercicio').map((e: any) => e.id))
       const etapasConcluidasIds = new Set(progressos.map((p: any) => p.etapaId))
       etapasConcluidasIds.add(id) // assume que esta etapa será concluída
@@ -79,6 +93,27 @@ export default function EtapaPage() {
     }
     load()
   }, [id, slug, router, isPro])
+
+  // Marca conclusao como visitada automaticamente ao renderizar (não tem botão Continuar próprio)
+  useEffect(() => {
+    if (etapa?.tipo === 'conclusao' && trilha) {
+      fetch('/api/marcar-visitada', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id }),
+      })
+    }
+  }, [etapa?.id, etapa?.tipo, trilha?.id])
+
+  async function marcarVisitada() {
+    if (!etapa || !trilha) return
+    // Registra etapas de leitura/intro/resumo/conclusao como concluídas para desbloquear a próxima
+    await fetch('/api/marcar-visitada', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id }),
+    })
+  }
 
   async function salvarProgresso(estrelas: number, dicasUsadas: number, tentativas: number, token: string) {
     if (!etapa || !trilha) return
@@ -164,7 +199,7 @@ export default function EtapaPage() {
                 <TelaIntro
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoIntro}
-                  onContinuar={proximaEtapa}
+                  onContinuar={async () => { await marcarVisitada(); proximaEtapa() }}
                 />
               </div>
             </motion.div>
@@ -176,7 +211,7 @@ export default function EtapaPage() {
                 <TelaTexto
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoTexto}
-                  onContinuar={proximaEtapa}
+                  onContinuar={async () => { await marcarVisitada(); proximaEtapa() }}
                 />
               </div>
             </motion.div>
@@ -188,7 +223,7 @@ export default function EtapaPage() {
                 <TelaResumo
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoResumo}
-                  onContinuar={proximaEtapa}
+                  onContinuar={async () => { await marcarVisitada(); proximaEtapa() }}
                 />
               </div>
             </motion.div>

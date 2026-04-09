@@ -61,9 +61,10 @@ export default function TrilhaPage() {
 
       const etapasComStatus = t.etapas.map((e: Etapa) => ({
         ...e,
-        // Apenas exercícios com progresso salvo no banco são marcados como concluídos
-        // Intro/Leitura/Resumo nunca aparecem como verdes — não salvam progresso
-        concluida: e.tipo === 'exercicio' && progressoIds.has(e.id),
+        // Qualquer tipo de etapa com registro no banco é considerada concluída
+        // Exercícios: salvo por /api/progresso com token HMAC
+        // Demais tipos: salvo por /api/marcar-visitada ao clicar em Continuar
+        concluida: progressoIds.has(e.id),
       }))
 
       // Percentual calculado apenas sobre exercícios (apenas eles salvam progresso)
@@ -91,11 +92,6 @@ export default function TrilhaPage() {
     )
   }
 
-  // Próximo exercício não concluído determina até onde o usuário chegou
-  const proximoExercicioNaoConcluido = trilha.etapas
-    .filter((e: any) => e.tipo === 'exercicio' && !e.concluida)
-    .sort((a: any, b: any) => a.ordem - b.ordem)[0]
-  const etapaAtualOrdem = proximoExercicioNaoConcluido?.ordem ?? (trilha.etapas[trilha.etapas.length - 1]?.ordem ?? 1)
 
   return (
     <div className="min-h-screen bg-[#080a0f] pb-8">
@@ -134,7 +130,6 @@ export default function TrilhaPage() {
           <ListaEtapas
             trilhaSlug={slug}
             etapas={trilha.etapas}
-            etapaAtualOrdem={etapaAtualOrdem}
           />
           <CertPreview
             trilha={trilha}

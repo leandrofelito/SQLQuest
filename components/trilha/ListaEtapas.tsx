@@ -15,7 +15,6 @@ interface Etapa {
 interface ListaEtapasProps {
   trilhaSlug: string
   etapas: Etapa[]
-  etapaAtualOrdem: number
 }
 
 const TIPO_LABEL: Record<string, { label: string; variant: 'purple' | 'green' | 'blue' | 'orange' | 'gray' }> = {
@@ -26,15 +25,21 @@ const TIPO_LABEL: Record<string, { label: string; variant: 'purple' | 'green' | 
   conclusao: { label: 'Conclusão', variant: 'green' },
 }
 
-export function ListaEtapas({ trilhaSlug, etapas, etapaAtualOrdem }: ListaEtapasProps) {
+export function ListaEtapas({ trilhaSlug, etapas }: ListaEtapasProps) {
   const router = useRouter()
+
+  // Garante ordem correta antes de calcular os estados
+  const ordenadas = [...etapas].sort((a, b) => a.ordem - b.ordem)
 
   return (
     <div className="space-y-2 px-4 py-2">
-      {etapas.map((etapa, i) => {
+      {ordenadas.map((etapa, i) => {
         const done = etapa.concluida
-        const current = etapa.ordem === etapaAtualOrdem
-        const locked = etapa.ordem > etapaAtualOrdem && !done
+        // Etapa N fica bloqueada se a etapa anterior (N-1) ainda não foi concluída.
+        // A primeira etapa (índice 0) é sempre liberada.
+        const locked = i > 0 && !ordenadas[i - 1].concluida
+        // "Atual" = próxima etapa desbloqueada que ainda não foi concluída
+        const current = !locked && !done
         const tipo = TIPO_LABEL[etapa.tipo] ?? { label: etapa.tipo, variant: 'gray' as const }
 
         return (
@@ -44,13 +49,21 @@ export function ListaEtapas({ trilhaSlug, etapas, etapaAtualOrdem }: ListaEtapas
             disabled={locked}
             className={cn(
               'w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all',
-              done ? 'bg-emerald-500/5 border-emerald-500/20' : current ? 'bg-[#8b5cf6]/10 border-[#8b5cf6]/30' : locked ? 'bg-[#0f1117] border-[#1e2028] opacity-50 cursor-not-allowed' : 'bg-[#0f1117] border-[#2a2d3a] hover:border-[#363a4a]'
+              done
+                ? 'bg-emerald-500/5 border-emerald-500/20'
+                : current
+                ? 'bg-[#8b5cf6]/10 border-[#8b5cf6]/30'
+                : 'bg-[#0f1117] border-[#1e2028] opacity-50 cursor-not-allowed'
             )}
           >
             {/* Número circular */}
             <div className={cn(
               'w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm',
-              done ? 'bg-emerald-500/20 text-emerald-400' : current ? 'bg-[#8b5cf6] text-white' : 'bg-[#1e2028] text-white/30'
+              done
+                ? 'bg-emerald-500/20 text-emerald-400'
+                : current
+                ? 'bg-[#8b5cf6] text-white'
+                : 'bg-[#1e2028] text-white/30'
             )}>
               {done ? '✓' : locked ? '🔒' : etapa.ordem}
             </div>

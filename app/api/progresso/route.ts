@@ -104,10 +104,12 @@ export async function POST(req: Request) {
     where: { userId, trilhaId: body.trilhaId },
   })
 
-  const totalExercicios = trilha?.etapas.filter(e => e.tipo === 'exercicio').length ?? 0
+  const exercicioIds = new Set(trilha?.etapas.filter(e => e.tipo === 'exercicio').map(e => e.id) ?? [])
+  const totalExercicios = exercicioIds.size
+  const progressosExercicios = progressosTrilha.filter(p => exercicioIds.has(p.etapaId)).length
 
   let certificadoCriado = false
-  if (trilha && totalExercicios > 0 && progressosTrilha.length >= totalExercicios) {
+  if (trilha && totalExercicios > 0 && progressosExercicios >= totalExercicios) {
     const user = await prisma.user.findUnique({ where: { id: userId } })
     if (user?.isPro) {
       const certExiste = await prisma.certificado.findUnique({
