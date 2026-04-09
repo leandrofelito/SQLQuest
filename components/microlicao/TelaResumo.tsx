@@ -45,7 +45,7 @@ export function TelaResumo({ titulo, conteudo, onContinuar }: TelaResumoProps) {
         </motion.div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 pb-6">
         <Button onClick={onContinuar} fullWidth size="lg">
           Próximo →
         </Button>

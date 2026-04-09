@@ -99,8 +99,13 @@ export function TelaTexto({ titulo, conteudo, onContinuar }: TelaTextoProps) {
         </AnimatePresence>
       </div>
 
-      <div className="mt-8">
-        <Button onClick={avancar} fullWidth size="lg">
+      <div className="mt-8 pb-6 flex gap-3">
+        {blocoAtual > 0 && (
+          <Button onClick={() => setBlocoAtual(b => b - 1)} variant="secondary" size="lg" className="flex-1">
+            ← Voltar
+          </Button>
+        )}
+        <Button onClick={avancar} size="lg" className="flex-1">
           {isUltimo ? 'Continuar →' : 'Próximo'}
         </Button>
       </div>

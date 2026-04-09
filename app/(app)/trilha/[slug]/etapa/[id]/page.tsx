@@ -185,7 +185,19 @@ export default function EtapaPage() {
             </svg>
           </button>
           <span className="text-white/40 text-sm">{idx + 1} / {ordenadas.length}</span>
-          <div className="w-5" />
+          {idx > 0 ? (
+            <button
+              onClick={() => router.push(`/trilha/${slug}/etapa/${ordenadas[idx - 1].id}`)}
+              className="text-white/40 hover:text-white transition-colors text-sm font-medium flex items-center gap-1"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+              Voltar
+            </button>
+          ) : (
+            <div className="w-14" />
+          )}
         </div>
         </div>
       </div>
@@ -332,7 +344,7 @@ export default function EtapaPage() {
 
       {/* Anúncio */}
       {showAnuncio && (
-        <AnuncioVideo isPro={isPro} onConcluido={() => { setShowAnuncio(false); proximaEtapa() }} />
+        <AnuncioVideo isPro={isPro} onConcluido={() => { setShowAnuncio(false); proximaEtapa() }} onFechar={() => setShowAnuncio(false)} />
       )}
     </div>
   )

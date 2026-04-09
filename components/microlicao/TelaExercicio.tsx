@@ -242,6 +242,8 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   const dicaPendenteRef = useRef('')
   const estrelasFinalRef = useRef(0)
   const tokenRef = useRef('')
+  const toolbarDragRef = useRef(false)
+  const toolbarStartXRef = useRef(0)
 
   function resolverDica() {
     const tipo = mensagemErro ? classificarErro(mensagemErro) : 'generico'
@@ -376,6 +378,19 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
               key={key}
               type="button"
               onPointerDown={e => {
+                toolbarStartXRef.current = e.clientX
+                toolbarDragRef.current = false
+              }}
+              onPointerMove={e => {
+                if (Math.abs(e.clientX - toolbarStartXRef.current) > 6) {
+                  toolbarDragRef.current = true
+                }
+              }}
+              onPointerCancel={() => {
+                toolbarDragRef.current = true
+              }}
+              onPointerUp={e => {
+                if (toolbarDragRef.current) return
                 e.preventDefault()
                 const ta = e.currentTarget.closest('.relative')?.querySelector('textarea') as HTMLTextAreaElement | null
                 if (!ta) return
@@ -461,7 +476,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
 
       {/* Anúncio antes de revelar a dica */}
       {showAnuncioDica && (
-        <AnuncioVideo isPro={false} label="Anúncio" onConcluido={liberarDica} />
+        <AnuncioVideo isPro={false} label="Anúncio" onConcluido={liberarDica} onFechar={() => setShowAnuncioDica(false)} />
       )}
 
       {/* Painel de aviso de performance (query lenta detectada) */}
