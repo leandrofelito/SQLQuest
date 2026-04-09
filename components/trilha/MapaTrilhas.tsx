@@ -117,10 +117,10 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       />
 
       {adEtapa === 1 && (
-        <AnuncioVideo isPro={false} label="Anúncio 1 de 2" onConcluido={primeiroAnuncioConcluido} />
+        <AnuncioVideo isPro={false} label="Anúncio 1 de 2" onConcluido={primeiroAnuncioConcluido} onFechar={() => setAdEtapa(0)} />
       )}
       {adEtapa === 2 && (
-        <AnuncioVideo isPro={false} label="Anúncio 2 de 2" onConcluido={segundoAnuncioConcluido} />
+        <AnuncioVideo isPro={false} label="Anúncio 2 de 2" onConcluido={segundoAnuncioConcluido} onFechar={() => setAdEtapa(0)} />
       )}
     </>
   )

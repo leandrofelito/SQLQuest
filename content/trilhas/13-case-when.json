@@ -34,7 +34,7 @@
       "titulo": "Classifique os Produtos por Preço",
       "conteudo": {
         "instrucao": "Escreva uma query que retorne o Nome do produto e uma coluna Faixa: 'Barato' se Preco < 100, 'Médio' se entre 100 e 999, e 'Caro' se Preco >= 1000.",
-        "dica": "Use CASE WHEN Preco < 100 THEN 'Barato' WHEN Preco < 1000 THEN 'Médio' ELSE 'Caro' END AS Faixa",
+        "dica": "CASE funciona como if/elseif/else. Começa com CASE, tem WHEN condição THEN resultado para cada faixa, ELSE para o caso padrão e termina com END. Dê um alias à coluna resultante com AS.",
         "placeholder": "SELECT Nome,\n  CASE\n    WHEN Preco < 100 THEN 'Barato'\n    WHEN Preco < 1000 THEN ...\n    ELSE ...\n  END AS Faixa\nFROM Produtos",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200),(4,'Teclado',150),(5,'Headset',650),(6,'Caneta',12);",
         "checkType": "columns",
@@ -63,7 +63,7 @@
       "titulo": "Bronze, Prata ou Ouro",
       "conteudo": {
         "instrucao": "Classifique cada cliente com uma coluna Categoria: 'Ouro' se TotalGasto >= 5000, 'Prata' se >= 1000, 'Bronze' nos demais casos. Retorne Nome e Categoria.",
-        "dica": "Faça um SUM(Valor) agrupado por cliente e use CASE WHEN para classificar no SELECT.",
+        "dica": "Você precisa calcular o total gasto por cliente (JOIN + GROUP BY + SUM) e depois classificar esse total. O CASE WHEN fica no SELECT, avaliando o resultado do SUM. A ordem: join → agrupa por cliente → classifica o total.",
         "placeholder": "SELECT c.Nome,\n  CASE\n    WHEN SUM(p.Valor) >= 5000 THEN 'Ouro'\n    WHEN SUM(p.Valor) >= 1000 THEN 'Prata'\n    ELSE 'Bronze'\n  END AS Categoria\nFROM Clientes c\nLEFT JOIN Pedidos p ON c.ClienteID = p.ClienteID\nGROUP BY c.ClienteID, c.Nome",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'),(4,'João'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Valor REAL); INSERT INTO Pedidos VALUES (1,1,3200),(2,1,2100),(3,2,89),(4,2,150),(5,3,4800),(6,4,500);",
         "checkType": "columns",
@@ -75,7 +75,7 @@
       "titulo": "Contagem Condicional",
       "conteudo": {
         "instrucao": "Em uma única query, retorne: TotalPedidos (todos), PedidosPagos (Status = 'pago') e PedidosPendentes (Status = 'pendente').",
-        "dica": "Use SUM(CASE WHEN Status = 'pago' THEN 1 ELSE 0 END) para cada categoria.",
+        "dica": "Para contar condicionalmente, coloque o CASE WHEN dentro do SUM: some 1 quando a condição é verdadeira, 0 caso contrário. Repita essa estrutura para cada status — uma coluna por tipo de contagem.",
         "placeholder": "SELECT\n  COUNT(*) AS TotalPedidos,\n  SUM(CASE WHEN Status = 'pago' THEN 1 ELSE 0 END) AS PedidosPagos,\n  SUM(CASE WHEN Status = 'pendente' THEN 1 ELSE 0 END) AS ...\nFROM Pedidos",
         "schema": "CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Valor REAL, Status TEXT); INSERT INTO Pedidos VALUES (1,1,3200,'pago'),(2,2,89,'pendente'),(3,1,1200,'pago'),(4,3,450,'cancelado'),(5,2,890,'pendente'),(6,4,150,'pago');",
         "checkType": "columns",

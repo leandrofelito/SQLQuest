@@ -43,7 +43,7 @@
       "titulo": "Crie uma View de Funcionários de TI",
       "conteudo": {
         "instrucao": "Crie uma view chamada vw_FuncionariosTI que retorne o Nome e Salario de todos os funcionários do departamento 'TI'.",
-        "dica": "Use CREATE VIEW vw_FuncionariosTI AS SELECT ... FROM Funcionarios WHERE Departamento = 'TI'",
+        "dica": "A estrutura para criar uma view é: CREATE VIEW nome AS (sua query SELECT aqui). O que vai dentro é um SELECT normal com o filtro desejado. O nome da view deve ser exatamente o indicado no enunciado.",
         "placeholder": "CREATE VIEW vw_FuncionariosTI AS\nSELECT Nome, Salario\nFROM Funcionarios\nWHERE ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800);",
         "checkType": "count",
@@ -71,7 +71,7 @@
       "titulo": "View de Resumo de Pedidos",
       "conteudo": {
         "instrucao": "Crie uma view chamada vw_ResumoPedidos que retorne o ClienteID e o total de pedidos (TotalPedidos) de cada cliente, usando COUNT.",
-        "dica": "Use GROUP BY ClienteID e COUNT(PedidoID) AS TotalPedidos.",
+        "dica": "Dentro da definição da view, use a mesma lógica de agrupamento que usaria em um SELECT. O que você está contando? Agrupe pelo campo que identifica cada cliente. O alias deve ser exatamente TotalPedidos.",
         "placeholder": "CREATE VIEW vw_ResumoPedidos AS\nSELECT ClienteID, COUNT(...) AS TotalPedidos\nFROM Pedidos\nGROUP BY ...",
         "schema": "CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (1,1,'Notebook',3200),(2,1,'Mouse',89),(3,2,'Teclado',150),(4,3,'Monitor',1200),(5,2,'Cadeira',890),(6,1,'Headset',350);",
         "checkType": "count",
@@ -83,7 +83,7 @@
       "titulo": "Consultando a View",
       "conteudo": {
         "instrucao": "Usando a view vw_TopProdutos já criada abaixo, escreva um SELECT que retorne apenas os produtos com Preco acima de 500.",
-        "dica": "Consulte a view como se fosse uma tabela: SELECT * FROM vw_TopProdutos WHERE ...",
+        "dica": "Uma view se consulta exatamente como uma tabela normal — use SELECT FROM com o nome da view. Adicione WHERE para filtrar os resultados. Qual campo e qual valor você quer filtrar?",
         "placeholder": "SELECT * FROM vw_TopProdutos\nWHERE ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50),(3,'Monitor',1200,8),(4,'Teclado',150,30),(5,'Headset',650,15),(6,'Caneta',12,200); CREATE VIEW vw_TopProdutos AS SELECT ProdutoID, Nome, Preco FROM Produtos WHERE Estoque > 5;",
         "checkType": "count",

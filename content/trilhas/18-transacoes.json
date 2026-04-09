@@ -34,7 +34,7 @@
       "titulo": "Simule uma Transferência",
       "conteudo": {
         "instrucao": "Dentro de uma transação, transfira 500 da conta 1 para a conta 2: debite 500 da ContaID=1 e credite 500 na ContaID=2. Confirme com COMMIT.",
-        "dica": "Use BEGIN, depois dois UPDATEs, depois COMMIT.",
+        "dica": "Uma transação tem três partes: abra com BEGIN, execute as operações (dois UPDATEs aqui), e confirme com COMMIT. O débito e o crédito precisam usar o operador correto — um subtrai, o outro soma.",
         "placeholder": "BEGIN;\n\nUPDATE Contas SET Saldo = Saldo - 500 WHERE ContaID = 1;\nUPDATE Contas SET Saldo = Saldo + 500 WHERE ContaID = 2;\n\nCOMMIT;",
         "schema": "CREATE TABLE Contas (ContaID INTEGER PRIMARY KEY, Titular TEXT, Saldo REAL); INSERT INTO Contas VALUES (1,'Ana',3000),(2,'Carlos',1500);",
         "checkType": "columns",
@@ -63,7 +63,7 @@
       "titulo": "Transação com Rollback",
       "conteudo": {
         "instrucao": "Inicie uma transação, insira um produto ('GadgetX', preco 999), depois use ROLLBACK para cancelar. Então verifique quantos produtos existem com SELECT COUNT(*) FROM Produtos.",
-        "dica": "BEGIN; INSERT ...; ROLLBACK; SELECT COUNT(*) FROM Produtos; — após ROLLBACK o INSERT não persiste.",
+        "dica": "Abra a transação com BEGIN, execute o INSERT e então use ROLLBACK para cancelar tudo. Depois consulte com SELECT COUNT(*) — o número deve ser igual ao de antes, pois o ROLLBACK desfez o INSERT.",
         "placeholder": "BEGIN;\nINSERT INTO Produtos (Nome, Preco) VALUES ('GadgetX', 999);\nROLLBACK;\n\nSELECT COUNT(*) AS Total FROM Produtos",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200);",
         "checkType": "columns",
@@ -75,7 +75,7 @@
       "titulo": "Transação Completa de Estoque",
       "conteudo": {
         "instrucao": "Dentro de uma transação: 1) Reduza o Estoque do produto 1 em 2 unidades. 2) Insira um registro em Vendas (ProdutoID=1, Quantidade=2). Confirme com COMMIT.",
-        "dica": "BEGIN; UPDATE Produtos SET Estoque = Estoque - 2 WHERE ProdutoID = 1; INSERT INTO Vendas ...; COMMIT;",
+        "dica": "Dentro de uma mesma transação você executa duas operações sequenciais: reduza o estoque com UPDATE (use o valor atual da coluna) e registre a venda com INSERT. Finalize com COMMIT para confirmar ambas.",
         "placeholder": "BEGIN;\n\nUPDATE Produtos SET Estoque = Estoque - 2 WHERE ProdutoID = 1;\nINSERT INTO Vendas (ProdutoID, Quantidade) VALUES (1, 2);\n\nCOMMIT;\n\nSELECT * FROM Produtos WHERE ProdutoID = 1",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50); CREATE TABLE Vendas (VendaID INTEGER PRIMARY KEY AUTOINCREMENT, ProdutoID INTEGER, Quantidade INTEGER);",
         "checkType": "columns",

@@ -40,7 +40,7 @@
       "titulo": "Crie Tabela com CHECK",
       "conteudo": {
         "instrucao": "Crie a tabela Funcionarios com: ID (INTEGER PRIMARY KEY), Nome (TEXT NOT NULL), Salario (REAL com CHECK que garante Salario > 0), e Nivel (TEXT com CHECK que aceita apenas 'junior', 'pleno', 'senior').",
-        "dica": "Use CHECK (Salario > 0) e CHECK (Nivel IN ('junior', 'pleno', 'senior'))",
+        "dica": "Cada coluna pode ter sua própria constraint CHECK com a condição entre parênteses. Para validar contra uma lista de valores permitidos, existe um operador que verifica se o valor está em uma lista — qual é ele?",
         "placeholder": "CREATE TABLE Funcionarios (\n  ID      INTEGER PRIMARY KEY,\n  Nome    TEXT    NOT NULL,\n  Salario REAL    CHECK (Salario > 0),\n  Nivel   TEXT    CHECK (Nivel IN ('junior', 'pleno', 'senior'))\n)",
         "schema": "",
         "checkType": "columns",
@@ -67,7 +67,7 @@
       "titulo": "Teste as Constraints",
       "conteudo": {
         "instrucao": "Tente inserir um funcionário com Salario = -100. O banco deve rejeitar. Depois insira um válido com Salario = 5000 e Nivel = 'pleno'.",
-        "dica": "O INSERT com salário negativo vai falhar (erro esperado). Faça apenas o INSERT válido para passar no exercício.",
+        "dica": "A tabela já tem as constraints definidas. Para passar no exercício, insira um registro com valores válidos: Salario deve ser positivo e Nivel deve ser um dos valores que a constraint aceita. Veja o schema.",
         "placeholder": "INSERT INTO Funcionarios (ID, Nome, Salario, Nivel)\nVALUES (1, 'Ana', 5000, 'pleno')",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
         "checkType": "count",
@@ -79,7 +79,7 @@
       "titulo": "Adicione uma Constraint",
       "conteudo": {
         "instrucao": "A tabela Produtos já existe sem validação de preço. Adicione uma constraint chamada chk_preco que garanta que Preco > 0.",
-        "dica": "ALTER TABLE Produtos ADD CONSTRAINT chk_preco CHECK (Preco > 0)",
+        "dica": "Para adicionar uma constraint a uma tabela existente, use ALTER TABLE ADD CONSTRAINT. Você precisa dar um nome à constraint, dizer que é um CHECK e definir a condição entre parênteses.",
         "placeholder": "ALTER TABLE Produtos\nADD CONSTRAINT chk_preco CHECK (Preco > 0)",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
         "checkType": "count",

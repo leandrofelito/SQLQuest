@@ -103,7 +103,7 @@ export default function RegisterPage() {
   const meta = STRENGTH_META[strength]
 
   return (
-    <div className="min-h-screen bg-[#080a0f] flex flex-col items-center justify-center px-6">
+    <div className="min-h-screen bg-[#080a0f] flex flex-col items-center justify-center px-6 pt-10">
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -114,14 +114,14 @@ export default function RegisterPage() {
 
       <div className="relative z-10 w-full max-w-sm sm:max-w-md space-y-6">
         {/* Logo */}
-        <div className="text-center space-y-1">
-          <div className="text-4xl mb-2">🔍</div>
-          <h1 className="text-2xl font-bold">
-            <span className="text-[#a78bfa]">SQL</span>
-            <span className="text-white">Quest</span>
-          </h1>
-          <p className="text-white/40 text-sm">Crie sua conta gratuita</p>
+        <div className="flex justify-center pt-2 pb-0">
+          <img
+            src="/icons/sqlquest_logo_escrita.svg"
+            alt="SQLQuest"
+            className="w-[65%] max-w-[280px] h-auto"
+          />
         </div>
+        <p className="text-white/40 text-sm text-center -mt-4">Crie sua conta gratuita</p>
 
         {/* Formulário */}
         <form onSubmit={handleSubmit} className="space-y-3">

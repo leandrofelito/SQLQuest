@@ -33,7 +33,7 @@
       "titulo": "CTE Básica",
       "conteudo": {
         "instrucao": "Use uma CTE para calcular o total de vendas por vendedor, e então liste apenas os vendedores com total acima de 10000.",
-        "dica": "Crie uma CTE com GROUP BY VendedorID e SUM(Valor), depois filtre com WHERE TotalVendas > 10000.",
+        "dica": "A CTE (com WITH) define uma tabela temporária nomeada. Dentro dela, calcule o total de vendas por vendedor. Na query principal, consulte essa CTE como se fosse uma tabela e filtre por quem ultrapassou o limite.",
         "placeholder": "WITH VendasPorVendedor AS (\n  SELECT VendedorID, SUM(Valor) AS TotalVendas\n  FROM ...\n)\nSELECT * FROM VendasPorVendedor\nWHERE ...",
         "schema": "CREATE TABLE Vendas (VendaID INTEGER, VendedorID INTEGER, Produto TEXT, Valor REAL, Mes TEXT); INSERT INTO Vendas VALUES (1,1,'Notebook',3200,'Jan'),(2,1,'Monitor',1200,'Jan'),(3,2,'Mouse',89,'Jan'),(4,2,'Teclado',150,'Fev'),(5,1,'Servidor',8500,'Fev'),(6,3,'Mesa',450,'Fev'),(7,3,'Cadeira',890,'Mar'),(8,2,'Notebook',3200,'Mar');",
         "checkType": "count",
@@ -53,7 +53,7 @@
       "titulo": "CTE com JOIN",
       "conteudo": {
         "instrucao": "Use uma CTE para calcular o total de pedidos por cliente, depois faça JOIN com Clientes para mostrar o nome e o total.",
-        "dica": "A CTE agrupa Pedidos por ClienteID. A query principal junta com Clientes para obter o nome.",
+        "dica": "Defina a CTE calculando o total de pedidos agrupado por ClienteID. Na query principal, faça JOIN dessa CTE com a tabela Clientes pelo mesmo ID para trazer o nome. A CTE sozinha não tem o nome — precisa do JOIN.",
         "placeholder": "WITH TotalPorCliente AS (\n  SELECT ClienteID, SUM(Valor) AS Total\n  FROM Pedidos\n  GROUP BY ClienteID\n)\nSELECT c.Nome, t.Total\nFROM Clientes c\nJOIN ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Teclado',150),(105,2,'Cadeira',890);",
         "checkType": "columns",
@@ -86,7 +86,7 @@
       "titulo": "CTE — Top Clientes",
       "conteudo": {
         "instrucao": "Use duas CTEs: a primeira calcula o total gasto por cliente, a segunda filtra apenas os que gastaram mais de 1000. Mostre o nome e o total.",
-        "dica": "Defina a primeira CTE com SUM(Valor), a segunda filtrando WHERE Total > 1000, depois faça JOIN com Clientes.",
+        "dica": "Com duas CTEs separadas por vírgula: a primeira agrega os pedidos por cliente, a segunda filtra os que passaram do limite. A query final une o resultado com Clientes para trazer o nome.",
         "placeholder": "WITH\n  TotalPorCliente AS (\n    SELECT ClienteID, SUM(Valor) AS Total\n    FROM Pedidos GROUP BY ClienteID\n  ),\n  ClientesTop AS (\n    SELECT * FROM TotalPorCliente WHERE Total > 1000\n  )\nSELECT c.Nome, ct.Total\nFROM Clientes c\nJOIN ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'),(4,'João'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Teclado',150),(105,4,'Servidor',8500),(106,4,'Cadeira',890);",
         "checkType": "columns",
@@ -98,7 +98,7 @@
       "titulo": "CTE — Média por Departamento",
       "conteudo": {
         "instrucao": "Use uma CTE para calcular a média salarial de cada departamento, depois mostre apenas os departamentos com média acima de 6000.",
-        "dica": "CTE com GROUP BY Departamento e AVG(Salario) AS Media. Query externa com WHERE Media > 6000.",
+        "dica": "Crie a CTE calculando a média salarial por departamento com um alias (AS Media). Na query externa, você pode filtrar pelo alias da CTE diretamente no WHERE — isso não seria possível em um SELECT normal sem CTE ou subquery.",
         "placeholder": "WITH MediaPorDepto AS (\n  SELECT Departamento, AVG(Salario) AS Media\n  FROM Funcionarios\n  GROUP BY Departamento\n)\nSELECT * FROM MediaPorDepto\nWHERE ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "count",

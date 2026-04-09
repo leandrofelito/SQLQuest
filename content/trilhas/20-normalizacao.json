@@ -50,7 +50,7 @@
       "titulo": "Identifique a Violação",
       "conteudo": {
         "instrucao": "A tabela abaixo viola a 1FN. Escreva um SELECT que liste cada produto de forma correta a partir da tabela ItensSeparados (já normalizada).",
-        "dica": "Consulte a tabela ItensSeparados que já está em 1FN — uma linha por produto.",
+        "dica": "A tabela já está normalizada (1FN). Basta um SELECT com as colunas pedidas. Use ORDER BY PedidoID para organizar — isso ajuda a visualizar que cada produto tem sua própria linha.",
         "placeholder": "SELECT PedidoID, Produto\nFROM ItensSeparados\nORDER BY PedidoID",
         "schema": "CREATE TABLE ItensSeparados (PedidoID INTEGER, Produto TEXT, Preco REAL); INSERT INTO ItensSeparados VALUES (1,'Notebook',3200),(1,'Mouse',89),(1,'Teclado',150),(2,'Monitor',1200),(3,'Headset',650);",
         "checkType": "count",
@@ -78,7 +78,7 @@
       "titulo": "Consulte o Modelo Normalizado",
       "conteudo": {
         "instrucao": "Usando o modelo normalizado (Clientes, Pedidos, ItensPedido, Produtos), escreva um SELECT que mostre o Nome do cliente e o Nome do produto para todos os itens de pedido.",
-        "dica": "Você precisa de 3 JOINs: ItensPedido → Pedidos → Clientes e ItensPedido → Produtos.",
+        "dica": "Para trazer nome do cliente e nome do produto, você precisa passar por 4 tabelas. Comece por ItensPedido (centro) e faça JOINs em cada direção: um caminho leva ao cliente, o outro ao produto.",
         "placeholder": "SELECT c.Nome AS Cliente, p.Nome AS Produto\nFROM ItensPedido ip\nINNER JOIN Pedidos ped ON ip.PedidoID = ped.PedidoID\nINNER JOIN Clientes c   ON ped.ClienteID = c.ClienteID\nINNER JOIN Produtos p   ON ip.ProdutoID = p.ProdutoID",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'); CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER); INSERT INTO ItensPedido VALUES (1,1,1,1),(2,1,2,2),(3,2,3,1),(4,3,2,1);",
         "checkType": "columns",
@@ -90,7 +90,7 @@
       "titulo": "Receita Total por Cliente",
       "conteudo": {
         "instrucao": "No modelo normalizado, calcule o total gasto por cada cliente: retorne Nome do cliente e TotalGasto (SUM de Quantidade * PrecoUnit nos itens de pedido).",
-        "dica": "JOIN ItensPedido → Pedidos → Clientes, depois GROUP BY c.ClienteID, c.Nome com SUM(ip.Quantidade * ip.PrecoUnit).",
+        "dica": "O total gasto é Quantidade multiplicada pelo PrecoUnit — você calcula isso no SUM. Você precisa de JOINs para chegar ao nome do cliente. Após agregar, quais colunas devem aparecer no GROUP BY?",
         "placeholder": "SELECT c.Nome, SUM(ip.Quantidade * ip.PrecoUnit) AS TotalGasto\nFROM ItensPedido ip\nINNER JOIN Pedidos ped ON ip.PedidoID = ped.PedidoID\nINNER JOIN Clientes c  ON ped.ClienteID = c.ClienteID\nGROUP BY c.ClienteID, c.Nome\nORDER BY TotalGasto DESC",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1),(4,3); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER, PrecoUnit REAL); INSERT INTO ItensPedido VALUES (1,1,1,1,3200),(2,1,2,2,89),(3,2,3,1,1200),(4,3,2,1,89),(5,4,1,1,3200);",
         "checkType": "columns",

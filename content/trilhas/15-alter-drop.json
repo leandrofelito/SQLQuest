@@ -32,7 +32,7 @@
       "titulo": "Evolua a Tabela de Clientes",
       "conteudo": {
         "instrucao": "A tabela Clientes precisa de uma nova coluna. Adicione a coluna PontosFidelidade do tipo INTEGER com valor padrão 0.",
-        "dica": "Use ALTER TABLE Clientes ADD COLUMN PontosFidelidade INTEGER DEFAULT 0",
+        "dica": "Para adicionar uma coluna a uma tabela existente, use ALTER TABLE com a ação ADD COLUMN, seguida do nome da coluna, seu tipo e as restrições. Qual tipo é adequado para pontos de fidelidade?",
         "placeholder": "ALTER TABLE Clientes\nADD COLUMN PontosFidelidade INTEGER DEFAULT 0",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Email TEXT UNIQUE);",
         "checkType": "columns",
@@ -61,7 +61,7 @@
       "titulo": "Remova uma Coluna",
       "conteudo": {
         "instrucao": "A coluna Fax ficou obsoleta. Remova-a da tabela Clientes usando ALTER TABLE.",
-        "dica": "Use ALTER TABLE Clientes DROP COLUMN Fax",
+        "dica": "Para remover uma coluna de uma tabela existente, use ALTER TABLE seguido do nome da tabela e da ação DROP COLUMN com o nome da coluna a ser removida.",
         "placeholder": "ALTER TABLE Clientes DROP COLUMN Fax",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT, Fax TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','ana@email.com',NULL,'SP'),(2,'Carlos','carlos@email.com','1131234567','RJ');",
         "checkType": "columns",
@@ -73,7 +73,7 @@
       "titulo": "Renomeie e Adicione",
       "conteudo": {
         "instrucao": "1) Renomeie a coluna Telefone para Celular. 2) Adicione a coluna UltimoAcesso do tipo TEXT. Escreva os dois ALTER TABLE separados.",
-        "dica": "Use RENAME COLUMN para o primeiro e ADD COLUMN para o segundo.",
+        "dica": "São dois ALTER TABLE separados: o primeiro renomeia uma coluna (a sintaxe inclui o nome antigo, uma palavra-chave e o nome novo), o segundo adiciona uma nova coluna com seu tipo.",
         "placeholder": "ALTER TABLE Usuarios RENAME COLUMN Telefone TO Celular;\nALTER TABLE Usuarios ADD COLUMN UltimoAcesso TEXT",
         "schema": "CREATE TABLE Usuarios (ID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT, Telefone TEXT); INSERT INTO Usuarios VALUES (1,'Ana','ana@email.com','11999'),(2,'Carlos','carlos@email.com','21888');",
         "checkType": "columns",

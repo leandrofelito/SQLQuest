@@ -41,7 +41,7 @@
       "titulo": "Crie a Tabela de Produtos",
       "conteudo": {
         "instrucao": "Crie uma tabela chamada Produtos com as colunas: ProdutoID (INTEGER, PRIMARY KEY), Nome (TEXT, NOT NULL), Preco (REAL, NOT NULL) e Estoque (INTEGER, DEFAULT 0).",
-        "dica": "Use CREATE TABLE Produtos ( ... ) e defina cada coluna com seu tipo e restrição.",
+        "dica": "A sintaxe é: CREATE TABLE nome (coluna1 TIPO restrições, coluna2 TIPO restrições). Olhe o enunciado coluna por coluna — qual é o tipo de cada uma? Qual tem NOT NULL, DEFAULT ou PRIMARY KEY?",
         "placeholder": "CREATE TABLE Produtos (\n  ProdutoID INTEGER PRIMARY KEY,\n  Nome      TEXT    NOT NULL,\n  Preco     REAL    NOT NULL,\n  Estoque   INTEGER DEFAULT 0\n)",
         "schema": "",
         "checkType": "columns",
@@ -71,7 +71,7 @@
       "titulo": "Tabela com Chave Estrangeira",
       "conteudo": {
         "instrucao": "Crie a tabela Pedidos com: PedidoID (INTEGER PRIMARY KEY), ClienteID (INTEGER NOT NULL), Valor (REAL NOT NULL) e uma FOREIGN KEY em ClienteID referenciando Clientes(ClienteID).",
-        "dica": "Após criar as colunas, adicione: FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)",
+        "dica": "Após listar as colunas, adicione a definição da chave estrangeira dentro dos parênteses do CREATE TABLE. A sintaxe é: FOREIGN KEY (coluna_local) REFERENCES tabela_pai(coluna_pai).",
         "placeholder": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT);\n\nCREATE TABLE Pedidos (\n  PedidoID  INTEGER PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     REAL    NOT NULL,\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n)",
         "schema": "",
         "checkType": "columns",
@@ -83,7 +83,7 @@
       "titulo": "Schema Completo de uma Livraria",
       "conteudo": {
         "instrucao": "Crie a tabela Livros com: LivroID (INTEGER PRIMARY KEY), Titulo (TEXT NOT NULL), AutorID (INTEGER), Preco (REAL NOT NULL DEFAULT 0), Publicado (INTEGER DEFAULT 1).",
-        "dica": "Use CREATE TABLE Livros com todas as colunas e suas restrições.",
+        "dica": "Siga o enunciado coluna a coluna. Para DEFAULT, a sintaxe é: TIPO DEFAULT valor. Para uma coluna opcional (sem NOT NULL), basta declarar o tipo. Garanta que os nomes das colunas sejam exatamente os pedidos.",
         "placeholder": "CREATE TABLE Livros (\n  LivroID   INTEGER PRIMARY KEY,\n  Titulo    TEXT    NOT NULL,\n  AutorID   INTEGER,\n  Preco     REAL    NOT NULL DEFAULT 0,\n  Publicado INTEGER DEFAULT 1\n)",
         "schema": "",
         "checkType": "columns",

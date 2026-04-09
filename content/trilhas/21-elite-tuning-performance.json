@@ -25,7 +25,7 @@
       "titulo": "SARGability — Predicados que Respeitam Índices",
       "conteudo": {
         "instrucao": "A tabela `clientes` tem um índice em `cidade`. Retorne o `nome` e `email` dos clientes de 'São Paulo'.\n\n⚡ **Desafio de Elite:** Escreva a query de forma SARGable — compare diretamente com o valor, sem funções ou conversões sobre a coluna indexada. Especifique apenas as colunas necessárias.",
-        "dica": "Use WHERE cidade = 'São Paulo' diretamente, sem UPPER() nem CAST(). Especifique nome e email em vez de SELECT * para simular um covering index.",
+        "dica": "SARGable significa que o predicado respeita o índice. Regra: nunca aplique funções sobre a coluna indexada no WHERE — compare direto com o valor. Quais duas colunas o exercício pede? Selecione só elas, não use SELECT *.",
         "placeholder": "SELECT nome, email FROM clientes WHERE ...",
         "schema": "CREATE TABLE clientes (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, email TEXT NOT NULL, cidade TEXT NOT NULL); INSERT INTO clientes VALUES (1,'Ana Silva','ana@email.com','São Paulo'), (2,'Bruno Souza','bruno@email.com','Rio de Janeiro'), (3,'Carla Lima','carla@email.com','São Paulo'), (4,'Diego Pinto','diego@email.com','Belo Horizonte'), (5,'Elena Costa','elena@email.com','São Paulo');",
         "checkType": "columns",
@@ -39,7 +39,7 @@
       "titulo": "Covering Index — Zero Acesso à Tabela",
       "conteudo": {
         "instrucao": "A tabela `pedidos` tem um índice em `status`. Retorne `produto` e `valor` dos pedidos com `status = 'entregue'`.\n\n⚡ **Desafio de Elite:** Evite `SELECT *` — projete apenas as colunas cobertas pelo índice para simular um Index-Only Scan no PostgreSQL.",
-        "dica": "Escreva SELECT produto, valor FROM pedidos WHERE status = 'entregue'. Com SELECT *, o PostgreSQL precisa acessar a tabela (heap) mesmo tendo o índice.",
+        "dica": "Para um Index-Only Scan, o SELECT deve projetar apenas colunas que existem no índice. Com SELECT *, o banco precisa buscar na tabela mesmo com o índice. Projete exatamente as colunas pedidas e filtre pelo valor exato do status.",
         "placeholder": "SELECT produto, valor FROM pedidos WHERE ...",
         "schema": "CREATE TABLE pedidos (id INTEGER PRIMARY KEY, cliente_id INTEGER NOT NULL, produto TEXT NOT NULL, valor REAL NOT NULL, status TEXT NOT NULL); INSERT INTO pedidos VALUES (1,1,'Laptop Pro',4500.00,'entregue'), (2,2,'Mouse Gamer',150.00,'pendente'), (3,1,'Teclado Mecânico',350.00,'entregue'), (4,3,'Monitor 4K',2800.00,'cancelado'), (5,2,'Headset',400.00,'entregue'), (6,3,'Webcam',250.00,'pendente');",
         "checkType": "columns",
@@ -53,7 +53,7 @@
       "titulo": "Join Otimizado — Predicate Pushdown",
       "conteudo": {
         "instrucao": "Retorne `nome` e `salario` dos funcionários do departamento 'Engenharia' com salário acima de 8000.\n\n⚡ **Desafio de Elite:** Filtre na cláusula WHERE com ambas as condições e especifique as colunas — não use SELECT *. Isso permite ao planner do PostgreSQL reduzir as linhas antes do JOIN.",
-        "dica": "JOIN departamentos d ON f.dept_id = d.id WHERE d.nome = 'Engenharia' AND f.salario > 8000. Filtrar cedo reduz o custo do hash join.",
+        "dica": "Coloque AMBOS os filtros no WHERE: um para o nome do departamento e outro para o salário mínimo. O planner usa isso para reduzir o número de linhas antes de processar o JOIN, o que é muito mais eficiente.",
         "placeholder": "SELECT f.nome, f.salario\nFROM funcionarios f\n  JOIN departamentos d ON ...\nWHERE ...",
         "schema": "CREATE TABLE departamentos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL); CREATE TABLE funcionarios (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, dept_id INTEGER NOT NULL, salario REAL NOT NULL); INSERT INTO departamentos VALUES (1,'Engenharia'),(2,'Marketing'),(3,'Vendas'); INSERT INTO funcionarios VALUES (1,'Alice',1,8500),(2,'Bob',2,5500),(3,'Carol',1,9200),(4,'Dan',3,6100),(5,'Eve',1,8100),(6,'Frank',2,4900);",
         "checkType": "columns",

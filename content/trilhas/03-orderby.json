@@ -65,7 +65,7 @@
       "titulo": "Exercício 1 — ORDER BY",
       "conteudo": {
         "instrucao": "Liste todos os produtos ordenados pelo preço do mais caro ao mais barato.",
-        "dica": "Use ORDER BY com a coluna de preço e a palavra-chave DESC para ordem decrescente.",
+        "dica": "Para ordenar o resultado, use ORDER BY no final da query seguido do nome da coluna. Por padrão é crescente. Para inverter (maior primeiro), adicione uma palavra-chave após o nome da coluna — qual é ela?",
         "placeholder": "SELECT * FROM Produtos ORDER BY ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Monitor',1200,'Eletrônicos'),(4,'Mesa',450,'Móveis'),(5,'Cadeira',890,'Móveis'),(6,'Teclado',150,'Eletrônicos');",
         "checkType": "columns",
@@ -77,7 +77,7 @@
       "titulo": "Exercício 2 — TOP 3 mais caros",
       "conteudo": {
         "instrucao": "Busque os 3 produtos mais caros da loja.",
-        "dica": "Combine ORDER BY Preco DESC com LIMIT 3 para pegar apenas os 3 primeiros da lista ordenada.",
+        "dica": "Para os 3 mais caros você precisa de duas coisas: ordenar pelo preço (do maior para o menor) e limitar a quantidade de resultados. São duas cláusulas separadas — qual vai primeiro?",
         "placeholder": "SELECT * FROM Produtos ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Monitor',1200,'Eletrônicos',30),(4,'Mesa',450,'Móveis',8),(5,'Cadeira',890,'Móveis',25),(6,'Servidor',8500,'Eletrônicos',5);",
         "checkType": "count",
@@ -89,7 +89,7 @@
       "titulo": "Exercício 3 — Ordenação múltipla",
       "conteudo": {
         "instrucao": "Liste os funcionários ordenados por departamento (A→Z) e, dentro do mesmo departamento, pelo salário maior primeiro.",
-        "dica": "Use ORDER BY com dois campos: primeiro Departamento ASC, depois Salario DESC.",
+        "dica": "Você pode ordenar por mais de uma coluna separando-as com vírgula após ORDER BY. Cada coluna pode ter sua própria direção. Qual é o critério principal e qual é o desempate?",
         "placeholder": "SELECT * FROM Funcionarios ORDER BY ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "columns",

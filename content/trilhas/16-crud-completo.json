@@ -33,7 +33,7 @@
       "titulo": "Insira Produtos em Lote",
       "conteudo": {
         "instrucao": "Insira 3 produtos de uma vez na tabela Produtos: ('Notebook', 3200), ('Mouse', 89), ('Monitor', 1200). Colunas: Nome e Preco.",
-        "dica": "Use INSERT INTO Produtos (Nome, Preco) VALUES (...), (...), (...)",
+        "dica": "Para inserir vários registros de uma vez, liste todos os conjuntos de valores separados por vírgula após VALUES. Cada grupo fica entre parênteses. Quais são as colunas e os dados de cada produto?",
         "placeholder": "INSERT INTO Produtos (Nome, Preco)\nVALUES\n  ('Notebook', 3200),\n  ('Mouse', 89),\n  ('Monitor', 1200)",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco REAL NOT NULL);",
         "checkType": "count",
@@ -54,7 +54,7 @@
       "titulo": "Aplique um Desconto",
       "conteudo": {
         "instrucao": "Reduza o preço de todos os produtos com Preco > 1000 em 15%. Use UPDATE com SET Preco = Preco * 0.85.",
-        "dica": "UPDATE Produtos SET Preco = Preco * 0.85 WHERE Preco > 1000",
+        "dica": "No SET, você pode referenciar o valor atual da coluna para calcular o novo valor. O WHERE filtra quais produtos receberão o desconto. Qual operador matemático representa 'reduzir em 15%'?",
         "placeholder": "UPDATE Produtos\nSET Preco = Preco * 0.85\nWHERE Preco > 1000",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200),(4,'Teclado',150),(5,'Servidor',8000);",
         "checkType": "columns",
@@ -83,7 +83,7 @@
       "titulo": "Delete Seletivo",
       "conteudo": {
         "instrucao": "Delete todos os produtos com Estoque igual a 0 da tabela Produtos.",
-        "dica": "DELETE FROM Produtos WHERE Estoque = 0",
+        "dica": "Para deletar registros com uma condição específica, use DELETE FROM tabela WHERE condição. Sem WHERE você apagaria tudo. Qual é a condição que identifica os produtos sem estoque?",
         "placeholder": "DELETE FROM Produtos WHERE Estoque = 0",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,5),(2,'Mouse',89,0),(3,'Monitor',1200,3),(4,'Teclado',150,0),(5,'Headset',650,12);",
         "checkType": "count",

@@ -78,7 +78,7 @@
       "titulo": "Exercício 1 — INSERT",
       "conteudo": {
         "instrucao": "Insira um novo produto chamado 'Webcam' com preço 250, categoria 'Eletrônicos' e estoque 40. Depois selecione todos os produtos.",
-        "dica": "Use INSERT INTO com os campos e valores, depois SELECT * FROM Produtos.",
+        "dica": "A estrutura do INSERT é: INSERT INTO tabela (coluna1, coluna2, ...) VALUES (valor1, valor2, ...). Liste as colunas que o enunciado pede, depois os valores correspondentes. Texto usa aspas simples, números não.",
         "placeholder": "INSERT INTO Produtos (Nome, Preco, Categoria, Estoque)\nVALUES (...);\nSELECT * FROM Produtos;",
         "schema": "CREATE TABLE Produtos (ID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Mesa',450,'Móveis',8);",
         "checkType": "count",
@@ -90,7 +90,7 @@
       "titulo": "Exercício 2 — UPDATE",
       "conteudo": {
         "instrucao": "Atualize o preço do Notebook para 3500. Depois selecione todos os produtos para confirmar.",
-        "dica": "Use UPDATE com SET Preco = 3500 e WHERE Nome = 'Notebook', depois SELECT * FROM Produtos.",
+        "dica": "A estrutura do UPDATE é: UPDATE tabela SET coluna = novo_valor WHERE condição. Sempre use WHERE para não atualizar todos os registros. Qual coluna identifica o produto que você quer atualizar?",
         "placeholder": "UPDATE Produtos SET Preco = 3500 WHERE ...;\nSELECT * FROM Produtos;",
         "schema": "CREATE TABLE Produtos (ID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Mesa',450,'Móveis');",
         "checkType": "columns",
@@ -102,7 +102,7 @@
       "titulo": "Exercício 3 — DELETE",
       "conteudo": {
         "instrucao": "Delete o produto com ID igual a 2. Depois selecione todos os produtos restantes.",
-        "dica": "Use DELETE FROM Produtos WHERE ID = 2, depois SELECT * FROM Produtos.",
+        "dica": "A estrutura do DELETE é: DELETE FROM tabela WHERE condição. Sem WHERE você apagaria TUDO. Use o ID do produto como condição para deletar apenas o registro correto.",
         "placeholder": "DELETE FROM Produtos WHERE ...;\nSELECT * FROM Produtos;",
         "schema": "CREATE TABLE Produtos (ID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Mesa',450,'Móveis'),(4,'Cadeira',890,'Móveis');",
         "checkType": "count",

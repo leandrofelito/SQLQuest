@@ -79,7 +79,7 @@
       "titulo": "Exercício 1 — SELECT básico",
       "conteudo": {
         "instrucao": "Busque o nome e o email de todos os clientes da tabela.",
-        "dica": "Use SELECT seguido dos nomes das colunas separados por vírgula, depois FROM e o nome da tabela.",
+        "dica": "O exercício pede duas colunas específicas — não todas. Liste-as após SELECT separadas por vírgula, depois FROM e o nome da tabela. Quais dois campos o enunciado pede?",
         "placeholder": "SELECT ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Email TEXT, Cidade TEXT, Telefone TEXT); INSERT INTO Clientes VALUES (1,'Ana Silva','ana@email.com','São Paulo','11 99999-0001'),(2,'Carlos Souza','carlos@email.com','Rio de Janeiro','21 99999-0002'),(3,'Maria Santos','maria@email.com','Belo Horizonte','31 99999-0003'),(4,'João Lima','joao@email.com','São Paulo','11 99999-0004');",
         "checkType": "columns",
@@ -91,7 +91,7 @@
       "titulo": "Exercício 2 — DISTINCT",
       "conteudo": {
         "instrucao": "Liste todas as cidades diferentes (sem repetição) em que há clientes cadastrados.",
-        "dica": "Use DISTINCT antes do nome da coluna para eliminar duplicatas.",
+        "dica": "O exercício quer cidades sem repetição. Existe uma palavra-chave que você coloca entre SELECT e o nome da coluna para remover duplicatas. Você a viu no conteúdo desta trilha.",
         "placeholder": "SELECT DISTINCT ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Email TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','ana@email.com','São Paulo'),(2,'Carlos','c@email.com','Rio de Janeiro'),(3,'Maria','m@email.com','São Paulo'),(4,'João','j@email.com','Belo Horizonte'),(5,'Lucia','l@email.com','Rio de Janeiro'),(6,'Pedro','p@email.com','Curitiba');",
         "checkType": "count",
@@ -103,7 +103,7 @@
       "titulo": "Exercício 3 — LIMIT",
       "conteudo": {
         "instrucao": "Busque apenas os 3 primeiros produtos do catálogo.",
-        "dica": "Use LIMIT no final da query para limitar a quantidade de registros retornados.",
+        "dica": "Para restringir quantas linhas o banco retorna, existe uma cláusula que vai no FINAL da query. Ela recebe um número como parâmetro. Você a viu no resumo desta trilha.",
         "placeholder": "SELECT * FROM Produtos ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200.00,'Eletrônicos',15),(2,'Mouse',89.90,'Eletrônicos',120),(3,'Mesa',450.00,'Móveis',8),(4,'Cadeira',890.00,'Móveis',25),(5,'Monitor',1200.00,'Eletrônicos',30),(6,'Teclado',150.00,'Eletrônicos',75);",
         "checkType": "count",
@@ -115,7 +115,7 @@
       "titulo": "Exercício 4 — Alias com AS",
       "conteudo": {
         "instrucao": "Busque o nome e o preço dos produtos, renomeando 'Nome' para 'Produto' e 'Preco' para 'Valor'.",
-        "dica": "Use AS após cada coluna para dar um novo nome no resultado.",
+        "dica": "Para renomear uma coluna no resultado, coloque AS após o nome da coluna original e escreva o novo nome. O exercício pede nomes específicos — use exatamente os nomes indicados.",
         "placeholder": "SELECT Nome AS ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200.00,'Eletrônicos'),(2,'Mouse',89.90,'Eletrônicos'),(3,'Mesa',450.00,'Móveis');",
         "checkType": "columns",

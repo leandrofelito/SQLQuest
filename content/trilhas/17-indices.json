@@ -33,7 +33,7 @@
       "titulo": "Crie um Índice de Performance",
       "conteudo": {
         "instrucao": "A tabela Pedidos é consultada frequentemente por ClienteID. Crie um índice chamado idx_pedidos_cliente na coluna ClienteID da tabela Pedidos.",
-        "dica": "CREATE INDEX idx_pedidos_cliente ON Pedidos(ClienteID)",
+        "dica": "A sintaxe para criar um índice é: CREATE INDEX nome ON tabela(coluna). Use a convenção de nomenclatura idx_tabela_coluna. Qual coluna está sendo consultada frequentemente nessa tabela?",
         "placeholder": "CREATE INDEX idx_pedidos_cliente\nON Pedidos(ClienteID)",
         "schema": "CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER, Produto TEXT, Valor REAL, DataPedido TEXT); INSERT INTO Pedidos VALUES (1,1,'Notebook',3200,'2024-01-10'),(2,2,'Mouse',89,'2024-01-11'),(3,1,'Monitor',1200,'2024-01-12');",
         "checkType": "columns",
@@ -61,7 +61,7 @@
       "titulo": "Índice Composto",
       "conteudo": {
         "instrucao": "Crie um índice composto chamado idx_vendas_produto_data na tabela Vendas, cobrindo as colunas ProdutoID e DataVenda.",
-        "dica": "CREATE INDEX idx_vendas_produto_data ON Vendas(ProdutoID, DataVenda)",
+        "dica": "Um índice composto cobre múltiplas colunas — basta listá-las separadas por vírgula dentro dos parênteses. A ordem das colunas importa: coloque a mais seletiva primeiro.",
         "placeholder": "CREATE INDEX idx_vendas_produto_data\nON Vendas(ProdutoID, DataVenda)",
         "schema": "CREATE TABLE Vendas (VendaID INTEGER PRIMARY KEY, ProdutoID INTEGER, ClienteID INTEGER, Quantidade INTEGER, DataVenda TEXT); INSERT INTO Vendas VALUES (1,1,1,2,'2024-01-10'),(2,2,1,1,'2024-01-11'),(3,1,2,3,'2024-01-12');",
         "checkType": "columns",
@@ -73,7 +73,7 @@
       "titulo": "Índice Único",
       "conteudo": {
         "instrucao": "Crie um índice único chamado idx_clientes_email na coluna Email da tabela Clientes para garantir que não haverá emails duplicados.",
-        "dica": "Use CREATE UNIQUE INDEX idx_clientes_email ON Clientes(Email)",
+        "dica": "Para um índice que também garante que não haja valores duplicados na coluna, adicione a palavra UNIQUE entre CREATE e INDEX. Além de acelerar buscas, isso funciona como uma constraint de unicidade.",
         "placeholder": "CREATE UNIQUE INDEX idx_clientes_email\nON Clientes(Email)",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT); INSERT INTO Clientes VALUES (1,'Ana','ana@email.com'),(2,'Carlos','carlos@email.com'),(3,'Maria','maria@email.com');",
         "checkType": "count",

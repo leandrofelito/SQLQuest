@@ -76,7 +76,7 @@
       "titulo": "Exercício 1 — COUNT",
       "conteudo": {
         "instrucao": "Conte quantos funcionários existem na empresa.",
-        "dica": "Use COUNT(*) para contar todas as linhas da tabela.",
+        "dica": "Para retornar quantos registros existem na tabela, existe uma função de agregação que começa com C. Ela vai dentro do SELECT. O * dentro dela significa 'contar tudo'.",
         "placeholder": "SELECT COUNT(*) ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL, Cargo TEXT); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200,'Dev'),(2,'Carlos','Vendas',9800,'Gerente'),(3,'Maria','TI',5500,'Analista'),(4,'João','TI',8100,'Dev Senior'),(5,'Lucia','RH',4800,'Assistente'),(6,'Pedro','Vendas',6200,'Vendedor');",
         "checkType": "aggregate",
@@ -88,7 +88,7 @@
       "titulo": "Exercício 2 — SUM e AVG",
       "conteudo": {
         "instrucao": "Calcule a soma total e a média dos salários de todos os funcionários. Nomeie os resultados como TotalSalarios e MediaSalarial.",
-        "dica": "Use SUM() e AVG() com AS para nomear. Você pode ter duas funções de agregação no mesmo SELECT.",
+        "dica": "O exercício pede dois cálculos diferentes: a soma total e a média. Cada um tem sua função de agregação. Você pode ter várias no mesmo SELECT. Use AS para dar os nomes pedidos: TotalSalarios e MediaSalarial.",
         "placeholder": "SELECT SUM(Salario) AS ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200);",
         "checkType": "columns",
@@ -100,7 +100,7 @@
       "titulo": "Exercício 3 — MIN e MAX",
       "conteudo": {
         "instrucao": "Encontre o produto mais barato e o mais caro. Nomeie os resultados como MaisBarato e MaisCaro.",
-        "dica": "Use MIN() e MAX() com AS para nomear cada resultado.",
+        "dica": "Há duas funções de agregação, uma para o menor valor e outra para o maior. Coloque as duas no mesmo SELECT e use AS para dar os nomes exatos pedidos: MaisBarato e MaisCaro.",
         "placeholder": "SELECT MIN(Preco) AS ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89.90,'Eletrônicos'),(3,'Monitor',1200,'Eletrônicos'),(4,'Mesa',450,'Móveis'),(5,'Cadeira',890,'Móveis'),(6,'Caneta',5.50,'Papelaria');",
         "checkType": "columns",

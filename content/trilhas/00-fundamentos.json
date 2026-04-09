@@ -36,7 +36,7 @@
       "titulo": "Explorando uma Tabela",
       "conteudo": {
         "instrucao": "A tabela Produtos existe no banco. Use SELECT * para ver todos os seus dados e entender como os campos e registros estão organizados.",
-        "dica": "SELECT * FROM NomeDaTabela traz todos os campos e todos os registros.",
+        "dica": "O comando começa com SELECT. O * é um atalho para 'todas as colunas'. Depois vem FROM seguido do nome da tabela. Qual é o nome da tabela indicada no enunciado?",
         "placeholder": "SELECT ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Categoria TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200.00,15),(2,'Mouse','Periféricos',89.90,120),(3,'Teclado','Periféricos',149.90,85),(4,'Monitor','Eletrônicos',1200.00,30),(5,'Cadeira','Móveis',890.00,22);",
         "checkType": "columns",
@@ -67,7 +67,7 @@
       "titulo": "Primeira Query com Filtro",
       "conteudo": {
         "instrucao": "Busque apenas os funcionários do departamento 'TI' na tabela Funcionarios.",
-        "dica": "Use WHERE Departamento = 'TI' para filtrar apenas os registros desejados.",
+        "dica": "Para filtrar linhas, use a cláusula WHERE após o nome da tabela. Você quer apenas funcionários de um departamento específico — texto em SQL vai entre aspas simples. Qual é o nome da cláusula de filtro?",
         "placeholder": "SELECT * FROM ...",
         "schema": "CREATE TABLE Funcionarios (FuncID INTEGER, Nome TEXT, Cargo TEXT, Salario REAL, Departamento TEXT); INSERT INTO Funcionarios VALUES (1,'Ana Silva','Analista',5500,'TI'),(2,'Carlos Souza','Gerente',9800,'Vendas'),(3,'Maria Santos','Desenvolvedora',7200,'TI'),(4,'João Lima','Designer',5900,'Marketing'),(5,'Paula Cruz','DBA',8100,'TI');",
         "checkType": "columns",
@@ -99,7 +99,7 @@
       "titulo": "Buscando por ID",
       "conteudo": {
         "instrucao": "Encontre o produto com ProdutoID igual a 3 na tabela Produtos.",
-        "dica": "Use WHERE ProdutoID = 3 para buscar pelo identificador único.",
+        "dica": "Para buscar um registro específico pelo seu ID, use WHERE com o nome da coluna de identificação. IDs são números — não usam aspas. Qual é o nome da coluna de identificação nessa tabela?",
         "placeholder": "SELECT * FROM ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Categoria TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200),(2,'Mouse','Periféricos',89.90),(3,'Teclado','Periféricos',149.90),(4,'Monitor','Eletrônicos',1200),(5,'Cadeira','Móveis',890);",
         "checkType": "columns",
@@ -124,7 +124,7 @@
       "titulo": "Todos os Dados de uma Vez",
       "conteudo": {
         "instrucao": "Busque todos os dados da tabela Funcionarios para ver como ela está organizada.",
-        "dica": "Use SELECT * para selecionar todas as colunas e FROM para indicar a tabela.",
+        "dica": "A estrutura básica é: SELECT (o que você quer) FROM (de onde). O * é um atalho que significa 'todas as colunas'. O nome da tabela vem depois do FROM.",
         "placeholder": "SELECT ...",
         "schema": "CREATE TABLE Funcionarios (FuncionarioID INTEGER, Nome TEXT, Cargo TEXT, Salario REAL, Departamento TEXT); INSERT INTO Funcionarios VALUES (1,'Ana Silva','Analista',5500,'TI'),(2,'Carlos Souza','Gerente',9800,'Vendas'),(3,'Maria Santos','Desenvolvedora',7200,'TI'),(4,'João Lima','Designer',5900,'Marketing');",
         "checkType": "columns",

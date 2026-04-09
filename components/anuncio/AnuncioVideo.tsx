@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 interface AnuncioVideoProps {
   isPro: boolean
   onConcluido: () => void
+  onFechar?: () => void
   label?: string // ex: "Anúncio 1 de 2"
 }
 
@@ -13,7 +14,7 @@ function isFlutterApp(): boolean {
   return typeof window !== 'undefined' && !!(window as any).AdMobBridge
 }
 
-export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
+export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVideoProps) {
   const [tempo, setTempo] = useState(30)
   const [adFailed, setAdFailed] = useState(false)
   const [flutterAdState, setFlutterAdState] = useState<'loading' | 'showing' | 'done' | 'failed'>('loading')
@@ -118,6 +119,17 @@ export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
+          {onFechar && (
+            <button
+              onClick={onFechar}
+              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              title="Fechar sem prêmio"
+            >
+              <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
+                <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+          )}
           <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
           <p className="text-white/50 text-sm">Carregando anúncio…</p>
         </motion.div>
@@ -131,6 +143,19 @@ export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
+          {onFechar && (
+            <div className="flex justify-end px-4 pt-4 safe-top">
+              <button
+                onClick={onFechar}
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                title="Fechar sem prêmio"
+              >
+                <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
+                  <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
+          )}
           <div className="flex-1 flex items-center justify-center p-6">
             <div className="flex flex-col items-center gap-4 py-8 px-6 rounded-2xl border border-white/10 bg-white/5">
               <p className="text-white/60 text-sm text-center">
@@ -172,7 +197,20 @@ export function AnuncioVideo({ isPro, onConcluido, label }: AnuncioVideoProps) {
             {tempo > 0 ? `${tempo}s até o prêmio` : 'Pronto!'}
           </span>
         </div>
-        <div className="text-xs text-white/30">{label ?? 'Anúncio'}</div>
+        <div className="flex items-center gap-3">
+          <div className="text-xs text-white/30">{label ?? 'Anúncio'}</div>
+          {onFechar && (
+            <button
+              onClick={onFechar}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+              title="Fechar sem prêmio"
+            >
+              <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
+                <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Área do anúncio */}

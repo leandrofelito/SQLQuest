@@ -34,7 +34,7 @@
       "titulo": "Numerando por Salário",
       "conteudo": {
         "instrucao": "Numere os funcionários por ordem de salário (do maior para o menor) usando ROW_NUMBER.",
-        "dica": "Use ROW_NUMBER() OVER (ORDER BY Salario DESC) para criar a coluna de posição.",
+        "dica": "Window functions usam a sintaxe: função() OVER (...). Para numerar linhas sem colapsar o resultado, use a função que gera um número sequencial único. O que vai dentro do OVER() define a ordem da numeração.",
         "placeholder": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (...) AS Posicao\nFROM Funcionarios",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200);",
         "checkType": "columns",
@@ -54,7 +54,7 @@
       "titulo": "Ranking por Departamento",
       "conteudo": {
         "instrucao": "Ranqueie os funcionários por salário dentro de cada departamento usando RANK com PARTITION BY.",
-        "dica": "Use RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) para ranking por departamento.",
+        "dica": "Para criar um ranking independente por departamento, o OVER() precisa de duas partes: PARTITION BY (que reinicia o cálculo para cada grupo) e ORDER BY (que define a ordem dentro de cada grupo).",
         "placeholder": "SELECT Nome, Departamento, Salario,\n  RANK() OVER (PARTITION BY ... ORDER BY ...) AS RankDept\nFROM Funcionarios",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "columns",
@@ -83,7 +83,7 @@
       "titulo": "Comparando com o Mês Anterior",
       "conteudo": {
         "instrucao": "Mostre as vendas mensais com uma coluna extra indicando o valor do mês anterior usando LAG.",
-        "dica": "Use LAG(Vendas) OVER (ORDER BY MesNum) para pegar o valor da linha anterior ordenada por número do mês.",
+        "dica": "Para acessar o valor do mês anterior, existe uma função window que 'olha para trás' na janela de dados. Ela recebe o nome da coluna como parâmetro e usa OVER() com ORDER BY para definir a sequência temporal.",
         "placeholder": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY MesNum) AS MesAnterior\nFROM VendasMensais",
         "schema": "CREATE TABLE VendasMensais (MesNum INTEGER, Mes TEXT, Vendas REAL); INSERT INTO VendasMensais VALUES (1,'Janeiro',45000),(2,'Fevereiro',52000),(3,'Março',48000),(4,'Abril',61000),(5,'Maio',58000);",
         "checkType": "columns",

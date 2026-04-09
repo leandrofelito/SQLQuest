@@ -74,7 +74,7 @@
       "titulo": "Exercício 1 — GROUP BY",
       "conteudo": {
         "instrucao": "Conte quantos funcionários existem em cada departamento.",
-        "dica": "Selecione Departamento e COUNT(*), depois use GROUP BY Departamento.",
+        "dica": "Você quer uma linha por departamento com a contagem. Isso exige agrupar os dados. Toda coluna no SELECT que não é uma função de agregação deve aparecer na cláusula de agrupamento também.",
         "placeholder": "SELECT Departamento, COUNT(*) AS ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100),(8,'Bruno','TI',6800);",
         "checkType": "aggregate",
@@ -86,7 +86,7 @@
       "titulo": "Exercício 2 — SUM com GROUP BY",
       "conteudo": {
         "instrucao": "Calcule o total de vendas por categoria de produto.",
-        "dica": "Selecione Categoria e SUM(Valor), depois agrupe por Categoria.",
+        "dica": "Para somar separadamente por categoria, você precisa agrupar os dados antes de calcular. O que vai no SELECT? Qual cláusula diz ao banco para separar os cálculos por categoria?",
         "placeholder": "SELECT Categoria, SUM(Valor) AS ...",
         "schema": "CREATE TABLE Vendas (ID INTEGER, Produto TEXT, Categoria TEXT, Valor REAL, Data TEXT); INSERT INTO Vendas VALUES (1,'Notebook','Eletrônicos',3200,'2024-01'),(2,'Mouse','Eletrônicos',89,'2024-01'),(3,'Mesa','Móveis',450,'2024-01'),(4,'Monitor','Eletrônicos',1200,'2024-02'),(5,'Cadeira','Móveis',890,'2024-02'),(6,'Teclado','Eletrônicos',150,'2024-02');",
         "checkType": "aggregate",
@@ -98,7 +98,7 @@
       "titulo": "Exercício 3 — HAVING",
       "conteudo": {
         "instrucao": "Liste apenas as categorias de produto que têm mais de 2 produtos cadastrados.",
-        "dica": "Use GROUP BY Categoria e depois HAVING COUNT(*) > 2.",
+        "dica": "Após agrupar por categoria e contar os produtos, você precisa filtrar os grupos pelo número de itens. WHERE não funciona aqui — ele filtra antes do agrupamento. Qual cláusula filtra grupos depois?",
         "placeholder": "SELECT Categoria, COUNT(*) AS Total\nFROM Produtos\nGROUP BY ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Categoria TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200),(2,'Mouse','Eletrônicos',89),(3,'Monitor','Eletrônicos',1200),(4,'Mesa','Móveis',450),(5,'Teclado','Eletrônicos',150),(6,'Cadeira','Móveis',890),(7,'Caneta','Papelaria',5);",
         "checkType": "count",

@@ -101,7 +101,7 @@
       "titulo": "Exercício 1 — WHERE básico",
       "conteudo": {
         "instrucao": "Busque todos os produtos com preço maior que 500 reais.",
-        "dica": "Use WHERE com o operador > para filtrar pelo preço.",
+        "dica": "Para filtrar registros com valor acima de um número, use WHERE com um operador de comparação. Qual símbolo representa 'maior que'? Números no WHERE não precisam de aspas.",
         "placeholder": "SELECT * FROM Produtos WHERE ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Mesa',450,'Móveis',8),(4,'Cadeira',890,'Móveis',25),(5,'Monitor',1200,'Eletrônicos',30),(6,'Caneta',5,'Papelaria',500);",
         "checkType": "count",
@@ -113,7 +113,7 @@
       "titulo": "Exercício 2 — AND",
       "conteudo": {
         "instrucao": "Busque funcionários do departamento TI com salário maior que 6000.",
-        "dica": "Use AND para combinar duas condições: departamento E salário.",
+        "dica": "Você precisa de duas condições ao mesmo tempo: departamento específico E salário acima de um valor. Qual conector lógico exige que AMBAS as condições sejam verdadeiras?",
         "placeholder": "SELECT * FROM Funcionarios WHERE ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL, Cargo TEXT); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200,'Dev'),(2,'Carlos','Vendas',9800,'Gerente'),(3,'Maria','TI',5500,'Analista'),(4,'João','TI',8100,'Dev Senior'),(5,'Lucia','RH',4800,'Assistente');",
         "checkType": "count",
@@ -125,7 +125,7 @@
       "titulo": "Exercício 3 — IN",
       "conteudo": {
         "instrucao": "Liste os clientes que moram em São Paulo, Rio de Janeiro ou Curitiba.",
-        "dica": "Use WHERE cidade IN (...) com as cidades dentro dos parênteses, separadas por vírgula.",
+        "dica": "Para filtrar por uma lista de cidades, existe um operador mais limpo que encadear vários OR. Os valores ficam dentro de parênteses separados por vírgula. Lembre que cidades são texto — use aspas simples.",
         "placeholder": "SELECT * FROM Clientes WHERE ...",
         "schema": "CREATE TABLE Clientes (ID INTEGER, Nome TEXT, Cidade TEXT, Email TEXT); INSERT INTO Clientes VALUES (1,'Ana','São Paulo','a@email.com'),(2,'Carlos','Rio de Janeiro','c@email.com'),(3,'Maria','Belo Horizonte','m@email.com'),(4,'João','São Paulo','j@email.com'),(5,'Lucia','Curitiba','l@email.com'),(6,'Pedro','Salvador','p@email.com');",
         "checkType": "count",
@@ -137,7 +137,7 @@
       "titulo": "Exercício 4 — LIKE",
       "conteudo": {
         "instrucao": "Busque todos os produtos cujo nome começa com 'Mo'.",
-        "dica": "Use LIKE com o % depois do padrão: LIKE 'Mo%'",
+        "dica": "Para buscar por padrão de texto, use LIKE. O caractere % representa 'qualquer coisa'. Se o padrão é o começo do nome, onde você coloca o %? Antes ou depois do texto?",
         "placeholder": "SELECT * FROM Produtos WHERE ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Monitor',1200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Notebook',3200,'Eletrônicos'),(4,'Móvel de Escritório',650,'Móveis'),(5,'Teclado',150,'Eletrônicos');",
         "checkType": "count",
