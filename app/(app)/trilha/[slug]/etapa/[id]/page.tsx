@@ -46,53 +46,64 @@ export default function EtapaPage() {
   const [levelUp, setLevelUp] = useState<{ anterior: number; atual: number } | null>(null)
   const [trilhaConcluida, setTrilhaConcluida] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [erroConexao, setErroConexao] = useState(false)
+  const [retryCount, setRetryCount] = useState(0)
   const proximaEtapaAposLevelUpRef = useRef<(() => void) | null>(null)
 
   useEffect(() => {
     async function load() {
-      const [etapaRes, trilhasRes, progressoRes] = await Promise.all([
-        fetch(`/api/etapa?id=${id}`),
-        fetch('/api/trilhas'),
-        fetch('/api/progresso'),
-      ])
+      setErroConexao(false)
+      setLoading(true)
+      try {
+        const [etapaRes, trilhasRes, progressoRes] = await Promise.all([
+          fetch(`/api/etapa?id=${id}`),
+          fetch('/api/trilhas'),
+          fetch('/api/progresso'),
+        ])
 
-      const etapaData: EtapaDB = await etapaRes.json()
-      const trilhas = await trilhasRes.json()
-      const progressos = await progressoRes.json()
+        if (!etapaRes.ok || !trilhasRes.ok || !progressoRes.ok) throw new Error('server')
 
-      const t = trilhas.find((tr: any) => tr.slug === slug)
-      if (!t || !etapaData?.id) { router.push(`/trilha/${slug}`); return }
+        const etapaData: EtapaDB = await etapaRes.json()
+        const trilhas = await trilhasRes.json()
+        const progressos = await progressoRes.json()
 
-      // Guard: bloqueia acesso direto via URL se a etapa anterior não foi concluída
-      const ordenadas: { id: string; ordem: number }[] = [...(t.etapas ?? [])].sort(
-        (a: any, b: any) => a.ordem - b.ordem
-      )
-      const idxAtual = ordenadas.findIndex((e) => e.id === id)
-      if (idxAtual > 0) {
-        const progressoIds = new Set(progressos.map((p: any) => p.etapaId))
-        const etapaAnterior = ordenadas[idxAtual - 1]
-        if (!progressoIds.has(etapaAnterior.id)) {
-          router.push(`/trilha/${slug}`)
-          return
+        const t = trilhas.find((tr: any) => tr.slug === slug)
+        if (!t || !etapaData?.id) { router.push(`/trilha/${slug}`); return }
+
+        // Guard: bloqueia acesso direto via URL se a etapa anterior não foi concluída
+        const ordenadas: { id: string; ordem: number }[] = [...(t.etapas ?? [])].sort(
+          (a: any, b: any) => a.ordem - b.ordem
+        )
+        const idxAtual = ordenadas.findIndex((e) => e.id === id)
+        if (idxAtual > 0) {
+          const progressoIds = new Set(progressos.map((p: any) => p.etapaId))
+          const etapaAnterior = ordenadas[idxAtual - 1]
+          if (!progressoIds.has(etapaAnterior.id)) {
+            router.push(`/trilha/${slug}`)
+            return
+          }
         }
+
+        setEtapa(etapaData)
+        setTrilha(t)
+        setTodasEtapas(t.etapas ?? [])
+
+        // Trilha concluída quando todos os exercícios forem feitos
+        const exercicioIds = new Set((t.etapas ?? []).filter((e: any) => e.tipo === 'exercicio').map((e: any) => e.id))
+        const etapasConcluidasIds = new Set(progressos.map((p: any) => p.etapaId))
+        etapasConcluidasIds.add(id) // assume que esta etapa será concluída
+        const totalExercicios = exercicioIds.size
+        const concluidosExercicios = [...etapasConcluidasIds].filter(eid => exercicioIds.has(eid)).length
+        setTrilhaConcluida(totalExercicios > 0 && concluidosExercicios >= totalExercicios)
+
+        setLoading(false)
+      } catch {
+        setLoading(false)
+        setErroConexao(true)
       }
-
-      setEtapa(etapaData)
-      setTrilha(t)
-      setTodasEtapas(t.etapas ?? [])
-
-      // Trilha concluída quando todos os exercícios forem feitos
-      const exercicioIds = new Set((t.etapas ?? []).filter((e: any) => e.tipo === 'exercicio').map((e: any) => e.id))
-      const etapasConcluidasIds = new Set(progressos.map((p: any) => p.etapaId))
-      etapasConcluidasIds.add(id) // assume que esta etapa será concluída
-      const totalExercicios = exercicioIds.size
-      const concluidosExercicios = [...etapasConcluidasIds].filter(eid => exercicioIds.has(eid)).length
-      setTrilhaConcluida(totalExercicios > 0 && concluidosExercicios >= totalExercicios)
-
-      setLoading(false)
     }
     load()
-  }, [id, slug, router, isPro])
+  }, [id, slug, router, isPro, retryCount])
 
   // Marca conclusao como visitada automaticamente ao renderizar (não tem botão Continuar próprio)
   useEffect(() => {
@@ -156,6 +167,30 @@ export default function EtapaPage() {
     }
   }
 
+  if (erroConexao) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6 px-6 text-center">
+        <div className="text-5xl">📡</div>
+        <div>
+          <p className="text-white font-semibold text-lg mb-1">Sem conexão</p>
+          <p className="text-white/40 text-sm">Verifique sua internet e tente novamente.</p>
+        </div>
+        <button
+          onClick={() => { setErroConexao(false); setLoading(true); setRetryCount(c => c + 1) }}
+          className="px-6 py-2 rounded-xl bg-[#8b5cf6] text-white font-semibold text-sm hover:bg-[#7c3aed] transition-colors"
+        >
+          Tentar novamente
+        </button>
+        <button
+          onClick={() => router.push(`/trilha/${slug}`)}
+          className="text-white/30 text-sm hover:text-white/60 transition-colors"
+        >
+          Voltar para a trilha
+        </button>
+      </div>
+    )
+  }
+
   if (loading || !etapa || !trilha) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -180,12 +215,6 @@ export default function EtapaPage() {
         </div>
         <div className="bg-[#080a0f]/80 backdrop-blur-sm">
         <div className="max-w-3xl mx-auto flex items-center justify-between px-4 py-3">
-          <button onClick={() => router.push(`/trilha/${slug}`)} className="text-white/40 hover:text-white transition-colors">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <span className="text-white/40 text-sm">{idx + 1} / {ordenadas.length}</span>
           {idx > 0 ? (
             <button
               onClick={() => router.push(`/trilha/${slug}/etapa/${ordenadas[idx - 1].id}`)}
@@ -199,6 +228,12 @@ export default function EtapaPage() {
           ) : (
             <div className="w-14" />
           )}
+          <span className="text-white/40 text-sm">{idx + 1} / {ordenadas.length}</span>
+          <button onClick={() => router.push(`/trilha/${slug}`)} className="text-white/40 hover:text-white transition-colors">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
         </div>
       </div>

@@ -348,6 +348,17 @@ export default function PerfilPage() {
           </Button>
         )}
 
+        {/* Suporte */}
+        <p className="text-center text-white/25 text-xs">
+          Precisa de ajuda?{' '}
+          <a
+            href="mailto:suporte@sqlquest.com.br"
+            className="text-[#a78bfa] hover:underline"
+          >
+            suporte@sqlquest.com.br
+          </a>
+        </p>
+
         {/* Sair */}
         <Button
           onClick={handleSignOut}

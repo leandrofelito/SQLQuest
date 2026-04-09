@@ -47,7 +47,7 @@ export default function CertificadosPage() {
         setCerts(Array.isArray(certsData) ? certsData : [])
 
         const certTrilhaIds = new Set((Array.isArray(certsData) ? certsData : []).map((c: Cert) => c.trilha.id))
-        setPendentes(trilhas.filter((t: any) => !certTrilhaIds.has(t.id) && t.percentualConcluido < 100))
+        setPendentes(trilhas.filter((t: any) => !certTrilhaIds.has(t.id) && t.percentualConcluido > 0 && t.percentualConcluido < 100))
       } catch {}
 
       setLoading(false)

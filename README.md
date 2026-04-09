@@ -78,6 +78,7 @@ Plataforma gamificada de ensino de SQL — micro-lições interativas com execu�
 | **next-pwa** (5.6) | Service Worker e manifesto para instalação como Progressive Web App |
 | **@capacitor/core + @capacitor/android** (8.3) | Build nativo Android via Capacitor |
 | **@capacitor-community/admob** (8.0) | Anúncios AdMob no app Android nativo |
+| **Flutter** | App mobile nativo (iOS e Android) com experiência otimizada para celular |
 
 ### Utilitários de desenvolvimento
 
@@ -194,7 +195,7 @@ Leaderboard com todos os usuários ordenados por XP total. Ao entrar em uma faix
 
 ### Plano Pro (Stripe)
 
-- **Pagamento único** R$29,99 — acesso vitalício.
+- **Pagamento único** R$19,90 — acesso vitalício.
 - Remove anúncios do app.
 - Libera a galeria de certificados PDF.
 - Webhook Stripe (`/api/webhook`) atualiza o campo `isPro` no banco ao confirmar o pagamento.
