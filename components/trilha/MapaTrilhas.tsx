@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { CardTrilha } from './CardTrilha'
 import { BannerPro } from '@/components/anuncio/BannerPro'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
@@ -22,43 +23,43 @@ interface MapaTrilhasProps {
   trilhas: TrilhaData[]
 }
 
+type FluxoState = 'idle' | 'banner' | 'ad1' | 'ad2' | 'sucesso'
+
 export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const { isPro } = useUser()
   const router = useRouter()
-  const [showBanner, setShowBanner] = useState(false)
-  const [trilhaAlvo, setTrilhaAlvo] = useState<string | null>(null)
-  // 0 = nenhum anúncio, 1 = primeiro anúncio, 2 = segundo anúncio
-  const [adEtapa, setAdEtapa] = useState<0 | 1 | 2>(0)
-  // Desbloqueios feitos nesta sessão (otimista), antes do reload
+  const [fluxo, setFluxo] = useState<FluxoState>('idle')
+  const [trilhaAlvo, setTrilhaAlvo] = useState<TrilhaData | null>(null)
   const [desbloqueadasSessao, setDesbloqueadasSessao] = useState<Set<string>>(new Set())
 
-  function handleBloqueadaClick(slug: string) {
-    setTrilhaAlvo(slug)
-    setShowBanner(true)
+  function handleBloqueadaClick(trilha: TrilhaData) {
+    setTrilhaAlvo(trilha)
+    setFluxo('banner')
   }
 
   function iniciarAnuncios() {
-    setShowBanner(false)
-    setAdEtapa(1)
+    setFluxo('ad1')
   }
 
   function primeiroAnuncioConcluido() {
-    setAdEtapa(2)
+    // Pequena pausa antes do segundo anúncio para evitar conflito no AdMob
+    setFluxo('idle')
+    setTimeout(() => setFluxo('ad2'), 300)
   }
 
   async function segundoAnuncioConcluido() {
-    setAdEtapa(0)
-    if (trilhaAlvo) {
-      // Atualização otimista para feedback imediato
-      setDesbloqueadasSessao(prev => new Set(prev).add(trilhaAlvo!))
-      // Persiste no banco vinculado ao usuário logado
-      await fetch('/api/desbloquear-trilha', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ trilhaSlug: trilhaAlvo }),
-      })
-      router.push(`/trilha/${trilhaAlvo}`)
-    }
+    if (!trilhaAlvo) return
+    setDesbloqueadasSessao(prev => new Set(prev).add(trilhaAlvo.slug))
+    setFluxo('sucesso')
+    await fetch('/api/desbloquear-trilha', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ trilhaSlug: trilhaAlvo.slug }),
+    })
+  }
+
+  function entrarNaTrilha() {
+    if (trilhaAlvo) router.push(`/trilha/${trilhaAlvo.slug}`)
   }
 
   return (
@@ -83,7 +84,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
                 trilha={trilha}
                 desbloqueada={desbloqueada}
                 index={i}
-                onBloqueadaClick={() => handleBloqueadaClick(trilha.slug)}
+                onBloqueadaClick={() => handleBloqueadaClick(trilha)}
               />
             </div>
           )
@@ -103,7 +104,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
               trilha={trilha}
               desbloqueada={desbloqueada}
               index={i}
-              onBloqueadaClick={() => handleBloqueadaClick(trilha.slug)}
+              onBloqueadaClick={() => handleBloqueadaClick(trilha)}
               fullWidth
             />
           )
@@ -111,17 +112,77 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       </div>
 
       <BannerPro
-        open={showBanner}
-        onClose={() => setShowBanner(false)}
+        open={fluxo === 'banner'}
+        onClose={() => setFluxo('idle')}
         onAssistirAnuncio={iniciarAnuncios}
       />
 
-      {adEtapa === 1 && (
-        <AnuncioVideo isPro={false} label="Anúncio 1 de 2" onConcluido={primeiroAnuncioConcluido} onFechar={() => setAdEtapa(0)} />
+      {fluxo === 'ad1' && (
+        <AnuncioVideo
+          isPro={false}
+          label="Anúncio 1 de 2"
+          onConcluido={primeiroAnuncioConcluido}
+          onFechar={() => setFluxo('idle')}
+        />
       )}
-      {adEtapa === 2 && (
-        <AnuncioVideo isPro={false} label="Anúncio 2 de 2" onConcluido={segundoAnuncioConcluido} onFechar={() => setAdEtapa(0)} />
+      {fluxo === 'ad2' && (
+        <AnuncioVideo
+          isPro={false}
+          label="Anúncio 2 de 2"
+          onConcluido={segundoAnuncioConcluido}
+          onFechar={() => setFluxo('idle')}
+        />
       )}
+
+      {/* Tela de sucesso após liberar trilha */}
+      <AnimatePresence>
+        {fluxo === 'sucesso' && trilhaAlvo && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {/* Ícone de sucesso */}
+            <motion.div
+              className="w-24 h-24 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', delay: 0.1 }}
+            >
+              <svg width="48" height="48" fill="none" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5" stroke="#8b5cf6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </motion.div>
+
+            {/* Textos */}
+            <motion.div
+              className="flex flex-col items-center gap-2 text-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="text-3xl">{trilhaAlvo.icone}</span>
+              <h2 className="text-white text-2xl font-bold">Trilha liberada!</h2>
+              <p className="text-white/50 text-sm">
+                <span className="text-white/80 font-semibold">{trilhaAlvo.titulo}</span> está disponível para você
+              </p>
+            </motion.div>
+
+            {/* Botão */}
+            <motion.button
+              onClick={entrarNaTrilha}
+              className="w-full max-w-xs py-4 rounded-xl bg-[#8b5cf6] text-white font-bold text-lg"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Começar trilha →
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
