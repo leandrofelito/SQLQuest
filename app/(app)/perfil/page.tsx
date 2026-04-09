@@ -10,7 +10,7 @@ import { XpBar } from '@/components/ui/XpBar'
 import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
 import { getLevel, getLevelBadge } from '@/lib/xp'
-import { PrestigeBadge } from '@/components/ui/PrestigeBadge'
+import { PrestigeBadge, getPrestigeTier } from '@/components/ui/PrestigeBadge'
 
 const LUCIDE_ICONS: Record<string, LucideIcon> = {
   Cpu,
@@ -128,7 +128,11 @@ export default function PerfilPage() {
   }
 
   async function handlePrestige() {
-    if (!confirm(`Tem certeza? Seu XP será zerado e você voltará ao Nível 1, mas ganhará a Estrela de Prestígio ${prestige + 1}.`)) return
+    const { tierIndex, starsInTier } = getPrestigeTier(prestige + 1)
+    const TIER_NAMES = ['Bronze', 'Prata', 'Ouro', 'Rubi']
+    const tierName = TIER_NAMES[tierIndex]
+    const starStr = '★'.repeat(starsInTier)
+    if (!confirm(`Tem certeza? Seu XP será zerado e você voltará ao Nível 1, mas ganhará a Estrela de Prestígio ${prestige + 1} (${tierName} ${starStr}).`)) return
     setPrestigeLoading(true)
     const res = await fetch('/api/prestige', { method: 'POST' })
     const data = await res.json()
@@ -308,24 +312,34 @@ export default function PerfilPage() {
         </div>
 
         {/* Botão de Prestígio */}
-        {nivel >= 100 && (
-          <div
-            className="rounded-2xl border p-4 text-center"
-            style={{ borderColor: '#FFD700', background: 'rgba(255,215,0,0.06)' }}
-          >
-            <p className="text-yellow-400 font-bold text-sm mb-1">👑 Prestígio disponível!</p>
-            <p className="text-white/50 text-xs mb-3">
-              Você está no Nível {nivel}. Resete para o Nível 1 e ganhe a Estrela de Prestígio {prestige + 1}.
-            </p>
-            <Button
-              onClick={handlePrestige}
-              loading={prestigeLoading}
-              fullWidth
+        {nivel >= 100 && (() => {
+          const next = getPrestigeTier(prestige + 1)
+          const TIER_NAMES = ['Bronze', 'Prata', 'Ouro', 'Rubi']
+          const TIER_COLORS = ['#cd7f32', '#c0c0c0', '#facc15', '#ef4444']
+          const nextTierName = TIER_NAMES[next.tierIndex]
+          const nextColor = TIER_COLORS[next.tierIndex]
+          return (
+            <div
+              className="rounded-2xl border p-4 text-center"
+              style={{ borderColor: nextColor, background: `${nextColor}10` }}
             >
-              ✨ Ativar Prestígio {prestige + 1}
-            </Button>
-          </div>
-        )}
+              <p className="font-bold text-sm mb-1" style={{ color: nextColor }}>👑 Prestígio disponível!</p>
+              <p className="text-white/50 text-xs mb-1">
+                Você está no Nível {nivel}. Resete para o Nível 1 e ganhe a Estrela de Prestígio {prestige + 1}.
+              </p>
+              <p className="text-xs mb-3" style={{ color: nextColor, opacity: 0.85 }}>
+                {'★'.repeat(next.starsInTier)} {nextTierName} — {next.starsInTier}/5 estrelas no tier
+              </p>
+              <Button
+                onClick={handlePrestige}
+                loading={prestigeLoading}
+                fullWidth
+              >
+                ✨ Ativar Prestígio {prestige + 1}
+              </Button>
+            </div>
+          )
+        })()}
 
         {/* Upgrade se free */}
         {!isPro && (
