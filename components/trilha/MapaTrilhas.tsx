@@ -68,6 +68,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       <div className="md:hidden flex flex-col items-center gap-4 py-4 px-4">
         {trilhas.map((trilha, i) => {
           const desbloqueada =
+            isPro ||
             i === 0 ||
             (trilhas[i - 1]?.percentualConcluido ?? 0) === 100 ||
             trilha.desbloqueadaPorAnuncio || desbloqueadasSessao.has(trilha.slug)
@@ -95,6 +96,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-4">
         {trilhas.map((trilha, i) => {
           const desbloqueada =
+            isPro ||
             i === 0 ||
             (trilhas[i - 1]?.percentualConcluido ?? 0) === 100 ||
             trilha.desbloqueadaPorAnuncio || desbloqueadasSessao.has(trilha.slug)

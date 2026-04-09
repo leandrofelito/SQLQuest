@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       data: {
         userId,
         stripeSessionId: sess.id,
-        valor: 5990,
+        valor: 1990,
         status: 'paid',
       },
     })

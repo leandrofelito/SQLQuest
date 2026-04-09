@@ -65,7 +65,7 @@ export function BannerPro({ open, onClose, onAssistirAnuncio }: BannerProProps) 
                 onClick={() => router.push('/upgrade')}
                 className="w-full py-4 rounded-xl bg-[#8b5cf6] text-white font-bold text-base hover:bg-[#7c3aed] transition-colors"
               >
-                ASSINAR PRO — R$59,90
+                ASSINAR PRO — R$19,90
               </button>
             </div>
           </motion.div>

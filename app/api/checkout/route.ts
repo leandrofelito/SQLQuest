@@ -21,7 +21,7 @@ export async function POST() {
             description: 'Acesso vitalício: sem anúncios + certificados por trilha',
             images: [`${process.env.NEXT_PUBLIC_URL}/og.png`],
           },
-          unit_amount: 5990,
+          unit_amount: 1990,
         },
         quantity: 1,
       },
