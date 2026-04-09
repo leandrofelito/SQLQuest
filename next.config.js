@@ -22,6 +22,12 @@ const config = {
   images: {
     remotePatterns: [{ protocol: 'https', hostname: '**' }],
   },
+  // Garante que o arquivo WASM esteja disponível no bundle serverless da rota de validação
+  experimental: {
+    outputFileTracingIncludes: {
+      '/api/validar-query': ['./public/sql-wasm.wasm'],
+    },
+  },
   webpack: (config) => {
     config.resolve.fallback = { ...config.resolve.fallback, fs: false }
     return config

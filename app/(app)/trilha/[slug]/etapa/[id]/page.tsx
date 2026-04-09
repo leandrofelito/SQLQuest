@@ -116,7 +116,7 @@ export default function EtapaPage() {
   }
 
   async function salvarProgresso(estrelas: number, dicasUsadas: number, tentativas: number, token: string) {
-    if (!etapa || !trilha) return
+    if (!etapa || !trilha) return null
     const res = await fetch('/api/progresso', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -126,6 +126,7 @@ export default function EtapaPage() {
         token,
       }),
     })
+    if (!res.ok) return null
     const data = await res.json()
     if (data.xpGanho > 0) {
       setXpGanho(data.xpGanho)
@@ -252,6 +253,14 @@ export default function EtapaPage() {
                   isPro={isPro}
                   onConcluido={async (estrelas, dicasUsadas, tentativas, token) => {
                     const data = await salvarProgresso(estrelas, dicasUsadas, tentativas, token)
+
+                    // Falha ao salvar: token inválido ou erro de servidor.
+                    // Não navega para a próxima etapa (o guard bloquearia de qualquer forma),
+                    // vai direto para o mapa da trilha para o usuário tentar novamente.
+                    if (data === null) {
+                      router.push(`/trilha/${slug}`)
+                      return
+                    }
 
                     const seguirEmFrente = () => {
                       if (!isPro) {

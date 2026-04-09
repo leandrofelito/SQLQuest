@@ -7,6 +7,7 @@ import { checkAnswer } from '@/lib/check-answer'
 import { getDica, classificarErro } from '@/lib/dicas'
 import { calcularEstrelas, XP_POR_ESTRELAS } from '@/lib/xp'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
+import { AdBanner } from '@/components/layout/AdBanner'
 import { DesafioSeguro, EnunciadoSeguro } from '@/components/seguranca/DesafioSeguro'
 import type { ConteudoExercicio, QueryResult } from '@/types'
 
@@ -54,11 +55,13 @@ function ModalEstrelas({
   estrelas,
   xp,
   explicacaoTecnica,
+  isPro,
   onContinuar,
 }: {
   estrelas: number
   xp: number
   explicacaoTecnica?: string
+  isPro: boolean
   onContinuar: () => void
 }) {
   const [showExplicacao, setShowExplicacao] = useState(false)
@@ -75,14 +78,34 @@ function ModalEstrelas({
 
       {/* Card */}
       <motion.div
-        className="relative z-10 w-full max-w-sm mx-4 mb-6 sm:mb-0 bg-[#12141c] border border-[#2a2d3a] rounded-3xl p-8 text-center shadow-2xl overflow-y-auto max-h-[90vh]"
+        className="relative z-10 w-full max-w-sm mx-4 mb-6 sm:mb-0 bg-[#12141c] border border-[#2a2d3a] rounded-3xl pt-8 px-8 pb-4 text-center shadow-2xl overflow-y-auto max-h-[90vh]"
         initial={{ y: 80, scale: 0.92 }}
         animate={{ y: 0, scale: 1 }}
         exit={{ y: 80, scale: 0.92 }}
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
       >
-        {/* Estrelas + Legendas (cada par alinhado na mesma coluna) */}
-        <div className="flex justify-center gap-6 mb-5">
+        {/* Título */}
+        <motion.p
+          className="text-white font-bold text-xl mb-1"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          {LABELS_ESTRELAS[estrelas]}
+        </motion.p>
+
+        {/* XP */}
+        <motion.div
+          className="inline-flex items-center gap-1.5 bg-amber-500/15 border border-amber-400/30 rounded-full px-4 py-1.5 mb-6"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.25, type: 'spring', stiffness: 250 }}
+        >
+          <span className="text-amber-400 font-bold text-sm">+{xp} XP</span>
+        </motion.div>
+
+        {/* Estrelas + Legendas (elemento hero, centralizado) */}
+        <div className="flex justify-center gap-6 mb-6">
           {([
             { label: 'Acertou' },
             { label: 'Sem dica' },
@@ -96,19 +119,19 @@ function ModalEstrelas({
                   initial={{ scale: 0, rotate: -90 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{
-                    delay: 0.15 * i,
+                    delay: 0.35 + 0.15 * i,
                     type: 'spring',
                     stiffness: 260,
                     damping: 18,
                   }}
                 >
-                  <StarIcon filled={filled} size={40} />
+                  <StarIcon filled={filled} size={44} />
                 </motion.div>
                 <motion.span
                   className={`text-[10px] font-semibold ${filled ? 'text-amber-400' : 'text-white/20'}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
+                  transition={{ delay: 0.85 }}
                 >
                   {label}
                 </motion.span>
@@ -116,26 +139,6 @@ function ModalEstrelas({
             )
           })}
         </div>
-
-        {/* Título */}
-        <motion.p
-          className="text-white font-bold text-xl mb-1"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55 }}
-        >
-          {LABELS_ESTRELAS[estrelas]}
-        </motion.p>
-
-        {/* XP */}
-        <motion.div
-          className="inline-flex items-center gap-1.5 bg-amber-500/15 border border-amber-400/30 rounded-full px-4 py-1.5 mb-6"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.7, type: 'spring', stiffness: 250 }}
-        >
-          <span className="text-amber-400 font-bold text-sm">+{xp} XP</span>
-        </motion.div>
 
         {/* Explicação técnica (desafios de elite) */}
         {explicacaoTecnica && (
@@ -168,8 +171,9 @@ function ModalEstrelas({
           </motion.div>
         )}
 
-        {/* Botão */}
+        {/* Botão Continuar */}
         <motion.div
+          className="mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.85 }}
@@ -178,6 +182,17 @@ function ModalEstrelas({
             Continuar →
           </Button>
         </motion.div>
+
+        {/* Anúncio discreto no rodapé — apenas para usuários gratuitos */}
+        {!isPro && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.1 }}
+          >
+            <AdBanner />
+          </motion.div>
+        )}
       </motion.div>
     </motion.div>
   )
@@ -332,8 +347,27 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
     }
   }
 
-  function continuar() {
-    onConcluido(estrelasFinalRef.current, dicasUsadas, tentativas, tokenRef.current)
+  async function continuar() {
+    let token = tokenRef.current
+    // Se o token ficou vazio (falha na validação do servidor durante verificar()),
+    // tenta novamente antes de salvar o progresso.
+    if (!token) {
+      try {
+        const res = await fetch('/api/validar-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ etapaId, query, tentativas, dicasUsadas }),
+        })
+        if (res.ok) {
+          const data = await res.json()
+          if (data.sucesso && data.token) {
+            token = data.token
+            tokenRef.current = token
+          }
+        }
+      } catch { /* token permanece vazio; /api/progresso vai rejeitar */ }
+    }
+    onConcluido(estrelasFinalRef.current, dicasUsadas, tentativas, token)
   }
 
   function continuarComQueryLenta() {
@@ -497,6 +531,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
             estrelas={estrelasFinalRef.current}
             xp={xpModal}
             explicacaoTecnica={conteudo.explicacaoTecnica}
+            isPro={isPro}
             onContinuar={continuar}
           />
         )}
