@@ -8,6 +8,7 @@ export async function GET() {
     select: {
       id: true,
       name: true,
+      nickname: true,
       image: true,
       totalXp: true,
       streak: true,

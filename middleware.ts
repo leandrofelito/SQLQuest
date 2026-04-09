@@ -22,6 +22,11 @@ export default withAuth(
         return NextResponse.redirect(new URL('/home', req.url))
       }
     }
+
+    // Usuário autenticado sem nickname → obrigar a escolher antes de continuar
+    if (token && !token.nickname && pathname !== '/escolher-nickname') {
+      return NextResponse.redirect(new URL('/escolher-nickname', req.url))
+    }
   },
   {
     callbacks: {

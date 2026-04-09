@@ -51,8 +51,24 @@ export const authOptions: NextAuthOptions = {
       }
       return true
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) token.sub = user.id
+
+      // Atualiza nickname no token quando o usuário salva via session.update()
+      if (trigger === 'update' && session?.nickname !== undefined) {
+        token.nickname = session.nickname
+        return token
+      }
+
+      // Primeira vez que o token não tem nickname: busca no DB e persiste no cookie
+      if (token.nickname === undefined && token.sub) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.sub as string },
+          select: { nickname: true },
+        })
+        token.nickname = dbUser?.nickname ?? null
+      }
+
       return token
     },
     async session({ session, token }) {
@@ -64,6 +80,7 @@ export const authOptions: NextAuthOptions = {
         ;(session.user as any).isAdmin = dbUser?.isAdmin ?? false
         ;(session.user as any).totalXp = dbUser?.totalXp ?? 0
         ;(session.user as any).streak = dbUser?.streak ?? 0
+        ;(session.user as any).nickname = (token.nickname as string | null) ?? dbUser?.nickname ?? null
 
         const hoje = new Date()
         const ultimaAtividade = dbUser?.lastActiveAt

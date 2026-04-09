@@ -11,6 +11,7 @@ import { useUser } from '@/hooks/useUser'
 interface RankUser {
   id: string
   name: string | null
+  nickname: string | null
   image: string | null
   totalXp: number
   streak: number
@@ -103,7 +104,7 @@ export default function RankingPage() {
                     animate={{ boxShadow: elite.glow }}
                     transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
                   >
-                    {u.name?.charAt(0).toUpperCase() ?? '?'}
+                    {(u.nickname ?? u.name)?.charAt(0).toUpperCase() ?? '?'}
                   </motion.div>
 
                   <div className="flex flex-col items-center gap-0.5">
@@ -116,7 +117,7 @@ export default function RankingPage() {
                         backgroundClip: 'text',
                       }}
                     >
-                      {u.name?.split(' ')[0]}
+                      {u.nickname ?? u.name?.split(' ')[0]}
                     </p>
                     {u.prestige > 0 && <PrestigeBadge prestige={u.prestige} size="sm" />}
                   </div>
@@ -176,7 +177,7 @@ export default function RankingPage() {
                         isMe ? 'bg-[#8b5cf6]/30 text-[#a78bfa]' : 'bg-[#1e2028] text-white/60'
                       }`}
                     >
-                      {u.name?.charAt(0).toUpperCase() ?? '?'}
+                      {(u.nickname ?? u.name)?.charAt(0).toUpperCase() ?? '?'}
                     </div>
 
                     {/* Nome + prestígio */}
@@ -184,11 +185,11 @@ export default function RankingPage() {
                       <div className="flex items-center gap-1.5 flex-wrap">
                         {isElite && !isMe ? (
                           <EliteName gradient={elite!.nameGradient}>
-                            {u.name ?? 'Anônimo'}
+                            {u.nickname ?? u.name ?? 'Anônimo'}
                           </EliteName>
                         ) : (
                           <p className={`font-semibold text-sm truncate ${isMe ? 'text-white' : 'text-white/80'}`}>
-                            {u.name ?? 'Anônimo'}
+                            {u.nickname ?? u.name ?? 'Anônimo'}
                           </p>
                         )}
                         {isMe && <span className="text-[#a78bfa] text-xs">(você)</span>}

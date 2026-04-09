@@ -72,7 +72,7 @@ export default function UpgradePage() {
         </svg>
       </button>
 
-      <div className="flex-1 flex flex-col justify-between px-6 pt-12 pb-8">
+      <div className="flex-1 flex flex-col justify-between px-6 pt-12" style={{ paddingBottom: 'calc(3rem + env(safe-area-inset-bottom))' }}>
         {/* Carrossel */}
         <div className="flex-1 flex flex-col items-center justify-center text-center gap-6">
           <AnimatePresence mode="wait">
@@ -126,7 +126,7 @@ export default function UpgradePage() {
 
           <button
             onClick={() => router.back()}
-            className="w-full text-white/30 text-sm py-2 hover:text-white/50 transition-colors"
+            className="w-full text-white/30 text-sm py-4 hover:text-white/50 transition-colors"
           >
             Continuar com anúncios
           </button>

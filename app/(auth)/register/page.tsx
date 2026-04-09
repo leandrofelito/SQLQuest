@@ -1,14 +1,61 @@
 'use client'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
+// ── Força da senha ──────────────────────────────────────────────────
+interface PasswordCheck {
+  label: string
+  ok: boolean
+}
+
+function getPasswordChecks(p: string): PasswordCheck[] {
+  return [
+    { label: 'Mínimo 8 caracteres',       ok: p.length >= 8 },
+    { label: 'Letra maiúscula',            ok: /[A-Z]/.test(p) },
+    { label: 'Letra minúscula',            ok: /[a-z]/.test(p) },
+    { label: 'Número',                     ok: /[0-9]/.test(p) },
+    { label: 'Caractere especial (!@#…)',  ok: /[^A-Za-z0-9]/.test(p) },
+  ]
+}
+
+function getStrength(p: string): 0 | 1 | 2 | 3 | 4 {
+  if (!p) return 0
+  const checks = getPasswordChecks(p)
+  const passed = checks.filter(c => c.ok).length
+  if (passed <= 1) return 1
+  if (passed === 2) return 2
+  if (passed === 3 || passed === 4) return 3
+  return 4 // all 5
+}
+
+const STRENGTH_META = [
+  { label: '',       color: '' },
+  { label: 'Fraca',    color: '#ef4444' },
+  { label: 'Razoável', color: '#f97316' },
+  { label: 'Boa',      color: '#eab308' },
+  { label: 'Forte',    color: '#22c55e' },
+] as const
+// ────────────────────────────────────────────────────────────────────
+
 export default function RegisterPage() {
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    nickname: '',
+    email: '',
+    password: '',
+    confirm: '',
+  })
   const [erro, setErro] = useState('')
   const [loading, setLoading] = useState(false)
   const [emailEnviado, setEmailEnviado] = useState(false)
+  const [showChecks, setShowChecks] = useState(false)
+
+  const checks = useMemo(() => getPasswordChecks(form.password), [form.password])
+  const strength = useMemo(() => getStrength(form.password), [form.password])
+  const allChecksPassed = checks.every(c => c.ok)
 
   function set(field: string, value: string) {
     setForm(f => ({ ...f, [field]: value }))
@@ -17,6 +64,11 @@ export default function RegisterPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
+    if (!allChecksPassed) {
+      setErro('A senha não atende aos requisitos de segurança')
+      return
+    }
     if (form.password !== form.confirm) {
       setErro('As senhas não coincidem')
       return
@@ -27,7 +79,13 @@ export default function RegisterPage() {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          nickname: form.nickname,
+          email: form.email,
+          password: form.password,
+        }),
       })
       const data = await res.json()
 
@@ -41,6 +99,8 @@ export default function RegisterPage() {
       setLoading(false)
     }
   }
+
+  const meta = STRENGTH_META[strength]
 
   return (
     <div className="min-h-screen bg-[#080a0f] flex flex-col items-center justify-center px-6">
@@ -65,17 +125,51 @@ export default function RegisterPage() {
 
         {/* Formulário */}
         <form onSubmit={handleSubmit} className="space-y-3">
+          {/* Nome e Sobrenome lado a lado */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-white/50 text-xs font-medium block mb-1.5">Nome</label>
+              <input
+                type="text"
+                value={form.firstName}
+                onChange={e => set('firstName', e.target.value)}
+                placeholder="João"
+                required
+                autoComplete="given-name"
+                maxLength={25}
+                className="w-full bg-[#0f1117] border border-[#2a2d3a] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-[#8b5cf6] transition-colors"
+              />
+            </div>
+            <div>
+              <label className="text-white/50 text-xs font-medium block mb-1.5">Sobrenome</label>
+              <input
+                type="text"
+                value={form.lastName}
+                onChange={e => set('lastName', e.target.value)}
+                placeholder="Silva"
+                required
+                autoComplete="family-name"
+                maxLength={25}
+                className="w-full bg-[#0f1117] border border-[#2a2d3a] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-[#8b5cf6] transition-colors"
+              />
+            </div>
+          </div>
+
           <div>
-            <label className="text-white/50 text-xs font-medium block mb-1.5">Nome completo</label>
+            <label className="text-white/50 text-xs font-medium block mb-1.5">
+              Nickname <span className="text-white/25 font-normal">(aparece no ranking)</span>
+            </label>
             <input
               type="text"
-              value={form.name}
-              onChange={e => set('name', e.target.value)}
-              placeholder="João Silva"
+              value={form.nickname}
+              onChange={e => set('nickname', e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+              placeholder="joaosilva_sql"
               required
-              autoComplete="name"
+              autoComplete="username"
+              maxLength={20}
               className="w-full bg-[#0f1117] border border-[#2a2d3a] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-[#8b5cf6] transition-colors"
             />
+            <p className="text-white/25 text-xs mt-1 ml-1">Letras, números e _ · 3 a 20 caracteres</p>
           </div>
 
           <div>
@@ -91,17 +185,59 @@ export default function RegisterPage() {
             />
           </div>
 
+          {/* Senha com indicador de força */}
           <div>
             <label className="text-white/50 text-xs font-medium block mb-1.5">Senha</label>
             <input
               type="password"
               value={form.password}
-              onChange={e => set('password', e.target.value)}
-              placeholder="Mínimo 6 caracteres"
+              onChange={e => { set('password', e.target.value); setShowChecks(true) }}
+              onFocus={() => setShowChecks(true)}
+              placeholder="Mínimo 8 caracteres"
               required
               autoComplete="new-password"
+              maxLength={72}
               className="w-full bg-[#0f1117] border border-[#2a2d3a] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-[#8b5cf6] transition-colors"
             />
+
+            {/* Barra de força */}
+            {form.password.length > 0 && (
+              <div className="mt-2 space-y-1.5">
+                <div className="flex items-center gap-1.5">
+                  {[1, 2, 3, 4].map(level => (
+                    <div
+                      key={level}
+                      className="h-1 flex-1 rounded-full transition-all duration-300"
+                      style={{
+                        backgroundColor: strength >= level ? meta.color : '#1e2028',
+                      }}
+                    />
+                  ))}
+                  <span
+                    className="text-xs font-semibold ml-1 w-14 text-right transition-colors duration-300"
+                    style={{ color: meta.color || '#ffffff30' }}
+                  >
+                    {meta.label}
+                  </span>
+                </div>
+
+                {/* Checklist */}
+                {showChecks && (
+                  <div className="bg-[#0f1117] border border-[#1e2028] rounded-xl px-3 py-2.5 space-y-1">
+                    {checks.map((c) => (
+                      <div key={c.label} className="flex items-center gap-2">
+                        <span className={`text-xs transition-colors duration-200 ${c.ok ? 'text-emerald-400' : 'text-white/25'}`}>
+                          {c.ok ? '✓' : '○'}
+                        </span>
+                        <span className={`text-xs transition-colors duration-200 ${c.ok ? 'text-white/60' : 'text-white/25'}`}>
+                          {c.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div>
@@ -113,6 +249,7 @@ export default function RegisterPage() {
               placeholder="Repita a senha"
               required
               autoComplete="new-password"
+              maxLength={72}
               className="w-full bg-[#0f1117] border border-[#2a2d3a] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm outline-none focus:border-[#8b5cf6] transition-colors"
             />
           </div>
@@ -132,7 +269,14 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <Button type="submit" loading={loading} fullWidth size="lg" className="mt-2">
+          <Button
+            type="submit"
+            loading={loading}
+            fullWidth
+            size="lg"
+            className="mt-2"
+            disabled={form.password.length > 0 && !allChecksPassed}
+          >
             Criar conta
           </Button>
         </form>

@@ -119,8 +119,11 @@ export default function PerfilPage() {
 
   async function handleSignOut() {
     setLoading(true)
-    // Salvar flag ANTES do signOut — garante logout mesmo se o app fechar durante a requisição
     localStorage.setItem('sqlquest_force_logout', '1')
+    // Limpa a flag nativa de sessão antes de sair
+    if (typeof window !== 'undefined' && (window as any).__sqlquestNativeApp) {
+      (window as any).SessionBridge?.postMessage('logout')
+    }
     await signOut({ callbackUrl: '/login' })
   }
 
@@ -159,6 +162,9 @@ export default function PerfilPage() {
               <p className="text-white font-bold text-lg">{user?.name}</p>
               <PrestigeBadge prestige={prestige} size="md" />
             </div>
+            {(user as any)?.nickname && (
+              <p className="text-[#a78bfa] text-sm font-medium">@{(user as any).nickname}</p>
+            )}
             <p className="text-white/40 text-sm">{user?.email}</p>
             <div className="flex items-center gap-1.5 mt-1">
               <span
