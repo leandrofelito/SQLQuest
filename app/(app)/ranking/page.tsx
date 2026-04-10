@@ -7,15 +7,24 @@ import { PrestigeBadge } from '@/components/ui/PrestigeBadge'
 import { getLevelLabel } from '@/lib/xp'
 import { formatXP } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
+import { useAppData, type RankUser } from '@/context/AppDataContext'
 
-interface RankUser {
-  id: string
-  name: string | null
-  nickname: string | null
-  image: string | null
-  totalXp: number
-  streak: number
-  prestige: number
+function RankingSkeleton() {
+  return (
+    <div className="space-y-2">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div key={i} className="flex items-center gap-3 p-3 rounded-2xl border border-[#1e2028] bg-[#0f1117] animate-pulse">
+          <div className="w-7 h-4 bg-white/10 rounded" />
+          <div className="w-9 h-9 rounded-full bg-white/10" />
+          <div className="flex-1 space-y-1.5">
+            <div className="h-3 bg-white/10 rounded w-24" />
+            <div className="h-2.5 bg-white/10 rounded w-16" />
+          </div>
+          <div className="h-4 bg-white/10 rounded w-14" />
+        </div>
+      ))}
+    </div>
+  )
 }
 
 const PODIO_CORES = ['#f59e0b', '#9ca3af', '#b45309']
@@ -61,14 +70,15 @@ function EliteName({ gradient, children }: { gradient: string; children: React.R
 
 export default function RankingPage() {
   const { user } = useUser()
-  const [ranking, setRanking] = useState<RankUser[]>([])
-  const [loading, setLoading] = useState(true)
+  const { loadRanking, getCachedRanking } = useAppData()
+  const [ranking, setRanking] = useState<RankUser[]>(() => getCachedRanking() ?? [])
+  const [loading, setLoading] = useState(() => getCachedRanking() === null)
 
   useEffect(() => {
-    fetch('/api/ranking')
-      .then(r => r.json())
-      .then(setRanking)
-      .finally(() => setLoading(false))
+    loadRanking().then(data => {
+      setRanking(data)
+      setLoading(false)
+    })
   }, [])
 
   const podio = ranking.slice(0, 3)
@@ -136,7 +146,7 @@ export default function RankingPage() {
         )}
 
         {loading ? (
-          <div className="text-center py-8 text-white/30 animate-pulse">Carregando ranking...</div>
+          <RankingSkeleton />
         ) : (
           <div className="space-y-2">
             {[...podio, ...resto].map((u, i) => {

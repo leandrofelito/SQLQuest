@@ -11,6 +11,20 @@ import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
 import { getLevel, getLevelBadge } from '@/lib/xp'
 import { PrestigeBadge, getPrestigeTier } from '@/components/ui/PrestigeBadge'
+import { useAppData } from '@/context/AppDataContext'
+
+function ConquistasSkeleton() {
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      {Array.from({ length: 9 }).map((_, i) => (
+        <div key={i} className="bg-[#0f1117] border border-[#1e2028] rounded-2xl p-3 text-center animate-pulse">
+          <div className="w-8 h-8 bg-white/10 rounded-full mx-auto mb-2" />
+          <div className="h-2.5 bg-white/10 rounded w-12 mx-auto" />
+        </div>
+      ))}
+    </div>
+  )
+}
 
 const LUCIDE_ICONS: Record<string, LucideIcon> = {
   Cpu,
@@ -72,8 +86,10 @@ function InfoIcon() {
 export default function PerfilPage() {
   const { user, isPro } = useUser()
   const router = useRouter()
+  const { loadProgresso, getCachedProgresso } = useAppData()
   const [stats, setStats] = useState({ etapas: 0, certificados: 0 })
   const [conquistas, setConquistas] = useState<Conquista[]>([])
+  const [conquistasLoading, setConquistasLoading] = useState(true)
   const [prestige, setPrestige] = useState(0)
   const [loading, setLoading] = useState(false)
   const [prestigeLoading, setPrestigeLoading] = useState(false)
@@ -97,22 +113,20 @@ export default function PerfilPage() {
 
   useEffect(() => {
     async function load() {
-      const [progressoRes, certsRes, conquistasRes, prestigeRes] = await Promise.all([
-        fetch('/api/progresso'),
-        fetch('/api/certificados'),
-        fetch('/api/conquistas'),
-        fetch('/api/prestige'),
+      // progresso uses the global cache — already fetched on etapa pages
+      const [progressos, certsRes, conquistasRes, prestigeRes] = await Promise.all([
+        loadProgresso(),
+        fetch('/api/certificados').then(r => r.json()),
+        fetch('/api/conquistas').then(r => r.json()),
+        fetch('/api/prestige').then(r => r.json()),
       ])
-      const progressos = await progressoRes.json()
-      const certs = await certsRes.json()
-      const conquistasData = await conquistasRes.json()
-      const prestigeData = await prestigeRes.json()
       setStats({
         etapas: Array.isArray(progressos) ? progressos.length : 0,
-        certificados: Array.isArray(certs) ? certs.length : 0,
+        certificados: Array.isArray(certsRes) ? certsRes.length : 0,
       })
-      setConquistas(Array.isArray(conquistasData) ? conquistasData : [])
-      setPrestige(prestigeData?.prestige ?? 0)
+      setConquistas(Array.isArray(conquistasRes) ? conquistasRes : [])
+      setPrestige(prestigeRes?.prestige ?? 0)
+      setConquistasLoading(false)
     }
     load()
   }, [])
@@ -256,9 +270,12 @@ export default function PerfilPage() {
         {/* Conquistas */}
         <div>
           <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-3">
-            Conquistas — {conquistas.filter(c => c.desbloqueada && !c.tier).length}/{conquistas.filter(c => !c.tier).length}
+            {conquistasLoading
+              ? 'Conquistas'
+              : `Conquistas — ${conquistas.filter(c => c.desbloqueada && !c.tier).length}/${conquistas.filter(c => !c.tier).length}`}
           </h3>
-          <div className="grid grid-cols-3 gap-2" ref={tooltipRef}>
+          {conquistasLoading ? <ConquistasSkeleton /> : null}
+          <div className={`grid grid-cols-3 gap-2 ${conquistasLoading ? 'hidden' : ''}`} ref={tooltipRef}>
             {conquistas.filter(c => !c.tier).map((c, i) => {
               const isOpen = activeTooltip === c.id
               return (

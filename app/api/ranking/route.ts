@@ -19,7 +19,12 @@ export async function GET() {
       },
     })
 
-    return NextResponse.json(users)
+    return NextResponse.json(users, {
+      headers: {
+        // Client may use cached response for up to 3 minutes
+        'Cache-Control': 'private, max-age=180, stale-while-revalidate=60',
+      },
+    })
   } catch (error) {
     console.error('Ranking fetch error:', error)
     return NextResponse.json([], { status: 200 })

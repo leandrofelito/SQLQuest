@@ -20,18 +20,31 @@ export async function GET(req: Request) {
   const ordem = searchParams.get('ordem')
   const lang = (searchParams.get('lang') ?? DEFAULT_LOCALE) as Locale
 
+  const etapaSelect = {
+    id: true,
+    trilhaId: true,
+    ordem: true,
+    tipo: true,
+    titulo: true,
+    conteudo: true,
+    traducoes: true,
+    xpReward: true,
+    temAnuncio: true,
+  }
+
   if (id) {
-    const etapa = await prisma.etapa.findUnique({ where: { id } })
+    const etapa = await prisma.etapa.findUnique({ where: { id }, select: etapaSelect })
     if (!etapa) return NextResponse.json({ error: 'Etapa não encontrada' }, { status: 404 })
     return NextResponse.json(localizeEtapa(etapa, lang))
   }
 
   if (trilhaSlug && ordem) {
-    const trilha = await prisma.trilha.findUnique({ where: { slug: trilhaSlug } })
+    const trilha = await prisma.trilha.findUnique({ where: { slug: trilhaSlug }, select: { id: true } })
     if (!trilha) return NextResponse.json({ error: 'Trilha não encontrada' }, { status: 404 })
 
     const etapa = await prisma.etapa.findUnique({
       where: { trilhaId_ordem: { trilhaId: trilha.id, ordem: parseInt(ordem) } },
+      select: etapaSelect,
     })
     if (!etapa) return NextResponse.json({ error: 'Etapa não encontrada' }, { status: 404 })
     return NextResponse.json(localizeEtapa(etapa, lang))

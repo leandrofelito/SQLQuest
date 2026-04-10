@@ -12,6 +12,7 @@ import { LevelUpModal } from '@/components/ui/LevelUpModal'
 import { ConquistaToast } from '@/components/ui/ConquistaToast'
 import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
+import { useAppData } from '@/context/AppDataContext'
 import type { ConteudoIntro, ConteudoTexto, ConteudoResumo, ConteudoExercicio, ConteudoConclusao } from '@/types'
 
 interface EtapaDB {
@@ -37,6 +38,7 @@ export default function EtapaPage() {
   const router = useRouter()
   const { isPro } = useUser()
   const { messages, locale } = useLocale()
+  const { loadTrilhas, loadProgresso, addProgressoOptimistic, loadEtapa, prefetchEtapa } = useAppData()
 
   const [etapa, setEtapa] = useState<EtapaDB | null>(null)
   const [trilha, setTrilha] = useState<TrilhaBasica | null>(null)
@@ -64,20 +66,17 @@ export default function EtapaPage() {
       setErroConexao(false)
       setLoading(true)
       try {
-        const [etapaRes, trilhasRes, progressoRes] = await Promise.all([
-          fetch(`/api/etapa?id=${id}&lang=${locale}`),
-          fetch(`/api/trilhas?lang=${locale}`),
-          fetch('/api/progresso'),
+        // All three use cache — only hits network if not yet cached
+        const [etapaData, trilhas, progressos] = await Promise.all([
+          loadEtapa(id, locale),
+          loadTrilhas(locale),
+          loadProgresso(),
         ])
 
-        if (!etapaRes.ok || !trilhasRes.ok || !progressoRes.ok) throw new Error('server')
-
-        const etapaData: EtapaDB = await etapaRes.json()
-        const trilhas = await trilhasRes.json()
-        const progressos = await progressoRes.json()
+        if (!etapaData?.id) throw new Error('server')
 
         const t = trilhas.find((tr: any) => tr.slug === slug)
-        if (!t || !etapaData?.id) { router.push(`/trilha/${slug}`); return }
+        if (!t) { router.push(`/trilha/${slug}`); return }
 
         // Guard: bloqueia acesso direto via URL se a etapa anterior não foi concluída
         const ordenadas: { id: string; ordem: number }[] = [...(t.etapas ?? [])].sort(
@@ -96,6 +95,12 @@ export default function EtapaPage() {
         setEtapa(etapaData)
         setTrilha(t)
         setTodasEtapas(t.etapas ?? [])
+
+        // Prefetch próximas 2 etapas silenciosamente
+        if (idxAtual >= 0) {
+          const proximas = ordenadas.slice(idxAtual + 1, idxAtual + 3)
+          proximas.forEach(e => prefetchEtapa(e.id, locale))
+        }
 
         // Trilha concluída quando todos os exercícios forem feitos
         const exercicioIds = new Set((t.etapas ?? []).filter((e: any) => e.tipo === 'exercicio').map((e: any) => e.id))
@@ -137,6 +142,10 @@ export default function EtapaPage() {
 
   async function salvarProgresso(estrelas: number, dicasUsadas: number, tentativas: number, token: string) {
     if (!etapa || !trilha) return null
+
+    // Optimistic update — atualiza o cache antes da resposta do servidor
+    addProgressoOptimistic(etapa.id, trilha.id, 0, estrelas)
+
     const res = await fetch('/api/progresso', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

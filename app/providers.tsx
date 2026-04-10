@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import { SessionProvider as NextSessionProvider } from 'next-auth/react'
 import { LocaleProvider } from '@/context/LocaleContext'
+import { AppDataProvider } from '@/context/AppDataContext'
 import { SessionGuard } from '@/components/SessionGuard'
 
 function NativeAppDetector() {
@@ -18,7 +19,11 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     <NextSessionProvider>
       <NativeAppDetector />
       <SessionGuard />
-      <LocaleProvider>{children}</LocaleProvider>
+      <LocaleProvider>
+        <AppDataProvider>
+          {children}
+        </AppDataProvider>
+      </LocaleProvider>
     </NextSessionProvider>
   )
 }

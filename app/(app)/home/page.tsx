@@ -7,24 +7,14 @@ import { MapaTrilhas } from '@/components/trilha/MapaTrilhas'
 import { XpBar } from '@/components/ui/XpBar'
 import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
-
-interface TrilhaComProgresso {
-  id: string
-  slug: string
-  titulo: string
-  descricao: string
-  icone: string
-  ordem: number
-  totalEtapas: number
-  percentualConcluido: number
-  etapasConcluidas: number
-}
+import { useAppData, type TrilhaComProgresso } from '@/context/AppDataContext'
 
 export default function HomePage() {
   const { user } = useUser()
   const { messages, locale } = useLocale()
-  const [trilhas, setTrilhas] = useState<TrilhaComProgresso[]>([])
-  const [loading, setLoading] = useState(true)
+  const { loadTrilhas, getCachedTrilhas } = useAppData()
+  const [trilhas, setTrilhas] = useState<TrilhaComProgresso[]>(() => getCachedTrilhas() ?? [])
+  const [loading, setLoading] = useState(() => getCachedTrilhas() === null)
   const searchParams = useSearchParams()
   const proBought = searchParams.get('pro') === '1'
 
@@ -33,11 +23,11 @@ export default function HomePage() {
     if (typeof window !== 'undefined' && (window as any).__sqlquestNativeApp) {
       (window as any).SessionBridge?.postMessage('login')
     }
-    fetch(`/api/trilhas?lang=${locale}`)
-      .then(r => r.json())
-      .then(setTrilhas)
-      .finally(() => setLoading(false))
-  }, [])
+    loadTrilhas(locale).then(data => {
+      setTrilhas(data)
+      setLoading(false)
+    })
+  }, [locale])
 
   const xp = (user as any)?.totalXp ?? 0
 

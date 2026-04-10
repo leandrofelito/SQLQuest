@@ -6,6 +6,7 @@ import { CardCertificado } from '@/components/certificado/CardCertificado'
 import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
 import { useRouter } from 'next/navigation'
+import { useAppData } from '@/context/AppDataContext'
 
 interface Cert {
   id: string
@@ -27,27 +28,46 @@ interface TrilhaPendente {
   percentualConcluido: number
 }
 
+function CertsSkeleton() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div key={i} className="rounded-2xl bg-[#0f1117] border border-[#1e2028] p-4 animate-pulse">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-white/10" />
+            <div className="flex-1 space-y-2">
+              <div className="h-3.5 bg-white/10 rounded w-32" />
+              <div className="h-2.5 bg-white/10 rounded w-20" />
+            </div>
+          </div>
+          <div className="h-9 bg-white/10 rounded-xl" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function CertificadosPage() {
   const { user, isPro } = useUser()
   const router = useRouter()
+  const { loadTrilhas, getCachedTrilhas } = useAppData()
   const [certs, setCerts] = useState<Cert[]>([])
   const [pendentes, setPendentes] = useState<TrilhaPendente[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function load() {
-      const [certsRes, trilhasRes] = await Promise.all([
-        fetch('/api/certificados'),
-        fetch('/api/trilhas'),
+      const [certsRes, trilhas] = await Promise.all([
+        fetch('/api/certificados').then(r => r.json()),
+        loadTrilhas(),
       ])
 
       try {
-        const certsData = await certsRes.json()
-        const trilhas = await trilhasRes.json()
-        setCerts(Array.isArray(certsData) ? certsData : [])
+        const certsData = Array.isArray(certsRes) ? certsRes : []
+        setCerts(certsData)
 
-        const certTrilhaIds = new Set((Array.isArray(certsData) ? certsData : []).map((c: Cert) => c.trilha.id))
-        setPendentes(trilhas.filter((t: any) => !certTrilhaIds.has(t.id) && t.percentualConcluido > 0 && t.percentualConcluido < 100))
+        const certTrilhaIds = new Set(certsData.map((c: Cert) => c.trilha.id))
+        setPendentes(trilhas.filter(t => !certTrilhaIds.has(t.id) && t.percentualConcluido > 0 && t.percentualConcluido < 100))
       } catch {}
 
       setLoading(false)
@@ -57,8 +77,12 @@ export default function CertificadosPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-white/30">Carregando certificados...</div>
+      <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+var(--safe-area-bottom,0px))]">
+        <Header title="Certificados" />
+        <div className="max-w-3xl mx-auto px-4 pt-4 space-y-6">
+          <CertsSkeleton />
+        </div>
+        <NavBottom />
       </div>
     )
   }
