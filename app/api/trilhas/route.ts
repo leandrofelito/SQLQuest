@@ -2,8 +2,11 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
+import { applyLocale, type Locale, DEFAULT_LOCALE } from '@/lib/locale'
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url)
+  const lang = (searchParams.get('lang') ?? DEFAULT_LOCALE) as Locale
   const session = await getServerSession(authOptions)
 
   const trilhas = await prisma.trilha.findMany({
@@ -15,7 +18,11 @@ export async function GET() {
   })
 
   if (!session?.user) {
-    return NextResponse.json(trilhas.map(t => ({ ...t, progressos: [] })))
+    return NextResponse.json(trilhas.map(t => {
+      const base = { titulo: t.titulo, descricao: t.descricao }
+      const localized = applyLocale(base, t.traducoes as Record<string, Partial<typeof base>> | null, lang)
+      return { ...t, ...localized, progressos: [] }
+    }))
   }
 
   const userId = (session.user as any).id
@@ -39,8 +46,11 @@ export async function GET() {
     const etapasConcluidas = progressosTrilha.length
     const totalExercicios = exercicioEtapas.length
     const pct = totalExercicios > 0 ? Math.min(100, Math.round((etapasConcluidas / totalExercicios) * 100)) : 0
+    const base = { titulo: trilha.titulo, descricao: trilha.descricao }
+    const localized = applyLocale(base, trilha.traducoes as Record<string, Partial<typeof base>> | null, lang)
     return {
       ...trilha,
+      ...localized,
       progressos: progressosTrilha,
       etapasConcluidas,
       percentualConcluido: pct,

@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { ListaEtapas } from '@/components/trilha/ListaEtapas'
 import { CertPreview } from '@/components/certificado/CertPreview'
 import { Progress } from '@/components/ui/Progress'
+import { useLocale } from '@/context/LocaleContext'
 
 interface Etapa {
   id: string
@@ -36,6 +37,7 @@ interface CertData {
 export default function TrilhaPage() {
   const { slug } = useParams() as { slug: string }
   const router = useRouter()
+  const { messages, locale } = useLocale()
   const [trilha, setTrilha] = useState<TrilhaData | null>(null)
   const [cert, setCert] = useState<CertData | null>(null)
   const [isPro, setIsPro] = useState(false)
@@ -44,7 +46,7 @@ export default function TrilhaPage() {
   useEffect(() => {
     async function load() {
       const [trilhasRes, progressoRes, sessionRes, certsRes] = await Promise.all([
-        fetch('/api/trilhas'),
+        fetch(`/api/trilhas?lang=${locale}`),
         fetch('/api/progresso'),
         fetch('/api/auth/session'),
         fetch('/api/certificados'),
@@ -87,7 +89,7 @@ export default function TrilhaPage() {
   if (!trilha) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-white/30">Carregando...</div>
+        <div className="animate-pulse text-white/30">{messages.trilha.loading}</div>
       </div>
     )
   }
@@ -103,7 +105,7 @@ export default function TrilhaPage() {
         <div className="text-5xl">{trilha.icone}</div>
         <div>
           <h1 className="text-xl font-bold text-white">{trilha.titulo}</h1>
-          <p className="text-white/40 text-sm mt-1">{trilha.etapasConcluidas}/{trilha.totalEtapas} etapas</p>
+          <p className="text-white/40 text-sm mt-1">{trilha.etapasConcluidas}/{trilha.totalEtapas} {messages.trilha.etapas}</p>
         </div>
         <div className="max-w-xs mx-auto">
           <Progress value={trilha.percentualConcluido} showLabel />
@@ -120,7 +122,7 @@ export default function TrilhaPage() {
               tab === t ? 'text-white border-b-2 border-[#8b5cf6]' : 'text-white/40'
             }`}
           >
-            {t === 'indice' ? 'Índice' : 'Descrição'}
+            {t === 'indice' ? messages.trilha.indice : messages.trilha.descricao}
           </button>
         ))}
       </div>
@@ -143,11 +145,11 @@ export default function TrilhaPage() {
           <p className="text-white/70 leading-relaxed">{trilha.descricao}</p>
           <div className="flex gap-4">
             <div className="text-center">
-              <p className="text-white/30 text-xs">Etapas</p>
+              <p className="text-white/30 text-xs">{messages.trilha.etapas}</p>
               <p className="text-white font-bold">{trilha.totalEtapas}</p>
             </div>
             <div className="text-center">
-              <p className="text-white/30 text-xs">XP Total</p>
+              <p className="text-white/30 text-xs">{messages.trilha.xpTotal}</p>
               <p className="text-[#a78bfa] font-bold">{trilha.xpTotal}</p>
             </div>
           </div>

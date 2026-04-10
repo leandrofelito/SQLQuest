@@ -30,6 +30,7 @@ async function seed() {
         totalEtapas: data.etapas.length,
         xpTotal: data.xpTotal,
         publicada: true,
+        ...(data.traducoes ? { traducoes: data.traducoes } : {}),
       },
     })
 
@@ -43,6 +44,7 @@ async function seed() {
           conteudo: etapa.conteudo,
           xpReward: etapa.xpReward,
           temAnuncio: etapa.temAnuncio,
+          ...(etapa.traducoes ? { traducoes: etapa.traducoes } : {}),
         },
       })
     }

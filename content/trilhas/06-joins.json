@@ -5,11 +5,31 @@
   "icone": "🔗",
   "ordem": 7,
   "xpTotal": 900,
+  "traducoes": {
+    "en": {
+      "titulo": "JOINs — Combining Tables",
+      "descricao": "Combine data from multiple tables using INNER JOIN, LEFT JOIN and RIGHT JOIN with relationship keys."
+    },
+    "es": {
+      "titulo": "JOINs — Uniendo Tablas",
+      "descricao": "Combina datos de múltiples tablas con INNER JOIN, LEFT JOIN y RIGHT JOIN usando claves de relación."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "JOINs — O Poder do Relacionamento",
-      "conteudo": { "emoji": "🔗", "subtitulo": "Combine dados de várias tabelas em uma única consulta" }
+      "conteudo": { "emoji": "🔗", "subtitulo": "Combine dados de várias tabelas em uma única consulta" },
+      "traducoes": {
+        "en": {
+          "titulo": "JOINs — The Power of Relationships",
+          "conteudo": { "subtitulo": "Combine data from multiple tables in a single query" }
+        },
+        "es": {
+          "titulo": "JOINs — El Poder de las Relaciones",
+          "conteudo": { "subtitulo": "Combina datos de varias tablas en una sola consulta" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -18,7 +38,29 @@
         "Bancos de dados bem estruturados dividem as informações em múltiplas tabelas para evitar repetição.",
         { "type": "code", "code": "Tabela Clientes:\n  ClienteID | Nome  | Cidade\n  1         | Ana   | SP\n  2         | Carlos| RJ\n\nTabela Pedidos:\n  PedidoID | ClienteID | Produto  | Valor\n  101      | 1         | Notebook | 3200\n  102      | 2         | Mouse    | 89", "lese": "Para saber que Ana fez o pedido 101, precisamos CONECTAR as duas tabelas pelo ClienteID — isso é o que o JOIN faz" },
         { "type": "nota", "texto": "JOIN conecta tabelas usando campos em comum — geralmente a PRIMARY KEY de uma tabela e a FOREIGN KEY de outra." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Why Do We Need JOINs?",
+          "conteudo": {
+            "blocos": [
+              "Well-structured databases split information into multiple tables to avoid repetition.",
+              { "lese": "To know that Ana placed order 101, we need to CONNECT the two tables by ClienteID — that is what JOIN does" },
+              { "texto": "JOIN connects tables using common fields — usually the PRIMARY KEY of one table and the FOREIGN KEY of another." }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "¿Por Qué Necesitamos JOINs?",
+          "conteudo": {
+            "blocos": [
+              "Las bases de datos bien estructuradas dividen la información en múltiples tablas para evitar la repetición.",
+              { "lese": "Para saber que Ana hizo el pedido 101, necesitamos CONECTAR las dos tablas por ClienteID — eso es lo que hace el JOIN" },
+              { "texto": "JOIN conecta tablas usando campos en común — generalmente la PRIMARY KEY de una tabla y la FOREIGN KEY de otra." }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -27,7 +69,29 @@
         { "type": "definicao", "termo": "INNER JOIN", "def": "Retorna apenas os registros que têm correspondência em AMBAS as tabelas. Se um registro não tem par na outra tabela, ele é excluído." },
         { "type": "code", "code": "SELECT Clientes.Nome, Pedidos.Produto, Pedidos.Valor\nFROM Clientes\nINNER JOIN Pedidos ON Clientes.ClienteID = Pedidos.ClienteID", "lese": "Seleciona o nome do cliente, o produto e o valor, unindo Clientes com Pedidos onde o ClienteID coincide — apenas clientes que fizeram pedidos aparecem" },
         { "type": "nota", "texto": "O ON especifica a condição de junção — geralmente a relação entre chave primária e estrangeira." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "INNER JOIN — Matches Only",
+          "conteudo": {
+            "blocos": [
+              { "def": "Returns only the records that have a match in BOTH tables. If a record has no pair in the other table, it is excluded." },
+              { "lese": "Selects the customer name, product and value, joining Customers with Orders where ClienteID matches — only customers who placed orders appear" },
+              { "texto": "The ON clause specifies the join condition — usually the relationship between a primary key and a foreign key." }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "INNER JOIN — Solo Coincidencias",
+          "conteudo": {
+            "blocos": [
+              { "def": "Devuelve solo los registros que tienen correspondencia en AMBAS tablas. Si un registro no tiene par en la otra tabla, se excluye." },
+              { "lese": "Selecciona el nombre del cliente, el producto y el valor, uniendo Clientes con Pedidos donde coincide el ClienteID — solo aparecen los clientes que hicieron pedidos" },
+              { "texto": "El ON especifica la condición de unión — generalmente la relación entre la clave primaria y la clave foránea." }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -36,7 +100,29 @@
         "Quando trabalhamos com múltiplas tabelas, usar aliases torna a query mais legível:",
         { "type": "code", "code": "SELECT c.Nome, p.Produto, p.Valor\nFROM Clientes c\nINNER JOIN Pedidos p ON c.ClienteID = p.ClienteID", "lese": "Mesmo que antes, mas usando 'c' como alias para Clientes e 'p' como alias para Pedidos — muito mais compacto" },
         { "type": "nota", "texto": "Quando duas tabelas têm colunas com o mesmo nome, você PRECISA usar o alias para especificar qual quer: c.Nome vs p.Nome." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Aliases in JOINs",
+          "conteudo": {
+            "blocos": [
+              "When working with multiple tables, using aliases makes the query more readable:",
+              { "lese": "Same as before, but using 'c' as an alias for Customers and 'p' as an alias for Orders — much more compact" },
+              { "texto": "When two tables have columns with the same name, you MUST use the alias to specify which one you want: c.Nome vs p.Nome." }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Alias en JOINs",
+          "conteudo": {
+            "blocos": [
+              "Cuando trabajamos con múltiples tablas, usar alias hace que la consulta sea más legible:",
+              { "lese": "Igual que antes, pero usando 'c' como alias para Clientes y 'p' como alias para Pedidos — mucho más compacto" },
+              { "texto": "Cuando dos tablas tienen columnas con el mismo nombre, DEBES usar el alias para especificar cuál quieres: c.Nome vs p.Nome." }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -45,7 +131,29 @@
         { "type": "definicao", "termo": "LEFT JOIN (LEFT OUTER JOIN)", "def": "Retorna TODOS os registros da tabela da esquerda (FROM) e os correspondentes da direita. Se não houver correspondência, os campos da direita ficam NULL." },
         { "type": "code", "code": "SELECT c.Nome, p.Produto, p.Valor\nFROM Clientes c\nLEFT JOIN Pedidos p ON c.ClienteID = p.ClienteID", "lese": "Retorna TODOS os clientes, com seus pedidos se houver. Clientes sem pedido aparecem com NULL no Produto e Valor" },
         { "type": "nota", "texto": "Use LEFT JOIN quando você quer 'todos os registros de A, mesmo os que não têm correspondência em B'." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "LEFT JOIN — Everyone on the Left",
+          "conteudo": {
+            "blocos": [
+              { "def": "Returns ALL records from the left table (FROM) and matching ones from the right. If there is no match, the right-side fields are NULL." },
+              { "lese": "Returns ALL customers, with their orders if any. Customers without orders appear with NULL in the Product and Value columns" },
+              { "texto": "Use LEFT JOIN when you want 'all records from A, even those with no match in B'." }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "LEFT JOIN — Todos de la Izquierda",
+          "conteudo": {
+            "blocos": [
+              { "def": "Devuelve TODOS los registros de la tabla izquierda (FROM) y los correspondientes de la derecha. Si no hay correspondencia, los campos de la derecha son NULL." },
+              { "lese": "Devuelve TODOS los clientes, con sus pedidos si los hay. Los clientes sin pedido aparecen con NULL en Producto y Valor" },
+              { "texto": "Usa LEFT JOIN cuando quieres 'todos los registros de A, incluso los que no tienen correspondencia en B'." }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -55,7 +163,31 @@
         { "type": "code", "code": "SELECT c.Nome, p.Produto\nFROM Clientes c\nRIGHT JOIN Pedidos p ON c.ClienteID = p.ClienteID", "lese": "Retorna TODOS os pedidos. Se um pedido não tiver cliente correspondente, o Nome aparece como NULL" },
         { "type": "definicao", "termo": "FULL OUTER JOIN", "def": "Retorna TODOS os registros de ambas as tabelas. Onde não há correspondência, coloca NULL. (Não suportado em SQLite.)" },
         { "type": "nota", "texto": "Na prática, INNER JOIN e LEFT JOIN são os mais usados. RIGHT JOIN pode ser reescrito como LEFT JOIN trocando a ordem das tabelas." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "RIGHT JOIN and FULL JOIN",
+          "conteudo": {
+            "blocos": [
+              { "def": "Returns ALL records from the right table (JOIN) and matching ones from the left. The opposite of LEFT JOIN." },
+              { "lese": "Returns ALL orders. If an order has no matching customer, the Name appears as NULL" },
+              { "def": "Returns ALL records from both tables. Where there is no match, it places NULL. (Not supported in SQLite.)" },
+              { "texto": "In practice, INNER JOIN and LEFT JOIN are the most used. RIGHT JOIN can be rewritten as LEFT JOIN by swapping the table order." }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "RIGHT JOIN y FULL JOIN",
+          "conteudo": {
+            "blocos": [
+              { "def": "Devuelve TODOS los registros de la tabla derecha (JOIN) y los correspondientes de la izquierda. Lo opuesto al LEFT JOIN." },
+              { "lese": "Devuelve TODOS los pedidos. Si un pedido no tiene cliente correspondiente, el Nombre aparece como NULL" },
+              { "def": "Devuelve TODOS los registros de ambas tablas. Donde no hay correspondencia, coloca NULL. (No soportado en SQLite.)" },
+              { "texto": "En la práctica, INNER JOIN y LEFT JOIN son los más usados. RIGHT JOIN se puede reescribir como LEFT JOIN intercambiando el orden de las tablas." }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -63,7 +195,27 @@
       "conteudo": { "blocos": [
         "Você pode filtrar e juntar múltiplas tabelas na mesma query:",
         { "type": "code", "code": "SELECT c.Nome, p.Produto, cat.NomeCategoria\nFROM Clientes c\nINNER JOIN Pedidos p ON c.ClienteID = p.ClienteID\nINNER JOIN Categorias cat ON p.CategoriaID = cat.CategoriaID\nWHERE c.Cidade = 'São Paulo'\nORDER BY p.Valor DESC", "lese": "Une três tabelas (Clientes, Pedidos e Categorias), filtra apenas clientes de SP e ordena por valor decrescente" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "JOIN with WHERE and Multiple Tables",
+          "conteudo": {
+            "blocos": [
+              "You can filter and join multiple tables in the same query:",
+              { "lese": "Joins three tables (Customers, Orders and Categories), filters only customers from SP and sorts by descending value" }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "JOIN con WHERE y Múltiples Tablas",
+          "conteudo": {
+            "blocos": [
+              "Puedes filtrar y unir múltiples tablas en la misma consulta:",
+              { "lese": "Une tres tablas (Clientes, Pedidos y Categorías), filtra solo los clientes de SP y ordena por valor descendente" }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
@@ -75,7 +227,37 @@
         "ON: define a condição de junção (geralmente PK = FK)",
         "Use aliases (c., p.) para consultas com múltiplas tabelas",
         "Pode combinar múltiplos JOINs numa mesma query"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: JOINs",
+          "conteudo": {
+            "titulo": "Summary: JOINs",
+            "itens": [
+              "INNER JOIN: only records with a match in both tables",
+              "LEFT JOIN: all from the left + matching ones from the right",
+              "RIGHT JOIN: all from the right + matching ones from the left",
+              "ON: defines the join condition (usually PK = FK)",
+              "Use aliases (c., p.) for queries with multiple tables",
+              "You can combine multiple JOINs in the same query"
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Resumen: JOINs",
+          "conteudo": {
+            "titulo": "Resumen: JOINs",
+            "itens": [
+              "INNER JOIN: solo registros con par en ambas tablas",
+              "LEFT JOIN: todos de la izquierda + correspondientes de la derecha",
+              "RIGHT JOIN: todos de la derecha + correspondientes de la izquierda",
+              "ON: define la condición de unión (generalmente PK = FK)",
+              "Usa alias (c., p.) para consultas con múltiples tablas",
+              "Puedes combinar múltiples JOINs en la misma consulta"
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
@@ -87,6 +269,22 @@
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',150);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["Nome", "Produto"], "min_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 1 — INNER JOIN",
+          "conteudo": {
+            "instrucao": "List the customer name and product for each order. Use INNER JOIN.",
+            "dica": "To combine data from two tables, use JOIN. The ON clause defines the link — look for the field that exists in both tables. The syntax is: FROM table1 JOIN table2 ON table1.column = table2.column."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 1 — INNER JOIN",
+          "conteudo": {
+            "instrucao": "Lista el nombre del cliente y el producto de cada pedido. Usa INNER JOIN.",
+            "dica": "Para combinar datos de dos tablas, usa JOIN. El ON define el vínculo — busca el campo que existe en ambas tablas. La sintaxis es: FROM tabla1 JOIN tabla2 ON tabla1.columna = tabla2.columna."
+          }
+        }
       }
     },
     {
@@ -99,6 +297,22 @@
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'),(4,'João','SP'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',150);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 4 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 2 — LEFT JOIN",
+          "conteudo": {
+            "instrucao": "List ALL customers and their orders. Customers without orders should appear with NULL.",
+            "dica": "INNER JOIN only shows records that have a match in both tables. If the question asks for ALL customers — even those without orders — which type of JOIN includes all records from the left table?"
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 2 — LEFT JOIN",
+          "conteudo": {
+            "instrucao": "Lista TODOS los clientes y sus pedidos. Los clientes sin pedido deben aparecer con NULL.",
+            "dica": "INNER JOIN solo muestra registros que tienen correspondencia en ambas tablas. Si el enunciado pide TODOS los clientes — incluso los sin pedido — ¿qué tipo de JOIN incluye todos los registros de la tabla izquierda?"
+          }
+        }
       }
     },
     {
@@ -111,12 +325,38 @@
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Cadeira',890),(105,2,'Caneta',15);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 3 — JOIN with WHERE",
+          "conteudo": {
+            "instrucao": "List the customer name and order value, but only for orders with a value greater than 500.",
+            "dica": "First join the tables using JOIN on the common field, then add WHERE to filter the results. The execution order is: FROM → JOIN → WHERE. The value filter comes after the join."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 3 — JOIN con WHERE",
+          "conteudo": {
+            "instrucao": "Lista el nombre del cliente y el valor del pedido, pero solo para pedidos con valor mayor que 500.",
+            "dica": "Primero une las tablas con JOIN por el campo en común, luego agrega WHERE para filtrar los resultados. El orden de ejecución es: FROM → JOIN → WHERE. El filtro por valor viene después de la unión."
+          }
+        }
       }
     },
     {
       "ordem": 12, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "JOINs dominados!",
-      "conteudo": { "mensagem": "JOINs são o coração dos bancos de dados relacionais. Com isso você consegue consultar qualquer sistema de informações real!", "xpGanho": 500 }
+      "conteudo": { "mensagem": "JOINs são o coração dos bancos de dados relacionais. Com isso você consegue consultar qualquer sistema de informações real!", "xpGanho": 500 },
+      "traducoes": {
+        "en": {
+          "titulo": "JOINs mastered!",
+          "conteudo": { "mensagem": "JOINs are the heart of relational databases. With this you can query any real information system!" }
+        },
+        "es": {
+          "titulo": "¡JOINs dominados!",
+          "conteudo": { "mensagem": "Los JOINs son el corazón de las bases de datos relacionales. ¡Con esto puedes consultar cualquier sistema de información real!" }
+        }
+      }
     }
   ]
 }

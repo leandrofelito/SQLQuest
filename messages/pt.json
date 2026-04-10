@@ -2,12 +2,15 @@
   "nav": {
     "trilhas": "Trilhas",
     "ranking": "Ranking",
-    "certs": "Certs",
+    "certs": "Certificado",
     "perfil": "Perfil"
   },
   "home": {
     "hello": "Olá,",
-    "loading": "Carregando trilhas..."
+    "loading": "Carregando trilhas...",
+    "proBadge": "PRO",
+    "proWelcomeTitle": "🎉 Bem-vindo ao Pro!",
+    "proWelcomeDesc": "Sem anúncios + certificados liberados."
   },
   "trilha": {
     "etapas": "etapas",
@@ -16,18 +19,59 @@
     "concluida": "Concluída ✓",
     "bloqueada": "🔒 Bloqueada",
     "indice": "Índice",
-    "descricao": "Descrição"
+    "descricao": "Descrição",
+    "loading": "Carregando...",
+    "xpTotal": "XP Total",
+    "concluida_label": "Trilha concluída!",
+    "verCertificado": "🏅 Ver Certificado",
+    "certPro": "🔒 Certificado no Pro"
   },
   "exercicio": {
     "verificar": "Verificar",
     "continuar": "Continuar →",
     "correto": "Correto!",
-    "dica": "Mostrar dica",
-    "aguarde": "Aguarde {sec}s..."
+    "dica": "💡 Ver dica",
+    "dicaAnuncio": "💡 Ver dica (anúncio)",
+    "aguarde": "Aguarde {sec}s...",
+    "iniciando": "Iniciando SQL engine...",
+    "placeholder": "-- Escreva seu SQL aqui",
+    "resultadoIncorreto": "Resultado incorreto. Verifique as colunas e os dados retornados.",
+    "erroSQL": "Erro ao executar SQL",
+    "acertou": "Acertou",
+    "semDica": "Sem dica",
+    "primeiraTentativa": "1ª tentativa",
+    "elite": "Elite!",
+    "bomTrabalho": "Bom trabalho!",
+    "continuePraticando": "Continue praticando!",
+    "queryLenta": "Query Lenta Detectada",
+    "otimizar": "Tentar otimizar 🚀",
+    "continuarAssim": "Continuar assim (2 estrelas)",
+    "planoExecucao": "🔍 Ver análise do plano de execução"
+  },
+  "intro": {
+    "continuar": "Toque para Continuar"
+  },
+  "texto": {
+    "voltar": "← Voltar",
+    "proximo": "Próximo",
+    "continuar": "Continuar →",
+    "lese": "Lê-se:"
+  },
+  "etapa": {
+    "loading": "Carregando etapa...",
+    "voltar": "Voltar",
+    "semConexao": "Sem conexão",
+    "semConexaoDesc": "Verifique sua internet e tente novamente.",
+    "tentarNovamente": "Tentar novamente",
+    "voltarTrilha": "Voltar para a trilha"
+  },
+  "conclusao": {
+    "parabens": "Parabéns!",
+    "verTrilha": "Ver trilha completa"
   },
   "upgrade": {
     "titulo": "Assinar Pro",
-    "preco": "R$29,99",
+    "preco": "R$19,90",
     "cta": "OBTENHA PRO PARA VIDA ÚTIL",
     "continuar": "Continuar com anúncios",
     "desconto": "80% OFF"
@@ -47,5 +91,11 @@
   "errors": {
     "naoAutenticado": "Não autenticado",
     "naoEncontrado": "Não encontrado"
+  },
+  "lang": {
+    "label": "Idioma",
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
   }
 }

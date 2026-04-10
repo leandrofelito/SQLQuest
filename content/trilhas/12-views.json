@@ -5,11 +5,31 @@
   "icone": "🪟",
   "ordem": 13,
   "xpTotal": 750,
+  "traducoes": {
+    "en": {
+      "titulo": "Views — Queries That Become Tables",
+      "descricao": "Save complex queries as reusable virtual tables with CREATE VIEW and simplify your SQL."
+    },
+    "es": {
+      "titulo": "Views — Consultas que se Convierten en Tablas",
+      "descricao": "Guarda consultas complejas como tablas virtuales reutilizables con CREATE VIEW y simplifica tu SQL."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "Views — Queries que Viram Tabelas",
-      "conteudo": { "emoji": "🪟", "subtitulo": "Salve queries complexas com um nome simples e reutilize como tabela" }
+      "conteudo": { "emoji": "🪟", "subtitulo": "Salve queries complexas com um nome simples e reutilize como tabela" },
+      "traducoes": {
+        "en": {
+          "titulo": "Views — Queries That Become Tables",
+          "conteudo": { "subtitulo": "Save complex queries with a simple name and reuse them like a table" }
+        },
+        "es": {
+          "titulo": "Views — Consultas que se Convierten en Tablas",
+          "conteudo": { "subtitulo": "Guarda consultas complejas con un nombre simple y reutilízalas como una tabla" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -18,7 +38,25 @@
         { "type": "definicao", "termo": "View (Visão)", "def": "Uma query salva no banco de dados com um nome. Quando você consulta uma view, o banco executa a query original por baixo dos panos — ela funciona como uma tabela virtual." },
         { "type": "code", "code": "-- Sem view: repetir essa query em todo lugar\nSELECT p.Nome, c.NomeCategoria, p.Preco\nFROM Produtos p\nINNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID\nWHERE p.Ativo = 1\n\n-- Com view: uma linha só\nSELECT * FROM vw_ProdutosAtivos", "lese": "Em vez de reescrever o JOIN e o filtro toda vez, criamos a view uma vez e consultamos ela como se fosse uma tabela comum" },
         { "type": "nota", "texto": "Views não armazenam dados — elas armazenam a definição da query. Os dados sempre vêm das tabelas originais." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "What is a View?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "View", "def": "A query saved in the database with a name. When you query a view, the database executes the original query under the hood — it works as a virtual table." },
+            { "type": "code", "lese": "Instead of rewriting the JOIN and the filter every time, we create the view once and query it as if it were a regular table" },
+            { "type": "nota", "texto": "Views do not store data — they store the query definition. Data always comes from the original tables." }
+          ]}
+        },
+        "es": {
+          "titulo": "¿Qué es una View?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "View (Vista)", "def": "Una consulta guardada en la base de datos con un nombre. Cuando consultas una view, la base de datos ejecuta la consulta original por debajo — funciona como una tabla virtual." },
+            { "type": "code", "lese": "En vez de reescribir el JOIN y el filtro cada vez, creamos la view una vez y la consultamos como si fuera una tabla común" },
+            { "type": "nota", "texto": "Las views no almacenan datos — almacenan la definición de la consulta. Los datos siempre provienen de las tablas originales." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -28,7 +66,27 @@
         "Agora é só consultar:",
         { "type": "code", "code": "SELECT * FROM vw_ProdutosAtivos WHERE Preco < 100\nORDER BY NomeCategoria", "lese": "Consulta a view como se fosse uma tabela comum, aplicando filtros e ordenação normalmente" },
         { "type": "nota", "texto": "Convenção: use prefixo vw_ nos nomes de views para diferenciá-las de tabelas reais." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "CREATE VIEW — Creating Your First View",
+          "conteudo": { "blocos": [
+            { "type": "code", "lese": "Creates a view called vw_ProdutosAtivos that joins products with categories and filters only the active ones — the vw_ prefix is a convention" },
+            "Now just query it:",
+            { "type": "code", "lese": "Queries the view as if it were a regular table, applying filters and ordering normally" },
+            { "type": "nota", "texto": "Convention: use the vw_ prefix in view names to distinguish them from real tables." }
+          ]}
+        },
+        "es": {
+          "titulo": "CREATE VIEW — Creando tu Primera View",
+          "conteudo": { "blocos": [
+            { "type": "code", "lese": "Crea una view llamada vw_ProdutosAtivos que une productos con categorías y filtra solo los activos — el prefijo vw_ es una convención" },
+            "Ahora solo consulta:",
+            { "type": "code", "lese": "Consulta la view como si fuera una tabla común, aplicando filtros y ordenación normalmente" },
+            { "type": "nota", "texto": "Convención: usa el prefijo vw_ en los nombres de views para diferenciarlas de las tablas reales." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -36,7 +94,23 @@
       "conteudo": { "blocos": [
         "Views são perfeitas para encapsular relatórios com GROUP BY:",
         { "type": "code", "code": "CREATE VIEW vw_ResumoVendasPorCliente AS\nSELECT\n  c.ClienteID,\n  c.Nome,\n  COUNT(p.PedidoID) AS TotalPedidos,\n  SUM(p.Valor)       AS TotalGasto,\n  AVG(p.Valor)       AS TicketMedio\nFROM Clientes c\nLEFT JOIN Pedidos p ON c.ClienteID = p.ClienteID\nGROUP BY c.ClienteID, c.Nome", "lese": "Cria um resumo de vendas por cliente com contagem de pedidos, total gasto e ticket médio — agora qualquer parte do sistema acessa esse relatório sem reescrever o GROUP BY" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Views with Aggregations",
+          "conteudo": { "blocos": [
+            "Views are perfect for encapsulating reports with GROUP BY:",
+            { "type": "code", "lese": "Creates a sales summary per customer with order count, total spent and average ticket — now any part of the system can access this report without rewriting the GROUP BY" }
+          ]}
+        },
+        "es": {
+          "titulo": "Views con Agregaciones",
+          "conteudo": { "blocos": [
+            "Las views son perfectas para encapsular informes con GROUP BY:",
+            { "type": "code", "lese": "Crea un resumen de ventas por cliente con conteo de pedidos, total gastado y ticket promedio — ahora cualquier parte del sistema accede a este informe sin reescribir el GROUP BY" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 5, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
@@ -48,6 +122,22 @@
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Create a View for IT Employees",
+          "conteudo": {
+            "pergunta": "Create a view called vw_FuncionariosTI that returns the Nome and Salario of all employees in the 'TI' department.",
+            "dica": "The structure to create a view is: CREATE VIEW name AS (your SELECT query here). What goes inside is a normal SELECT with the desired filter. The view name must be exactly as specified in the statement."
+          }
+        },
+        "es": {
+          "titulo": "Crea una View de Empleados de TI",
+          "conteudo": {
+            "pergunta": "Crea una view llamada vw_FuncionariosTI que retorne el Nome y Salario de todos los empleados del departamento 'TI'.",
+            "dica": "La estructura para crear una view es: CREATE VIEW nombre AS (tu consulta SELECT aquí). Lo que va dentro es un SELECT normal con el filtro deseado. El nombre de la view debe ser exactamente el indicado en el enunciado."
+          }
+        }
       }
     },
     {
@@ -56,7 +146,23 @@
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "CREATE OR REPLACE VIEW", "def": "Atualiza a definição de uma view existente sem precisar deletar e recriar. Se a view não existir, cria uma nova." },
         { "type": "code", "code": "-- Atualizar a view\nCREATE OR REPLACE VIEW vw_ProdutosAtivos AS\nSELECT p.ProdutoID, p.Nome, c.NomeCategoria, p.Preco, p.Estoque\nFROM Produtos p\nINNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID\nWHERE p.Ativo = 1\n\n-- Remover a view\nDROP VIEW vw_ProdutosAtivos\n\n-- Remover sem erro se não existir\nDROP VIEW IF EXISTS vw_ProdutosAtivos", "lese": "CREATE OR REPLACE atualiza a view sem perder permissões; DROP VIEW remove ela permanentemente; IF EXISTS evita erro se a view já foi deletada" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Updating and Removing Views",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "CREATE OR REPLACE VIEW", "def": "Updates the definition of an existing view without needing to delete and recreate it. If the view does not exist, creates a new one." },
+            { "type": "code", "lese": "CREATE OR REPLACE updates the view without losing permissions; DROP VIEW removes it permanently; IF EXISTS avoids an error if the view was already deleted" }
+          ]}
+        },
+        "es": {
+          "titulo": "Actualizando y Eliminando Views",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "CREATE OR REPLACE VIEW", "def": "Actualiza la definición de una view existente sin necesidad de eliminarla y recrearla. Si la view no existe, crea una nueva." },
+            { "type": "code", "lese": "CREATE OR REPLACE actualiza la view sin perder permisos; DROP VIEW la elimina permanentemente; IF EXISTS evita el error si la view ya fue eliminada" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -64,7 +170,23 @@
       "conteudo": { "blocos": [
         { "type": "nota", "texto": "✅ Use views para: padronizar relatórios usados por vários times, simplificar queries complexas com muitos JOINs, controlar quais colunas cada sistema acessa." },
         { "type": "nota", "texto": "⚠️ Evite views quando: a query muda frequentemente, você precisa de performance máxima (views executam a query toda vez), ou quando uma CTE resolve melhor por ser usada uma única vez." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "When to Use and When to Avoid Views",
+          "conteudo": { "blocos": [
+            { "type": "nota", "texto": "✅ Use views for: standardizing reports used by multiple teams, simplifying complex queries with many JOINs, controlling which columns each system can access." },
+            { "type": "nota", "texto": "⚠️ Avoid views when: the query changes frequently, you need maximum performance (views execute the query every time), or when a CTE is a better fit since it's used only once." }
+          ]}
+        },
+        "es": {
+          "titulo": "Cuándo Usar y Cuándo Evitar Views",
+          "conteudo": { "blocos": [
+            { "type": "nota", "texto": "✅ Usa views para: estandarizar informes usados por varios equipos, simplificar consultas complejas con muchos JOINs, controlar qué columnas accede cada sistema." },
+            { "type": "nota", "texto": "⚠️ Evita views cuando: la consulta cambia frecuentemente, necesitas el máximo rendimiento (las views ejecutan la consulta cada vez), o cuando una CTE resuelve mejor por usarse una única vez." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
@@ -76,6 +198,22 @@
         "schema": "CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (1,1,'Notebook',3200),(2,1,'Mouse',89),(3,2,'Teclado',150),(4,3,'Monitor',1200),(5,2,'Cadeira',890),(6,1,'Headset',350);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Orders Summary View",
+          "conteudo": {
+            "pergunta": "Create a view called vw_ResumoPedidos that returns the ClienteID and the total orders (TotalPedidos) for each customer, using COUNT.",
+            "dica": "Inside the view definition, use the same grouping logic you would use in a SELECT. What are you counting? Group by the field that identifies each customer. The alias must be exactly TotalPedidos."
+          }
+        },
+        "es": {
+          "titulo": "View de Resumen de Pedidos",
+          "conteudo": {
+            "pergunta": "Crea una view llamada vw_ResumoPedidos que retorne el ClienteID y el total de pedidos (TotalPedidos) de cada cliente, usando COUNT.",
+            "dica": "Dentro de la definición de la view, usa la misma lógica de agrupamiento que usarías en un SELECT. ¿Qué estás contando? Agrupa por el campo que identifica a cada cliente. El alias debe ser exactamente TotalPedidos."
+          }
+        }
       }
     },
     {
@@ -88,6 +226,22 @@
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50),(3,'Monitor',1200,8),(4,'Teclado',150,30),(5,'Headset',650,15),(6,'Caneta',12,200); CREATE VIEW vw_TopProdutos AS SELECT ProdutoID, Nome, Preco FROM Produtos WHERE Estoque > 5;",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Querying the View",
+          "conteudo": {
+            "pergunta": "Using the view vw_TopProdutos already created below, write a SELECT that returns only products with Preco above 500.",
+            "dica": "A view is queried exactly like a regular table — use SELECT FROM with the view name. Add WHERE to filter the results. Which field and value do you want to filter by?"
+          }
+        },
+        "es": {
+          "titulo": "Consultando la View",
+          "conteudo": {
+            "pergunta": "Usando la view vw_TopProdutos ya creada abajo, escribe un SELECT que retorne solo los productos con Preco mayor a 500.",
+            "dica": "Una view se consulta exactamente como una tabla normal — usa SELECT FROM con el nombre de la view. Agrega WHERE para filtrar los resultados. ¿Qué campo y valor quieres filtrar?"
+          }
+        }
       }
     },
     {
@@ -100,12 +254,52 @@
         "Views não armazenam dados — executam a query em tempo real",
         "Use prefixo vw_ por convenção",
         "Ideal para padronizar relatórios complexos reutilizados"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: Views",
+          "conteudo": {
+            "titulo": "Summary: Views",
+            "itens": [
+              "CREATE VIEW name AS SELECT ...: creates the view",
+              "CREATE OR REPLACE VIEW: updates without recreating",
+              "DROP VIEW IF EXISTS: removes safely",
+              "Views do not store data — they execute the query in real time",
+              "Use the vw_ prefix by convention",
+              "Ideal for standardizing complex reused reports"
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Resumen: Views",
+          "conteudo": {
+            "titulo": "Resumen: Views",
+            "itens": [
+              "CREATE VIEW nombre AS SELECT ...: crea la view",
+              "CREATE OR REPLACE VIEW: actualiza sin recrear",
+              "DROP VIEW IF EXISTS: elimina con seguridad",
+              "Las views no almacenan datos — ejecutan la consulta en tiempo real",
+              "Usa el prefijo vw_ por convención",
+              "Ideal para estandarizar informes complejos reutilizados"
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Views dominadas!",
-      "conteudo": { "mensagem": "Agora você sabe como encapsular lógica complexa em views reutilizáveis. Isso é o que separa quem sabe SQL de quem escreve SQL profissional!", "xpGanho": 500 }
+      "conteudo": { "mensagem": "Agora você sabe como encapsular lógica complexa em views reutilizáveis. Isso é o que separa quem sabe SQL de quem escreve SQL profissional!", "xpGanho": 500 },
+      "traducoes": {
+        "en": {
+          "titulo": "Views mastered!",
+          "conteudo": { "mensagem": "Now you know how to encapsulate complex logic in reusable views. This is what separates those who know SQL from those who write professional SQL!" }
+        },
+        "es": {
+          "titulo": "¡Views dominadas!",
+          "conteudo": { "mensagem": "¡Ahora sabes cómo encapsular lógica compleja en views reutilizables. Esto es lo que separa a quien sabe SQL de quien escribe SQL profesional!" }
+        }
+      }
     }
   ]
 }

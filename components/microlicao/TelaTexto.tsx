@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
+import { useLocale } from '@/context/LocaleContext'
 import type { ConteudoTexto, BlocoTexto } from '@/types'
 
 interface TelaTextoProps {
@@ -10,7 +11,7 @@ interface TelaTextoProps {
   onContinuar: () => void
 }
 
-function RenderBloco({ bloco }: { bloco: BlocoTexto }) {
+function RenderBloco({ bloco, leseLabel }: { bloco: BlocoTexto; leseLabel: string }) {
   if (typeof bloco === 'string') {
     return (
       <p className="text-xl text-white leading-relaxed font-medium">{bloco}</p>
@@ -25,7 +26,7 @@ function RenderBloco({ bloco }: { bloco: BlocoTexto }) {
         </div>
         {bloco.lese && (
           <div className="bg-[#8b5cf6]/10 border border-[#8b5cf6]/25 rounded-xl px-4 py-3">
-            <span className="text-[#a78bfa] text-xs font-bold uppercase tracking-wide">Lê-se: </span>
+            <span className="text-[#a78bfa] text-xs font-bold uppercase tracking-wide">{leseLabel} </span>
             <span className="text-white/80 text-sm leading-relaxed">{bloco.lese}</span>
           </div>
         )}
@@ -56,6 +57,7 @@ function RenderBloco({ bloco }: { bloco: BlocoTexto }) {
 
 export function TelaTexto({ titulo, conteudo, onContinuar }: TelaTextoProps) {
   const [blocoAtual, setBlocoAtual] = useState(0)
+  const { messages } = useLocale()
   const total = conteudo.blocos.length
   const isUltimo = blocoAtual === total - 1
 
@@ -94,7 +96,7 @@ export function TelaTexto({ titulo, conteudo, onContinuar }: TelaTextoProps) {
             exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.25 }}
           >
-            <RenderBloco bloco={conteudo.blocos[blocoAtual]} />
+            <RenderBloco bloco={conteudo.blocos[blocoAtual]} leseLabel={messages.texto.lese} />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -102,11 +104,11 @@ export function TelaTexto({ titulo, conteudo, onContinuar }: TelaTextoProps) {
       <div className="mt-8 pb-6 flex gap-3">
         {blocoAtual > 0 && (
           <Button onClick={() => setBlocoAtual(b => b - 1)} variant="secondary" size="lg" className="flex-1">
-            ← Voltar
+            {messages.texto.voltar}
           </Button>
         )}
         <Button onClick={avancar} size="lg" className="flex-1">
-          {isUltimo ? 'Continuar →' : 'Próximo'}
+          {isUltimo ? messages.texto.continuar : messages.texto.proximo}
         </Button>
       </div>
     </div>

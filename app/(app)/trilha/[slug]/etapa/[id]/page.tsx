@@ -11,6 +11,7 @@ import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import { LevelUpModal } from '@/components/ui/LevelUpModal'
 import { ConquistaToast } from '@/components/ui/ConquistaToast'
 import { useUser } from '@/hooks/useUser'
+import { useLocale } from '@/context/LocaleContext'
 import type { ConteudoIntro, ConteudoTexto, ConteudoResumo, ConteudoExercicio, ConteudoConclusao } from '@/types'
 
 interface EtapaDB {
@@ -35,6 +36,7 @@ export default function EtapaPage() {
   const { slug, id } = useParams() as { slug: string; id: string }
   const router = useRouter()
   const { isPro } = useUser()
+  const { messages, locale } = useLocale()
 
   const [etapa, setEtapa] = useState<EtapaDB | null>(null)
   const [trilha, setTrilha] = useState<TrilhaBasica | null>(null)
@@ -63,8 +65,8 @@ export default function EtapaPage() {
       setLoading(true)
       try {
         const [etapaRes, trilhasRes, progressoRes] = await Promise.all([
-          fetch(`/api/etapa?id=${id}`),
-          fetch('/api/trilhas'),
+          fetch(`/api/etapa?id=${id}&lang=${locale}`),
+          fetch(`/api/trilhas?lang=${locale}`),
           fetch('/api/progresso'),
         ])
 
@@ -183,20 +185,20 @@ export default function EtapaPage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 px-6 text-center">
         <div className="text-5xl">📡</div>
         <div>
-          <p className="text-white font-semibold text-lg mb-1">Sem conexão</p>
-          <p className="text-white/40 text-sm">Verifique sua internet e tente novamente.</p>
+          <p className="text-white font-semibold text-lg mb-1">{messages.etapa.semConexao}</p>
+          <p className="text-white/40 text-sm">{messages.etapa.semConexaoDesc}</p>
         </div>
         <button
           onClick={() => { setErroConexao(false); setLoading(true); setRetryCount(c => c + 1) }}
           className="px-6 py-2 rounded-xl bg-[#8b5cf6] text-white font-semibold text-sm hover:bg-[#7c3aed] transition-colors"
         >
-          Tentar novamente
+          {messages.etapa.tentarNovamente}
         </button>
         <button
           onClick={() => router.push(`/trilha/${slug}`)}
           className="text-white/30 text-sm hover:text-white/60 transition-colors"
         >
-          Voltar para a trilha
+          {messages.etapa.voltarTrilha}
         </button>
       </div>
     )
@@ -205,7 +207,7 @@ export default function EtapaPage() {
   if (loading || !etapa || !trilha) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-white/30">Carregando etapa...</div>
+        <div className="animate-pulse text-white/30">{messages.etapa.loading}</div>
       </div>
     )
   }
@@ -234,7 +236,7 @@ export default function EtapaPage() {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
-              Voltar
+              {messages.etapa.voltar}
             </button>
           ) : (
             <div className="w-14" />

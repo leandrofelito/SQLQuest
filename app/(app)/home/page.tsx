@@ -6,6 +6,7 @@ import { NavBottom } from '@/components/layout/NavBottom'
 import { MapaTrilhas } from '@/components/trilha/MapaTrilhas'
 import { XpBar } from '@/components/ui/XpBar'
 import { useUser } from '@/hooks/useUser'
+import { useLocale } from '@/context/LocaleContext'
 
 interface TrilhaComProgresso {
   id: string
@@ -21,6 +22,7 @@ interface TrilhaComProgresso {
 
 export default function HomePage() {
   const { user } = useUser()
+  const { messages, locale } = useLocale()
   const [trilhas, setTrilhas] = useState<TrilhaComProgresso[]>([])
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
@@ -31,7 +33,7 @@ export default function HomePage() {
     if (typeof window !== 'undefined' && (window as any).__sqlquestNativeApp) {
       (window as any).SessionBridge?.postMessage('login')
     }
-    fetch('/api/trilhas')
+    fetch(`/api/trilhas?lang=${locale}`)
       .then(r => r.json())
       .then(setTrilhas)
       .finally(() => setLoading(false))
@@ -46,19 +48,19 @@ export default function HomePage() {
       <div className="max-w-3xl mx-auto px-4 pt-4 pb-2">
         {proBought && (
           <div className="mb-4 bg-purple-500/10 border border-purple-500/20 rounded-2xl p-4 text-center">
-            <p className="text-purple-300 font-bold">🎉 Bem-vindo ao Pro!</p>
-            <p className="text-white/50 text-sm mt-1">Sem anúncios + certificados liberados.</p>
+            <p className="text-purple-300 font-bold">{messages.home.proWelcomeTitle}</p>
+            <p className="text-white/50 text-sm mt-1">{messages.home.proWelcomeDesc}</p>
           </div>
         )}
 
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-white/40 text-xs">Olá,</p>
+            <p className="text-white/40 text-xs">{messages.home.hello}</p>
             <p className="text-white font-bold">{user?.name?.split(' ')[0] ?? 'Estudante'}</p>
           </div>
           {(user as any)?.isPro && (
             <span className="bg-[#8b5cf6]/20 text-[#a78bfa] text-xs font-bold px-3 py-1 rounded-full border border-[#8b5cf6]/30">
-              PRO
+              {messages.home.proBadge}
             </span>
           )}
         </div>

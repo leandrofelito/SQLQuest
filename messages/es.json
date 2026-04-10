@@ -2,12 +2,15 @@
   "nav": {
     "trilhas": "Rutas",
     "ranking": "Ranking",
-    "certs": "Certs",
+    "certs": "Certificado",
     "perfil": "Perfil"
   },
   "home": {
     "hello": "Hola,",
-    "loading": "Cargando rutas..."
+    "loading": "Cargando rutas...",
+    "proBadge": "PRO",
+    "proWelcomeTitle": "🎉 ¡Bienvenido a Pro!",
+    "proWelcomeDesc": "Sin anuncios + certificados desbloqueados."
   },
   "trilha": {
     "etapas": "pasos",
@@ -16,18 +19,59 @@
     "concluida": "Completado ✓",
     "bloqueada": "🔒 Bloqueado",
     "indice": "Índice",
-    "descricao": "Descripción"
+    "descricao": "Descripción",
+    "loading": "Cargando...",
+    "xpTotal": "XP Total",
+    "concluida_label": "¡Ruta completada!",
+    "verCertificado": "🏅 Ver Certificado",
+    "certPro": "🔒 Certificado en Pro"
   },
   "exercicio": {
     "verificar": "Verificar",
     "continuar": "Continuar →",
     "correto": "¡Correcto!",
-    "dica": "Mostrar pista",
-    "aguarde": "Espera {sec}s..."
+    "dica": "💡 Ver pista",
+    "dicaAnuncio": "💡 Ver pista (anuncio)",
+    "aguarde": "Espera {sec}s...",
+    "iniciando": "Iniciando motor SQL...",
+    "placeholder": "-- Escribe tu SQL aquí",
+    "resultadoIncorreto": "Resultado incorrecto. Verifica las columnas y los datos devueltos.",
+    "erroSQL": "Error al ejecutar SQL",
+    "acertou": "Correcto",
+    "semDica": "Sin pista",
+    "primeiraTentativa": "1er intento",
+    "elite": "¡Élite!",
+    "bomTrabalho": "¡Buen trabajo!",
+    "continuePraticando": "¡Sigue practicando!",
+    "queryLenta": "Query Lenta Detectada",
+    "otimizar": "Intentar optimizar 🚀",
+    "continuarAssim": "Continuar así (2 estrellas)",
+    "planoExecucao": "🔍 Ver análisis del plan de ejecución"
+  },
+  "intro": {
+    "continuar": "Toca para Continuar"
+  },
+  "texto": {
+    "voltar": "← Volver",
+    "proximo": "Siguiente",
+    "continuar": "Continuar →",
+    "lese": "Léase:"
+  },
+  "etapa": {
+    "loading": "Cargando paso...",
+    "voltar": "Volver",
+    "semConexao": "Sin conexión",
+    "semConexaoDesc": "Verifica tu internet e intenta de nuevo.",
+    "tentarNovamente": "Intentar de nuevo",
+    "voltarTrilha": "Volver a la ruta"
+  },
+  "conclusao": {
+    "parabens": "¡Felicitaciones!",
+    "verTrilha": "Ver ruta completa"
   },
   "upgrade": {
     "titulo": "Suscribirse Pro",
-    "preco": "R$29,99",
+    "preco": "R$19,90",
     "cta": "OBTENER PRO DE POR VIDA",
     "continuar": "Continuar con anuncios",
     "desconto": "80% DESC"
@@ -47,5 +91,11 @@
   "errors": {
     "naoAutenticado": "No autenticado",
     "naoEncontrado": "No encontrado"
+  },
+  "lang": {
+    "label": "Idioma",
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
   }
 }

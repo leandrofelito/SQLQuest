@@ -5,11 +5,31 @@
   "icone": "📋",
   "ordem": 10,
   "xpTotal": 750,
+  "traducoes": {
+    "en": {
+      "titulo": "CTEs — WITH",
+      "descricao": "Simplify complex queries using Common Table Expressions (CTEs) with the WITH clause."
+    },
+    "es": {
+      "titulo": "CTEs — WITH",
+      "descricao": "Simplifica queries complejas usando Common Table Expressions (CTEs) con la cláusula WITH."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "CTEs — Common Table Expressions",
-      "conteudo": { "emoji": "📋", "subtitulo": "Consultas temporárias que deixam o código mais legível" }
+      "conteudo": { "emoji": "📋", "subtitulo": "Consultas temporárias que deixam o código mais legível" },
+      "traducoes": {
+        "en": {
+          "titulo": "CTEs — Common Table Expressions",
+          "conteudo": { "subtitulo": "Temporary queries that make code more readable" }
+        },
+        "es": {
+          "titulo": "CTEs — Common Table Expressions",
+          "conteudo": { "subtitulo": "Consultas temporales que hacen el código más legible" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -18,7 +38,25 @@
         { "type": "definicao", "termo": "CTE (Common Table Expression)", "def": "Uma tabela temporária nomeada definida com WITH, que existe apenas durante a execução da query. Funciona como uma subquery no FROM, mas é definida antes e reutilizável." },
         { "type": "code", "code": "WITH MediaSalarial AS (\n  SELECT AVG(Salario) AS Media FROM Funcionarios\n)\nSELECT Nome, Salario\nFROM Funcionarios, MediaSalarial\nWHERE Salario > MediaSalarial.Media", "lese": "Define uma CTE chamada MediaSalarial que calcula a média dos salários, depois usa esse resultado para filtrar funcionários com salário acima da média" },
         { "type": "nota", "texto": "CTE vs Subquery: a CTE é definida no início, pode ser referenciada múltiplas vezes e é mais legível." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "What is a CTE?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "CTE (Common Table Expression)", "def": "A named temporary table defined with WITH that exists only during query execution. It works like a subquery in FROM, but is defined upfront and reusable." },
+            { "type": "code", "code": "WITH MediaSalarial AS (\n  SELECT AVG(Salario) AS Media FROM Funcionarios\n)\nSELECT Nome, Salario\nFROM Funcionarios, MediaSalarial\nWHERE Salario > MediaSalarial.Media", "lese": "Defines a CTE called MediaSalarial that calculates the average salary, then uses that result to filter employees with above-average salaries" },
+            { "type": "nota", "texto": "CTE vs Subquery: the CTE is defined at the beginning, can be referenced multiple times, and is more readable." }
+          ]}
+        },
+        "es": {
+          "titulo": "¿Qué es una CTE?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "CTE (Common Table Expression)", "def": "Una tabla temporal con nombre definida con WITH que existe solo durante la ejecución de la query. Funciona como una subquery en FROM, pero se define antes y es reutilizable." },
+            { "type": "code", "code": "WITH MediaSalarial AS (\n  SELECT AVG(Salario) AS Media FROM Funcionarios\n)\nSELECT Nome, Salario\nFROM Funcionarios, MediaSalarial\nWHERE Salario > MediaSalarial.Media", "lese": "Define una CTE llamada MediaSalarial que calcula el salario promedio, luego usa ese resultado para filtrar empleados con salario por encima del promedio" },
+            { "type": "nota", "texto": "CTE vs Subquery: la CTE se define al inicio, puede referenciarse múltiples veces y es más legible." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -26,7 +64,23 @@
       "conteudo": { "blocos": [
         "Veja a diferença entre subquery e CTE para a mesma lógica:",
         { "type": "code", "code": "-- Com subquery (difícil de ler):\nSELECT d.NomeDepartamento, r.Total\nFROM Departamentos d\nJOIN (SELECT DeptID, COUNT(*) AS Total\n      FROM Funcionarios GROUP BY DeptID) r\nON d.DeptID = r.DeptID\nWHERE r.Total > 2\n\n-- Com CTE (muito mais legível):\nWITH ContaFuncionarios AS (\n  SELECT DeptID, COUNT(*) AS Total\n  FROM Funcionarios\n  GROUP BY DeptID\n)\nSELECT d.NomeDepartamento, c.Total\nFROM Departamentos d\nJOIN ContaFuncionarios c ON d.DeptID = c.DeptID\nWHERE c.Total > 2", "lese": "Ambas as queries produzem o mesmo resultado: departamentos com mais de 2 funcionários. A versão com CTE é muito mais fácil de entender e manter" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Advantages of CTEs",
+          "conteudo": { "blocos": [
+            "See the difference between a subquery and a CTE for the same logic:",
+            { "type": "code", "code": "-- Com subquery (difícil de ler):\nSELECT d.NomeDepartamento, r.Total\nFROM Departamentos d\nJOIN (SELECT DeptID, COUNT(*) AS Total\n      FROM Funcionarios GROUP BY DeptID) r\nON d.DeptID = r.DeptID\nWHERE r.Total > 2\n\n-- Com CTE (muito mais legível):\nWITH ContaFuncionarios AS (\n  SELECT DeptID, COUNT(*) AS Total\n  FROM Funcionarios\n  GROUP BY DeptID\n)\nSELECT d.NomeDepartamento, c.Total\nFROM Departamentos d\nJOIN ContaFuncionarios c ON d.DeptID = c.DeptID\nWHERE c.Total > 2", "lese": "Both queries produce the same result: departments with more than 2 employees. The CTE version is much easier to understand and maintain" }
+          ]}
+        },
+        "es": {
+          "titulo": "Ventajas de las CTEs",
+          "conteudo": { "blocos": [
+            "Mira la diferencia entre una subquery y una CTE para la misma lógica:",
+            { "type": "code", "code": "-- Com subquery (difícil de ler):\nSELECT d.NomeDepartamento, r.Total\nFROM Departamentos d\nJOIN (SELECT DeptID, COUNT(*) AS Total\n      FROM Funcionarios GROUP BY DeptID) r\nON d.DeptID = r.DeptID\nWHERE r.Total > 2\n\n-- Com CTE (muito mais legível):\nWITH ContaFuncionarios AS (\n  SELECT DeptID, COUNT(*) AS Total\n  FROM Funcionarios\n  GROUP BY DeptID\n)\nSELECT d.NomeDepartamento, c.Total\nFROM Departamentos d\nJOIN ContaFuncionarios c ON d.DeptID = c.DeptID\nWHERE c.Total > 2", "lese": "Ambas las queries producen el mismo resultado: departamentos con más de 2 empleados. La versión con CTE es mucho más fácil de entender y mantener" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
@@ -38,6 +92,22 @@
         "schema": "CREATE TABLE Vendas (VendaID INTEGER, VendedorID INTEGER, Produto TEXT, Valor REAL, Mes TEXT); INSERT INTO Vendas VALUES (1,1,'Notebook',3200,'Jan'),(2,1,'Monitor',1200,'Jan'),(3,2,'Mouse',89,'Jan'),(4,2,'Teclado',150,'Fev'),(5,1,'Servidor',8500,'Fev'),(6,3,'Mesa',450,'Fev'),(7,3,'Cadeira',890,'Mar'),(8,2,'Notebook',3200,'Mar');",
         "checkType": "count",
         "checkConfig": { "expected_rows": 1 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Basic CTE",
+          "conteudo": {
+            "pergunta": "Use a CTE to calculate total sales per salesperson, then list only those with a total above 10000.",
+            "dica": "The CTE (with WITH) defines a named temporary table. Inside it, calculate total sales per salesperson. In the main query, use that CTE like a table and filter by who exceeded the limit."
+          }
+        },
+        "es": {
+          "titulo": "CTE Básica",
+          "conteudo": {
+            "pergunta": "Usa una CTE para calcular el total de ventas por vendedor, y luego lista solo los vendedores con un total superior a 10000.",
+            "dica": "La CTE (con WITH) define una tabla temporal con nombre. Dentro de ella, calcula el total de ventas por vendedor. En la query principal, consulta esa CTE como si fuera una tabla y filtra a los que superaron el límite."
+          }
+        }
       }
     },
     {
@@ -46,7 +116,23 @@
       "conteudo": { "blocos": [
         "Você pode definir várias CTEs em sequência, separadas por vírgula:",
         { "type": "code", "code": "WITH\n  VendasPorCliente AS (\n    SELECT ClienteID, SUM(Valor) AS TotalVendas\n    FROM Pedidos\n    GROUP BY ClienteID\n  ),\n  ClientesTop AS (\n    SELECT ClienteID\n    FROM VendasPorCliente\n    WHERE TotalVendas > 5000\n  )\nSELECT c.Nome, v.TotalVendas\nFROM Clientes c\nJOIN VendasPorCliente v ON c.ClienteID = v.ClienteID\nWHERE c.ClienteID IN (SELECT ClienteID FROM ClientesTop)", "lese": "Define duas CTEs: a primeira calcula o total de vendas por cliente, a segunda filtra os clientes top. A query final usa ambas para mostrar os melhores clientes" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Multiple CTEs",
+          "conteudo": { "blocos": [
+            "You can define multiple CTEs in sequence, separated by commas:",
+            { "type": "code", "code": "WITH\n  VendasPorCliente AS (\n    SELECT ClienteID, SUM(Valor) AS TotalVendas\n    FROM Pedidos\n    GROUP BY ClienteID\n  ),\n  ClientesTop AS (\n    SELECT ClienteID\n    FROM VendasPorCliente\n    WHERE TotalVendas > 5000\n  )\nSELECT c.Nome, v.TotalVendas\nFROM Clientes c\nJOIN VendasPorCliente v ON c.ClienteID = v.ClienteID\nWHERE c.ClienteID IN (SELECT ClienteID FROM ClientesTop)", "lese": "Defines two CTEs: the first calculates total sales per customer, the second filters top customers. The final query uses both to show the best customers" }
+          ]}
+        },
+        "es": {
+          "titulo": "Múltiples CTEs",
+          "conteudo": { "blocos": [
+            "Puedes definir varias CTEs en secuencia, separadas por coma:",
+            { "type": "code", "code": "WITH\n  VendasPorCliente AS (\n    SELECT ClienteID, SUM(Valor) AS TotalVendas\n    FROM Pedidos\n    GROUP BY ClienteID\n  ),\n  ClientesTop AS (\n    SELECT ClienteID\n    FROM VendasPorCliente\n    WHERE TotalVendas > 5000\n  )\nSELECT c.Nome, v.TotalVendas\nFROM Clientes c\nJOIN VendasPorCliente v ON c.ClienteID = v.ClienteID\nWHERE c.ClienteID IN (SELECT ClienteID FROM ClientesTop)", "lese": "Define dos CTEs: la primera calcula el total de ventas por cliente, la segunda filtra los clientes top. La query final usa ambas para mostrar los mejores clientes" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 6, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
@@ -58,6 +144,22 @@
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Teclado',150),(105,2,'Cadeira',890);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["Nome","Total"], "min_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "CTE with JOIN",
+          "conteudo": {
+            "pergunta": "Use a CTE to calculate total orders per customer, then JOIN with Clientes to show the name and total.",
+            "dica": "Define the CTE calculating the order total grouped by ClienteID. In the main query, JOIN that CTE with the Clientes table by the same ID to get the name. The CTE alone has no name — it needs the JOIN."
+          }
+        },
+        "es": {
+          "titulo": "CTE con JOIN",
+          "conteudo": {
+            "pergunta": "Usa una CTE para calcular el total de pedidos por cliente, luego haz JOIN con Clientes para mostrar el nombre y el total.",
+            "dica": "Define la CTE calculando el total de pedidos agrupado por ClienteID. En la query principal, haz JOIN de esa CTE con la tabla Clientes por el mismo ID para traer el nombre. La CTE sola no tiene el nombre — necesita el JOIN."
+          }
+        }
       }
     },
     {
@@ -67,7 +169,25 @@
         { "type": "definicao", "termo": "CTE Recursiva", "def": "Uma CTE que referencia a si mesma, útil para dados hierárquicos como organogramas, categorias em árvore ou sequências numéricas." },
         { "type": "code", "code": "WITH RECURSIVE Hierarquia AS (\n  -- Caso base: CEO (sem gestor)\n  SELECT ID, Nome, GestorID, 1 AS Nivel\n  FROM Funcionarios WHERE GestorID IS NULL\n  UNION ALL\n  -- Passo recursivo: subordinados do nível anterior\n  SELECT f.ID, f.Nome, f.GestorID, h.Nivel + 1\n  FROM Funcionarios f\n  JOIN Hierarquia h ON f.GestorID = h.ID\n)\nSELECT * FROM Hierarquia ORDER BY Nivel", "lese": "Começa pelo CEO (nível 1), depois encontra os subordinados de cada pessoa iterativamente, construindo a hierarquia completa da empresa" },
         { "type": "nota", "texto": "CTEs recursivas são avançadas mas poderosas para dados em forma de árvore." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Recursive CTEs",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "Recursive CTE", "def": "A CTE that references itself, useful for hierarchical data such as org charts, tree categories, or numeric sequences." },
+            { "type": "code", "code": "WITH RECURSIVE Hierarquia AS (\n  -- Caso base: CEO (sem gestor)\n  SELECT ID, Nome, GestorID, 1 AS Nivel\n  FROM Funcionarios WHERE GestorID IS NULL\n  UNION ALL\n  -- Passo recursivo: subordinados do nível anterior\n  SELECT f.ID, f.Nome, f.GestorID, h.Nivel + 1\n  FROM Funcionarios f\n  JOIN Hierarquia h ON f.GestorID = h.ID\n)\nSELECT * FROM Hierarquia ORDER BY Nivel", "lese": "Starts with the CEO (level 1), then iteratively finds each person's subordinates, building the full company hierarchy" },
+            { "type": "nota", "texto": "Recursive CTEs are advanced but powerful for tree-shaped data." }
+          ]}
+        },
+        "es": {
+          "titulo": "CTEs Recursivas",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "CTE Recursiva", "def": "Una CTE que se referencia a sí misma, útil para datos jerárquicos como organigramas, categorías en árbol o secuencias numéricas." },
+            { "type": "code", "code": "WITH RECURSIVE Hierarquia AS (\n  -- Caso base: CEO (sem gestor)\n  SELECT ID, Nome, GestorID, 1 AS Nivel\n  FROM Funcionarios WHERE GestorID IS NULL\n  UNION ALL\n  -- Passo recursivo: subordinados do nível anterior\n  SELECT f.ID, f.Nome, f.GestorID, h.Nivel + 1\n  FROM Funcionarios f\n  JOIN Hierarquia h ON f.GestorID = h.ID\n)\nSELECT * FROM Hierarquia ORDER BY Nivel", "lese": "Comienza con el CEO (nivel 1), luego encuentra iterativamente los subordinados de cada persona, construyendo la jerarquía completa de la empresa" },
+            { "type": "nota", "texto": "Las CTEs recursivas son avanzadas pero poderosas para datos en forma de árbol." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
@@ -79,7 +199,37 @@
         "Pode ser referenciada múltiplas vezes na mesma query",
         "Várias CTEs: separadas por vírgula",
         "WITH RECURSIVE: para dados hierárquicos"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: CTEs",
+          "conteudo": {
+            "titulo": "Summary: CTEs",
+            "itens": [
+              { "titulo": "WITH name AS (query)", "descricao": "defines a CTE" },
+              { "titulo": "CTE scope", "descricao": "exists only during query execution" },
+              { "titulo": "Readability", "descricao": "more readable than subqueries in FROM" },
+              { "titulo": "Reusability", "descricao": "can be referenced multiple times in the same query" },
+              { "titulo": "Multiple CTEs", "descricao": "separated by commas" },
+              { "titulo": "WITH RECURSIVE", "descricao": "for hierarchical data" }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Resumen: CTEs",
+          "conteudo": {
+            "titulo": "Resumen: CTEs",
+            "itens": [
+              { "titulo": "WITH nombre AS (query)", "descricao": "define una CTE" },
+              { "titulo": "Alcance de la CTE", "descricao": "existe solo durante la ejecución de la query" },
+              { "titulo": "Legibilidad", "descricao": "más legible que subqueries en FROM" },
+              { "titulo": "Reutilización", "descricao": "puede referenciarse múltiples veces en la misma query" },
+              { "titulo": "Múltiples CTEs", "descricao": "separadas por coma" },
+              { "titulo": "WITH RECURSIVE", "descricao": "para datos jerárquicos" }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
@@ -91,6 +241,22 @@
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'),(4,'João'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Teclado',150),(105,4,'Servidor',8500),(106,4,'Cadeira',890);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["Nome","Total"], "min_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "CTE — Top Customers",
+          "conteudo": {
+            "pergunta": "Use two CTEs: the first calculates total spent per customer, the second filters only those who spent more than 1000. Show name and total.",
+            "dica": "With two CTEs separated by a comma: the first aggregates orders by customer, the second filters those who exceeded the limit. The final query joins the result with Clientes to get the name."
+          }
+        },
+        "es": {
+          "titulo": "CTE — Top Clientes",
+          "conteudo": {
+            "pergunta": "Usa dos CTEs: la primera calcula el total gastado por cliente, la segunda filtra solo los que gastaron más de 1000. Muestra el nombre y el total.",
+            "dica": "Con dos CTEs separadas por coma: la primera agrega los pedidos por cliente, la segunda filtra los que superaron el límite. La query final une el resultado con Clientes para traer el nombre."
+          }
+        }
       }
     },
     {
@@ -103,12 +269,38 @@
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 2 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "CTE — Average by Department",
+          "conteudo": {
+            "pergunta": "Use a CTE to calculate the average salary per department, then show only departments with an average above 6000.",
+            "dica": "Create the CTE calculating the average salary by department with an alias (AS Media). In the outer query, you can filter by the CTE's alias directly in WHERE — this wouldn't be possible in a normal SELECT without a CTE or subquery."
+          }
+        },
+        "es": {
+          "titulo": "CTE — Promedio por Departamento",
+          "conteudo": {
+            "pergunta": "Usa una CTE para calcular el salario promedio de cada departamento, luego muestra solo los departamentos con un promedio superior a 6000.",
+            "dica": "Crea la CTE calculando el salario promedio por departamento con un alias (AS Media). En la query externa, puedes filtrar por el alias de la CTE directamente en WHERE — esto no sería posible en un SELECT normal sin CTE o subquery."
+          }
+        }
       }
     },
     {
       "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "CTEs dominadas!",
-      "conteudo": { "mensagem": "CTEs são uma das ferramentas mais elegantes do SQL moderno. Código complexo fica legível e fácil de manter!", "xpGanho": 350 }
+      "conteudo": { "mensagem": "CTEs são uma das ferramentas mais elegantes do SQL moderno. Código complexo fica legível e fácil de manter!", "xpGanho": 350 },
+      "traducoes": {
+        "en": {
+          "titulo": "CTEs mastered!",
+          "conteudo": { "mensagem": "CTEs are one of the most elegant tools in modern SQL. Complex code becomes readable and easy to maintain!" }
+        },
+        "es": {
+          "titulo": "¡CTEs dominadas!",
+          "conteudo": { "mensagem": "¡Las CTEs son una de las herramientas más elegantes del SQL moderno. El código complejo se vuelve legible y fácil de mantener!" }
+        }
+      }
     }
   ]
 }

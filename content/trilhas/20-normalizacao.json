@@ -5,11 +5,31 @@
   "icone": "📐",
   "ordem": 21,
   "xpTotal": 800,
+  "traducoes": {
+    "en": {
+      "titulo": "Normalization — Designing Professional Databases",
+      "descricao": "Eliminate redundancy and inconsistencies by mastering Normal Forms (1NF, 2NF, 3NF) and know when to denormalize."
+    },
+    "es": {
+      "titulo": "Normalización — Diseñando Bases de Datos Profesionales",
+      "descricao": "Elimina redundancia e inconsistencias dominando las Formas Normales (1FN, 2FN, 3FN) y sabe cuándo desnormalizar."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "Normalização — Dados Sem Redundância",
-      "conteudo": { "emoji": "📐", "subtitulo": "Projete bancos de dados eficientes, sem repetição e sem anomalias" }
+      "conteudo": { "emoji": "📐", "subtitulo": "Projete bancos de dados eficientes, sem repetição e sem anomalias" },
+      "traducoes": {
+        "en": {
+          "titulo": "Normalization — Data Without Redundancy",
+          "conteudo": { "emoji": "📐", "subtitulo": "Design efficient databases, without repetition and without anomalies" }
+        },
+        "es": {
+          "titulo": "Normalización — Datos Sin Redundancia",
+          "conteudo": { "emoji": "📐", "subtitulo": "Diseña bases de datos eficientes, sin repetición y sin anomalías" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -18,7 +38,25 @@
         "Imagine uma planilha com pedidos assim:",
         { "type": "code", "code": "PedidoID | ClienteNome | ClienteEmail          | ClienteCidade | Produto   | Preco\n1        | Ana Silva   | ana@email.com         | São Paulo     | Notebook  | 3200\n2        | Ana Silva   | ana@email.com         | São Paulo     | Mouse     | 89\n3        | Carlos      | carlos@email.com      | Rio de Janeiro| Teclado   | 150", "lese": "O nome, email e cidade da Ana aparecem duas vezes — se o email mudar, precisamos atualizar dois registros; se esquecermos um, o banco fica inconsistente" },
         { "type": "definicao", "termo": "Normalização", "def": "Processo de organizar as tabelas para eliminar redundância de dados e anomalias de inserção, atualização e deleção." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "The Redundancy Problem",
+          "conteudo": { "blocos": [
+            "Imagine a spreadsheet with orders like this:",
+            { "type": "code", "code": "PedidoID | ClienteNome | ClienteEmail          | ClienteCidade | Produto   | Preco\n1        | Ana Silva   | ana@email.com         | São Paulo     | Notebook  | 3200\n2        | Ana Silva   | ana@email.com         | São Paulo     | Mouse     | 89\n3        | Carlos      | carlos@email.com      | Rio de Janeiro| Teclado   | 150", "lese": "Ana's name, email and city appear twice — if the email changes, we need to update two records; if we miss one, the database becomes inconsistent" },
+            { "type": "definicao", "termo": "Normalization", "def": "The process of organizing tables to eliminate data redundancy and insertion, update and deletion anomalies." }
+          ]}
+        },
+        "es": {
+          "titulo": "El Problema de la Redundancia",
+          "conteudo": { "blocos": [
+            "Imagina una hoja de cálculo con pedidos así:",
+            { "type": "code", "code": "PedidoID | ClienteNome | ClienteEmail          | ClienteCidade | Produto   | Preco\n1        | Ana Silva   | ana@email.com         | São Paulo     | Notebook  | 3200\n2        | Ana Silva   | ana@email.com         | São Paulo     | Mouse     | 89\n3        | Carlos      | carlos@email.com      | Rio de Janeiro| Teclado   | 150", "lese": "El nombre, email y ciudad de Ana aparecen dos veces — si el email cambia, necesitamos actualizar dos registros; si olvidamos uno, la base queda inconsistente" },
+            { "type": "definicao", "termo": "Normalización", "def": "Proceso de organizar las tablas para eliminar redundancia de datos y anomalías de inserción, actualización y eliminación." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -27,7 +65,25 @@
         { "type": "definicao", "termo": "1FN (Primeira Forma Normal)", "def": "Cada célula deve conter apenas UM valor atômico (indivisível). Não pode ter listas, grupos repetidos ou arrays dentro de uma coluna." },
         { "type": "code", "code": "-- ❌ Viola a 1FN: múltiplos valores em uma coluna\nPedidoID | Produtos\n1        | 'Notebook, Mouse, Teclado'\n2        | 'Monitor'\n\n-- ✅ Correto: uma linha por item\nPedidoID | Produto\n1        | Notebook\n1        | Mouse\n1        | Teclado\n2        | Monitor", "lese": "A versão errada tem três produtos em uma célula — impossível filtrar, ordenar ou agregar corretamente; a versão correta tem uma linha por produto, permitindo qualquer query" },
         { "type": "nota", "texto": "Regras da 1FN: valores atômicos, sem grupos repetidos, cada linha deve ser única (PK definida)." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "1NF — First Normal Form",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "1NF (First Normal Form)", "def": "Each cell must contain only ONE atomic (indivisible) value. No lists, repeating groups or arrays inside a column." },
+            { "type": "code", "code": "-- ❌ Viola a 1FN: múltiplos valores em uma coluna\nPedidoID | Produtos\n1        | 'Notebook, Mouse, Teclado'\n2        | 'Monitor'\n\n-- ✅ Correto: uma linha por item\nPedidoID | Produto\n1        | Notebook\n1        | Mouse\n1        | Teclado\n2        | Monitor", "lese": "The wrong version has three products in one cell — impossible to filter, sort or aggregate correctly; the correct version has one row per product, allowing any query" },
+            { "type": "nota", "texto": "1NF rules: atomic values, no repeating groups, each row must be unique (PK defined)." }
+          ]}
+        },
+        "es": {
+          "titulo": "1FN — Primera Forma Normal",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "1FN (Primera Forma Normal)", "def": "Cada celda debe contener solo UN valor atómico (indivisible). No puede tener listas, grupos repetidos o arrays dentro de una columna." },
+            { "type": "code", "code": "-- ❌ Viola a 1FN: múltiplos valores em uma coluna\nPedidoID | Produtos\n1        | 'Notebook, Mouse, Teclado'\n2        | 'Monitor'\n\n-- ✅ Correto: uma linha por item\nPedidoID | Produto\n1        | Notebook\n1        | Mouse\n1        | Teclado\n2        | Monitor", "lese": "La versión errónea tiene tres productos en una celda — imposible filtrar, ordenar o agregar correctamente; la versión correcta tiene una fila por producto, permitiendo cualquier query" },
+            { "type": "nota", "texto": "Reglas de 1FN: valores atómicos, sin grupos repetidos, cada fila debe ser única (PK definida)." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -35,7 +91,23 @@
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "2FN (Segunda Forma Normal)", "def": "Já está em 1FN + todos os atributos não-chave dependem da chave COMPLETA (não apenas de parte dela). Aplica-se quando há chaves compostas." },
         { "type": "code", "code": "-- ❌ Viola a 2FN: NomeProduto depende só de ProdutoID\n-- (não da chave composta PedidoID + ProdutoID)\nPedidoID | ProdutoID | NomeProduto | Quantidade\n1        | 10        | Notebook    | 1\n2        | 10        | Notebook    | 2  -- 'Notebook' repetido!\n\n-- ✅ Correto: separar em duas tabelas\nItensPedido: PedidoID | ProdutoID | Quantidade\nProdutos:    ProdutoID | NomeProduto", "lese": "NomeProduto só precisa do ProdutoID para ser determinado, não do PedidoID — extraindo para tabela própria eliminamos a repetição do nome" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "2NF — Second Normal Form",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "2NF (Second Normal Form)", "def": "Already in 1NF + all non-key attributes depend on the COMPLETE key (not just part of it). Applies when there are composite keys." },
+            { "type": "code", "code": "-- ❌ Viola a 2FN: NomeProduto depende só de ProdutoID\n-- (não da chave composta PedidoID + ProdutoID)\nPedidoID | ProdutoID | NomeProduto | Quantidade\n1        | 10        | Notebook    | 1\n2        | 10        | Notebook    | 2  -- 'Notebook' repetido!\n\n-- ✅ Correto: separar em duas tabelas\nItensPedido: PedidoID | ProdutoID | Quantidade\nProdutos:    ProdutoID | NomeProduto", "lese": "NomeProduto only needs the ProdutoID to be determined, not the PedidoID — by extracting it to its own table we eliminate the name repetition" }
+          ]}
+        },
+        "es": {
+          "titulo": "2FN — Segunda Forma Normal",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "2FN (Segunda Forma Normal)", "def": "Ya está en 1FN + todos los atributos no clave dependen de la clave COMPLETA (no solo de una parte). Se aplica cuando hay claves compuestas." },
+            { "type": "code", "code": "-- ❌ Viola a 2FN: NomeProduto depende só de ProdutoID\n-- (não da chave composta PedidoID + ProdutoID)\nPedidoID | ProdutoID | NomeProduto | Quantidade\n1        | 10        | Notebook    | 1\n2        | 10        | Notebook    | 2  -- 'Notebook' repetido!\n\n-- ✅ Correto: separar em duas tabelas\nItensPedido: PedidoID | ProdutoID | Quantidade\nProdutos:    ProdutoID | NomeProduto", "lese": "NomeProduto solo necesita el ProdutoID para determinarse, no el PedidoID — al extraerlo a su propia tabla eliminamos la repetición del nombre" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -43,7 +115,23 @@
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "3FN (Terceira Forma Normal)", "def": "Já está em 2FN + nenhum atributo não-chave depende de outro atributo não-chave (sem dependência transitiva)." },
         { "type": "code", "code": "-- ❌ Viola a 3FN: Cidade depende de CEP, não de ClienteID\nClienteID | Nome | CEP       | Cidade\n1         | Ana  | 01310-100 | São Paulo\n2         | Bob  | 01310-100 | São Paulo  -- 'São Paulo' repetido!\n3         | Carl | 22041-001 | Rio de Janeiro\n\n-- ✅ Correto: CEP determina Cidade, extrair para tabela\nClientes: ClienteID | Nome | CEP\nCEPs:     CEP       | Cidade", "lese": "Cidade depende de CEP (dependência transitiva via CEP → Cidade); separando, se a cidade de um CEP mudar atualiza em um só lugar" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "3NF — Third Normal Form",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "3NF (Third Normal Form)", "def": "Already in 2NF + no non-key attribute depends on another non-key attribute (no transitive dependency)." },
+            { "type": "code", "code": "-- ❌ Viola a 3FN: Cidade depende de CEP, não de ClienteID\nClienteID | Nome | CEP       | Cidade\n1         | Ana  | 01310-100 | São Paulo\n2         | Bob  | 01310-100 | São Paulo  -- 'São Paulo' repetido!\n3         | Carl | 22041-001 | Rio de Janeiro\n\n-- ✅ Correto: CEP determina Cidade, extrair para tabela\nClientes: ClienteID | Nome | CEP\nCEPs:     CEP       | Cidade", "lese": "Cidade depends on CEP (transitive dependency via CEP → Cidade); by separating them, if the city for a ZIP code changes it updates in only one place" }
+          ]}
+        },
+        "es": {
+          "titulo": "3FN — Tercera Forma Normal",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "3FN (Tercera Forma Normal)", "def": "Ya está en 2FN + ningún atributo no clave depende de otro atributo no clave (sin dependencia transitiva)." },
+            { "type": "code", "code": "-- ❌ Viola a 3FN: Cidade depende de CEP, não de ClienteID\nClienteID | Nome | CEP       | Cidade\n1         | Ana  | 01310-100 | São Paulo\n2         | Bob  | 01310-100 | São Paulo  -- 'São Paulo' repetido!\n3         | Carl | 22041-001 | Rio de Janeiro\n\n-- ✅ Correto: CEP determina Cidade, extrair para tabela\nClientes: ClienteID | Nome | CEP\nCEPs:     CEP       | Cidade", "lese": "Cidade depende de CEP (dependencia transitiva vía CEP → Cidade); al separar, si la ciudad de un código postal cambia se actualiza en un solo lugar" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 6, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
@@ -55,6 +143,30 @@
         "schema": "CREATE TABLE ItensSeparados (PedidoID INTEGER, Produto TEXT, Preco REAL); INSERT INTO ItensSeparados VALUES (1,'Notebook',3200),(1,'Mouse',89),(1,'Teclado',150),(2,'Monitor',1200),(3,'Headset',650);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 5 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Identify the Violation",
+          "conteudo": {
+            "instrucao": "The table below violates 1NF. Write a SELECT that lists each product correctly from the ItensSeparados table (already normalized).",
+            "dica": "The table is already normalized (1NF). Just a SELECT with the requested columns. Use ORDER BY PedidoID to organize — this helps visualize that each product has its own row.",
+            "placeholder": "SELECT PedidoID, Produto\nFROM ItensSeparados\nORDER BY PedidoID",
+            "schema": "CREATE TABLE ItensSeparados (PedidoID INTEGER, Produto TEXT, Preco REAL); INSERT INTO ItensSeparados VALUES (1,'Notebook',3200),(1,'Mouse',89),(1,'Teclado',150),(2,'Monitor',1200),(3,'Headset',650);",
+            "checkType": "count",
+            "checkConfig": { "expected_rows": 5 }
+          }
+        },
+        "es": {
+          "titulo": "Identifica la Violación",
+          "conteudo": {
+            "instrucao": "La tabla de abajo viola la 1FN. Escribe un SELECT que liste cada producto correctamente a partir de la tabla ItensSeparados (ya normalizada).",
+            "dica": "La tabla ya está normalizada (1FN). Basta un SELECT con las columnas pedidas. Usa ORDER BY PedidoID para organizar — esto ayuda a visualizar que cada producto tiene su propia fila.",
+            "placeholder": "SELECT PedidoID, Produto\nFROM ItensSeparados\nORDER BY PedidoID",
+            "schema": "CREATE TABLE ItensSeparados (PedidoID INTEGER, Produto TEXT, Preco REAL); INSERT INTO ItensSeparados VALUES (1,'Notebook',3200),(1,'Mouse',89),(1,'Teclado',150),(2,'Monitor',1200),(3,'Headset',650);",
+            "checkType": "count",
+            "checkConfig": { "expected_rows": 5 }
+          }
+        }
       }
     },
     {
@@ -63,7 +175,23 @@
       "conteudo": { "blocos": [
         "Um sistema de pedidos normalizado até a 3FN:",
         { "type": "code", "code": "-- 1FN: valores atômicos, sem repetição\nCREATE TABLE Clientes (\n  ClienteID SERIAL PRIMARY KEY,\n  Nome      VARCHAR(100) NOT NULL,\n  Email     VARCHAR(150) UNIQUE NOT NULL\n)\n\n-- 2FN: NomeProduto em tabela própria\nCREATE TABLE Produtos (\n  ProdutoID SERIAL PRIMARY KEY,\n  Nome      VARCHAR(100) NOT NULL,\n  Preco     DECIMAL(10,2) NOT NULL\n)\n\n-- 3FN: sem dependência transitiva\nCREATE TABLE Pedidos (\n  PedidoID  SERIAL PRIMARY KEY,\n  ClienteID INTEGER REFERENCES Clientes(ClienteID),\n  PedidoEm TIMESTAMP DEFAULT NOW()\n)\n\nCREATE TABLE ItensPedido (\n  ItemID    SERIAL PRIMARY KEY,\n  PedidoID  INTEGER REFERENCES Pedidos(PedidoID),\n  ProdutoID INTEGER REFERENCES Produtos(ProdutoID),\n  Quantidade INTEGER NOT NULL CHECK (Quantidade > 0),\n  PrecoUnit  DECIMAL(10,2) NOT NULL\n)", "lese": "Cada tabela tem uma responsabilidade única: Clientes guarda dados do cliente, Produtos guarda os produtos, Pedidos liga o cliente ao pedido, ItensPedido liga o pedido aos produtos — sem nenhuma redundância" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Normalized Model in Practice",
+          "conteudo": { "blocos": [
+            "An order system normalized to 3NF:",
+            { "type": "code", "code": "-- 1FN: valores atômicos, sem repetição\nCREATE TABLE Clientes (\n  ClienteID SERIAL PRIMARY KEY,\n  Nome      VARCHAR(100) NOT NULL,\n  Email     VARCHAR(150) UNIQUE NOT NULL\n)\n\n-- 2FN: NomeProduto em tabela própria\nCREATE TABLE Produtos (\n  ProdutoID SERIAL PRIMARY KEY,\n  Nome      VARCHAR(100) NOT NULL,\n  Preco     DECIMAL(10,2) NOT NULL\n)\n\n-- 3FN: sem dependência transitiva\nCREATE TABLE Pedidos (\n  PedidoID  SERIAL PRIMARY KEY,\n  ClienteID INTEGER REFERENCES Clientes(ClienteID),\n  PedidoEm TIMESTAMP DEFAULT NOW()\n)\n\nCREATE TABLE ItensPedido (\n  ItemID    SERIAL PRIMARY KEY,\n  PedidoID  INTEGER REFERENCES Pedidos(PedidoID),\n  ProdutoID INTEGER REFERENCES Produtos(ProdutoID),\n  Quantidade INTEGER NOT NULL CHECK (Quantidade > 0),\n  PrecoUnit  DECIMAL(10,2) NOT NULL\n)", "lese": "Each table has a single responsibility: Clientes stores customer data, Produtos stores products, Pedidos links the customer to the order, ItensPedido links the order to products — with no redundancy" }
+          ]}
+        },
+        "es": {
+          "titulo": "Modelo Normalizado en la Práctica",
+          "conteudo": { "blocos": [
+            "Un sistema de pedidos normalizado hasta 3FN:",
+            { "type": "code", "code": "-- 1FN: valores atômicos, sem repetição\nCREATE TABLE Clientes (\n  ClienteID SERIAL PRIMARY KEY,\n  Nome      VARCHAR(100) NOT NULL,\n  Email     VARCHAR(150) UNIQUE NOT NULL\n)\n\n-- 2FN: NomeProduto em tabela própria\nCREATE TABLE Produtos (\n  ProdutoID SERIAL PRIMARY KEY,\n  Nome      VARCHAR(100) NOT NULL,\n  Preco     DECIMAL(10,2) NOT NULL\n)\n\n-- 3FN: sem dependência transitiva\nCREATE TABLE Pedidos (\n  PedidoID  SERIAL PRIMARY KEY,\n  ClienteID INTEGER REFERENCES Clientes(ClienteID),\n  PedidoEm TIMESTAMP DEFAULT NOW()\n)\n\nCREATE TABLE ItensPedido (\n  ItemID    SERIAL PRIMARY KEY,\n  PedidoID  INTEGER REFERENCES Pedidos(PedidoID),\n  ProdutoID INTEGER REFERENCES Produtos(ProdutoID),\n  Quantidade INTEGER NOT NULL CHECK (Quantidade > 0),\n  PrecoUnit  DECIMAL(10,2) NOT NULL\n)", "lese": "Cada tabla tiene una responsabilidad única: Clientes almacena datos del cliente, Produtos almacena los productos, Pedidos vincula el cliente al pedido, ItensPedido vincula el pedido a los productos — sin ninguna redundancia" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -71,7 +199,23 @@
       "conteudo": { "blocos": [
         { "type": "nota", "texto": "Normalização é a regra geral, mas às vezes a desnormalização proposital melhora performance." },
         { "type": "code", "code": "-- Em ItensPedido, guardamos PrecoUnit no momento da compra\n-- mesmo que o preço do produto mude depois.\n-- Isso é desnormalização intencional para manter histórico.\n\n-- Outro exemplo: tabela de relatório pré-computada\nCREATE TABLE RelatorioVendasDiario (\n  Data        DATE PRIMARY KEY,\n  TotalVendas DECIMAL(12,2),\n  QtdPedidos  INTEGER\n)\n-- Dados redundantes, mas consultas analíticas são instantâneas", "lese": "Guardar PrecoUnit em ItensPedido é intencional — se o preço mudar amanhã, o histórico de compras deve mostrar o preço que foi cobrado; tabelas de relatório pré-computadas trocam espaço por velocidade" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Denormalization — When It Makes Sense",
+          "conteudo": { "blocos": [
+            { "type": "nota", "texto": "Normalization is the general rule, but sometimes intentional denormalization improves performance." },
+            { "type": "code", "code": "-- Em ItensPedido, guardamos PrecoUnit no momento da compra\n-- mesmo que o preço do produto mude depois.\n-- Isso é desnormalização intencional para manter histórico.\n\n-- Outro exemplo: tabela de relatório pré-computada\nCREATE TABLE RelatorioVendasDiario (\n  Data        DATE PRIMARY KEY,\n  TotalVendas DECIMAL(12,2),\n  QtdPedidos  INTEGER\n)\n-- Dados redundantes, mas consultas analíticas são instantâneas", "lese": "Storing PrecoUnit in ItensPedido is intentional — if the price changes tomorrow, the purchase history should show the price that was charged; pre-computed report tables trade space for speed" }
+          ]}
+        },
+        "es": {
+          "titulo": "Desnormalización — Cuándo Tiene Sentido",
+          "conteudo": { "blocos": [
+            { "type": "nota", "texto": "La normalización es la regla general, pero a veces la desnormalización intencional mejora el rendimiento." },
+            { "type": "code", "code": "-- Em ItensPedido, guardamos PrecoUnit no momento da compra\n-- mesmo que o preço do produto mude depois.\n-- Isso é desnormalização intencional para manter histórico.\n\n-- Outro exemplo: tabela de relatório pré-computada\nCREATE TABLE RelatorioVendasDiario (\n  Data        DATE PRIMARY KEY,\n  TotalVendas DECIMAL(12,2),\n  QtdPedidos  INTEGER\n)\n-- Dados redundantes, mas consultas analíticas são instantâneas", "lese": "Guardar PrecoUnit en ItensPedido es intencional — si el precio cambia mañana, el historial de compras debe mostrar el precio que fue cobrado; las tablas de reporte precomputadas intercambian espacio por velocidad" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
@@ -83,6 +227,30 @@
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'); CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER); INSERT INTO ItensPedido VALUES (1,1,1,1),(2,1,2,2),(3,2,3,1),(4,3,2,1);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["Cliente", "Produto"], "min_rows": 4 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Query the Normalized Model",
+          "conteudo": {
+            "instrucao": "Using the normalized model (Clientes, Pedidos, ItensPedido, Produtos), write a SELECT that shows the customer's Nome and the product's Nome for all order items.",
+            "dica": "To bring the customer name and product name, you need to go through 4 tables. Start from ItensPedido (center) and JOIN in each direction: one path leads to the customer, the other to the product.",
+            "placeholder": "SELECT c.Nome AS Cliente, p.Nome AS Produto\nFROM ItensPedido ip\nINNER JOIN Pedidos ped ON ip.PedidoID = ped.PedidoID\nINNER JOIN Clientes c   ON ped.ClienteID = c.ClienteID\nINNER JOIN Produtos p   ON ip.ProdutoID = p.ProdutoID",
+            "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'); CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER); INSERT INTO ItensPedido VALUES (1,1,1,1),(2,1,2,2),(3,2,3,1),(4,3,2,1);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["Cliente", "Produto"], "min_rows": 4 }
+          }
+        },
+        "es": {
+          "titulo": "Consulta el Modelo Normalizado",
+          "conteudo": {
+            "instrucao": "Usando el modelo normalizado (Clientes, Pedidos, ItensPedido, Produtos), escribe un SELECT que muestre el Nome del cliente y el Nome del producto para todos los ítems de pedido.",
+            "dica": "Para traer el nombre del cliente y el nombre del producto, necesitas pasar por 4 tablas. Empieza por ItensPedido (centro) y haz JOINs en cada dirección: un camino lleva al cliente, el otro al producto.",
+            "placeholder": "SELECT c.Nome AS Cliente, p.Nome AS Produto\nFROM ItensPedido ip\nINNER JOIN Pedidos ped ON ip.PedidoID = ped.PedidoID\nINNER JOIN Clientes c   ON ped.ClienteID = c.ClienteID\nINNER JOIN Produtos p   ON ip.ProdutoID = p.ProdutoID",
+            "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'); CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER); INSERT INTO ItensPedido VALUES (1,1,1,1),(2,1,2,2),(3,2,3,1),(4,3,2,1);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["Cliente", "Produto"], "min_rows": 4 }
+          }
+        }
       }
     },
     {
@@ -95,6 +263,30 @@
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1),(4,3); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER, PrecoUnit REAL); INSERT INTO ItensPedido VALUES (1,1,1,1,3200),(2,1,2,2,89),(3,2,3,1,1200),(4,3,2,1,89),(5,4,1,1,3200);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["Nome", "TotalGasto"], "min_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Total Revenue by Customer",
+          "conteudo": {
+            "instrucao": "In the normalized model, calculate the total spent by each customer: return the customer's Nome and TotalGasto (SUM of Quantidade * PrecoUnit in the order items).",
+            "dica": "The total spent is Quantidade multiplied by PrecoUnit — you calculate this in the SUM. You need JOINs to reach the customer name. After aggregating, which columns should appear in the GROUP BY?",
+            "placeholder": "SELECT c.Nome, SUM(ip.Quantidade * ip.PrecoUnit) AS TotalGasto\nFROM ItensPedido ip\nINNER JOIN Pedidos ped ON ip.PedidoID = ped.PedidoID\nINNER JOIN Clientes c  ON ped.ClienteID = c.ClienteID\nGROUP BY c.ClienteID, c.Nome\nORDER BY TotalGasto DESC",
+            "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1),(4,3); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER, PrecoUnit REAL); INSERT INTO ItensPedido VALUES (1,1,1,1,3200),(2,1,2,2,89),(3,2,3,1,1200),(4,3,2,1,89),(5,4,1,1,3200);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["Nome", "TotalGasto"], "min_rows": 3 }
+          }
+        },
+        "es": {
+          "titulo": "Ingresos Totales por Cliente",
+          "conteudo": {
+            "instrucao": "En el modelo normalizado, calcula el total gastado por cada cliente: retorna el Nome del cliente y TotalGasto (SUM de Quantidade * PrecoUnit en los ítems de pedido).",
+            "dica": "El total gastado es Quantidade multiplicado por PrecoUnit — lo calculas en el SUM. Necesitas JOINs para llegar al nombre del cliente. Después de agregar, ¿qué columnas deben aparecer en el GROUP BY?",
+            "placeholder": "SELECT c.Nome, SUM(ip.Quantidade * ip.PrecoUnit) AS TotalGasto\nFROM ItensPedido ip\nINNER JOIN Pedidos ped ON ip.PedidoID = ped.PedidoID\nINNER JOIN Clientes c  ON ped.ClienteID = c.ClienteID\nGROUP BY c.ClienteID, c.Nome\nORDER BY TotalGasto DESC",
+            "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER); INSERT INTO Pedidos VALUES (1,1),(2,2),(3,1),(4,3); CREATE TABLE ItensPedido (ItemID INTEGER PRIMARY KEY, PedidoID INTEGER, ProdutoID INTEGER, Quantidade INTEGER, PrecoUnit REAL); INSERT INTO ItensPedido VALUES (1,1,1,1,3200),(2,1,2,2,89),(3,2,3,1,1200),(4,3,2,1,89),(5,4,1,1,3200);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["Nome", "TotalGasto"], "min_rows": 3 }
+          }
+        }
       }
     },
     {
@@ -107,12 +299,46 @@
         "Cada tabela = uma responsabilidade = uma entidade",
         "Desnormalização intencional: para histórico ou performance analítica",
         "Modelo normalizado = mais JOINs, mas menos problemas de consistência"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: Normalization",
+          "conteudo": { "cor": "verde", "itens": [
+            "1NF: atomic values, no repeating groups, PK defined",
+            "2NF: in 1NF + no partial dependency on the composite key",
+            "3NF: in 2NF + no transitive dependency between columns",
+            "Each table = one responsibility = one entity",
+            "Intentional denormalization: for history or analytical performance",
+            "Normalized model = more JOINs, but fewer consistency problems"
+          ]}
+        },
+        "es": {
+          "titulo": "Resumen: Normalización",
+          "conteudo": { "cor": "verde", "itens": [
+            "1FN: valores atómicos, sin grupos repetidos, PK definida",
+            "2FN: en 1FN + sin dependencia parcial de la clave compuesta",
+            "3FN: en 2FN + sin dependencia transitiva entre columnas",
+            "Cada tabla = una responsabilidad = una entidad",
+            "Desnormalización intencional: para historial o rendimiento analítico",
+            "Modelo normalizado = más JOINs, pero menos problemas de consistencia"
+          ]}
+        }
+      }
     },
     {
       "ordem": 12, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Normalização dominada!",
-      "conteudo": { "mensagem": "Você agora projeta bancos de dados como um profissional. Sem redundância, sem anomalias, com estruturas sólidas que escalam. Parabéns — você completou o módulo DBA!", "xpGanho": 500 }
+      "conteudo": { "mensagem": "Você agora projeta bancos de dados como um profissional. Sem redundância, sem anomalias, com estruturas sólidas que escalam. Parabéns — você completou o módulo DBA!", "xpGanho": 500 },
+      "traducoes": {
+        "en": {
+          "titulo": "Normalization mastered!",
+          "conteudo": { "mensagem": "You now design databases like a professional. No redundancy, no anomalies, with solid structures that scale. Congratulations — you completed the DBA module!", "xpGanho": 500 }
+        },
+        "es": {
+          "titulo": "¡Normalización dominada!",
+          "conteudo": { "mensagem": "Ahora diseñas bases de datos como un profesional. Sin redundancia, sin anomalías, con estructuras sólidas que escalan. ¡Felicidades — completaste el módulo DBA!", "xpGanho": 500 }
+        }
+      }
     }
   ]
 }

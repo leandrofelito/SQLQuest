@@ -5,11 +5,31 @@
   "icone": "🎯",
   "ordem": 3,
   "xpTotal": 800,
+  "traducoes": {
+    "en": {
+      "titulo": "WHERE — Filtering Data",
+      "descricao": "Filter records with WHERE, combine conditions with AND/OR, use LIKE for patterns and IN for lists."
+    },
+    "es": {
+      "titulo": "WHERE — Filtrando Datos",
+      "descricao": "Filtra registros con WHERE, combina condiciones con AND/OR, usa LIKE para patrones e IN para listas."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "Filtrando com WHERE",
-      "conteudo": { "emoji": "🎯", "subtitulo": "Encontre exatamente o que precisa, ignorando o resto" }
+      "conteudo": { "emoji": "🎯", "subtitulo": "Encontre exatamente o que precisa, ignorando o resto" },
+      "traducoes": {
+        "en": {
+          "titulo": "Filtering with WHERE",
+          "conteudo": { "subtitulo": "Find exactly what you need, ignoring the rest" }
+        },
+        "es": {
+          "titulo": "Filtrando con WHERE",
+          "conteudo": { "subtitulo": "Encuentra exactamente lo que necesitas, ignorando el resto" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -19,7 +39,27 @@
         { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Seleciona todos os campos da tabela Clientes, mas apenas os registros onde a Cidade é igual a 'São Paulo'" },
         { "type": "code", "code": "SELECT * FROM Produtos WHERE Preco > 500", "lese": "Seleciona todos os campos da tabela Produtos onde o preço é maior que 500" },
         { "type": "nota", "texto": "Valores de texto usam aspas simples. Valores numéricos não usam aspas." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "The WHERE Command",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "WHERE", "def": "Filters the records of a table. Only rows that satisfy the condition are returned." },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Selects all fields from the Clientes table, but only records where the City equals 'São Paulo'" },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE Preco > 500", "lese": "Selects all fields from the Produtos table where the price is greater than 500" },
+            { "type": "nota", "texto": "Text values use single quotes. Numeric values do not use quotes." }
+          ]}
+        },
+        "es": {
+          "titulo": "El Comando WHERE",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "WHERE", "def": "Filtra los registros de una tabla. Solo se devuelven las filas que satisfacen la condición." },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Selecciona todos los campos de la tabla Clientes, pero solo los registros donde la Ciudad es igual a 'São Paulo'" },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE Preco > 500", "lese": "Selecciona todos los campos de la tabla Produtos donde el precio es mayor que 500" },
+            { "type": "nota", "texto": "Los valores de texto usan comillas simples. Los valores numéricos no usan comillas." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -29,7 +69,27 @@
         { "type": "code", "code": "=    igual a\n<>   diferente de (também pode ser !=)\n>    maior que\n<    menor que\n>=   maior ou igual a\n<=   menor ou igual a", "lese": "Tabela dos operadores de comparação em SQL" },
         { "type": "code", "code": "SELECT * FROM Funcionarios WHERE Salario >= 5000", "lese": "Seleciona todos os funcionários cujo salário é maior ou igual a 5000" },
         { "type": "code", "code": "SELECT * FROM Produtos WHERE Estoque <> 0", "lese": "Seleciona todos os produtos onde o estoque é diferente de zero (ou seja, em estoque)" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Comparison Operators",
+          "conteudo": { "blocos": [
+            "Comparison operators define the filter condition:",
+            { "type": "code", "code": "=    igual a\n<>   diferente de (também pode ser !=)\n>    maior que\n<    menor que\n>=   maior ou igual a\n<=   menor ou igual a", "lese": "Table of SQL comparison operators" },
+            { "type": "code", "code": "SELECT * FROM Funcionarios WHERE Salario >= 5000", "lese": "Selects all employees whose salary is greater than or equal to 5000" },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE Estoque <> 0", "lese": "Selects all products where the stock is different from zero (i.e., in stock)" }
+          ]}
+        },
+        "es": {
+          "titulo": "Operadores de Comparación",
+          "conteudo": { "blocos": [
+            "Los operadores de comparación definen la condición del filtro:",
+            { "type": "code", "code": "=    igual a\n<>   diferente de (também pode ser !=)\n>    maior que\n<    menor que\n>=   maior ou igual a\n<=   menor ou igual a", "lese": "Tabla de operadores de comparación en SQL" },
+            { "type": "code", "code": "SELECT * FROM Funcionarios WHERE Salario >= 5000", "lese": "Selecciona todos los empleados cuyo salario es mayor o igual a 5000" },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE Estoque <> 0", "lese": "Selecciona todos los productos donde el stock es diferente de cero (es decir, en stock)" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -40,7 +100,29 @@
         { "type": "definicao", "termo": "OR", "def": "Pelo menos uma das condições precisa ser verdadeira." },
         { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade = 'São Paulo' OR Cidade = 'Rio de Janeiro'", "lese": "Seleciona clientes que moram em São Paulo OU no Rio de Janeiro — basta uma das condições ser verdadeira" },
         { "type": "nota", "texto": "Você pode combinar AND e OR usando parênteses para definir a precedência: WHERE (A OR B) AND C" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "AND and OR — Multiple Conditions",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "AND", "def": "All conditions must be true for the record to be returned." },
+            { "type": "code", "code": "SELECT * FROM Produtos\nWHERE Categoria = 'Eletrônicos' AND Preco < 1000", "lese": "Selects products in the Electronics category AND priced under 1000 — both conditions must be true" },
+            { "type": "definicao", "termo": "OR", "def": "At least one of the conditions must be true." },
+            { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade = 'São Paulo' OR Cidade = 'Rio de Janeiro'", "lese": "Selects customers who live in São Paulo OR Rio de Janeiro — only one condition needs to be true" },
+            { "type": "nota", "texto": "You can combine AND and OR using parentheses to define precedence: WHERE (A OR B) AND C" }
+          ]}
+        },
+        "es": {
+          "titulo": "AND y OR — Múltiples Condiciones",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "AND", "def": "Todas las condiciones deben ser verdaderas para que el registro sea devuelto." },
+            { "type": "code", "code": "SELECT * FROM Produtos\nWHERE Categoria = 'Eletrônicos' AND Preco < 1000", "lese": "Selecciona productos de la categoría Electrónicos Y con precio menor a 1000 — ambas condiciones deben ser verdaderas" },
+            { "type": "definicao", "termo": "OR", "def": "Al menos una de las condiciones debe ser verdadera." },
+            { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade = 'São Paulo' OR Cidade = 'Rio de Janeiro'", "lese": "Selecciona clientes que viven en São Paulo O en Rio de Janeiro — basta que una condición sea verdadera" },
+            { "type": "nota", "texto": "Puedes combinar AND y OR usando paréntesis para definir la precedencia: WHERE (A OR B) AND C" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -50,7 +132,27 @@
         { "type": "code", "code": "SELECT * FROM Produtos WHERE NOT Categoria = 'Móveis'", "lese": "Seleciona todos os produtos que NÃO são da categoria Móveis" },
         { "type": "code", "code": "SELECT * FROM Clientes WHERE NOT Cidade = 'São Paulo'", "lese": "Seleciona clientes que NÃO moram em São Paulo" },
         { "type": "nota", "texto": "NOT pode ser combinado com outros operadores: NOT IN, NOT LIKE, NOT BETWEEN — você vai ver isso a seguir!" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "NOT — Negating a Condition",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "NOT", "def": "Inverts a condition. Returns records that do NOT satisfy the specified condition." },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE NOT Categoria = 'Móveis'", "lese": "Selects all products that are NOT in the Furniture category" },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE NOT Cidade = 'São Paulo'", "lese": "Selects customers who do NOT live in São Paulo" },
+            { "type": "nota", "texto": "NOT can be combined with other operators: NOT IN, NOT LIKE, NOT BETWEEN — you will see this next!" }
+          ]}
+        },
+        "es": {
+          "titulo": "NOT — Negando una Condición",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "NOT", "def": "Invierte una condición. Devuelve registros que NO satisfacen la condición especificada." },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE NOT Categoria = 'Móveis'", "lese": "Selecciona todos los productos que NO son de la categoría Muebles" },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE NOT Cidade = 'São Paulo'", "lese": "Selecciona clientes que NO viven en São Paulo" },
+            { "type": "nota", "texto": "NOT puede combinarse con otros operadores: NOT IN, NOT LIKE, NOT BETWEEN — ¡lo verás a continuación!" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -60,7 +162,27 @@
         { "type": "code", "code": "SELECT * FROM Clientes WHERE Nome LIKE 'A%'", "lese": "Seleciona clientes cujo nome começa com a letra A (o % representa qualquer coisa depois)" },
         { "type": "code", "code": "SELECT * FROM Clientes WHERE Email LIKE '%@gmail.com'", "lese": "Seleciona clientes com email terminando em @gmail.com (qualquer coisa antes do @)" },
         { "type": "code", "code": "SELECT * FROM Produtos WHERE Nome LIKE '%teclado%'", "lese": "Seleciona produtos que contêm a palavra 'teclado' em qualquer posição do nome" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "LIKE — Searching by Pattern",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "LIKE", "def": "Allows searching for records that match a text pattern. Uses % (any sequence) and _ (any single character)." },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Nome LIKE 'A%'", "lese": "Selects customers whose name starts with the letter A (% represents anything after)" },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Email LIKE '%@gmail.com'", "lese": "Selects customers with emails ending in @gmail.com (anything before the @)" },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE Nome LIKE '%teclado%'", "lese": "Selects products that contain the word 'teclado' anywhere in the name" }
+          ]}
+        },
+        "es": {
+          "titulo": "LIKE — Búsqueda por Patrón",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "LIKE", "def": "Permite buscar registros que coinciden con un patrón de texto. Usa % (cualquier secuencia) y _ (cualquier carácter único)." },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Nome LIKE 'A%'", "lese": "Selecciona clientes cuyo nombre comienza con la letra A (el % representa cualquier cosa después)" },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Email LIKE '%@gmail.com'", "lese": "Selecciona clientes con email que termina en @gmail.com (cualquier cosa antes del @)" },
+            { "type": "code", "code": "SELECT * FROM Produtos WHERE Nome LIKE '%teclado%'", "lese": "Selecciona productos que contienen la palabra 'teclado' en cualquier posición del nombre" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -70,7 +192,27 @@
         { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade IN ('São Paulo', 'Rio de Janeiro', 'Belo Horizonte')", "lese": "Seleciona clientes que moram em São Paulo, Rio de Janeiro OU Belo Horizonte — equivale a três condições OR" },
         { "type": "definicao", "termo": "BETWEEN", "def": "Verifica se um valor está dentro de um intervalo (inclusivo — inclui os extremos)." },
         { "type": "code", "code": "SELECT * FROM Pedidos WHERE Valor BETWEEN 100 AND 500", "lese": "Seleciona pedidos com valor entre 100 e 500 reais, incluindo 100 e 500" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "IN and BETWEEN",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "IN", "def": "Checks if a value is in a list. More readable than multiple OR conditions." },
+            { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade IN ('São Paulo', 'Rio de Janeiro', 'Belo Horizonte')", "lese": "Selects customers who live in São Paulo, Rio de Janeiro OR Belo Horizonte — equivalent to three OR conditions" },
+            { "type": "definicao", "termo": "BETWEEN", "def": "Checks if a value is within a range (inclusive — includes the endpoints)." },
+            { "type": "code", "code": "SELECT * FROM Pedidos WHERE Valor BETWEEN 100 AND 500", "lese": "Selects orders with value between 100 and 500, including 100 and 500" }
+          ]}
+        },
+        "es": {
+          "titulo": "IN y BETWEEN",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "IN", "def": "Verifica si un valor está en una lista. Más legible que varios OR." },
+            { "type": "code", "code": "SELECT * FROM Clientes\nWHERE Cidade IN ('São Paulo', 'Rio de Janeiro', 'Belo Horizonte')", "lese": "Selecciona clientes que viven en São Paulo, Rio de Janeiro O Belo Horizonte — equivale a tres condiciones OR" },
+            { "type": "definicao", "termo": "BETWEEN", "def": "Verifica si un valor está dentro de un rango (inclusivo — incluye los extremos)." },
+            { "type": "code", "code": "SELECT * FROM Pedidos WHERE Valor BETWEEN 100 AND 500", "lese": "Selecciona pedidos con valor entre 100 y 500, incluyendo 100 y 500" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -80,7 +222,27 @@
         { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NULL", "lese": "Seleciona clientes que não têm telefone cadastrado (campo Telefone sem valor)" },
         { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NOT NULL", "lese": "Seleciona apenas clientes que têm telefone cadastrado" },
         { "type": "nota", "texto": "Nunca use = NULL ou <> NULL — sempre use IS NULL e IS NOT NULL!" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "IS NULL — Empty Fields",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "NULL", "def": "Represents the absence of a value. It is not zero, not an empty string — it is literally 'no information'." },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NULL", "lese": "Selects customers who have no phone registered (Telefone field has no value)" },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NOT NULL", "lese": "Selects only customers who have a phone number registered" },
+            { "type": "nota", "texto": "Never use = NULL or <> NULL — always use IS NULL and IS NOT NULL!" }
+          ]}
+        },
+        "es": {
+          "titulo": "IS NULL — Campos Vacíos",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "NULL", "def": "Representa la ausencia de valor. No es cero, no es cadena vacía — es literalmente 'sin información'." },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NULL", "lese": "Selecciona clientes que no tienen teléfono registrado (campo Telefone sin valor)" },
+            { "type": "code", "code": "SELECT * FROM Clientes WHERE Telefone IS NOT NULL", "lese": "Selecciona solo los clientes que tienen teléfono registrado" },
+            { "type": "nota", "texto": "¡Nunca uses = NULL o <> NULL — siempre usa IS NULL e IS NOT NULL!" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
@@ -94,7 +256,41 @@
         "IN ('a','b','c'): valor em lista",
         "BETWEEN 100 AND 500: intervalo inclusivo",
         "IS NULL / IS NOT NULL: verifica campo vazio"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: WHERE and Filters",
+          "conteudo": {
+            "titulo": "Summary: WHERE and Filters",
+            "itens": [
+              { "titulo": "WHERE", "descricao": "filters rows that meet the condition" },
+              { "titulo": "AND", "descricao": "all conditions must be true" },
+              { "titulo": "OR", "descricao": "at least one condition must be true" },
+              { "titulo": "NOT", "descricao": "inverts the condition" },
+              { "titulo": "LIKE '%text%'", "descricao": "pattern search in text" },
+              { "titulo": "IN ('a','b','c')", "descricao": "value in a list" },
+              { "titulo": "BETWEEN 100 AND 500", "descricao": "inclusive range" },
+              { "titulo": "IS NULL / IS NOT NULL", "descricao": "checks for empty fields" }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Resumen: WHERE y Filtros",
+          "conteudo": {
+            "titulo": "Resumen: WHERE y Filtros",
+            "itens": [
+              { "titulo": "WHERE", "descricao": "filtra las filas que cumplen la condición" },
+              { "titulo": "AND", "descricao": "todas las condiciones deben ser verdaderas" },
+              { "titulo": "OR", "descricao": "al menos una condición debe ser verdadera" },
+              { "titulo": "NOT", "descricao": "invierte la condición" },
+              { "titulo": "LIKE '%texto%'", "descricao": "búsqueda por patrón en texto" },
+              { "titulo": "IN ('a','b','c')", "descricao": "valor en una lista" },
+              { "titulo": "BETWEEN 100 AND 500", "descricao": "rango inclusivo" },
+              { "titulo": "IS NULL / IS NOT NULL", "descricao": "verifica campo vacío" }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
@@ -106,6 +302,22 @@
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Mesa',450,'Móveis',8),(4,'Cadeira',890,'Móveis',25),(5,'Monitor',1200,'Eletrônicos',30),(6,'Caneta',5,'Papelaria',500);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 1 — Basic WHERE",
+          "conteudo": {
+            "pergunta": "Retrieve all products with a price greater than 500.",
+            "dica": "To filter records with a value above a number, use WHERE with a comparison operator. Which symbol represents 'greater than'? Numbers in WHERE do not need quotes."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 1 — WHERE básico",
+          "conteudo": {
+            "pergunta": "Busca todos los productos con precio mayor a 500.",
+            "dica": "Para filtrar registros con un valor por encima de un número, usa WHERE con un operador de comparación. ¿Qué símbolo representa 'mayor que'? Los números en WHERE no necesitan comillas."
+          }
+        }
       }
     },
     {
@@ -118,6 +330,22 @@
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL, Cargo TEXT); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200,'Dev'),(2,'Carlos','Vendas',9800,'Gerente'),(3,'Maria','TI',5500,'Analista'),(4,'João','TI',8100,'Dev Senior'),(5,'Lucia','RH',4800,'Assistente');",
         "checkType": "count",
         "checkConfig": { "expected_rows": 2 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 2 — AND",
+          "conteudo": {
+            "pergunta": "Retrieve employees from the TI department with a salary greater than 6000.",
+            "dica": "You need two conditions at the same time: a specific department AND salary above a value. Which logical connector requires BOTH conditions to be true?"
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 2 — AND",
+          "conteudo": {
+            "pergunta": "Busca empleados del departamento TI con salario mayor a 6000.",
+            "dica": "Necesitas dos condiciones al mismo tiempo: un departamento específico Y un salario por encima de un valor. ¿Qué conector lógico exige que AMBAS condiciones sean verdaderas?"
+          }
+        }
       }
     },
     {
@@ -130,6 +358,22 @@
         "schema": "CREATE TABLE Clientes (ID INTEGER, Nome TEXT, Cidade TEXT, Email TEXT); INSERT INTO Clientes VALUES (1,'Ana','São Paulo','a@email.com'),(2,'Carlos','Rio de Janeiro','c@email.com'),(3,'Maria','Belo Horizonte','m@email.com'),(4,'João','São Paulo','j@email.com'),(5,'Lucia','Curitiba','l@email.com'),(6,'Pedro','Salvador','p@email.com');",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 3 — IN",
+          "conteudo": {
+            "pergunta": "List the customers who live in São Paulo, Rio de Janeiro, or Curitiba.",
+            "dica": "To filter by a list of cities, there is a cleaner operator than chaining several ORs. The values go inside parentheses separated by commas. Remember that cities are text — use single quotes."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 3 — IN",
+          "conteudo": {
+            "pergunta": "Lista los clientes que viven en São Paulo, Rio de Janeiro o Curitiba.",
+            "dica": "Para filtrar por una lista de ciudades, hay un operador más limpio que encadenar varios OR. Los valores van dentro de paréntesis separados por coma. Recuerda que las ciudades son texto — usa comillas simples."
+          }
+        }
       }
     },
     {
@@ -142,12 +386,38 @@
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Monitor',1200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Notebook',3200,'Eletrônicos'),(4,'Móvel de Escritório',650,'Móveis'),(5,'Teclado',150,'Eletrônicos');",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 4 — LIKE",
+          "conteudo": {
+            "pergunta": "Retrieve all products whose name starts with 'Mo'.",
+            "dica": "To search by text pattern, use LIKE. The % character represents 'anything'. If the pattern is the beginning of the name, where do you place the %? Before or after the text?"
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 4 — LIKE",
+          "conteudo": {
+            "pergunta": "Busca todos los productos cuyo nombre comienza con 'Mo'.",
+            "dica": "Para buscar por patrón de texto, usa LIKE. El carácter % representa 'cualquier cosa'. Si el patrón es el comienzo del nombre, ¿dónde colocas el %? ¿Antes o después del texto?"
+          }
+        }
       }
     },
     {
       "ordem": 14, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Filtros dominados!",
-      "conteudo": { "mensagem": "Agora você sabe filtrar dados com precisão cirúrgica usando WHERE, AND, OR, IN, LIKE e muito mais!", "xpGanho": 450 }
+      "conteudo": { "mensagem": "Agora você sabe filtrar dados com precisão cirúrgica usando WHERE, AND, OR, IN, LIKE e muito mais!", "xpGanho": 450 },
+      "traducoes": {
+        "en": {
+          "titulo": "Filters mastered!",
+          "conteudo": { "mensagem": "Now you know how to filter data with surgical precision using WHERE, AND, OR, IN, LIKE, and much more!" }
+        },
+        "es": {
+          "titulo": "¡Filtros dominados!",
+          "conteudo": { "mensagem": "¡Ahora sabes filtrar datos con precisión quirúrgica usando WHERE, AND, OR, IN, LIKE y mucho más!" }
+        }
+      }
     }
   ]
 }

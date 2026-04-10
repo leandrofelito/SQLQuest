@@ -5,11 +5,31 @@
   "icone": "🛡️",
   "ordem": 20,
   "xpTotal": 800,
+  "traducoes": {
+    "en": {
+      "titulo": "Constraints — Rules that Protect Your Data",
+      "descricao": "Learn to use PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK and NOT NULL to create databases proof against invalid data."
+    },
+    "es": {
+      "titulo": "Constraints — Reglas que Protegen tus Datos",
+      "descricao": "Aprende a usar PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK y NOT NULL para crear bases de datos a prueba de datos inválidos."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "Constraints — As Regras do Jogo",
-      "conteudo": { "emoji": "🛡️", "subtitulo": "Garanta que dados inválidos nunca entrem no banco de dados" }
+      "conteudo": { "emoji": "🛡️", "subtitulo": "Garanta que dados inválidos nunca entrem no banco de dados" },
+      "traducoes": {
+        "en": {
+          "titulo": "Constraints — The Rules of the Game",
+          "conteudo": { "emoji": "🛡️", "subtitulo": "Ensure that invalid data never enters the database" }
+        },
+        "es": {
+          "titulo": "Constraints — Las Reglas del Juego",
+          "conteudo": { "emoji": "🛡️", "subtitulo": "Garantiza que datos inválidos nunca entren en la base de datos" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -18,14 +38,46 @@
         { "type": "definicao", "termo": "Constraint (Restrição)", "def": "Uma regra definida na estrutura da tabela que o banco de dados aplica automaticamente em todo INSERT, UPDATE e DELETE. Se a regra for violada, a operação é rejeitada." },
         { "type": "code", "code": "-- Sem constraint: dados inválidos entram\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- Preco negativo? O banco aceita sem constraints\n\n-- Com constraint CHECK: o banco rejeita\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- ERROR: new row violates check constraint", "lese": "Sem constraints o banco aceita qualquer valor; com CHECK o banco valida automaticamente — você não precisa checar isso no código da aplicação" },
         { "type": "nota", "texto": "Princípio: valide dados na camada mais baixa possível. Constraints no banco garantem consistência mesmo que o código da aplicação tenha bugs." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Why Do Constraints Exist?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "Constraint", "def": "A rule defined in the table structure that the database enforces automatically on every INSERT, UPDATE and DELETE. If the rule is violated, the operation is rejected." },
+            { "type": "code", "code": "-- Sem constraint: dados inválidos entram\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- Preco negativo? O banco aceita sem constraints\n\n-- Com constraint CHECK: o banco rejeita\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- ERROR: new row violates check constraint", "lese": "Without constraints the database accepts any value; with CHECK the database validates automatically — you don't need to check this in application code" },
+            { "type": "nota", "texto": "Principle: validate data at the lowest layer possible. Database constraints ensure consistency even if the application code has bugs." }
+          ]}
+        },
+        "es": {
+          "titulo": "¿Por qué Existen los Constraints?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "Constraint (Restricción)", "def": "Una regla definida en la estructura de la tabla que la base de datos aplica automáticamente en cada INSERT, UPDATE y DELETE. Si la regla se viola, la operación es rechazada." },
+            { "type": "code", "code": "-- Sem constraint: dados inválidos entram\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- Preco negativo? O banco aceita sem constraints\n\n-- Com constraint CHECK: o banco rejeita\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- ERROR: new row violates check constraint", "lese": "Sin constraints la base acepta cualquier valor; con CHECK la base valida automáticamente — no necesitas verificar esto en el código de la aplicación" },
+            { "type": "nota", "texto": "Principio: valida datos en la capa más baja posible. Los constraints en la base garantizan consistencia aunque el código de la aplicación tenga bugs." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "NOT NULL, DEFAULT e UNIQUE",
       "conteudo": { "blocos": [
         { "type": "code", "code": "CREATE TABLE Usuarios (\n  UsuarioID  SERIAL        PRIMARY KEY,\n\n  -- NOT NULL: campo obrigatório\n  Nome       VARCHAR(100)  NOT NULL,\n\n  -- UNIQUE: sem duplicatas\n  Email      VARCHAR(150)  UNIQUE NOT NULL,\n\n  -- DEFAULT: valor padrão quando não informado\n  Ativo      BOOLEAN       DEFAULT true,\n  CriadoEm  TIMESTAMP     DEFAULT NOW(),\n\n  -- UNIQUE em múltiplas colunas\n  CONSTRAINT uq_usuario_doc UNIQUE (TipoDoc, NumeroDoc)\n)", "lese": "NOT NULL impede valores vazios; UNIQUE impede duplicatas; DEFAULT preenche automaticamente quando não informado; UNIQUE em múltiplas colunas garante que a combinação seja única" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "NOT NULL, DEFAULT and UNIQUE",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "CREATE TABLE Usuarios (\n  UsuarioID  SERIAL        PRIMARY KEY,\n\n  -- NOT NULL: campo obrigatório\n  Nome       VARCHAR(100)  NOT NULL,\n\n  -- UNIQUE: sem duplicatas\n  Email      VARCHAR(150)  UNIQUE NOT NULL,\n\n  -- DEFAULT: valor padrão quando não informado\n  Ativo      BOOLEAN       DEFAULT true,\n  CriadoEm  TIMESTAMP     DEFAULT NOW(),\n\n  -- UNIQUE em múltiplas colunas\n  CONSTRAINT uq_usuario_doc UNIQUE (TipoDoc, NumeroDoc)\n)", "lese": "NOT NULL prevents empty values; UNIQUE prevents duplicates; DEFAULT fills in automatically when not provided; UNIQUE on multiple columns ensures the combination is unique" }
+          ]}
+        },
+        "es": {
+          "titulo": "NOT NULL, DEFAULT y UNIQUE",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "CREATE TABLE Usuarios (\n  UsuarioID  SERIAL        PRIMARY KEY,\n\n  -- NOT NULL: campo obrigatório\n  Nome       VARCHAR(100)  NOT NULL,\n\n  -- UNIQUE: sem duplicatas\n  Email      VARCHAR(150)  UNIQUE NOT NULL,\n\n  -- DEFAULT: valor padrão quando não informado\n  Ativo      BOOLEAN       DEFAULT true,\n  CriadoEm  TIMESTAMP     DEFAULT NOW(),\n\n  -- UNIQUE em múltiplas colunas\n  CONSTRAINT uq_usuario_doc UNIQUE (TipoDoc, NumeroDoc)\n)", "lese": "NOT NULL impide valores vacíos; UNIQUE impide duplicados; DEFAULT rellena automáticamente cuando no se informa; UNIQUE en múltiples columnas garantiza que la combinación sea única" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -33,7 +85,23 @@
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "CHECK", "def": "Define uma expressão que deve ser verdadeira para qualquer valor inserido ou atualizado na coluna." },
         { "type": "code", "code": "CREATE TABLE Produtos (\n  ProdutoID  SERIAL  PRIMARY KEY,\n  Nome       TEXT    NOT NULL,\n\n  -- Preço deve ser positivo\n  Preco      DECIMAL(10,2) NOT NULL\n    CONSTRAINT chk_preco_positivo CHECK (Preco > 0),\n\n  -- Desconto entre 0% e 100%\n  Desconto   DECIMAL(5,2)  DEFAULT 0\n    CHECK (Desconto >= 0 AND Desconto <= 100),\n\n  -- Status só aceita valores definidos\n  Status     VARCHAR(20)\n    CHECK (Status IN ('ativo', 'inativo', 'rascunho'))\n)", "lese": "Preco > 0 rejeita valores negativos ou zero; o segundo CHECK garante que desconto é uma porcentagem válida; o terceiro restringe Status a apenas três valores permitidos" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "CHECK — Validating Business Rules",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "CHECK", "def": "Defines an expression that must be true for any value inserted or updated in the column." },
+            { "type": "code", "code": "CREATE TABLE Produtos (\n  ProdutoID  SERIAL  PRIMARY KEY,\n  Nome       TEXT    NOT NULL,\n\n  -- Preço deve ser positivo\n  Preco      DECIMAL(10,2) NOT NULL\n    CONSTRAINT chk_preco_positivo CHECK (Preco > 0),\n\n  -- Desconto entre 0% e 100%\n  Desconto   DECIMAL(5,2)  DEFAULT 0\n    CHECK (Desconto >= 0 AND Desconto <= 100),\n\n  -- Status só aceita valores definidos\n  Status     VARCHAR(20)\n    CHECK (Status IN ('ativo', 'inativo', 'rascunho'))\n)", "lese": "Preco > 0 rejects negative or zero values; the second CHECK ensures the discount is a valid percentage; the third restricts Status to only three allowed values" }
+          ]}
+        },
+        "es": {
+          "titulo": "CHECK — Validando Reglas de Negocio",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "CHECK", "def": "Define una expresión que debe ser verdadera para cualquier valor insertado o actualizado en la columna." },
+            { "type": "code", "code": "CREATE TABLE Produtos (\n  ProdutoID  SERIAL  PRIMARY KEY,\n  Nome       TEXT    NOT NULL,\n\n  -- Preço deve ser positivo\n  Preco      DECIMAL(10,2) NOT NULL\n    CONSTRAINT chk_preco_positivo CHECK (Preco > 0),\n\n  -- Desconto entre 0% e 100%\n  Desconto   DECIMAL(5,2)  DEFAULT 0\n    CHECK (Desconto >= 0 AND Desconto <= 100),\n\n  -- Status só aceita valores definidos\n  Status     VARCHAR(20)\n    CHECK (Status IN ('ativo', 'inativo', 'rascunho'))\n)", "lese": "Preco > 0 rechaza valores negativos o cero; el segundo CHECK garantiza que el descuento es un porcentaje válido; el tercero restringe Status a solo tres valores permitidos" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 5, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
@@ -45,6 +113,30 @@
         "schema": "",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["ID", "Nome", "Salario", "Nivel"], "min_rows": 0 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Create Table with CHECK",
+          "conteudo": {
+            "instrucao": "Create the Funcionarios table with: ID (INTEGER PRIMARY KEY), Nome (TEXT NOT NULL), Salario (REAL with CHECK ensuring Salario > 0), and Nivel (TEXT with CHECK accepting only 'junior', 'pleno', 'senior').",
+            "dica": "Each column can have its own CHECK constraint with the condition in parentheses. To validate against a list of allowed values, there's an operator that checks if the value is in a list — what is it?",
+            "placeholder": "CREATE TABLE Funcionarios (\n  ID      INTEGER PRIMARY KEY,\n  Nome    TEXT    NOT NULL,\n  Salario REAL    CHECK (Salario > 0),\n  Nivel   TEXT    CHECK (Nivel IN ('junior', 'pleno', 'senior'))\n)",
+            "schema": "",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["ID", "Nome", "Salario", "Nivel"], "min_rows": 0 }
+          }
+        },
+        "es": {
+          "titulo": "Crea Tabla con CHECK",
+          "conteudo": {
+            "instrucao": "Crea la tabla Funcionarios con: ID (INTEGER PRIMARY KEY), Nome (TEXT NOT NULL), Salario (REAL con CHECK que garantice Salario > 0), y Nivel (TEXT con CHECK que acepte solo 'junior', 'pleno', 'senior').",
+            "dica": "Cada columna puede tener su propio constraint CHECK con la condición entre paréntesis. Para validar contra una lista de valores permitidos, existe un operador que verifica si el valor está en una lista — ¿cuál es?",
+            "placeholder": "CREATE TABLE Funcionarios (\n  ID      INTEGER PRIMARY KEY,\n  Nome    TEXT    NOT NULL,\n  Salario REAL    CHECK (Salario > 0),\n  Nivel   TEXT    CHECK (Nivel IN ('junior', 'pleno', 'senior'))\n)",
+            "schema": "",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["ID", "Nome", "Salario", "Nivel"], "min_rows": 0 }
+          }
+        }
       }
     },
     {
@@ -53,14 +145,44 @@
       "conteudo": { "blocos": [
         { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID  SERIAL  PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     DECIMAL(10,2) CHECK (Valor > 0),\n\n  CONSTRAINT fk_pedido_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE RESTRICT   -- impede deletar cliente com pedidos\n    ON UPDATE CASCADE    -- se o ID do cliente mudar, atualiza aqui\n)", "lese": "ON DELETE RESTRICT é o comportamento mais seguro: impede apagar um cliente que ainda tem pedidos; ON UPDATE CASCADE propaga mudanças de ID automaticamente" },
         { "type": "code", "code": "-- Opções de ON DELETE:\nON DELETE RESTRICT   -- rejeita a deleção do pai\nON DELETE CASCADE    -- deleta os filhos junto\nON DELETE SET NULL   -- define a FK como NULL nos filhos\nON DELETE NO ACTION  -- similar ao RESTRICT (padrão)", "lese": "RESTRICT é mais seguro (impede remoção acidental); CASCADE é conveniente para limpeza automática; SET NULL mantém o filho mas desvincula do pai" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "FOREIGN KEY — Referential Integrity",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID  SERIAL  PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     DECIMAL(10,2) CHECK (Valor > 0),\n\n  CONSTRAINT fk_pedido_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE RESTRICT   -- impede deletar cliente com pedidos\n    ON UPDATE CASCADE    -- se o ID do cliente mudar, atualiza aqui\n)", "lese": "ON DELETE RESTRICT is the safest behavior: prevents deleting a customer that still has orders; ON UPDATE CASCADE propagates ID changes automatically" },
+            { "type": "code", "code": "-- Opções de ON DELETE:\nON DELETE RESTRICT   -- rejeita a deleção do pai\nON DELETE CASCADE    -- deleta os filhos junto\nON DELETE SET NULL   -- define a FK como NULL nos filhos\nON DELETE NO ACTION  -- similar ao RESTRICT (padrão)", "lese": "RESTRICT is safer (prevents accidental removal); CASCADE is convenient for automatic cleanup; SET NULL keeps the child but unlinks it from the parent" }
+          ]}
+        },
+        "es": {
+          "titulo": "FOREIGN KEY — Integridad Referencial",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID  SERIAL  PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     DECIMAL(10,2) CHECK (Valor > 0),\n\n  CONSTRAINT fk_pedido_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE RESTRICT   -- impede deletar cliente com pedidos\n    ON UPDATE CASCADE    -- se o ID do cliente mudar, atualiza aqui\n)", "lese": "ON DELETE RESTRICT es el comportamiento más seguro: impide eliminar un cliente que aún tiene pedidos; ON UPDATE CASCADE propaga cambios de ID automáticamente" },
+            { "type": "code", "code": "-- Opções de ON DELETE:\nON DELETE RESTRICT   -- rejeita a deleção do pai\nON DELETE CASCADE    -- deleta os filhos junto\nON DELETE SET NULL   -- define a FK como NULL nos filhos\nON DELETE NO ACTION  -- similar ao RESTRICT (padrão)", "lese": "RESTRICT es más seguro (impide eliminación accidental); CASCADE es conveniente para limpieza automática; SET NULL mantiene el hijo pero lo desvincula del padre" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
       "titulo": "Adicionando Constraints em Tabelas Existentes",
       "conteudo": { "blocos": [
         { "type": "code", "code": "-- Adicionar CHECK\nALTER TABLE Produtos\nADD CONSTRAINT chk_estoque_positivo CHECK (Estoque >= 0)\n\n-- Adicionar UNIQUE\nALTER TABLE Clientes\nADD CONSTRAINT uq_clientes_cpf UNIQUE (CPF)\n\n-- Adicionar FOREIGN KEY\nALTER TABLE Pedidos\nADD CONSTRAINT fk_pedidos_cliente\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n\n-- Remover constraint\nALTER TABLE Produtos\nDROP CONSTRAINT chk_estoque_positivo", "lese": "ALTER TABLE ADD CONSTRAINT adiciona regras a tabelas que já existem; DROP CONSTRAINT remove uma constraint pelo nome — por isso sempre nomeie suas constraints" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Adding Constraints to Existing Tables",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "-- Adicionar CHECK\nALTER TABLE Produtos\nADD CONSTRAINT chk_estoque_positivo CHECK (Estoque >= 0)\n\n-- Adicionar UNIQUE\nALTER TABLE Clientes\nADD CONSTRAINT uq_clientes_cpf UNIQUE (CPF)\n\n-- Adicionar FOREIGN KEY\nALTER TABLE Pedidos\nADD CONSTRAINT fk_pedidos_cliente\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n\n-- Remover constraint\nALTER TABLE Produtos\nDROP CONSTRAINT chk_estoque_positivo", "lese": "ALTER TABLE ADD CONSTRAINT adds rules to already existing tables; DROP CONSTRAINT removes a constraint by name — that's why you should always name your constraints" }
+          ]}
+        },
+        "es": {
+          "titulo": "Agregando Constraints a Tablas Existentes",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "-- Adicionar CHECK\nALTER TABLE Produtos\nADD CONSTRAINT chk_estoque_positivo CHECK (Estoque >= 0)\n\n-- Adicionar UNIQUE\nALTER TABLE Clientes\nADD CONSTRAINT uq_clientes_cpf UNIQUE (CPF)\n\n-- Adicionar FOREIGN KEY\nALTER TABLE Pedidos\nADD CONSTRAINT fk_pedidos_cliente\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n\n-- Remover constraint\nALTER TABLE Produtos\nDROP CONSTRAINT chk_estoque_positivo", "lese": "ALTER TABLE ADD CONSTRAINT agrega reglas a tablas ya existentes; DROP CONSTRAINT elimina un constraint por nombre — por eso siempre dale nombre a tus constraints" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
@@ -72,6 +194,30 @@
         "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
         "checkType": "count",
         "checkConfig": { "expected_rows": 1 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Test the Constraints",
+          "conteudo": {
+            "instrucao": "Try to insert an employee with Salario = -100. The database should reject it. Then insert a valid one with Salario = 5000 and Nivel = 'pleno'.",
+            "dica": "The table already has the constraints defined. To pass the exercise, insert a record with valid values: Salario must be positive and Nivel must be one of the values the constraint accepts. Check the schema.",
+            "placeholder": "INSERT INTO Funcionarios (ID, Nome, Salario, Nivel)\nVALUES (1, 'Ana', 5000, 'pleno')",
+            "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
+            "checkType": "count",
+            "checkConfig": { "expected_rows": 1 }
+          }
+        },
+        "es": {
+          "titulo": "Prueba los Constraints",
+          "conteudo": {
+            "instrucao": "Intenta insertar un empleado con Salario = -100. La base debe rechazarlo. Luego inserta uno válido con Salario = 5000 y Nivel = 'pleno'.",
+            "dica": "La tabla ya tiene los constraints definidos. Para pasar el ejercicio, inserta un registro con valores válidos: Salario debe ser positivo y Nivel debe ser uno de los valores que el constraint acepta. Revisa el schema.",
+            "placeholder": "INSERT INTO Funcionarios (ID, Nome, Salario, Nivel)\nVALUES (1, 'Ana', 5000, 'pleno')",
+            "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
+            "checkType": "count",
+            "checkConfig": { "expected_rows": 1 }
+          }
+        }
       }
     },
     {
@@ -84,6 +230,30 @@
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 2 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Add a Constraint",
+          "conteudo": {
+            "instrucao": "The Produtos table already exists without price validation. Add a constraint called chk_preco that ensures Preco > 0.",
+            "dica": "To add a constraint to an existing table, use ALTER TABLE ADD CONSTRAINT. You need to give the constraint a name, say it's a CHECK and define the condition in parentheses.",
+            "placeholder": "ALTER TABLE Produtos\nADD CONSTRAINT chk_preco CHECK (Preco > 0)",
+            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
+            "checkType": "count",
+            "checkConfig": { "expected_rows": 2 }
+          }
+        },
+        "es": {
+          "titulo": "Agrega un Constraint",
+          "conteudo": {
+            "instrucao": "La tabla Produtos ya existe sin validación de precio. Agrega un constraint llamado chk_preco que garantice que Preco > 0.",
+            "dica": "Para agregar un constraint a una tabla existente, usa ALTER TABLE ADD CONSTRAINT. Necesitas darle un nombre al constraint, decir que es un CHECK y definir la condición entre paréntesis.",
+            "placeholder": "ALTER TABLE Produtos\nADD CONSTRAINT chk_preco CHECK (Preco > 0)",
+            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
+            "checkType": "count",
+            "checkConfig": { "expected_rows": 2 }
+          }
+        }
       }
     },
     {
@@ -96,12 +266,46 @@
         "CHECK (condição): valida regra de negócio",
         "FOREIGN KEY ... REFERENCES: integridade referencial",
         "ON DELETE RESTRICT/CASCADE/SET NULL: comportamento na deleção"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: Constraints",
+          "conteudo": { "cor": "azul", "itens": [
+            "NOT NULL: required field",
+            "UNIQUE: no duplicates (one or multiple columns)",
+            "DEFAULT value: fills in automatically",
+            "CHECK (condition): validates business rule",
+            "FOREIGN KEY ... REFERENCES: referential integrity",
+            "ON DELETE RESTRICT/CASCADE/SET NULL: behavior on deletion"
+          ]}
+        },
+        "es": {
+          "titulo": "Resumen: Constraints",
+          "conteudo": { "cor": "azul", "itens": [
+            "NOT NULL: campo obligatorio",
+            "UNIQUE: sin duplicados (una o múltiples columnas)",
+            "DEFAULT valor: rellena automáticamente",
+            "CHECK (condición): valida regla de negocio",
+            "FOREIGN KEY ... REFERENCES: integridad referencial",
+            "ON DELETE RESTRICT/CASCADE/SET NULL: comportamiento en la eliminación"
+          ]}
+        }
+      }
     },
     {
       "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Constraints dominadas!",
-      "conteudo": { "mensagem": "Seu banco agora se defende sozinho de dados inválidos. Constraints são a primeira linha de defesa de um sistema confiável!", "xpGanho": 500 }
+      "conteudo": { "mensagem": "Seu banco agora se defende sozinho de dados inválidos. Constraints são a primeira linha de defesa de um sistema confiável!", "xpGanho": 500 },
+      "traducoes": {
+        "en": {
+          "titulo": "Constraints mastered!",
+          "conteudo": { "mensagem": "Your database now defends itself against invalid data. Constraints are the first line of defense of a reliable system!", "xpGanho": 500 }
+        },
+        "es": {
+          "titulo": "¡Constraints dominados!",
+          "conteudo": { "mensagem": "¡Tu base de datos ahora se defiende sola de datos inválidos. Los constraints son la primera línea de defensa de un sistema confiable!", "xpGanho": 500 }
+        }
+      }
     }
   ]
 }

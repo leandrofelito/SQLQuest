@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useUser } from '@/hooks/useUser'
+import { LanguageSelector } from '@/components/ui/LanguageSelector'
 
 interface HeaderProps {
   title?: string
@@ -31,6 +32,7 @@ export function Header({ title, showBack = false, backHref = '/home', right }: H
         </div>
         <div className="flex items-center gap-3">
           {right}
+          <LanguageSelector compact />
           {user && (
             <Link href="/perfil" className="flex items-center gap-1.5 text-sm">
               <span className="text-amber-400 text-sm">🔥</span>

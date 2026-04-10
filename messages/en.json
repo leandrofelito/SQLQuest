@@ -2,12 +2,15 @@
   "nav": {
     "trilhas": "Trails",
     "ranking": "Ranking",
-    "certs": "Certs",
+    "certs": "Certificate",
     "perfil": "Profile"
   },
   "home": {
     "hello": "Hello,",
-    "loading": "Loading trails..."
+    "loading": "Loading trails...",
+    "proBadge": "PRO",
+    "proWelcomeTitle": "🎉 Welcome to Pro!",
+    "proWelcomeDesc": "No ads + certificates unlocked."
   },
   "trilha": {
     "etapas": "steps",
@@ -16,18 +19,59 @@
     "concluida": "Completed ✓",
     "bloqueada": "🔒 Locked",
     "indice": "Index",
-    "descricao": "Description"
+    "descricao": "Description",
+    "loading": "Loading...",
+    "xpTotal": "Total XP",
+    "concluida_label": "Trail completed!",
+    "verCertificado": "🏅 View Certificate",
+    "certPro": "🔒 Certificate in Pro"
   },
   "exercicio": {
     "verificar": "Check",
     "continuar": "Continue →",
     "correto": "Correct!",
-    "dica": "Show hint",
-    "aguarde": "Wait {sec}s..."
+    "dica": "💡 Show hint",
+    "dicaAnuncio": "💡 Show hint (ad)",
+    "aguarde": "Wait {sec}s...",
+    "iniciando": "Starting SQL engine...",
+    "placeholder": "-- Write your SQL here",
+    "resultadoIncorreto": "Incorrect result. Check the columns and returned data.",
+    "erroSQL": "Error executing SQL",
+    "acertou": "Correct",
+    "semDica": "No hint",
+    "primeiraTentativa": "1st try",
+    "elite": "Elite!",
+    "bomTrabalho": "Good job!",
+    "continuePraticando": "Keep practicing!",
+    "queryLenta": "Slow Query Detected",
+    "otimizar": "Try to optimize 🚀",
+    "continuarAssim": "Continue like this (2 stars)",
+    "planoExecucao": "🔍 View execution plan analysis"
+  },
+  "intro": {
+    "continuar": "Tap to Continue"
+  },
+  "texto": {
+    "voltar": "← Back",
+    "proximo": "Next",
+    "continuar": "Continue →",
+    "lese": "Read as:"
+  },
+  "etapa": {
+    "loading": "Loading step...",
+    "voltar": "Back",
+    "semConexao": "No connection",
+    "semConexaoDesc": "Check your internet and try again.",
+    "tentarNovamente": "Try again",
+    "voltarTrilha": "Back to trail"
+  },
+  "conclusao": {
+    "parabens": "Congratulations!",
+    "verTrilha": "View complete trail"
   },
   "upgrade": {
     "titulo": "Go Pro",
-    "preco": "R$29.99",
+    "preco": "R$19.90",
     "cta": "GET PRO FOR LIFE",
     "continuar": "Continue with ads",
     "desconto": "80% OFF"
@@ -47,5 +91,11 @@
   "errors": {
     "naoAutenticado": "Not authenticated",
     "naoEncontrado": "Not found"
+  },
+  "lang": {
+    "label": "Language",
+    "pt": "Português",
+    "en": "English",
+    "es": "Español"
   }
 }

@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
+import { useLocale } from '@/context/LocaleContext'
 import type { ConteudoIntro } from '@/types'
 
 interface TelaIntroProps {
@@ -10,6 +11,8 @@ interface TelaIntroProps {
 }
 
 export function TelaIntro({ titulo, conteudo, onContinuar }: TelaIntroProps) {
+  const { messages } = useLocale()
+
   return (
     <motion.div
       className="flex flex-col items-center justify-between h-full px-6 py-10"
@@ -48,7 +51,7 @@ export function TelaIntro({ titulo, conteudo, onContinuar }: TelaIntroProps) {
         transition={{ delay: 0.5 }}
       >
         <Button onClick={onContinuar} fullWidth size="lg">
-          Toque para Continuar
+          {messages.intro.continuar}
         </Button>
       </motion.div>
     </motion.div>

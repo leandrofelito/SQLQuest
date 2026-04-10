@@ -5,11 +5,31 @@
   "icone": "✏️",
   "ordem": 12,
   "xpTotal": 750,
+  "traducoes": {
+    "en": {
+      "titulo": "INSERT, UPDATE and DELETE",
+      "descricao": "Manipulate data with INSERT to add, UPDATE to modify and DELETE to safely remove records."
+    },
+    "es": {
+      "titulo": "INSERT, UPDATE y DELETE",
+      "descricao": "Manipula datos con INSERT para agregar, UPDATE para modificar y DELETE para eliminar registros de forma segura."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "Manipulando Dados",
-      "conteudo": { "emoji": "✏️", "subtitulo": "Adicione, modifique e remova registros com segurança" }
+      "conteudo": { "emoji": "✏️", "subtitulo": "Adicione, modifique e remova registros com segurança" },
+      "traducoes": {
+        "en": {
+          "titulo": "Manipulating Data",
+          "conteudo": { "subtitulo": "Add, modify and remove records safely" }
+        },
+        "es": {
+          "titulo": "Manipulando Datos",
+          "conteudo": { "subtitulo": "Agrega, modifica y elimina registros de forma segura" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -19,7 +39,27 @@
         { "type": "code", "code": "INSERT INTO Clientes (Nome, Email, Cidade)\nVALUES ('Ana Silva', 'ana@email.com', 'São Paulo')", "lese": "Insere um novo cliente com Nome, Email e Cidade especificados — o ClienteID seria gerado automaticamente se for AUTOINCREMENT" },
         { "type": "code", "code": "INSERT INTO Produtos (Nome, Preco, Categoria, Estoque)\nVALUES\n  ('Notebook', 3200.00, 'Eletrônicos', 15),\n  ('Mouse', 89.90, 'Eletrônicos', 120),\n  ('Mesa', 450.00, 'Móveis', 8)", "lese": "Insere múltiplos registros de uma vez separando cada conjunto de valores por vírgula" },
         { "type": "nota", "texto": "Especifique sempre os nomes das colunas. Isso protege a query se a estrutura da tabela mudar." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "INSERT — Adding Records",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "INSERT INTO", "def": "Adds new records (rows) to a table." },
+            { "type": "code", "lese": "Inserts a new customer with the specified Name, Email and City — the ClienteID would be generated automatically if it's AUTOINCREMENT" },
+            { "type": "code", "lese": "Inserts multiple records at once by separating each set of values with a comma" },
+            { "type": "nota", "texto": "Always specify column names. This protects the query if the table structure changes." }
+          ]}
+        },
+        "es": {
+          "titulo": "INSERT — Agregando Registros",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "INSERT INTO", "def": "Agrega nuevos registros (filas) a una tabla." },
+            { "type": "code", "lese": "Inserta un nuevo cliente con el Nombre, Email y Ciudad especificados — el ClienteID se generaría automáticamente si es AUTOINCREMENT" },
+            { "type": "code", "lese": "Inserta múltiples registros a la vez separando cada conjunto de valores por coma" },
+            { "type": "nota", "texto": "Especifica siempre los nombres de las columnas. Esto protege la consulta si la estructura de la tabla cambia." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -29,7 +69,27 @@
         { "type": "code", "code": "UPDATE Produtos\nSET Preco = 3500.00\nWHERE ProdutoID = 1", "lese": "Atualiza o preço do produto com ID igual a 1 para 3500.00 — apenas esse registro é alterado" },
         { "type": "code", "code": "UPDATE Funcionarios\nSET Salario = Salario * 1.10,\n    Cargo = 'Senior'\nWHERE Departamento = 'TI' AND Salario < 6000", "lese": "Dá aumento de 10% e promove para Senior todos os funcionários do TI com salário menor que 6000" },
         { "type": "nota", "texto": "⚠️ PERIGO: UPDATE sem WHERE atualiza TODOS os registros da tabela! Sempre verifique o WHERE antes de executar." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "UPDATE — Updating Records",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "UPDATE", "def": "Modifies existing values in a table. ALWAYS use WHERE to specify which records to update!" },
+            { "type": "code", "lese": "Updates the price of the product with ID 1 to 3500.00 — only that record is changed" },
+            { "type": "code", "lese": "Gives a 10% raise and promotes to Senior all IT employees with a salary less than 6000" },
+            { "type": "nota", "texto": "⚠️ DANGER: UPDATE without WHERE updates ALL records in the table! Always check the WHERE before executing." }
+          ]}
+        },
+        "es": {
+          "titulo": "UPDATE — Actualizando Registros",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "UPDATE", "def": "Modifica valores existentes en una tabla. ¡SIEMPRE usa WHERE para especificar qué registros actualizar!" },
+            { "type": "code", "lese": "Actualiza el precio del producto con ID igual a 1 a 3500.00 — solo ese registro es modificado" },
+            { "type": "code", "lese": "Da un aumento del 10% y promueve a Senior a todos los empleados de TI con salario menor a 6000" },
+            { "type": "nota", "texto": "⚠️ PELIGRO: ¡UPDATE sin WHERE actualiza TODOS los registros de la tabla! Siempre verifica el WHERE antes de ejecutar." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -39,7 +99,27 @@
         { "type": "code", "code": "DELETE FROM Clientes\nWHERE ClienteID = 5", "lese": "Remove apenas o cliente com ID igual a 5 da tabela" },
         { "type": "code", "code": "DELETE FROM Pedidos\nWHERE Status = 'cancelado' AND DataPedido < '2023-01-01'", "lese": "Remove todos os pedidos cancelados feitos antes de 2023 — pode afetar muitos registros" },
         { "type": "nota", "texto": "⚠️ DELETE sem WHERE remove TODOS os registros da tabela! Sempre teste o WHERE com SELECT antes de executar o DELETE." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "DELETE — Removing Records",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "DELETE FROM", "def": "Removes records from a table. ALWAYS use WHERE to specify which records to remove!" },
+            { "type": "code", "lese": "Removes only the customer with ID 5 from the table" },
+            { "type": "code", "lese": "Removes all cancelled orders placed before 2023 — may affect many records" },
+            { "type": "nota", "texto": "⚠️ DELETE without WHERE removes ALL records from the table! Always test the WHERE with SELECT before executing the DELETE." }
+          ]}
+        },
+        "es": {
+          "titulo": "DELETE — Eliminando Registros",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "DELETE FROM", "def": "Elimina registros de una tabla. ¡SIEMPRE usa WHERE para especificar qué registros eliminar!" },
+            { "type": "code", "lese": "Elimina solo el cliente con ID igual a 5 de la tabla" },
+            { "type": "code", "lese": "Elimina todos los pedidos cancelados realizados antes de 2023 — puede afectar muchos registros" },
+            { "type": "nota", "texto": "⚠️ ¡DELETE sin WHERE elimina TODOS los registros de la tabla! Siempre prueba el WHERE con SELECT antes de ejecutar el DELETE." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -49,7 +129,27 @@
         { "type": "code", "code": "-- 1. Primeiro, confirme o que será alterado:\nSELECT * FROM Clientes WHERE Cidade = 'teste'\n\n-- 2. Se estiver correto, execute o DELETE:\nDELETE FROM Clientes WHERE Cidade = 'teste'", "lese": "Boa prática: sempre use SELECT para visualizar antes de executar UPDATE ou DELETE" },
         { "type": "definicao", "termo": "TRUNCATE TABLE", "def": "Remove TODOS os registros de uma tabela de forma mais rápida que DELETE, mas sem WHERE. Não pode ser desfeito em muitos bancos de dados." },
         { "type": "code", "code": "TRUNCATE TABLE LogAcessos", "lese": "Remove todos os registros da tabela LogAcessos completamente — use com extremo cuidado!" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Safety Best Practices",
+          "conteudo": { "blocos": [
+            { "type": "nota", "texto": "Before any UPDATE or DELETE, first run a SELECT with the same WHERE to confirm which records will be affected." },
+            { "type": "code", "lese": "Best practice: always use SELECT to preview before executing UPDATE or DELETE" },
+            { "type": "definicao", "termo": "TRUNCATE TABLE", "def": "Removes ALL records from a table faster than DELETE, but without WHERE. Cannot be undone in many databases." },
+            { "type": "code", "lese": "Completely removes all records from the LogAcessos table — use with extreme caution!" }
+          ]}
+        },
+        "es": {
+          "titulo": "Buenas Prácticas de Seguridad",
+          "conteudo": { "blocos": [
+            { "type": "nota", "texto": "Antes de cualquier UPDATE o DELETE, ejecuta primero un SELECT con el mismo WHERE para confirmar qué registros serán afectados." },
+            { "type": "code", "lese": "Buena práctica: siempre usa SELECT para visualizar antes de ejecutar UPDATE o DELETE" },
+            { "type": "definicao", "termo": "TRUNCATE TABLE", "def": "Elimina TODOS los registros de una tabla de forma más rápida que DELETE, pero sin WHERE. No se puede deshacer en muchas bases de datos." },
+            { "type": "code", "lese": "Elimina completamente todos los registros de la tabla LogAcessos — ¡úsalo con extremo cuidado!" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -58,7 +158,25 @@
         "Você pode inserir dados baseados no resultado de uma query SELECT:",
         { "type": "code", "code": "INSERT INTO ClientesVIP (ClienteID, Nome, Email)\nSELECT ClienteID, Nome, Email\nFROM Clientes\nWHERE TotalCompras > 10000", "lese": "Copia os dados dos clientes com total de compras maior que 10.000 para a tabela ClientesVIP" },
         { "type": "nota", "texto": "INSERT INTO ... SELECT é perfeito para copiar, migrar ou arquivar dados de uma tabela para outra." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "INSERT INTO ... SELECT",
+          "conteudo": { "blocos": [
+            "You can insert data based on the result of a SELECT query:",
+            { "type": "code", "lese": "Copies data from customers with total purchases greater than 10,000 to the ClientesVIP table" },
+            { "type": "nota", "texto": "INSERT INTO ... SELECT is perfect for copying, migrating or archiving data from one table to another." }
+          ]}
+        },
+        "es": {
+          "titulo": "INSERT INTO ... SELECT",
+          "conteudo": { "blocos": [
+            "Puedes insertar datos basados en el resultado de una consulta SELECT:",
+            { "type": "code", "lese": "Copia los datos de los clientes con total de compras mayor a 10.000 en la tabla ClientesVIP" },
+            { "type": "nota", "texto": "INSERT INTO ... SELECT es perfecto para copiar, migrar o archivar datos de una tabla a otra." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
@@ -71,7 +189,39 @@
         "SEMPRE use WHERE no UPDATE e DELETE!",
         "Teste o WHERE com SELECT antes de alterar",
         "INSERT INTO ... SELECT: copia dados entre tabelas"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: DML",
+          "conteudo": {
+            "titulo": "Summary: DML",
+            "itens": [
+              "INSERT INTO table (cols) VALUES (...): adds a record",
+              "Multiple INSERT: VALUES (...), (...), (...)",
+              "UPDATE table SET col = val WHERE ...: updates",
+              "DELETE FROM table WHERE ...: removes",
+              "ALWAYS use WHERE with UPDATE and DELETE!",
+              "Test the WHERE with SELECT before modifying",
+              "INSERT INTO ... SELECT: copies data between tables"
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Resumen: DML",
+          "conteudo": {
+            "titulo": "Resumen: DML",
+            "itens": [
+              "INSERT INTO tabla (cols) VALUES (...): agrega registro",
+              "INSERT múltiple: VALUES (...), (...), (...)",
+              "UPDATE tabla SET col = val WHERE ...: actualiza",
+              "DELETE FROM tabla WHERE ...: elimina",
+              "¡SIEMPRE usa WHERE en UPDATE y DELETE!",
+              "Prueba el WHERE con SELECT antes de modificar",
+              "INSERT INTO ... SELECT: copia datos entre tablas"
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
@@ -83,6 +233,22 @@
         "schema": "CREATE TABLE Produtos (ID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Mesa',450,'Móveis',8);",
         "checkType": "count",
         "checkConfig": { "expected_rows": 4 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 1 — INSERT",
+          "conteudo": {
+            "pergunta": "Insert a new product called 'Webcam' with price 250, category 'Eletrônicos' and stock 40. Then select all products.",
+            "dica": "The INSERT structure is: INSERT INTO table (column1, column2, ...) VALUES (value1, value2, ...). List the columns the statement asks for, then the corresponding values. Text uses single quotes, numbers do not."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 1 — INSERT",
+          "conteudo": {
+            "pergunta": "Inserta un nuevo producto llamado 'Webcam' con precio 250, categoría 'Eletrônicos' y stock 40. Luego selecciona todos los productos.",
+            "dica": "La estructura del INSERT es: INSERT INTO tabla (columna1, columna2, ...) VALUES (valor1, valor2, ...). Lista las columnas que el enunciado pide, luego los valores correspondientes. El texto usa comillas simples, los números no."
+          }
+        }
       }
     },
     {
@@ -95,6 +261,22 @@
         "schema": "CREATE TABLE Produtos (ID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Mesa',450,'Móveis');",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["ID","Nome","Preco","Categoria"], "min_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 2 — UPDATE",
+          "conteudo": {
+            "pergunta": "Update the price of the Notebook to 3500. Then select all products to confirm.",
+            "dica": "The UPDATE structure is: UPDATE table SET column = new_value WHERE condition. Always use WHERE to avoid updating all records. Which column identifies the product you want to update?"
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 2 — UPDATE",
+          "conteudo": {
+            "pergunta": "Actualiza el precio del Notebook a 3500. Luego selecciona todos los productos para confirmar.",
+            "dica": "La estructura del UPDATE es: UPDATE tabla SET columna = nuevo_valor WHERE condición. Siempre usa WHERE para no actualizar todos los registros. ¿Qué columna identifica el producto que quieres actualizar?"
+          }
+        }
       }
     },
     {
@@ -107,12 +289,38 @@
         "schema": "CREATE TABLE Produtos (ID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Mesa',450,'Móveis'),(4,'Cadeira',890,'Móveis');",
         "checkType": "count",
         "checkConfig": { "expected_rows": 3 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 3 — DELETE",
+          "conteudo": {
+            "pergunta": "Delete the product with ID equal to 2. Then select all remaining products.",
+            "dica": "The DELETE structure is: DELETE FROM table WHERE condition. Without WHERE you would delete EVERYTHING. Use the product ID as the condition to delete only the correct record."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 3 — DELETE",
+          "conteudo": {
+            "pergunta": "Elimina el producto con ID igual a 2. Luego selecciona todos los productos restantes.",
+            "dica": "La estructura del DELETE es: DELETE FROM tabla WHERE condición. Sin WHERE eliminarías TODO. Usa el ID del producto como condición para eliminar solo el registro correcto."
+          }
+        }
       }
     },
     {
       "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "DML dominado!",
-      "conteudo": { "mensagem": "Agora você sabe ler E escrever dados em bancos SQL. Com grandes poderes vêm grandes responsabilidades — sempre confirme o WHERE antes de executar!", "xpGanho": 350 }
+      "conteudo": { "mensagem": "Agora você sabe ler E escrever dados em bancos SQL. Com grandes poderes vêm grandes responsabilidades — sempre confirme o WHERE antes de executar!", "xpGanho": 350 },
+      "traducoes": {
+        "en": {
+          "titulo": "DML mastered!",
+          "conteudo": { "mensagem": "Now you know how to read AND write data in SQL databases. With great power comes great responsibility — always confirm the WHERE before executing!" }
+        },
+        "es": {
+          "titulo": "¡DML dominado!",
+          "conteudo": { "mensagem": "¡Ahora sabes leer Y escribir datos en bases SQL. Con grandes poderes vienen grandes responsabilidades — ¡siempre confirma el WHERE antes de ejecutar!" }
+        }
+      }
     }
   ]
 }

@@ -79,6 +79,7 @@ model Trilha {
   totalEtapas Int
   xpTotal     Int
   publicada   Boolean  @default(false)
+  traducoes   Json?
   criadaEm   DateTime @default(now())
 
   etapas               Etapa[]
@@ -94,6 +95,7 @@ model Etapa {
   tipo       String
   titulo     String
   conteudo   Json
+  traducoes  Json?
   xpReward   Int      @default(50)
   temAnuncio Boolean  @default(false)
   criadaEm  DateTime @default(now())

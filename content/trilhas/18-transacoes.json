@@ -5,11 +5,31 @@
   "icone": "🔒",
   "ordem": 19,
   "xpTotal": 750,
+  "traducoes": {
+    "en": {
+      "titulo": "Transactions — All or Nothing",
+      "descricao": "Ensure the integrity of critical operations with BEGIN, COMMIT and ROLLBACK. Learn the ACID properties."
+    },
+    "es": {
+      "titulo": "Transacciones — Todo o Nada",
+      "descricao": "Garantiza la integridad de operaciones críticas con BEGIN, COMMIT y ROLLBACK. Aprende las propiedades ACID."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "Transações — Tudo ou Nada",
-      "conteudo": { "emoji": "🔒", "subtitulo": "Operações críticas devem acontecer completamente ou não acontecer" }
+      "conteudo": { "emoji": "🔒", "subtitulo": "Operações críticas devem acontecer completamente ou não acontecer" },
+      "traducoes": {
+        "en": {
+          "titulo": "Transactions — All or Nothing",
+          "conteudo": { "emoji": "🔒", "subtitulo": "Critical operations must happen completely or not happen at all" }
+        },
+        "es": {
+          "titulo": "Transacciones — Todo o Nada",
+          "conteudo": { "emoji": "🔒", "subtitulo": "Las operaciones críticas deben ocurrir completamente o no ocurrir" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -18,7 +38,25 @@
         "Imagine transferir R$ 1000 da conta A para a conta B:",
         { "type": "code", "code": "-- Passo 1: debitar conta A\nUPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1\n\n-- 💥 Sistema cai aqui!\n\n-- Passo 2: nunca executado\nUPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2", "lese": "Se o sistema falhar entre os dois UPDATEs, R$ 1000 some do mundo: saiu da conta A mas nunca chegou na conta B — isso é catastrófico" },
         { "type": "definicao", "termo": "Transação", "def": "Um conjunto de operações que deve ser executado como uma unidade atômica: ou TODAS completam com sucesso, ou NENHUMA é aplicada. Isso garante a consistência dos dados." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "The Bank Transfer Problem",
+          "conteudo": { "blocos": [
+            "Imagine transferring $1000 from account A to account B:",
+            { "type": "code", "code": "-- Passo 1: debitar conta A\nUPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1\n\n-- 💥 Sistema cai aqui!\n\n-- Passo 2: nunca executado\nUPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2", "lese": "If the system fails between the two UPDATEs, $1000 disappears: it left account A but never reached account B — this is catastrophic" },
+            { "type": "definicao", "termo": "Transaction", "def": "A set of operations that must be executed as an atomic unit: either ALL complete successfully, or NONE is applied. This ensures data consistency." }
+          ]}
+        },
+        "es": {
+          "titulo": "El Problema de la Transferencia Bancaria",
+          "conteudo": { "blocos": [
+            "Imagina transferir $1000 de la cuenta A a la cuenta B:",
+            { "type": "code", "code": "-- Passo 1: debitar conta A\nUPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1\n\n-- 💥 Sistema cai aqui!\n\n-- Passo 2: nunca executado\nUPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2", "lese": "Si el sistema falla entre los dos UPDATEs, $1000 desaparece: salió de la cuenta A pero nunca llegó a la cuenta B — esto es catastrófico" },
+            { "type": "definicao", "termo": "Transacción", "def": "Un conjunto de operaciones que debe ejecutarse como una unidad atómica: o TODAS completan con éxito, o NINGUNA es aplicada. Esto garantiza la consistencia de los datos." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -27,7 +65,25 @@
         { "type": "code", "code": "BEGIN\n\n  -- Debitar conta A\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- Creditar conta B\n  UPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2;\n\nCOMMIT  -- tudo deu certo: confirma as mudanças", "lese": "BEGIN inicia a transação; os dois UPDATEs são executados; COMMIT confirma tudo de uma vez — se qualquer erro ocorrer antes do COMMIT, nada é salvo" },
         { "type": "code", "code": "BEGIN\n\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- algo deu errado...\n  ROLLBACK  -- desfaz tudo desde o BEGIN", "lese": "ROLLBACK cancela todas as operações desde o BEGIN — é como um desfazer completo, o banco volta exatamente ao estado anterior" },
         { "type": "nota", "texto": "BEGIN = abre a transação. COMMIT = confirma tudo. ROLLBACK = cancela tudo. Em caso de erro inesperado, o banco faz ROLLBACK automático." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "BEGIN, COMMIT and ROLLBACK",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "BEGIN\n\n  -- Debitar conta A\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- Creditar conta B\n  UPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2;\n\nCOMMIT  -- tudo deu certo: confirma as mudanças", "lese": "BEGIN starts the transaction; the two UPDATEs are executed; COMMIT confirms everything at once — if any error occurs before COMMIT, nothing is saved" },
+            { "type": "code", "code": "BEGIN\n\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- algo deu errado...\n  ROLLBACK  -- desfaz tudo desde o BEGIN", "lese": "ROLLBACK cancels all operations since BEGIN — it's like a complete undo, the database returns to exactly its previous state" },
+            { "type": "nota", "texto": "BEGIN = opens the transaction. COMMIT = confirms everything. ROLLBACK = cancels everything. In case of an unexpected error, the database performs an automatic ROLLBACK." }
+          ]}
+        },
+        "es": {
+          "titulo": "BEGIN, COMMIT y ROLLBACK",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "BEGIN\n\n  -- Debitar conta A\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- Creditar conta B\n  UPDATE Contas SET Saldo = Saldo + 1000 WHERE ContaID = 2;\n\nCOMMIT  -- tudo deu certo: confirma as mudanças", "lese": "BEGIN inicia la transacción; los dos UPDATEs se ejecutan; COMMIT confirma todo de una vez — si ocurre algún error antes del COMMIT, nada se guarda" },
+            { "type": "code", "code": "BEGIN\n\n  UPDATE Contas SET Saldo = Saldo - 1000 WHERE ContaID = 1;\n\n  -- algo deu errado...\n  ROLLBACK  -- desfaz tudo desde o BEGIN", "lese": "ROLLBACK cancela todas las operaciones desde el BEGIN — es como un deshacer completo, la base vuelve exactamente al estado anterior" },
+            { "type": "nota", "texto": "BEGIN = abre la transacción. COMMIT = confirma todo. ROLLBACK = cancela todo. En caso de error inesperado, la base hace ROLLBACK automático." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
@@ -39,6 +95,30 @@
         "schema": "CREATE TABLE Contas (ContaID INTEGER PRIMARY KEY, Titular TEXT, Saldo REAL); INSERT INTO Contas VALUES (1,'Ana',3000),(2,'Carlos',1500);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["ContaID", "Titular", "Saldo"], "min_rows": 2 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Simulate a Transfer",
+          "conteudo": {
+            "instrucao": "Inside a transaction, transfer 500 from account 1 to account 2: debit 500 from ContaID=1 and credit 500 to ContaID=2. Confirm with COMMIT.",
+            "dica": "A transaction has three parts: open with BEGIN, execute the operations (two UPDATEs here), and confirm with COMMIT. The debit and credit need the right operator — one subtracts, the other adds.",
+            "placeholder": "BEGIN;\n\nUPDATE Contas SET Saldo = Saldo - 500 WHERE ContaID = 1;\nUPDATE Contas SET Saldo = Saldo + 500 WHERE ContaID = 2;\n\nCOMMIT;",
+            "schema": "CREATE TABLE Contas (ContaID INTEGER PRIMARY KEY, Titular TEXT, Saldo REAL); INSERT INTO Contas VALUES (1,'Ana',3000),(2,'Carlos',1500);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["ContaID", "Titular", "Saldo"], "min_rows": 2 }
+          }
+        },
+        "es": {
+          "titulo": "Simula una Transferencia",
+          "conteudo": {
+            "instrucao": "Dentro de una transacción, transfiere 500 de la cuenta 1 a la cuenta 2: debita 500 de ContaID=1 y acredita 500 en ContaID=2. Confirma con COMMIT.",
+            "dica": "Una transacción tiene tres partes: abre con BEGIN, ejecuta las operaciones (dos UPDATEs aquí), y confirma con COMMIT. El débito y el crédito necesitan el operador correcto — uno resta, el otro suma.",
+            "placeholder": "BEGIN;\n\nUPDATE Contas SET Saldo = Saldo - 500 WHERE ContaID = 1;\nUPDATE Contas SET Saldo = Saldo + 500 WHERE ContaID = 2;\n\nCOMMIT;",
+            "schema": "CREATE TABLE Contas (ContaID INTEGER PRIMARY KEY, Titular TEXT, Saldo REAL); INSERT INTO Contas VALUES (1,'Ana',3000),(2,'Carlos',1500);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["ContaID", "Titular", "Saldo"], "min_rows": 2 }
+          }
+        }
       }
     },
     {
@@ -47,7 +127,23 @@
       "conteudo": { "blocos": [
         { "type": "definicao", "termo": "SAVEPOINT", "def": "Um ponto de restauração dentro de uma transação. Permite fazer ROLLBACK apenas até aquele ponto sem desfazer tudo." },
         { "type": "code", "code": "BEGIN\n\n  INSERT INTO Pedidos (ClienteID, Valor) VALUES (1, 500);\n\n  SAVEPOINT apos_pedido;\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (99, 'X');\n  -- erro: PedidoID 99 não existe!\n\n  ROLLBACK TO SAVEPOINT apos_pedido;\n  -- desfaz apenas o segundo INSERT, mantém o primeiro\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (1, 'Notebook');\n\nCOMMIT", "lese": "SAVEPOINT cria um ponto intermediário; ROLLBACK TO SAVEPOINT desfaz apenas as operações após o savepoint, preservando o que foi feito antes" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "SAVEPOINT — Restore Points",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "SAVEPOINT", "def": "A restore point within a transaction. Allows ROLLBACK only to that point without undoing everything." },
+            { "type": "code", "code": "BEGIN\n\n  INSERT INTO Pedidos (ClienteID, Valor) VALUES (1, 500);\n\n  SAVEPOINT apos_pedido;\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (99, 'X');\n  -- erro: PedidoID 99 não existe!\n\n  ROLLBACK TO SAVEPOINT apos_pedido;\n  -- desfaz apenas o segundo INSERT, mantém o primeiro\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (1, 'Notebook');\n\nCOMMIT", "lese": "SAVEPOINT creates an intermediate point; ROLLBACK TO SAVEPOINT undoes only the operations after the savepoint, preserving what was done before" }
+          ]}
+        },
+        "es": {
+          "titulo": "SAVEPOINT — Puntos de Restauración",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "SAVEPOINT", "def": "Un punto de restauración dentro de una transacción. Permite hacer ROLLBACK solo hasta ese punto sin deshacer todo." },
+            { "type": "code", "code": "BEGIN\n\n  INSERT INTO Pedidos (ClienteID, Valor) VALUES (1, 500);\n\n  SAVEPOINT apos_pedido;\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (99, 'X');\n  -- erro: PedidoID 99 não existe!\n\n  ROLLBACK TO SAVEPOINT apos_pedido;\n  -- desfaz apenas o segundo INSERT, mantém o primeiro\n\n  INSERT INTO ItensPedido (PedidoID, Produto) VALUES (1, 'Notebook');\n\nCOMMIT", "lese": "SAVEPOINT crea un punto intermedio; ROLLBACK TO SAVEPOINT deshace solo las operaciones posteriores al savepoint, preservando lo que se hizo antes" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -56,7 +152,25 @@
         { "type": "definicao", "termo": "ACID", "def": "As quatro propriedades que garantem a confiabilidade de transações em bancos de dados relacionais." },
         { "type": "code", "code": "A — Atomicidade:   tudo ou nada. Nunca fica pela metade.\nC — Consistência:  o banco sempre vai de um estado válido a outro.\nI — Isolamento:    transações simultâneas não interferem entre si.\nD — Durabilidade:  após o COMMIT, os dados sobrevivem a falhas.", "lese": "Atomicidade é o tudo ou nada; Consistência garante que as regras do banco nunca são violadas; Isolamento impede que duas transações simultâneas se atrapalhem; Durabilidade garante que dados confirmados não se perdem" },
         { "type": "nota", "texto": "Todo banco de dados relacional sério (PostgreSQL, MySQL, SQL Server, Oracle) garante ACID por padrão. É por isso que bancos relacionais são confiáveis para dados críticos." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "ACID Properties",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "ACID", "def": "The four properties that ensure the reliability of transactions in relational databases." },
+            { "type": "code", "code": "A — Atomicity:    all or nothing. Never halfway.\nC — Consistency:  the database always goes from one valid state to another.\nI — Isolation:    simultaneous transactions don't interfere with each other.\nD — Durability:   after COMMIT, data survives failures.", "lese": "Atomicity is all or nothing; Consistency ensures the database rules are never violated; Isolation prevents two simultaneous transactions from interfering; Durability ensures committed data is not lost" },
+            { "type": "nota", "texto": "Every serious relational database (PostgreSQL, MySQL, SQL Server, Oracle) guarantees ACID by default. That's why relational databases are reliable for critical data." }
+          ]}
+        },
+        "es": {
+          "titulo": "Propiedades ACID",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "ACID", "def": "Las cuatro propiedades que garantizan la confiabilidad de las transacciones en bases de datos relacionales." },
+            { "type": "code", "code": "A — Atomicidad:    todo o nada. Nunca a medias.\nC — Consistencia:  la base siempre va de un estado válido a otro.\nI — Aislamiento:   transacciones simultáneas no se interfieren entre sí.\nD — Durabilidad:   después del COMMIT, los datos sobreviven a fallos.", "lese": "Atomicidad es todo o nada; Consistencia garantiza que las reglas de la base nunca se violan; Aislamiento impide que dos transacciones simultáneas se interfieran; Durabilidad garantiza que los datos confirmados no se pierden" },
+            { "type": "nota", "texto": "Toda base de datos relacional seria (PostgreSQL, MySQL, SQL Server, Oracle) garantiza ACID por defecto. Por eso las bases relacionales son confiables para datos críticos." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
@@ -68,6 +182,30 @@
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["Total"], "min_rows": 1 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Transaction with Rollback",
+          "conteudo": {
+            "instrucao": "Start a transaction, insert a product ('GadgetX', price 999), then use ROLLBACK to cancel. Then check how many products exist with SELECT COUNT(*) FROM Produtos.",
+            "dica": "Open the transaction with BEGIN, execute the INSERT and then use ROLLBACK to cancel everything. Then query with SELECT COUNT(*) — the number should equal what it was before, since ROLLBACK undid the INSERT.",
+            "placeholder": "BEGIN;\nINSERT INTO Produtos (Nome, Preco) VALUES ('GadgetX', 999);\nROLLBACK;\n\nSELECT COUNT(*) AS Total FROM Produtos",
+            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["Total"], "min_rows": 1 }
+          }
+        },
+        "es": {
+          "titulo": "Transacción con Rollback",
+          "conteudo": {
+            "instrucao": "Inicia una transacción, inserta un producto ('GadgetX', precio 999), luego usa ROLLBACK para cancelar. Después verifica cuántos productos existen con SELECT COUNT(*) FROM Produtos.",
+            "dica": "Abre la transacción con BEGIN, ejecuta el INSERT y luego usa ROLLBACK para cancelar todo. Después consulta con SELECT COUNT(*) — el número debe ser igual al de antes, pues el ROLLBACK deshizo el INSERT.",
+            "placeholder": "BEGIN;\nINSERT INTO Produtos (Nome, Preco) VALUES ('GadgetX', 999);\nROLLBACK;\n\nSELECT COUNT(*) AS Total FROM Produtos",
+            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY AUTOINCREMENT, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89),(3,'Monitor',1200);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["Total"], "min_rows": 1 }
+          }
+        }
       }
     },
     {
@@ -80,6 +218,30 @@
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50); CREATE TABLE Vendas (VendaID INTEGER PRIMARY KEY AUTOINCREMENT, ProdutoID INTEGER, Quantidade INTEGER);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Estoque"], "min_rows": 1 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Complete Stock Transaction",
+          "conteudo": {
+            "instrucao": "Inside a transaction: 1) Reduce the Estoque of product 1 by 2 units. 2) Insert a record in Vendas (ProdutoID=1, Quantidade=2). Confirm with COMMIT.",
+            "dica": "Within the same transaction you execute two sequential operations: reduce the stock with UPDATE (use the current column value) and record the sale with INSERT. End with COMMIT to confirm both.",
+            "placeholder": "BEGIN;\n\nUPDATE Produtos SET Estoque = Estoque - 2 WHERE ProdutoID = 1;\nINSERT INTO Vendas (ProdutoID, Quantidade) VALUES (1, 2);\n\nCOMMIT;\n\nSELECT * FROM Produtos WHERE ProdutoID = 1",
+            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50); CREATE TABLE Vendas (VendaID INTEGER PRIMARY KEY AUTOINCREMENT, ProdutoID INTEGER, Quantidade INTEGER);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Estoque"], "min_rows": 1 }
+          }
+        },
+        "es": {
+          "titulo": "Transacción Completa de Stock",
+          "conteudo": {
+            "instrucao": "Dentro de una transacción: 1) Reduce el Estoque del producto 1 en 2 unidades. 2) Inserta un registro en Vendas (ProdutoID=1, Quantidade=2). Confirma con COMMIT.",
+            "dica": "Dentro de la misma transacción ejecutas dos operaciones secuenciales: reduce el stock con UPDATE (usa el valor actual de la columna) y registra la venta con INSERT. Finaliza con COMMIT para confirmar ambas.",
+            "placeholder": "BEGIN;\n\nUPDATE Produtos SET Estoque = Estoque - 2 WHERE ProdutoID = 1;\nINSERT INTO Vendas (ProdutoID, Quantidade) VALUES (1, 2);\n\nCOMMIT;\n\nSELECT * FROM Produtos WHERE ProdutoID = 1",
+            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,10),(2,'Mouse',89,50); CREATE TABLE Vendas (VendaID INTEGER PRIMARY KEY AUTOINCREMENT, ProdutoID INTEGER, Quantidade INTEGER);",
+            "checkType": "columns",
+            "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Estoque"], "min_rows": 1 }
+          }
+        }
       }
     },
     {
@@ -92,12 +254,46 @@
         "SAVEPOINT nome: cria ponto de restauração parcial",
         "ROLLBACK TO SAVEPOINT nome: desfaz apenas até o savepoint",
         "ACID: Atomicidade, Consistência, Isolamento, Durabilidade"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: Transactions",
+          "conteudo": { "cor": "roxo", "itens": [
+            "BEGIN: starts the transaction",
+            "COMMIT: confirms and persists all changes",
+            "ROLLBACK: cancels everything since BEGIN",
+            "SAVEPOINT name: creates a partial restore point",
+            "ROLLBACK TO SAVEPOINT name: undoes only up to the savepoint",
+            "ACID: Atomicity, Consistency, Isolation, Durability"
+          ]}
+        },
+        "es": {
+          "titulo": "Resumen: Transacciones",
+          "conteudo": { "cor": "roxo", "itens": [
+            "BEGIN: inicia la transacción",
+            "COMMIT: confirma y persiste todos los cambios",
+            "ROLLBACK: cancela todo desde el BEGIN",
+            "SAVEPOINT nombre: crea un punto de restauración parcial",
+            "ROLLBACK TO SAVEPOINT nombre: deshace solo hasta el savepoint",
+            "ACID: Atomicidad, Consistencia, Aislamiento, Durabilidad"
+          ]}
+        }
+      }
     },
     {
       "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Transações dominadas!",
-      "conteudo": { "mensagem": "Agora você sabe proteger operações críticas. Transferências, reservas, compras — qualquer operação que envolve múltiplos passos deve usar transação!", "xpGanho": 500 }
+      "conteudo": { "mensagem": "Agora você sabe proteger operações críticas. Transferências, reservas, compras — qualquer operação que envolve múltiplos passos deve usar transação!", "xpGanho": 500 },
+      "traducoes": {
+        "en": {
+          "titulo": "Transactions mastered!",
+          "conteudo": { "mensagem": "Now you know how to protect critical operations. Transfers, reservations, purchases — any operation involving multiple steps should use a transaction!", "xpGanho": 500 }
+        },
+        "es": {
+          "titulo": "¡Transacciones dominadas!",
+          "conteudo": { "mensagem": "¡Ahora sabes cómo proteger operaciones críticas. Transferencias, reservas, compras — cualquier operación que involucra múltiples pasos debe usar transacción!", "xpGanho": 500 }
+        }
+      }
     }
   ]
 }

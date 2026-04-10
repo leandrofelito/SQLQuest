@@ -5,11 +5,31 @@
   "icone": "📈",
   "ordem": 5,
   "xpTotal": 750,
+  "traducoes": {
+    "en": {
+      "titulo": "Aggregate Functions",
+      "descricao": "Count records, sum values, calculate averages, and find minimums and maximums with COUNT, SUM, AVG, MIN, and MAX."
+    },
+    "es": {
+      "titulo": "Funciones de Agregación",
+      "descricao": "Cuenta registros, suma valores, calcula promedios y encuentra mínimos y máximos con COUNT, SUM, AVG, MIN y MAX."
+    }
+  },
   "etapas": [
     {
       "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
       "titulo": "Funções de Agregação",
-      "conteudo": { "emoji": "📈", "subtitulo": "Transforme linhas em resumos numéricos poderosos" }
+      "conteudo": { "emoji": "📈", "subtitulo": "Transforme linhas em resumos numéricos poderosos" },
+      "traducoes": {
+        "en": {
+          "titulo": "Aggregate Functions",
+          "conteudo": { "subtitulo": "Transform rows into powerful numeric summaries" }
+        },
+        "es": {
+          "titulo": "Funciones de Agregación",
+          "conteudo": { "subtitulo": "Transforma filas en poderosos resúmenes numéricos" }
+        }
+      }
     },
     {
       "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -18,7 +38,25 @@
         { "type": "definicao", "termo": "Funções de Agregação", "def": "Funções que processam um conjunto de registros e retornam um único valor resumido. Ex: quantos registros há? Qual a soma total? Qual a média?" },
         "As 5 funções de agregação mais usadas são: COUNT, SUM, AVG, MIN e MAX.",
         { "type": "nota", "texto": "Funções de agregação transformam MUITAS linhas em UM único resultado." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "What are Aggregate Functions?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "Aggregate Functions", "def": "Functions that process a set of records and return a single summarized value. E.g.: how many records are there? What is the total sum? What is the average?" },
+            "The 5 most used aggregate functions are: COUNT, SUM, AVG, MIN, and MAX.",
+            { "type": "nota", "texto": "Aggregate functions transform MANY rows into ONE single result." }
+          ]}
+        },
+        "es": {
+          "titulo": "¿Qué son las Funciones de Agregación?",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "Funciones de Agregación", "def": "Funciones que procesan un conjunto de registros y devuelven un único valor resumido. Ej: ¿cuántos registros hay? ¿Cuál es la suma total? ¿Cuál es el promedio?" },
+            "Las 5 funciones de agregación más usadas son: COUNT, SUM, AVG, MIN y MAX.",
+            { "type": "nota", "texto": "Las funciones de agregación transforman MUCHAS filas en UN único resultado." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -28,7 +66,27 @@
         { "type": "code", "code": "SELECT COUNT(*) FROM Clientes", "lese": "Conta o número total de registros (linhas) na tabela Clientes" },
         { "type": "code", "code": "SELECT COUNT(*) AS TotalClientes FROM Clientes\nWHERE Cidade = 'São Paulo'", "lese": "Conta quantos clientes existem em São Paulo e exibe o resultado com o nome 'TotalClientes'" },
         { "type": "code", "code": "SELECT COUNT(Telefone) FROM Clientes", "lese": "Conta apenas os clientes que têm telefone cadastrado (ignora os NULL)" }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "COUNT — Counting Records",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "COUNT", "def": "Counts the number of records (rows). COUNT(*) counts everything, COUNT(column) counts only non-NULL values." },
+            { "type": "code", "code": "SELECT COUNT(*) FROM Clientes", "lese": "Counts the total number of records (rows) in the Clientes table" },
+            { "type": "code", "code": "SELECT COUNT(*) AS TotalClientes FROM Clientes\nWHERE Cidade = 'São Paulo'", "lese": "Counts how many customers exist in São Paulo and displays the result as 'TotalClientes'" },
+            { "type": "code", "code": "SELECT COUNT(Telefone) FROM Clientes", "lese": "Counts only customers who have a phone registered (ignores NULLs)" }
+          ]}
+        },
+        "es": {
+          "titulo": "COUNT — Contando Registros",
+          "conteudo": { "blocos": [
+            { "type": "definicao", "termo": "COUNT", "def": "Cuenta el número de registros (filas). COUNT(*) cuenta todo, COUNT(columna) cuenta solo los valores no NULL." },
+            { "type": "code", "code": "SELECT COUNT(*) FROM Clientes", "lese": "Cuenta el número total de registros (filas) en la tabla Clientes" },
+            { "type": "code", "code": "SELECT COUNT(*) AS TotalClientes FROM Clientes\nWHERE Cidade = 'São Paulo'", "lese": "Cuenta cuántos clientes hay en São Paulo y muestra el resultado como 'TotalClientes'" },
+            { "type": "code", "code": "SELECT COUNT(Telefone) FROM Clientes", "lese": "Cuenta solo los clientes que tienen teléfono registrado (ignora los NULL)" }
+          ]}
+        }
+      }
     },
     {
       "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -38,7 +96,27 @@
         { "type": "code", "code": "SELECT SUM(Valor) AS TotalVendas FROM Pedidos\nWHERE MES = '2024-01'", "lese": "Soma apenas os pedidos de janeiro de 2024 e nomeia o resultado como TotalVendas" },
         { "type": "code", "code": "SELECT AVG(Salario) AS SalarioMedio FROM Funcionarios", "lese": "Calcula a média salarial de todos os funcionários e exibe como SalarioMedio" },
         { "type": "nota", "texto": "SUM e AVG só funcionam com colunas numéricas. Usar em colunas de texto resultará em erro." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "SUM and AVG — Sum and Average",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "SELECT SUM(Valor) FROM Pedidos", "lese": "Sums the value of all orders in the table — returns the total overall sales" },
+            { "type": "code", "code": "SELECT SUM(Valor) AS TotalVendas FROM Pedidos\nWHERE MES = '2024-01'", "lese": "Sums only January 2024 orders and names the result TotalVendas" },
+            { "type": "code", "code": "SELECT AVG(Salario) AS SalarioMedio FROM Funcionarios", "lese": "Calculates the average salary of all employees and displays it as SalarioMedio" },
+            { "type": "nota", "texto": "SUM and AVG only work with numeric columns. Using them on text columns will result in an error." }
+          ]}
+        },
+        "es": {
+          "titulo": "SUM y AVG — Suma y Promedio",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "SELECT SUM(Valor) FROM Pedidos", "lese": "Suma el valor de todos los pedidos de la tabla — devuelve el total general de ventas" },
+            { "type": "code", "code": "SELECT SUM(Valor) AS TotalVendas FROM Pedidos\nWHERE MES = '2024-01'", "lese": "Suma solo los pedidos de enero 2024 y nombra el resultado como TotalVendas" },
+            { "type": "code", "code": "SELECT AVG(Salario) AS SalarioMedio FROM Funcionarios", "lese": "Calcula el salario promedio de todos los empleados y lo muestra como SalarioMedio" },
+            { "type": "nota", "texto": "SUM y AVG solo funcionan con columnas numéricas. Usarlos en columnas de texto resultará en error." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -47,7 +125,25 @@
         { "type": "code", "code": "SELECT MIN(Preco) AS MaisBarato, MAX(Preco) AS MaisCaro\nFROM Produtos", "lese": "Retorna o menor preço (como MaisBarato) e o maior preço (como MaisCaro) de todos os produtos em uma única linha" },
         { "type": "code", "code": "SELECT MIN(DataPedido) AS PrimeiroPedido FROM Pedidos", "lese": "Retorna a data do pedido mais antigo (menor data) da tabela" },
         { "type": "nota", "texto": "MIN e MAX funcionam com números, datas e texto (para texto, usam a ordem alfabética)." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "MIN and MAX — Minimum and Maximum",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "SELECT MIN(Preco) AS MaisBarato, MAX(Preco) AS MaisCaro\nFROM Produtos", "lese": "Returns the lowest price (as MaisBarato) and the highest price (as MaisCaro) of all products in a single row" },
+            { "type": "code", "code": "SELECT MIN(DataPedido) AS PrimeiroPedido FROM Pedidos", "lese": "Returns the date of the oldest order (lowest date) in the table" },
+            { "type": "nota", "texto": "MIN and MAX work with numbers, dates, and text (for text, they use alphabetical order)." }
+          ]}
+        },
+        "es": {
+          "titulo": "MIN y MAX — Mínimo y Máximo",
+          "conteudo": { "blocos": [
+            { "type": "code", "code": "SELECT MIN(Preco) AS MaisBarato, MAX(Preco) AS MaisCaro\nFROM Produtos", "lese": "Devuelve el precio más bajo (como MaisBarato) y el precio más alto (como MaisCaro) de todos los productos en una sola fila" },
+            { "type": "code", "code": "SELECT MIN(DataPedido) AS PrimeiroPedido FROM Pedidos", "lese": "Devuelve la fecha del pedido más antiguo (fecha menor) de la tabla" },
+            { "type": "nota", "texto": "MIN y MAX funcionan con números, fechas y texto (para texto, usan el orden alfabético)." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
@@ -56,7 +152,25 @@
         "Você pode usar múltiplas funções de agregação na mesma query para um relatório completo:",
         { "type": "code", "code": "SELECT\n  COUNT(*) AS TotalProdutos,\n  AVG(Preco) AS PrecoMedio,\n  MIN(Preco) AS MaisBarato,\n  MAX(Preco) AS MaisCaro,\n  SUM(Estoque) AS EstoqueTotal\nFROM Produtos", "lese": "Retorna um relatório completo dos produtos: total de produtos, preço médio, menor preço, maior preço e estoque total — tudo em uma única linha" },
         { "type": "nota", "texto": "Quando você usa funções de agregação sem GROUP BY, você obtém uma única linha com o resumo de toda a tabela." }
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Combining Multiple Aggregations",
+          "conteudo": { "blocos": [
+            "You can use multiple aggregate functions in the same query for a complete report:",
+            { "type": "code", "code": "SELECT\n  COUNT(*) AS TotalProdutos,\n  AVG(Preco) AS PrecoMedio,\n  MIN(Preco) AS MaisBarato,\n  MAX(Preco) AS MaisCaro,\n  SUM(Estoque) AS EstoqueTotal\nFROM Produtos", "lese": "Returns a complete product report: total products, average price, lowest price, highest price, and total stock — all in a single row" },
+            { "type": "nota", "texto": "When you use aggregate functions without GROUP BY, you get a single row summarizing the entire table." }
+          ]}
+        },
+        "es": {
+          "titulo": "Combinando Múltiples Agregaciones",
+          "conteudo": { "blocos": [
+            "Puedes usar múltiples funciones de agregación en la misma query para un informe completo:",
+            { "type": "code", "code": "SELECT\n  COUNT(*) AS TotalProdutos,\n  AVG(Preco) AS PrecoMedio,\n  MIN(Preco) AS MaisBarato,\n  MAX(Preco) AS MaisCaro,\n  SUM(Estoque) AS EstoqueTotal\nFROM Produtos", "lese": "Devuelve un informe completo de productos: total de productos, precio promedio, precio más bajo, precio más alto y stock total — todo en una sola fila" },
+            { "type": "nota", "texto": "Cuando usas funciones de agregación sin GROUP BY, obtienes una sola fila con el resumen de toda la tabla." }
+          ]}
+        }
+      }
     },
     {
       "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
@@ -69,7 +183,39 @@
         "MIN(col): menor valor",
         "MAX(col): maior valor",
         "Combine com AS para nomear o resultado"
-      ]}
+      ]},
+      "traducoes": {
+        "en": {
+          "titulo": "Summary: Aggregations",
+          "conteudo": {
+            "titulo": "Summary: Aggregations",
+            "itens": [
+              { "titulo": "COUNT(*)", "descricao": "counts all records" },
+              { "titulo": "COUNT(col)", "descricao": "counts non-NULL records" },
+              { "titulo": "SUM(col)", "descricao": "sums numeric values" },
+              { "titulo": "AVG(col)", "descricao": "average of numeric values" },
+              { "titulo": "MIN(col)", "descricao": "minimum value" },
+              { "titulo": "MAX(col)", "descricao": "maximum value" },
+              { "titulo": "AS alias", "descricao": "combine with AS to name the result" }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Resumen: Agregaciones",
+          "conteudo": {
+            "titulo": "Resumen: Agregaciones",
+            "itens": [
+              { "titulo": "COUNT(*)", "descricao": "cuenta todos los registros" },
+              { "titulo": "COUNT(col)", "descricao": "cuenta registros no NULL" },
+              { "titulo": "SUM(col)", "descricao": "suma los valores numéricos" },
+              { "titulo": "AVG(col)", "descricao": "promedio de los valores numéricos" },
+              { "titulo": "MIN(col)", "descricao": "valor mínimo" },
+              { "titulo": "MAX(col)", "descricao": "valor máximo" },
+              { "titulo": "AS alias", "descricao": "combina con AS para nombrar el resultado" }
+            ]
+          }
+        }
+      }
     },
     {
       "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
@@ -81,6 +227,22 @@
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL, Cargo TEXT); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200,'Dev'),(2,'Carlos','Vendas',9800,'Gerente'),(3,'Maria','TI',5500,'Analista'),(4,'João','TI',8100,'Dev Senior'),(5,'Lucia','RH',4800,'Assistente'),(6,'Pedro','Vendas',6200,'Vendedor');",
         "checkType": "aggregate",
         "checkConfig": { "min_rows": 1 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 1 — COUNT",
+          "conteudo": {
+            "pergunta": "Count how many employees exist in the company.",
+            "dica": "To return how many records exist in a table, there is an aggregate function starting with C. It goes inside SELECT. The * inside it means 'count everything'."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 1 — COUNT",
+          "conteudo": {
+            "pergunta": "Cuenta cuántos empleados hay en la empresa.",
+            "dica": "Para saber cuántos registros hay en la tabla, existe una función de agregación que empieza con C. Va dentro del SELECT. El * dentro de ella significa 'contar todo'."
+          }
+        }
       }
     },
     {
@@ -93,6 +255,22 @@
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200);",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["TotalSalarios","MediaSalarial"], "min_rows": 1 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 2 — SUM and AVG",
+          "conteudo": {
+            "pergunta": "Calculate the total sum and average of all employees' salaries. Name the results TotalSalarios and MediaSalarial.",
+            "dica": "The exercise asks for two different calculations: the total sum and the average. Each has its own aggregate function. You can have multiple ones in the same SELECT. Use AS to give the requested names: TotalSalarios and MediaSalarial."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 2 — SUM y AVG",
+          "conteudo": {
+            "pergunta": "Calcula la suma total y el promedio de los salarios de todos los empleados. Nombra los resultados como TotalSalarios y MediaSalarial.",
+            "dica": "El ejercicio pide dos cálculos distintos: la suma total y el promedio. Cada uno tiene su función de agregación. Puedes tener varias en el mismo SELECT. Usa AS para dar los nombres pedidos: TotalSalarios y MediaSalarial."
+          }
+        }
       }
     },
     {
@@ -105,12 +283,38 @@
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89.90,'Eletrônicos'),(3,'Monitor',1200,'Eletrônicos'),(4,'Mesa',450,'Móveis'),(5,'Cadeira',890,'Móveis'),(6,'Caneta',5.50,'Papelaria');",
         "checkType": "columns",
         "checkConfig": { "required_columns": ["MaisBarato","MaisCaro"], "min_rows": 1 }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Exercise 3 — MIN and MAX",
+          "conteudo": {
+            "pergunta": "Find the cheapest and most expensive product. Name the results MaisBarato and MaisCaro.",
+            "dica": "There are two aggregate functions, one for the minimum value and one for the maximum. Put both in the same SELECT and use AS to give the exact names requested: MaisBarato and MaisCaro."
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio 3 — MIN y MAX",
+          "conteudo": {
+            "pergunta": "Encuentra el producto más barato y el más caro. Nombra los resultados como MaisBarato y MaisCaro.",
+            "dica": "Hay dos funciones de agregación, una para el valor mínimo y otra para el máximo. Ponlas ambas en el mismo SELECT y usa AS para dar los nombres exactos pedidos: MaisBarato y MaisCaro."
+          }
+        }
       }
     },
     {
       "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
       "titulo": "Agregações dominadas!",
-      "conteudo": { "mensagem": "Agora você consegue transformar dados brutos em insights numéricos. COUNT, SUM, AVG, MIN e MAX são ferramentas diárias de qualquer analista de dados!", "xpGanho": 350 }
+      "conteudo": { "mensagem": "Agora você consegue transformar dados brutos em insights numéricos. COUNT, SUM, AVG, MIN e MAX são ferramentas diárias de qualquer analista de dados!", "xpGanho": 350 },
+      "traducoes": {
+        "en": {
+          "titulo": "Aggregations mastered!",
+          "conteudo": { "mensagem": "Now you can transform raw data into numeric insights. COUNT, SUM, AVG, MIN, and MAX are daily tools for any data analyst!" }
+        },
+        "es": {
+          "titulo": "¡Agregaciones dominadas!",
+          "conteudo": { "mensagem": "¡Ahora puedes transformar datos brutos en insights numéricos. COUNT, SUM, AVG, MIN y MAX son herramientas cotidianas de cualquier analista de datos!" }
+        }
+      }
     }
   ]
 }

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
+import { useLocale } from '@/context/LocaleContext'
 import type { ConteudoConclusao } from '@/types'
 
 interface TelaConclusaoProps {
@@ -16,6 +17,7 @@ interface TelaConclusaoProps {
 
 export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, isPro }: TelaConclusaoProps) {
   const router = useRouter()
+  const { messages } = useLocale()
 
   return (
     <motion.div
@@ -33,7 +35,7 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
         </motion.div>
 
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-white">Parabéns!</h2>
+          <h2 className="text-2xl font-bold text-white">{messages.conclusao.parabens}</h2>
           <p className="text-white/60 text-base">{conteudo.mensagem}</p>
         </div>
 
@@ -54,7 +56,7 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
             transition={{ delay: 0.5 }}
           >
             <div className="text-3xl">🏅</div>
-            <p className="text-white/80 font-semibold">Trilha concluída!</p>
+            <p className="text-white/80 font-semibold">{messages.trilha.concluida_label}</p>
             {isPro ? (
               <Button
                 onClick={() => router.push('/certificados')}
@@ -62,7 +64,7 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
                 fullWidth
                 size="sm"
               >
-                🏅 Ver Certificado
+                {messages.trilha.verCertificado}
               </Button>
             ) : (
               <Button
@@ -71,7 +73,7 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
                 fullWidth
                 size="sm"
               >
-                🔒 Certificado no Pro
+                {messages.trilha.certPro}
               </Button>
             )}
           </motion.div>
@@ -85,7 +87,7 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
           size="lg"
           variant="secondary"
         >
-          Ver trilha completa
+          {messages.conclusao.verTrilha}
         </Button>
       </div>
     </motion.div>

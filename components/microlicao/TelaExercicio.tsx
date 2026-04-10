@@ -9,6 +9,7 @@ import { calcularEstrelas, XP_POR_ESTRELAS } from '@/lib/xp'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import { AdBanner } from '@/components/layout/AdBanner'
 import { DesafioSeguro, EnunciadoSeguro } from '@/components/seguranca/DesafioSeguro'
+import { useLocale } from '@/context/LocaleContext'
 import type { ConteudoExercicio, QueryResult } from '@/types'
 
 interface TelaExercicioProps {
@@ -45,11 +46,7 @@ function StarIcon({ filled, size = 40 }: { filled: boolean; size?: number }) {
   )
 }
 
-const LABELS_ESTRELAS: Record<number, string> = {
-  3: 'Elite!',
-  2: 'Bom trabalho!',
-  1: 'Continue praticando!',
-}
+// Labels are rendered inside ModalEstrelas via messages
 
 function ModalEstrelas({
   estrelas,
@@ -65,6 +62,12 @@ function ModalEstrelas({
   onContinuar: () => void
 }) {
   const [showExplicacao, setShowExplicacao] = useState(false)
+  const { messages } = useLocale()
+  const LABELS_ESTRELAS: Record<number, string> = {
+    3: messages.exercicio.elite,
+    2: messages.exercicio.bomTrabalho,
+    1: messages.exercicio.continuePraticando,
+  }
 
   return (
     <motion.div
@@ -107,10 +110,10 @@ function ModalEstrelas({
         {/* Estrelas + Legendas (elemento hero, centralizado) */}
         <div className="flex justify-center gap-6 mb-6">
           {([
-            { label: 'Acertou' },
-            { label: 'Sem dica' },
-            { label: '1ª tentativa' },
-          ] as const).map(({ label }, idx) => {
+            { label: messages.exercicio.acertou },
+            { label: messages.exercicio.semDica },
+            { label: messages.exercicio.primeiraTentativa },
+          ]).map(({ label }, idx) => {
             const i = idx + 1
             const filled = i <= estrelas
             return (
@@ -152,7 +155,7 @@ function ModalEstrelas({
               onClick={() => setShowExplicacao(v => !v)}
               className="w-full flex items-center justify-between gap-2 bg-[#0f1520] border border-[#8b5cf6]/30 rounded-xl px-4 py-2.5 text-sm text-[#a78bfa] font-semibold hover:border-[#8b5cf6]/60 transition-colors"
             >
-              <span>🔍 Ver análise do plano de execução</span>
+              <span>{messages.exercicio.planoExecucao}</span>
               <span className="text-[#8b5cf6]/60 text-xs">{showExplicacao ? '▲' : '▼'}</span>
             </button>
             <AnimatePresence>
@@ -179,7 +182,7 @@ function ModalEstrelas({
           transition={{ delay: 0.85 }}
         >
           <Button onClick={onContinuar} fullWidth size="lg">
-            Continuar →
+            {messages.exercicio.continuar}
           </Button>
         </motion.div>
 
@@ -207,6 +210,7 @@ function PainelPerformanceAviso({
   onOtimizar: () => void
   onContinuar: () => void
 }) {
+  const { messages } = useLocale()
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
@@ -223,17 +227,17 @@ function PainelPerformanceAviso({
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
       >
         <div className="text-4xl mb-3">⚠️</div>
-        <p className="text-amber-400 font-bold text-lg mb-2">Query Lenta Detectada</p>
+        <p className="text-amber-400 font-bold text-lg mb-2">{messages.exercicio.queryLenta}</p>
         <p className="text-white/70 text-sm leading-relaxed mb-6">{aviso}</p>
         <div className="flex flex-col gap-2">
           <Button onClick={onOtimizar} fullWidth size="lg">
-            Tentar otimizar 🚀
+            {messages.exercicio.otimizar}
           </Button>
           <button
             onClick={onContinuar}
             className="w-full py-2 text-sm text-white/40 hover:text-white/70 transition-colors"
           >
-            Continuar assim (2 estrelas)
+            {messages.exercicio.continuarAssim}
           </button>
         </div>
       </motion.div>
@@ -242,6 +246,7 @@ function PainelPerformanceAviso({
 }
 
 export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onConcluido }: TelaExercicioProps) {
+  const { messages } = useLocale()
   const [query, setQuery] = useState('')
   const [estado, setEstado] = useState<Estado>('idle')
   const [mensagemErro, setMensagemErro] = useState('')
@@ -336,7 +341,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         }
       } else {
         setEstado('erro')
-        setMensagemErro('Resultado incorreto. Verifique as colunas e os dados retornados.')
+        setMensagemErro(messages.exercicio.resultadoIncorreto)
         setDicaAtual(getDica('generico'))
       }
     } catch (e: any) {
@@ -397,7 +402,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         <textarea
           value={query}
           onChange={e => { setQuery(e.target.value); setEstado('idle') }}
-          placeholder="-- Escreva seu SQL aqui"
+          placeholder={messages.exercicio.placeholder}
           className="w-full h-32 bg-[#0a0c12] border border-[#2a2d3a] rounded-xl p-3 text-[#34d399] font-mono resize-none outline-none focus:border-[#8b5cf6] transition-colors placeholder-white/20"
           style={{ userSelect: 'text', WebkitUserSelect: 'text', fontSize: '16px' }}
           spellCheck={false}
@@ -447,7 +452,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         </div>
         {!ready && (
           <div className="absolute inset-0 bg-[#080a0f]/80 rounded-xl flex items-center justify-center">
-            <span className="text-white/40 text-sm animate-pulse">Iniciando SQL engine...</span>
+            <span className="text-white/40 text-sm animate-pulse">{messages.exercicio.iniciando}</span>
           </div>
         )}
       </div>
@@ -499,11 +504,11 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           loading={estado === 'verificando' || validandoServidor}
           disabled={!ready || !query.trim() || estado === 'acerto' || estado === 'performance_aviso' || validandoServidor}
         >
-          Verificar
+          {messages.exercicio.verificar}
         </Button>
         {estado === 'erro' && (
           <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
-            💡 {isPro ? 'Ver dica' : 'Ver dica (anúncio)'}
+            {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
           </Button>
         )}
       </div>
