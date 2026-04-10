@@ -8,7 +8,8 @@ import { TelaResumo } from '@/components/microlicao/TelaResumo'
 import { TelaExercicio } from '@/components/microlicao/TelaExercicio'
 import { TelaConclusao } from '@/components/microlicao/TelaConclusao'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
-import { LevelUpToast } from '@/components/ui/LevelUpToast'
+import { LevelUpModal } from '@/components/ui/LevelUpModal'
+import { ConquistaToast } from '@/components/ui/ConquistaToast'
 import { useUser } from '@/hooks/useUser'
 import type { ConteudoIntro, ConteudoTexto, ConteudoResumo, ConteudoExercicio, ConteudoConclusao } from '@/types'
 
@@ -44,6 +45,12 @@ export default function EtapaPage() {
   const [showXpPop, setShowXpPop] = useState(false)
   const [novaConquistaRanking, setNovaConquistaRanking] = useState<string | null>(null)
   const [levelUp, setLevelUp] = useState<{ anterior: number; atual: number } | null>(null)
+  const [conquistasFila, setConquistasFila] = useState<Array<{ id: string; emoji: string; nome: string }>>([])
+  const conquistasPendentesRef = useRef<Array<{ id: string; emoji: string; nome: string }>>([])
+  const exibirProximaConquista = () => {
+    conquistasPendentesRef.current.shift()
+    setConquistasFila([...conquistasPendentesRef.current])
+  }
   const [trilhaConcluida, setTrilhaConcluida] = useState(false)
   const [loading, setLoading] = useState(true)
   const [erroConexao, setErroConexao] = useState(false)
@@ -151,6 +158,10 @@ export default function EtapaPage() {
     }
     if (data.nivelAtual > data.nivelAnterior) {
       setLevelUp({ anterior: data.nivelAnterior, atual: data.nivelAtual })
+    }
+    if (data.novasConquistas?.length > 0) {
+      conquistasPendentesRef.current = [...data.novasConquistas]
+      setConquistasFila([...data.novasConquistas])
     }
     return data
   }
@@ -371,17 +382,28 @@ export default function EtapaPage() {
         )}
       </AnimatePresence>
 
-      {/* Level Up Toast */}
+      {/* Level Up Modal */}
       <AnimatePresence>
         {levelUp !== null && (
-          <LevelUpToast
-            nivelAnterior={levelUp.anterior}
-            nivelAtual={levelUp.atual}
-            onDismiss={() => {
+          <LevelUpModal
+            nivel={levelUp.atual}
+            onContinuar={() => {
               setLevelUp(null)
               proximaEtapaAposLevelUpRef.current?.()
               proximaEtapaAposLevelUpRef.current = null
             }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Conquista desbloqueada — exibe uma de cada vez */}
+      <AnimatePresence>
+        {conquistasFila.length > 0 && levelUp === null && (
+          <ConquistaToast
+            key={conquistasFila[0].id}
+            emoji={conquistasFila[0].emoji}
+            nome={conquistasFila[0].nome}
+            onDismiss={exibirProximaConquista}
           />
         )}
       </AnimatePresence>

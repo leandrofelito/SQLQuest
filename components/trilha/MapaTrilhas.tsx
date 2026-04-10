@@ -17,6 +17,7 @@ interface TrilhaData {
   percentualConcluido?: number
   etapasConcluidas?: number
   desbloqueadaPorAnuncio?: boolean
+  ultimaTrilha?: boolean
 }
 
 interface MapaTrilhasProps {
@@ -67,11 +68,13 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       {/* Mobile: zigzag map */}
       <div className="md:hidden flex flex-col items-center gap-4 py-4 px-4">
         {trilhas.map((trilha, i) => {
-          const desbloqueada =
-            isPro ||
+          const desbloqueadaNaturalmente =
             i === 0 ||
             (trilhas[i - 1]?.percentualConcluido ?? 0) === 100 ||
-            trilha.desbloqueadaPorAnuncio || desbloqueadasSessao.has(trilha.slug)
+            trilha.desbloqueadaPorAnuncio ||
+            desbloqueadasSessao.has(trilha.slug)
+          const desbloqueada = isPro || desbloqueadaNaturalmente
+          const liberadaPorPro = isPro && !desbloqueadaNaturalmente && (trilha.percentualConcluido ?? 0) === 0
           return (
             <div
               key={trilha.id}
@@ -84,6 +87,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
               <CardTrilha
                 trilha={trilha}
                 desbloqueada={desbloqueada}
+                liberadaPorPro={liberadaPorPro}
+                ultimaTrilha={trilha.ultimaTrilha}
                 index={i}
                 onBloqueadaClick={() => handleBloqueadaClick(trilha)}
               />
@@ -95,16 +100,20 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       {/* Desktop: grid */}
       <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-4">
         {trilhas.map((trilha, i) => {
-          const desbloqueada =
-            isPro ||
+          const desbloqueadaNaturalmente =
             i === 0 ||
             (trilhas[i - 1]?.percentualConcluido ?? 0) === 100 ||
-            trilha.desbloqueadaPorAnuncio || desbloqueadasSessao.has(trilha.slug)
+            trilha.desbloqueadaPorAnuncio ||
+            desbloqueadasSessao.has(trilha.slug)
+          const desbloqueada = isPro || desbloqueadaNaturalmente
+          const liberadaPorPro = isPro && !desbloqueadaNaturalmente && (trilha.percentualConcluido ?? 0) === 0
           return (
             <CardTrilha
               key={trilha.id}
               trilha={trilha}
               desbloqueada={desbloqueada}
+              liberadaPorPro={liberadaPorPro}
+              ultimaTrilha={trilha.ultimaTrilha}
               index={i}
               onBloqueadaClick={() => handleBloqueadaClick(trilha)}
               fullWidth

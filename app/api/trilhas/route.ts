@@ -22,7 +22,7 @@ export async function GET() {
   const [progressos, desbloqueadas] = await Promise.all([
     prisma.progresso.findMany({
       where: { userId },
-      select: { etapaId: true, trilhaId: true, xpGanho: true },
+      select: { etapaId: true, trilhaId: true, xpGanho: true, concluidaEm: true },
     }),
     prisma.trilhaDesbloqueada.findMany({
       where: { userId },
@@ -48,5 +48,21 @@ export async function GET() {
     }
   })
 
-  return NextResponse.json(result)
+  // Encontrar a última trilha em andamento (com progresso mas não concluída)
+  const ultimaAtividade = progressos.reduce((acc, p) => {
+    if (!acc || new Date(p.concluidaEm) > new Date(acc.concluidaEm)) return p
+    return acc
+  }, null as typeof progressos[0] | null)
+
+  // Só marca como "última" se a trilha não estiver 100% concluída
+  const ultimaTrilhaId = ultimaAtividade
+    ? (() => {
+        const trilhaDoProgresso = result.find(t => t.id === ultimaAtividade.trilhaId)
+        return trilhaDoProgresso && trilhaDoProgresso.percentualConcluido < 100
+          ? ultimaAtividade.trilhaId
+          : null
+      })()
+    : null
+
+  return NextResponse.json(result.map(t => ({ ...t, ultimaTrilha: t.id === ultimaTrilhaId })))
 }

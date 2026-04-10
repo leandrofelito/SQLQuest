@@ -16,20 +16,25 @@ interface CardTrilhaProps {
     etapasConcluidas?: number
   }
   desbloqueada: boolean
+  liberadaPorPro?: boolean
+  ultimaTrilha?: boolean
   index: number
   onBloqueadaClick?: () => void
   fullWidth?: boolean
 }
 
-export function CardTrilha({ trilha, desbloqueada, index, onBloqueadaClick, fullWidth }: CardTrilhaProps) {
+export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha, index, onBloqueadaClick, fullWidth }: CardTrilhaProps) {
   const router = useRouter()
   const pct = trilha.percentualConcluido ?? 0
   const concluida = pct === 100
+  const emAndamento = desbloqueada && pct > 0 && pct < 100
 
   const border = concluida
     ? 'border-emerald-500/40'
-    : desbloqueada && pct > 0
+    : emAndamento
     ? 'border-[#8b5cf6]/40'
+    : liberadaPorPro
+    ? 'border-sky-500/30'
     : desbloqueada
     ? 'border-[#2a2d3a]'
     : 'border-[#1e2028]'
@@ -55,14 +60,30 @@ export function CardTrilha({ trilha, desbloqueada, index, onBloqueadaClick, full
         !desbloqueada && 'opacity-60'
       )}
     >
-      {/* Badge de progresso */}
-      {desbloqueada && pct > 0 && (
-        <div className="absolute top-2 right-2 z-10">
-          <span className={cn(
-            'text-[10px] font-bold px-1.5 py-0.5 rounded-full',
-            concluida ? 'bg-emerald-500/20 text-emerald-300' : 'bg-purple-500/20 text-purple-300'
-          )}>
-            {concluida ? '✓' : `${pct}%`}
+      {/* Badge de progresso ou estado */}
+      <div className="absolute top-2 right-2 z-10">
+        {concluida && (
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">
+            ✓
+          </span>
+        )}
+        {emAndamento && (
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
+            {pct}%
+          </span>
+        )}
+        {liberadaPorPro && !emAndamento && !concluida && (
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300">
+            PRO
+          </span>
+        )}
+      </div>
+
+      {/* Badge "Parou aqui" */}
+      {ultimaTrilha && emAndamento && (
+        <div className="absolute top-2 left-2 z-10">
+          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            Parou aqui
           </span>
         </div>
       )}
@@ -82,7 +103,7 @@ export function CardTrilha({ trilha, desbloqueada, index, onBloqueadaClick, full
 
         <Progress
           value={pct}
-          barClassName={concluida ? 'bg-emerald-400' : 'bg-[#8b5cf6]'}
+          barClassName={concluida ? 'bg-emerald-400' : liberadaPorPro ? 'bg-sky-400' : 'bg-[#8b5cf6]'}
           className="h-1"
         />
 
@@ -90,13 +111,23 @@ export function CardTrilha({ trilha, desbloqueada, index, onBloqueadaClick, full
           'text-center text-[11px] font-bold py-1.5 rounded-lg',
           concluida
             ? 'bg-emerald-500/10 text-emerald-400'
-            : desbloqueada && pct > 0
+            : emAndamento
             ? 'bg-[#8b5cf6]/10 text-[#a78bfa]'
+            : liberadaPorPro
+            ? 'bg-sky-500/10 text-sky-400'
             : desbloqueada
             ? 'bg-[#8b5cf6] text-white'
             : 'bg-[#1e2028] text-white/30'
         )}>
-          {concluida ? 'Concluída ✓' : desbloqueada && pct > 0 ? 'Continuar →' : desbloqueada ? 'Iniciar' : '🔒 Bloqueada'}
+          {concluida
+            ? 'Concluída ✓'
+            : emAndamento
+            ? 'Em andamento →'
+            : liberadaPorPro
+            ? 'Liberada ✦'
+            : desbloqueada
+            ? 'Iniciar'
+            : '🔒 Bloqueada'}
         </div>
       </div>
     </motion.div>
