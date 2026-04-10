@@ -70,7 +70,6 @@ export default function TrilhaPage() {
       }))
 
       // Percentual calculado sobre todas as etapas (teoria + exercícios)
-      const progressoIds = new Set(progressos.map((p: any) => p.etapaId))
       const concluidas = t.etapas.filter((e: Etapa) => progressoIds.has(e.id)).length
       const pct = t.etapas.length > 0 ? Math.min(100, Math.round((concluidas / t.etapas.length) * 100)) : 0
 
