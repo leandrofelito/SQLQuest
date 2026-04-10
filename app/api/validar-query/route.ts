@@ -11,6 +11,27 @@ import path from 'path'
 import { z } from 'zod'
 import type { ConteudoExercicio } from '@/types'
 
+// Module-level cache: evita recarregar o WASM a cada request (especialmente cold starts)
+let _sqlJsCache: any = null
+let _sqlJsPromise: Promise<any> | null = null
+
+async function getSqlJs(): Promise<any> {
+  if (_sqlJsCache) return _sqlJsCache
+  if (_sqlJsPromise) return _sqlJsPromise
+  _sqlJsPromise = (async () => {
+    const wasmPath = path.join(process.cwd(), 'public', 'sql-wasm.wasm')
+    const wasmBuffer = fs.readFileSync(wasmPath)
+    const wasmBinary = wasmBuffer.buffer.slice(
+      wasmBuffer.byteOffset,
+      wasmBuffer.byteOffset + wasmBuffer.byteLength
+    ) as ArrayBuffer
+    const SQL = await initSqlJs({ wasmBinary })
+    _sqlJsCache = SQL
+    return SQL
+  })()
+  return _sqlJsPromise
+}
+
 const schema = z.object({
   etapaId: z.string(),
   query: z.string().min(1).max(2000),
@@ -63,13 +84,7 @@ export async function POST(req: Request) {
   // the throwaway in-memory instance that is destroyed after validation.
   let sucesso = false
   try {
-    const wasmPath = path.join(process.cwd(), 'public', 'sql-wasm.wasm')
-    const wasmBuffer = fs.readFileSync(wasmPath)
-    const wasmBinary = wasmBuffer.buffer.slice(
-      wasmBuffer.byteOffset,
-      wasmBuffer.byteOffset + wasmBuffer.byteLength
-    ) as ArrayBuffer
-    const SQL = await initSqlJs({ wasmBinary })
+    const SQL = await getSqlJs()
     const db = new SQL.Database()
 
     try {

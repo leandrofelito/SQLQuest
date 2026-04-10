@@ -302,11 +302,18 @@ export default function EtapaPage() {
                   onConcluido={async (estrelas, dicasUsadas, tentativas, token) => {
                     const data = await salvarProgresso(estrelas, dicasUsadas, tentativas, token)
 
-                    // Falha ao salvar: token inválido ou erro de servidor.
-                    // Não navega para a próxima etapa (o guard bloquearia de qualquer forma),
-                    // vai direto para o mapa da trilha para o usuário tentar novamente.
                     if (data === null) {
-                      router.push(`/trilha/${slug}`)
+                      // Save HMAC falhou (token inválido/rede). Usa fallback: marca a etapa
+                      // com 0 XP para que o guard da próxima etapa passe. O usuário pode
+                      // refazer o exercício depois para ganhar XP.
+                      if (etapa && trilha) {
+                        await fetch('/api/marcar-visitada', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id, fallback: true }),
+                        }).catch(() => {})
+                      }
+                      proximaEtapa()
                       return
                     }
 
