@@ -302,7 +302,7 @@ export default function RegisterPage() {
           Continuar com Google
         </button>
 
-        <p className="text-center text-white/30 text-sm">
+        <p className="text-center text-white/30 text-sm pb-16">
           Já tem conta?{' '}
           <Link href="/login" className="text-[#a78bfa] hover:underline">
             Entrar
