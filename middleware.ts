@@ -44,7 +44,7 @@ export default withAuth(
 
 export const config = {
   matcher: [
-    // Exclui assets estáticos, api/auth e rotas públicas do middleware
-    '/((?!_next/static|_next/image|favicon\\.ico|icons|images|api/auth|login|register|manutencao|cert).*)',
+    // Exclui assets estáticos e api/auth do middleware
+    '/((?!_next/static|_next/image|favicon\\.ico|icons|images|api/auth|manutencao).*)',
   ],
 }
