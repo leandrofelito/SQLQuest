@@ -41,11 +41,10 @@ export async function GET(req: Request) {
 
   const result = trilhas.map(trilha => {
     const progressosTrilha = progressos.filter(p => p.trilhaId === trilha.id)
-    // Só exercícios salvam progresso — usar apenas eles como base do percentual
-    const exercicioEtapas = trilha.etapas.filter(e => e.tipo === 'exercicio')
+    // Percentual calculado sobre todas as etapas (teoria + exercícios)
+    const totalEtapas = trilha.etapas.length
     const etapasConcluidas = progressosTrilha.length
-    const totalExercicios = exercicioEtapas.length
-    const pct = totalExercicios > 0 ? Math.min(100, Math.round((etapasConcluidas / totalExercicios) * 100)) : 0
+    const pct = totalEtapas > 0 ? Math.min(100, Math.round((etapasConcluidas / totalEtapas) * 100)) : 0
     const base = { titulo: trilha.titulo, descricao: trilha.descricao }
     const localized = applyLocale(base, trilha.traducoes as Record<string, Partial<typeof base>> | null, lang)
     return {

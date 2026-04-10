@@ -69,10 +69,10 @@ export default function TrilhaPage() {
         concluida: progressoIds.has(e.id),
       }))
 
-      // Percentual calculado apenas sobre exercícios (apenas eles salvam progresso)
-      const exercicios = t.etapas.filter((e: Etapa) => e.tipo === 'exercicio')
-      const concluidas = progressos.filter((p: any) => exercicios.some((e: Etapa) => e.id === p.etapaId)).length
-      const pct = exercicios.length > 0 ? Math.min(100, Math.round((concluidas / exercicios.length) * 100)) : 0
+      // Percentual calculado sobre todas as etapas (teoria + exercícios)
+      const progressoIds = new Set(progressos.map((p: any) => p.etapaId))
+      const concluidas = t.etapas.filter((e: Etapa) => progressoIds.has(e.id)).length
+      const pct = t.etapas.length > 0 ? Math.min(100, Math.round((concluidas / t.etapas.length) * 100)) : 0
 
       setTrilha({ ...t, etapas: etapasComStatus, percentualConcluido: pct, etapasConcluidas: concluidas })
       setIsPro(session?.user?.isPro ?? false)

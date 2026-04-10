@@ -102,13 +102,12 @@ export default function EtapaPage() {
           proximas.forEach(e => prefetchEtapa(e.id, locale))
         }
 
-        // Trilha concluída quando todos os exercícios forem feitos
-        const exercicioIds = new Set((t.etapas ?? []).filter((e: any) => e.tipo === 'exercicio').map((e: any) => e.id))
+        // Trilha concluída quando todas as etapas (teoria + exercícios) forem concluídas
+        const todasEtapaIds = new Set((t.etapas ?? []).map((e: any) => e.id))
         const etapasConcluidasIds = new Set(progressos.map((p: any) => p.etapaId))
         etapasConcluidasIds.add(id) // assume que esta etapa será concluída
-        const totalExercicios = exercicioIds.size
-        const concluidosExercicios = [...etapasConcluidasIds].filter(eid => exercicioIds.has(eid)).length
-        setTrilhaConcluida(totalExercicios > 0 && concluidosExercicios >= totalExercicios)
+        const concluidasTotal = [...todasEtapaIds].filter(eid => etapasConcluidasIds.has(eid)).length
+        setTrilhaConcluida(todasEtapaIds.size > 0 && concluidasTotal >= todasEtapaIds.size)
 
         setLoading(false)
       } catch {
