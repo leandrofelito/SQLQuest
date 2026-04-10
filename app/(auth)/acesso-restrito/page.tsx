@@ -14,7 +14,11 @@ export default function AcessoRestritoPage() {
           </p>
         </div>
         <Button
-          onClick={() => signOut({ callbackUrl: '/login' })}
+          onClick={() => {
+            localStorage.removeItem('sqlquest_keep_logged_in')
+            sessionStorage.removeItem('sqlquest_session_active')
+            signOut({ callbackUrl: '/login' })
+          }}
           variant="ghost"
           fullWidth
         >

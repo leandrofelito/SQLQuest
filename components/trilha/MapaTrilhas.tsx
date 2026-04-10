@@ -39,12 +39,13 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   }
 
   function iniciarAnuncios() {
-    setFluxo('ad1')
+    // Fecha o banner primeiro para evitar sobreposição com o anúncio
+    setFluxo('idle')
+    setTimeout(() => setFluxo('ad1'), 380)
   }
 
   function primeiroAnuncioConcluido() {
     // Pequena pausa antes do segundo anúncio para evitar conflito no AdMob
-    setFluxo('idle')
     setTimeout(() => setFluxo('ad2'), 300)
   }
 

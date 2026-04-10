@@ -17,6 +17,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       if (forceLogout) {
         // Usuário havia solicitado logout mas o app foi fechado antes de completar
         localStorage.removeItem('sqlquest_force_logout')
+        localStorage.removeItem('sqlquest_keep_logged_in')
+        sessionStorage.removeItem('sqlquest_session_active')
         signOut({ callbackUrl: '/login' })
       }
     }

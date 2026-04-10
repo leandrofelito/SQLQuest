@@ -22,6 +22,11 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
   const pushed = useRef(false)
   const adRef = useRef<HTMLModElement>(null)
   const flutter = useRef(isFlutterApp())
+  // Ref para sempre chamar a versão mais recente do callback sem reiniciar o efeito
+  const onConcluidoRef = useRef(onConcluido)
+  const onFecharRef = useRef(onFechar)
+  useEffect(() => { onConcluidoRef.current = onConcluido }, [onConcluido])
+  useEffect(() => { onFecharRef.current = onFechar }, [onFechar])
 
   function tentarFechar() {
     if (onFechar) setConfirmandoSaida(true)
@@ -34,7 +39,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
 
   useEffect(() => {
     if (isPro) {
-      onConcluido()
+      onConcluidoRef.current()
       return
     }
 
@@ -43,11 +48,11 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
       ;(window as any).onAdMobResult = (result: string) => {
         if (result === 'completed') {
           setFlutterAdState('done')
-          onConcluido()
+          onConcluidoRef.current()
         } else {
           // Usuário fechou o anúncio antes de terminar — sem prêmio
           setFlutterAdState('done')
-          onFechar?.()
+          onFecharRef.current?.()
         }
       }
 
@@ -85,7 +90,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
       setTempo(t => {
         if (t <= 1) {
           clearInterval(interval)
-          onConcluido()
+          onConcluidoRef.current()
           return 0
         }
         return t - 1
@@ -96,7 +101,8 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
       clearTimeout(timer)
       clearInterval(interval)
     }
-  }, [isPro, onConcluido])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPro])
 
   if (isPro) return null
 

@@ -24,6 +24,7 @@ function LoginForm() {
   const [sucesso, setSucesso] = useState('')
   const [loading, setLoading] = useState(false)
   const [loadingGoogle, setLoadingGoogle] = useState(false)
+  const [manterLogado, setManterLogado] = useState(false)
 
   useEffect(() => {
     if (status === 'authenticated') router.push('/home')
@@ -56,6 +57,13 @@ function LoginForm() {
     setLoading(false)
 
     if (res?.ok) {
+      localStorage.setItem('sqlquest_auth_v2', '1')
+      if (manterLogado) {
+        localStorage.setItem('sqlquest_keep_logged_in', '1')
+      } else {
+        localStorage.removeItem('sqlquest_keep_logged_in')
+      }
+      sessionStorage.setItem('sqlquest_session_active', '1')
       router.push('/home')
     } else if (res?.error === 'GoogleAccount') {
       setErro('Esta conta foi criada com Google. Use o botão "Continuar com Google" acima.')
@@ -154,6 +162,29 @@ function LoginForm() {
               {erro}
             </p>
           )}
+
+          <label className="flex items-center gap-2.5 cursor-pointer select-none">
+            <div
+              onClick={() => setManterLogado(v => !v)}
+              className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                manterLogado
+                  ? 'bg-[#8b5cf6] border-[#8b5cf6]'
+                  : 'bg-transparent border-[#2a2d3a]'
+              }`}
+            >
+              {manterLogado && (
+                <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+            </div>
+            <span
+              onClick={() => setManterLogado(v => !v)}
+              className="text-white/50 text-sm"
+            >
+              Manter logado
+            </span>
+          </label>
 
           <Button type="submit" loading={loading} fullWidth size="lg">
             Entrar

@@ -120,6 +120,8 @@ export default function PerfilPage() {
   async function handleSignOut() {
     setLoading(true)
     localStorage.setItem('sqlquest_force_logout', '1')
+    localStorage.removeItem('sqlquest_keep_logged_in')
+    sessionStorage.removeItem('sqlquest_session_active')
     // Limpa a flag nativa de sessão antes de sair
     if (typeof window !== 'undefined' && (window as any).__sqlquestNativeApp) {
       (window as any).SessionBridge?.postMessage('logout')

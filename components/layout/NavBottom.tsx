@@ -48,8 +48,8 @@ export function NavBottom() {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-30 bg-[#0f1117] border-t border-[#1e2028]">
-      <div className="max-w-3xl mx-auto flex items-center justify-around px-2 py-2 safe-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-30 bg-[#0f1117] border-t border-[#1e2028]" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      <div className="max-w-3xl mx-auto flex items-center justify-around px-2 py-1.5">
         {NAV.map(item => {
           const active = pathname.startsWith(item.href)
           return (
