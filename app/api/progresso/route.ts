@@ -78,9 +78,10 @@ export async function POST(req: Request) {
 
   let nivelAnterior = 1
   let nivelAtual = 1
+  let userBefore: { totalXp: number } | null = null
 
   if (xpDelta > 0) {
-    const userBefore = await prisma.user.findUnique({
+    userBefore = await prisma.user.findUnique({
       where: { id: userId },
       select: { totalXp: true },
     })
