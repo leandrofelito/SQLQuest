@@ -513,9 +513,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         )}
       </div>
 
-      {/* Anúncio antes de revelar a dica */}
+      {/* Anúncio premiado antes de revelar a dica */}
       {showAnuncioDica && (
-        <AnuncioVideo isPro={false} label="Anúncio" onConcluido={liberarDica} onFechar={() => setShowAnuncioDica(false)} />
+        <AnuncioVideo isPro={false} adType="rewarded" label="Anúncio" onConcluido={liberarDica} onFechar={() => setShowAnuncioDica(false)} />
       )}
 
       {/* Painel de aviso de performance (query lenta detectada) */}

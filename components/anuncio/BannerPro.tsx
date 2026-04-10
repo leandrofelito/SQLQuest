@@ -24,7 +24,7 @@ export function BannerPro({ open, onClose, onAssistirAnuncio }: BannerProProps) 
           />
           <motion.div
             className="fixed bottom-0 left-0 right-0 z-50 bg-[#0f1117] rounded-t-3xl border-t border-[#2a2d3a] px-6 pt-6"
-            style={{ paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
+            style={{ paddingBottom: 'calc(1.5rem + var(--safe-area-bottom, 0px))' }}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}

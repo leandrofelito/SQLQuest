@@ -417,9 +417,14 @@ export default function EtapaPage() {
         )}
       </AnimatePresence>
 
-      {/* Anúncio */}
+      {/* Anúncio intersticial (a cada 3 exercícios) — navega ao concluir OU ao fechar */}
       {showAnuncio && (
-        <AnuncioVideo isPro={isPro} onConcluido={() => { setShowAnuncio(false); proximaEtapa() }} onFechar={() => setShowAnuncio(false)} />
+        <AnuncioVideo
+          isPro={isPro}
+          adType="interstitial"
+          onConcluido={() => { setShowAnuncio(false); proximaEtapa() }}
+          onFechar={() => { setShowAnuncio(false); proximaEtapa() }}
+        />
       )}
     </div>
   )

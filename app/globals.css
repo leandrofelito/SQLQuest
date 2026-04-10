@@ -32,6 +32,15 @@
 }
 
 @layer utilities {
-  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-bottom { padding-bottom: var(--safe-area-bottom, 0px); }
   .safe-top { padding-top: env(safe-area-inset-top); }
+}
+
+/* Quando rodando dentro do Flutter WebView, o app nativo já aplica a safe area
+   via SafeArea widget — não devemos duplicar o env(safe-area-inset-bottom) */
+html.native-app {
+  --safe-area-bottom: 0px;
+}
+html:not(.native-app) {
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }

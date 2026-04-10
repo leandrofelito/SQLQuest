@@ -103,8 +103,11 @@ export function TelaTexto({ titulo, conteudo, onContinuar }: TelaTextoProps) {
 
       <div className="mt-8 pb-6 flex gap-3">
         {blocoAtual > 0 && (
-          <Button onClick={() => setBlocoAtual(b => b - 1)} variant="secondary" size="lg" className="flex-1">
-            {messages.texto.voltar}
+          <Button onClick={() => setBlocoAtual(b => b - 1)} variant="secondary" size="lg" className="flex-1 gap-1.5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4 flex-shrink-0" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>{messages.texto.voltar}</span>
           </Button>
         )}
         <Button onClick={avancar} size="lg" className="flex-1">

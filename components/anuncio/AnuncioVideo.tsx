@@ -2,11 +2,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+export type AdType = 'rewarded' | 'interstitial'
+
 interface AnuncioVideoProps {
   isPro: boolean
   onConcluido: () => void
   onFechar?: () => void
   label?: string // ex: "Anúncio 1 de 2"
+  adType?: AdType // 'rewarded' (dica/trilha) | 'interstitial' (frequência)
 }
 
 // Detecta se está rodando dentro do app Flutter (WebView com AdMobBridge)
@@ -14,8 +17,11 @@ function isFlutterApp(): boolean {
   return typeof window !== 'undefined' && !!(window as any).AdMobBridge
 }
 
-export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVideoProps) {
-  const [tempo, setTempo] = useState(30)
+// Timer inicial: rewarded=30s, interstitial=15s
+const TIMER_INICIAL: Record<AdType, number> = { rewarded: 30, interstitial: 15 }
+
+export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 'rewarded' }: AnuncioVideoProps) {
+  const [tempo, setTempo] = useState(TIMER_INICIAL[adType])
   const [adFailed, setAdFailed] = useState(false)
   const [flutterAdState, setFlutterAdState] = useState<'loading' | 'showing' | 'done'>('loading')
   const [confirmandoSaida, setConfirmandoSaida] = useState(false)
@@ -46,19 +52,24 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
     // --- Modo Flutter: AdMob nativo via JavascriptChannel ---
     if (flutter.current) {
       ;(window as any).onAdMobResult = (result: string) => {
-        if (result === 'completed') {
-          setFlutterAdState('done')
+        setFlutterAdState('done')
+        if (adType === 'interstitial') {
+          // Interstitial: avança independentemente de ter assistido até o fim
           onConcluidoRef.current()
         } else {
-          // Usuário fechou o anúncio antes de terminar — sem prêmio
-          setFlutterAdState('done')
-          onFecharRef.current?.()
+          // Rewarded: só dá o prêmio se concluiu
+          if (result === 'completed') {
+            onConcluidoRef.current()
+          } else {
+            onFecharRef.current?.()
+          }
         }
       }
 
       const timer = setTimeout(() => {
         setFlutterAdState('showing')
-        ;(window as any).AdMobBridge.postMessage('showAd')
+        const msg = adType === 'interstitial' ? 'showInterstitialAd' : 'showRewardedAd'
+        ;(window as any).AdMobBridge.postMessage(msg)
       }, 300)
 
       return () => {
@@ -106,7 +117,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
 
   if (isPro) return null
 
-  // Modal de confirmação compartilhado entre Flutter e Web
+  // Modal de confirmação — texto neutro para funcionar em qualquer contexto
   const modalConfirmacao = (
     <AnimatePresence>
       {confirmandoSaida && (
@@ -130,7 +141,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
               </div>
               <h3 className="text-white font-bold text-lg">Tem certeza?</h3>
               <p className="text-white/50 text-sm">
-                Se sair agora você perderá o progresso e a trilha não será liberada.
+                {adType === 'rewarded'
+                  ? 'Se sair agora você não receberá o prêmio.'
+                  : 'Deseja fechar o anúncio?'}
               </p>
             </div>
             <div className="flex flex-col gap-2">
@@ -144,7 +157,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
                 onClick={confirmarSaida}
                 className="w-full py-3 rounded-xl bg-white/5 text-white/50 font-medium"
               >
-                Sair sem liberar
+                {adType === 'rewarded' ? 'Sair sem prêmio' : 'Fechar'}
               </button>
             </div>
           </motion.div>
@@ -166,7 +179,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
             <button
               onClick={tentarFechar}
               className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-              title="Fechar sem prêmio"
+              title="Fechar"
             >
               <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
                 <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
@@ -203,7 +216,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label }: AnuncioVid
             <button
               onClick={tentarFechar}
               className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-              title="Fechar sem prêmio"
+              title="Fechar"
             >
               <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
                 <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>

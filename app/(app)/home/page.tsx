@@ -42,7 +42,7 @@ export default function HomePage() {
   const xp = (user as any)?.totalXp ?? 0
 
   return (
-    <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+env(safe-area-inset-bottom))]">
+    <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+var(--safe-area-bottom,0px))]">
       <Header />
 
       <div className="max-w-3xl mx-auto px-4 pt-4 pb-2">

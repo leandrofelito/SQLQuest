@@ -132,6 +132,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       {fluxo === 'ad1' && (
         <AnuncioVideo
           isPro={false}
+          adType="rewarded"
           label="Anúncio 1 de 2"
           onConcluido={primeiroAnuncioConcluido}
           onFechar={() => setFluxo('idle')}
@@ -140,6 +141,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       {fluxo === 'ad2' && (
         <AnuncioVideo
           isPro={false}
+          adType="rewarded"
           label="Anúncio 2 de 2"
           onConcluido={segundoAnuncioConcluido}
           onFechar={() => setFluxo('idle')}

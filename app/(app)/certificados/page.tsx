@@ -64,7 +64,7 @@ export default function CertificadosPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+env(safe-area-inset-bottom))]">
+    <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+var(--safe-area-bottom,0px))]">
       <Header title="Certificados" />
 
       <div className="max-w-3xl mx-auto px-4 pt-4 space-y-6">

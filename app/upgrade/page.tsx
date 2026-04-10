@@ -72,7 +72,7 @@ export default function UpgradePage() {
         </svg>
       </button>
 
-      <div className="flex-1 flex flex-col justify-between px-6 pt-12" style={{ paddingBottom: 'calc(3rem + env(safe-area-inset-bottom))' }}>
+      <div className="flex-1 flex flex-col justify-between px-6 pt-12" style={{ paddingBottom: 'calc(3rem + var(--safe-area-bottom, 0px))' }}>
         {/* Carrossel */}
         <div className="flex-1 flex flex-col items-center justify-center text-center gap-6">
           <AnimatePresence mode="wait">
