@@ -79,29 +79,38 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       const userId = token.sub as string
       if (session.user && userId) {
-        const dbUser = await prisma.user.findUnique({ where: { id: userId } })
+        // Garante que o id esteja disponível mesmo se o bloco abaixo falhar
         ;(session.user as any).id = userId
-        ;(session.user as any).isPro = dbUser?.isPro ?? false
-        ;(session.user as any).isAdmin = dbUser?.isAdmin ?? false
-        ;(session.user as any).totalXp = dbUser?.totalXp ?? 0
-        ;(session.user as any).streak = dbUser?.streak ?? 0
-        ;(session.user as any).nickname = (token.nickname as string | null) ?? dbUser?.nickname ?? null
+        try {
+          const dbUser = await prisma.user.findUnique({ where: { id: userId } })
+          ;(session.user as any).isPro = dbUser?.isPro ?? false
+          ;(session.user as any).isAdmin = dbUser?.isAdmin ?? false
+          ;(session.user as any).totalXp = dbUser?.totalXp ?? 0
+          ;(session.user as any).streak = dbUser?.streak ?? 0
+          ;(session.user as any).nickname = (token.nickname as string | null) ?? dbUser?.nickname ?? null
 
-        const hoje = new Date()
-        const ultimaAtividade = dbUser?.lastActiveAt
-        let novoStreak = dbUser?.streak ?? 0
-        if (ultimaAtividade) {
-          const diffDias = Math.floor((hoje.getTime() - ultimaAtividade.getTime()) / 86400000)
-          if (diffDias === 1) novoStreak += 1
-          else if (diffDias > 1) novoStreak = 1
-        } else {
-          novoStreak = 1
+          // Só atualiza streak/lastActiveAt se o usuário existir no banco
+          if (dbUser) {
+            const hoje = new Date()
+            const ultimaAtividade = dbUser.lastActiveAt
+            let novoStreak = dbUser.streak ?? 0
+            if (ultimaAtividade) {
+              const diffDias = Math.floor((hoje.getTime() - ultimaAtividade.getTime()) / 86400000)
+              if (diffDias === 1) novoStreak += 1
+              else if (diffDias > 1) novoStreak = 1
+            } else {
+              novoStreak = 1
+            }
+
+            await prisma.user.update({
+              where: { id: userId },
+              data: { lastActiveAt: hoje, streak: novoStreak },
+            })
+          }
+        } catch (err) {
+          // Falha no DB não derruba a sessão — o cliente continua autenticado
+          console.error('[auth] session callback error:', err)
         }
-
-        await prisma.user.update({
-          where: { id: userId },
-          data: { lastActiveAt: hoje, streak: novoStreak },
-        })
       }
       return session
     },

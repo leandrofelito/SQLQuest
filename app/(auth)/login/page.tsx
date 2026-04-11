@@ -96,7 +96,14 @@ function LoginForm() {
 
         {/* Google */}
         <button
-          onClick={() => { setLoadingGoogle(true); signIn('google', { callbackUrl: '/home' }) }}
+          onClick={() => {
+            setLoadingGoogle(true)
+            // Seta flags antes do redirect para que SessionGuard não dispare signOut no retorno
+            // (sessionStorage não sobrevive ao redirect OAuth externo, mas localStorage sim)
+            localStorage.setItem('sqlquest_auth_v2', '1')
+            localStorage.setItem('sqlquest_keep_logged_in', '1')
+            signIn('google', { callbackUrl: '/home' })
+          }}
           disabled={loadingGoogle}
           className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl bg-white text-gray-800 text-sm font-semibold hover:bg-gray-100 transition-all disabled:opacity-60"
         >

@@ -36,11 +36,9 @@
   .safe-top { padding-top: env(safe-area-inset-top); }
 }
 
-/* Quando rodando dentro do Flutter WebView, o app nativo já aplica a safe area
-   via SafeArea widget — não devemos duplicar o env(safe-area-inset-bottom) */
-html.native-app {
-  --safe-area-bottom: 0px;
-}
-html:not(.native-app) {
+/* O WebView roda em modo edge-to-edge (SafeArea bottom:false no Flutter),
+   por isso env(safe-area-inset-bottom) é exposto corretamente pelo Android
+   WebView e também funciona no browser/PWA iOS/Android Chrome. */
+html {
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }

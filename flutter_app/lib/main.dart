@@ -157,7 +157,12 @@ class _WebViewScreenState extends State<WebViewScreen>
           onPageFinished: (url) async {
             if (mounted) {
               setState(() => _isLoading = false);
-              _controller.runJavaScript('window.__sqlquestNativeApp = true;');
+              // Define a flag E adiciona a classe de forma atômica para evitar
+              // condição de corrida com o useEffect do NativeAppDetector React.
+              _controller.runJavaScript(
+                'window.__sqlquestNativeApp = true;'
+                'document.documentElement.classList.add("native-app");',
+              );
 
               // Sessão expirou: o servidor redirecionou para /login
               if (url.contains('/login')) {
@@ -362,54 +367,66 @@ class _WebViewScreenState extends State<WebViewScreen>
       child: Scaffold(
         backgroundColor: const Color(0xFF080a0f),
         body: SafeArea(
-          bottom: true,
-          child: Stack(
-            children: [
-              // WebView ocupa tudo, exceto os 50 px do banner nativo quando ativo
-              Positioned.fill(
-                bottom: _showingBanner ? 50.0 : 0.0,
-                child: WebViewWidget(controller: _controller),
-              ),
-              // Banner nativo AdMob — encaixado na base da tela quando ativo
-              if (_showingBanner && _bannerAd != null)
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  height: 50,
-                  child: AdWidget(ad: _bannerAd!),
-                ),
-              if (_isLoading)
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Container(
-                    color: const Color(0xFF080a0f),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/sqlquest_logo.png',
-                            width: MediaQuery.of(context).size.width * 0.58,
-                            fit: BoxFit.contain,
+          // bottom: false → WebView vai até o fundo da tela (edge-to-edge).
+          // O CSS do site usa env(safe-area-inset-bottom) para padding do nav —
+          // o Android WebView expõe esse valor corretamente com edgeToEdge ativo.
+          bottom: false,
+          child: Builder(
+            builder: (context) {
+              // Inset da barra de navegação do sistema (ex.: ~48 px gestural /
+              // ~56 px nos botões de 3 botões). Usado para posicionar o banner
+              // nativo acima da barra sem depender de SafeArea.
+              final sysBottomPad = MediaQuery.of(context).padding.bottom;
+
+              return Stack(
+                children: [
+                  // WebView ocupa tudo, exceto os 50 px do banner nativo quando ativo
+                  Positioned.fill(
+                    bottom: _showingBanner ? 50.0 + sysBottomPad : 0.0,
+                    child: WebViewWidget(controller: _controller),
+                  ),
+                  // Banner nativo AdMob — encaixado acima da barra do sistema
+                  if (_showingBanner && _bannerAd != null)
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: sysBottomPad,
+                      height: 50,
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+                  if (_isLoading)
+                    FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: Container(
+                        color: const Color(0xFF080a0f),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/sqlquest_logo.png',
+                                width: MediaQuery.of(context).size.width * 0.58,
+                                fit: BoxFit.contain,
+                              ),
+                              const SizedBox(height: 40),
+                              SizedBox(
+                                width: 28,
+                                height: 28,
+                                child: CircularProgressIndicator(
+                                  color: const Color(0xFFB8962E),
+                                  backgroundColor:
+                                      const Color(0xFFB8962E).withAlpha(40),
+                                  strokeWidth: 2.5,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 40),
-                          SizedBox(
-                            width: 28,
-                            height: 28,
-                            child: CircularProgressIndicator(
-                              color: const Color(0xFFB8962E),
-                              backgroundColor:
-                                  const Color(0xFFB8962E).withAlpha(40),
-                              strokeWidth: 2.5,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-            ],
+                ],
+              );
+            },
           ),
         ),
       ),
