@@ -97,5 +97,46 @@
     "pt": "Português",
     "en": "English",
     "es": "Español"
+  },
+  "perfil": {
+    "titulo": "Perfil",
+    "streak": "Racha",
+    "dias": "días",
+    "etapas": "Pasos",
+    "concluidas": "completados",
+    "certs": "Certs",
+    "emitidos": "emitidos",
+    "conquistas": "Logros",
+    "rankingGlobal": "Ranking Global",
+    "mundoDo": "del mundo",
+    "comoDesbloquear": "Cómo desbloquear",
+    "prestigeDisponivel": "¡Prestigio disponible!",
+    "prestigeDesc": "Estás en el Nivel {nivel}. Reinicia al Nivel 1 y gana la Estrella de Prestigio {prestige}.",
+    "prestigeStars": "{stars} {tier} — {current}/5 estrellas en el tier",
+    "ativarPrestigio": "✨ Activar Prestigio {n}",
+    "confirmarPrestigio": "¿Estás seguro? Tu XP se reiniciará y volverás al Nivel 1, pero ganarás la Estrella de Prestigio {n} ({tier} {stars}).",
+    "assinarPro": "⭐ Suscribirse Pro — R$19,90",
+    "ajuda": "¿Necesitas ayuda?",
+    "sair": "Salir",
+    "preferencias": "Preferencias",
+    "idioma": "Idioma",
+    "tierBronze": "Bronce",
+    "tierPrata": "Plata",
+    "tierOuro": "Oro",
+    "tierRubi": "Rubí"
+  },
+  "ranking": {
+    "titulo": "Ranking Global",
+    "voce": "tú"
+  },
+  "certificados": {
+    "titulo": "Certificados",
+    "proTitulo": "Certificados Pro",
+    "proDesc": "Completa rutas y descarga certificados PDF para compartir.",
+    "assinarPro": "Suscribirse Pro — R$19,90",
+    "conquistados": "Obtenidos",
+    "emAndamento": "En progreso",
+    "semCerts": "Completa rutas para obtener certificados.",
+    "concluido": "completado"
   }
 }
