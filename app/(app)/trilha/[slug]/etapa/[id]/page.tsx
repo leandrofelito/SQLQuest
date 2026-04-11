@@ -131,6 +131,8 @@ export default function EtapaPage() {
 
   async function marcarVisitada() {
     if (!etapa || !trilha) return
+    // Atualiza o cache local imediatamente para que o guard da próxima etapa passe
+    addProgressoOptimistic(etapa.id, trilha.id)
     // Registra etapas de leitura/intro/resumo/conclusao como concluídas para desbloquear a próxima
     await fetch('/api/marcar-visitada', {
       method: 'POST',
