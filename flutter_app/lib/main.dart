@@ -9,7 +9,23 @@ import 'package:share_plus/share_plus.dart' show Share, XFile;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-const String _adUnitId = 'ca-app-pub-4150729063109368/8892235156';
+// ── Unidades AdMob ────────────────────────────────────────────────────────────
+// IDs são públicos por natureza (ca-app-pub-…); não são segredos.
+// Para interstitial e banner: crie as unidades no console AdMob e passe via
+//   --dart-define=ADMOB_INTERSTITIAL_ID=ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX
+//   --dart-define=ADMOB_BANNER_ID=ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX
+
+const String _rewardedAdUnitId = 'ca-app-pub-4150729063109368/8892235156';
+
+const String _interstitialAdUnitId = String.fromEnvironment(
+  'ADMOB_INTERSTITIAL_ID',
+  defaultValue: 'ca-app-pub-4150729063109368/REPLACE_WITH_INTERSTITIAL_ID',
+);
+
+const String _bannerAdUnitId = String.fromEnvironment(
+  'ADMOB_BANNER_ID',
+  defaultValue: 'ca-app-pub-4150729063109368/REPLACE_WITH_BANNER_ID',
+);
 
 const String _appUrl = String.fromEnvironment(
   'APP_URL',
@@ -65,7 +81,11 @@ class _WebViewScreenState extends State<WebViewScreen>
   late final AnimationController _fadeController;
   late final Animation<double> _fadeAnimation;
   bool _isLoading = true;
+
   RewardedAd? _rewardedAd;
+  InterstitialAd? _interstitialAd;
+  BannerAd? _bannerAd;
+  bool _showingBanner = false;
 
   @override
   void initState() {
@@ -80,6 +100,7 @@ class _WebViewScreenState extends State<WebViewScreen>
     );
     _fadeController.forward();
     _loadRewardedAd();
+    _loadInterstitialAd();
 
     // Se já logado, abre direto na home — evita o flash da tela de login
     final initialUrl =
@@ -102,10 +123,23 @@ class _WebViewScreenState extends State<WebViewScreen>
         },
       )
       ..addJavaScriptChannel(
+        // Contrato com AnuncioVideo.tsx e AdBanner.tsx:
+        //   "showRewardedAd"   → RewardedAd (envia completed | dismissed via onAdMobResult)
+        //   "showAd"           → alias legado de showRewardedAd
+        //   "showInterstitialAd" → InterstitialAd (envia dismissed via onAdMobResult — React avança sempre)
+        //   "showBanner"       → BannerAd nativo na base da tela
+        //   "hideBanner"       → remove o BannerAd
         'AdMobBridge',
         onMessageReceived: (JavaScriptMessage message) {
-          if (message.message == 'showAd') {
+          final msg = message.message;
+          if (msg == 'showAd' || msg == 'showRewardedAd') {
             _showRewardedAd();
+          } else if (msg == 'showInterstitialAd') {
+            _showInterstitialAd();
+          } else if (msg == 'showBanner') {
+            _loadBannerAd();
+          } else if (msg == 'hideBanner') {
+            _hideBanner();
           }
         },
       )
@@ -168,15 +202,18 @@ class _WebViewScreenState extends State<WebViewScreen>
     }
   }
 
+  // ── Rewarded ──────────────────────────────────────────────────────────────
+
   void _loadRewardedAd() {
     RewardedAd.load(
-      adUnitId: _adUnitId,
+      adUnitId: _rewardedAdUnitId,
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
           if (mounted) setState(() => _rewardedAd = ad);
         },
         onAdFailedToLoad: (error) {
+          debugPrint('[AdMob] Rewarded falhou ao carregar: ${error.message}');
           if (mounted) setState(() => _rewardedAd = null);
         },
       ),
@@ -198,6 +235,7 @@ class _WebViewScreenState extends State<WebViewScreen>
         _controller.runJavaScript("window.onAdMobResult('dismissed')");
       },
       onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint('[AdMob] Rewarded falhou ao exibir: ${error.message}');
         ad.dispose();
         _rewardedAd = null;
         _loadRewardedAd();
@@ -213,10 +251,97 @@ class _WebViewScreenState extends State<WebViewScreen>
     _rewardedAd = null;
   }
 
+  // ── Interstitial ──────────────────────────────────────────────────────────
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: _interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          if (mounted) setState(() => _interstitialAd = ad);
+        },
+        onAdFailedToLoad: (error) {
+          debugPrint('[AdMob] Interstitial falhou ao carregar: ${error.message}');
+          if (mounted) setState(() => _interstitialAd = null);
+        },
+      ),
+    );
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      // Sem anúncio disponível: React avança de qualquer forma para interstitial
+      _controller.runJavaScript("window.onAdMobResult('dismissed')");
+      _loadInterstitialAd();
+      return;
+    }
+
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _interstitialAd = null;
+        _loadInterstitialAd();
+        // AnuncioVideo.tsx avança ao receber qualquer resultado para interstitial
+        _controller.runJavaScript("window.onAdMobResult('dismissed')");
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint('[AdMob] Interstitial falhou ao exibir: ${error.message}');
+        ad.dispose();
+        _interstitialAd = null;
+        _loadInterstitialAd();
+        _controller.runJavaScript("window.onAdMobResult('dismissed')");
+      },
+    );
+
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
+
+  // ── Banner ────────────────────────────────────────────────────────────────
+
+  void _loadBannerAd() {
+    if (_showingBanner) return; // já exibindo
+
+    final banner = BannerAd(
+      adUnitId: _bannerAdUnitId,
+      size: AdSize.banner, // 320×50 — alinhado ao placeholder de 50px do AdBanner.tsx
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          if (mounted) {
+            setState(() {
+              _bannerAd = ad as BannerAd;
+              _showingBanner = true;
+            });
+          }
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('[AdMob] Banner falhou ao carregar: ${error.message}');
+          ad.dispose();
+        },
+      ),
+    );
+    banner.load();
+  }
+
+  void _hideBanner() {
+    if (!_showingBanner) return;
+    _bannerAd?.dispose();
+    if (mounted) {
+      setState(() {
+        _bannerAd = null;
+        _showingBanner = false;
+      });
+    }
+  }
+
   @override
   void dispose() {
     _fadeController.dispose();
     _rewardedAd?.dispose();
+    _interstitialAd?.dispose();
+    _bannerAd?.dispose();
     super.dispose();
   }
 
@@ -240,7 +365,20 @@ class _WebViewScreenState extends State<WebViewScreen>
           bottom: true,
           child: Stack(
             children: [
-              WebViewWidget(controller: _controller),
+              // WebView ocupa tudo, exceto os 50 px do banner nativo quando ativo
+              Positioned.fill(
+                bottom: _showingBanner ? 50.0 : 0.0,
+                child: WebViewWidget(controller: _controller),
+              ),
+              // Banner nativo AdMob — encaixado na base da tela quando ativo
+              if (_showingBanner && _bannerAd != null)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: 50,
+                  child: AdWidget(ad: _bannerAd!),
+                ),
               if (_isLoading)
                 FadeTransition(
                   opacity: _fadeAnimation,
