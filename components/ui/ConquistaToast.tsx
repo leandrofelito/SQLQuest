@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useLocale } from '@/context/LocaleContext'
 
 interface ConquistaToastProps {
   emoji: string
@@ -9,6 +10,7 @@ interface ConquistaToastProps {
 }
 
 export function ConquistaToast({ emoji, nome, onDismiss }: ConquistaToastProps) {
+  const { messages } = useLocale()
   useEffect(() => {
     const t = setTimeout(onDismiss, 4000)
     return () => clearTimeout(t)
@@ -34,7 +36,7 @@ export function ConquistaToast({ emoji, nome, onDismiss }: ConquistaToastProps) 
 
         <div className="text-left">
           <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-yellow-400/70 mb-0.5">
-            Conquista desbloqueada!
+            {messages.conquistas.desbloqueada}
           </p>
           <p className="text-white font-bold text-sm leading-tight">{nome}</p>
         </div>

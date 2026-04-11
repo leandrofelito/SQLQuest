@@ -1,9 +1,299 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { cookies } from 'next/headers'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { RANKING_CONQUISTAS, getConquistasRankingUsuario } from '@/lib/ranking-conquistas'
+import { getRankingConquistasLocalizadas, getConquistasRankingUsuario } from '@/lib/ranking-conquistas'
 import { getLevel, LEVEL_MILESTONES } from '@/lib/xp'
+import { COOKIE_NAME } from '@/lib/locale'
+
+// Traduções EN e ES para todas as conquistas (PT é o valor base no array)
+const CONQUISTAS_I18N: Record<string, Record<string, { nome: string; desc: string }>> = {
+  primeira_etapa: {
+    en: { nome: 'First Step', desc: 'Complete the first step of any trail' },
+    es: { nome: 'Primer Paso', desc: 'Completa el primer paso de cualquier ruta' },
+  },
+  trilha_fundamentos: {
+    en: { nome: 'Fundamentals', desc: 'Complete the SQL Fundamentals trail' },
+    es: { nome: 'Fundamentos', desc: 'Completa la ruta Fundamentos de SQL' },
+  },
+  trilha_select: {
+    en: { nome: 'SELECT Explorer', desc: 'Complete the SELECT — Reading Data trail' },
+    es: { nome: 'Explorador SELECT', desc: 'Completa la ruta SELECT — Leyendo Datos' },
+  },
+  trilha_joins: {
+    en: { nome: 'JOINs Master', desc: 'Complete the JOINs — Joining Tables trail' },
+    es: { nome: 'Maestro de JOINs', desc: 'Completa la ruta JOINs — Uniendo Tablas' },
+  },
+  sem_dica: {
+    en: { nome: 'No Help', desc: 'Complete any exercise on the first try without hints' },
+    es: { nome: 'Sin Ayuda', desc: 'Completa cualquier ejercicio en el primer intento sin pistas' },
+  },
+  streak_3: {
+    en: { nome: 'On Fire', desc: 'Maintain a 3-day consecutive streak' },
+    es: { nome: 'En Llamas', desc: 'Mantén una racha de 3 días consecutivos' },
+  },
+  streak_7: {
+    en: { nome: 'Solid Week', desc: 'Maintain a 7-day consecutive streak' },
+    es: { nome: 'Semana Sólida', desc: 'Mantén una racha de 7 días consecutivos' },
+  },
+  xp_500: {
+    en: { nome: '500 XP', desc: 'Accumulate 500 experience points' },
+    es: { nome: '500 XP', desc: 'Acumula 500 puntos de experiencia' },
+  },
+  xp_2000: {
+    en: { nome: '2K XP', desc: 'Accumulate 2,000 experience points' },
+    es: { nome: '2K XP', desc: 'Acumula 2.000 puntos de experiencia' },
+  },
+  xp_5000: {
+    en: { nome: 'SQL Veteran', desc: 'Accumulate 5,000 experience points' },
+    es: { nome: 'Veterano SQL', desc: 'Acumula 5.000 puntos de experiencia' },
+  },
+  pro: {
+    en: { nome: 'Pro Member', desc: 'Subscribe to the Pro plan' },
+    es: { nome: 'Miembro Pro', desc: 'Suscríbete al plan Pro' },
+  },
+  cert_1: {
+    en: { nome: 'Certificate', desc: 'Earn your first certificate' },
+    es: { nome: 'Certificado', desc: 'Obtén tu primer certificado' },
+  },
+  etapas_20: {
+    en: { nome: 'Studious', desc: 'Complete 20 steps in total' },
+    es: { nome: 'Estudioso', desc: 'Completa 20 pasos en total' },
+  },
+  window_fn: {
+    en: { nome: 'Advanced Analyst', desc: 'Complete the Window Functions trail' },
+    es: { nome: 'Analista Avanzado', desc: 'Completa la ruta Window Functions' },
+  },
+  dml: {
+    en: { nome: 'Hands On', desc: 'Complete the INSERT, UPDATE and DELETE trail' },
+    es: { nome: 'Manos a la Obra', desc: 'Completa la ruta INSERT, UPDATE y DELETE' },
+  },
+  etapas_5: {
+    en: { nome: 'First Sprouts', desc: 'Complete 5 steps in total' },
+    es: { nome: 'Primeros Brotes', desc: 'Completa 5 pasos en total' },
+  },
+  segunda_feira: {
+    en: { nome: 'Monday Studier', desc: 'Complete any step on a Monday' },
+    es: { nome: 'Estudioso del Lunes', desc: 'Completa cualquier paso un lunes' },
+  },
+  trilha_filtragem: {
+    en: { nome: 'SQL Detective', desc: 'Complete the WHERE and Filtering trail' },
+    es: { nome: 'Detective SQL', desc: 'Completa la ruta WHERE y Filtrado' },
+  },
+  streak_14: {
+    en: { nome: 'Two Weeks', desc: 'Maintain a 14-day consecutive streak' },
+    es: { nome: 'Dos Semanas', desc: 'Mantén una racha de 14 días consecutivos' },
+  },
+  trilha_groupby: {
+    en: { nome: 'The Aggregator', desc: 'Complete the GROUP BY and HAVING trail' },
+    es: { nome: 'El Agregador', desc: 'Completa la ruta GROUP BY y HAVING' },
+  },
+  trilhas_5: {
+    en: { nome: 'Explorer', desc: 'Complete 5 different trails' },
+    es: { nome: 'Explorador', desc: 'Completa 5 rutas diferentes' },
+  },
+  sem_dica_10: {
+    en: { nome: 'Sharp Mind', desc: 'Complete 10 steps without using any hints' },
+    es: { nome: 'Mente Aguda', desc: 'Completa 10 pasos sin usar ninguna pista' },
+  },
+  certeiro_5: {
+    en: { nome: 'Sharpshooter', desc: 'Nail 5 different steps on the first try without hints' },
+    es: { nome: 'Certero', desc: 'Acierta 5 pasos diferentes en el primer intento sin pistas' },
+  },
+  trilha_indices: {
+    en: { nome: 'Optimizer', desc: 'Complete the Indexes — SQL Performance trail' },
+    es: { nome: 'Optimizador', desc: 'Completa la ruta Índices — Rendimiento SQL' },
+  },
+  etapas_50: {
+    en: { nome: 'Marathon Runner', desc: 'Complete 50 steps in total' },
+    es: { nome: 'Maratonista', desc: 'Completa 50 pasos en total' },
+  },
+  trilha_sem_dica: {
+    en: { nome: 'Zero Mistakes', desc: 'Complete any full trail without using any hints' },
+    es: { nome: 'Cero Errores', desc: 'Completa cualquier ruta completa sin usar ninguna pista' },
+  },
+  streak_30: {
+    en: { nome: 'Dedicated Month', desc: 'Maintain a 30-day consecutive streak' },
+    es: { nome: 'Mes Dedicado', desc: 'Mantén una racha de 30 días consecutivos' },
+  },
+  cert_10: {
+    en: { nome: 'Certified Master', desc: 'Earn certificates in 10 different trails' },
+    es: { nome: 'Maestro Certificado', desc: 'Obtén certificados en 10 rutas diferentes' },
+  },
+  trilha_perfeita: {
+    en: { nome: 'Perfectionist', desc: 'Complete any full trail on the first try, without any hints' },
+    es: { nome: 'Perfeccionista', desc: 'Completa cualquier ruta completa en el primer intento, sin pistas' },
+  },
+  data_god: {
+    en: { nome: 'Data God', desc: 'Complete all SQLQuest trails (100% of content)' },
+    es: { nome: 'Dios de Datos', desc: 'Completa todas las rutas de SQLQuest (100% del contenido)' },
+  },
+  cirurgiao_dados: {
+    en: { nome: 'Data Surgeon', desc: 'Complete at least one step of the INSERT, UPDATE and DELETE trail' },
+    es: { nome: 'Cirujano de Datos', desc: 'Completa al menos un paso de la ruta INSERT, UPDATE y DELETE' },
+  },
+  noite_plantao: {
+    en: { nome: 'Night Shift', desc: 'Solve any exercise after 10 PM' },
+    es: { nome: 'Turno de Noche', desc: 'Resuelve cualquier ejercicio después de las 22h' },
+  },
+  trilhas_10: {
+    en: { nome: 'SQL Decathlete', desc: 'Complete 10 different trails' },
+    es: { nome: 'Decatleta SQL', desc: 'Completa 10 rutas diferentes' },
+  },
+  xp_10000: {
+    en: { nome: 'SQL Legend', desc: 'Accumulate 10,000 experience points' },
+    es: { nome: 'Leyenda SQL', desc: 'Acumula 10.000 puntos de experiencia' },
+  },
+  detetive_bi: {
+    en: { nome: 'Data Detective', desc: 'Complete the Data Detective trail (BI, complex Joins and Window Functions)' },
+    es: { nome: 'Detective de Datos', desc: 'Completa la ruta Detective de Datos (BI, Joins complejos y Window Functions)' },
+  },
+  mestre_performance: {
+    en: { nome: 'Performance Master', desc: 'Complete the Performance Master trail (Tuning, Indexes and EXPLAIN ANALYZE)' },
+    es: { nome: 'Maestro del Rendimiento', desc: 'Completa la ruta Maestro del Rendimiento (Tuning, Índices y EXPLAIN ANALYZE)' },
+  },
+  guardiao_dados: {
+    en: { nome: 'Data Guardian', desc: 'Complete the Security and Governance trail (Roles, Triggers and LGPD)' },
+    es: { nome: 'Guardián de Datos', desc: 'Completa la ruta Seguridad y Gobernanza (Roles, Triggers y LGPD)' },
+  },
+  dev_sql_full: {
+    en: { nome: 'SQL Dev', desc: 'Complete the SQL for Developers trail (DDL, DML and JSONB)' },
+    es: { nome: 'Dev SQL', desc: 'Completa la ruta SQL para Desarrolladores (DDL, DML y JSONB)' },
+  },
+  inevitavel: {
+    en: { nome: 'The Inevitable', desc: 'Complete the entire JOINs trail without any hints' },
+    es: { nome: 'El Inevitable', desc: 'Completa la ruta JOINs completa sin usar ninguna pista' },
+  },
+  arquiteto_supremo: {
+    en: { nome: 'Supreme Architect', desc: 'Complete the SQL for Developers trail on the first try, without hints' },
+    es: { nome: 'Arquitecto Supremo', desc: 'Completa la ruta SQL para Desarrolladores en el primer intento, sin pistas' },
+  },
+  nivel_5: {
+    en: { nome: 'Data Collector', desc: 'Reach Level 5 — you are collecting the right data!' },
+    es: { nome: 'Recolector de Datos', desc: '¡Alcanza el Nivel 5 — estás recopilando los datos correctos!' },
+  },
+  nivel_10: {
+    en: { nome: 'Query Beginner', desc: 'Reach Level 10 — your queries already have purpose.' },
+    es: { nome: 'Query Principiante', desc: 'Alcanza el Nivel 10 — tus queries ya tienen propósito.' },
+  },
+  nivel_15: {
+    en: { nome: 'Syntax on Point', desc: 'Reach Level 15 — syntax is at your fingertips.' },
+    es: { nome: 'Sintaxis Dominada', desc: 'Alcanza el Nivel 15 — la sintaxis está en la punta de los dedos.' },
+  },
+  nivel_20: {
+    en: { nome: 'SELECT Guardian', desc: 'Reach Level 20 — you master the art of reading data.' },
+    es: { nome: 'Guardián de SELECTs', desc: 'Alcanza el Nivel 20 — dominas el arte de leer datos.' },
+  },
+  nivel_25: {
+    en: { nome: 'Query Analyst', desc: 'Reach Level 25 — you analyze data like a professional.' },
+    es: { nome: 'Analista de Queries', desc: 'Alcanza el Nivel 25 — analizas datos como un profesional.' },
+  },
+  nivel_30: {
+    en: { nome: 'Filter Master', desc: 'Reach Level 30 — WHERE is your best friend.' },
+    es: { nome: 'Maestro de Filtros', desc: 'Alcanza el Nivel 30 — WHERE es tu mejor amigo.' },
+  },
+  nivel_35: {
+    en: { nome: 'Table Connector', desc: 'Reach Level 35 — you connect tables with elegance.' },
+    es: { nome: 'Conector de Tablas', desc: 'Alcanza el Nivel 35 — conectas tablas con elegancia.' },
+  },
+  nivel_40: {
+    en: { nome: 'Pro Indexer', desc: 'Reach Level 40 — performance is your obsession.' },
+    es: { nome: 'Indexador Profesional', desc: 'Alcanza el Nivel 40 — el rendimiento es tu obsesión.' },
+  },
+  nivel_50: {
+    en: { nome: 'Fifty Levels', desc: 'Reach Level 50 — halfway to legend.' },
+    es: { nome: 'Cincuenta Niveles', desc: 'Alcanza el Nivel 50 — a mitad del camino hacia la leyenda.' },
+  },
+  nivel_60: {
+    en: { nome: 'Schema Architect', desc: 'Reach Level 60 — you design databases like structures.' },
+    es: { nome: 'Arquitecto de Schemas', desc: 'Alcanza el Nivel 60 — diseñas bases de datos como estructuras.' },
+  },
+  nivel_70: {
+    en: { nome: 'Index Optimizer', desc: 'Reach Level 70 — EXPLAIN ANALYZE holds no secrets for you.' },
+    es: { nome: 'Optimizador de Índices', desc: 'Alcanza el Nivel 70 — EXPLAIN ANALYZE no tiene secretos para ti.' },
+  },
+  nivel_80: {
+    en: { nome: 'Maximum Security', desc: 'Reach Level 80 — you ensure data integrity.' },
+    es: { nome: 'Seguridad Máxima', desc: 'Alcanza el Nivel 80 — garantizas la integridad de los datos.' },
+  },
+  nivel_90: {
+    en: { nome: 'SQL Wizard', desc: 'Reach Level 90 — you write spells in SQL.' },
+    es: { nome: 'Mago del SQL', desc: 'Alcanza el Nivel 90 — escribes hechizos en SQL.' },
+  },
+  nivel_100: {
+    en: { nome: 'Centenary', desc: 'Reach Level 100 — a historic milestone in SQLQuest!' },
+    es: { nome: 'Centenario', desc: 'Alcanza el Nivel 100 — ¡un hito histórico en SQLQuest!' },
+  },
+  nivel_150: {
+    en: { nome: 'SQL Oracle', desc: 'Reach Level 150 — you see the future of data.' },
+    es: { nome: 'Oráculo SQL', desc: 'Alcanza el Nivel 150 — ves el futuro de los datos.' },
+  },
+  nivel_200: {
+    en: { nome: 'Universe Architect', desc: 'Reach Level 200 — two hundred levels of pure power.' },
+    es: { nome: 'Arquitecto del Universo', desc: 'Alcanza el Nivel 200 — doscientos niveles de poder puro.' },
+  },
+  nivel_250: {
+    en: { nome: 'Data Entity', desc: 'Reach Level 250 — you transcend common SQL.' },
+    es: { nome: 'Entidad de Datos', desc: 'Alcanza el Nivel 250 — trasciendes el SQL común.' },
+  },
+  nivel_300: {
+    en: { nome: 'Neon DB Legend', desc: 'Reach Level 300 — living legend of Neon Database.' },
+    es: { nome: 'Leyenda de Neon DB', desc: 'Alcanza el Nivel 300 — leyenda viva de Neon Database.' },
+  },
+  nivel_500: {
+    en: { nome: 'SQL Immortal', desc: 'Reach Level 500 — existence beyond mortal SQL.' },
+    es: { nome: 'Inmortal del SQL', desc: 'Alcanza el Nivel 500 — existencia más allá del SQL mortal.' },
+  },
+  nivel_750: {
+    en: { nome: 'Data Supreme', desc: 'Reach Level 750 — you transcended the concept of database.' },
+    es: { nome: 'Supremo de Datos', desc: 'Alcanza el Nivel 750 — trascendiste el concepto de base de datos.' },
+  },
+  nivel_1000: {
+    en: { nome: 'The Creator', desc: 'Reach Level 1000 — absolute milestone. You are SQLQuest.' },
+    es: { nome: 'El Creador', desc: 'Alcanza el Nivel 1000 — hito absoluto. Tú eres SQLQuest.' },
+  },
+  prestige_1: {
+    en: { nome: 'First Prestige', desc: 'Reset to Level 1 after reaching Level 100 and earn the Prestige Star.' },
+    es: { nome: 'Primer Prestigio', desc: 'Reinicia al Nivel 1 después de alcanzar el Nivel 100 y gana la Estrella de Prestigio.' },
+  },
+  prestige_5: {
+    en: { nome: 'Prestige Veteran', desc: 'Reach Prestige 5 — five complete journeys from Level 1 to 100.' },
+    es: { nome: 'Veterano del Prestigio', desc: 'Alcanza el Prestigio 5 — cinco jornadas completas del Nivel 1 al 100.' },
+  },
+  trilha_elite: {
+    en: { nome: 'Elite Pilot', desc: 'Complete the Elite Challenges: Tuning and Performance trail' },
+    es: { nome: 'Piloto de Élite', desc: 'Completa la ruta Desafíos de Élite: Tuning y Rendimiento' },
+  },
+  escovador_bits: {
+    en: { nome: 'Bit Scrubber', desc: 'Complete the Elite Challenges with 3 stars on all exercises' },
+    es: { nome: 'Pulidor de Bits', desc: 'Completa los Desafíos de Élite con 3 estrellas en todos los ejercicios' },
+  },
+  platina_fundamentos: {
+    en: { nome: 'Fundamentals Platinum', desc: 'Earn 3 stars on all exercises in the SQL Fundamentals trail.' },
+    es: { nome: 'Platino Fundamentos', desc: 'Obtén 3 estrellas en todos los ejercicios de la ruta Fundamentos de SQL.' },
+  },
+  platina_select: {
+    en: { nome: 'SELECT Platinum', desc: 'Earn 3 stars on all exercises in the SELECT — Reading Data trail.' },
+    es: { nome: 'Platino SELECT', desc: 'Obtén 3 estrellas en todos los ejercicios de la ruta SELECT — Leyendo Datos.' },
+  },
+  platina_filtragem: {
+    en: { nome: 'Filtering Platinum', desc: 'Earn 3 stars on all exercises in the WHERE and Filtering trail.' },
+    es: { nome: 'Platino Filtrado', desc: 'Obtén 3 estrellas en todos los ejercicios de la ruta WHERE y Filtrado.' },
+  },
+  platina_joins: {
+    en: { nome: 'JOINs Platinum', desc: 'Earn 3 stars on all exercises in the JOINs — Joining Tables trail.' },
+    es: { nome: 'Platino JOINs', desc: 'Obtén 3 estrellas en todos los ejercicios de la ruta JOINs — Uniendo Tablas.' },
+  },
+  platina_groupby: {
+    en: { nome: 'Grouping Platinum', desc: 'Earn 3 stars on all exercises in the GROUP BY and HAVING trail.' },
+    es: { nome: 'Platino Agrupamiento', desc: 'Obtén 3 estrellas en todos los ejercicios de la ruta GROUP BY y HAVING.' },
+  },
+  platina_dml: {
+    en: { nome: 'DML Platinum', desc: 'Earn 3 stars on all exercises in the INSERT, UPDATE and DELETE trail.' },
+    es: { nome: 'Platino DML', desc: 'Obtén 3 estrellas en todos los ejercicios de la ruta INSERT, UPDATE y DELETE.' },
+  },
+}
 
 export async function GET() {
   const session = await getServerSession(authOptions)
@@ -658,7 +948,18 @@ export async function GET() {
     },
   ]
 
-  const conquistasRankingFormatadas = RANKING_CONQUISTAS.map(rc => {
+  // Determina o locale a partir do cookie
+  const cookieStore = await cookies()
+  const locale = cookieStore.get(COOKIE_NAME)?.value ?? 'pt'
+
+  // Aplica tradução a uma conquista
+  function localizar<T extends { id: string; nome: string; desc: string }>(c: T): T {
+    const tr = CONQUISTAS_I18N[c.id]?.[locale]
+    return tr ? { ...c, ...tr } : c
+  }
+
+  const rankingLocalizadas = getRankingConquistasLocalizadas(locale)
+  const conquistasRankingFormatadas = rankingLocalizadas.map(rc => {
     const registro = conquistasRanking.find(c => c.tipo === rc.tipo)
     return {
       id: `ranking_${rc.tipo}`,
@@ -672,5 +973,5 @@ export async function GET() {
     }
   })
 
-  return NextResponse.json([...conquistas, ...conquistasRankingFormatadas])
+  return NextResponse.json([...conquistas.map(localizar), ...conquistasRankingFormatadas])
 }

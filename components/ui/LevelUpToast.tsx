@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { getLevelBadge } from '@/lib/xp'
+import { useLocale } from '@/context/LocaleContext'
 
 interface LevelUpToastProps {
   nivelAnterior: number
@@ -15,6 +16,7 @@ interface LevelUpToastProps {
  * Auto-dismiss em 3.5s. Clicar também dispensa.
  */
 export function LevelUpToast({ nivelAnterior, nivelAtual, onDismiss }: LevelUpToastProps) {
+  const { messages } = useLocale()
   const badge = getLevelBadge(nivelAtual)
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export function LevelUpToast({ nivelAnterior, nivelAtual, onDismiss }: LevelUpTo
           className="text-[10px] font-bold uppercase tracking-[0.1em] mb-1"
           style={{ color: badge.cor + 'aa' }}
         >
-          Nível UP!
+          {messages.levelup.titulo}
         </p>
 
         <p className="font-black text-base text-white leading-none">

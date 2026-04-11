@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import type { ConteudoResumo } from '@/types'
+import { useLocale } from '@/context/LocaleContext'
 
 interface TelaResumoProps {
   titulo: string
@@ -17,6 +18,7 @@ const COR_MAP = {
 }
 
 export function TelaResumo({ titulo, conteudo, onContinuar }: TelaResumoProps) {
+  const { messages } = useLocale()
   const cores = COR_MAP[conteudo.cor]
 
   return (
@@ -27,7 +29,7 @@ export function TelaResumo({ titulo, conteudo, onContinuar }: TelaResumoProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className={`text-sm font-bold ${cores.label} tracking-wide`}>⚡ Resumo Rápido</div>
+          <div className={`text-sm font-bold ${cores.label} tracking-wide`}>{messages.resumo.titulo}</div>
           <div className="space-y-3">
             {conteudo.itens.map((item, i) => (
               <motion.div
@@ -47,7 +49,7 @@ export function TelaResumo({ titulo, conteudo, onContinuar }: TelaResumoProps) {
 
       <div className="mt-6 pb-6">
         <Button onClick={onContinuar} fullWidth size="lg">
-          Próximo →
+          {messages.resumo.proximo}
         </Button>
       </div>
     </div>
