@@ -225,35 +225,61 @@ class _WebViewScreenState extends State<WebViewScreen>
     );
   }
 
+  /// Exibe rewarded e envia **apenas um** resultado ao JS por exibição:
+  /// - `completed` se o usuário ganhou o prêmio (não envia `dismissed` depois,
+  ///   senão o React trata como fechamento e cancela o 2º anúncio / liberação).
+  /// - `dismissed` só se fechou sem prêmio ou falhou.
   void _showRewardedAd() {
-    if (_rewardedAd == null) {
-      _controller.runJavaScript("window.onAdMobResult('dismissed')");
-      _loadRewardedAd();
+    void present(RewardedAd ad) {
+      var rewardEarned = false;
+      ad.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          if (mounted) setState(() => _rewardedAd = null);
+          if (!rewardEarned) {
+            _controller.runJavaScript("window.onAdMobResult('dismissed')");
+          }
+          _loadRewardedAd();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          debugPrint('[AdMob] Rewarded falhou ao exibir: ${error.message}');
+          ad.dispose();
+          if (mounted) setState(() => _rewardedAd = null);
+          _loadRewardedAd();
+          _controller.runJavaScript("window.onAdMobResult('dismissed')");
+        },
+      );
+      ad.show(
+        onUserEarnedReward: (_, _) {
+          rewardEarned = true;
+          _controller.runJavaScript("window.onAdMobResult('completed')");
+        },
+      );
+    }
+
+    if (_rewardedAd != null) {
+      final ad = _rewardedAd!;
+      _rewardedAd = null;
+      if (mounted) setState(() {});
+      present(ad);
       return;
     }
 
-    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdDismissedFullScreenContent: (ad) {
-        ad.dispose();
-        _rewardedAd = null;
-        _loadRewardedAd();
-        _controller.runJavaScript("window.onAdMobResult('dismissed')");
-      },
-      onAdFailedToShowFullScreenContent: (ad, error) {
-        debugPrint('[AdMob] Rewarded falhou ao exibir: ${error.message}');
-        ad.dispose();
-        _rewardedAd = null;
-        _loadRewardedAd();
-        _controller.runJavaScript("window.onAdMobResult('dismissed')");
-      },
+    // 2º anúncio em sequência: o pré-carregamento pode ainda não ter terminado.
+    RewardedAd.load(
+      adUnitId: _rewardedAdUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          present(ad);
+        },
+        onAdFailedToLoad: (error) {
+          debugPrint('[AdMob] Rewarded falhou ao carregar: ${error.message}');
+          _controller.runJavaScript("window.onAdMobResult('dismissed')");
+          _loadRewardedAd();
+        },
+      ),
     );
-
-    _rewardedAd!.show(
-      onUserEarnedReward: (_, reward) {
-        _controller.runJavaScript("window.onAdMobResult('completed')");
-      },
-    );
-    _rewardedAd = null;
   }
 
   // ── Interstitial ──────────────────────────────────────────────────────────

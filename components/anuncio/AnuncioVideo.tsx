@@ -167,6 +167,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 're
   )
 
   // --- UI Flutter ---
+  // Sem botão X sobre o WebView: o fechamento é pelo próprio anúncio nativo;
+  // um X em cima confundia com o anúncio e, ao fechar o vídeo, o callback
+  // `dismissed` já trata saída sem prêmio.
   if (flutter.current) {
     if (flutterAdState === 'loading' || flutterAdState === 'showing') {
       return (
@@ -175,20 +178,8 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 're
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          {onFechar && (
-            <button
-              onClick={tentarFechar}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-              title="Fechar"
-            >
-              <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
-                <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </button>
-          )}
           <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
           <p className="text-white/50 text-sm">Carregando anúncio…</p>
-          {modalConfirmacao}
         </motion.div>
       )
     }
@@ -204,26 +195,13 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 're
       animate={{ opacity: 1 }}
     >
       {/* Topo */}
-      <div className="flex items-center justify-between px-4 pt-4 pb-2 safe-top">
-        <div className="bg-black/40 rounded-full px-3 py-1">
+      <div className="flex items-center justify-between px-4 pt-4 pb-2 safe-top gap-3">
+        <div className="bg-black/40 rounded-full px-3 py-1 shrink-0">
           <span className="text-white/60 text-sm">
             {tempo > 0 ? `${tempo}s até o prêmio` : 'Pronto!'}
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="text-xs text-white/30">{label ?? 'Anúncio'}</div>
-          {onFechar && (
-            <button
-              onClick={tentarFechar}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-              title="Fechar"
-            >
-              <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
-                <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </button>
-          )}
-        </div>
+        <div className="text-xs text-white/30 text-right min-w-0">{label ?? 'Anúncio'}</div>
       </div>
 
       {/* Área do anúncio */}
@@ -270,6 +248,15 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 're
         <p className="text-center text-xs text-white/30">
           Assine Pro para pular anúncios
         </p>
+        {onFechar && (
+          <button
+            type="button"
+            onClick={tentarFechar}
+            className="w-full text-center text-xs text-white/35 hover:text-white/50 underline underline-offset-2 py-1"
+          >
+            Sair sem assistir
+          </button>
+        )}
       </div>
 
       {modalConfirmacao}
