@@ -97,5 +97,46 @@
     "pt": "Português",
     "en": "English",
     "es": "Español"
+  },
+  "perfil": {
+    "titulo": "Perfil",
+    "streak": "Streak",
+    "dias": "dias",
+    "etapas": "Etapas",
+    "concluidas": "concluídas",
+    "certs": "Certs",
+    "emitidos": "emitidos",
+    "conquistas": "Conquistas",
+    "rankingGlobal": "Ranking Global",
+    "mundoDo": "do mundo",
+    "comoDesbloquear": "Como desbloquear",
+    "prestigeDisponivel": "Prestígio disponível!",
+    "prestigeDesc": "Você está no Nível {nivel}. Resete para o Nível 1 e ganhe a Estrela de Prestígio {prestige}.",
+    "prestigeStars": "{stars} {tier} — {current}/5 estrelas no tier",
+    "ativarPrestigio": "✨ Ativar Prestígio {n}",
+    "confirmarPrestigio": "Tem certeza? Seu XP será zerado e você voltará ao Nível 1, mas ganhará a Estrela de Prestígio {n} ({tier} {stars}).",
+    "assinarPro": "⭐ Assinar Pro — R$19,90",
+    "ajuda": "Precisa de ajuda?",
+    "sair": "Sair",
+    "preferencias": "Preferências",
+    "idioma": "Idioma",
+    "tierBronze": "Bronze",
+    "tierPrata": "Prata",
+    "tierOuro": "Ouro",
+    "tierRubi": "Rubi"
+  },
+  "ranking": {
+    "titulo": "Ranking Global",
+    "voce": "você"
+  },
+  "certificados": {
+    "titulo": "Certificados",
+    "proTitulo": "Certificados Pro",
+    "proDesc": "Conclua trilhas e baixe certificados PDF para compartilhar.",
+    "assinarPro": "Assinar Pro — R$19,90",
+    "conquistados": "Conquistados",
+    "emAndamento": "Em andamento",
+    "semCerts": "Complete trilhas para ganhar certificados.",
+    "concluido": "concluído"
   }
 }

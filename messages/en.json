@@ -97,5 +97,46 @@
     "pt": "Português",
     "en": "English",
     "es": "Español"
+  },
+  "perfil": {
+    "titulo": "Profile",
+    "streak": "Streak",
+    "dias": "days",
+    "etapas": "Steps",
+    "concluidas": "completed",
+    "certs": "Certs",
+    "emitidos": "issued",
+    "conquistas": "Achievements",
+    "rankingGlobal": "Global Ranking",
+    "mundoDo": "of the world",
+    "comoDesbloquear": "How to unlock",
+    "prestigeDisponivel": "Prestige available!",
+    "prestigeDesc": "You are at Level {nivel}. Reset to Level 1 and earn Prestige Star {prestige}.",
+    "prestigeStars": "{stars} {tier} — {current}/5 stars in tier",
+    "ativarPrestigio": "✨ Activate Prestige {n}",
+    "confirmarPrestigio": "Are you sure? Your XP will reset to 0 and you'll return to Level 1, but you'll earn Prestige Star {n} ({tier} {stars}).",
+    "assinarPro": "⭐ Subscribe Pro — R$19,90",
+    "ajuda": "Need help?",
+    "sair": "Sign out",
+    "preferencias": "Preferences",
+    "idioma": "Language",
+    "tierBronze": "Bronze",
+    "tierPrata": "Silver",
+    "tierOuro": "Gold",
+    "tierRubi": "Ruby"
+  },
+  "ranking": {
+    "titulo": "Global Ranking",
+    "voce": "you"
+  },
+  "certificados": {
+    "titulo": "Certificates",
+    "proTitulo": "Pro Certificates",
+    "proDesc": "Complete trails and download PDF certificates to share.",
+    "assinarPro": "Subscribe Pro — R$19,90",
+    "conquistados": "Earned",
+    "emAndamento": "In progress",
+    "semCerts": "Complete trails to earn certificates.",
+    "concluido": "completed"
   }
 }
