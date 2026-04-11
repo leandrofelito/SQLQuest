@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
+import { contemPalavrão } from '@/lib/nickname'
 
 export default function EscolherNicknamePage() {
   const { data: session, update } = useSession()
@@ -10,6 +11,7 @@ export default function EscolherNicknamePage() {
   const [nickname, setNickname] = useState('')
   const [erro, setErro] = useState('')
   const [loading, setLoading] = useState(false)
+  const [fase, setFase] = useState<'salvar' | 'sessao'>('salvar')
 
   // Se já tem nickname, vai para home
   useEffect(() => {
@@ -21,26 +23,53 @@ export default function EscolherNicknamePage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErro('')
-    setLoading(true)
 
+    // Validação antecipada no cliente — feedback imediato sem round-trip
+    if (contemPalavrão(nickname)) {
+      setErro('Este nickname não é permitido. Escolha outro.')
+      return
+    }
+
+    setLoading(true)
+    setFase('salvar')
     try {
       const res = await fetch('/api/auth/nickname', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nickname }),
+        signal: AbortSignal.timeout(12_000),
       })
-      const data = await res.json()
+
+      let data: Record<string, string> = {}
+      try { data = await res.json() } catch { /* corpo não-JSON — ignora */ }
 
       if (!res.ok) {
-        setErro(data.error ?? 'Erro ao salvar nickname')
+        setErro(data.error ?? 'Erro ao salvar nickname. Tente novamente.')
         return
       }
 
       // Atualiza o JWT com o novo nickname e redireciona
-      await update({ nickname })
+      setFase('sessao')
+      try {
+        await update({ nickname })
+      } catch {
+        // update() falhou — sessão pode ter expirado; pedir novo login
+        setErro('Nickname salvo, mas não foi possível atualizar a sessão. Faça login novamente.')
+        return
+      }
       router.replace('/home')
+    } catch (err: unknown) {
+      const isTimeout =
+        err instanceof DOMException &&
+        (err.name === 'TimeoutError' || err.name === 'AbortError')
+      setErro(
+        isTimeout
+          ? 'A requisição demorou demais. Verifique sua conexão e tente novamente.'
+          : 'Erro de conexão. Verifique sua internet e tente novamente.',
+      )
     } finally {
       setLoading(false)
+      setFase('salvar')
     }
   }
 
@@ -87,6 +116,11 @@ export default function EscolherNicknamePage() {
                   setNickname(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))
                   setErro('')
                 }}
+                onBlur={() => {
+                  if (nickname.length >= 3 && contemPalavrão(nickname)) {
+                    setErro('Este nickname não é permitido. Escolha outro.')
+                  }
+                }}
                 placeholder="joaosilva_sql"
                 required
                 autoComplete="username"
@@ -125,7 +159,7 @@ export default function EscolherNicknamePage() {
             size="lg"
             disabled={nickname.length < 3}
           >
-            Confirmar e entrar
+            {loading && fase === 'sessao' ? 'Atualizando sessão…' : 'Confirmar e entrar'}
           </Button>
         </form>
       </div>

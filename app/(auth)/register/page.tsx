@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
+import { contemPalavrão } from '@/lib/nickname'
 
 // ── Força da senha ──────────────────────────────────────────────────
 interface PasswordCheck {
@@ -73,6 +74,11 @@ export default function RegisterPage() {
       setErro('As senhas não coincidem')
       return
     }
+    // Validação antecipada no cliente — evita round-trip desnecessário
+    if (contemPalavrão(form.nickname)) {
+      setErro('Este nickname não é permitido. Escolha outro.')
+      return
+    }
 
     setLoading(true)
     try {
@@ -86,15 +92,27 @@ export default function RegisterPage() {
           email: form.email,
           password: form.password,
         }),
+        signal: AbortSignal.timeout(12_000),
       })
-      const data = await res.json()
+
+      let data: Record<string, string> = {}
+      try { data = await res.json() } catch { /* corpo não-JSON — ignora */ }
 
       if (!res.ok) {
-        setErro(data.error ?? 'Erro ao criar conta')
+        setErro(data.error ?? 'Erro ao criar conta. Tente novamente.')
         return
       }
 
       setEmailEnviado(true)
+    } catch (err: unknown) {
+      const isTimeout =
+        err instanceof DOMException &&
+        (err.name === 'TimeoutError' || err.name === 'AbortError')
+      setErro(
+        isTimeout
+          ? 'A requisição demorou demais. Verifique sua conexão e tente novamente.'
+          : 'Erro de conexão. Verifique sua internet e tente novamente.',
+      )
     } finally {
       setLoading(false)
     }
@@ -163,6 +181,11 @@ export default function RegisterPage() {
               type="text"
               value={form.nickname}
               onChange={e => set('nickname', e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+              onBlur={() => {
+                if (form.nickname.length >= 3 && contemPalavrão(form.nickname)) {
+                  setErro('Este nickname não é permitido. Escolha outro.')
+                }
+              }}
               placeholder="joaosilva_sql"
               required
               autoComplete="username"
