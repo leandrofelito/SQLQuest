@@ -45,8 +45,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   }
 
   function primeiroAnuncioConcluido() {
-    // Pequena pausa antes do segundo anúncio para evitar conflito no AdMob
-    setTimeout(() => setFluxo('ad2'), 300)
+    // Pausa para o AdMob concluir dismiss + carregar o próximo rewarded (mobile)
+    setTimeout(() => setFluxo('ad2'), 600)
   }
 
   async function segundoAnuncioConcluido() {
@@ -131,6 +131,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
 
       {fluxo === 'ad1' && (
         <AnuncioVideo
+          key="trilha-rewarded-1"
           isPro={false}
           adType="rewarded"
           label="Anúncio 1 de 2"
@@ -140,6 +141,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       )}
       {fluxo === 'ad2' && (
         <AnuncioVideo
+          key="trilha-rewarded-2"
           isPro={false}
           adType="rewarded"
           label="Anúncio 2 de 2"
