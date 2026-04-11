@@ -1,5 +1,6 @@
 'use client'
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
+import { useSession } from 'next-auth/react'
 import { type Locale, DEFAULT_LOCALE, COOKIE_NAME, getMessages } from '@/lib/locale'
 import ptMessages from '@/messages/pt.json'
 
@@ -27,16 +28,43 @@ function writeCookie(locale: Locale) {
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
+  const { data: session, status } = useSession()
   const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE)
+  const [dbLoaded, setDbLoaded] = useState(false)
 
+  // Carrega do cookie imediatamente
   useEffect(() => {
     setLocaleState(readCookie())
   }, [])
 
+  // Quando a sessão estiver disponível, busca a preferência do banco (uma vez)
+  useEffect(() => {
+    if (status !== 'authenticated' || dbLoaded) return
+    fetch('/api/user/language')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data?.language_preference) {
+          const lang = data.language_preference as Locale
+          setLocaleState(lang)
+          writeCookie(lang)
+        }
+      })
+      .catch(() => {})
+      .finally(() => setDbLoaded(true))
+  }, [status, dbLoaded])
+
   const setLocale = useCallback((l: Locale) => {
     setLocaleState(l)
     writeCookie(l)
-  }, [])
+    // Persiste no banco se estiver autenticado
+    if (session?.user) {
+      fetch('/api/user/language', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ language_preference: l }),
+      }).catch(() => {})
+    }
+  }, [session])
 
   return (
     <LocaleContext.Provider value={{ locale, setLocale, messages: getMessages(locale) }}>

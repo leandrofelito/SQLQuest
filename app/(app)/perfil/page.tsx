@@ -12,6 +12,8 @@ import { useUser } from '@/hooks/useUser'
 import { getLevel, getLevelBadge } from '@/lib/xp'
 import { PrestigeBadge, getPrestigeTier } from '@/components/ui/PrestigeBadge'
 import { useAppData } from '@/context/AppDataContext'
+import { useLocale } from '@/context/LocaleContext'
+import { type Locale } from '@/lib/locale'
 
 function ConquistasSkeleton() {
   return (
@@ -83,10 +85,18 @@ function InfoIcon() {
   )
 }
 
+const LANG_OPTIONS: { value: Locale; flag: string; label: string }[] = [
+  { value: 'pt', flag: '🇧🇷', label: 'Português' },
+  { value: 'en', flag: '🇺🇸', label: 'English' },
+  { value: 'es', flag: '🇪🇸', label: 'Español' },
+]
+
 export default function PerfilPage() {
   const { user, isPro } = useUser()
   const router = useRouter()
-  const { loadProgresso, getCachedProgresso } = useAppData()
+  const { loadProgresso } = useAppData()
+  const { locale, setLocale, messages } = useLocale()
+  const m = messages.perfil
   const [stats, setStats] = useState({ etapas: 0, certificados: 0 })
   const [conquistas, setConquistas] = useState<Conquista[]>([])
   const [conquistasLoading, setConquistasLoading] = useState(true)
@@ -113,7 +123,6 @@ export default function PerfilPage() {
 
   useEffect(() => {
     async function load() {
-      // progresso uses the global cache — already fetched on etapa pages
       const [progressos, certsRes, conquistasRes, prestigeRes] = await Promise.all([
         loadProgresso(),
         fetch('/api/certificados').then(r => r.json()),
@@ -136,7 +145,6 @@ export default function PerfilPage() {
     localStorage.setItem('sqlquest_force_logout', '1')
     localStorage.removeItem('sqlquest_keep_logged_in')
     sessionStorage.removeItem('sqlquest_session_active')
-    // Limpa a flag nativa de sessão antes de sair
     if (typeof window !== 'undefined' && (window as any).__sqlquestNativeApp) {
       (window as any).SessionBridge?.postMessage('logout')
     }
@@ -145,10 +153,14 @@ export default function PerfilPage() {
 
   async function handlePrestige() {
     const { tierIndex, starsInTier } = getPrestigeTier(prestige + 1)
-    const TIER_NAMES = ['Bronze', 'Prata', 'Ouro', 'Rubi']
+    const TIER_NAMES = [m.tierBronze, m.tierPrata, m.tierOuro, m.tierRubi]
     const tierName = TIER_NAMES[tierIndex]
     const starStr = '★'.repeat(starsInTier)
-    if (!confirm(`Tem certeza? Seu XP será zerado e você voltará ao Nível 1, mas ganhará a Estrela de Prestígio ${prestige + 1} (${tierName} ${starStr}).`)) return
+    const confirmMsg = m.confirmarPrestigio
+      .replace('{n}', String(prestige + 1))
+      .replace('{tier}', tierName)
+      .replace('{stars}', starStr)
+    if (!confirm(confirmMsg)) return
     setPrestigeLoading(true)
     const res = await fetch('/api/prestige', { method: 'POST' })
     const data = await res.json()
@@ -161,7 +173,7 @@ export default function PerfilPage() {
 
   return (
     <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+var(--safe-area-bottom,0px))]">
-      <Header title="Perfil" />
+      <Header title={m.titulo} />
 
       <div className="max-w-3xl mx-auto px-4 pt-6 space-y-6">
         {/* Avatar e info */}
@@ -208,9 +220,9 @@ export default function PerfilPage() {
         {/* Stats grid */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: 'Streak', value: streak, unit: 'dias', emoji: '🔥' },
-            { label: 'Etapas', value: stats.etapas, unit: 'concluídas', emoji: '⚡' },
-            { label: 'Certs', value: stats.certificados, unit: 'emitidos', emoji: '🏅' },
+            { label: m.streak, value: streak, unit: m.dias, emoji: '🔥' },
+            { label: m.etapas, value: stats.etapas, unit: m.concluidas, emoji: '⚡' },
+            { label: m.certs, value: stats.certificados, unit: m.emitidos, emoji: '🏅' },
           ].map(s => (
             <div key={s.label} className="bg-[#0f1117] border border-[#1e2028] rounded-2xl p-3 text-center">
               <div className="text-xl mb-1">{s.emoji}</div>
@@ -227,7 +239,7 @@ export default function PerfilPage() {
           return (
             <div>
               <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-3">
-                Ranking Global
+                {m.rankingGlobal}
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {rankingConquistas.map((c) => {
@@ -250,7 +262,7 @@ export default function PerfilPage() {
                         <p className="text-xs mt-0.5" style={{ color: c.desbloqueada ? cor.texto : '#ffffff40' }}>
                           {c.desbloqueada
                             ? `#${c.posicao} · ${new Date(c.alcancadaEm!).toLocaleDateString('pt-BR')}`
-                            : cor.label + ' do mundo'}
+                            : cor.label + ' ' + m.mundoDo}
                         </p>
                       </div>
                       {c.desbloqueada && (
@@ -271,8 +283,8 @@ export default function PerfilPage() {
         <div>
           <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-3">
             {conquistasLoading
-              ? 'Conquistas'
-              : `Conquistas — ${conquistas.filter(c => c.desbloqueada && !c.tier).length}/${conquistas.filter(c => !c.tier).length}`}
+              ? m.conquistas
+              : `${m.conquistas} — ${conquistas.filter(c => c.desbloqueada && !c.tier).length}/${conquistas.filter(c => !c.tier).length}`}
           </h3>
           {conquistasLoading ? <ConquistasSkeleton /> : null}
           <div className={`grid grid-cols-3 gap-2 ${conquistasLoading ? 'hidden' : ''}`} ref={tooltipRef}>
@@ -290,31 +302,27 @@ export default function PerfilPage() {
                       : 'border-[#1e2028] opacity-35 grayscale'
                   }`}
                 >
-                  {/* Ícone de info */}
                   <button
                     onClick={e => {
                       e.stopPropagation()
                       setActiveTooltip(isOpen ? null : c.id)
                     }}
                     className="absolute top-2 right-2 text-white/30 hover:text-white/80 transition-opacity duration-200 group-hover:opacity-100 focus:outline-none"
-                    aria-label={`Como desbloquear: ${c.nome}`}
+                    aria-label={`${m.comoDesbloquear}: ${c.nome}`}
                   >
                     <InfoIcon />
                   </button>
 
-                  {/* Tooltip */}
                   {isOpen && (
                     <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-44 bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none">
-                      <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">Como desbloquear</p>
+                      <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
                       <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
-                      {/* Setinha */}
                       <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
                     </div>
                   )}
 
-                  {/* Tooltip CSS puro no hover (desktop) */}
                   <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-44 bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden sm:block">
-                    <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">Como desbloquear</p>
+                    <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
                     <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
                     <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
                   </div>
@@ -333,7 +341,7 @@ export default function PerfilPage() {
         {/* Botão de Prestígio */}
         {nivel >= 100 && (() => {
           const next = getPrestigeTier(prestige + 1)
-          const TIER_NAMES = ['Bronze', 'Prata', 'Ouro', 'Rubi']
+          const TIER_NAMES = [m.tierBronze, m.tierPrata, m.tierOuro, m.tierRubi]
           const TIER_COLORS = ['#cd7f32', '#c0c0c0', '#facc15', '#ef4444']
           const nextTierName = TIER_NAMES[next.tierIndex]
           const nextColor = TIER_COLORS[next.tierIndex]
@@ -342,19 +350,24 @@ export default function PerfilPage() {
               className="rounded-2xl border p-4 text-center"
               style={{ borderColor: nextColor, background: `${nextColor}10` }}
             >
-              <p className="font-bold text-sm mb-1" style={{ color: nextColor }}>👑 Prestígio disponível!</p>
+              <p className="font-bold text-sm mb-1" style={{ color: nextColor }}>👑 {m.prestigeDisponivel}</p>
               <p className="text-white/50 text-xs mb-1">
-                Você está no Nível {nivel}. Resete para o Nível 1 e ganhe a Estrela de Prestígio {prestige + 1}.
+                {m.prestigeDesc
+                  .replace('{nivel}', String(nivel))
+                  .replace('{prestige}', String(prestige + 1))}
               </p>
               <p className="text-xs mb-3" style={{ color: nextColor, opacity: 0.85 }}>
-                {'★'.repeat(next.starsInTier)} {nextTierName} — {next.starsInTier}/5 estrelas no tier
+                {m.prestigeStars
+                  .replace('{stars}', '★'.repeat(next.starsInTier))
+                  .replace('{tier}', nextTierName)
+                  .replace('{current}', String(next.starsInTier))}
               </p>
               <Button
                 onClick={handlePrestige}
                 loading={prestigeLoading}
                 fullWidth
               >
-                ✨ Ativar Prestígio {prestige + 1}
+                {m.ativarPrestigio.replace('{n}', String(prestige + 1))}
               </Button>
             </div>
           )
@@ -363,13 +376,37 @@ export default function PerfilPage() {
         {/* Upgrade se free */}
         {!isPro && (
           <Button onClick={() => router.push('/upgrade')} fullWidth>
-            ⭐ Assinar Pro — R$19,90
+            {m.assinarPro}
           </Button>
         )}
 
+        {/* Preferências */}
+        <div className="bg-[#0f1117] border border-[#1e2028] rounded-2xl p-4 space-y-3">
+          <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide">{m.preferencias}</h3>
+          <div className="flex items-center justify-between">
+            <span className="text-white/70 text-sm">{m.idioma}</span>
+            <div className="flex items-center gap-1 bg-[#080a0f] border border-[#1e2028] rounded-xl p-1">
+              {LANG_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => setLocale(opt.value)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    locale === opt.value
+                      ? 'bg-[#8b5cf6] text-white shadow-sm'
+                      : 'text-white/40 hover:text-white/70'
+                  }`}
+                >
+                  <span>{opt.flag}</span>
+                  <span>{opt.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Suporte */}
         <p className="text-center text-white/25 text-xs">
-          Precisa de ajuda?{' '}
+          {m.ajuda}{' '}
           <a
             href="mailto:suporte@sqlquest.com.br"
             className="text-[#a78bfa] hover:underline"
@@ -385,7 +422,7 @@ export default function PerfilPage() {
           variant="secondary"
           fullWidth
         >
-          Sair
+          {m.sair}
         </Button>
       </div>
 

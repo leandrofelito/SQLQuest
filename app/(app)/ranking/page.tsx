@@ -8,6 +8,7 @@ import { getLevelLabel } from '@/lib/xp'
 import { formatXP } from '@/lib/utils'
 import { useUser } from '@/hooks/useUser'
 import { useAppData, type RankUser } from '@/context/AppDataContext'
+import { useLocale } from '@/context/LocaleContext'
 
 function RankingSkeleton() {
   return (
@@ -71,6 +72,8 @@ function EliteName({ gradient, children }: { gradient: string; children: React.R
 export default function RankingPage() {
   const { user } = useUser()
   const { loadRanking, getCachedRanking } = useAppData()
+  const { messages } = useLocale()
+  const m = messages.ranking
   const [ranking, setRanking] = useState<RankUser[]>(() => getCachedRanking() ?? [])
   const [loading, setLoading] = useState(() => getCachedRanking() === null)
 
@@ -86,7 +89,7 @@ export default function RankingPage() {
 
   return (
     <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+var(--safe-area-bottom,0px))]">
-      <Header title="Ranking Global" />
+      <Header title={m.titulo} />
 
       <div className="max-w-3xl mx-auto px-4 pt-4">
         {/* Pódio */}
@@ -202,7 +205,7 @@ export default function RankingPage() {
                             {u.nickname ?? u.name ?? 'Anônimo'}
                           </p>
                         )}
-                        {isMe && <span className="text-[#a78bfa] text-xs">(você)</span>}
+                        {isMe && <span className="text-[#a78bfa] text-xs">({m.voce})</span>}
                         {u.prestige > 0 && <PrestigeBadge prestige={u.prestige} size="sm" />}
                       </div>
                       <p className="text-white/30 text-xs">{getLevelLabel(u.totalXp)}</p>
