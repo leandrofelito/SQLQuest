@@ -138,5 +138,20 @@
     "emAndamento": "Em andamento",
     "semCerts": "Complete trilhas para ganhar certificados.",
     "concluido": "concluído"
+  },
+  "conquistas": {
+    "desbloqueada": "Conquista desbloqueada!"
+  },
+  "xpbar": {
+    "nivel": "Nível",
+    "xpTotal": "XP Total",
+    "proximo": "Próximo"
+  },
+  "resumo": {
+    "titulo": "⚡ Resumo Rápido",
+    "proximo": "Próximo →"
+  },
+  "levelup": {
+    "titulo": "Nível UP!"
   }
 }
