@@ -138,5 +138,20 @@
     "emAndamento": "In progress",
     "semCerts": "Complete trails to earn certificates.",
     "concluido": "completed"
+  },
+  "conquistas": {
+    "desbloqueada": "Achievement unlocked!"
+  },
+  "xpbar": {
+    "nivel": "Level",
+    "xpTotal": "Total XP",
+    "proximo": "Next"
+  },
+  "resumo": {
+    "titulo": "⚡ Quick Summary",
+    "proximo": "Next →"
+  },
+  "levelup": {
+    "titulo": "Level UP!"
   }
 }

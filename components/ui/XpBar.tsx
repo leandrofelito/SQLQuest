@@ -2,6 +2,7 @@
 import { getLevel, getLevelLabel, getProgressoPct, getXpParaProximo, getLevelBadge } from '@/lib/xp'
 import { formatXP } from '@/lib/utils'
 import { Progress } from './Progress'
+import { useLocale } from '@/context/LocaleContext'
 
 interface XpBarProps {
   xp: number
@@ -10,6 +11,7 @@ interface XpBarProps {
 }
 
 export function XpBar({ xp, showStats = false, className }: XpBarProps) {
+  const { messages } = useLocale()
   const level = getLevel(xp)
   const label = getLevelLabel(xp)
   const pct = getProgressoPct(xp)
@@ -39,15 +41,15 @@ export function XpBar({ xp, showStats = false, className }: XpBarProps) {
       {showStats && (
         <div className="flex gap-4 mt-2">
           <div className="text-center">
-            <div className="text-xs text-white/40">Nível</div>
+            <div className="text-xs text-white/40">{messages.xpbar.nivel}</div>
             <div className="text-sm font-bold text-white">{level}</div>
           </div>
           <div className="text-center">
-            <div className="text-xs text-white/40">XP Total</div>
+            <div className="text-xs text-white/40">{messages.xpbar.xpTotal}</div>
             <div className="text-sm font-bold" style={{ color: badge.cor }}>{formatXP(xp)}</div>
           </div>
           <div className="text-center">
-            <div className="text-xs text-white/40">Próximo</div>
+            <div className="text-xs text-white/40">{messages.xpbar.proximo}</div>
             <div className="text-sm font-bold text-white">{formatXP(proximo - xp)} XP</div>
           </div>
         </div>

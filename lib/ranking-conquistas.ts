@@ -35,6 +35,32 @@ export const RANKING_CONQUISTAS = [
   },
 ] as const
 
+const RANKING_I18N: Record<string, Record<string, { nome: string; desc: string }>> = {
+  top1: {
+    en: { nome: 'SQL Legend', desc: 'Reach Top 1 in the global XP ranking' },
+    es: { nome: 'Leyenda SQL', desc: 'Llega al Top 1 del ranking global de XP' },
+  },
+  top10: {
+    en: { nome: 'Global Elite', desc: 'Enter the Top 10 in the global XP ranking' },
+    es: { nome: 'Élite Global', desc: 'Entra en el Top 10 del ranking global de XP' },
+  },
+  top100: {
+    en: { nome: 'Data Master', desc: 'Enter the Top 100 in the global XP ranking' },
+    es: { nome: 'Maestro de Datos', desc: 'Entra en el Top 100 del ranking global de XP' },
+  },
+  top1000: {
+    en: { nome: 'Consistency', desc: 'Enter the Top 1000 in the global XP ranking' },
+    es: { nome: 'Consistencia', desc: 'Entra en el Top 1000 del ranking global de XP' },
+  },
+}
+
+export function getRankingConquistasLocalizadas(locale: string) {
+  return RANKING_CONQUISTAS.map(rc => {
+    const tr = RANKING_I18N[rc.tipo]?.[locale]
+    return tr ? { ...rc, nome: tr.nome, desc: tr.desc } : rc
+  })
+}
+
 export type RankingTipo = (typeof RANKING_CONQUISTAS)[number]['tipo']
 
 /**

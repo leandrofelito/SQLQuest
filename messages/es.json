@@ -138,5 +138,20 @@
     "emAndamento": "En progreso",
     "semCerts": "Completa rutas para obtener certificados.",
     "concluido": "completado"
+  },
+  "conquistas": {
+    "desbloqueada": "¡Logro desbloqueado!"
+  },
+  "xpbar": {
+    "nivel": "Nivel",
+    "xpTotal": "XP Total",
+    "proximo": "Siguiente"
+  },
+  "resumo": {
+    "titulo": "⚡ Resumen Rápido",
+    "proximo": "Siguiente →"
+  },
+  "levelup": {
+    "titulo": "¡Nivel UP!"
   }
 }
