@@ -66,12 +66,42 @@ const BLOCKED: string[] = [
   'penis', 'vagina', 'anus',
 ]
 
+// Termos curtos/ambíguos que só bloqueiam quando formam um segmento isolado
+// (separado por _ ou dígitos). Isso evita falsos positivos em nomes/palavras
+// comuns — ex.: "pau" não bloqueia "paulo_sql", mas bloqueia "pau_gamer".
+//
+// Trade-off: "cu_123" é bloqueado; "xcux" não é (aceitável — não é ofensivo
+// isolado). Termos longos e inequívocos ficam com matching de substring normal.
+const BLOCKED_SEGMENTO_INTEIRO = new Set<string>([
+  'cu',   // "curso", "acusar" → falsos positivos comuns
+  'pau',  // "paulo", "paulista"
+  'rola', // "carola", "controlar"
+  'ass',  // "classic", "assassin"
+  'fag',  // "fagundes" (sobrenome comum)
+  'mf',   // abreviação — exige segmento próprio
+])
+
 // Normaliza removendo underscores e convertendo para minúsculas
 function normalize(s: string): string {
   return s.toLowerCase().replace(/_/g, '')
 }
 
+// Divide o nickname em segmentos alfabéticos (separa por _ e sequências de dígitos)
+// Ex.: "paulo_sql2" → ["paulo", "sql"]
+function segmentos(s: string): string[] {
+  return s.toLowerCase().split(/[_\d]+/).filter(Boolean)
+}
+
 export function contemPalavrão(nickname: string): boolean {
   const normalizado = normalize(nickname)
-  return BLOCKED.some(termo => normalizado.includes(normalize(termo)))
+  const segs = segmentos(nickname)
+
+  return BLOCKED.some(termo => {
+    const termoNorm = normalize(termo)
+    if (BLOCKED_SEGMENTO_INTEIRO.has(termoNorm)) {
+      // Só bloqueia se algum segmento for exatamente esse termo
+      return segs.some(seg => seg === termoNorm)
+    }
+    return normalizado.includes(termoNorm)
+  })
 }
