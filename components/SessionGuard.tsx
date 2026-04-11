@@ -14,14 +14,14 @@ export function SessionGuard() {
     if (checked.current) return
     if (status === 'loading') return
     if (AUTH_PAGES.some(p => pathname.startsWith(p))) return
-
-    checked.current = true
-
     if (status !== 'authenticated') return
+
+    // Só marca como verificado após confirmar autenticação real
+    checked.current = true
 
     const v2 = localStorage.getItem('sqlquest_auth_v2')
     if (!v2) {
-      // Primeira vez com o novo sistema: mantém sessão existente como "manter logado"
+      // Primeira vez com o novo sistema (inclui retorno de OAuth sem flags): mantém logado
       localStorage.setItem('sqlquest_keep_logged_in', '1')
       localStorage.setItem('sqlquest_auth_v2', '1')
       sessionStorage.setItem('sqlquest_session_active', '1')
