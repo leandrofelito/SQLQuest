@@ -5,7 +5,8 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL")
+  /// Conexão direta (porta 5432 / host sem pooler) — obrigatória para `prisma migrate` / `db push`.
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -126,6 +127,7 @@ model Progresso {
 
   @@unique([userId, etapaId])
   @@index([userId])
+  @@index([userId, trilhaId])
 }
 
 model Pagamento {
@@ -175,4 +177,5 @@ model TrilhaDesbloqueada {
   trilha Trilha @relation(fields: [trilhaId], references: [id], onDelete: Cascade)
 
   @@unique([userId, trilhaId])
+  @@index([userId])
 }

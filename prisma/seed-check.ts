@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
 
 const url = process.env.DATABASE_URL
+const direct = process.env.DIRECT_URL
 
 if (!url || url === '""' || url === '') {
   console.log('')
@@ -21,4 +22,14 @@ if (!url || url === '""' || url === '') {
   process.exit(1)
 }
 
-console.log('✅ DATABASE_URL configurada. Pode rodar o seed.')
+if (!direct || direct === '""' || direct === '') {
+  console.log('')
+  console.log('❌ DIRECT_URL não configurada.')
+  console.log('')
+  console.log('O Prisma usa DIRECT_URL para migrate/db push (conexão direta ao Postgres).')
+  console.log('No Neon: use a string "direct" / sem pooler. Em dev local, pode ser igual a DATABASE_URL.')
+  console.log('')
+  process.exit(1)
+}
+
+console.log('✅ DATABASE_URL e DIRECT_URL configuradas. Pode rodar o seed.')

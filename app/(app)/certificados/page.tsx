@@ -51,7 +51,7 @@ function CertsSkeleton() {
 export default function CertificadosPage() {
   const { user, isPro } = useUser()
   const router = useRouter()
-  const { loadTrilhas } = useAppData()
+  const { loadTrilhas, trilhasRevision } = useAppData()
   const { messages } = useLocale()
   const m = messages.certificados
   const [certs, setCerts] = useState<Cert[]>([])
@@ -76,7 +76,7 @@ export default function CertificadosPage() {
       setLoading(false)
     }
     load()
-  }, [])
+  }, [loadTrilhas, trilhasRevision])
 
   if (loading) {
     return (
