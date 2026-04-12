@@ -12,28 +12,38 @@ import { useAppData, type TrilhaComProgresso } from '@/context/AppDataContext'
 export default function HomePage() {
   const { user } = useUser()
   const { messages, locale } = useLocale()
-  const { loadTrilhas, getCachedTrilhas } = useAppData()
+  const { loadTrilhas, getCachedTrilhas, catalogRevalidating, trilhasRevision } = useAppData()
   const [trilhas, setTrilhas] = useState<TrilhaComProgresso[]>(() => getCachedTrilhas() ?? [])
   const [loading, setLoading] = useState(() => getCachedTrilhas() === null)
   const searchParams = useSearchParams()
   const proBought = searchParams.get('pro') === '1'
 
   useEffect(() => {
-    // Sinaliza ao app Flutter que o login foi bem-sucedido
     if (typeof window !== 'undefined' && (window as any).__sqlquestNativeApp) {
-      (window as any).SessionBridge?.postMessage('login')
+      ;(window as any).SessionBridge?.postMessage('login')
     }
+    let cancelled = false
     loadTrilhas(locale).then(data => {
+      if (cancelled) return
       setTrilhas(data)
       setLoading(false)
     })
-  }, [locale])
+    return () => {
+      cancelled = true
+    }
+  }, [locale, loadTrilhas, trilhasRevision])
 
   const xp = (user as any)?.totalXp ?? 0
 
   return (
     <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+var(--safe-area-bottom,0px))]">
       <Header />
+
+      {catalogRevalidating && trilhas.length > 0 && (
+        <div className="max-w-3xl mx-auto px-4 pt-2">
+          <p className="text-center text-[11px] text-white/35 tracking-wide">Sincronizando…</p>
+        </div>
+      )}
 
       <div className="max-w-3xl mx-auto px-4 pt-4 pb-2">
         {proBought && (

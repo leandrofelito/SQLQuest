@@ -34,6 +34,7 @@ export default withAuth(
         const { pathname } = req.nextUrl
         // Rotas públicas passam sem token para evitar loop de redirecionamento
         if (PUBLIC_PATHS.some(p => pathname.startsWith(p))) return true
+        if (pathname.startsWith('/api/conteudo-version')) return true
         if (MANUTENCAO) return true // deixa passar pro redirect acima
         return !!token
       },

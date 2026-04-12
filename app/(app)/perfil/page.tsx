@@ -94,7 +94,7 @@ const LANG_OPTIONS: { value: Locale; flag: string; label: string }[] = [
 export default function PerfilPage() {
   const { user, isPro } = useUser()
   const router = useRouter()
-  const { loadProgresso } = useAppData()
+  const { loadProgresso, progressoRevision } = useAppData()
   const { locale, setLocale, messages } = useLocale()
   const m = messages.perfil
   const [stats, setStats] = useState({ etapas: 0, certificados: 0 })
@@ -138,7 +138,7 @@ export default function PerfilPage() {
       setConquistasLoading(false)
     }
     load()
-  }, [])
+  }, [loadProgresso, progressoRevision])
 
   async function handleSignOut() {
     setLoading(true)

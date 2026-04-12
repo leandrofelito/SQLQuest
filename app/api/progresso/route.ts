@@ -78,12 +78,12 @@ export async function POST(req: Request) {
 
   let nivelAnterior = 1
   let nivelAtual = 1
-  let userBefore: { totalXp: number } | null = null
+  let userBefore: { totalXp: number; isPro: boolean } | null = null
 
   if (xpDelta > 0) {
     userBefore = await prisma.user.findUnique({
       where: { id: userId },
-      select: { totalXp: true },
+      select: { totalXp: true, isPro: true },
     })
     nivelAnterior = getLevel(userBefore?.totalXp ?? 0)
 
@@ -111,8 +111,11 @@ export async function POST(req: Request) {
 
   let certificadoCriado = false
   if (trilha && totalExercicios > 0 && progressosExercicios >= totalExercicios) {
-    const user = await prisma.user.findUnique({ where: { id: userId } })
-    if (user?.isPro) {
+    const isProUser =
+      userBefore?.isPro ??
+      (await prisma.user.findUnique({ where: { id: userId }, select: { isPro: true } }))?.isPro ??
+      false
+    if (isProUser) {
       const certExiste = await prisma.certificado.findUnique({
         where: { userId_trilhaId: { userId, trilhaId: body.trilhaId } },
       })
@@ -195,13 +198,9 @@ export async function POST(req: Request) {
 
   // Conquista de conclusão de trilha
   if (!existente && trilha) {
-    const exercicioIds = new Set(trilha.etapas.filter(e => e.tipo === 'exercicio').map(e => e.id))
-    const totalExercicios = exercicioIds.size
-    const progressosTrilha = await prisma.progresso.findMany({
-      where: { userId, trilhaId: body.trilhaId },
-      select: { etapaId: true },
-    })
-    const concluidosTrilha = progressosTrilha.filter(p => exercicioIds.has(p.etapaId)).length
+    const exercicioIdsConquista = new Set(trilha.etapas.filter(e => e.tipo === 'exercicio').map(e => e.id))
+    const totalExerciciosConquista = exercicioIdsConquista.size
+    const concluidosTrilha = progressosTrilha.filter(p => exercicioIdsConquista.has(p.etapaId)).length
     const TRILHA_CONQUISTAS: Record<string, { emoji: string; nome: string }> = {
       'fundamentos':              { emoji: '🗄️', nome: 'Fundamentos' },
       'select-basico':            { emoji: '🔍', nome: 'Explorador SELECT' },
@@ -218,8 +217,8 @@ export async function POST(req: Request) {
       'elite-tuning-performance': { emoji: '🏎️', nome: 'Piloto de Elite' },
     }
     if (
-      totalExercicios > 0 &&
-      concluidosTrilha >= totalExercicios &&
+      totalExerciciosConquista > 0 &&
+      concluidosTrilha >= totalExerciciosConquista &&
       trilha.slug in TRILHA_CONQUISTAS
     ) {
       novasConquistas.push({

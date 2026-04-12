@@ -34,6 +34,8 @@ const String _appUrl = String.fromEnvironment(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // AdMob: inicialização nativa independente do WebView / latência do Neon.
+  // Não bloquear nem serializar com o carregamento de dados do app web.
   await MobileAds.instance.initialize();
 
   final prefs = await SharedPreferences.getInstance();
