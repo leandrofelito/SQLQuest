@@ -12,10 +12,17 @@
 Abra o arquivo `.env.local` e preencha:
 
 ```
-DATABASE_URL="cole-aqui-a-connection-string-do-neon"
+# Neon: em produção use POOLER na DATABASE_URL (*.pooler.neon.tech) com ?sslmode=require
+DATABASE_URL="cole-aqui-a-connection-string-com-pooler"
+# Conexão direta (host sem pooler, porta 5432) — obrigatória para `npx prisma db push` / migrate
+DIRECT_URL="cole-aqui-a-connection-string-direta"
 NEXTAUTH_URL="http://localhost:3000"
 ADMIN_EMAILS="seu@email.com"
+# Opcional: incremente ao publicar conteúdo novo (cache offline no app)
+CONTENT_VERSION="1"
 ```
+
+Sem pooler no ambiente local? Use a **mesma** string em `DATABASE_URL` e `DIRECT_URL`.
 
 > `NEXTAUTH_SECRET` já está preenchido automaticamente.
 > As outras variáveis (Google, Stripe, AdSense) podem ficar vazias por enquanto — o app roda sem elas em desenvolvimento.

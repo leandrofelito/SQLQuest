@@ -258,8 +258,12 @@ Acessível via `/admin` somente para emails listados em `ADMIN_EMAILS`.
 Crie (ou edite) `.env.local` na raiz:
 
 ```env
-# Neon — neon.tech › seu projeto › Connection string
+# Neon — runtime: string com POOLER (*.pooler.neon.tech) + ?sslmode=require (recomendado no plano gratuito)
 DATABASE_URL=""
+# Conexão direta ao Postgres (sem pooler) — usada por `prisma migrate` / `db push`
+DIRECT_URL=""
+# Incremente ao atualizar trilhas/etapas no banco (invalida cache offline dos clientes)
+CONTENT_VERSION="1"
 
 # Gere com: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 NEXTAUTH_SECRET=""
