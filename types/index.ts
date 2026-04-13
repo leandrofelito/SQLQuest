@@ -4,6 +4,7 @@ export type BlocoTexto =
   | { type: 'code'; code: string; lese?: string }
   | { type: 'nota'; texto: string }
   | { type: 'definicao'; termo: string; def: string }
+  | { type: 'tabela'; cabecalhos: string[]; linhas: string[][] }
 
 export interface ConteudoIntro {
   emoji: string
@@ -19,22 +20,65 @@ export interface ConteudoResumo {
   itens: string[]
 }
 
-export interface ConteudoExercicio {
+export type ExercicioCheckType = 'columns' | 'count' | 'values' | 'aggregate'
+
+export interface ExercicioCheckConfig {
+  required_columns?: string[]
+  min_rows?: number
+  expected_rows?: number
+  expected_values?: unknown[]
+}
+
+/** Exercício com sandbox SQL (padrão quando `modo` é omitido) */
+export interface ConteudoExercicioSql {
+  modo?: 'sql'
   instrucao: string
   dica: string
   placeholder: string
   schema: string
-  checkType: 'columns' | 'count' | 'values' | 'aggregate'
-  checkConfig: {
-    required_columns?: string[]
-    min_rows?: number
-    expected_rows?: number
-    expected_values?: unknown[]
-  }
+  checkType: ExercicioCheckType
+  checkConfig: ExercicioCheckConfig
   /** Aviso exibido quando a query está correta mas usa padrões lentos (ex: SELECT *) */
   performanceAviso?: string
   /** Explicação técnica exibida após resposta correta, referenciando o plano de execução */
   explicacaoTecnica?: string
+}
+
+export type ConteudoExercicioQuiz =
+  | {
+      modo: 'quiz'
+      quizTipo: 'multipla'
+      instrucao: string
+      dica: string
+      opcoes: string[]
+      indiceCorreto: number
+    }
+  | {
+      modo: 'quiz'
+      quizTipo: 'vf'
+      afirmacao: string
+      instrucao?: string
+      dica: string
+      respostaCorreta: boolean
+    }
+  | {
+      modo: 'quiz'
+      quizTipo: 'reflexao'
+      instrucao: string
+      cenario?: string
+      dica: string
+      placeholder?: string
+      minLength: number
+    }
+
+export type ConteudoExercicio = ConteudoExercicioSql | ConteudoExercicioQuiz
+
+export function isSqlExercicio(c: ConteudoExercicio): c is ConteudoExercicioSql {
+  return (c as { modo?: string }).modo !== 'quiz'
+}
+
+export function isQuizExercicio(c: ConteudoExercicio): c is ConteudoExercicioQuiz {
+  return (c as { modo?: string }).modo === 'quiz'
 }
 
 export interface ConteudoConclusao {

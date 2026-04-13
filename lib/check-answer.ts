@@ -1,10 +1,10 @@
 import type { QueryResult } from './sql-runner'
-import type { ConteudoExercicio } from '@/types'
+import type { ExercicioCheckConfig, ExercicioCheckType } from '@/types'
 
 export function checkAnswer(
   rows: QueryResult[],
-  checkType: ConteudoExercicio['checkType'],
-  checkConfig: ConteudoExercicio['checkConfig']
+  checkType: ExercicioCheckType,
+  checkConfig: ExercicioCheckConfig
 ): boolean {
   if (!rows || !rows[0]) return false
   const columns = rows[0].columns.map(c => c.toLowerCase())

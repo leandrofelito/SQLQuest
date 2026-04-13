@@ -46,7 +46,13 @@
     "queryLenta": "Slow Query Detected",
     "otimizar": "Try to optimize 🚀",
     "continuarAssim": "Continue like this (2 stars)",
-    "planoExecucao": "🔍 View execution plan analysis"
+    "planoExecucao": "🔍 View execution plan analysis",
+    "verdadeiro": "True",
+    "falso": "False",
+    "escolhaOpcao": "Choose an option",
+    "reflexaoPlaceholder": "Write your answer here…",
+    "reflexaoCurta": "Answer too short. Expand a bit (keys, linking tables).",
+    "quizIncorreto": "Incorrect answer. Try again or ask for a hint."
   },
   "intro": {
     "continuar": "Tap to Continue"

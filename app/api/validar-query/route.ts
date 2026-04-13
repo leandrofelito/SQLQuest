@@ -10,6 +10,7 @@ import fs from 'fs'
 import path from 'path'
 import { z } from 'zod'
 import type { ConteudoExercicio } from '@/types'
+import { isQuizExercicio, isSqlExercicio } from '@/types'
 
 // Module-level cache: evita recarregar o WASM a cada request (especialmente cold starts)
 let _sqlJsCache: any = null
@@ -32,12 +33,30 @@ async function getSqlJs(): Promise<any> {
   return _sqlJsPromise
 }
 
-const schema = z.object({
+const baseBodySchema = z.object({
   etapaId: z.string(),
-  query: z.string().min(1).max(2000),
   tentativas: z.number().int().min(1).max(99),
   dicasUsadas: z.number().int().min(0).max(10),
+  query: z.string().max(2000).optional(),
+  indiceEscolhido: z.number().int().min(0).max(25).optional(),
+  valorVF: z.boolean().optional(),
+  textoReflexao: z.string().max(4000).optional(),
 })
+
+function emitirToken(
+  userId: string,
+  etapaId: string,
+  tentativas: number,
+  dicasUsadas: number
+) {
+  return assinarToken({
+    userId,
+    etapaId,
+    tentativas,
+    dicasUsadas,
+    exp: Date.now() + 10 * 60 * 1000,
+  })
+}
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -47,7 +66,6 @@ export async function POST(req: Request) {
 
   const userId = (session.user as any).id
 
-  // Anti-bot: max 3 submissions per 5 seconds per user
   const rl = checkRateLimit(`validar:${userId}`, 3, 5000)
   if (!rl.allowed) {
     return NextResponse.json(
@@ -59,14 +77,13 @@ export async function POST(req: Request) {
     )
   }
 
-  const parsed = schema.safeParse(await req.json())
+  const raw = await req.json()
+  const parsed = baseBodySchema.safeParse(raw)
   if (!parsed.success) {
     return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
   }
   const body = parsed.data
 
-  // The server is the sole authority on what constitutes a correct answer.
-  // We load the exercise directly from the DB — the client never sends the answer key.
   const etapa = await prisma.etapa.findUnique({
     where: { id: body.etapaId },
     select: { tipo: true, conteudo: true },
@@ -78,44 +95,69 @@ export async function POST(req: Request) {
 
   const conteudo = etapa.conteudo as unknown as ConteudoExercicio
 
-  // Run the user's query inside an isolated in-memory SQLite sandbox.
-  // This database has ZERO connection to the main Neon/PostgreSQL database.
-  // Even a DROP TABLE or DELETE FROM inside the user's query only affects
-  // the throwaway in-memory instance that is destroyed after validation.
   let sucesso = false
-  try {
-    const SQL = await getSqlJs()
-    const db = new SQL.Database()
+
+  if (isQuizExercicio(conteudo)) {
+    switch (conteudo.quizTipo) {
+      case 'multipla': {
+        if (body.indiceEscolhido === undefined) {
+          return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
+        }
+        const n = conteudo.opcoes.length
+        if (n === 0 || body.indiceEscolhido < 0 || body.indiceEscolhido >= n) {
+          return NextResponse.json({ sucesso: false })
+        }
+        sucesso = body.indiceEscolhido === conteudo.indiceCorreto
+        break
+      }
+      case 'vf': {
+        if (body.valorVF === undefined) {
+          return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
+        }
+        sucesso = body.valorVF === conteudo.respostaCorreta
+        break
+      }
+      case 'reflexao': {
+        if (body.textoReflexao === undefined) {
+          return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
+        }
+        const len = body.textoReflexao.trim().length
+        const min = Math.max(1, Math.min(conteudo.minLength, 4000))
+        sucesso = len >= min
+        break
+      }
+      default:
+        return NextResponse.json({ sucesso: false })
+    }
+  } else if (isSqlExercicio(conteudo)) {
+    const q = body.query
+    if (!q || !q.trim()) {
+      return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
+    }
 
     try {
-      // Populate exercise sandbox with the official schema + seed data
-      db.run(conteudo.schema)
-      // Execute the user's query (any DDL/DML only affects this throwaway DB)
-      const resultado = db.exec(body.query)
-      sucesso = checkAnswer(resultado as any, conteudo.checkType, conteudo.checkConfig)
-    } finally {
-      db.close()
+      const SQL = await getSqlJs()
+      const db = new SQL.Database()
+
+      try {
+        db.run(conteudo.schema)
+        const resultado = db.exec(q)
+        sucesso = checkAnswer(resultado as any, conteudo.checkType, conteudo.checkConfig)
+      } finally {
+        db.close()
+      }
+    } catch {
+      return NextResponse.json({ sucesso: false, erro: 'Erro ao executar a query' })
     }
-  } catch {
-    // Syntax errors, runtime errors — not a correct answer
-    return NextResponse.json({ sucesso: false, erro: 'Erro ao executar a query' })
+  } else {
+    return NextResponse.json({ sucesso: false })
   }
 
   if (!sucesso) {
     return NextResponse.json({ sucesso: false })
   }
 
-  // Issue a short-lived HMAC-signed token.
-  // Only the server (holding NEXTAUTH_SECRET) can produce this token.
-  // The /api/progresso endpoint verifies it before granting any XP.
-  // tentativas and dicasUsadas are sealed inside — the client cannot inflate them.
-  const token = assinarToken({
-    userId,
-    etapaId: body.etapaId,
-    tentativas: body.tentativas,
-    dicasUsadas: body.dicasUsadas,
-    exp: Date.now() + 10 * 60 * 1000, // expires in 10 minutes
-  })
+  const token = emitirToken(userId, body.etapaId, body.tentativas, body.dicasUsadas)
 
   return NextResponse.json({ sucesso: true, token })
 }
