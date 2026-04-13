@@ -1,0 +1,651 @@
+{
+  "_guia_para_geracao": {
+    "aviso": "Remova o objeto inteiro _guia_para_geracao antes de salvar em content/trilhas/ ou antes do seed/admin. O app e o Prisma não usam esta chave.",
+    "objetivo": "Este arquivo é o molde: outra IA deve gerar uma trilha real trocando textos, mantendo a estrutura e os nomes das chaves.",
+    "trilha_raiz": {
+      "slug": "unico_sem_espacos_ou_acentos",
+      "titulo": "Nome exibido no app",
+      "descricao": "Subtítulo na listagem",
+      "icone": "Um único emoji",
+      "ordem": "Número inteiro da posição da trilha no mapa (único entre trilhas)",
+      "xpTotal": "Soma de todos os xpReward das etapas (número inteiro)",
+      "traducoes": "Opcional: en e es com titulo e descricao da trilha"
+    },
+    "etapas": {
+      "ordem": "Inteiro sequencial 1, 2, 3… dentro desta trilha (único por trilha)",
+      "tipo": "Um de: intro | texto | resumo | exercicio | conclusao",
+      "temAnuncio": "true = anúncio entre esta etapa e a próxima (fluxo do app); não confundir com dica",
+      "xpReward": "XP ao concluir a etapa; intro/texto/resumo costumam ser 0; exercícios costumam ser 100; conclusao costuma ter bônus (ex.: 50)",
+      "titulo": "Título da etapa",
+      "conteudo": "Varia por tipo — ver exemplos abaixo no mesmo JSON",
+      "traducoes": "Opcional en/es: deve repetir TODAS as chaves necessárias do conteudo para não quebrar em inglês/espanhol (merge superficial no API)"
+    },
+    "dica_e_anuncio": {
+      "conteudo_dica": "Em exercicio (SQL ou quiz), o campo conteudo.dica é o texto revelado quando o usuário GRATUITO toca em ver dica e assiste ao anúncio recompensado. Pro vê sem anúncio. Escreva dicas úteis aqui.",
+      "temAnuncio_na_etapa": "Controla anúncio ao avançar de etapa, não a dica."
+    },
+    "intro_conteudo": {
+      "emoji": "string",
+      "subtitulo": "string"
+    },
+    "texto_conteudo": {
+      "blocos": "Array de: string OU {type:definicao|nota|code|tabela}. code tem code e opcional lese. tabela tem cabecalhos[] e linhas[][]"
+    },
+    "resumo_conteudo": {
+      "cor": "verde | roxo | azul | laranja",
+      "itens": "Array de strings (bullets). Em traducoes en/es, repita cor e itens como strings (não use objetos nos itens)."
+    },
+    "exercicio_sql": {
+      "modo": "Omitir ou sql — não precisa escrever modo para SQL",
+      "instrucao": "Enunciado",
+      "dica": "Dica pós-anúncio (gratuito)",
+      "placeholder": "Texto do editor",
+      "schema": "DDL+DML válidos SQLite (sql.js) — CREATE TABLE e INSERT",
+      "checkType": "columns | count | values | aggregate",
+      "checkConfig": "Ver exemplo no JSON; columns usa required_columns e min_rows",
+      "performanceAviso": "Opcional: texto se query lenta (SELECT *)",
+      "explicacaoTecnica": "Opcional: texto pós-acerto"
+    },
+    "exercicio_quiz_multipla": {
+      "modo": "quiz",
+      "quizTipo": "multipla",
+      "instrucao": "Pergunta",
+      "opcoes": "Array de strings; indiceCorreto é 0-based (0 = primeira opção)",
+      "indiceCorreto": "número",
+      "dica": "Dica pós-anúncio"
+    },
+    "exercicio_quiz_vf": {
+      "modo": "quiz",
+      "quizTipo": "vf",
+      "instrucao": "Opcional; se vazio pode omitir no JSON",
+      "afirmacao": "Texto da assertiva",
+      "respostaCorreta": "true = Verdadeiro é a resposta certa; false = Falso",
+      "dica": "Dica pós-anúncio"
+    },
+    "exercicio_quiz_reflexao": {
+      "modo": "quiz",
+      "quizTipo": "reflexao",
+      "instrucao": "Pergunta",
+      "cenario": "Opcional",
+      "placeholder": "Opcional",
+      "minLength": "Mínimo de caracteres após trim para aceitar (ex.: 40)",
+      "dica": "Dica pós-anúncio"
+    },
+    "conclusao_conteudo": {
+      "mensagem": "Texto de parabéns",
+      "xpGanho": "Número exibido no card (pode diferir do xpReward da etapa)"
+    },
+    "instrucoes_google_gemini": {
+      "para_que_serve": "Use este bloco quando a IA for o Google Gemini (ou similar). Ela deve devolver JSON pronto para revisão humana e depois para colar no formato do app (conteúdo em PT + traducoes en/es).",
+      "no_inicio_da_resposta_declarar": {
+        "trilha": {
+          "slug": "identificador da trilha alvo, ex: fundamentos",
+          "titulo": { "pt": "", "en": "", "es": "" },
+          "descricao": { "pt": "", "en": "", "es": "" }
+        },
+        "modulo_ou_etapa": {
+          "descricao": "Diga em qual trilha e em qual faixa de etapas isso entra.",
+          "ordem_primeira_etapa_sugerida": "inteiro — ex: 9 (as seguintes serão ordem+1, +2…)",
+          "titulo_modulo_opcional": { "pt": "", "en": "", "es": "" }
+        }
+      },
+      "sequencia_obrigatoria_de_exercicios": [
+        "1) Exatamente um exercicio com modo quiz quizTipo multipla (múltipla escolha)",
+        "2) Exatamente um exercicio com modo quiz quizTipo vf (verdadeiro ou falso)",
+        "3) Exatamente um exercicio com modo quiz quizTipo reflexao (escrita lógica / texto livre com minLength)"
+      ],
+      "gabarito_resposta_certa_obrigatorio": {
+        "multipla": {
+          "indiceCorreto": "inteiro 0-based: 0=A, 1=B, 2=C, 3=D",
+          "letra_gabarito_opcional": "A|B|C|D — só para leitura humana; o app usa indiceCorreto"
+        },
+        "vf": {
+          "respostaCorreta": "boolean: true se a assertiva correta for Verdadeiro, false se for Falso"
+        },
+        "reflexao": {
+          "minLength": "inteiro — mínimo de caracteres (trim) para aceitar a resposta",
+          "nota": "Não há resposta única no app; opcionalmente declare conceitos_esperados[] só para o revisor (não vai no JSON do app)."
+        }
+      },
+      "idiomas_pt_en_es": {
+        "regra": "Português vai nos campos principais titulo e conteudo (base PT). Inglês e espanhol vão em traducoes.en e traducoes.es com o MESMO formato de conteudo (titulo + conteudo espelhado). Para cada exercício quiz, traduza instrucao, opcoes (array na multipla), afirmacao (no vf), instrucao/cenario/placeholder (na reflexao), e dica.",
+        "sql_extra": "Em exercício SQL, traduza instrucao, dica, placeholder e repita schema/checkType/checkConfig idênticos nas três línguas."
+      },
+      "dicas_botao_ver_dica_usuario_gratuito": {
+        "como_funciona_no_app": "No exercício, conteudo.dica (PT) é o texto revelado quando o usuário FREE toca em ver dica e assiste ao anúncio recompensado. Cada toque em dica pode exigir anúncio de novo conforme o fluxo do app. Usuário Pro vê dica sem anúncio.",
+        "o_que_a_gemini_deve_entregar": "Para CADA um dos 3 exercícios, escreva a dica em três idiomas: copie para conteudo.dica (português), traducoes.en.conteudo.dica e traducoes.es.conteudo.dica.",
+        "bloco_opcional_resumo": "Ao final da resposta, pode incluir dicas_resumo_apenas_revisao (array de 3 objetos {pt,en,es}) para o editor conferir antes de integrar; remova esse bloco antes do seed."
+      }
+    },
+    "exemplo_saida_modulo_gemini": {
+      "meta": {
+        "trilha_slug": "fundamentos",
+        "ordem_inicio_sugerida": 9,
+        "nota": "Exemplo mínimo: só os 3 quizzes + gabarito. Teoria (texto) pode vir antes, no mesmo padrão do restante do arquivo."
+      },
+      "gabarito_declarado": {
+        "exercicio_multipla": { "indiceCorreto": 1, "letra": "B" },
+        "exercicio_vf": { "respostaCorreta": true },
+        "exercicio_reflexao": { "minLength": 40 }
+      },
+      "dicas_ver_dica_gratuito": [
+        {
+          "exercicio": "multipla",
+          "pt": "Texto da dica em português (vai em conteudo.dica).",
+          "en": "Hint in English (traducoes.en.conteudo.dica).",
+          "es": "Pista en español (traducoes.es.conteudo.dica)."
+        },
+        {
+          "exercicio": "vf",
+          "pt": "Dica PT para V/F.",
+          "en": "Hint EN.",
+          "es": "Pista ES."
+        },
+        {
+          "exercicio": "reflexao",
+          "pt": "Dica PT para reflexão.",
+          "en": "Hint EN.",
+          "es": "Pista ES."
+        }
+      ],
+      "etapas_formato_app": [
+        {
+          "ordem": 9,
+          "tipo": "exercicio",
+          "temAnuncio": false,
+          "xpReward": 100,
+          "titulo": "Título PT da etapa",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Pergunta em PT?",
+            "opcoes": ["A PT", "B PT correta", "C PT", "D PT"],
+            "indiceCorreto": 1,
+            "dica": "Igual ao dicas_ver_dica_gratuito[0].pt"
+          },
+          "traducoes": {
+            "en": {
+              "titulo": "EN title",
+              "conteudo": {
+                "modo": "quiz",
+                "quizTipo": "multipla",
+                "instrucao": "Question in EN?",
+                "opcoes": ["A EN", "B EN correct", "C EN", "D EN"],
+                "indiceCorreto": 1,
+                "dica": "Same as dicas_ver_dica_gratuito[0].en"
+              }
+            },
+            "es": {
+              "titulo": "Título ES",
+              "conteudo": {
+                "modo": "quiz",
+                "quizTipo": "multipla",
+                "instrucao": "¿Pregunta ES?",
+                "opcoes": ["A ES", "B ES correcta", "C ES", "D ES"],
+                "indiceCorreto": 1,
+                "dica": "Igual a dicas_ver_dica_gratuito[0].es"
+              }
+            }
+          }
+        },
+        {
+          "ordem": 10,
+          "tipo": "exercicio",
+          "temAnuncio": false,
+          "xpReward": 100,
+          "titulo": "V ou F (PT)",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Classifique em PT.",
+            "afirmacao": "Assertiva em PT.",
+            "respostaCorreta": true,
+            "dica": "Dica PT pós-anúncio."
+          },
+          "traducoes": {
+            "en": {
+              "titulo": "T/F",
+              "conteudo": {
+                "modo": "quiz",
+                "quizTipo": "vf",
+                "instrucao": "Classify in EN.",
+                "afirmacao": "Statement in EN.",
+                "respostaCorreta": true,
+                "dica": "Hint EN after ad."
+              }
+            },
+            "es": {
+              "titulo": "V o F",
+              "conteudo": {
+                "modo": "quiz",
+                "quizTipo": "vf",
+                "instrucao": "Clasifica en ES.",
+                "afirmacao": "Afirmación en ES.",
+                "respostaCorreta": true,
+                "dica": "Pista ES tras anuncio."
+              }
+            }
+          }
+        },
+        {
+          "ordem": 11,
+          "tipo": "exercicio",
+          "temAnuncio": false,
+          "xpReward": 100,
+          "titulo": "Reflexão (PT)",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "reflexao",
+            "instrucao": "Pergunta em PT.",
+            "cenario": "Cenário opcional PT.",
+            "placeholder": "Placeholder PT.",
+            "minLength": 40,
+            "dica": "Dica PT pós-anúncio."
+          },
+          "traducoes": {
+            "en": {
+              "titulo": "Reflection",
+              "conteudo": {
+                "modo": "quiz",
+                "quizTipo": "reflexao",
+                "instrucao": "Question EN.",
+                "cenario": "Optional context EN.",
+                "placeholder": "Placeholder EN.",
+                "minLength": 40,
+                "dica": "Hint EN after ad."
+              }
+            },
+            "es": {
+              "titulo": "Reflexión",
+              "conteudo": {
+                "modo": "quiz",
+                "quizTipo": "reflexao",
+                "instrucao": "Pregunta ES.",
+                "cenario": "Contexto ES.",
+                "placeholder": "Placeholder ES.",
+                "minLength": 40,
+                "dica": "Pista ES tras anuncio."
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "slug": "exemplo-para-ia-substituir-este-slug",
+  "titulo": "Título da trilha (exemplo)",
+  "descricao": "Descrição curta para a listagem de trilhas.",
+  "icone": "🎯",
+  "ordem": 99,
+  "xpTotal": 450,
+  "traducoes": {
+    "en": {
+      "titulo": "Trail title (example)",
+      "descricao": "Short description for the trail list."
+    },
+    "es": {
+      "titulo": "Título de la ruta (ejemplo)",
+      "descricao": "Descripción breve en la lista de rutas."
+    }
+  },
+  "etapas": [
+    {
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Boas-vindas ao módulo",
+      "conteudo": {
+        "emoji": "👋",
+        "subtitulo": "Subtítulo que aparece na tela de intro; uma frase convidativa."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Welcome to the module",
+          "conteudo": {
+            "subtitulo": "Subtitle on the intro screen."
+          }
+        },
+        "es": {
+          "titulo": "Bienvenida al módulo",
+          "conteudo": {
+            "subtitulo": "Subtítulo en la pantalla de intro."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Conceito em blocos",
+      "conteudo": {
+        "blocos": [
+          "Parágrafo simples como string.",
+          {
+            "type": "definicao",
+            "termo": "Termo técnico",
+            "def": "Definição clara em uma ou duas frases."
+          },
+          {
+            "type": "nota",
+            "texto": "Nota em destaque (caixa âmbar) para curiosidade ou alerta."
+          },
+          {
+            "type": "code",
+            "code": "SELECT coluna FROM tabela WHERE id = 1;",
+            "lese": "Lê-se: seleciona coluna da tabela onde id igual a 1."
+          },
+          {
+            "type": "tabela",
+            "cabecalhos": ["Coluna A", "Coluna B", "Coluna C"],
+            "linhas": [
+              ["Linha 1 A", "Linha 1 B", "Linha 1 C"],
+              ["Linha 2 A", "Linha 2 B", "Linha 2 C"]
+            ]
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Concept in blocks",
+          "conteudo": {
+            "blocos": [
+              "Simple paragraph.",
+              {
+                "type": "definicao",
+                "termo": "Technical term",
+                "def": "Clear definition."
+              },
+              {
+                "type": "nota",
+                "texto": "Highlighted note."
+              },
+              {
+                "type": "code",
+                "code": "SELECT col FROM tbl WHERE id = 1;",
+                "lese": "Selects col from tbl where id is 1."
+              },
+              {
+                "type": "tabela",
+                "cabecalhos": ["A", "B", "C"],
+                "linhas": [
+                  ["R1A", "R1B", "R1C"],
+                  ["R2A", "R2B", "R2C"]
+                ]
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Concepto en bloques",
+          "conteudo": {
+            "blocos": [
+              "Párrafo simple.",
+              {
+                "type": "definicao",
+                "termo": "Término",
+                "def": "Definición clara."
+              },
+              {
+                "type": "nota",
+                "texto": "Nota destacada."
+              },
+              {
+                "type": "code",
+                "code": "SELECT col FROM tbl WHERE id = 1;",
+                "lese": "Selecciona col de tbl donde id es 1."
+              },
+              {
+                "type": "tabela",
+                "cabecalhos": ["A", "B", "C"],
+                "linhas": [
+                  ["F1A", "F1B", "F1C"],
+                  ["F2A", "F2B", "F2C"]
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 3,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Exercício SQL (sandbox)",
+      "conteudo": {
+        "instrucao": "Selecione todas as colunas e linhas da tabela ExemploIA.",
+        "dica": "Use SELECT * e o nome exato da tabela indicada no enunciado. Esta dica é mostrada após o anúncio para usuários gratuitos.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE ExemploIA (id INTEGER, nome TEXT, valor REAL); INSERT INTO ExemploIA VALUES (1,'Alpha',10.5),(2,'Beta',20.0);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["id", "nome", "valor"],
+          "min_rows": 2
+        }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "SQL exercise (sandbox)",
+          "conteudo": {
+            "instrucao": "Select all columns and rows from table ExemploIA.",
+            "dica": "Use SELECT * and the exact table name. Shown after ad for free users.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE ExemploIA (id INTEGER, nome TEXT, valor REAL); INSERT INTO ExemploIA VALUES (1,'Alpha',10.5),(2,'Beta',20.0);",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["id", "nome", "valor"],
+              "min_rows": 2
+            }
+          }
+        },
+        "es": {
+          "titulo": "Ejercicio SQL (sandbox)",
+          "conteudo": {
+            "instrucao": "Selecciona todas las columnas y filas de ExemploIA.",
+            "dica": "Usa SELECT * y el nombre exacto de la tabla. Tras el anuncio en gratuito.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE ExemploIA (id INTEGER, nome TEXT, valor REAL); INSERT INTO ExemploIA VALUES (1,'Alpha',10.5),(2,'Beta',20.0);",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["id", "nome", "valor"],
+              "min_rows": 2
+            }
+          }
+        }
+      }
+    },
+    {
+      "ordem": 4,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Quiz: múltipla escolha",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual opção completa corretamente a frase: em SQL, usamos ___ para filtrar linhas?",
+        "opcoes": [
+          "ORDER BY",
+          "WHERE",
+          "GROUP BY",
+          "HAVING"
+        ],
+        "indiceCorreto": 1,
+        "dica": "Pense na cláusula que restringe quais linhas entram no resultado. Dica pós-anúncio para gratuito."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Quiz: multiple choice",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which clause filters rows in SQL?",
+            "opcoes": ["ORDER BY", "WHERE", "GROUP BY", "HAVING"],
+            "indiceCorreto": 1,
+            "dica": "Think which clause restricts rows. Hint after ad for free users."
+          }
+        },
+        "es": {
+          "titulo": "Quiz: opción múltiple",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué cláusula filtra filas en SQL?",
+            "opcoes": ["ORDER BY", "WHERE", "GROUP BY", "HAVING"],
+            "indiceCorreto": 1,
+            "dica": "Piensa qué cláusula restringe filas. Pista tras el anuncio."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 5,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Quiz: verdadeiro ou falso",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "A assertiva abaixo é verdadeira ou falsa?",
+        "afirmacao": "Em um banco relacional, uma linha de uma tabela representa tipicamente um registro (tupla) sobre a entidade modelada.",
+        "respostaCorreta": true,
+        "dica": "Relação ↔ tabela; tupla ↔ linha. Dica após anúncio (gratuito)."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Quiz: true or false",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Is the statement true or false?",
+            "afirmacao": "In a relational database, a table row typically represents one record (tuple) of the modeled entity.",
+            "respostaCorreta": true,
+            "dica": "Relation ↔ table; tuple ↔ row. Hint after ad."
+          }
+        },
+        "es": {
+          "titulo": "Quiz: verdadero o falso",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "¿La afirmación es verdadera o falsa?",
+            "afirmacao": "En una base relacional, una fila suele representar un registro (tupla) de la entidad.",
+            "respostaCorreta": true,
+            "dica": "Relación ↔ tabla; tupla ↔ fila. Pista tras el anuncio."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 6,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Quiz: reflexão (texto livre)",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "reflexao",
+        "instrucao": "Explique em poucas frases por que guardar só o nome do cliente dentro do pedido pode ser uma má ideia quando o nome pode mudar.",
+        "cenario": "Loja online: tabelas Clientes e Pedidos.",
+        "placeholder": "Digite sua resposta (mínimo de caracteres definido em minLength).",
+        "minLength": 40,
+        "dica": "Pense em identificador estável (ID) e vínculo entre tabelas (chave estrangeira). Dica pós-anúncio."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Quiz: reflection",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "reflexao",
+            "instrucao": "Briefly explain why storing only the customer name on the order can be bad if names can change.",
+            "cenario": "Online store: Customers and Orders tables.",
+            "placeholder": "Type your answer (min length in minLength).",
+            "minLength": 40,
+            "dica": "Think stable ID and foreign key. Hint after ad."
+          }
+        },
+        "es": {
+          "titulo": "Quiz: reflexión",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "reflexao",
+            "instrucao": "Explica por qué guardar solo el nombre del cliente en el pedido puede ser mala idea si el nombre cambia.",
+            "cenario": "Tienda: tablas Clientes y Pedidos.",
+            "placeholder": "Escribe tu respuesta (mínimo en minLength).",
+            "minLength": 40,
+            "dica": "Piensa en ID estable y clave foránea. Pista tras el anuncio."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 7,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Resumo do módulo",
+      "conteudo": {
+        "cor": "roxo",
+        "itens": [
+          "Item 1: ideia principal",
+          "Item 2: segundo takeaway",
+          "Item 3: próximo passo sugerido"
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Module summary",
+          "conteudo": {
+            "cor": "roxo",
+            "itens": [
+              "Point 1: main idea",
+              "Point 2: second takeaway",
+              "Point 3: suggested next step"
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Resumen del módulo",
+          "conteudo": {
+            "cor": "roxo",
+            "itens": [
+              "Punto 1: idea principal",
+              "Punto 2: segunda idea",
+              "Punto 3: siguiente paso sugerido"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 8,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Módulo concluído",
+      "conteudo": {
+        "mensagem": "Parabéns! Você viu todos os tipos de etapa deste exemplo.",
+        "xpGanho": 100
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Module complete",
+          "conteudo": {
+            "mensagem": "Congrats! You saw every step type in this example."
+          }
+        },
+        "es": {
+          "titulo": "Módulo completado",
+          "conteudo": {
+            "mensagem": "¡Felicidades! Viste todos los tipos de etapa de este ejemplo."
+          }
+        }
+      }
+    }
+  ]
+}

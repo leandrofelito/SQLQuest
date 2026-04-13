@@ -10,7 +10,13 @@ import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import { AdBanner } from '@/components/layout/AdBanner'
 import { DesafioSeguro, EnunciadoSeguro } from '@/components/seguranca/DesafioSeguro'
 import { useLocale } from '@/context/LocaleContext'
-import type { ConteudoExercicio, QueryResult } from '@/types'
+import type {
+  ConteudoExercicio,
+  ConteudoExercicioQuiz,
+  ConteudoExercicioSql,
+  QueryResult,
+} from '@/types'
+import { isQuizExercicio } from '@/types'
 
 interface TelaExercicioProps {
   titulo: string
@@ -201,6 +207,301 @@ function ModalEstrelas({
   )
 }
 
+function ExercicioQuiz({
+  titulo,
+  etapaId,
+  conteudo,
+  isPro,
+  onConcluido,
+}: {
+  titulo: string
+  etapaId: string
+  conteudo: ConteudoExercicioQuiz
+  isPro: boolean
+  onConcluido: (estrelas: number, dicasUsadas: number, tentativas: number, token: string) => void
+}) {
+  const { messages } = useLocale()
+  const [estado, setEstado] = useState<Estado>('idle')
+  const [mensagemErro, setMensagemErro] = useState('')
+  const [dicaAtual, setDicaAtual] = useState('')
+  const [tentativas, setTentativas] = useState(0)
+  const [dicasUsadas, setDicasUsadas] = useState(0)
+  const [showAnuncioDica, setShowAnuncioDica] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [validandoServidor, setValidandoServidor] = useState(false)
+  const [indiceSelecionado, setIndiceSelecionado] = useState<number | null>(null)
+  const [vfSelecionado, setVfSelecionado] = useState<boolean | null>(null)
+  const [textoReflexao, setTextoReflexao] = useState('')
+  const dicaPendenteRef = useRef('')
+  const estrelasFinalRef = useRef(0)
+  const tokenRef = useRef('')
+  const ultimoPayloadRef = useRef<Record<string, unknown>>({})
+
+  const instrucaoTopo =
+    conteudo.quizTipo === 'vf' && conteudo.instrucao
+      ? conteudo.instrucao
+      : conteudo.quizTipo !== 'vf'
+        ? conteudo.instrucao
+        : ''
+
+  function resolverDicaQuiz() {
+    const tipo = mensagemErro ? classificarErro(mensagemErro) : 'generico'
+    return tentativas >= 2 ? conteudo.dica : getDica(tipo)
+  }
+
+  function pedirDica() {
+    setDicasUsadas(prev => prev + 1)
+    const dica = resolverDicaQuiz()
+    if (!isPro) {
+      dicaPendenteRef.current = dica
+      setShowAnuncioDica(true)
+    } else {
+      setDicaAtual(dica)
+    }
+  }
+
+  function liberarDica() {
+    setShowAnuncioDica(false)
+    setDicaAtual(dicaPendenteRef.current)
+  }
+
+  async function verificar() {
+    setDicaAtual('')
+
+    let payload: Record<string, unknown> = {}
+
+    if (conteudo.quizTipo === 'multipla') {
+      if (indiceSelecionado === null) {
+        setEstado('erro')
+        setMensagemErro(messages.exercicio.escolhaOpcao)
+        setDicaAtual(getDica('generico'))
+        return
+      }
+      payload = { indiceEscolhido: indiceSelecionado }
+    } else if (conteudo.quizTipo === 'vf') {
+      if (vfSelecionado === null) {
+        setEstado('erro')
+        setMensagemErro(messages.exercicio.escolhaOpcao)
+        setDicaAtual(getDica('generico'))
+        return
+      }
+      payload = { valorVF: vfSelecionado }
+    } else {
+      const t = textoReflexao.trim()
+      if (t.length < conteudo.minLength) {
+        setEstado('erro')
+        setMensagemErro(messages.exercicio.reflexaoCurta)
+        setDicaAtual(conteudo.dica)
+        return
+      }
+      payload = { textoReflexao: t }
+    }
+
+    const novaTentativa = tentativas + 1
+    setTentativas(novaTentativa)
+    setEstado('verificando')
+    ultimoPayloadRef.current = payload
+
+    setValidandoServidor(true)
+    try {
+      const res = await fetch('/api/validar-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          etapaId,
+          tentativas: novaTentativa,
+          dicasUsadas,
+          ...payload,
+        }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        if (data.sucesso && data.token) {
+          tokenRef.current = data.token
+          const estrelas = calcularEstrelas(novaTentativa, dicasUsadas)
+          estrelasFinalRef.current = estrelas
+          setEstado('acerto')
+          setShowModal(true)
+          return
+        }
+      }
+      setEstado('erro')
+      setMensagemErro(messages.exercicio.quizIncorreto)
+      setDicaAtual(getDica('generico'))
+    } catch {
+      setEstado('erro')
+      setMensagemErro(messages.exercicio.quizIncorreto)
+      setDicaAtual(getDica('generico'))
+    } finally {
+      setValidandoServidor(false)
+    }
+  }
+
+  async function continuar() {
+    let token = tokenRef.current
+    if (!token) {
+      try {
+        const res = await fetch('/api/validar-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            etapaId,
+            tentativas,
+            dicasUsadas,
+            ...ultimoPayloadRef.current,
+          }),
+        })
+        if (res.ok) {
+          const data = await res.json()
+          if (data.sucesso && data.token) {
+            token = data.token
+            tokenRef.current = token
+          }
+        }
+      } catch {
+        /* empty */
+      }
+    }
+    onConcluido(estrelasFinalRef.current, dicasUsadas, tentativas, token)
+  }
+
+  const xpModal = XP_POR_ESTRELAS[estrelasFinalRef.current] ?? 0
+  const letras = 'ABCD'
+
+  return (
+    <DesafioSeguro>
+      <div className="flex flex-col h-full px-4 py-6 gap-4">
+        <div>
+          <div className="text-xs font-semibold text-[#8b5cf6] uppercase tracking-widest mb-1">{titulo}</div>
+          {instrucaoTopo ? (
+            <EnunciadoSeguro texto={instrucaoTopo} className="text-white/80 text-base leading-snug mb-3" />
+          ) : null}
+          {conteudo.quizTipo === 'vf' && (
+            <div className="bg-[#0f1117] border border-[#2a2d3a] rounded-xl p-4">
+              <p className="text-white text-base font-medium leading-relaxed">{conteudo.afirmacao}</p>
+            </div>
+          )}
+          {conteudo.quizTipo === 'reflexao' && conteudo.cenario && (
+            <div className="mt-3 bg-amber-500/10 border border-amber-500/25 rounded-xl px-4 py-3">
+              <p className="text-amber-100/90 text-sm leading-relaxed">{conteudo.cenario}</p>
+            </div>
+          )}
+        </div>
+
+        {conteudo.quizTipo === 'multipla' && (
+          <div className="space-y-2">
+            {conteudo.opcoes.map((op, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => {
+                  setIndiceSelecionado(i)
+                  setEstado('idle')
+                }}
+                className={`w-full text-left rounded-xl border px-4 py-3 text-sm leading-relaxed transition-colors ${
+                  indiceSelecionado === i
+                    ? 'border-[#8b5cf6] bg-[#8b5cf6]/15 text-white'
+                    : 'border-[#2a2d3a] bg-[#0a0c12] text-white/80 hover:border-[#8b5cf6]/40'
+                }`}
+              >
+                <span className="text-[#a78bfa] font-bold mr-2">{letras[i] ?? i + 1})</span>
+                {op}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {conteudo.quizTipo === 'vf' && (
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setVfSelecionado(true)
+                setEstado('idle')
+              }}
+              className={`flex-1 rounded-xl border py-3 font-semibold transition-colors ${
+                vfSelecionado === true
+                  ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-300'
+                  : 'border-[#2a2d3a] bg-[#0a0c12] text-white/80'
+              }`}
+            >
+              {messages.exercicio.verdadeiro}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setVfSelecionado(false)
+                setEstado('idle')
+              }}
+              className={`flex-1 rounded-xl border py-3 font-semibold transition-colors ${
+                vfSelecionado === false
+                  ? 'border-red-500/50 bg-red-500/10 text-red-300'
+                  : 'border-[#2a2d3a] bg-[#0a0c12] text-white/80'
+              }`}
+            >
+              {messages.exercicio.falso}
+            </button>
+          </div>
+        )}
+
+        {conteudo.quizTipo === 'reflexao' && (
+          <textarea
+            value={textoReflexao}
+            onChange={e => {
+              setTextoReflexao(e.target.value)
+              setEstado('idle')
+            }}
+            placeholder={conteudo.placeholder ?? messages.exercicio.reflexaoPlaceholder}
+            className="w-full min-h-[8rem] bg-[#0a0c12] border border-[#2a2d3a] rounded-xl p-3 text-white/90 text-base leading-relaxed resize-none outline-none focus:border-[#8b5cf6] transition-colors placeholder-white/25"
+            style={{ fontSize: '16px' }}
+            spellCheck
+          />
+        )}
+
+        <AnimatePresence>
+          {estado === 'erro' && (
+            <motion.div
+              className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 space-y-2"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              <p className="text-red-300 text-sm">💡 {dicaAtual || mensagemErro}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="mt-auto space-y-2">
+          <Button
+            onClick={verificar}
+            fullWidth
+            size="lg"
+            loading={estado === 'verificando' || validandoServidor}
+            disabled={estado === 'acerto' || validandoServidor}
+          >
+            {messages.exercicio.verificar}
+          </Button>
+          {estado === 'erro' && (
+            <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
+              {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
+            </Button>
+          )}
+        </div>
+
+        {showAnuncioDica && (
+          <AnuncioVideo isPro={false} adType="rewarded" label="Anúncio" onConcluido={liberarDica} onFechar={() => setShowAnuncioDica(false)} />
+        )}
+
+        <AnimatePresence>
+          {showModal && (
+            <ModalEstrelas estrelas={estrelasFinalRef.current} xp={xpModal} isPro={isPro} onContinuar={continuar} />
+          )}
+        </AnimatePresence>
+      </div>
+    </DesafioSeguro>
+  )
+}
+
 function PainelPerformanceAviso({
   aviso,
   onOtimizar,
@@ -246,6 +547,13 @@ function PainelPerformanceAviso({
 }
 
 export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onConcluido }: TelaExercicioProps) {
+  if (isQuizExercicio(conteudo)) {
+    return (
+      <ExercicioQuiz titulo={titulo} etapaId={etapaId} conteudo={conteudo} isPro={isPro} onConcluido={onConcluido} />
+    )
+  }
+
+  const conteudoSql = conteudo as ConteudoExercicioSql
   const { messages } = useLocale()
   const [query, setQuery] = useState('')
   const [estado, setEstado] = useState<Estado>('idle')
@@ -267,7 +575,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
 
   function resolverDica() {
     const tipo = mensagemErro ? classificarErro(mensagemErro) : 'generico'
-    return tentativas >= 2 ? conteudo.dica : getDica(tipo)
+    return tentativas >= 2 ? conteudoSql.dica : getDica(tipo)
   }
 
   function pedirDica() {
@@ -295,13 +603,13 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
     setTentativas(novaTentativa)
 
     try {
-      const rows = run(conteudo.schema, query)
+      const rows = run(conteudoSql.schema, query)
       setResultado(rows[0] ? { columns: rows[0].columns, values: rows[0].values as unknown[][] } : null)
 
-      const correto = checkAnswer(rows as any, conteudo.checkType, conteudo.checkConfig)
+      const correto = checkAnswer(rows as any, conteudoSql.checkType, conteudoSql.checkConfig)
 
       if (correto) {
-        const queryLenta = conteudo.performanceAviso && detectaQueryLenta(query)
+        const queryLenta = conteudoSql.performanceAviso && detectaQueryLenta(query)
         const estrelas = queryLenta
           ? Math.min(2, calcularEstrelas(novaTentativa, dicasUsadas))
           : calcularEstrelas(novaTentativa, dicasUsadas)
@@ -394,7 +702,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
     <div className="flex flex-col h-full px-4 py-6 gap-4">
       <div>
         <div className="text-xs font-semibold text-[#8b5cf6] uppercase tracking-widest mb-1">{titulo}</div>
-        <EnunciadoSeguro texto={conteudo.instrucao} className="text-white/80 text-base leading-snug" />
+        <EnunciadoSeguro texto={conteudoSql.instrucao} className="text-white/80 text-base leading-snug" />
       </div>
 
       {/* Editor SQL */}
@@ -520,9 +828,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
 
       {/* Painel de aviso de performance (query lenta detectada) */}
       <AnimatePresence>
-        {showPerformanceAviso && conteudo.performanceAviso && (
+        {showPerformanceAviso && conteudoSql.performanceAviso && (
           <PainelPerformanceAviso
-            aviso={conteudo.performanceAviso}
+            aviso={conteudoSql.performanceAviso}
             onOtimizar={tentarOtimizar}
             onContinuar={continuarComQueryLenta}
           />
@@ -535,7 +843,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           <ModalEstrelas
             estrelas={estrelasFinalRef.current}
             xp={xpModal}
-            explicacaoTecnica={conteudo.explicacaoTecnica}
+            explicacaoTecnica={conteudoSql.explicacaoTecnica}
             isPro={isPro}
             onContinuar={continuar}
           />

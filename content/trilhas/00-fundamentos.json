@@ -4,7 +4,7 @@
   "descricao": "Entenda o que é banco de dados, tabelas, registros e o vocabulário essencial do SQL antes de escrever a primeira linha.",
   "icone": "🗄️",
   "ordem": 1,
-  "xpTotal": 500,
+  "xpTotal": 750,
   "traducoes": {
     "en": {
       "titulo": "SQL Fundamentals",
@@ -17,82 +17,491 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Bem-vindo ao SQL",
-      "conteudo": { "emoji": "🗄️", "subtitulo": "Entenda como os dados são organizados antes de buscá-los" },
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "O caos e o surgimento do modelo relacional",
+      "conteudo": {
+        "emoji": "📐",
+        "subtitulo": "Antes da primeira linha no PostgreSQL: por que existem tabelas, chaves e independência entre dado lógico e disco."
+      },
       "traducoes": {
         "en": {
-          "titulo": "Welcome to SQL",
-          "conteudo": { "subtitulo": "Understand how data is organized before querying it" }
+          "titulo": "Chaos and the birth of the relational model",
+          "conteudo": {
+            "subtitulo": "Before your first PostgreSQL line: why tables, keys, and independence between logical data and the disk matter."
+          }
         },
         "es": {
-          "titulo": "Bienvenido a SQL",
-          "conteudo": { "subtitulo": "Comprende cómo se organizan los datos antes de consultarlos" }
+          "titulo": "El caos y el surgimiento del modelo relacional",
+          "conteudo": {
+            "subtitulo": "Antes de tu primera línea en PostgreSQL: por qué existen tablas, claves e independencia entre el dato lógico y el disco."
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "O que é um Banco de Dados?",
-      "conteudo": { "blocos": [
-        "Um banco de dados é um sistema organizado para armazenar e recuperar informações.",
-        { "type": "definicao", "termo": "Banco de Dados", "def": "Um conjunto estruturado de dados armazenados eletronicamente, como o estoque de uma loja, os clientes de uma empresa ou os pedidos de um e-commerce." },
-        "Pense numa planilha Excel: ela tem abas (tabelas), linhas (registros) e colunas (campos). Um banco de dados é como várias planilhas conectadas entre si.",
-        { "type": "nota", "texto": "Os bancos de dados mais populares são PostgreSQL, MySQL, SQL Server e SQLite — todos usam SQL!" }
-      ]},
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "A era do labirinto (anos 60)",
+      "conteudo": {
+        "blocos": [
+          "Nos primórdios da computação, os dados eram escravos das aplicações: folha de pagamento e RH em arquivos proprietários, muitas vezes duplicados e em formatos incompatíveis.",
+          {
+            "type": "definicao",
+            "termo": "Modelo hierárquico",
+            "def": "Dados como árvore rígida: para chegar a um \"filho\" (ex.: um pedido) você era obrigado a passar pelo \"pai\" (ex.: o cliente). Ponteiros físicos quebrados podiam tornar dados inacessíveis."
+          },
+          {
+            "type": "definicao",
+            "termo": "Modelo em rede",
+            "def": "Permitia vários pais, mas virava uma teia de ponteiros: mudar a estrutura física do disco muitas vezes exigia reescrever grande parte do software."
+          },
+          {
+            "type": "nota",
+            "texto": "Em 1970, Edgar F. Codd (IBM) publicou \"A Relational Model of Data for Large Shared Data Banks\": o usuário deveria enxergar relações lógicas, não posição no disco. O dado foi libertado do hardware."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
-          "titulo": "What is a Database?",
-          "conteudo": { "blocos": [
-            "A database is an organized system for storing and retrieving information.",
-            { "type": "definicao", "termo": "Banco de Dados", "def": "A structured set of data stored electronically, such as a store's inventory, a company's customers, or an e-commerce's orders." },
-            "Think of an Excel spreadsheet: it has tabs (tables), rows (records), and columns (fields). A database is like several interconnected spreadsheets.",
-            { "type": "nota", "texto": "The most popular databases are PostgreSQL, MySQL, SQL Server, and SQLite — they all use SQL!" }
-          ]}
+          "titulo": "The maze era (1960s)",
+          "conteudo": {
+            "blocos": [
+              "In early computing, data was tied to applications: payroll and HR in proprietary files, often duplicated and incompatible.",
+              {
+                "type": "definicao",
+                "termo": "Hierarchical model",
+                "def": "Data as a rigid tree: to reach a \"child\" (e.g. an order) you had to go through the \"parent\" (e.g. the client). Broken physical pointers could make data unreachable."
+              },
+              {
+                "type": "definicao",
+                "termo": "Network model",
+                "def": "Allowed multiple parents but became a web of pointers: changing on-disk layout often meant rewriting much of the software."
+              },
+              {
+                "type": "nota",
+                "texto": "In 1970 Edgar F. Codd (IBM) published \"A Relational Model of Data for Large Shared Data Banks\": users should see logical relations, not disk position. Data was freed from hardware."
+              }
+            ]
+          }
         },
         "es": {
-          "titulo": "¿Qué es una Base de Datos?",
-          "conteudo": { "blocos": [
-            "Una base de datos es un sistema organizado para almacenar y recuperar información.",
-            { "type": "definicao", "termo": "Banco de Datos", "def": "Un conjunto estructurado de datos almacenados electrónicamente, como el inventario de una tienda, los clientes de una empresa o los pedidos de un e-commerce." },
-            "Piensa en una hoja de cálculo Excel: tiene pestañas (tablas), filas (registros) y columnas (campos). Una base de datos es como varias hojas de cálculo conectadas entre sí.",
-            { "type": "nota", "texto": "Las bases de datos más populares son PostgreSQL, MySQL, SQL Server y SQLite — ¡todas usan SQL!" }
-          ]}
+          "titulo": "La era del laberinto (años 60)",
+          "conteudo": {
+            "blocos": [
+              "En los inicios de la informática, los datos estaban atados a las aplicaciones: nómina y RRHH en archivos propietarios, a menudo duplicados e incompatibles.",
+              {
+                "type": "definicao",
+                "termo": "Modelo jerárquico",
+                "def": "Datos como árbol rígido: para llegar a un \"hijo\" (p. ej. un pedido) debías pasar por el \"padre\" (p. ej. el cliente). Punteros físicos rotos podían dejar datos inaccesibles."
+              },
+              {
+                "type": "definicao",
+                "termo": "Modelo en red",
+                "def": "Permitía varios padres, pero se volvía una telaraña de punteros: cambiar el disco a menudo exigía reescribir gran parte del software."
+              },
+              {
+                "type": "nota",
+                "texto": "En 1970 Edgar F. Codd (IBM) publicó el modelo relacional: el usuario ve relaciones lógicas, no posición en disco. El dato se liberó del hardware."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
-      "titulo": "Tabelas, Registros e Campos",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "Tabela", "def": "Uma estrutura que organiza dados em linhas e colunas, como uma planilha. Exemplo: tabela 'Clientes', tabela 'Produtos', tabela 'Pedidos'." },
-        { "type": "definicao", "termo": "Registro (linha / row)", "def": "Uma linha da tabela que representa um único item. Na tabela Clientes, cada registro é um cliente diferente." },
-        { "type": "definicao", "termo": "Campo (coluna / column)", "def": "Uma coluna da tabela que representa um atributo. Na tabela Clientes: 'Nome', 'Email', 'Cidade' são campos." },
-        { "type": "nota", "texto": "Registro = linha, Campo = coluna. Guarde isso, pois esses termos aparecem em toda a documentação SQL!" }
-      ]},
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Analogia: biblioteca e fios invisíveis",
+      "conteudo": {
+        "blocos": [
+          "No modelo antigo, era como uma biblioteca onde você precisava passar por \"História\", depois \"Século XVI\", só então achar o capítulo. Se a seção mudasse de andar, seu mapa físico virava lixo.",
+          "No modelo relacional, cada tema é uma tabela; elas não estão \"empilhadas\" no seu raciocínio. Cada uma tem etiquetas (chaves): o livro Autores tem um código que aparece discretamente em Obras.",
+          {
+            "type": "nota",
+            "texto": "O \"bibliotecário SQL\" não corre pelos corredores do disco: ele segue a lógica das chaves e junta informações na mesa de trabalho — independentemente de onde os blocos físicos estejam."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
-          "titulo": "Tables, Records, and Fields",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "Tabela", "def": "A structure that organizes data into rows and columns, like a spreadsheet. Example: 'Customers' table, 'Products' table, 'Orders' table." },
-            { "type": "definicao", "termo": "Registro (linha / row)", "def": "A row in the table that represents a single item. In the Customers table, each record is a different customer." },
-            { "type": "definicao", "termo": "Campo (coluna / column)", "def": "A column in the table that represents an attribute. In the Customers table: 'Name', 'Email', 'City' are fields." },
-            { "type": "nota", "texto": "Record = row, Field = column. Remember this, as these terms appear throughout all SQL documentation!" }
-          ]}
+          "titulo": "Analogy: library and invisible threads",
+          "conteudo": {
+            "blocos": [
+              "In the old model, it was like a library where you had to go through \"History\", then \"16th century\", only then find the chapter. If the section moved floors, your physical map failed.",
+              "In the relational model, each topic is a table; they are not \"stacked\" in your mind. Each has labels (keys): Authors has a code that quietly appears on Works.",
+              {
+                "type": "nota",
+                "texto": "The \"SQL librarian\" does not run down disk aisles: it follows key logic and joins information on the desk — wherever the physical blocks live."
+              }
+            ]
+          }
         },
         "es": {
-          "titulo": "Tablas, Registros y Campos",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "Tabla", "def": "Una estructura que organiza datos en filas y columnas, como una hoja de cálculo. Ejemplo: tabla 'Clientes', tabla 'Productos', tabla 'Pedidos'." },
-            { "type": "definicao", "termo": "Registro (fila / row)", "def": "Una fila de la tabla que representa un único elemento. En la tabla Clientes, cada registro es un cliente diferente." },
-            { "type": "definicao", "termo": "Campo (columna / column)", "def": "Una columna de la tabla que representa un atributo. En la tabla Clientes: 'Nombre', 'Email', 'Ciudad' son campos." },
-            { "type": "nota", "texto": "Registro = fila, Campo = columna. Recuerda esto, ya que estos términos aparecen en toda la documentación de SQL." }
-          ]}
+          "titulo": "Analogía: biblioteca e hilos invisibles",
+          "conteudo": {
+            "blocos": [
+              "En el modelo antiguo, era como una biblioteca donde debías pasar por \"Historia\", luego \"Siglo XVI\", y recién entonces el capítulo. Si la sección cambiaba de piso, tu mapa físico fallaba.",
+              "En el modelo relacional, cada tema es una tabla; no están \"apiladas\" en tu cabeza. Cada una tiene etiquetas (claves): Autores tiene un código que aparece discretamente en Obras.",
+              {
+                "type": "nota",
+                "texto": "El \"bibliotecario SQL\" no corre por los pasillos del disco: sigue la lógica de claves y une la información en la mesa."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "ordem": 4,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Como se lê: anatomia do relacionamento",
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "tabela",
+            "cabecalhos": [
+              "Termo formal (Codd)",
+              "Termo comum",
+              "Descrição lógica"
+            ],
+            "linhas": [
+              [
+                "Relação",
+                "Tabela",
+                "Conjunto de dados sobre um tema específico."
+              ],
+              [
+                "Tupla",
+                "Registro / linha",
+                "Uma ocorrência única dentro da relação."
+              ],
+              [
+                "Atributo",
+                "Coluna / campo",
+                "Uma característica ou propriedade do dado."
+              ],
+              [
+                "Domínio",
+                "Tipo de dado",
+                "Conjunto de valores permitidos (ex.: só números)."
+              ]
+            ]
+          },
+          "Como ler: \"A relação Clientes possui uma tupla para cada indivíduo; o atributo ID garante unicidade e o atributo Email pertence ao domínio de textos.\"",
+          {
+            "type": "nota",
+            "texto": "No PostgreSQL (e em sistemas profissionais) essa gramática é a base de tudo o que vem depois."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "How to read: anatomy of a relationship",
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "tabela",
+                "cabecalhos": [
+                  "Formal term (Codd)",
+                  "Common term",
+                  "Logical description"
+                ],
+                "linhas": [
+                  [
+                    "Relation",
+                    "Table",
+                    "A set of data about a specific subject."
+                  ],
+                  [
+                    "Tuple",
+                    "Record / row",
+                    "A single occurrence within the relation."
+                  ],
+                  [
+                    "Attribute",
+                    "Column / field",
+                    "A characteristic or property of the data."
+                  ],
+                  [
+                    "Domain",
+                    "Data type",
+                    "Allowed values for an attribute (e.g. numbers only)."
+                  ]
+                ]
+              },
+              "How to read: \"The Customers relation has one tuple per person; the ID attribute enforces uniqueness and Email belongs to the text domain.\"",
+              {
+                "type": "nota",
+                "texto": "In PostgreSQL and professional systems this grammar underpins everything that follows."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Cómo se lee: anatomía de la relación",
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "tabela",
+                "cabecalhos": [
+                  "Término formal (Codd)",
+                  "Término común",
+                  "Descripción lógica"
+                ],
+                "linhas": [
+                  [
+                    "Relación",
+                    "Tabla",
+                    "Conjunto de datos sobre un tema específico."
+                  ],
+                  [
+                    "Tupla",
+                    "Registro / fila",
+                    "Una ocurrencia única dentro de la relación."
+                  ],
+                  [
+                    "Atributo",
+                    "Columna / campo",
+                    "Una característica o propiedad del dato."
+                  ],
+                  [
+                    "Dominio",
+                    "Tipo de dato",
+                    "Valores permitidos (p. ej. solo números)."
+                  ]
+                ]
+              },
+              "Cómo leer: \"La relación Clientes tiene una tupla por persona; el atributo ID garantiza unicidad y Email pertenece al dominio de textos.\"",
+              {
+                "type": "nota",
+                "texto": "En PostgreSQL esta gramática es la base de lo que sigue."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Dado, informação e SQL declarativo",
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "Dado",
+            "def": "Elemento bruto. \"1970\" é só um número."
+          },
+          {
+            "type": "definicao",
+            "termo": "Informação",
+            "def": "Dado com contexto e propósito. \"1970 foi o ano do artigo de Codd\" é informação."
+          },
+          "O SQL é declarativo: você declara qual informação quer extrair; não precisa dizer ao sistema como percorrer fisicamente o disco.",
+          {
+            "type": "nota",
+            "texto": "Por isso o mesmo comando pode ser otimizado pelo banco quando o DBA muda índices ou layout — sem reescrever o aplicativo inteiro."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Data, information, and declarative SQL",
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "Data",
+                "def": "Raw element. \"1970\" is just a number."
+              },
+              {
+                "type": "definicao",
+                "termo": "Information",
+                "def": "Data with context and purpose. \"1970 was the year of Codd's paper\" is information."
+              },
+              "SQL is declarative: you state what information you want; you do not tell the engine how to scan the disk physically.",
+              {
+                "type": "nota",
+                "texto": "The same command can be optimized when the DBA changes indexes or layout — without rewriting the whole app."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Dato, información y SQL declarativo",
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "Dato",
+                "def": "Elemento bruto. \"1970\" es solo un número."
+              },
+              {
+                "type": "definicao",
+                "termo": "Información",
+                "def": "Dato con contexto. \"1970 fue el año del artículo de Codd\" es información."
+              },
+              "SQL es declarativo: declaras qué información quieres; no ordenas cómo recorrer el disco.",
+              {
+                "type": "nota",
+                "texto": "El mismo comando puede optimizarse cuando el DBA cambia índices o diseño físico."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 6,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Quiz: o problema que Codd atacou",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual era o principal problema que Edgar F. Codd visava resolver com o modelo relacional?",
+        "opcoes": [
+          "A velocidade lenta dos processadores da década de 70.",
+          "A dependência entre a estrutura lógica dos dados e o armazenamento físico.",
+          "A impossibilidade de usar letras em bancos de dados.",
+          "A necessidade de criar interfaces gráficas para os usuários."
+        ],
+        "indiceCorreto": 1,
+        "dica": "Dica técnica: pense em independência de dados. Dica de performance: abstrair o físico permite otimizar disco sem quebrar o app. Pulo do gato: Codd era matemático — buscava verdade lógica, não truque de hardware."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Quiz: the problem Codd tackled",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What was the main problem Edgar F. Codd aimed to solve with the relational model?",
+            "opcoes": [
+              "Slow processor speed in the 1970s.",
+              "The dependence between logical data structure and physical storage.",
+              "The impossibility of using letters in databases.",
+              "The need to build graphical user interfaces."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Think data independence: abstracting the physical layer lets DBAs optimize disks without breaking apps. Codd sought logical truth, not a hardware trick."
+          }
+        },
+        "es": {
+          "titulo": "Quiz: el problema que Codd atacó",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál era el principal problema que Edgar F. Codd buscaba resolver con el modelo relacional?",
+            "opcoes": [
+              "La lentitud de los procesadores en los 70.",
+              "La dependencia entre la estructura lógica de los datos y el almacenamiento físico.",
+              "La imposibilidad de usar letras en bases de datos.",
+              "La necesidad de crear interfaces gráficas."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Piensa en independencia de datos: abstraer lo físico permite optimizar disco sin romper la app. Codd buscaba verdad lógica, no un truco de hardware."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Quiz: sistemas pré-relacionais",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Classifique a afirmação abaixo.",
+        "afirmacao": "Nos sistemas pré-relacionais (hierárquicos), se você alterasse a forma como um arquivo era salvo no disco rígido, era frequentemente necessário modificar o código-fonte do programa que lia esses dados.",
+        "respostaCorreta": true,
+        "dica": "Dica técnica: navegação física vs acesso lógico. Boas práticas: o PostgreSQL abstrai isso hoje, mas saber o passado evita arquiteturas rígidas. Pulo do gato: modelo hierárquico lembra pastas no Windows — se você move a pasta pai, o caminho muda."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Quiz: pre-relational systems",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Classify the statement below.",
+            "afirmacao": "In pre-relational (hierarchical) systems, if you changed how a file was stored on disk, you often had to change the source code of the program that read that data.",
+            "respostaCorreta": true,
+            "dica": "Physical navigation vs logical access. PostgreSQL abstracts this today, but history helps you avoid rigid designs — like moving a parent folder on Windows changing the path."
+          }
+        },
+        "es": {
+          "titulo": "Quiz: sistemas prerrelacionales",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Clasifica la afirmación.",
+            "afirmacao": "En sistemas prerrelacionales (jerárquicos), si cambiabas cómo se guardaba un archivo en disco, a menudo había que modificar el código que leía esos datos.",
+            "respostaCorreta": true,
+            "dica": "Navegación física vs acceso lógico. PostgreSQL lo abstrae hoy, pero conocer el pasado evita arquitecturas rígidas."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Reflexão: cafeteria e pedidos órfãos",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "reflexao",
+        "instrucao": "Com suas palavras, explique como evitar que um pedido fique \"órfão\" (sem saber quem comprou) usando a lógica de etiquetas e vínculos de Codd.",
+        "cenario": "Você projeta um sistema para uma cafeteria com entidades Clientes e Pedidos.",
+        "placeholder": "Ex.: armazenar na tabela Pedidos um atributo que referencia o cliente…",
+        "minLength": 40,
+        "dica": "Dica técnica: chave estrangeira no Pedido apontando para o Cliente. Boas práticas: guardar ID do cliente no pedido, não o nome (nomes mudam). Pulo do gato: pense em um cordão umbilical (ID) ligando o pedido à ficha do cliente."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Reflection: café and orphan orders",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "reflexao",
+            "instrucao": "In your own words, explain how to prevent an order from being \"orphaned\" (unknown buyer) using Codd's labels and links.",
+            "cenario": "You design a system for a café with Customers and Orders.",
+            "placeholder": "E.g. store in Orders an attribute referencing the customer…",
+            "minLength": 40,
+            "dica": "Foreign key on Order pointing to Customer. Store customer ID on the order, not the name. Think of an ID umbilical cord linking the order to the customer row."
+          }
+        },
+        "es": {
+          "titulo": "Reflexión: cafetería y pedidos huérfanos",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "reflexao",
+            "instrucao": "Con tus palabras, explica cómo evitar un pedido \"huérfano\" (sin saber quién compró) usando etiquetas y vínculos al estilo Codd.",
+            "cenario": "Diseñas un sistema para una cafetería con Clientes y Pedidos.",
+            "placeholder": "Ej.: en Pedidos un atributo que referencia al cliente…",
+            "minLength": 40,
+            "dica": "Clave foránea en Pedido hacia Cliente. Guarda el ID del cliente, no el nombre."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
       "titulo": "Explorando uma Tabela",
       "conteudo": {
         "instrucao": "A tabela Produtos existe no banco. Use SELECT * para ver todos os seus dados e entender como os campos e registros estão organizados.",
@@ -100,7 +509,16 @@
         "placeholder": "SELECT ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Categoria TEXT, Preco REAL, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200.00,15),(2,'Mouse','Periféricos',89.90,120),(3,'Teclado','Periféricos',149.90,85),(4,'Monitor','Eletrônicos',1200.00,30),(5,'Cadeira','Móveis',890.00,22);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["ProdutoID","Nome","Categoria","Preco","Estoque"], "min_rows": 5 }
+        "checkConfig": {
+          "required_columns": [
+            "ProdutoID",
+            "Nome",
+            "Categoria",
+            "Preco",
+            "Estoque"
+          ],
+          "min_rows": 5
+        }
       },
       "traducoes": {
         "en": {
@@ -120,64 +538,139 @@
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 10,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "O que é SQL?",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "SQL", "def": "Structured Query Language (Linguagem de Consulta Estruturada). É a linguagem padrão para conversar com bancos de dados relacionais." },
-        "Com SQL você pode: buscar dados (SELECT), inserir novos dados (INSERT), modificar dados (UPDATE) e apagar dados (DELETE).",
-        { "type": "nota", "texto": "SQL não é case-sensitive: SELECT, select e Select são equivalentes. Por convenção, palavras-chave são escritas em MAIÚSCULAS." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "SQL",
+            "def": "Structured Query Language (Linguagem de Consulta Estruturada). É a linguagem padrão para conversar com bancos de dados relacionais."
+          },
+          "Com SQL você pode: buscar dados (SELECT), inserir novos dados (INSERT), modificar dados (UPDATE) e apagar dados (DELETE).",
+          {
+            "type": "nota",
+            "texto": "SQL não é case-sensitive: SELECT, select e Select são equivalentes. Por convenção, palavras-chave são escritas em MAIÚSCULAS."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "What is SQL?",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "SQL", "def": "Structured Query Language. It is the standard language for communicating with relational databases." },
-            "With SQL you can: retrieve data (SELECT), insert new data (INSERT), modify data (UPDATE), and delete data (DELETE).",
-            { "type": "nota", "texto": "SQL is not case-sensitive: SELECT, select, and Select are equivalent. By convention, keywords are written in UPPERCASE." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "SQL",
+                "def": "Structured Query Language. It is the standard language for communicating with relational databases."
+              },
+              "With SQL you can: retrieve data (SELECT), insert new data (INSERT), modify data (UPDATE), and delete data (DELETE).",
+              {
+                "type": "nota",
+                "texto": "SQL is not case-sensitive: SELECT, select, and Select are equivalent. By convention, keywords are written in UPPERCASE."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "¿Qué es SQL?",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "SQL", "def": "Structured Query Language (Lenguaje de Consulta Estructurado). Es el lenguaje estándar para comunicarse con bases de datos relacionales." },
-            "Con SQL puedes: consultar datos (SELECT), insertar nuevos datos (INSERT), modificar datos (UPDATE) y eliminar datos (DELETE).",
-            { "type": "nota", "texto": "SQL no distingue entre mayúsculas y minúsculas: SELECT, select y Select son equivalentes. Por convención, las palabras clave se escriben en MAYÚSCULAS." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "SQL",
+                "def": "Structured Query Language (Lenguaje de Consulta Estructurado). Es el lenguaje estándar para comunicarse con bases de datos relacionales."
+              },
+              "Con SQL puedes: consultar datos (SELECT), insertar nuevos datos (INSERT), modificar datos (UPDATE) y eliminar datos (DELETE).",
+              {
+                "type": "nota",
+                "texto": "SQL no distingue entre mayúsculas y minúsculas: SELECT, select y Select son equivalentes. Por convención, las palabras clave se escriben en MAYÚSCULAS."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 11,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "O que é uma Query?",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "Query (Consulta)", "def": "Uma instrução SQL que faz uma pergunta ao banco de dados. É como dizer: 'Me mostre todos os clientes de São Paulo'." },
-        { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Seleciona todos os campos da tabela Clientes onde a cidade seja igual a 'São Paulo'" },
-        "Toda query começa com um verbo de ação: SELECT (buscar), INSERT (inserir), UPDATE (atualizar) ou DELETE (apagar).",
-        { "type": "nota", "texto": "Neste curso você vai aprender a construir queries cada vez mais poderosas, do básico ao avançado." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "Query (Consulta)",
+            "def": "Uma instrução SQL que faz uma pergunta ao banco de dados. É como dizer: 'Me mostre todos os clientes de São Paulo'."
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'",
+            "lese": "Seleciona todos os campos da tabela Clientes onde a cidade seja igual a 'São Paulo'"
+          },
+          "Toda query começa com um verbo de ação: SELECT (buscar), INSERT (inserir), UPDATE (atualizar) ou DELETE (apagar).",
+          {
+            "type": "nota",
+            "texto": "Neste curso você vai aprender a construir queries cada vez mais poderosas, do básico ao avançado."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "What is a Query?",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "Query", "def": "A SQL statement that asks a question to the database. It's like saying: 'Show me all customers from São Paulo'." },
-            { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Selects all fields from the Clientes table where the city equals 'São Paulo'" },
-            "Every query starts with an action verb: SELECT (retrieve), INSERT (insert), UPDATE (update), or DELETE (delete).",
-            { "type": "nota", "texto": "In this course you will learn to build increasingly powerful queries, from basics to advanced." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "Query",
+                "def": "A SQL statement that asks a question to the database. It's like saying: 'Show me all customers from São Paulo'."
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'",
+                "lese": "Selects all fields from the Clientes table where the city equals 'São Paulo'"
+              },
+              "Every query starts with an action verb: SELECT (retrieve), INSERT (insert), UPDATE (update), or DELETE (delete).",
+              {
+                "type": "nota",
+                "texto": "In this course you will learn to build increasingly powerful queries, from basics to advanced."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "¿Qué es una Query?",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "Query (Consulta)", "def": "Una instrucción SQL que hace una pregunta a la base de datos. Es como decir: 'Muéstrame todos los clientes de São Paulo'." },
-            { "type": "code", "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'", "lese": "Selecciona todos los campos de la tabla Clientes donde la ciudad sea igual a 'São Paulo'" },
-            "Toda query empieza con un verbo de acción: SELECT (consultar), INSERT (insertar), UPDATE (actualizar) o DELETE (eliminar).",
-            { "type": "nota", "texto": "En este curso aprenderás a construir queries cada vez más poderosas, desde lo básico hasta lo avanzado." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "Query (Consulta)",
+                "def": "Una instrucción SQL que hace una pregunta a la base de datos. Es como decir: 'Muéstrame todos los clientes de São Paulo'."
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'",
+                "lese": "Selecciona todos los campos de la tabla Clientes donde la ciudad sea igual a 'São Paulo'"
+              },
+              "Toda query empieza con un verbo de acción: SELECT (consultar), INSERT (insertar), UPDATE (actualizar) o DELETE (eliminar).",
+              {
+                "type": "nota",
+                "texto": "En este curso aprenderás a construir queries cada vez más poderosas, desde lo básico hasta lo avanzado."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 7, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
       "titulo": "Primeira Query com Filtro",
       "conteudo": {
         "instrucao": "Busque apenas os funcionários do departamento 'TI' na tabela Funcionarios.",
@@ -185,7 +678,13 @@
         "placeholder": "SELECT * FROM ...",
         "schema": "CREATE TABLE Funcionarios (FuncID INTEGER, Nome TEXT, Cargo TEXT, Salario REAL, Departamento TEXT); INSERT INTO Funcionarios VALUES (1,'Ana Silva','Analista',5500,'TI'),(2,'Carlos Souza','Gerente',9800,'Vendas'),(3,'Maria Santos','Desenvolvedora',7200,'TI'),(4,'João Lima','Designer',5900,'Marketing'),(5,'Paula Cruz','DBA',8100,'TI');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Departamento"], "min_rows": 3 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Departamento"
+          ],
+          "min_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -205,67 +704,154 @@
       }
     },
     {
-      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 13,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "PRIMARY KEY — Identificador Único",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "PRIMARY KEY (Chave Primária)", "def": "Um campo (ou conjunto de campos) que identifica de forma única cada registro da tabela. Nenhum valor pode se repetir." },
-        "Imagine a tabela Clientes: dois clientes podem ter o mesmo nome, mas o ID (chave primária) de cada um é único.",
-        { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)", "lese": "Cria uma tabela Clientes onde ClienteID é a chave primária — cada cliente tem um ID único e irrepetível" },
-        { "type": "nota", "texto": "A PRIMARY KEY nunca pode ser NULL e deve ser única em toda a tabela." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "PRIMARY KEY (Chave Primária)",
+            "def": "Um campo (ou conjunto de campos) que identifica de forma única cada registro da tabela. Nenhum valor pode se repetir."
+          },
+          "Imagine a tabela Clientes: dois clientes podem ter o mesmo nome, mas o ID (chave primária) de cada um é único.",
+          {
+            "type": "code",
+            "code": "CREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)",
+            "lese": "Cria uma tabela Clientes onde ClienteID é a chave primária — cada cliente tem um ID único e irrepetível"
+          },
+          {
+            "type": "nota",
+            "texto": "A PRIMARY KEY nunca pode ser NULL e deve ser única em toda a tabela."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "PRIMARY KEY — Unique Identifier",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "PRIMARY KEY", "def": "A field (or set of fields) that uniquely identifies each record in the table. No value can repeat." },
-            "Imagine the Customers table: two customers can have the same name, but each one's ID (primary key) is unique.",
-            { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)", "lese": "Creates a Clientes table where ClienteID is the primary key — each customer has a unique, non-repeating ID" },
-            { "type": "nota", "texto": "The PRIMARY KEY can never be NULL and must be unique throughout the entire table." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "PRIMARY KEY",
+                "def": "A field (or set of fields) that uniquely identifies each record in the table. No value can repeat."
+              },
+              "Imagine the Customers table: two customers can have the same name, but each one's ID (primary key) is unique.",
+              {
+                "type": "code",
+                "code": "CREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)",
+                "lese": "Creates a Clientes table where ClienteID is the primary key — each customer has a unique, non-repeating ID"
+              },
+              {
+                "type": "nota",
+                "texto": "The PRIMARY KEY can never be NULL and must be unique throughout the entire table."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "PRIMARY KEY — Identificador Único",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "PRIMARY KEY (Clave Primaria)", "def": "Un campo (o conjunto de campos) que identifica de forma única cada registro de la tabla. Ningún valor puede repetirse." },
-            "Imagina la tabla Clientes: dos clientes pueden tener el mismo nombre, pero el ID (clave primaria) de cada uno es único.",
-            { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)", "lese": "Crea una tabla Clientes donde ClienteID es la clave primaria — cada cliente tiene un ID único e irrepetible" },
-            { "type": "nota", "texto": "La PRIMARY KEY nunca puede ser NULL y debe ser única en toda la tabla." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "PRIMARY KEY (Clave Primaria)",
+                "def": "Un campo (o conjunto de campos) que identifica de forma única cada registro de la tabla. Ningún valor puede repetirse."
+              },
+              "Imagina la tabla Clientes: dos clientes pueden tener el mismo nombre, pero el ID (clave primaria) de cada uno es único.",
+              {
+                "type": "code",
+                "code": "CREATE TABLE Clientes (\n  ClienteID INTEGER PRIMARY KEY,\n  Nome TEXT,\n  Email TEXT\n)",
+                "lese": "Crea una tabla Clientes donde ClienteID es la clave primaria — cada cliente tiene un ID único e irrepetible"
+              },
+              {
+                "type": "nota",
+                "texto": "La PRIMARY KEY nunca puede ser NULL y debe ser única en toda la tabla."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 9, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 14,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "FOREIGN KEY — Chave Estrangeira",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "FOREIGN KEY (Chave Estrangeira)", "def": "Um campo em uma tabela que referencia a PRIMARY KEY de outra tabela, criando um relacionamento entre elas." },
-        "Exemplo: a tabela Pedidos tem um campo ClienteID que aponta para o ClienteID da tabela Clientes. Assim você sabe qual cliente fez cada pedido.",
-        { "type": "code", "code": "Tabela Clientes:\n  ClienteID (PK) | Nome    | Email\n  1              | Ana     | ana@email.com\n  2              | Carlos  | carlos@email.com\n\nTabela Pedidos:\n  PedidoID (PK) | ClienteID (FK) | Produto  | Valor\n  101           | 1              | Notebook | 3200\n  102           | 2              | Mouse    | 89", "lese": "ClienteID em Pedidos é uma FOREIGN KEY que aponta para ClienteID em Clientes — por isso sabemos que o pedido 101 é da Ana e o 102 é do Carlos" },
-        { "type": "nota", "texto": "As FOREIGN KEYs são a base dos JOINs que você vai aprender mais adiante!" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "FOREIGN KEY (Chave Estrangeira)",
+            "def": "Um campo em uma tabela que referencia a PRIMARY KEY de outra tabela, criando um relacionamento entre elas."
+          },
+          "Exemplo: a tabela Pedidos tem um campo ClienteID que aponta para o ClienteID da tabela Clientes. Assim você sabe qual cliente fez cada pedido.",
+          {
+            "type": "code",
+            "code": "Tabela Clientes:\n  ClienteID (PK) | Nome    | Email\n  1              | Ana     | ana@email.com\n  2              | Carlos  | carlos@email.com\n\nTabela Pedidos:\n  PedidoID (PK) | ClienteID (FK) | Produto  | Valor\n  101           | 1              | Notebook | 3200\n  102           | 2              | Mouse    | 89",
+            "lese": "ClienteID em Pedidos é uma FOREIGN KEY que aponta para ClienteID em Clientes — por isso sabemos que o pedido 101 é da Ana e o 102 é do Carlos"
+          },
+          {
+            "type": "nota",
+            "texto": "As FOREIGN KEYs são a base dos JOINs que você vai aprender mais adiante!"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "FOREIGN KEY — Foreign Key",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "FOREIGN KEY", "def": "A field in one table that references the PRIMARY KEY of another table, creating a relationship between them." },
-            "Example: the Orders table has a ClienteID field that points to the ClienteID in the Customers table. This way you know which customer placed each order.",
-            { "type": "code", "code": "Tabela Clientes:\n  ClienteID (PK) | Nome    | Email\n  1              | Ana     | ana@email.com\n  2              | Carlos  | carlos@email.com\n\nTabela Pedidos:\n  PedidoID (PK) | ClienteID (FK) | Produto  | Valor\n  101           | 1              | Notebook | 3200\n  102           | 2              | Mouse    | 89", "lese": "ClienteID in Pedidos is a FOREIGN KEY pointing to ClienteID in Clientes — that's how we know order 101 belongs to Ana and 102 to Carlos" },
-            { "type": "nota", "texto": "FOREIGN KEYs are the foundation of JOINs that you will learn later!" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "FOREIGN KEY",
+                "def": "A field in one table that references the PRIMARY KEY of another table, creating a relationship between them."
+              },
+              "Example: the Orders table has a ClienteID field that points to the ClienteID in the Customers table. This way you know which customer placed each order.",
+              {
+                "type": "code",
+                "code": "Tabela Clientes:\n  ClienteID (PK) | Nome    | Email\n  1              | Ana     | ana@email.com\n  2              | Carlos  | carlos@email.com\n\nTabela Pedidos:\n  PedidoID (PK) | ClienteID (FK) | Produto  | Valor\n  101           | 1              | Notebook | 3200\n  102           | 2              | Mouse    | 89",
+                "lese": "ClienteID in Pedidos is a FOREIGN KEY pointing to ClienteID in Clientes — that's how we know order 101 belongs to Ana and 102 to Carlos"
+              },
+              {
+                "type": "nota",
+                "texto": "FOREIGN KEYs are the foundation of JOINs that you will learn later!"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "FOREIGN KEY — Clave Foránea",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "FOREIGN KEY (Clave Foránea)", "def": "Un campo en una tabla que hace referencia a la PRIMARY KEY de otra tabla, creando una relación entre ellas." },
-            "Ejemplo: la tabla Pedidos tiene un campo ClienteID que apunta al ClienteID de la tabla Clientes. Así sabes qué cliente realizó cada pedido.",
-            { "type": "code", "code": "Tabela Clientes:\n  ClienteID (PK) | Nome    | Email\n  1              | Ana     | ana@email.com\n  2              | Carlos  | carlos@email.com\n\nTabela Pedidos:\n  PedidoID (PK) | ClienteID (FK) | Produto  | Valor\n  101           | 1              | Notebook | 3200\n  102           | 2              | Mouse    | 89", "lese": "ClienteID en Pedidos es una FOREIGN KEY que apunta a ClienteID en Clientes — por eso sabemos que el pedido 101 es de Ana y el 102 de Carlos" },
-            { "type": "nota", "texto": "¡Las FOREIGN KEYs son la base de los JOINs que aprenderás más adelante!" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "FOREIGN KEY (Clave Foránea)",
+                "def": "Un campo en una tabla que hace referencia a la PRIMARY KEY de otra tabla, creando una relación entre ellas."
+              },
+              "Ejemplo: la tabla Pedidos tiene un campo ClienteID que apunta al ClienteID de la tabla Clientes. Así sabes qué cliente realizó cada pedido.",
+              {
+                "type": "code",
+                "code": "Tabela Clientes:\n  ClienteID (PK) | Nome    | Email\n  1              | Ana     | ana@email.com\n  2              | Carlos  | carlos@email.com\n\nTabela Pedidos:\n  PedidoID (PK) | ClienteID (FK) | Produto  | Valor\n  101           | 1              | Notebook | 3200\n  102           | 2              | Mouse    | 89",
+                "lese": "ClienteID en Pedidos es una FOREIGN KEY que apunta a ClienteID en Clientes — por eso sabemos que el pedido 101 es de Ana y el 102 de Carlos"
+              },
+              {
+                "type": "nota",
+                "texto": "¡Las FOREIGN KEYs son la base de los JOINs que aprenderás más adelante!"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 15,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Buscando por ID",
       "conteudo": {
         "instrucao": "Encontre o produto com ProdutoID igual a 3 na tabela Produtos.",
@@ -273,7 +859,13 @@
         "placeholder": "SELECT * FROM ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT, Categoria TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200),(2,'Mouse','Periféricos',89.90),(3,'Teclado','Periféricos',149.90),(4,'Monitor','Eletrônicos',1200),(5,'Cadeira','Móveis',890);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["ProdutoID","Nome"], "min_rows": 1 }
+        "checkConfig": {
+          "required_columns": [
+            "ProdutoID",
+            "Nome"
+          ],
+          "min_rows": 1
+        }
       },
       "traducoes": {
         "en": {
@@ -293,30 +885,57 @@
       }
     },
     {
-      "ordem": 11, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 16,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Vocabulário Essencial",
-      "conteudo": { "cor": "roxo", "itens": [
-        "Banco de Dados: sistema organizado para armazenar dados",
-        "Tabela: estrutura com linhas e colunas (como planilha)",
-        "Registro / Row: uma linha da tabela = um item",
-        "Campo / Column: uma coluna = um atributo dos dados",
-        "Query: instrução SQL que consulta ou modifica dados",
-        "PRIMARY KEY: identificador único de cada registro",
-        "FOREIGN KEY: campo que conecta duas tabelas"
-      ]},
+      "conteudo": {
+        "cor": "roxo",
+        "itens": [
+          "Banco de Dados: sistema organizado para armazenar dados",
+          "Tabela: estrutura com linhas e colunas (como planilha)",
+          "Registro / Row: uma linha da tabela = um item",
+          "Campo / Column: uma coluna = um atributo dos dados",
+          "Query: instrução SQL que consulta ou modifica dados",
+          "PRIMARY KEY: identificador único de cada registro",
+          "FOREIGN KEY: campo que conecta duas tabelas"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Essential Vocabulary",
           "conteudo": {
             "titulo": "Essential Vocabulary",
             "itens": [
-              { "titulo": "Database", "descricao": "organized system for storing data" },
-              { "titulo": "Table", "descricao": "structure with rows and columns (like a spreadsheet)" },
-              { "titulo": "Record / Row", "descricao": "one row in the table = one item" },
-              { "titulo": "Field / Column", "descricao": "one column = one data attribute" },
-              { "titulo": "Query", "descricao": "SQL statement that retrieves or modifies data" },
-              { "titulo": "PRIMARY KEY", "descricao": "unique identifier for each record" },
-              { "titulo": "FOREIGN KEY", "descricao": "field that connects two tables" }
+              {
+                "titulo": "Database",
+                "descricao": "organized system for storing data"
+              },
+              {
+                "titulo": "Table",
+                "descricao": "structure with rows and columns (like a spreadsheet)"
+              },
+              {
+                "titulo": "Record / Row",
+                "descricao": "one row in the table = one item"
+              },
+              {
+                "titulo": "Field / Column",
+                "descricao": "one column = one data attribute"
+              },
+              {
+                "titulo": "Query",
+                "descricao": "SQL statement that retrieves or modifies data"
+              },
+              {
+                "titulo": "PRIMARY KEY",
+                "descricao": "unique identifier for each record"
+              },
+              {
+                "titulo": "FOREIGN KEY",
+                "descricao": "field that connects two tables"
+              }
             ]
           }
         },
@@ -325,20 +944,44 @@
           "conteudo": {
             "titulo": "Vocabulario Esencial",
             "itens": [
-              { "titulo": "Base de Datos", "descricao": "sistema organizado para almacenar datos" },
-              { "titulo": "Tabla", "descricao": "estructura con filas y columnas (como una hoja de cálculo)" },
-              { "titulo": "Registro / Row", "descricao": "una fila de la tabla = un elemento" },
-              { "titulo": "Campo / Column", "descricao": "una columna = un atributo de los datos" },
-              { "titulo": "Query", "descricao": "instrucción SQL que consulta o modifica datos" },
-              { "titulo": "PRIMARY KEY", "descricao": "identificador único de cada registro" },
-              { "titulo": "FOREIGN KEY", "descricao": "campo que conecta dos tablas" }
+              {
+                "titulo": "Base de Datos",
+                "descricao": "sistema organizado para almacenar datos"
+              },
+              {
+                "titulo": "Tabla",
+                "descricao": "estructura con filas y columnas (como una hoja de cálculo)"
+              },
+              {
+                "titulo": "Registro / Row",
+                "descricao": "una fila de la tabla = un elemento"
+              },
+              {
+                "titulo": "Campo / Column",
+                "descricao": "una columna = un atributo de los datos"
+              },
+              {
+                "titulo": "Query",
+                "descricao": "instrucción SQL que consulta o modifica datos"
+              },
+              {
+                "titulo": "PRIMARY KEY",
+                "descricao": "identificador único de cada registro"
+              },
+              {
+                "titulo": "FOREIGN KEY",
+                "descricao": "campo que conecta dos tablas"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 12, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 17,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Todos os Dados de uma Vez",
       "conteudo": {
         "instrucao": "Busque todos os dados da tabela Funcionarios para ver como ela está organizada.",
@@ -346,7 +989,16 @@
         "placeholder": "SELECT ...",
         "schema": "CREATE TABLE Funcionarios (FuncionarioID INTEGER, Nome TEXT, Cargo TEXT, Salario REAL, Departamento TEXT); INSERT INTO Funcionarios VALUES (1,'Ana Silva','Analista',5500,'TI'),(2,'Carlos Souza','Gerente',9800,'Vendas'),(3,'Maria Santos','Desenvolvedora',7200,'TI'),(4,'João Lima','Designer',5900,'Marketing');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["FuncionarioID","Nome","Cargo","Salario","Departamento"], "min_rows": 4 }
+        "checkConfig": {
+          "required_columns": [
+            "FuncionarioID",
+            "Nome",
+            "Cargo",
+            "Salario",
+            "Departamento"
+          ],
+          "min_rows": 4
+        }
       },
       "traducoes": {
         "en": {
@@ -366,17 +1018,27 @@
       }
     },
     {
-      "ordem": 13, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 18,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "Base sólida!",
-      "conteudo": { "mensagem": "Você já conhece o vocabulário fundamental do SQL. Agora é hora de aprender a buscar dados!", "xpGanho": 150 },
+      "conteudo": {
+        "mensagem": "Você já conhece o vocabulário fundamental do SQL. Agora é hora de aprender a buscar dados!",
+        "xpGanho": 150
+      },
       "traducoes": {
         "en": {
           "titulo": "Solid Foundation!",
-          "conteudo": { "mensagem": "You now know the fundamental SQL vocabulary. Now it's time to learn how to query data!" }
+          "conteudo": {
+            "mensagem": "You now know the fundamental SQL vocabulary. Now it's time to learn how to query data!"
+          }
         },
         "es": {
           "titulo": "¡Base sólida!",
-          "conteudo": { "mensagem": "Ya conoces el vocabulario fundamental de SQL. ¡Ahora es momento de aprender a consultar datos!" }
+          "conteudo": {
+            "mensagem": "Ya conoces el vocabulario fundamental de SQL. ¡Ahora es momento de aprender a consultar datos!"
+          }
         }
       }
     }

@@ -46,7 +46,13 @@
     "queryLenta": "Query Lenta Detectada",
     "otimizar": "Tentar otimizar 🚀",
     "continuarAssim": "Continuar assim (2 estrelas)",
-    "planoExecucao": "🔍 Ver análise do plano de execução"
+    "planoExecucao": "🔍 Ver análise do plano de execução",
+    "verdadeiro": "Verdadeiro",
+    "falso": "Falso",
+    "escolhaOpcao": "Escolha uma alternativa",
+    "reflexaoPlaceholder": "Escreva sua resposta aqui…",
+    "reflexaoCurta": "Resposta muito curta. Desenvolva um pouco mais (conceitos de chave, vínculo entre tabelas).",
+    "quizIncorreto": "Resposta incorreta. Tente de novo ou peça uma dica."
   },
   "intro": {
     "continuar": "Toque para Continuar"
