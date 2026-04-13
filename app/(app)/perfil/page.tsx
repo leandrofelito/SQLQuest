@@ -260,10 +260,11 @@ export default function PerfilPage() {
               <div className="grid grid-cols-2 gap-3">
                 {rankingConquistas.map((c) => {
                   const cor = RANKING_CORES[c.tier!]
+                  const rankingInfoOpen = activeTooltip === c.id
                   return (
                     <div
                       key={c.id}
-                      className="relative rounded-2xl p-4 flex items-center gap-3 transition-all"
+                      className="relative group rounded-2xl p-4 flex items-center gap-3 transition-all"
                       style={{
                         background: c.desbloqueada ? cor.bg : 'rgba(15,17,23,1)',
                         border: `1px solid ${c.desbloqueada ? cor.borda : '#1e2028'}`,
@@ -272,8 +273,34 @@ export default function PerfilPage() {
                         filter: c.desbloqueada ? 'none' : 'grayscale(1)',
                       }}
                     >
+                      <button
+                        type="button"
+                        onClick={e => {
+                          e.stopPropagation()
+                          setActiveTooltip(rankingInfoOpen ? null : c.id)
+                        }}
+                        className="absolute top-2 right-2 z-10 text-white/30 hover:text-white/80 transition-opacity duration-200 group-hover:opacity-100 focus:outline-none"
+                        aria-label={`${m.comoDesbloquear}: ${c.nome}`}
+                      >
+                        <InfoIcon />
+                      </button>
+
+                      {rankingInfoOpen && (
+                        <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-52 max-w-[min(100vw-2rem,13rem)] bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none">
+                          <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
+                          <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
+                          <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
+                        </div>
+                      )}
+
+                      <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-52 max-w-[min(100vw-2rem,13rem)] bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden sm:block">
+                        <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
+                        <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
+                        <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
+                      </div>
+
                       <ConquistaIcon conquista={c} desbloqueada={c.desbloqueada} />
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 pr-6">
                         <p className="text-white text-sm font-bold leading-tight">{c.nome}</p>
                         <p className="text-xs mt-0.5" style={{ color: c.desbloqueada ? cor.texto : '#ffffff40' }}>
                           {c.desbloqueada
@@ -283,7 +310,7 @@ export default function PerfilPage() {
                       </div>
                       {c.desbloqueada && (
                         <div
-                          className="absolute top-2 right-2 w-2 h-2 rounded-full animate-pulse"
+                          className="absolute top-2 right-7 w-2 h-2 rounded-full animate-pulse"
                           style={{ background: cor.borda }}
                         />
                       )}

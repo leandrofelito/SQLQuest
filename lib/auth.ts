@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from './db'
 import bcrypt from 'bcryptjs'
+import { computeNovoStreak } from './streak'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
@@ -92,20 +93,17 @@ export const authOptions: NextAuthOptions = {
           // Só atualiza streak/lastActiveAt se o usuário existir no banco
           if (dbUser) {
             const hoje = new Date()
-            const ultimaAtividade = dbUser.lastActiveAt
-            let novoStreak = dbUser.streak ?? 0
-            if (ultimaAtividade) {
-              const diffDias = Math.floor((hoje.getTime() - ultimaAtividade.getTime()) / 86400000)
-              if (diffDias === 1) novoStreak += 1
-              else if (diffDias > 1) novoStreak = 1
-            } else {
-              novoStreak = 1
-            }
+            const novoStreak = computeNovoStreak({
+              streakAtual: dbUser.streak ?? 0,
+              lastActiveAt: dbUser.lastActiveAt,
+              agora: hoje,
+            })
 
             await prisma.user.update({
               where: { id: userId },
               data: { lastActiveAt: hoje, streak: novoStreak },
             })
+            ;(session.user as any).streak = novoStreak
           }
         } catch (err) {
           // Falha no DB não derruba a sessão — o cliente continua autenticado
