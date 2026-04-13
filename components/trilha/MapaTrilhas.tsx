@@ -6,6 +6,7 @@ import { CardTrilha } from './CardTrilha'
 import { BannerPro } from '@/components/anuncio/BannerPro'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import { useUser } from '@/hooks/useUser'
+import { useAppData } from '@/context/AppDataContext'
 
 interface TrilhaData {
   id: string
@@ -28,6 +29,7 @@ type FluxoState = 'idle' | 'banner' | 'ad1' | 'ad2' | 'sucesso'
 
 export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const { isPro } = useUser()
+  const { marcarTrilhaDesbloqueadaPorAnuncio } = useAppData()
   const router = useRouter()
   const [fluxo, setFluxo] = useState<FluxoState>('idle')
   const [trilhaAlvo, setTrilhaAlvo] = useState<TrilhaData | null>(null)
@@ -58,11 +60,14 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
     desbloqueioSegundoJaFeito.current = true
     setDesbloqueadasSessao(prev => new Set(prev).add(trilhaAlvo.slug))
     setFluxo('sucesso')
-    await fetch('/api/desbloquear-trilha', {
+    const res = await fetch('/api/desbloquear-trilha', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ trilhaSlug: trilhaAlvo.slug }),
     })
+    if (res.ok) {
+      marcarTrilhaDesbloqueadaPorAnuncio(trilhaAlvo.slug)
+    }
   }
 
   function entrarNaTrilha() {

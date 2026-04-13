@@ -1,13 +1,28 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { useUser } from '@/hooks/useUser'
+import { useLocale } from '@/context/LocaleContext'
+import {
+  getAdsenseClientId,
+  getAdsenseBannerSlotId,
+  hasAdsenseBannerUnit,
+  type AdBannerPlacement,
+} from '@/lib/adsense-config'
 
 function isFlutterApp(): boolean {
   return typeof window !== 'undefined' && !!(window as any).AdMobBridge
 }
 
-export function AdBanner() {
+interface AdBannerProps {
+  /** Web: slot dedicado no modal de estrelas (opcional; fallback = banner padrão). */
+  placement?: AdBannerPlacement
+  /** Rótulo discreto acima do anúncio (boa prática de transparência). */
+  showLabel?: boolean
+}
+
+export function AdBanner({ placement = 'default', showLabel = false }: AdBannerProps) {
   const { isPro } = useUser()
+  const { messages } = useLocale()
   const ref = useRef<HTMLDivElement>(null)
   const pushed = useRef(false)
   const flutter = useRef(isFlutterApp())
@@ -27,31 +42,53 @@ export function AdBanner() {
       }
     }
 
-    // Web: AdSense
+    // Web: AdSense (evita push sem client/slot — padrão AdSense e build sem env)
+    if (!hasAdsenseBannerUnit(placement)) return
     if (pushed.current) return
     pushed.current = true
     try {
       ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
     } catch {}
-  }, [isPro])
+  }, [isPro, placement])
 
   if (isPro) return null
 
   // Flutter: banner é renderizado nativamente, exibe espaço reservado
   if (flutter.current) {
-    return <div style={{ height: 50 }} aria-hidden="true" />
+    return (
+      <div className="flex flex-col items-center gap-1">
+        {showLabel && (
+          <span className="text-[10px] uppercase tracking-wider text-white/30">
+            {messages.exercicio.publicidade}
+          </span>
+        )}
+        <div style={{ height: 50 }} aria-hidden="true" />
+      </div>
+    )
   }
 
+  if (!hasAdsenseBannerUnit(placement)) return null
+
+  const adClient = getAdsenseClientId()!
+  const slotId = getAdsenseBannerSlotId(placement)!
+
   return (
-    <div className="my-4 flex justify-center" ref={ref}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block', width: '100%', maxWidth: 320, height: 50 }}
-        data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
-        data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT}
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
+    <div className="my-4 flex flex-col items-center gap-1" ref={ref}>
+      {showLabel && (
+        <span className="text-[10px] uppercase tracking-wider text-white/30">
+          {messages.exercicio.publicidade}
+        </span>
+      )}
+      <div className="flex justify-center w-full">
+        <ins
+          className="adsbygoogle"
+          style={{ display: 'block', width: '100%', maxWidth: 320, height: 50 }}
+          data-ad-client={adClient}
+          data-ad-slot={slotId}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
     </div>
   )
 }

@@ -198,7 +198,7 @@ function ModalEstrelas({
             animate={{ opacity: 1 }}
             transition={{ delay: 1.1 }}
           >
-            <AdBanner />
+            <AdBanner placement="estrelas" showLabel />
           </motion.div>
         )}
       </motion.div>

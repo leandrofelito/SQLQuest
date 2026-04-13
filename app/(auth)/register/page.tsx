@@ -325,10 +325,15 @@ export default function RegisterPage() {
           Continuar com Google
         </button>
 
-        <p className="text-center text-white/30 text-sm pb-16">
+        <p className="text-center text-white/30 text-sm">
           Já tem conta?{' '}
           <Link href="/login" className="text-[#a78bfa] hover:underline">
             Entrar
+          </Link>
+        </p>
+        <p className="text-center text-white/25 text-xs pb-16 pt-2">
+          <Link href="/privacidade" className="hover:text-white/40 underline underline-offset-2">
+            Política de privacidade
           </Link>
         </p>
       </div>

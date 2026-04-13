@@ -12,7 +12,7 @@ interface ConquistaToastProps {
 export function ConquistaToast({ emoji, nome, onDismiss }: ConquistaToastProps) {
   const { messages } = useLocale()
   useEffect(() => {
-    const t = setTimeout(onDismiss, 4000)
+    const t = setTimeout(onDismiss, 8500)
     return () => clearTimeout(t)
   }, [onDismiss])
 
