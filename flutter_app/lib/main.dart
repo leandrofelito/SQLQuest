@@ -230,7 +230,8 @@ class _WebViewScreenState extends State<WebViewScreen>
   /// Exibe rewarded e envia **apenas um** resultado ao JS por exibição:
   /// - `completed` se o usuário ganhou o prêmio (não envia `dismissed` depois,
   ///   senão o React trata como fechamento e cancela o 2º anúncio / liberação).
-  /// - `dismissed` só se fechou sem prêmio ou falhou.
+  /// - `dismissed` se fechou sem prêmio.
+  /// - `failed` se falhou ao carregar ou exibir (React pode cancelar sem liberar trilha).
   void _showRewardedAd() {
     void present(RewardedAd ad) {
       var rewardEarned = false;
@@ -248,7 +249,7 @@ class _WebViewScreenState extends State<WebViewScreen>
           ad.dispose();
           if (mounted) setState(() => _rewardedAd = null);
           _loadRewardedAd();
-          _controller.runJavaScript("window.onAdMobResult('dismissed')");
+          _controller.runJavaScript("window.onAdMobResult('failed')");
         },
       );
       ad.show(
@@ -277,7 +278,7 @@ class _WebViewScreenState extends State<WebViewScreen>
         },
         onAdFailedToLoad: (error) {
           debugPrint('[AdMob] Rewarded falhou ao carregar: ${error.message}');
-          _controller.runJavaScript("window.onAdMobResult('dismissed')");
+          _controller.runJavaScript("window.onAdMobResult('failed')");
           _loadRewardedAd();
         },
       ),

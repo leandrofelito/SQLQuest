@@ -8,6 +8,8 @@ interface AnuncioVideoProps {
   isPro: boolean
   onConcluido: () => void
   onFechar?: () => void
+  /** Flutter: falha de load/show do rewarded — se omitido, cai em onFechar */
+  onFalhou?: () => void
   label?: string // ex: "Anúncio 1 de 2"
   adType?: AdType // 'rewarded' (dica/trilha) | 'interstitial' (frequência)
 }
@@ -20,7 +22,7 @@ function isFlutterApp(): boolean {
 // Timer inicial: rewarded=30s, interstitial=15s
 const TIMER_INICIAL: Record<AdType, number> = { rewarded: 30, interstitial: 15 }
 
-export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 'rewarded' }: AnuncioVideoProps) {
+export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, adType = 'rewarded' }: AnuncioVideoProps) {
   const [tempo, setTempo] = useState(TIMER_INICIAL[adType])
   const [adFailed, setAdFailed] = useState(false)
   const [flutterAdState, setFlutterAdState] = useState<'loading' | 'showing' | 'done'>('loading')
@@ -31,8 +33,10 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 're
   // Ref para sempre chamar a versão mais recente do callback sem reiniciar o efeito
   const onConcluidoRef = useRef(onConcluido)
   const onFecharRef = useRef(onFechar)
+  const onFalhouRef = useRef(onFalhou)
   useEffect(() => { onConcluidoRef.current = onConcluido }, [onConcluido])
   useEffect(() => { onFecharRef.current = onFechar }, [onFechar])
+  useEffect(() => { onFalhouRef.current = onFalhou }, [onFalhou])
 
   function tentarFechar() {
     if (onFechar) setConfirmandoSaida(true)
@@ -57,9 +61,12 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, label, adType = 're
           // Interstitial: avança independentemente de ter assistido até o fim
           onConcluidoRef.current()
         } else {
-          // Rewarded: só dá o prêmio se concluiu
+          // Rewarded: completed = recompensa; failed = erro técnico; dismissed = fechou sem prêmio
           if (result === 'completed') {
             onConcluidoRef.current()
+          } else if (result === 'failed') {
+            if (onFalhouRef.current) onFalhouRef.current()
+            else onFecharRef.current?.()
           } else {
             onFecharRef.current?.()
           }
