@@ -47,7 +47,10 @@ export interface RankUser {
   name: string | null
   nickname: string | null
   image: string | null
+  /** XP do ciclo atual (nível / prestígio). */
   totalXp: number
+  /** XP acumulado para posição no ranking (não zera ao prestigiar). */
+  xpRanking: number
   streak: number
   prestige: number
 }

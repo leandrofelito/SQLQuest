@@ -168,6 +168,15 @@ export default function TrilhaPage() {
           </div>
         </div>
 
+        {trilha.percentualConcluido === 100 && (
+          <CertPreview
+            trilha={trilha}
+            isPro={isPro}
+            concluida
+            certificadoHash={cert?.hash}
+          />
+        )}
+
         <div className="flex border-b border-[#1e2028] px-4 mb-2">
           {(['indice', 'descricao'] as const).map(t => (
             <button
@@ -183,15 +192,7 @@ export default function TrilhaPage() {
         </div>
 
         {tab === 'indice' ? (
-          <>
-            <ListaEtapas trilhaSlug={slug} etapas={trilha.etapas} />
-            <CertPreview
-              trilha={trilha}
-              isPro={isPro}
-              concluida={trilha.percentualConcluido === 100}
-              certificadoHash={cert?.hash}
-            />
-          </>
+          <ListaEtapas trilhaSlug={slug} etapas={trilha.etapas} />
         ) : (
           <div className="px-4 py-4 space-y-3">
             <p className="text-white/70 leading-relaxed">{trilha.descricao}</p>

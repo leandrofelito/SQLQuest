@@ -1,10 +1,24 @@
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
+import { aplicarPrestigioSeElegivelTx } from '@/lib/aplicar-prestigio'
+import { COOKIE_NAME } from '@/lib/locale'
 import { calcularEstrelas, XP_POR_ESTRELAS, getLevel } from '@/lib/xp'
 import { verificarConquistasRanking } from '@/lib/ranking-conquistas'
 import { verificarToken } from '@/lib/validacao-token'
+import { computeNovoStreak } from '@/lib/streak'
+import {
+  TRILHA_CONQUISTA_SLUGS,
+  TRILHA_CONQUISTAS,
+  TRES_ESTRELAS_CONQUISTA,
+  trilhaConquistaId,
+  novasConquistasExercicios,
+  novasConquistasNivel,
+  novasConquistasStreak,
+  type TrilhaConquistaSlug,
+} from '@/lib/conquistas-definitions'
 import { z } from 'zod'
 
 const schema = z.object({
@@ -12,6 +26,10 @@ const schema = z.object({
   etapaId: z.string(),
   token: z.string(), // HMAC-signed token issued by /api/validar-query
 })
+
+function isTrilhaConquistaSlug(s: string): s is TrilhaConquistaSlug {
+  return (TRILHA_CONQUISTA_SLUGS as readonly string[]).includes(s)
+}
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -41,6 +59,9 @@ export async function POST(req: Request) {
     where: { userId_etapaId: { userId, etapaId: body.etapaId } },
   })
 
+  const tresEstrelasCountAntes = await prisma.progresso.count({
+    where: { userId, estrelas: 3, xpGanho: { gt: 0 } },
+  })
 
   let xpDelta = 0
 
@@ -78,21 +99,60 @@ export async function POST(req: Request) {
 
   let nivelAnterior = 1
   let nivelAtual = 1
-  let userBefore: { totalXp: number; isPro: boolean } | null = null
+  let userBefore: { totalXp: number; isPro: boolean; streak: number; lastActiveAt: Date | null } | null = null
+  const novasConquistas: Array<{ id: string; emoji: string; nome: string }> = []
 
   if (xpDelta > 0) {
     userBefore = await prisma.user.findUnique({
       where: { id: userId },
-      select: { totalXp: true, isPro: true },
+      select: { totalXp: true, isPro: true, streak: true, lastActiveAt: true },
     })
     nivelAnterior = getLevel(userBefore?.totalXp ?? 0)
 
-    await prisma.user.update({
-      where: { id: userId },
-      data: { totalXp: { increment: xpDelta } },
+    const agora = new Date()
+    const streakAnterior = userBefore?.streak ?? 0
+    const streakNovo = computeNovoStreak({
+      streakAtual: streakAnterior,
+      lastActiveAt: userBefore?.lastActiveAt ?? null,
+      agora,
     })
 
-    nivelAtual = getLevel((userBefore?.totalXp ?? 0) + xpDelta)
+    const xpAposIncremento = (userBefore?.totalXp ?? 0) + xpDelta
+    const nivelAposIncremento = getLevel(xpAposIncremento)
+
+    const cookieStore = await cookies()
+    const localePrestigio = cookieStore.get(COOKIE_NAME)?.value ?? 'pt'
+
+    const prestigioResult = await prisma.$transaction(async tx => {
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          totalXp: { increment: xpDelta },
+          xpRanking: { increment: xpDelta },
+          streak: streakNovo,
+          lastActiveAt: agora,
+        },
+      })
+      return aplicarPrestigioSeElegivelTx(tx, userId, localePrestigio)
+    })
+
+    nivelAtual = prestigioResult.applied
+      ? getLevel(prestigioResult.totalXp ?? 0)
+      : nivelAposIncremento
+
+    novasConquistas.push(...novasConquistasStreak(streakAnterior, streakNovo))
+    novasConquistas.push(...novasConquistasNivel(nivelAnterior, nivelAposIncremento))
+    if (prestigioResult.applied && prestigioResult.novasConquistas?.length) {
+      novasConquistas.push(...prestigioResult.novasConquistas)
+    }
+
+    if (estrelas === 3 && tresEstrelasCountAntes === 0) {
+      novasConquistas.push({
+        id: TRES_ESTRELAS_CONQUISTA.id,
+        emoji: TRES_ESTRELAS_CONQUISTA.emoji,
+        nome: TRES_ESTRELAS_CONQUISTA.nome,
+      })
+    }
   }
 
   const novasConquistasRanking = await verificarConquistasRanking(userId)
@@ -126,104 +186,26 @@ export async function POST(req: Request) {
     }
   }
 
-  // ── Detectar conquistas recém-desbloqueadas ──────────────────────────────
-  const novasConquistas: Array<{ id: string; emoji: string; nome: string }> = []
-
-  if (xpDelta > 0) {
-    const xpAnterior = userBefore?.totalXp ?? 0
-    const xpNovo = xpAnterior + xpDelta
-
-    // Marcos de XP
-    const XP_MARCOS = [
-      { id: 'xp_500',   xp: 500,   emoji: '⭐', nome: '500 XP' },
-      { id: 'xp_2000',  xp: 2000,  emoji: '🌟', nome: 'Mil de XP' },
-      { id: 'xp_5000',  xp: 5000,  emoji: '🏆', nome: 'SQL Veteran' },
-      { id: 'xp_10000', xp: 10000, emoji: '💥', nome: 'SQL Legend' },
-    ]
-    for (const m of XP_MARCOS) {
-      if (xpAnterior < m.xp && xpNovo >= m.xp) {
-        novasConquistas.push({ id: m.id, emoji: m.emoji, nome: m.nome })
-      }
-    }
-
-    // Marcos de nível
-    const NIVEL_MARCOS: Record<number, { emoji: string; nome: string }> = {
-      5:    { emoji: '🗂️', nome: 'Coletor de Dados' },
-      10:   { emoji: '🔍', nome: 'Query Beginner' },
-      15:   { emoji: '✅', nome: 'Sintaxe em Dia' },
-      20:   { emoji: '🔒', nome: 'Guardião dos SELECTs' },
-      25:   { emoji: '📊', nome: 'Analista de Queries' },
-      30:   { emoji: '🎯', nome: 'Mestre dos Filtros' },
-      35:   { emoji: '🔗', nome: 'Relacionista de Tabelas' },
-      40:   { emoji: '⚡', nome: 'Indexador Profissional' },
-      50:   { emoji: '🏆', nome: 'Cinquenta Levels' },
-      60:   { emoji: '🏛️', nome: 'Arquiteto de Schemas' },
-      70:   { emoji: '⚙️', nome: 'Otimizador de Índices' },
-      80:   { emoji: '🛡️', nome: 'Segurança Máxima' },
-      90:   { emoji: '🔮', nome: 'Mago do SQL' },
-      100:  { emoji: '💯', nome: 'Centenário' },
-      150:  { emoji: '🧙', nome: 'Oráculo do SQL' },
-      200:  { emoji: '🌌', nome: 'Arquiteto do Universo' },
-      250:  { emoji: '🌀', nome: 'Entidade de Dados' },
-      300:  { emoji: '💠', nome: 'Lenda do Neon DB' },
-      500:  { emoji: '♾️', nome: 'Imortal do SQL' },
-      750:  { emoji: '◆',  nome: 'Supremo dos Dados' },
-      1000: { emoji: '⚜️', nome: 'O Criador' },
-    }
-    for (const [nivelStr, conquista] of Object.entries(NIVEL_MARCOS)) {
-      const nivel = Number(nivelStr)
-      if (nivelAnterior < nivel && nivelAtual >= nivel) {
-        novasConquistas.push({ id: `nivel_${nivel}`, ...conquista })
-      }
-    }
-  }
-
-  // Marcos de contagem de etapas (só se for nova conclusão)
   if (!existente) {
-    const totalConcluidos = await prisma.progresso.count({
-      where: { userId, xpGanho: { gt: 0 } },
+    const novoTotalExercicios = await prisma.progresso.count({
+      where: { userId, xpGanho: { gt: 0 }, etapa: { tipo: 'exercicio' } },
     })
-    const CONTAGEM_MARCOS = [
-      { count: 1,  id: 'primeira_etapa', emoji: '⚡', nome: 'Primeiro Passo' },
-      { count: 5,  id: 'etapas_5',       emoji: '🌱', nome: 'Primeiros Brotos' },
-      { count: 20, id: 'etapas_20',      emoji: '📚', nome: 'Estudioso' },
-      { count: 50, id: 'etapas_50',      emoji: '🏃', nome: 'Maratonista' },
-    ]
-    for (const m of CONTAGEM_MARCOS) {
-      if (totalConcluidos === m.count) {
-        novasConquistas.push({ id: m.id, emoji: m.emoji, nome: m.nome })
-      }
-    }
+    const anteriorTotal = novoTotalExercicios - 1
+    novasConquistas.push(...novasConquistasExercicios(anteriorTotal, novoTotalExercicios))
   }
 
-  // Conquista de conclusão de trilha
-  if (!existente && trilha) {
+  if (!existente && trilha && isTrilhaConquistaSlug(trilha.slug)) {
     const exercicioIdsConquista = new Set(trilha.etapas.filter(e => e.tipo === 'exercicio').map(e => e.id))
     const totalExerciciosConquista = exercicioIdsConquista.size
-    const concluidosTrilha = progressosTrilha.filter(p => exercicioIdsConquista.has(p.etapaId)).length
-    const TRILHA_CONQUISTAS: Record<string, { emoji: string; nome: string }> = {
-      'fundamentos':              { emoji: '🗄️', nome: 'Fundamentos' },
-      'select-basico':            { emoji: '🔍', nome: 'Explorador SELECT' },
-      'joins':                    { emoji: '🔗', nome: 'Mestre dos JOINs' },
-      'filtragem':                { emoji: '🔎', nome: 'Detetive SQL' },
-      'groupby-having':           { emoji: '📊', nome: 'O Agregador' },
-      'dml-dados':                { emoji: '✏️', nome: 'Mão na Massa' },
-      'window-functions':         { emoji: '🪟', nome: 'Analista Avançado' },
-      'indices':                  { emoji: '⚙️', nome: 'Otimizador' },
-      'detetive-bi':              { emoji: '🕵️', nome: 'Detetive de Dados' },
-      'performance-tuning':       { emoji: '⚡', nome: 'Mestre da Performance' },
-      'seguranca-governanca':     { emoji: '🔐', nome: 'Guardião dos Dados' },
-      'sql-para-devs':            { emoji: '💻', nome: 'Dev SQL' },
-      'elite-tuning-performance': { emoji: '🏎️', nome: 'Piloto de Elite' },
-    }
-    if (
-      totalExerciciosConquista > 0 &&
-      concluidosTrilha >= totalExerciciosConquista &&
-      trilha.slug in TRILHA_CONQUISTAS
-    ) {
+    const concluidosComXp = progressosTrilha.filter(
+      p => exercicioIdsConquista.has(p.etapaId) && p.xpGanho > 0
+    ).length
+    if (totalExerciciosConquista > 0 && concluidosComXp >= totalExerciciosConquista) {
+      const meta = TRILHA_CONQUISTAS[trilha.slug]
       novasConquistas.push({
-        id: `trilha_${trilha.slug}`,
-        ...TRILHA_CONQUISTAS[trilha.slug],
+        id: trilhaConquistaId(trilha.slug),
+        emoji: meta.emoji,
+        nome: meta.nome,
       })
     }
   }

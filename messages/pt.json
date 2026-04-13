@@ -75,7 +75,8 @@
   },
   "conclusao": {
     "parabens": "Parabéns!",
-    "verTrilha": "Ver trilha completa"
+    "verTrilha": "Ver trilha completa",
+    "certificadoConvite": "Toque abaixo para ver ou baixar seu certificado desta trilha."
   },
   "upgrade": {
     "titulo": "Assinar Pro",
@@ -165,6 +166,16 @@
     "proximo": "Próximo →"
   },
   "levelup": {
-    "titulo": "Nível UP!"
+    "titulo": "Nível UP!",
+    "subiu": "Subiu de nível!",
+    "continuar": "Continuar",
+    "milestones": {
+      "10": "🗺️ Patente: Explorador de Dados!",
+      "20": "📈 Patente: Analista Oficial!",
+      "30": "💎 Patente: Especialista Certificado!",
+      "50": "⚔️ Patente: Mestre de Batalha!",
+      "75": "🔥 Patente: Caçador de Bugs!",
+      "100": "👑 Patente: Centelha Máxima — prestígio disponível!"
+    }
   }
 }

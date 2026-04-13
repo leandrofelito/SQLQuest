@@ -70,9 +70,9 @@ export type RankingTipo = (typeof RANKING_CONQUISTAS)[number]['tipo']
 export async function getPosicaoRanking(userId: string): Promise<number | null> {
   const result = await prisma.$queryRaw<[{ posicao: bigint }]>`
     SELECT posicao FROM (
-      SELECT id, RANK() OVER (ORDER BY "totalXp" DESC) AS posicao
+      SELECT id, RANK() OVER (ORDER BY "xpRanking" DESC) AS posicao
       FROM "User"
-      WHERE "totalXp" > 0
+      WHERE "xpRanking" > 0
     ) ranked
     WHERE id = ${userId}
   `

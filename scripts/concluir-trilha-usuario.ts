@@ -98,7 +98,7 @@ async function main() {
   if (xpDelta > 0) {
     await prisma.user.update({
       where: { id: user.id },
-      data: { totalXp: { increment: xpDelta } },
+      data: { totalXp: { increment: xpDelta }, xpRanking: { increment: xpDelta } },
     })
     console.log(`\nXP do usuário incrementado em +${xpDelta}`)
   } else {

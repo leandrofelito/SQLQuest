@@ -135,7 +135,9 @@ export default function RankingPage() {
                     {u.prestige > 0 && <PrestigeBadge prestige={u.prestige} size="sm" />}
                   </div>
 
-                  <p className="text-xs font-bold" style={{ color: cor }}>{formatXP(u.totalXp)} XP</p>
+                  <p className="text-xs font-bold" style={{ color: cor }}>
+                    {formatXP(u.xpRanking ?? u.totalXp)} XP
+                  </p>
                   <div
                     className="rounded-t-xl flex items-end justify-center"
                     style={{ height: altura, width: 60, backgroundColor: cor + '15', border: `1px solid ${cor}40` }}
@@ -223,11 +225,11 @@ export default function RankingPage() {
                             backgroundClip: 'text',
                           }}
                         >
-                          {formatXP(u.totalXp)}
+                          {formatXP(u.xpRanking ?? u.totalXp)}
                         </p>
                       ) : (
                         <p className={`font-bold text-sm ${isMe ? 'text-[#a78bfa]' : 'text-white/70'}`}>
-                          {formatXP(u.totalXp)}
+                          {formatXP(u.xpRanking ?? u.totalXp)}
                         </p>
                       )}
                       <p className="text-xs text-white/30">XP</p>

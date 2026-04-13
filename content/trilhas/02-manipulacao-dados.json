@@ -1,0 +1,629 @@
+{
+  "slug": "manipulacao-dados",
+  "titulo": "Manipulação de Dados",
+  "descricao": "SELECT, FROM, projeção de colunas, aliases (AS) e boas práticas de leitura no PostgreSQL.",
+  "icone": "📊",
+  "ordem": 2,
+  "xpTotal": 900,
+  "traducoes": {
+    "en": {
+      "titulo": "Data Manipulation (Reads)",
+      "descricao": "SELECT, FROM, column projection, AS aliases, and good practices for reads in PostgreSQL."
+    },
+    "es": {
+      "titulo": "Manipulación de Datos",
+      "descricao": "SELECT, FROM, proyección de columnas, alias (AS) y buenas prácticas de lectura en PostgreSQL."
+    }
+  },
+  "etapas": [
+    {
+      "ordem": 1,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "SELECT: O Despertar da Query",
+      "conteudo": {
+        "blocos": [
+          "Seja bem-vindo à nova etapa da sua jornada como Arquiteto de Dados. Agora que você compreende a estrutura das tabelas, é hora de assumir o controle da «lanterna».",
+          "O comando SELECT é a base da Data Query Language (DQL). Com ele, você escolhe quais dados deseja iluminar e trazer para a luz do resultado.",
+          {
+            "type": "definicao",
+            "termo": "Sintaxe SELECT/FROM",
+            "def": "SELECT determina as colunas (atributos) que você quer ver; FROM determina a tabela (entidade) onde os dados residem."
+          },
+          "Toda instrução SQL profissional deve ser finalizada com o ponto e vírgula (;). Ele funciona como o ponto final de uma frase, avisando ao PostgreSQL que sua ordem está completa e pronta para execução.",
+          {
+            "type": "code",
+            "code": "SELECT nome, clima FROM planetas;",
+            "lese": "Selecione as colunas nome e clima da tabela planetas e encerre a instrução."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "SELECT: The Query Awakening",
+          "conteudo": {
+            "blocos": [
+              "Welcome to the next stage of your Data Architect journey. Now that you understand table structure, it's time to take control of the «flashlight».",
+              "The SELECT command is the foundation of Data Query Language (DQL). With it, you choose which data to bring into the light of the result set.",
+              {
+                "type": "definicao",
+                "termo": "SELECT/FROM syntax",
+                "def": "SELECT picks the columns (attributes) you want to see; FROM names the table (entity) where the data lives."
+              },
+              "Every professional SQL statement should end with a semicolon (;). It works like a period at the end of a sentence, telling PostgreSQL the command is complete and ready to run.",
+              {
+                "type": "code",
+                "code": "SELECT nome, clima FROM planetas;",
+                "lese": "Select the columns nome and clima from the planetas table and end the statement. (Table and column names stay as defined in the schema.)"
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "SELECT: El Despertar de la Query",
+          "conteudo": {
+            "blocos": [
+              "Bienvenido a la siguiente etapa de tu viaje como Arquitecto de Datos. Ahora que entiendes la estructura de las tablas, es hora de tomar el control de la «linterna».",
+              "El comando SELECT es la base del Lenguaje de Consulta de Datos (DQL). Con él, eliges qué datos quieres iluminar y traer a la luz del resultado.",
+              {
+                "type": "definicao",
+                "termo": "Sintaxis SELECT/FROM",
+                "def": "SELECT determina las columnas (atributos) que quieres ver; FROM determina la tabla (entidad) donde residen los datos."
+              },
+              "Toda instrucción SQL profesional debe finalizar con punto y coma (;). Funciona como el punto final de una frase: avisa a PostgreSQL que la orden está completa y lista para ejecutarse.",
+              {
+                "type": "code",
+                "code": "SELECT nome, clima FROM planetas;",
+                "lese": "Selecciona las columnas nome y clima de la tabla planetas y cierra la instrucción. (Los nombres siguen el esquema.)"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Ordem das Cláusulas",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual é a ordem correta para escrever uma consulta básica que busca informações em uma tabela?",
+        "opcoes": [
+          "FROM tabela SELECT colunas;",
+          "SELECT colunas FROM tabela;",
+          "SELECT colunas;",
+          "FROM tabela;"
+        ],
+        "indiceCorreto": 1,
+        "dica": "No SQL, primeiro você decide «o quê» quer ver e depois diz «de onde» está."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Clause Order",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the correct order for writing a basic query that fetches information from a table?",
+            "opcoes": [
+              "FROM table SELECT columns;",
+              "SELECT columns FROM table;",
+              "SELECT columns;",
+              "FROM table;"
+            ],
+            "indiceCorreto": 1,
+            "dica": "In SQL, first you decide «what» you want to see, then you say «where» it lives."
+          }
+        },
+        "es": {
+          "titulo": "Orden de las Cláusulas",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es el orden correcto para escribir una consulta básica que busca información en una tabla?",
+            "opcoes": [
+              "FROM tabla SELECT columnas;",
+              "SELECT columnas FROM tabla;",
+              "SELECT columnas;",
+              "FROM tabla;"
+            ],
+            "indiceCorreto": 1,
+            "dica": "En SQL, primero decides «qué» quieres ver y luego dices «dónde» está."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 3,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: O Ponto Final",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a pontuação no PostgreSQL:",
+        "afirmacao": "O ponto e vírgula (;) é estritamente opcional no PostgreSQL, mesmo quando estamos separando múltiplas instruções em um mesmo comando ou script.",
+        "respostaCorreta": false,
+        "dica": "Embora em uma única consulta isolada alguns clientes aceitem omitir o ;, para várias instruções o terminador é essencial — e é boa prática usá-lo sempre."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Final Point",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About punctuation in PostgreSQL:",
+            "afirmacao": "The semicolon (;) is strictly optional in PostgreSQL, even when separating multiple statements in the same script.",
+            "respostaCorreta": false,
+            "dica": "Some clients allow omitting ; on a single statement, but for multiple statements the terminator is required — and using it always is best practice."
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Punto Final",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la puntuación en PostgreSQL:",
+            "afirmacao": "El punto y coma (;) es estrictamente opcional en PostgreSQL, incluso al separar varias instrucciones en el mismo script.",
+            "respostaCorreta": false,
+            "dica": "A veces se omite en una sola consulta, pero con varias instrucciones el terminador es necesario — y usarlo siempre es buena práctica."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 4,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Desafio: O Sistema Solar",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Selecione todas as colunas da tabela planetas.",
+        "placeholder": "-- Escreva sua query aqui",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["id", "nome", "clima"],
+          "min_rows": 3
+        },
+        "dica": "Use o asterisco (*) para trazer tudo e não esqueça do FROM.",
+        "explicacaoTecnica": "O asterisco (*) pede ao PostgreSQL todas as colunas definidas no schema da tabela planetas."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Challenge: The Solar System",
+          "conteudo": {
+            "instrucao": "Select all columns from the planetas table.",
+            "placeholder": "-- Write your query here",
+            "dica": "Use the asterisk (*) to select all columns, and don't forget FROM.",
+            "explicacaoTecnica": "The asterisk (*) asks PostgreSQL for every column defined in the planetas table schema."
+          }
+        },
+        "es": {
+          "titulo": "Desafío: El Sistema Solar",
+          "conteudo": {
+            "instrucao": "Selecciona todas las columnas de la tabla planetas.",
+            "placeholder": "-- Escribe tu consulta aquí",
+            "dica": "Usa el asterisco (*) para traer todas las columnas y no olvides el FROM.",
+            "explicacaoTecnica": "El asterisco (*) pide a PostgreSQL todas las columnas definidas en el esquema de la tabla planetas."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "A Arte da Escolha: Projeção",
+      "conteudo": {
+        "blocos": [
+          "Imagine que você está em um restaurante. Você não pede «todo o cardápio» (SELECT *) para comer apenas um prato. Pedir tudo gera desperdício de energia, tempo e dinheiro.",
+          "No PostgreSQL, usar o asterisco em tabelas com muitas colunas desperdiça performance e tráfego de rede. O bom arquiteto projeta só o necessário.",
+          {
+            "type": "definicao",
+            "termo": "Sintaxe de projeção",
+            "def": "É o ato de listar os nomes das colunas desejadas separados por vírgulas após o comando SELECT."
+          },
+          "A ordem importa: as colunas aparecem no resultado na sequência em que você as escreveu na query, independentemente da ordem física na tabela.",
+          {
+            "type": "code",
+            "code": "SELECT clima, nome \nFROM planetas;",
+            "lese": "Selecione primeiro o clima e depois o nome da tabela planetas."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Art of Choice: Projection",
+          "conteudo": {
+            "blocos": [
+              "Imagine you are in a restaurant. You don't order «the whole menu» (SELECT *) just to eat one dish. Ordering everything wastes energy, time, and money.",
+              "In PostgreSQL, using the asterisk on wide tables wastes performance and network traffic. A good architect projects only what is needed.",
+              {
+                "type": "definicao",
+                "termo": "Projection syntax",
+                "def": "Listing the desired column names separated by commas after the SELECT keyword."
+              },
+              "Order matters: columns appear in the result in the order you list them in the query, not necessarily the order they were defined in the table.",
+              {
+                "type": "code",
+                "code": "SELECT clima, nome \nFROM planetas;",
+                "lese": "Select clima first, then nome from planetas. (Names follow the schema.)"
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Arte de la Elección: Proyección",
+          "conteudo": {
+            "blocos": [
+              "Imagina que estás en un restaurante. No pides «todo el menú» (SELECT *) para comer solo un plato. Pedir todo genera desperdicio de energía, tiempo y dinero.",
+              "En PostgreSQL, usar el asterisco en tablas muy anchas desperdicia rendimiento y tráfico de red. Un buen arquitecto proyecta solo lo necesario.",
+              {
+                "type": "definicao",
+                "termo": "Sintaxis de proyección",
+                "def": "Enumerar los nombres de las columnas deseadas separados por comas después de SELECT."
+              },
+              "El orden importa: las columnas salen en el resultado en el orden en que las escribes en la consulta, no necesariamente como están definidas en la tabla.",
+              {
+                "type": "code",
+                "code": "SELECT clima, nome \nFROM planetas;",
+                "lese": "Selecciona primero clima y luego nome de planetas. (Los nombres siguen el esquema.)"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 6,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Sintaxe de Projeção",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Se você precisar visualizar apenas o Nome e o Clima da tabela de planetas, qual a sintaxe correta?",
+        "opcoes": [
+          "SELECT nome e clima FROM planetas;",
+          "SELECT nome, clima FROM planetas;",
+          "SELECT (nome, clima) FROM planetas;",
+          "FROM planetas SELECT nome, clima;"
+        ],
+        "indiceCorreto": 1,
+        "dica": "Use a vírgula para separar os atributos; o FROM indica a tabela."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Projection Syntax",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "If you need only nome and clima from the planetas table, which syntax is correct?",
+            "opcoes": [
+              "SELECT nome and clima FROM planetas;",
+              "SELECT nome, clima FROM planetas;",
+              "SELECT (nome, clima) FROM planetas;",
+              "FROM planetas SELECT nome, clima;"
+            ],
+            "indiceCorreto": 1,
+            "dica": "Use a comma between attributes; FROM names the table."
+          }
+        },
+        "es": {
+          "titulo": "Sintaxis de Proyección",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Si necesitas ver solo nome y clima de la tabla planetas, ¿cuál es la sintaxis correcta?",
+            "opcoes": [
+              "SELECT nome y clima FROM planetas;",
+              "SELECT nome, clima FROM planetas;",
+              "SELECT (nome, clima) FROM planetas;",
+              "FROM planetas SELECT nome, clima;"
+            ],
+            "indiceCorreto": 1,
+            "dica": "Usa la coma entre atributos; FROM indica la tabla."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Ordem dos Fatores",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a exibição do resultado:",
+        "afirmacao": "A ordem das colunas no resultado final será sempre a mesma ordem em que a tabela foi criada, independentemente de como eu as listo no SELECT.",
+        "respostaCorreta": false,
+        "dica": "Você reorganiza a visão na saída só mudando a ordem das colunas no SELECT — a tabela física não muda."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Order of Factors",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About the result display:",
+            "afirmacao": "The column order in the final result will always match the order in which the table was created, no matter how I list them in SELECT.",
+            "respostaCorreta": false,
+            "dica": "You reshape the view in the result by reordering columns in SELECT — the physical table stays the same."
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Orden de los Factores",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la visualización del resultado:",
+            "afirmacao": "El orden de las columnas en el resultado final siempre será el mismo con que se creó la tabla, sin importar cómo las enumere en el SELECT.",
+            "respostaCorreta": false,
+            "dica": "Reorganizas la vista en la salida cambiando el orden en el SELECT — la tabla física no cambia."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Escolha Cirúrgica",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Selecione apenas as colunas nome e clima da tabela planetas.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "clima"],
+          "min_rows": 3
+        },
+        "dica": "Coloque uma vírgula entre nome e clima logo após o SELECT.",
+        "explicacaoTecnica": "Listar só as colunas necessárias reduz dados trafegados e trabalho no servidor — melhor para a aplicação e para o usuário."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Practice: Surgical Choice",
+          "conteudo": {
+            "instrucao": "Select only the nome and clima columns from the planetas table.",
+            "placeholder": "SELECT ...",
+            "dica": "Put a comma between nome and clima right after SELECT.",
+            "explicacaoTecnica": "Listing only the columns you need cuts data volume and server work — better for the app and the user."
+          }
+        },
+        "es": {
+          "titulo": "Práctica: Elección Quirúrgica",
+          "conteudo": {
+            "instrucao": "Selecciona solo las columnas nome y clima de la tabla planetas.",
+            "placeholder": "SELECT ...",
+            "dica": "Coloca una coma entre nome y clima justo después del SELECT.",
+            "explicacaoTecnica": "Enumerar solo las columnas necesarias reduce datos y trabajo en el servidor — mejor para la app y el usuario."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 9,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Codinomes de Coluna: A Cláusula AS",
+      "conteudo": {
+        "blocos": [
+          "Muitas vezes, os nomes das colunas em um banco profissional são técnicos ou abreviados (ex.: cli_nom, prod_vlr_un). Para o usuário final, isso confunde. Como arquitetos, precisamos de nomes amigáveis.",
+          "A palavra-chave AS cria um alias (apelido) para a coluna — um «codinome» que vale só na exibição do resultado.",
+          {
+            "type": "definicao",
+            "termo": "Alias (AS)",
+            "def": "Renomeação temporária de uma coluna ou tabela para melhorar a legibilidade do resultado da consulta."
+          },
+          "Ponto crítico: o AS não renomeia a coluna de forma permanente na tabela original. No armazenamento, o nome técnico continua; o AS muda apenas o cabeçalho que você vê no resultado.",
+          {
+            "type": "code",
+            "code": "SELECT nome AS nome_do_planeta \nFROM planetas;",
+            "lese": "Selecione a coluna nome, mas exiba o cabeçalho como nome_do_planeta, na tabela planetas."
+          },
+          {
+            "type": "nota",
+            "texto": "Boa prática: evite espaços em aliases simples. Se precisar de espaços, use aspas duplas no alias — mas prefira snake_case (nome_completo)."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Column Codenames: The AS Clause",
+          "conteudo": {
+            "blocos": [
+              "Often, column names in a professional database are technical or abbreviated (e.g. cli_nom, prod_vlr_un). For the end user, that's confusing. As architects, we need friendly labels.",
+              "The AS keyword creates an alias — a «codename» that applies only to how the result is displayed.",
+              {
+                "type": "definicao",
+                "termo": "Alias (AS)",
+                "def": "A temporary new name for a column or table to make the query result easier to read."
+              },
+              "Critical point: AS does not permanently rename the column in the base table. On disk, the technical name stays; AS only changes the header you see in the result set.",
+              {
+                "type": "code",
+                "code": "SELECT nome AS nome_do_planeta \nFROM planetas;",
+                "lese": "Select column nome but show the header as nome_do_planeta from planetas. (Identifiers follow the schema.)"
+              },
+              {
+                "type": "nota",
+                "texto": "Good practice: avoid spaces in simple aliases. If you need spaces, you'd quote the alias — but prefer snake_case (full_name)."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Nombres Clave de Columna: La Cláusula AS",
+          "conteudo": {
+            "blocos": [
+              "A menudo, los nombres de columna en una base profesional son técnicos o abreviados (ej.: cli_nom, prod_vlr_un). Para el usuario final, confunde. Como arquitectos, necesitamos nombres claros.",
+              "La palabra clave AS crea un alias — un «nombre clave» que solo vale en la visualización del resultado.",
+              {
+                "type": "definicao",
+                "termo": "Alias (AS)",
+                "def": "Un renombramiento temporal de una columna o tabla para mejorar la legibilidad del resultado."
+              },
+              "Punto crítico: AS no renombra la columna de forma permanente en la tabla original. En disco sigue el nombre técnico; AS solo cambia el encabezado del resultado.",
+              {
+                "type": "code",
+                "code": "SELECT nome AS nome_do_planeta \nFROM planetas;",
+                "lese": "Selecciona la columna nome pero muestra el encabezado como nome_do_planeta desde planetas."
+              },
+              {
+                "type": "nota",
+                "texto": "Buena práctica: evita espacios en aliases simples. Si los necesitas, irían entre comillas — pero prefiere snake_case (nombre_completo)."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 10,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Quiz: A Missão do AS",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual a função principal da cláusula AS em uma consulta SQL?",
+        "opcoes": [
+          "Converter o tipo de dado de uma coluna permanentemente.",
+          "Renomear temporariamente a exibição de uma coluna no resultado.",
+          "Deletar uma coluna da tabela física no disco.",
+          "Agrupar várias tabelas em uma única visualização."
+        ],
+        "indiceCorreto": 1,
+        "dica": "Pense no AS como codinome que só vale para quem está lendo o resultado agora."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Quiz: The AS Mission",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the main role of the AS clause in an SQL query?",
+            "opcoes": [
+              "To permanently convert a column's data type.",
+              "To temporarily rename how a column appears in the result.",
+              "To delete a column from the physical table on disk.",
+              "To merge several tables into one view."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Think of AS as a codename that only applies to the result you see right now."
+          }
+        },
+        "es": {
+          "titulo": "Quiz: La Misión del AS",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es la función principal de la cláusula AS en una consulta SQL?",
+            "opcoes": [
+              "Convertir el tipo de dato de una columna permanentemente.",
+              "Renombrar temporalmente cómo se muestra una columna en el resultado.",
+              "Eliminar una columna de la tabla física en el disco.",
+              "Agrupar varias tablas en una sola visualización."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Piensa en el AS como nombre clave que solo vale para quien lee el resultado ahora."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 11,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: Impacto no Disco",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a afirmação sobre persistência:",
+        "afirmacao": "Ao usar SELECT nome AS apelido, o nome da coluna na tabela original (no armazenamento físico) será permanentemente alterado para 'apelido'.",
+        "respostaCorreta": false,
+        "dica": "O AS muda a visão lógica do resultado, não a estrutura física da tabela no disco."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: Disk Impact",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the statement about persistence:",
+            "afirmacao": "When using SELECT nome AS apelido, the column name in the original table (on physical storage) will be permanently changed to apelido.",
+            "respostaCorreta": false,
+            "dica": "AS changes the logical view in the result, not the physical table structure on disk."
+          }
+        },
+        "es": {
+          "titulo": "V o F: Impacto en el Disco",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la afirmación sobre persistencia:",
+            "afirmacao": "Al usar SELECT nome AS apodo, el nombre de la columna en la tabla original (en el almacenamiento físico) cambiará permanentemente a apodo.",
+            "respostaCorreta": false,
+            "dica": "El AS cambia la vista lógica del resultado, no la estructura física de la tabla en disco."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Desafio: O Batismo dos Dados",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Selecione a coluna nome renomeando-a como identificacao e a coluna clima como situacao_atmosferica da tabela planetas.",
+        "placeholder": "SELECT ... AS ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["identificacao", "situacao_atmosferica"],
+          "min_rows": 3
+        },
+        "dica": "Sintaxe: SELECT coluna AS novo_nome — use vírgula entre os pares e termine com FROM planetas.",
+        "explicacaoTecnica": "Aliases deixam resultados legíveis e ajudam em expressões e joins; não alteram o catálogo da tabela."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Challenge: Data Baptism",
+          "conteudo": {
+            "instrucao": "Select column nome as identificacao and column clima as situacao_atmosferica from the planetas table.",
+            "placeholder": "SELECT ... AS ...",
+            "dica": "Syntax: SELECT column AS new_name — comma between pairs, then FROM planetas.",
+            "explicacaoTecnica": "Aliases make results readable and help with expressions and joins; they don't change the table catalog."
+          }
+        },
+        "es": {
+          "titulo": "Desafío: El Bautismo de los Datos",
+          "conteudo": {
+            "instrucao": "Selecciona la columna nome como identificacao y la columna clima como situacao_atmosferica de la tabla planetas.",
+            "placeholder": "SELECT ... AS ...",
+            "dica": "Sintaxis: SELECT columna AS nuevo_nombre — coma entre pares y luego FROM planetas.",
+            "explicacaoTecnica": "Los alias hacen legibles los resultados y ayudan en expresiones y joins; no cambian el catálogo de la tabla."
+          }
+        }
+      }
+    }
+  ]
+}

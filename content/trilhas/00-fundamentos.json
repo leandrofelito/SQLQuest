@@ -4,7 +4,7 @@
   "descricao": "Entenda o que é banco de dados, tabelas, registros e o vocabulário essencial do SQL antes de escrever a primeira linha.",
   "icone": "🗄️",
   "ordem": 1,
-  "xpTotal": 300,
+  "xpTotal": 1350,
   "traducoes": {
     "en": {
       "titulo": "SQL Fundamentals",
@@ -18,112 +18,144 @@
   "etapas": [
     {
       "ordem": 1,
-      "tipo": "intro",
+      "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
-      "titulo": "O Caos e o Surgimento do Modelo Relacional",
+      "titulo": "O Caos e o Surgimento do Relacional",
       "conteudo": {
-        "emoji": "📐",
-        "subtitulo": "Da crise dos arquivos dos anos 60 ao modelo relacional de Codd: foco no que os dados representam, não em como o disco os guarda."
+        "blocos": [
+          "Nos anos 60, os dados viviam em um labirinto. Se você mudasse um arquivo de lugar no disco, o programa parava de funcionar. Era a crise da dependência física.",
+          "Em 1970, Edgar F. Codd revolucionou tudo ao propor o Modelo Relacional. Ele provou que os dados devem ser organizados em tabelas lógicas, independentes do hardware.",
+          {
+            "type": "definicao",
+            "termo": "Independência de Dados",
+            "def": "A capacidade de modificar a estrutura física de armazenamento sem precisar alterar as aplicações que utilizam os dados."
+          },
+          "Pense na metáfora da «Biblioteca de Fios Invisíveis»: os livros (tabelas) flutuam livremente. Você não precisa saber em qual prateleira física o livro está; você usa uma etiqueta lógica para puxá-lo. A forma como o dado aparece para você não depende de onde ele mora no disco.",
+          {
+            "type": "tabela",
+            "cabecalhos": ["Termo Formal", "Termo Comum", "O que é?"],
+            "linhas": [
+              ["Relação", "Tabela", "O conjunto de dados sobre um tema"],
+              ["Tupla", "Linha / Registro", "Uma ocorrência única de um dado"],
+              ["Atributo", "Coluna / Campo", "Uma característica do dado"]
+            ]
+          }
+        ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Chaos and the Birth of the Relational Model",
+          "titulo": "Chaos and the Rise of Relational",
           "conteudo": {
-            "subtitulo": "From the 1960s file crisis to Codd's relational model: focus on what data means, not how the disk stores it."
+            "blocos": [
+              "In the 60s, data lived in a labyrinth. If you moved a file on the disk, the program stopped working. It was the crisis of physical dependency.",
+              "In 1970, Edgar F. Codd revolutionized everything by proposing the Relational Model. He proved that data should be organized in logical tables, independent of hardware.",
+              {
+                "type": "definicao",
+                "termo": "Data Independence",
+                "def": "The ability to change how data is stored physically without having to rewrite the applications that use it."
+              },
+              "Picture the “Library of Invisible Wires”: books (tables) float freely. You don't need to know which physical shelf a book sits on; you use a logical tag to fetch it. The way data appears to you does not depend on where it lives on disk.",
+              {
+                "type": "tabela",
+                "cabecalhos": ["Formal term", "Everyday term", "What is it?"],
+                "linhas": [
+                  ["Relation", "Table", "The set of data about one subject"],
+                  [
+                    "Tuple",
+                    "Row / Record",
+                    "One unique occurrence of a piece of data"
+                  ],
+                  [
+                    "Attribute",
+                    "Column / Field",
+                    "One characteristic of the data"
+                  ]
+                ]
+              }
+            ]
           }
         },
         "es": {
-          "titulo": "El caos y el surgimiento del modelo relacional",
+          "titulo": "El Caos y el Surgimiento del Relacional",
           "conteudo": {
-            "subtitulo": "De la crisis de archivos de los 60 al modelo relacional de Codd: el foco en lo que representan los datos, no en cómo el disco los guarda."
+            "blocos": [
+              "En los años 60, los datos vivían en un laberinto. Si movías un archivo en el disco, el programa dejaba de funcionar. Era la crisis de la dependencia física.",
+              "En 1970, Edgar F. Codd revolucionó todo al proponer el Modelo Relacional. Demostró que los datos deben organizarse en tablas lógicas, independientes del hardware.",
+              {
+                "type": "definicao",
+                "termo": "Independencia de Datos",
+                "def": "La capacidad de modificar la estructura física de almacenamiento sin tener que cambiar las aplicaciones que usan los datos."
+              },
+              "Piensa en la metáfora de la «Biblioteca de Hilos Invisibles»: los libros (tablas) flotan libremente. No necesitas saber en qué estante físico está el libro; usas una etiqueta lógica para traerlo. La forma en que ves el dato no depende de dónde vive en el disco.",
+              {
+                "type": "tabela",
+                "cabecalhos": ["Término formal", "Término común", "¿Qué es?"],
+                "linhas": [
+                  ["Relación", "Tabla", "El conjunto de datos sobre un tema"],
+                  [
+                    "Tupla",
+                    "Fila / Registro",
+                    "Una ocurrencia única de un dato"
+                  ],
+                  ["Atributo", "Columna / Campo", "Una característica del dato"]
+                ]
+              }
+            ]
           }
         }
       }
     },
     {
       "ordem": 2,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Crise dos arquivos, Codd e biblioteca relacional",
+      "xpReward": 100,
+      "titulo": "O Grande Salto de 1970",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "1. Contexto histórico — A crise dos arquivos (anos 60)",
-            "def": "Antes da década de 1970, a computação vivia a \"Crise do Software\". Os dados ficavam em sistemas de arquivos proprietários, em modelos hierárquicos (árvore) ou em rede. O problema central era a dependência física: mudar onde um byte ficava no disco podia exigir reescrever o código da aplicação. Era um labirinto de caminhos fixos e frágeis."
-          },
-          {
-            "type": "definicao",
-            "termo": "2. O impacto de Edgar F. Codd (1970)",
-            "def": "Em 1970, o matemático da IBM Edgar F. Codd publicou \"A Relational Model of Data for Large Shared Data Banks\". Ele propôs ver dados como relações (tabelas) independentes de como o hardware os lê, introduzindo a independência de dados: o foco passa de \"como navegar no disco\" para \"o que os dados representam\"."
-          },
-          {
-            "type": "definicao",
-            "termo": "3. Analogia — Biblioteca de fios invisíveis",
-            "def": "No modelo antigo, você precisava da prateleira exata e da paginação; se a estante mudasse, o livro \"sumia\". No modelo relacional, as tabelas podem \"flutuar\", mas ficam ligadas por fios invisíveis de lógica. Você puxa a etiqueta (chave) e o SGBD traz a informação sem você saber o endereço físico."
-          },
-          {
-            "type": "definicao",
-            "termo": "4. Dado vs. informação",
-            "def": "Dado é o elemento bruto (ex.: 1970). Informação é o dado contextualizado e interpretado. O SQL é declarativo: extrai informação sem o arquiteto se prender a ponteiros físicos — hoje, por exemplo, em servidores como o Neon."
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual foi a principal inovação de Edgar F. Codd ao criar o Modelo Relacional?",
+        "opcoes": [
+          "Aumentar a velocidade física de rotação dos discos rígidos.",
+          "A separação entre a estrutura lógica dos dados e seu armazenamento físico.",
+          "A criação da internet para conectar bancos de dados distantes.",
+          "O fim do uso de tabelas para organizar informações."
+        ],
+        "indiceCorreto": 1,
+        "dica": "Pense na separação entre 'como o dado é guardado' e 'como nós o vemos'."
       },
       "traducoes": {
         "en": {
-          "titulo": "File crisis, Codd, and the relational library",
+          "titulo": "The Great Leap of 1970",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "1. Historical context — The file crisis (1960s)",
-                "def": "Before the 1970s, computing faced the \"software crisis\". Data lived in proprietary file systems, hierarchical (tree) or network models. The core issue was physical dependence: changing where a byte sat on disk could force rewriting application code. It was a maze of fixed, fragile paths."
-              },
-              {
-                "type": "definicao",
-                "termo": "2. Edgar F. Codd's impact (1970)",
-                "def": "In 1970, IBM mathematician Edgar F. Codd published \"A Relational Model of Data for Large Shared Data Banks\". He proposed seeing data as relations (tables) independent of how hardware reads them, introducing data independence: focus shifts from \"how to navigate the disk\" to \"what the data means\"."
-              },
-              {
-                "type": "definicao",
-                "termo": "3. Analogy — Library of invisible threads",
-                "def": "In the old model you needed the exact shelf and pagination; if shelving moved, the book \"vanished\". In the relational model, tables can \"float\" but stay linked by invisible logical threads. You pull the tag (key) and the DBMS brings the data without you knowing the physical address."
-              },
-              {
-                "type": "definicao",
-                "termo": "4. Data vs. information",
-                "def": "Data is the raw element (e.g. 1970). Information is data put in context and interpreted. SQL is declarative: it retrieves information without the architect tying logic to physical pointers — today, for example, on servers like Neon."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What was Edgar F. Codd's main innovation when creating the Relational Model?",
+            "opcoes": [
+              "Increasing the physical rotation speed of hard drives.",
+              "The separation between the logical data structure and its physical storage.",
+              "The creation of the internet to connect distant databases.",
+              "The end of using tables to organize information."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Think about the separation between 'how data is stored' and 'how we see it'."
           }
         },
         "es": {
-          "titulo": "Crisis de archivos, Codd y la biblioteca relacional",
+          "titulo": "El Gran Salto de 1970",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "1. Contexto histórico — La crisis de los archivos (años 60)",
-                "def": "Antes de la década de 1970, la informática vivía la \"crisis del software\". Los datos vivían en sistemas de archivos propietarios, modelos jerárquicos (árbol) o en red. El problema central era la dependencia física: cambiar dónde estaba un byte en disco podía obligar a reescribir el código. Era un laberinto de caminos fijos y frágiles."
-              },
-              {
-                "type": "definicao",
-                "termo": "2. El impacto de Edgar F. Codd (1970)",
-                "def": "En 1970, el matemático de IBM Edgar F. Codd publicó \"A Relational Model of Data for Large Shared Data Banks\". Propuso ver los datos como relaciones (tablas) independientes de cómo el hardware los lee, introduciendo la independencia de datos: el foco pasa de \"cómo navegar el disco\" a \"qué representan los datos\"."
-              },
-              {
-                "type": "definicao",
-                "termo": "3. Analogía — Biblioteca de hilos invisibles",
-                "def": "En el modelo antiguo necesitabas la estantería exacta y la paginación; si movían las estanterías, el libro \"desaparecía\". En el modelo relacional, las tablas pueden \"flotar\", pero quedan unidas por hilos invisibles de lógica. Tiras de la etiqueta (clave) y el SGBD trae la información sin que conozcas la dirección física."
-              },
-              {
-                "type": "definicao",
-                "termo": "4. Dato vs. información",
-                "def": "El dato es el elemento bruto (p. ej. 1970). La información es el dato contextualizado e interpretado. SQL es declarativo: extrae información sin que el arquitecto quede atado a punteros físicos — hoy, por ejemplo, en servidores como Neon."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál fue la principal innovación de Edgar F. Codd al crear el Modelo Relacional?",
+            "opcoes": [
+              "Aumentar la velocidad física de rotación de los discos duros.",
+              "La separación entre la estructura lógica de los datos y su almacenamiento físico.",
+              "La creación de internet para conectar bases de datos distantes.",
+              "El fin del uso de tablas para organizar información."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Piensa en la separación entre 'cómo se guarda el dato' y 'cómo lo vemos'."
           }
         }
       }
@@ -133,51 +165,36 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "O legado de Codd",
+      "titulo": "Verdade ou Mito?",
       "conteudo": {
         "modo": "quiz",
-        "quizTipo": "multipla",
-        "instrucao": "Qual foi a principal mudança de paradigma proposta por Edgar F. Codd em 1970?",
-        "opcoes": [
-          "A criação da primeira interface gráfica para usuários.",
-          "A separação entre a representação lógica dos dados e seu armazenamento físico.",
-          "A substituição de bancos de dados por arquivos de texto simples.",
-          "O fim do uso de chaves para identificação de registros."
-        ],
-        "indiceCorreto": 1,
-        "dica": "Dica técnica: pense na independência de dados. Sistemas desacoplados do físico permitem otimizar disco sem quebrar a aplicação. Codd era matemático: buscava uma base lógica estável para os dados."
+        "quizTipo": "vf",
+        "instrucao": "Analise a afirmação sobre a era pré-relacional:",
+        "afirmacao": "Antes do modelo de Codd, se você alterasse a forma como um arquivo era salvo no disco, era frequentemente necessário reescrever o programa que lia esses dados.",
+        "respostaCorreta": true,
+        "dica": "Antes de Codd, os programas eram escravos do local físico do arquivo no disco."
       },
       "traducoes": {
         "en": {
-          "titulo": "Codd's legacy",
+          "titulo": "Truth or Myth?",
           "conteudo": {
             "modo": "quiz",
-            "quizTipo": "multipla",
-            "instrucao": "What was the main paradigm shift proposed by Edgar F. Codd in 1970?",
-            "opcoes": [
-              "The creation of the first graphical user interface.",
-              "The separation between logical data representation and physical storage.",
-              "Replacing databases with plain text files.",
-              "The end of using keys to identify records."
-            ],
-            "indiceCorreto": 1,
-            "dica": "Technical hint: think about data independence. Systems decoupled from the physical layer let you tune storage without breaking apps. Codd was a mathematician: he wanted a stable logical foundation for data."
+            "quizTipo": "vf",
+            "instrucao": "Analyze the statement about the pre-relational era:",
+            "afirmacao": "Before Codd's model, if you changed how a file was saved on the disk, it was often necessary to rewrite the program that read that data.",
+            "respostaCorreta": true,
+            "dica": "Before Codd, programs were slaves to the physical location of the file on the disk."
           }
         },
         "es": {
-          "titulo": "El legado de Codd",
+          "titulo": "¿Verdad o Mito?",
           "conteudo": {
             "modo": "quiz",
-            "quizTipo": "multipla",
-            "instrucao": "¿Cuál fue el principal cambio de paradigma propuesto por Edgar F. Codd en 1970?",
-            "opcoes": [
-              "La creación de la primera interfaz gráfica para usuarios.",
-              "La separación entre la representación lógica de los datos y su almacenamiento físico.",
-              "Sustituir las bases de datos por archivos de texto plano.",
-              "El fin del uso de claves para identificar registros."
-            ],
-            "indiceCorreto": 1,
-            "dica": "Pista técnica: piensa en la independencia de datos. Los sistemas desacoplados del físico permiten optimizar el disco sin romper la aplicación. Codd era matemático: buscaba una base lógica estable para los datos."
+            "quizTipo": "vf",
+            "instrucao": "Analiza la afirmación sobre la era prerreacional:",
+            "afirmacao": "Antes del modelo de Codd, si cambiabas la forma en que se guardaba un archivo en el disco, a menudo era necesario reescribir el programa que leía esos datos.",
+            "respostaCorreta": true,
+            "dica": "Antes de Codd, los programas eran esclavos de la ubicación física del archivo en el disco."
           }
         }
       }
@@ -185,89 +202,754 @@
     {
       "ordem": 4,
       "tipo": "exercicio",
-      "temAnuncio": false,
+      "temAnuncio": true,
       "xpReward": 100,
-      "titulo": "Dependência física nos sistemas pré-relacionais",
+      "titulo": "Definindo a Liberdade",
       "conteudo": {
         "modo": "quiz",
-        "quizTipo": "vf",
-        "instrucao": "Classifique a afirmação abaixo:",
-        "afirmacao": "Nos sistemas pré-relacionais (hierárquicos), uma alteração na forma como o arquivo era salvo no disco frequentemente exigia modificações no código-fonte do programa.",
-        "respostaCorreta": true,
-        "dica": "A palavra-chave é dependência física. Antes de Codd, programas ficavam amarrados ao local dos arquivos no hardware — como um atalho que quebra se a pasta mudar de lugar."
+        "quizTipo": "multipla",
+        "instrucao": "O que melhor define o conceito de 'Independência de Dados'?",
+        "opcoes": [
+          "A capacidade de mudar o armazenamento físico sem afetar a lógica das aplicações.",
+          "O poder de cada usuário criar seu próprio banco de dados sem permissão.",
+          "A garantia de que o banco de dados nunca precisará de backup.",
+          "O uso de cabos de rede sem fio para conectar servidores de dados."
+        ],
+        "indiceCorreto": 0,
+        "dica": "Independência significa que a mudança em baixo (disco) não quebra o que está em cima (app)."
       },
       "traducoes": {
         "en": {
-          "titulo": "Physical dependence in pre-relational systems",
+          "titulo": "Defining Freedom",
           "conteudo": {
             "modo": "quiz",
-            "quizTipo": "vf",
-            "instrucao": "Classify the statement below:",
-            "afirmacao": "In pre-relational (hierarchical) systems, a change in how the file was stored on disk often required changes to the program's source code.",
-            "respostaCorreta": true,
-            "dica": "The keyword is physical dependence. Before Codd, programs were tied to where files lived on hardware — like a shortcut that breaks when the folder moves."
+            "quizTipo": "multipla",
+            "instrucao": "What best defines the concept of 'Data Independence'?",
+            "opcoes": [
+              "The ability to change physical storage without affecting application logic.",
+              "The power for each user to create their own database without permission.",
+              "The guarantee that the database will never need a backup.",
+              "The use of wireless network cables to connect data servers."
+            ],
+            "indiceCorreto": 0,
+            "dica": "Independence means that a change at the bottom (disk) doesn't break what's at the top (app)."
           }
         },
         "es": {
-          "titulo": "Dependencia física en sistemas prerrelacionales",
+          "titulo": "Definiendo la Libertad",
           "conteudo": {
             "modo": "quiz",
-            "quizTipo": "vf",
-            "instrucao": "Clasifica la siguiente afirmación:",
-            "afirmacao": "En los sistemas prerrelacionales (jerárquicos), un cambio en cómo se guardaba el archivo en disco a menudo exigía modificar el código fuente del programa.",
-            "respostaCorreta": true,
-            "dica": "La palabra clave es dependencia física. Antes de Codd, los programas quedaban atados al lugar de los archivos en el hardware — como un acceso directo que se rompe si cambia la carpeta."
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué define mejor el concepto de 'Independencia de Datos'?",
+            "opcoes": [
+              "La capacidad de cambiar el almacenamiento físico sin afectar la lógica de las aplicaciones.",
+              "El poder de cada usuario para crear su propia base de datos sin permiso.",
+              "La garantía de que la base de datos nunca necesitará respaldo.",
+              "El uso de cables de red inalámbricos para conectar servidores de datos."
+            ],
+            "indiceCorreto": 0,
+            "dica": "Independencia significa que el cambio abajo (disco) no rompe lo que está arriba (app)."
           }
         }
       }
     },
     {
       "ordem": 5,
-      "tipo": "exercicio",
+      "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 100,
-      "titulo": "Filtrando marcos após 1969",
+      "xpReward": 50,
+      "titulo": "A Anatomia da Tabela",
       "conteudo": {
-        "instrucao": "Escreva uma consulta que retorne todas as colunas da tabela 'marcos_historicos' para eventos que ocorreram estritamente após o ano de 1969.",
-        "dica": "Use * para todas as colunas. Compare ano_ocorrencia com o número 1969 usando o operador \"maior que\" (>). Em Postgres, nomes de tabela costumam ficar em minúsculas no sandbox.",
-        "dicaPreenchimento": "SELECT * FROM marcos_historicos WHERE ",
-        "placeholder": "SELECT ...",
-        "schema": "CREATE TABLE marcos_historicos (id INTEGER, nome_marco TEXT, ano_ocorrencia INTEGER, autor TEXT); INSERT INTO marcos_historicos VALUES (1,'Pré-modelo relacional',1965,'IBM'),(2,'Artigo de Codd',1970,'Edgar F. Codd'),(3,'Projeto System R',1974,'IBM'),(4,'SQL como padrão ANSI',1986,'ANSI'),(5,'Limite do século',1969,'História');",
-        "checkType": "count",
-        "checkConfig": {
-          "expected_rows": 3
-        },
-        "explicacaoTecnica": "A grande revolução foi permitir que o usuário foque na lógica (relação) enquanto o sistema cuida da física (disco). Aqui: selecione todos os campos dos registros cujo ano_ocorrencia é estritamente maior que 1969."
+        "blocos": [
+          "Para um Arquiteto de Dados, uma tabela não é apenas uma grade. Ela é a materialização de uma entidade — um conceito do mundo real, como «Cliente» ou «Produto».",
+          "Pense na metáfora da forma de bolo: ela define o tamanho e o formato (a tabela). Os bolos que saem dessa forma são as tuplas (os registros reais). Cada bolo pode ter um sabor diferente, mas todos seguem o formato da forma.",
+          {
+            "type": "definicao",
+            "termo": "Chave Primária (PK)",
+            "def": "O identificador único e obrigatório de uma tupla. É o DNA que garante que nenhum registro seja confundido com outro."
+          },
+          {
+            "type": "tabela",
+            "cabecalhos": ["Conceito", "Termo Técnico", "Exemplo Prático"],
+            "linhas": [
+              [
+                "Característica",
+                "Atributo (Coluna)",
+                "Nome, CPF, Data de Nascimento"
+              ],
+              [
+                "Registro Único",
+                "Tupla (Linha)",
+                "Os dados específicos do cliente «João Silva»"
+              ],
+              [
+                "Identificador",
+                "Chave Primária (PK)",
+                "O código ID único do João no sistema"
+              ]
+            ]
+          }
+        ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Filtering milestones after 1969",
+          "titulo": "Table Anatomy",
           "conteudo": {
-            "instrucao": "Write a query that returns all columns from 'marcos_historicos' for events that occurred strictly after the year 1969.",
-            "dica": "Use * for all columns. Compare ano_ocorrencia to the number 1969 with the greater-than operator (>). In Postgres, table names are often lowercase in the sandbox.",
-            "dicaPreenchimento": "SELECT * FROM marcos_historicos WHERE ",
-            "placeholder": "SELECT ...",
-            "schema": "CREATE TABLE marcos_historicos (id INTEGER, nome_marco TEXT, ano_ocorrencia INTEGER, autor TEXT); INSERT INTO marcos_historicos VALUES (1,'Pré-modelo relacional',1965,'IBM'),(2,'Artigo de Codd',1970,'Edgar F. Codd'),(3,'Projeto System R',1974,'IBM'),(4,'SQL como padrão ANSI',1986,'ANSI'),(5,'Limite do século',1969,'História');",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 3
-            },
-            "explicacaoTecnica": "The big shift was letting users focus on logic (relations) while the system handles the physical layer. Here: select all fields from rows where ano_ocorrencia is strictly greater than 1969."
+            "blocos": [
+              "For a Data Architect, a table is not just a grid. It is the materialization of an entity — a real-world concept like «Customer» or «Product».",
+              "Think of the cake mold metaphor: it defines the size and shape (the table). The cakes that come out of this mold are the tuples (the actual records). Each cake can taste different, but all follow the mold's shape.",
+              {
+                "type": "definicao",
+                "termo": "Primary Key (PK)",
+                "def": "The unique and mandatory identifier of a tuple. It is the DNA that ensures no record is confused with another."
+              },
+              {
+                "type": "tabela",
+                "cabecalhos": [
+                  "Concept",
+                  "Technical term",
+                  "Practical example"
+                ],
+                "linhas": [
+                  [
+                    "Characteristic",
+                    "Attribute (column)",
+                    "Name, ID number, date of birth"
+                  ],
+                  [
+                    "Unique record",
+                    "Tuple (row)",
+                    "The specific data for customer «John Smith»"
+                  ],
+                  [
+                    "Identifier",
+                    "Primary Key (PK)",
+                    "John's unique ID code in the system"
+                  ]
+                ]
+              }
+            ]
           }
         },
         "es": {
-          "titulo": "Filtrando hitos después de 1969",
+          "titulo": "Anatomía de la Tabla",
           "conteudo": {
-            "instrucao": "Escribe una consulta que devuelva todas las columnas de la tabla 'marcos_historicos' para eventos ocurridos estrictamente después del año 1969.",
-            "dica": "Usa * para todas las columnas. Compara ano_ocorrencia con el número 1969 usando el operador \"mayor que\" (>). En Postgres, los nombres de tabla suelen ir en minúsculas en el sandbox.",
-            "dicaPreenchimento": "SELECT * FROM marcos_historicos WHERE ",
-            "placeholder": "SELECT ...",
-            "schema": "CREATE TABLE marcos_historicos (id INTEGER, nome_marco TEXT, ano_ocorrencia INTEGER, autor TEXT); INSERT INTO marcos_historicos VALUES (1,'Pré-modelo relacional',1965,'IBM'),(2,'Artigo de Codd',1970,'Edgar F. Codd'),(3,'Projeto System R',1974,'IBM'),(4,'SQL como padrão ANSI',1986,'ANSI'),(5,'Limite do século',1969,'História');",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 3
-            },
-            "explicacaoTecnica": "La gran revolución fue permitir que el usuario se centre en la lógica (relación) mientras el sistema cuida la física (disco). Aquí: selecciona todos los campos de las filas con ano_ocorrencia estrictamente mayor que 1969."
+            "blocos": [
+              "Para un Arquitecto de Datos, una tabla no es solo una cuadrícula. Es la materialización de una entidad — un concepto del mundo real como «Cliente» o «Producto».",
+              "Piensa en la metáfora del molde de pastel: define el tamaño y la forma (la tabla). Los pasteles que salen de este molde son las tuplas (los registros reales). Cada pastel puede tener un sabor distinto, pero todos siguen la forma del molde.",
+              {
+                "type": "definicao",
+                "termo": "Clave Primaria (PK)",
+                "def": "El identificador único y obligatorio de una tupla. Es el ADN que garantiza que ningún registro se confunda con otro."
+              },
+              {
+                "type": "tabela",
+                "cabecalhos": [
+                  "Concepto",
+                  "Término técnico",
+                  "Ejemplo práctico"
+                ],
+                "linhas": [
+                  [
+                    "Característica",
+                    "Atributo (columna)",
+                    "Nombre, DNI, fecha de nacimiento"
+                  ],
+                  [
+                    "Registro único",
+                    "Tupla (fila)",
+                    "Los datos específicos del cliente «Juan Silva»"
+                  ],
+                  [
+                    "Identificador",
+                    "Clave primaria (PK)",
+                    "El código ID único de Juan en el sistema"
+                  ]
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 6,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Da Ideia à Tabela",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual a relação entre 'Entidade' e 'Tabela' no design de bancos de dados?",
+        "opcoes": [
+          "São sinônimos exatos e não há diferença entre eles.",
+          "Tabela é o conceito abstrato e Entidade é a criação no banco.",
+          "Entidade é o conceito lógico/abstrato e Tabela é sua implementação física.",
+          "Entidade refere-se apenas às colunas e Tabela apenas às linhas."
+        ],
+        "indiceCorreto": 2,
+        "dica": "A entidade é o que você desenha no papel; a tabela é o que você cria no PostgreSQL."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "From Idea to Table",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the relationship between 'Entity' and 'Table' in database design?",
+            "opcoes": [
+              "They are exact synonyms and there is no difference between them.",
+              "Table is the abstract concept and Entity is the database creation.",
+              "Entity is the logical/abstract concept and Table is its physical implementation.",
+              "Entity refers only to columns and Table only to rows."
+            ],
+            "indiceCorreto": 2,
+            "dica": "The entity is what you draw on paper; the table is what you create in PostgreSQL."
+          }
+        },
+        "es": {
+          "titulo": "De la Idea a la Tabla",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es la relación entre 'Entidad' y 'Tabla' en el diseño de bases de datos?",
+            "opcoes": [
+              "Son sinónimos exactos y no hay diferencia entre ellos.",
+              "Tabla es el concepto abstracto y Entidad es la creación en la base.",
+              "Entidad es el concepto lógico/abstracto y Tabla es su implementación física.",
+              "Entidad se refiere solo a las columnas y Tabla solo a las filas."
+            ],
+            "indiceCorreto": 2,
+            "dica": "La entidad es lo que dibujas en el papel; la tabla es lo que creas en PostgreSQL."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Integridade de Chave",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a afirmação sobre Chaves Primárias:",
+        "afirmacao": "Uma Chave Primária (PK) pode aceitar valores nulos (NULL) se o nome do cliente estiver devidamente preenchido na mesma linha.",
+        "respostaCorreta": false,
+        "dica": "A PK exige unicidade E obrigatoriedade (NOT NULL). Sem ela, o registro não tem identidade."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Key Integrity",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the statement about Primary Keys:",
+            "afirmacao": "A Primary Key (PK) can accept null values (NULL) if the customer's name is properly filled in the same row.",
+            "respostaCorreta": false,
+            "dica": "PK requires uniqueness AND must be NOT NULL. Without it, the record has no identity."
+          }
+        },
+        "es": {
+          "titulo": "Integridad de Clave",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la afirmación sobre Claves Primarias:",
+            "afirmacao": "Una Clave Primaria (PK) puede aceptar valores nulos (NULL) si el nombre del cliente está debidamente completado en la misma fila.",
+            "respostaCorreta": false,
+            "dica": "La PK requiere unicidad Y obligatoriedad (NOT NULL). Sin ella, el registro no tiene identidad."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "O DNA do Livro",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Em uma tabela de 'Livros', qual destes atributos seria a Chave Primária (PK) mais segura e eficiente?",
+        "opcoes": [
+          "Título do Livro",
+          "ISBN (Código Internacional Único)",
+          "Nome do Autor",
+          "Ano de Publicação"
+        ],
+        "indiceCorreto": 1,
+        "dica": "Títulos e autores se repetem. A PK deve ser algo que nunca, em hipótese alguma, se duplique no universo da tabela."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Book's DNA",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "In a 'Books' table, which of these attributes would be the safest and most efficient Primary Key (PK)?",
+            "opcoes": [
+              "Book Title",
+              "ISBN (Unique International Code)",
+              "Author Name",
+              "Year of Publication"
+            ],
+            "indiceCorreto": 1,
+            "dica": "Titles and authors repeat. The PK must be something that never, under any circumstances, duplicates in the table universe."
+          }
+        },
+        "es": {
+          "titulo": "El ADN del Libro",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "En una tabla de 'Libros', ¿cuál de estos atributos sería la Clave Primaria (PK) más segura y eficiente?",
+            "opcoes": [
+              "Título del Libro",
+              "ISBN (Código Internacional Único)",
+              "Nombre del Autor",
+              "Año de Publicación"
+            ],
+            "indiceCorreto": 1,
+            "dica": "Los títulos y autores se repiten. La PK debe ser algo que nunca, bajo ninguna circunstancia, se duplique en el universo de la tabla."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 9,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "O Poder do SELECT: A Projeção",
+      "conteudo": {
+        "blocos": [
+          "Imagine que o seu banco de dados é um quarto escuro gigante cheio de móveis (dados). O comando SELECT é a sua lanterna.",
+          "Quando você usa o SELECT, você não está mudando o que está no quarto, você está apenas decidindo o que quer iluminar. Se você apontar para a prateleira de «nomes», você verá apenas nomes.",
+          {
+            "type": "definicao",
+            "termo": "Projeção",
+            "def": "O ato de selecionar apenas as colunas específicas que você deseja retornar, filtrando a estrutura vertical da tabela."
+          },
+          "O uso de SELECT * (asterisco) ilumina o quarto inteiro de uma vez. Embora pareça prático, em bancos de dados profissionais (por exemplo, em ambientes como Neon), isso pode ser lento e desperdiçar memória se a tabela for gigante.",
+          {
+            "type": "code",
+            "code": "SELECT nome, email \nFROM usuarios;",
+            "lese": "Selecione apenas as colunas 'nome' e 'email' da tabela chamada 'usuarios'."
+          },
+          {
+            "type": "nota",
+            "texto": "Lembre-se: o SELECT é uma operação de leitura. Ele nunca apaga, altera ou move os dados no disco."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Power of SELECT: Projection",
+          "conteudo": {
+            "blocos": [
+              "Imagine your database is a giant dark room full of furniture (data). The SELECT command is your flashlight.",
+              "When you use SELECT, you are not changing what's in the room; you are only deciding what you want to light up. If you point at the «names» shelf, you will see only names.",
+              {
+                "type": "definicao",
+                "termo": "Projection",
+                "def": "The act of selecting only the specific columns you want to return, filtering the table's vertical structure."
+              },
+              "Using SELECT * (asterisk) lights up the whole room at once. Although it seems handy, in professional databases this can be slow and waste memory if the table is huge.",
+              {
+                "type": "code",
+                "code": "SELECT name, email \nFROM users;",
+                "lese": "Select only the 'name' and 'email' columns from the table called 'users'."
+              },
+              {
+                "type": "nota",
+                "texto": "Remember: SELECT is a read operation. It never deletes, updates, or moves data on disk."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Poder del SELECT: Proyección",
+          "conteudo": {
+            "blocos": [
+              "Imagina que tu base de datos es una habitación oscura gigante llena de muebles (datos). El comando SELECT es tu linterna.",
+              "Cuando usas SELECT, no estás cambiando lo que hay en la habitación; solo estás decidiendo qué quieres iluminar. Si apuntas a la estantería de «nombres», verás solo nombres.",
+              {
+                "type": "definicao",
+                "termo": "Proyección",
+                "def": "El acto de seleccionar solo las columnas específicas que deseas devolver, filtrando la estructura vertical de la tabla."
+              },
+              "Usar SELECT * (asterisco) ilumina toda la habitación de golpe. Aunque parezca práctico, en bases de datos profesionales puede ser lento y desperdiciar memoria si la tabla es enorme.",
+              {
+                "type": "code",
+                "code": "SELECT nombre, email \nFROM usuarios;",
+                "lese": "Selecciona solo las columnas 'nombre' y 'email' de la tabla llamada 'usuarios'."
+              },
+              {
+                "type": "nota",
+                "texto": "Recuerda: SELECT es una operación de lectura. Nunca borra, altera ni mueve los datos en el disco."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 10,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "O Curinga do SQL",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "No comando SELECT, para que serve o símbolo de asterisco (*)?",
+        "opcoes": [
+          "Para deletar todas as colunas da tabela.",
+          "Para criar uma nova coluna de soma automática.",
+          "Para projetar (trazer) todas as colunas existentes na tabela.",
+          "Para esconder os dados sensíveis dos usuários."
+        ],
+        "indiceCorreto": 2,
+        "dica": "O asterisco é um curinga que «puxa» todas as colunas que a tabela possui."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The SQL Wildcard",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "In the SELECT command, what is the asterisk (*) symbol used for?",
+            "opcoes": [
+              "To delete all columns in the table.",
+              "To create a new automatic sum column.",
+              "To project (bring) all existing columns in the table.",
+              "To hide sensitive data from users."
+            ],
+            "indiceCorreto": 2,
+            "dica": "The asterisk is a wildcard that «pulls» every column the table has."
+          }
+        },
+        "es": {
+          "titulo": "El Comodín de SQL",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "En el comando SELECT, ¿para qué sirve el símbolo de asterisco (*)?",
+            "opcoes": [
+              "Para borrar todas las columnas de la tabla.",
+              "Para crear una nueva columna de suma automática.",
+              "Para proyectar (traer) todas las columnas existentes en la tabla.",
+              "Para ocultar los datos sensibles de los usuarios."
+            ],
+            "indiceCorreto": 2,
+            "dica": "El asterisco es un comodín que «extrae» todas las columnas que tiene la tabla."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 11,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Efeito no Disco",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a afirmação técnica:",
+        "afirmacao": "Ao executar um comando SELECT, o SGBD apaga os dados originais da tabela para garantir que o resultado da consulta seja o mais atualizado possível.",
+        "respostaCorreta": false,
+        "dica": "Consultas (DQL) são passivas: leem, não destroem."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Effect on Disk",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the technical statement:",
+            "afirmacao": "When executing a SELECT command, the DBMS deletes the original data from the table to ensure the query result is as up-to-date as possible.",
+            "respostaCorreta": false,
+            "dica": "Queries (DQL) are passive: they read, they don't destroy."
+          }
+        },
+        "es": {
+          "titulo": "Efecto en el Disco",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la afirmación técnica:",
+            "afirmacao": "Al ejecutar un comando SELECT, el SGBD borra los datos originales de la tabla para asegurar que el resultado de la consulta esté lo más actualizado posible.",
+            "respostaCorreta": false,
+            "dica": "Las consultas (DQL) son pasivas: leen, no destruyen."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Performance e Boa Prática",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Por que desenvolvedores seniores preferem listar colunas (SELECT nome, cpf) em vez de usar SELECT *?",
+        "opcoes": [
+          "Para reduzir o tráfego de rede e o consumo de memória, trazendo apenas o necessário.",
+          "Porque o comando SELECT * foi descontinuado nas versões novas do PostgreSQL.",
+          "Para obrigar o banco de dados a criar novas tabelas automaticamente.",
+          "Porque listar colunas impede que outros usuários vejam os dados."
+        ],
+        "indiceCorreto": 0,
+        "dica": "Menos dados trafegando significa mais velocidade para o usuário final."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Performance and Best Practice",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Why do senior developers prefer listing columns (SELECT name, tax_id) instead of using SELECT *?",
+            "opcoes": [
+              "To reduce network traffic and memory consumption by bringing only what is needed.",
+              "Because the SELECT * command was deprecated in new versions of PostgreSQL.",
+              "To force the database to create new tables automatically.",
+              "Because listing columns prevents other users from seeing the data."
+            ],
+            "indiceCorreto": 0,
+            "dica": "Less data moving means more speed for the end user."
+          }
+        },
+        "es": {
+          "titulo": "Rendimiento y Buena Práctica",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Por qué los desarrolladores senior prefieren listar columnas (SELECT nombre, dni) en lugar de usar SELECT *?",
+            "opcoes": [
+              "Para reducir el tráfico de red y el consumo de memoria, trayendo solo lo necesario.",
+              "Porque el comando SELECT * fue descontinuado en las nuevas versiones de PostgreSQL.",
+              "Para obligar a la base de datos a crear nuevas tablas automáticamente.",
+              "Porque listar columnas impide que otros usuarios vean los datos."
+            ],
+            "indiceCorreto": 0,
+            "dica": "Menos datos viajando significa más velocidad para el usuario final."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 13,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "As Leis da Física: Constraints",
+      "conteudo": {
+        "blocos": [
+          "No SQLQuest, as restrições (constraints) são as leis da física do seu universo de dados. Elas impedem que o caos se instale, garantindo que as informações sejam confiáveis e façam sentido.",
+          "Vimos que a chave primária (PK) é o DNA: ela identifica cada linha de forma única e impede duplicatas. Mas como as tabelas conversam entre si?",
+          {
+            "type": "definicao",
+            "termo": "Foreign Key (FK)",
+            "def": "A chave estrangeira é o cordão umbilical ou a ponte que liga uma tabela a outra, garantindo a integridade referencial."
+          },
+          "Pense num contrato de confiança: se a tabela «Pedidos» tem uma FK apontando para o cliente ID 10, o banco proíbe criar esse pedido se o cliente 10 não existir. Isso evita dados órfãos.",
+          {
+            "type": "nota",
+            "texto": "Além de PK e FK, temos restrições como o NOT NULL, que obriga o preenchimento de um campo, proibindo o estado «desconhecido» (nulo)."
+          },
+          {
+            "type": "code",
+            "code": "ALTER TABLE pedidos \nADD CONSTRAINT fk_cliente \nFOREIGN KEY (cliente_id) \nREFERENCES clientes(id);",
+            "lese": "Altere a tabela pedidos para adicionar uma lei (constraint) em que o campo cliente_id deve obrigatoriamente apontar para um ID válido na tabela clientes."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Laws of Physics: Constraints",
+          "conteudo": {
+            "blocos": [
+              "In SQLQuest, constraints are the laws of physics for your data universe. They stop chaos from taking over and keep information trustworthy.",
+              "We've seen that the primary key (PK) is the DNA: it uniquely identifies each row and blocks duplicates. But how do tables talk to each other?",
+              {
+                "type": "definicao",
+                "termo": "Foreign Key (FK)",
+                "def": "The foreign key is the umbilical cord or bridge that links one table to another, ensuring referential integrity."
+              },
+              "Think of a contract of trust: if the «Orders» table has an FK pointing at customer ID 10, the database forbids creating that order if customer 10 does not exist. That avoids orphan rows.",
+              {
+                "type": "nota",
+                "texto": "Besides PK and FK, there are constraints like NOT NULL, which require a column to have a value and forbid the «unknown» state (null)."
+              },
+              {
+                "type": "code",
+                "code": "ALTER TABLE orders \nADD CONSTRAINT fk_customer \nFOREIGN KEY (customer_id) \nREFERENCES customers(id);",
+                "lese": "Alter the orders table to add a rule: customer_id must reference a valid id in the customers table."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Las Leyes de la Física: Constraints",
+          "conteudo": {
+            "blocos": [
+              "En SQLQuest, las restricciones (constraints) son las leyes de la física de tu universo de datos. Evitan el caos y mantienen la información confiable.",
+              "Vimos que la clave primaria (PK) es el ADN: identifica cada fila de forma única e impide duplicados. ¿Pero cómo se hablan las tablas entre sí?",
+              {
+                "type": "definicao",
+                "termo": "Foreign Key (FK)",
+                "def": "La clave foránea es el cordón umbilical o el puente que une una tabla con otra, garantizando la integridad referencial."
+              },
+              "Imagina un contrato de confianza: si la tabla «Pedidos» tiene una FK al cliente ID 10, la base prohíbe crear ese pedido si el cliente 10 no existe. Así se evitan datos huérfanos.",
+              {
+                "type": "nota",
+                "texto": "Además de PK y FK, hay restricciones como NOT NULL, que obligan a rellenar una columna y prohíben el estado «desconocido» (nulo)."
+              },
+              {
+                "type": "code",
+                "code": "ALTER TABLE pedidos \nADD CONSTRAINT fk_cliente \nFOREIGN KEY (cliente_id) \nREFERENCES clientes(id);",
+                "lese": "Altera la tabla pedidos para añadir una regla: cliente_id debe apuntar a un id válido en la tabla clientes."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 14,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Conflito de Identidade",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "O que acontece em um SGBD como o PostgreSQL se você tentar inserir um novo registro com um valor de Primary Key que já existe na tabela?",
+        "opcoes": [
+          "O banco de dados apaga o registro antigo automaticamente.",
+          "O banco de dados recusa a inserção e exibe um erro de duplicidade.",
+          "O banco de dados aceita, mas coloca um aviso de 'alerta' na coluna.",
+          "O novo registro sobrescreve o antigo sem avisar."
+        ],
+        "indiceCorreto": 1,
+        "dica": "A PK é única: repetir o «DNA» faz o SGBD rejeitar na hora. É como um CPF — não existem duas pessoas com o mesmo número."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Identity Conflict",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What happens in a DBMS like PostgreSQL if you try to insert a new record with a Primary Key value that already exists in the table?",
+            "opcoes": [
+              "The database automatically deletes the old record.",
+              "The database refuses the insertion and displays a duplicate error.",
+              "The database accepts it but puts a 'warning' label on the column.",
+              "The new record overwrites the old one without warning."
+            ],
+            "indiceCorreto": 1,
+            "dica": "The PK is unique: repeating the «DNA» makes the DBMS reject the row at once — like a national ID, two people can't share the same number."
+          }
+        },
+        "es": {
+          "titulo": "Conflicto de Identidad",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué sucede en un SGBD como PostgreSQL si intentas insertar un nuevo registro con un valor de Clave Primaria que ya existe en la tabla?",
+            "opcoes": [
+              "La base de datos borra el registro antiguo automáticamente.",
+              "La base de datos rechaza la inserción y muestra un error de duplicidad.",
+              "La base de datos lo acepta, pero pone un aviso de 'alerta' en la columna.",
+              "El nuevo registro sobrescribe al antiguo sin avisar."
+            ],
+            "indiceCorreto": 1,
+            "dica": "La PK es única: repetir el «ADN» hace que el SGBD rechace al instante — como un DNI, no hay dos personas con el mismo número."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 15,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "A Ponte dos Dados",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a função da Chave Estrangeira (FK):",
+        "afirmacao": "Uma Foreign Key serve para garantir a integridade referencial, impedindo que existam registros em uma tabela 'filha' que não possuam correspondência válida na tabela 'pai'.",
+        "respostaCorreta": true,
+        "dica": "A FK é o vínculo: não deixa um «filho» (pedido) existir sem um «pai» (cliente) válido."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Data Bridge",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Regarding the function of a Foreign Key (FK):",
+            "afirmacao": "A Foreign Key serves to ensure referential integrity, preventing records in a 'child' table that do not have a valid correspondence in the 'parent' table.",
+            "respostaCorreta": true,
+            "dica": "The FK is the link: it won't let a «child» (order) exist without a valid «parent» (customer)."
+          }
+        },
+        "es": {
+          "titulo": "El Puente de Datos",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la función de la Clave Foránea (FK):",
+            "afirmacao": "Una Foreign Key sirve para garantizar la integridad referencial, evitando que existan registros en una tabla 'hija' que no tengan una correspondencia válida en la tabla 'padre'.",
+            "respostaCorreta": true,
+            "dica": "La FK es el vínculo: no deja que un «hijo» (pedido) exista sin un «padre» (cliente) válido."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 16,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Campo Obrigatório",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual restrição de integridade devemos usar para garantir que um atributo, como o 'Email' de um usuário, nunca seja deixado em branco durante o cadastro?",
+        "opcoes": ["UNIQUE", "CHECK", "PRIMARY KEY", "NOT NULL"],
+        "indiceCorreto": 3,
+        "dica": "O nome da restrição diz literalmente «não nulo» em inglês — NOT NULL proíbe valor ausente."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Mandatory Field",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which integrity constraint should we use to ensure that an attribute, such as a user's 'Email', is never left blank during registration?",
+            "opcoes": ["UNIQUE", "CHECK", "PRIMARY KEY", "NOT NULL"],
+            "indiceCorreto": 3,
+            "dica": "The name literally says «not null» — NOT NULL forbids a missing value."
+          }
+        },
+        "es": {
+          "titulo": "Campo Obligatorio",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué restricción de integridad debemos usar para asegurar que un atributo, como el 'Email' de un usuario, nunca se deje en blanco durante el registro?",
+            "opcoes": ["UNIQUE", "CHECK", "PRIMARY KEY", "NOT NULL"],
+            "indiceCorreto": 3,
+            "dica": "El nombre lo dice en inglés: «not null» — NOT NULL prohíbe el valor ausente."
           }
         }
       }

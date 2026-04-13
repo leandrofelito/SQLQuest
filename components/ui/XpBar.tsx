@@ -11,23 +11,30 @@ interface XpBarProps {
 }
 
 export function XpBar({ xp, showStats = false, className }: XpBarProps) {
-  const { messages } = useLocale()
+  const { messages, locale } = useLocale()
   const level = getLevel(xp)
   const label = getLevelLabel(xp)
   const pct = getProgressoPct(xp)
   const proximo = getXpParaProximo(xp)
-  const badge = getLevelBadge(level)
+  const badge = getLevelBadge(level, locale)
 
   return (
     <div className={className}>
-      <div className="flex items-center gap-3 mb-1.5">
+      <div className="flex items-center gap-2 flex-wrap mb-1.5">
         <span
-          className="text-xs font-bold px-2 py-0.5 rounded-full min-w-[60px] text-center border"
+          className="text-xs font-bold px-2 py-0.5 rounded-full min-w-[60px] text-center border shrink-0"
           style={{ background: badge.bg, borderColor: badge.cor, color: badge.cor }}
         >
           {label}
         </span>
-        <div className="flex-1">
+        <span
+          className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full border max-w-[200px] sm:max-w-none truncate sm:whitespace-normal"
+          style={{ background: badge.bg, borderColor: badge.cor + '88', color: badge.cor }}
+          title={`${badge.emoji} ${badge.nome}`}
+        >
+          {badge.emoji} {badge.nome}
+        </span>
+        <div className="flex-1 min-w-[100px]">
           <Progress
             value={pct}
             barClassName="transition-all duration-500"

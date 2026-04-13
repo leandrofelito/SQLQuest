@@ -7,6 +7,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "db:push": "dotenv -e .env.local -- prisma db push",
+    "db:backfill-xp-ranking": "dotenv -e .env.local -- tsx scripts/backfill-xp-ranking.ts",
     "db:studio": "dotenv -e .env.local -- prisma studio",
     "db:generate": "dotenv -e .env.local -- prisma generate",
     "seed": "tsx scripts/seed.ts",
