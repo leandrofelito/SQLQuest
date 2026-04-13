@@ -1,25 +1,25 @@
 'use client'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { getLevelBadge } from '@/lib/xp'
+import { useLocale } from '@/context/LocaleContext'
 
 interface LevelUpModalProps {
   nivel: number
   onContinuar: () => void
 }
 
-const MILESTONE_LABELS: Record<number, string> = {
-  10:  '🗺️ Explorador desbloqueado!',
-  20:  '📊 Analista desbloqueado!',
-  30:  '💎 Especialista desbloqueado!',
-  50:  '⚔️ Mestre desbloqueado!',
-  75:  '🔥 Expert desbloqueado!',
-  100: '👑 LENDÁRIO desbloqueado!',
-}
+const MILESTONE_LEVELS = new Set([10, 20, 30, 50, 75, 100])
 
 export function LevelUpModal({ nivel, onContinuar }: LevelUpModalProps) {
-  const badge = getLevelBadge(nivel)
-  const isMilestone = nivel in MILESTONE_LABELS
-  const milestoneLabel = MILESTONE_LABELS[nivel]
+  const { messages, locale } = useLocale()
+  const badge = getLevelBadge(nivel, locale)
+  const lu = messages.levelup as typeof messages.levelup & {
+    subiu?: string
+    continuar?: string
+    milestones?: Record<string, string>
+  }
+  const milestoneLabel = MILESTONE_LEVELS.has(nivel) ? lu.milestones?.[String(nivel)] : undefined
+  const isMilestone = Boolean(milestoneLabel)
 
   // Partículas decorativas
   const particles = Array.from({ length: 12 }, (_, i) => ({
@@ -93,7 +93,7 @@ export function LevelUpModal({ nivel, onContinuar }: LevelUpModalProps) {
           transition={{ delay: 0.4 }}
         >
           <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-1">
-            Subiu de nível!
+            {lu.subiu ?? 'Subiu de nível!'}
           </p>
           <p className="text-white font-black text-5xl leading-none" style={{ color: badge.cor }}>
             {nivel}
@@ -132,7 +132,7 @@ export function LevelUpModal({ nivel, onContinuar }: LevelUpModalProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: isMilestone ? 0.8 : 0.65 }}
         >
-          Continuar
+          {lu.continuar ?? 'Continuar'}
         </motion.button>
       </motion.div>
     </motion.div>

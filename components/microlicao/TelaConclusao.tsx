@@ -39,30 +39,22 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
           <p className="text-white/60 text-base">{conteudo.mensagem}</p>
         </div>
 
-        <motion.div
-          className="bg-amber-500/15 border border-amber-500/25 rounded-full px-6 py-2"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.3, type: 'spring', stiffness: 250 }}
-        >
-          <span className="text-amber-300 font-bold text-lg">+{xpGanho > 0 ? xpGanho : conteudo.xpGanho} XP</span>
-        </motion.div>
-
         {trilhaConcluida && (
           <motion.div
-            className="w-full rounded-2xl border border-[#2a2d3a] bg-[#0f1117] p-4 text-center space-y-3"
+            className="w-full max-w-sm rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#1a1520] to-[#0f1117] p-5 text-center space-y-3 shadow-lg shadow-amber-500/5"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.25 }}
           >
-            <div className="text-3xl">🏅</div>
-            <p className="text-white/80 font-semibold">{messages.trilha.concluida_label}</p>
+            <div className="text-4xl">🏅</div>
+            <p className="text-white font-semibold">{messages.trilha.concluida_label}</p>
+            <p className="text-white/45 text-xs leading-snug">{messages.conclusao.certificadoConvite}</p>
             {isPro ? (
               <Button
                 onClick={() => router.push('/certificados')}
                 variant="secondary"
                 fullWidth
-                size="sm"
+                size="lg"
               >
                 {messages.trilha.verCertificado}
               </Button>
@@ -71,13 +63,22 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
                 onClick={() => router.push('/upgrade')}
                 variant="secondary"
                 fullWidth
-                size="sm"
+                size="lg"
               >
                 {messages.trilha.certPro}
               </Button>
             )}
           </motion.div>
         )}
+
+        <motion.div
+          className="bg-amber-500/15 border border-amber-500/25 rounded-full px-6 py-2"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.4, type: 'spring', stiffness: 250 }}
+        >
+          <span className="text-amber-300 font-bold text-lg">+{xpGanho > 0 ? xpGanho : conteudo.xpGanho} XP</span>
+        </motion.div>
       </div>
 
       <div className="w-full">

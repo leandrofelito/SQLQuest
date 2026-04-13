@@ -1,14 +1,14 @@
+import { PRESTIGIO_ESTRELAS_POR_TIER } from '@/lib/prestigio'
+
 interface PrestigeBadgeProps {
   prestige: number
   size?: 'sm' | 'md'
 }
 
 /**
- * Tiers de prestígio — a cada 5 prestígios (= 5 chegadas ao Nível 100) o tier avança.
- * Tier 0 (prestígio 1-5):   Bronze
- * Tier 1 (prestígio 6-10):  Prata
- * Tier 2 (prestígio 11-15): Ouro
- * Tier 3 (prestígio 16+):   Vermelho
+ * Estrelas de prestígio (metais):
+ * - Cada vez que o jogador atinge o nível máximo do ciclo e ativa o prestígio, ganha +1 estrela (XP zera).
+ * - PRESTIGIO_ESTRELAS_POR_TIER estrelas no mesmo metal → sobe de tier: Bronze → Prata → Ouro → Rubi.
  */
 const TIERS = [
   { name: 'Bronze', color: '#cd7f32', glow: 'rgba(205,127,50,0.7)', shadow: 'rgba(205,127,50,0.4)' },
@@ -17,7 +17,7 @@ const TIERS = [
   { name: 'Rubi',   color: '#ef4444', glow: 'rgba(239,68,68,0.75)',  shadow: 'rgba(239,68,68,0.55)' },
 ] as const
 
-const STARS_PER_TIER = 5
+const STARS_PER_TIER = PRESTIGIO_ESTRELAS_POR_TIER
 
 /** Estrela SVG para tier preenchido (∗ pequena) */
 function MiniStar({ color }: { color: string }) {

@@ -75,7 +75,8 @@
   },
   "conclusao": {
     "parabens": "Congratulations!",
-    "verTrilha": "View complete trail"
+    "verTrilha": "View complete trail",
+    "certificadoConvite": "Tap below to view or download your certificate for this trail."
   },
   "upgrade": {
     "titulo": "Go Pro",
@@ -165,6 +166,16 @@
     "proximo": "Next →"
   },
   "levelup": {
-    "titulo": "Level UP!"
+    "titulo": "Level UP!",
+    "subiu": "You leveled up!",
+    "continuar": "Continue",
+    "milestones": {
+      "10": "🗺️ Rank: Data Explorer!",
+      "20": "📈 Rank: Official Analyst!",
+      "30": "💎 Rank: Certified Specialist!",
+      "50": "⚔️ Rank: Battle Master!",
+      "75": "🔥 Rank: Bug Hunter!",
+      "100": "👑 Rank: Peak Spark — prestige available!"
+    }
   }
 }
