@@ -24,19 +24,19 @@
       "titulo": "O Caos e o Surgimento do Modelo Relacional",
       "conteudo": {
         "emoji": "📐",
-        "subtitulo": "Antes da primeira linha no PostgreSQL: por que tabelas, chaves e a independência entre dado lógico e armazenamento físico mudaram tudo."
+        "subtitulo": "Da crise dos arquivos dos anos 60 ao modelo relacional de Codd: foco no que os dados representam, não em como o disco os guarda."
       },
       "traducoes": {
         "en": {
           "titulo": "Chaos and the Birth of the Relational Model",
           "conteudo": {
-            "subtitulo": "Before your first PostgreSQL line: why tables, keys, and independence between logical data and physical storage changed everything."
+            "subtitulo": "From the 1960s file crisis to Codd's relational model: focus on what data means, not how the disk stores it."
           }
         },
         "es": {
           "titulo": "El caos y el surgimiento del modelo relacional",
           "conteudo": {
-            "subtitulo": "Antes de tu primera línea en PostgreSQL: por qué tablas, claves e independencia entre dato lógico y almacenamiento físico lo cambiaron todo."
+            "subtitulo": "De la crisis de archivos de los 60 al modelo relacional de Codd: el foco en lo que representan los datos, no en cómo el disco los guarda."
           }
         }
       }
@@ -46,94 +46,82 @@
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
-      "titulo": "Contexto, analogia e vocabulário relacional",
+      "titulo": "Crise dos arquivos, Codd e biblioteca relacional",
       "conteudo": {
         "blocos": [
-          "Antes da década de 1970, o mundo da computação vivia em um estado de \"caos estruturado\". Para acessar qualquer informação, o programador precisava conhecer exatamente como e onde os dados estavam armazenados fisicamente no disco. Se a estrutura do arquivo mudasse um milímetro, todo o programa quebrava. Era o modelo hierárquico, onde os dados eram reféns da aplicação.",
-          "Em 1970, Edgar F. Codd, matemático dos laboratórios IBM, publicou um artigo que propôs separar a representação lógica dos dados do armazenamento físico. Nasceu o Modelo Relacional, fundamentado na álgebra relacional, permitindo a Independência de Dados.",
-          "Analogia: imagine uma biblioteca onde, no modelo antigo, para achar um capítulo sobre \"Navegação\" você precisasse de um caminho rígido (seção História, Século XVI, depois o livro). Se a biblioteca mudasse a seção de lugar, você não acharia mais o livro.",
-          "No Modelo Relacional, cada livro é uma tabela independente, com etiquetas lógicas chamadas chaves. Um \"fio invisível\" de lógica conecta essas etiquetas: quando você pede algo, o bibliotecário SQL puxa os fios e as informações de tabelas diferentes se encontram, independentemente de onde estão guardadas fisicamente.",
-          "No PostgreSQL e em sistemas profissionais, a teoria vira terminologia técnica:",
           {
-            "type": "tabela",
-            "cabecalhos": ["Conceito", "No dia a dia do SQL"],
-            "linhas": [
-              ["Relação", "Tabela"],
-              ["Tupla", "Linha (registro único)"],
-              ["Atributo", "Coluna (característica do dado)"]
-            ]
-          },
-          "O SQL é uma linguagem declarativa: você declara o que deseja extrair, e o motor do banco (por exemplo PostgreSQL no Neon) decide o melhor caminho físico para buscar.",
-          {
-            "type": "code",
-            "code": "-- Selecionando os pilares da nossa história\nSELECT nome_marco, ano_ocorrencia\nFROM marcos_historicos\nWHERE autor = 'Edgar F. Codd';",
-            "lese": "Leitura: da tabela marcos_historicos, filtre as linhas em que autor = 'Edgar F. Codd' e mostre só as colunas nome_marco e ano_ocorrencia."
+            "type": "definicao",
+            "termo": "1. Contexto histórico — A crise dos arquivos (anos 60)",
+            "def": "Antes da década de 1970, a computação vivia a \"Crise do Software\". Os dados ficavam em sistemas de arquivos proprietários, em modelos hierárquicos (árvore) ou em rede. O problema central era a dependência física: mudar onde um byte ficava no disco podia exigir reescrever o código da aplicação. Era um labirinto de caminhos fixos e frágeis."
           },
           {
-            "type": "nota",
-            "texto": "Em uma frase: do conjunto de registros de marcos_historicos, mantenha apenas os de Edgar F. Codd e projete só nome_marco e ano_ocorrencia."
+            "type": "definicao",
+            "termo": "2. O impacto de Edgar F. Codd (1970)",
+            "def": "Em 1970, o matemático da IBM Edgar F. Codd publicou \"A Relational Model of Data for Large Shared Data Banks\". Ele propôs ver dados como relações (tabelas) independentes de como o hardware os lê, introduzindo a independência de dados: o foco passa de \"como navegar no disco\" para \"o que os dados representam\"."
+          },
+          {
+            "type": "definicao",
+            "termo": "3. Analogia — Biblioteca de fios invisíveis",
+            "def": "No modelo antigo, você precisava da prateleira exata e da paginação; se a estante mudasse, o livro \"sumia\". No modelo relacional, as tabelas podem \"flutuar\", mas ficam ligadas por fios invisíveis de lógica. Você puxa a etiqueta (chave) e o SGBD traz a informação sem você saber o endereço físico."
+          },
+          {
+            "type": "definicao",
+            "termo": "4. Dado vs. informação",
+            "def": "Dado é o elemento bruto (ex.: 1970). Informação é o dado contextualizado e interpretado. O SQL é declarativo: extrai informação sem o arquiteto se prender a ponteiros físicos — hoje, por exemplo, em servidores como o Neon."
           }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Context, analogy, and relational vocabulary",
+          "titulo": "File crisis, Codd, and the relational library",
           "conteudo": {
             "blocos": [
-              "Before the 1970s, computing lived in \"structured chaos\". To access information, programmers had to know exactly how and where data lived on disk. If the file layout shifted slightly, programs broke. That was the hierarchical model, with data captive to the application.",
-              "In 1970, Edgar F. Codd, an IBM mathematician, published a paper proposing to separate logical data representation from physical storage. The relational model was born, grounded in relational algebra, enabling data independence.",
-              "Analogy: in the old model, finding a chapter on \"Navigation\" might force a rigid path (History section, 16th century, then the book). If the library moved a section, you could never find the book again.",
-              "In the relational model, each book is an independent table with logical tags called keys. Invisible logical threads connect those tags: when you ask for something, the SQL librarian pulls the threads and information from different tables meets instantly, regardless of physical placement.",
-              "In PostgreSQL and professional systems, theory becomes technical terms:",
               {
-                "type": "tabela",
-                "cabecalhos": ["Concept", "In everyday SQL"],
-                "linhas": [
-                  ["Relation", "Table"],
-                  ["Tuple", "Row (a single record)"],
-                  ["Attribute", "Column (a characteristic of the data)"]
-                ]
-              },
-              "SQL is declarative: you state what you want to retrieve, and the engine (e.g. PostgreSQL on Neon) chooses the best physical path.",
-              {
-                "type": "code",
-                "code": "-- Selecting milestones from our story\nSELECT nome_marco, ano_ocorrencia\nFROM marcos_historicos\nWHERE autor = 'Edgar F. Codd';",
-                "lese": "Reading: from marcos_historicos, keep rows where autor = 'Edgar F. Codd' and show only nome_marco and ano_ocorrencia."
+                "type": "definicao",
+                "termo": "1. Historical context — The file crisis (1960s)",
+                "def": "Before the 1970s, computing faced the \"software crisis\". Data lived in proprietary file systems, hierarchical (tree) or network models. The core issue was physical dependence: changing where a byte sat on disk could force rewriting application code. It was a maze of fixed, fragile paths."
               },
               {
-                "type": "nota",
-                "texto": "In one sentence: from all rows in marcos_historicos, keep only Edgar F. Codd's rows and project nome_marco and ano_ocorrencia."
+                "type": "definicao",
+                "termo": "2. Edgar F. Codd's impact (1970)",
+                "def": "In 1970, IBM mathematician Edgar F. Codd published \"A Relational Model of Data for Large Shared Data Banks\". He proposed seeing data as relations (tables) independent of how hardware reads them, introducing data independence: focus shifts from \"how to navigate the disk\" to \"what the data means\"."
+              },
+              {
+                "type": "definicao",
+                "termo": "3. Analogy — Library of invisible threads",
+                "def": "In the old model you needed the exact shelf and pagination; if shelving moved, the book \"vanished\". In the relational model, tables can \"float\" but stay linked by invisible logical threads. You pull the tag (key) and the DBMS brings the data without you knowing the physical address."
+              },
+              {
+                "type": "definicao",
+                "termo": "4. Data vs. information",
+                "def": "Data is the raw element (e.g. 1970). Information is data put in context and interpreted. SQL is declarative: it retrieves information without the architect tying logic to physical pointers — today, for example, on servers like Neon."
               }
             ]
           }
         },
         "es": {
-          "titulo": "Contexto, analogía y vocabulario relacional",
+          "titulo": "Crisis de archivos, Codd y la biblioteca relacional",
           "conteudo": {
             "blocos": [
-              "Antes de la década de 1970, la informática vivía un \"caos estructurado\". Para acceder a la información, el programador debía saber exactamente cómo y dónde estaban los datos en disco. Si la estructura del archivo cambiaba un poco, el programa se rompía. Era el modelo jerárquico, con los datos prisioneros de la aplicación.",
-              "En 1970, Edgar F. Codd, matemático de IBM, publicó un artículo que propuso separar la representación lógica de los datos del almacenamiento físico. Nació el modelo relacional, basado en el álgebra relacional, permitiendo la independencia de datos.",
-              "Analogía: en el modelo antiguo, para encontrar un capítulo sobre \"Navegación\" seguías un camino rígido (sección Historia, siglo XVI, luego el libro). Si la biblioteca movía una sección, ya no encontrabas el libro.",
-              "En el modelo relacional, cada libro es una tabla independiente con etiquetas lógicas llamadas claves. Hilos invisibles de lógica conectan esas etiquetas: cuando pides algo, el bibliotecario SQL tira de los hilos y la información de distintas tablas se encuentra al instante, sin depender de dónde esté guardada físicamente.",
-              "En PostgreSQL y sistemas profesionales, la teoría se traduce en términos técnicos:",
               {
-                "type": "tabela",
-                "cabecalhos": ["Concepto", "En el SQL cotidiano"],
-                "linhas": [
-                  ["Relación", "Tabla"],
-                  ["Tupla", "Fila (registro único)"],
-                  ["Atributo", "Columna (característica del dato)"]
-                ]
-              },
-              "SQL es declarativo: declaras qué quieres obtener y el motor (por ejemplo PostgreSQL en Neon) decide el mejor camino físico.",
-              {
-                "type": "code",
-                "code": "-- Seleccionando hitos de nuestra historia\nSELECT nome_marco, ano_ocorrencia\nFROM marcos_historicos\nWHERE autor = 'Edgar F. Codd';",
-                "lese": "Lectura: de marcos_historicos, filtra filas donde autor = 'Edgar F. Codd' y muestra solo nome_marco y ano_ocorrencia."
+                "type": "definicao",
+                "termo": "1. Contexto histórico — La crisis de los archivos (años 60)",
+                "def": "Antes de la década de 1970, la informática vivía la \"crisis del software\". Los datos vivían en sistemas de archivos propietarios, modelos jerárquicos (árbol) o en red. El problema central era la dependencia física: cambiar dónde estaba un byte en disco podía obligar a reescribir el código. Era un laberinto de caminos fijos y frágiles."
               },
               {
-                "type": "nota",
-                "texto": "En una frase: del conjunto de filas de marcos_historicos, quédate con las de Edgar F. Codd y proyecta solo nome_marco y ano_ocorrencia."
+                "type": "definicao",
+                "termo": "2. El impacto de Edgar F. Codd (1970)",
+                "def": "En 1970, el matemático de IBM Edgar F. Codd publicó \"A Relational Model of Data for Large Shared Data Banks\". Propuso ver los datos como relaciones (tablas) independientes de cómo el hardware los lee, introduciendo la independencia de datos: el foco pasa de \"cómo navegar el disco\" a \"qué representan los datos\"."
+              },
+              {
+                "type": "definicao",
+                "termo": "3. Analogía — Biblioteca de hilos invisibles",
+                "def": "En el modelo antiguo necesitabas la estantería exacta y la paginación; si movían las estanterías, el libro \"desaparecía\". En el modelo relacional, las tablas pueden \"flotar\", pero quedan unidas por hilos invisibles de lógica. Tiras de la etiqueta (clave) y el SGBD trae la información sin que conozcas la dirección física."
+              },
+              {
+                "type": "definicao",
+                "termo": "4. Dato vs. información",
+                "def": "El dato es el elemento bruto (p. ej. 1970). La información es el dato contextualizado e interpretado. SQL es declarativo: extrae información sin que el arquitecto quede atado a punteros físicos — hoy, por ejemplo, en servidores como Neon."
               }
             ]
           }
@@ -145,51 +133,51 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "O Legado de Codd",
+      "titulo": "O legado de Codd",
       "conteudo": {
         "modo": "quiz",
         "quizTipo": "multipla",
         "instrucao": "Qual foi a principal mudança de paradigma proposta por Edgar F. Codd em 1970?",
         "opcoes": [
-          "A invenção do armazenamento em fita magnética.",
-          "A separação entre a representação lógica dos dados e o armazenamento físico.",
-          "A criação da internet para conectar bancos de dados.",
-          "A obrigação de usar apenas números para nomes de tabelas."
+          "A criação da primeira interface gráfica para usuários.",
+          "A separação entre a representação lógica dos dados e seu armazenamento físico.",
+          "A substituição de bancos de dados por arquivos de texto simples.",
+          "O fim do uso de chaves para identificação de registros."
         ],
         "indiceCorreto": 1,
-        "dica": "Foque no conceito de 'Independência de Dados' proposto por Codd."
+        "dica": "Dica técnica: pense na independência de dados. Sistemas desacoplados do físico permitem otimizar disco sem quebrar a aplicação. Codd era matemático: buscava uma base lógica estável para os dados."
       },
       "traducoes": {
         "en": {
-          "titulo": "Codd's Legacy",
+          "titulo": "Codd's legacy",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "What was the main paradigm shift proposed by Edgar F. Codd in 1970?",
             "opcoes": [
-              "The invention of magnetic tape storage.",
+              "The creation of the first graphical user interface.",
               "The separation between logical data representation and physical storage.",
-              "The creation of the internet to connect databases.",
-              "The requirement to use only numbers for table names."
+              "Replacing databases with plain text files.",
+              "The end of using keys to identify records."
             ],
             "indiceCorreto": 1,
-            "dica": "Focus on the 'Data Independence' concept proposed by Codd."
+            "dica": "Technical hint: think about data independence. Systems decoupled from the physical layer let you tune storage without breaking apps. Codd was a mathematician: he wanted a stable logical foundation for data."
           }
         },
         "es": {
-          "titulo": "El Legado de Codd",
+          "titulo": "El legado de Codd",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "¿Cuál fue el principal cambio de paradigma propuesto por Edgar F. Codd en 1970?",
             "opcoes": [
-              "La invención del almacenamiento en cinta magnética.",
-              "La separación entre la representación lógica de los datos y el almacenamiento físico.",
-              "La creación de internet para conectar bases de datos.",
-              "La obligación de usar solo números para los nombres de las tablas."
+              "La creación de la primera interfaz gráfica para usuarios.",
+              "La separación entre la representación lógica de los datos y su almacenamiento físico.",
+              "Sustituir las bases de datos por archivos de texto plano.",
+              "El fin del uso de claves para identificar registros."
             ],
             "indiceCorreto": 1,
-            "dica": "Enfócate en el concepto de 'Independencia de Datos' propuesto por Codd."
+            "dica": "Pista técnica: piensa en la independencia de datos. Los sistemas desacoplados del físico permiten optimizar el disco sin romper la aplicación. Codd era matemático: buscaba una base lógica estable para los datos."
           }
         }
       }
@@ -199,36 +187,36 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "Natureza Declarativa",
+      "titulo": "Dependência física nos sistemas pré-relacionais",
       "conteudo": {
         "modo": "quiz",
         "quizTipo": "vf",
         "instrucao": "Classifique a afirmação abaixo:",
-        "afirmacao": "O SQL é uma linguagem declarativa porque o programador deve descrever detalhadamente os passos físicos que o banco deve seguir para encontrar um registro.",
-        "respostaCorreta": false,
-        "dica": "O SQL é declarativo (o que), não procedural (como)."
+        "afirmacao": "Nos sistemas pré-relacionais (hierárquicos), uma alteração na forma como o arquivo era salvo no disco frequentemente exigia modificações no código-fonte do programa.",
+        "respostaCorreta": true,
+        "dica": "A palavra-chave é dependência física. Antes de Codd, programas ficavam amarrados ao local dos arquivos no hardware — como um atalho que quebra se a pasta mudar de lugar."
       },
       "traducoes": {
         "en": {
-          "titulo": "Declarative Nature",
+          "titulo": "Physical dependence in pre-relational systems",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "vf",
             "instrucao": "Classify the statement below:",
-            "afirmacao": "SQL is a declarative language because the programmer must describe in detail the physical steps the database must follow to find a record.",
-            "respostaCorreta": false,
-            "dica": "SQL is declarative (what), not procedural (how)."
+            "afirmacao": "In pre-relational (hierarchical) systems, a change in how the file was stored on disk often required changes to the program's source code.",
+            "respostaCorreta": true,
+            "dica": "The keyword is physical dependence. Before Codd, programs were tied to where files lived on hardware — like a shortcut that breaks when the folder moves."
           }
         },
         "es": {
-          "titulo": "Naturaleza Declarativa",
+          "titulo": "Dependencia física en sistemas prerrelacionales",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "vf",
             "instrucao": "Clasifica la siguiente afirmación:",
-            "afirmacao": "SQL es un lenguaje declarativo porque el programador debe describir detalladamente los pasos físicos que la base de datos debe seguir para encontrar un registro.",
-            "respostaCorreta": false,
-            "dica": "SQL es declarativo (qué), no procedural (cómo)."
+            "afirmacao": "En los sistemas prerrelacionales (jerárquicos), un cambio en cómo se guardaba el archivo en disco a menudo exigía modificar el código fuente del programa.",
+            "respostaCorreta": true,
+            "dica": "La palabra clave es dependencia física. Antes de Codd, los programas quedaban atados al lugar de los archivos en el hardware — como un acceso directo que se rompe si cambia la carpeta."
           }
         }
       }
@@ -238,42 +226,48 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "Reflexão: Chaves Lógicas",
+      "titulo": "Filtrando marcos após 1969",
       "conteudo": {
-        "modo": "quiz",
-        "quizTipo": "reflexao",
-        "instrucao": "Explique por que usar um identificador único (como um ID ou Placa) é mais seguro para conectar tabelas do que usar o nome de um objeto.",
-        "cenario": "Sistema de Gestão de Frota: Tabelas 'Carros' e 'Manutenções'.",
-        "placeholder": "Digite sua explicação lógica aqui...",
-        "minLength": 50,
-        "dica": "Pense na Placa ou Chassi como identificadores que nunca mudam.",
-        "dicaPreenchimento": "Um identificador estável (ID, placa ou chassi) não muda quando o nome exibido do veículo muda; já um nome pode ser corrigido, duplicado ou ambíguo, quebrando o vínculo correto entre as tabelas Carros e Manutenções."
+        "instrucao": "Escreva uma consulta que retorne todas as colunas da tabela 'marcos_historicos' para eventos que ocorreram estritamente após o ano de 1969.",
+        "dica": "Use * para todas as colunas. Compare ano_ocorrencia com o número 1969 usando o operador \"maior que\" (>). Em Postgres, nomes de tabela costumam ficar em minúsculas no sandbox.",
+        "dicaPreenchimento": "SELECT * FROM marcos_historicos WHERE ",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE marcos_historicos (id INTEGER, nome_marco TEXT, ano_ocorrencia INTEGER, autor TEXT); INSERT INTO marcos_historicos VALUES (1,'Pré-modelo relacional',1965,'IBM'),(2,'Artigo de Codd',1970,'Edgar F. Codd'),(3,'Projeto System R',1974,'IBM'),(4,'SQL como padrão ANSI',1986,'ANSI'),(5,'Limite do século',1969,'História');",
+        "checkType": "count",
+        "checkConfig": {
+          "expected_rows": 3
+        },
+        "explicacaoTecnica": "A grande revolução foi permitir que o usuário foque na lógica (relação) enquanto o sistema cuida da física (disco). Aqui: selecione todos os campos dos registros cujo ano_ocorrencia é estritamente maior que 1969."
       },
       "traducoes": {
         "en": {
-          "titulo": "Reflection: Logical Keys",
+          "titulo": "Filtering milestones after 1969",
           "conteudo": {
-            "modo": "quiz",
-            "quizTipo": "reflexao",
-            "instrucao": "Explain why using a unique identifier (like an ID or License Plate) is safer for connecting tables than using an object's name.",
-            "cenario": "Fleet Management System: 'Cars' and 'Maintenance' tables.",
-            "placeholder": "Type your logical explanation here...",
-            "minLength": 50,
-            "dica": "Think of the License Plate or Chassis as identifiers that never change.",
-            "dicaPreenchimento": "A stable identifier (ID, plate, or VIN) does not change when the display name of the vehicle changes; a name can be edited, duplicated, or ambiguous, breaking the correct link between Cars and Maintenance."
+            "instrucao": "Write a query that returns all columns from 'marcos_historicos' for events that occurred strictly after the year 1969.",
+            "dica": "Use * for all columns. Compare ano_ocorrencia to the number 1969 with the greater-than operator (>). In Postgres, table names are often lowercase in the sandbox.",
+            "dicaPreenchimento": "SELECT * FROM marcos_historicos WHERE ",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE marcos_historicos (id INTEGER, nome_marco TEXT, ano_ocorrencia INTEGER, autor TEXT); INSERT INTO marcos_historicos VALUES (1,'Pré-modelo relacional',1965,'IBM'),(2,'Artigo de Codd',1970,'Edgar F. Codd'),(3,'Projeto System R',1974,'IBM'),(4,'SQL como padrão ANSI',1986,'ANSI'),(5,'Limite do século',1969,'História');",
+            "checkType": "count",
+            "checkConfig": {
+              "expected_rows": 3
+            },
+            "explicacaoTecnica": "The big shift was letting users focus on logic (relations) while the system handles the physical layer. Here: select all fields from rows where ano_ocorrencia is strictly greater than 1969."
           }
         },
         "es": {
-          "titulo": "Reflexión: Claves Lógicas",
+          "titulo": "Filtrando hitos después de 1969",
           "conteudo": {
-            "modo": "quiz",
-            "quizTipo": "reflexao",
-            "instrucao": "Explica por qué usar un identificador único (como un ID o Matrícula) es más seguro para conectar tablas que usar el nombre de un objeto.",
-            "cenario": "Sistema de Gestión de Flotas: Tablas 'Coches' y 'Mantenimiento'.",
-            "placeholder": "Escribe tu explicación lógica aquí...",
-            "minLength": 50,
-            "dica": "Piensa en la Matrícula o el Chasis como identificadores que nunca cambian.",
-            "dicaPreenchimento": "Un identificador estable (ID, matrícula o bastidor) no cambia cuando cambia el nombre mostrado del vehículo; un nombre puede editarse, duplicarse o ser ambiguo, rompiendo el vínculo correcto entre Coches y Mantenimiento."
+            "instrucao": "Escribe una consulta que devuelva todas las columnas de la tabla 'marcos_historicos' para eventos ocurridos estrictamente después del año 1969.",
+            "dica": "Usa * para todas las columnas. Compara ano_ocorrencia con el número 1969 usando el operador \"mayor que\" (>). En Postgres, los nombres de tabla suelen ir en minúsculas en el sandbox.",
+            "dicaPreenchimento": "SELECT * FROM marcos_historicos WHERE ",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE marcos_historicos (id INTEGER, nome_marco TEXT, ano_ocorrencia INTEGER, autor TEXT); INSERT INTO marcos_historicos VALUES (1,'Pré-modelo relacional',1965,'IBM'),(2,'Artigo de Codd',1970,'Edgar F. Codd'),(3,'Projeto System R',1974,'IBM'),(4,'SQL como padrão ANSI',1986,'ANSI'),(5,'Limite do século',1969,'História');",
+            "checkType": "count",
+            "checkConfig": {
+              "expected_rows": 3
+            },
+            "explicacaoTecnica": "La gran revolución fue permitir que el usuario se centre en la lógica (relación) mientras el sistema cuida la física (disco). Aquí: selecciona todos los campos de las filas con ano_ocorrencia estrictamente mayor que 1969."
           }
         }
       }
