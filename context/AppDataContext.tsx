@@ -122,6 +122,8 @@ interface AppDataContextType {
   trilhasRevision: number
   loadTrilhas: (lang?: string, force?: boolean) => Promise<TrilhaComProgresso[]>
   invalidateTrilhas: () => void
+  /** Após POST /api/desbloquear-trilha ok — mantém cache/IDB alinhado ao servidor. */
+  marcarTrilhaDesbloqueadaPorAnuncio: (slug: string) => void
   getCachedTrilhas: () => TrilhaComProgresso[] | null
 
   progressoLoading: boolean
@@ -229,6 +231,27 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   }, [bumpTrilhas])
 
   const getCachedTrilhas = useCallback(() => _cache.trilhas.data, [])
+
+  const marcarTrilhaDesbloqueadaPorAnuncio = useCallback(
+    (slug: string) => {
+      if (!_cache.trilhas.data) return
+      let changed = false
+      const next = _cache.trilhas.data.map(t => {
+        if (t.slug !== slug) return t
+        if (t.desbloqueadaPorAnuncio) return t
+        changed = true
+        return { ...t, desbloqueadaPorAnuncio: true }
+      })
+      if (!changed) return
+      _cache.trilhas.data = next
+      const { lang, userKey } = _cache.trilhas
+      if (lang && userKey && userKey !== 'anon') {
+        void idbSetTrilhas(lang, userKey, _lastContentVersion, next)
+      }
+      bumpTrilhas()
+    },
+    [bumpTrilhas],
+  )
 
   // ── Progresso ──────────────────────────────────────────────────────────────
 
@@ -439,6 +462,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         trilhasRevision,
         loadTrilhas,
         invalidateTrilhas,
+        marcarTrilhaDesbloqueadaPorAnuncio,
         getCachedTrilhas,
         progressoLoading,
         progressoRevision,
