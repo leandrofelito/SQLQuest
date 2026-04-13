@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { useSQL } from '@/hooks/useSQL'
 import { checkAnswer } from '@/lib/check-answer'
-import { getDica, classificarErro } from '@/lib/dicas'
 import { calcularEstrelas, XP_POR_ESTRELAS } from '@/lib/xp'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import { AdBanner } from '@/components/layout/AdBanner'
@@ -244,9 +243,21 @@ function ExercicioQuiz({
         ? conteudo.instrucao
         : ''
 
-  function resolverDicaQuiz() {
-    const tipo = mensagemErro ? classificarErro(mensagemErro) : 'generico'
-    return tentativas >= 2 ? conteudo.dica : getDica(tipo)
+  function resolverDicaQuiz(): string {
+    const d = conteudo.dica?.trim()
+    return d || messages.exercicio.dicaEtapaAusente
+  }
+
+  function aplicarDicaQuizRevelada(dicaText: string) {
+    setDicaAtual(dicaText)
+    if (conteudo.quizTipo === 'reflexao' && conteudo.dicaPreenchimento?.trim()) {
+      const fill = conteudo.dicaPreenchimento.trim()
+      setTextoReflexao(prev => {
+        const u = prev.trim()
+        if (!u) return fill
+        return `${fill}\n\n${u}`
+      })
+    }
   }
 
   function pedirDica() {
@@ -256,13 +267,13 @@ function ExercicioQuiz({
       dicaPendenteRef.current = dica
       setShowAnuncioDica(true)
     } else {
-      setDicaAtual(dica)
+      aplicarDicaQuizRevelada(dica)
     }
   }
 
   function liberarDica() {
     setShowAnuncioDica(false)
-    setDicaAtual(dicaPendenteRef.current)
+    aplicarDicaQuizRevelada(dicaPendenteRef.current)
   }
 
   async function verificar() {
@@ -274,7 +285,6 @@ function ExercicioQuiz({
       if (indiceSelecionado === null) {
         setEstado('erro')
         setMensagemErro(messages.exercicio.escolhaOpcao)
-        setDicaAtual(getDica('generico'))
         return
       }
       payload = { indiceEscolhido: indiceSelecionado }
@@ -282,7 +292,6 @@ function ExercicioQuiz({
       if (vfSelecionado === null) {
         setEstado('erro')
         setMensagemErro(messages.exercicio.escolhaOpcao)
-        setDicaAtual(getDica('generico'))
         return
       }
       payload = { valorVF: vfSelecionado }
@@ -291,7 +300,6 @@ function ExercicioQuiz({
       if (t.length < conteudo.minLength) {
         setEstado('erro')
         setMensagemErro(messages.exercicio.reflexaoCurta)
-        setDicaAtual(conteudo.dica)
         return
       }
       payload = { textoReflexao: t }
@@ -327,11 +335,9 @@ function ExercicioQuiz({
       }
       setEstado('erro')
       setMensagemErro(messages.exercicio.quizIncorreto)
-      setDicaAtual(getDica('generico'))
     } catch {
       setEstado('erro')
       setMensagemErro(messages.exercicio.quizIncorreto)
-      setDicaAtual(getDica('generico'))
     } finally {
       setValidandoServidor(false)
     }
@@ -466,9 +472,25 @@ function ExercicioQuiz({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
             >
-              <p className="text-red-300 text-sm">💡 {dicaAtual || mensagemErro}</p>
+              <p className="text-red-300 text-sm">{mensagemErro}</p>
             </motion.div>
           )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {estado === 'erro' && dicaAtual ? (
+            <motion.div
+              className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
+                {messages.exercicio.dicaReveladaTitulo}
+              </p>
+              <p className="text-amber-100/90 text-sm leading-relaxed">{dicaAtual}</p>
+            </motion.div>
+          ) : null}
         </AnimatePresence>
 
         <div className="mt-auto space-y-2">
@@ -481,7 +503,7 @@ function ExercicioQuiz({
           >
             {messages.exercicio.verificar}
           </Button>
-          {estado === 'erro' && (
+          {estado === 'erro' && !dicaAtual && (
             <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
               {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
             </Button>
@@ -573,25 +595,37 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   const toolbarDragRef = useRef(false)
   const toolbarStartXRef = useRef(0)
 
-  function resolverDica() {
-    const tipo = mensagemErro ? classificarErro(mensagemErro) : 'generico'
-    return tentativas >= 2 ? conteudoSql.dica : getDica(tipo)
+  function resolverDicaSql(): string {
+    const d = conteudoSql.dica?.trim()
+    return d || messages.exercicio.dicaEtapaAusente
+  }
+
+  function aplicarDicaSqlRevelada(dicaText: string) {
+    setDicaAtual(dicaText)
+    const fill = conteudoSql.dicaPreenchimento?.trim()
+    if (fill) {
+      setQuery(prev => {
+        const u = prev.trim()
+        if (!u) return fill
+        return `${fill}\n\n${u}`
+      })
+    }
   }
 
   function pedirDica() {
     setDicasUsadas(prev => prev + 1)
-    const dica = resolverDica()
+    const dica = resolverDicaSql()
     if (!isPro) {
       dicaPendenteRef.current = dica
       setShowAnuncioDica(true)
     } else {
-      setDicaAtual(dica)
+      aplicarDicaSqlRevelada(dica)
     }
   }
 
   function liberarDica() {
     setShowAnuncioDica(false)
-    setDicaAtual(dicaPendenteRef.current)
+    aplicarDicaSqlRevelada(dicaPendenteRef.current)
   }
 
   async function verificar() {
@@ -650,13 +684,11 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
       } else {
         setEstado('erro')
         setMensagemErro(messages.exercicio.resultadoIncorreto)
-        setDicaAtual(getDica('generico'))
       }
     } catch (e: any) {
       setEstado('erro')
       const msg = e?.message ?? 'Erro ao executar SQL'
       setMensagemErro(msg)
-      setDicaAtual(getDica(classificarErro(msg)))
     }
   }
 
@@ -774,9 +806,25 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <p className="text-red-300 text-sm">💡 {dicaAtual || mensagemErro}</p>
+            <p className="text-red-300 text-sm">{mensagemErro}</p>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {estado === 'erro' && dicaAtual ? (
+          <motion.div
+            className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+          >
+            <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
+              {messages.exercicio.dicaReveladaTitulo}
+            </p>
+            <p className="text-amber-100/90 text-sm leading-relaxed">{dicaAtual}</p>
+          </motion.div>
+        ) : null}
       </AnimatePresence>
 
       {/* Resultado da query */}
@@ -814,7 +862,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         >
           {messages.exercicio.verificar}
         </Button>
-        {estado === 'erro' && (
+        {estado === 'erro' && !dicaAtual && (
           <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
             {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
           </Button>

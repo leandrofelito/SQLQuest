@@ -51,8 +51,10 @@
     "falso": "Falso",
     "escolhaOpcao": "Escolha uma alternativa",
     "reflexaoPlaceholder": "Escreva sua resposta aqui…",
-    "reflexaoCurta": "Resposta muito curta. Desenvolva um pouco mais (conceitos de chave, vínculo entre tabelas).",
-    "quizIncorreto": "Resposta incorreta. Tente de novo ou peça uma dica."
+    "reflexaoCurta": "Texto abaixo do mínimo de caracteres exigido.",
+    "quizIncorreto": "Resposta incorreta. Tente de novo ou peça uma dica.",
+    "dicaReveladaTitulo": "Dica",
+    "dicaEtapaAusente": "Esta etapa ainda não tem dica cadastrada."
   },
   "intro": {
     "continuar": "Toque para Continuar"

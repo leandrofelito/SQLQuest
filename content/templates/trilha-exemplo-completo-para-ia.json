@@ -50,6 +50,7 @@
       "modo": "Omitir ou sql — não precisa escrever modo para SQL",
       "instrucao": "Enunciado",
       "dica": "Dica pós-anúncio (gratuito)",
+      "dicaPreenchimento": "Opcional: trecho inserido no editor SQL após Ver dica (prefixado à query já escrita)",
       "placeholder": "Texto do editor",
       "schema": "DDL+DML válidos SQLite (sql.js) — CREATE TABLE e INSERT",
       "checkType": "columns | count | values | aggregate",
@@ -80,7 +81,8 @@
       "cenario": "Opcional",
       "placeholder": "Opcional",
       "minLength": "Mínimo de caracteres após trim para aceitar (ex.: 40)",
-      "dica": "Dica pós-anúncio"
+      "dica": "Dica pós-anúncio (texto revelado após Ver dica + anúncio)",
+      "dicaPreenchimento": "Opcional: trecho inserido no textarea após revelar a dica (prefixado ao que o usuário já digitou), para nortear sem dar a resposta inteira. Repetir em traducoes.en/es.conteudo."
     },
     "conclusao_conteudo": {
       "mensagem": "Texto de parabéns",
