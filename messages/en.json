@@ -121,6 +121,8 @@
     "conquistasFiltroBloqueadas": "Locked",
     "conquistasVazioDesbloqueadas": "No achievements yet. Complete lessons and exercises to unlock your first ones.",
     "conquistasVazioBloqueadas": "You've unlocked every achievement in this list.",
+    "conquistasMostrarMais": "Show more ({{n}} left)",
+    "conquistasPrestigioToggle": "Prestige stars · {{desbloqueadas}}/{{total}}",
     "rankingGlobal": "Global Ranking",
     "mundoDo": "of the world",
     "comoDesbloquear": "How to unlock",

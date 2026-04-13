@@ -121,6 +121,8 @@
     "conquistasFiltroBloqueadas": "Bloqueadas",
     "conquistasVazioDesbloqueadas": "Nenhuma conquista ainda. Complete etapas e exercícios para desbloquear as primeiras.",
     "conquistasVazioBloqueadas": "Você desbloqueou todas as conquistas desta lista.",
+    "conquistasMostrarMais": "Mostrar mais ({{n}} restantes)",
+    "conquistasPrestigioToggle": "Estrelas de prestígio · {{desbloqueadas}}/{{total}}",
     "rankingGlobal": "Ranking Global",
     "mundoDo": "do mundo",
     "comoDesbloquear": "Como desbloquear",

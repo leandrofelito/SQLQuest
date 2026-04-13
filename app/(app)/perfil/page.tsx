@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useMemo } from 'react'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Cpu, type LucideIcon } from 'lucide-react'
+import { ChevronDown, Cpu, type LucideIcon } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { NavBottom } from '@/components/layout/NavBottom'
 import { XpBar } from '@/components/ui/XpBar'
@@ -42,6 +42,27 @@ interface Conquista {
   alcancadaEm?: string | null
   posicao?: number | null
   tier?: string
+  categoria?: string
+}
+
+const CONQUISTAS_POR_PAGINA = 18
+const PRESTIGIO_POR_PAGINA = 24
+
+function isPrestigioEstrela(c: Conquista) {
+  return c.id.startsWith('prestigio_estrela_')
+}
+
+function formatoMsg(template: string, vars: Record<string, string | number>) {
+  return template.replace(/\{\{(\w+)\}\}/g, (_, k) => String(vars[k] ?? ''))
+}
+
+function aplicarFiltroConquistas(
+  lista: Conquista[],
+  filtro: 'desbloqueadas' | 'todas' | 'bloqueadas'
+) {
+  if (filtro === 'desbloqueadas') return lista.filter(c => c.desbloqueada)
+  if (filtro === 'bloqueadas') return lista.filter(c => !c.desbloqueada)
+  return lista
 }
 
 function ConquistaIcon({ conquista, desbloqueada }: { conquista: Conquista; desbloqueada: boolean }) {
@@ -85,6 +106,69 @@ function InfoIcon() {
   )
 }
 
+function ConquistaTile({
+  c,
+  idx,
+  firstPageSize,
+  m,
+  activeTooltip,
+  setActiveTooltip,
+}: {
+  c: Conquista
+  idx: number
+  firstPageSize: number
+  m: { comoDesbloquear: string }
+  activeTooltip: string | null
+  setActiveTooltip: (id: string | null) => void
+}) {
+  const isOpen = activeTooltip === c.id
+  const animDelay = idx < firstPageSize ? Math.min(idx, 12) * 0.03 : 0
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: animDelay }}
+      className={`relative bg-[#0f1117] border rounded-2xl p-3 text-center transition-all group ${
+        c.desbloqueada
+          ? 'border-[#8b5cf6]/40 shadow-[0_0_12px_rgba(139,92,246,0.15)]'
+          : 'border-[#1e2028] opacity-35 grayscale'
+      }`}
+    >
+      <button
+        type="button"
+        onClick={e => {
+          e.stopPropagation()
+          setActiveTooltip(isOpen ? null : c.id)
+        }}
+        className="absolute top-2 right-2 text-white/30 hover:text-white/80 transition-opacity duration-200 group-hover:opacity-100 focus:outline-none"
+        aria-label={`${m.comoDesbloquear}: ${c.nome}`}
+      >
+        <InfoIcon />
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-44 bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none">
+          <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
+          <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
+          <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
+        </div>
+      )}
+
+      <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-44 bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden sm:block">
+        <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
+        <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
+        <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
+      </div>
+
+      <div className="flex items-center justify-center mb-1 h-8">
+        <ConquistaIcon conquista={c} desbloqueada={c.desbloqueada} />
+      </div>
+      <p className="text-white text-[10px] font-semibold leading-tight">{c.nome}</p>
+      {c.desbloqueada && <div className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] mx-auto mt-1.5" />}
+    </motion.div>
+  )
+}
+
 const LANG_OPTIONS: { value: Locale; flag: string; label: string }[] = [
   { value: 'pt', flag: '🇧🇷', label: 'Português' },
   { value: 'en', flag: '🇺🇸', label: 'English' },
@@ -104,18 +188,34 @@ export default function PerfilPage() {
   const [loading, setLoading] = useState(false)
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [filtroConquistas, setFiltroConquistas] = useState<'desbloqueadas' | 'todas' | 'bloqueadas'>('desbloqueadas')
+  const [visiblePrincipal, setVisiblePrincipal] = useState(CONQUISTAS_POR_PAGINA)
+  const [visiblePrestigio, setVisiblePrestigio] = useState(PRESTIGIO_POR_PAGINA)
+  const [prestigioAberto, setPrestigioAberto] = useState(false)
   const tooltipRef = useRef<HTMLDivElement>(null)
 
-  const { conquistasGerais, conquistasFiltradas } = useMemo(() => {
+  const { conquistasGerais, filtradasNaoPrestigio, filtradasPrestigio } = useMemo(() => {
     const gerais = conquistas.filter(c => !c.tier)
-    if (filtroConquistas === 'desbloqueadas') {
-      return { conquistasGerais: gerais, conquistasFiltradas: gerais.filter(c => c.desbloqueada) }
+    const naoPrestigio = gerais.filter(c => !isPrestigioEstrela(c))
+    const prestigio = gerais.filter(c => isPrestigioEstrela(c))
+    return {
+      conquistasGerais: gerais,
+      filtradasNaoPrestigio: aplicarFiltroConquistas(naoPrestigio, filtroConquistas),
+      filtradasPrestigio: aplicarFiltroConquistas(prestigio, filtroConquistas),
     }
-    if (filtroConquistas === 'bloqueadas') {
-      return { conquistasGerais: gerais, conquistasFiltradas: gerais.filter(c => !c.desbloqueada) }
-    }
-    return { conquistasGerais: gerais, conquistasFiltradas: gerais }
   }, [conquistas, filtroConquistas])
+
+  const listaConquistasVazia =
+    filtradasNaoPrestigio.length === 0 && filtradasPrestigio.length === 0
+
+  const prestigioResumo = useMemo(() => {
+    const desbloqueadas = filtradasPrestigio.filter(c => c.desbloqueada).length
+    return { desbloqueadas, total: filtradasPrestigio.length }
+  }, [filtradasPrestigio])
+
+  useEffect(() => {
+    setVisiblePrincipal(CONQUISTAS_POR_PAGINA)
+    setVisiblePrestigio(PRESTIGIO_POR_PAGINA)
+  }, [filtroConquistas])
 
   useEffect(() => {
     setActiveTooltip(null)
@@ -342,61 +442,110 @@ export default function PerfilPage() {
               })}
             </div>
           ) : null}
-          <div className={`grid grid-cols-3 gap-2 ${conquistasLoading ? 'hidden' : ''}`} ref={tooltipRef}>
-            {!conquistasLoading && conquistasFiltradas.length === 0 ? (
-              <div className="col-span-3 rounded-2xl border border-[#1e2028] bg-[#0f1117]/80 px-4 py-6 text-center">
+          <div
+            ref={tooltipRef}
+            className={`${conquistasLoading ? 'hidden' : ''} space-y-4`}
+          >
+            {!conquistasLoading && listaConquistasVazia ? (
+              <div className="rounded-2xl border border-[#1e2028] bg-[#0f1117]/80 px-4 py-6 text-center">
                 <p className="text-white/45 text-sm leading-relaxed">
                   {filtroConquistas === 'desbloqueadas' ? m.conquistasVazioDesbloqueadas : m.conquistasVazioBloqueadas}
                 </p>
               </div>
             ) : null}
-            {conquistasFiltradas.map((c, i) => {
-              const isOpen = activeTooltip === c.id
-              return (
-                <motion.div
-                  key={`${filtroConquistas}-${c.id}`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: Math.min(i * 0.05, 0.6) }}
-                  className={`relative bg-[#0f1117] border rounded-2xl p-3 text-center transition-all group ${
-                    c.desbloqueada
-                      ? 'border-[#8b5cf6]/40 shadow-[0_0_12px_rgba(139,92,246,0.15)]'
-                      : 'border-[#1e2028] opacity-35 grayscale'
-                  }`}
-                >
-                  <button
-                    onClick={e => {
-                      e.stopPropagation()
-                      setActiveTooltip(isOpen ? null : c.id)
-                    }}
-                    className="absolute top-2 right-2 text-white/30 hover:text-white/80 transition-opacity duration-200 group-hover:opacity-100 focus:outline-none"
-                    aria-label={`${m.comoDesbloquear}: ${c.nome}`}
-                  >
-                    <InfoIcon />
-                  </button>
-
-                  {isOpen && (
-                    <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-44 bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none">
-                      <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
-                      <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
-                      <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
+            {!conquistasLoading && !listaConquistasVazia ? (
+              <>
+                {filtradasNaoPrestigio.length > 0 ? (
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-3 gap-2">
+                      {filtradasNaoPrestigio.slice(0, visiblePrincipal).map((c, idx) => (
+                        <ConquistaTile
+                          key={`p-${filtroConquistas}-${c.id}`}
+                          c={c}
+                          idx={idx}
+                          firstPageSize={CONQUISTAS_POR_PAGINA}
+                          m={m}
+                          activeTooltip={activeTooltip}
+                          setActiveTooltip={setActiveTooltip}
+                        />
+                      ))}
                     </div>
-                  )}
-
-                  <div className="absolute z-50 bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 w-44 bg-[#1a1d27] border border-[#8b5cf6]/30 rounded-xl px-3 py-2 shadow-xl text-left pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden sm:block">
-                    <p className="text-[#a78bfa] text-[10px] font-semibold mb-0.5">{m.comoDesbloquear}</p>
-                    <p className="text-white/70 text-[10px] leading-snug">{c.desc}</p>
-                    <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#1a1d27] border-r border-b border-[#8b5cf6]/30 rotate-45" />
+                    {visiblePrincipal < filtradasNaoPrestigio.length ? (
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        fullWidth
+                        onClick={() =>
+                          setVisiblePrincipal(v =>
+                            Math.min(v + CONQUISTAS_POR_PAGINA, filtradasNaoPrestigio.length)
+                          )
+                        }
+                      >
+                        {formatoMsg(m.conquistasMostrarMais, {
+                          n: filtradasNaoPrestigio.length - visiblePrincipal,
+                        })}
+                      </Button>
+                    ) : null}
                   </div>
-
-                  <div className="flex items-center justify-center mb-1 h-8"><ConquistaIcon conquista={c} desbloqueada={c.desbloqueada} /></div>
-                  <p className="text-white text-[10px] font-semibold leading-tight">{c.nome}</p>
-                  {c.desbloqueada && (
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] mx-auto mt-1.5" />
-                  )}
-                </motion.div>
-              )
-            })}
+                ) : null}
+                {filtradasPrestigio.length > 0 ? (
+                  <div className="rounded-2xl border border-[#1e2028] bg-[#0f1117]/50 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setPrestigioAberto(o => !o)}
+                      className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs font-semibold text-white/80 hover:bg-white/5 transition-colors"
+                      aria-expanded={prestigioAberto}
+                    >
+                      <span>
+                        {formatoMsg(m.conquistasPrestigioToggle, {
+                          desbloqueadas: prestigioResumo.desbloqueadas,
+                          total: prestigioResumo.total,
+                        })}
+                      </span>
+                      <ChevronDown
+                        className={`shrink-0 w-4 h-4 text-white/50 transition-transform ${prestigioAberto ? 'rotate-180' : ''}`}
+                        aria-hidden
+                      />
+                    </button>
+                    {prestigioAberto ? (
+                      <div className="px-2 pb-3 pt-1 space-y-2 border-t border-[#1e2028]">
+                        <div className="grid grid-cols-3 gap-2">
+                          {filtradasPrestigio.slice(0, visiblePrestigio).map((c, idx) => (
+                            <ConquistaTile
+                              key={`pr-${filtroConquistas}-${c.id}`}
+                              c={c}
+                              idx={idx}
+                              firstPageSize={PRESTIGIO_POR_PAGINA}
+                              m={m}
+                              activeTooltip={activeTooltip}
+                              setActiveTooltip={setActiveTooltip}
+                            />
+                          ))}
+                        </div>
+                        {visiblePrestigio < filtradasPrestigio.length ? (
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            fullWidth
+                            onClick={() =>
+                              setVisiblePrestigio(v =>
+                                Math.min(v + PRESTIGIO_POR_PAGINA, filtradasPrestigio.length)
+                              )
+                            }
+                          >
+                            {formatoMsg(m.conquistasMostrarMais, {
+                              n: filtradasPrestigio.length - visiblePrestigio,
+                            })}
+                          </Button>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
+              </>
+            ) : null}
           </div>
         </div>
 
