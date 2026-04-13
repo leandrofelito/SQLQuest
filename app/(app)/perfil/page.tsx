@@ -2,17 +2,15 @@
 import { useEffect, useState, useRef, useMemo } from 'react'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Cpu, type LucideIcon } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { NavBottom } from '@/components/layout/NavBottom'
 import { XpBar } from '@/components/ui/XpBar'
 import { Button } from '@/components/ui/Button'
-import { ConquistaToast } from '@/components/ui/ConquistaToast'
 import { useUser } from '@/hooks/useUser'
 import { getLevel, getLevelBadge } from '@/lib/xp'
-import { PRESTIGIO_NIVEL_MINIMO } from '@/lib/prestigio'
-import { PrestigeBadge, getPrestigeTier } from '@/components/ui/PrestigeBadge'
+import { PrestigeBadge } from '@/components/ui/PrestigeBadge'
 import { useAppData } from '@/context/AppDataContext'
 import { useLocale } from '@/context/LocaleContext'
 import { type Locale } from '@/lib/locale'
@@ -104,16 +102,9 @@ export default function PerfilPage() {
   const [conquistasLoading, setConquistasLoading] = useState(true)
   const [prestige, setPrestige] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [prestigeLoading, setPrestigeLoading] = useState(false)
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [filtroConquistas, setFiltroConquistas] = useState<'desbloqueadas' | 'todas' | 'bloqueadas'>('desbloqueadas')
   const tooltipRef = useRef<HTMLDivElement>(null)
-  const [conquistasPrestigioFila, setConquistasPrestigioFila] = useState<Array<{ id: string; emoji: string; nome: string }>>([])
-  const conquistasPrestigioPendentesRef = useRef<Array<{ id: string; emoji: string; nome: string }>>([])
-  const exibirProximaConquistaPrestigio = () => {
-    conquistasPrestigioPendentesRef.current.shift()
-    setConquistasPrestigioFila([...conquistasPrestigioPendentesRef.current])
-  }
 
   const { conquistasGerais, conquistasFiltradas } = useMemo(() => {
     const gerais = conquistas.filter(c => !c.tier)
@@ -173,37 +164,6 @@ export default function PerfilPage() {
       (window as any).SessionBridge?.postMessage('logout')
     }
     await signOut({ callbackUrl: '/login' })
-  }
-
-  async function handlePrestige() {
-    const { tierIndex, starsInTier } = getPrestigeTier(prestige + 1)
-    const TIER_NAMES = [m.tierBronze, m.tierPrata, m.tierOuro, m.tierRubi]
-    const tierName = TIER_NAMES[tierIndex]
-    const starStr = '★'.repeat(starsInTier)
-    const confirmMsg = m.confirmarPrestigio
-      .replace('{n}', String(prestige + 1))
-      .replace('{tier}', tierName)
-      .replace('{stars}', starStr)
-    if (!confirm(confirmMsg)) return
-    setPrestigeLoading(true)
-    const res = await fetch('/api/prestige', { method: 'POST' })
-    const data = await res.json()
-    if (res.ok) {
-      setPrestige(data.prestige)
-      if (Array.isArray(data.novasConquistas) && data.novasConquistas.length > 0) {
-        conquistasPrestigioPendentesRef.current = [...data.novasConquistas]
-        setConquistasPrestigioFila([...data.novasConquistas])
-      }
-      try {
-        const conquistasRes = await fetch('/api/conquistas').then(r => r.json())
-        if (Array.isArray(conquistasRes)) setConquistas(conquistasRes)
-      } catch {
-        /* ignore */
-      }
-      await loadProgresso()
-      router.refresh()
-    }
-    setPrestigeLoading(false)
   }
 
   return (
@@ -440,41 +400,6 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        {/* Botão de Prestígio */}
-        {nivel >= PRESTIGIO_NIVEL_MINIMO && (() => {
-          const next = getPrestigeTier(prestige + 1)
-          const TIER_NAMES = [m.tierBronze, m.tierPrata, m.tierOuro, m.tierRubi]
-          const TIER_COLORS = ['#cd7f32', '#c0c0c0', '#facc15', '#ef4444']
-          const nextTierName = TIER_NAMES[next.tierIndex]
-          const nextColor = TIER_COLORS[next.tierIndex]
-          return (
-            <div
-              className="rounded-2xl border p-4 text-center"
-              style={{ borderColor: nextColor, background: `${nextColor}10` }}
-            >
-              <p className="font-bold text-sm mb-1" style={{ color: nextColor }}>👑 {m.prestigeDisponivel}</p>
-              <p className="text-white/50 text-xs mb-1">
-                {m.prestigeDesc
-                  .replace('{nivel}', String(nivel))
-                  .replace('{prestige}', String(prestige + 1))}
-              </p>
-              <p className="text-xs mb-3" style={{ color: nextColor, opacity: 0.85 }}>
-                {m.prestigeStars
-                  .replace('{stars}', '★'.repeat(next.starsInTier))
-                  .replace('{tier}', nextTierName)
-                  .replace('{current}', String(next.starsInTier))}
-              </p>
-              <Button
-                onClick={handlePrestige}
-                loading={prestigeLoading}
-                fullWidth
-              >
-                {m.ativarPrestigio.replace('{n}', String(prestige + 1))}
-              </Button>
-            </div>
-          )
-        })()}
-
         {/* Upgrade se free */}
         {!isPro && (
           <Button onClick={() => router.push('/upgrade')} fullWidth>
@@ -527,17 +452,6 @@ export default function PerfilPage() {
           {m.sair}
         </Button>
       </div>
-
-      <AnimatePresence>
-        {conquistasPrestigioFila.length > 0 && (
-          <ConquistaToast
-            key={conquistasPrestigioFila[0].id}
-            emoji={conquistasPrestigioFila[0].emoji}
-            nome={conquistasPrestigioFila[0].nome}
-            onDismiss={exibirProximaConquistaPrestigio}
-          />
-        )}
-      </AnimatePresence>
 
       <NavBottom />
     </div>

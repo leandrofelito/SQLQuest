@@ -21,6 +21,8 @@ model User {
   isAdmin      Boolean   @default(false)
   proAt        DateTime?
   totalXp      Int       @default(0)
+  /// XP acumulado para o ranking global (só aumenta; não zera ao prestigiar).
+  xpRanking    Int       @default(0)
   streak       Int       @default(0)
   prestige            Int       @default(0)
   language_preference String    @default("pt")
@@ -37,6 +39,7 @@ model User {
   trilhasDesbloqueadas  TrilhaDesbloqueada[]
 
   @@index([totalXp(sort: Desc)])
+  @@index([xpRanking(sort: Desc)])
 }
 
 model Account {

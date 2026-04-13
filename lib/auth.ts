@@ -2,9 +2,14 @@ import { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@auth/prisma-adapter'
+import { cookies } from 'next/headers'
 import { prisma } from './db'
 import bcrypt from 'bcryptjs'
+import { aplicarPrestigioSeElegivel } from './aplicar-prestigio'
+import { COOKIE_NAME } from './locale'
+import { PRESTIGIO_NIVEL_MINIMO } from './prestigio'
 import { computeNovoStreak } from './streak'
+import { getLevel } from './xp'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
@@ -83,7 +88,17 @@ export const authOptions: NextAuthOptions = {
         // Garante que o id esteja disponível mesmo se o bloco abaixo falhar
         ;(session.user as any).id = userId
         try {
-          const dbUser = await prisma.user.findUnique({ where: { id: userId } })
+          let dbUser = await prisma.user.findUnique({ where: { id: userId } })
+
+          if (dbUser && getLevel(dbUser.totalXp) >= PRESTIGIO_NIVEL_MINIMO) {
+            const cookieStore = await cookies()
+            const loc = cookieStore.get(COOKIE_NAME)?.value ?? 'pt'
+            const pr = await aplicarPrestigioSeElegivel(userId, loc)
+            if (pr.applied) {
+              dbUser = await prisma.user.findUnique({ where: { id: userId } })
+            }
+          }
+
           ;(session.user as any).isPro = dbUser?.isPro ?? false
           ;(session.user as any).isAdmin = dbUser?.isAdmin ?? false
           ;(session.user as any).totalXp = dbUser?.totalXp ?? 0

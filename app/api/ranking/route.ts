@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   try {
     const users = await prisma.user.findMany({
-      orderBy: { totalXp: 'desc' },
+      orderBy: { xpRanking: 'desc' },
       take: 20,
       select: {
         id: true,
@@ -14,6 +14,7 @@ export async function GET() {
         nickname: true,
         image: true,
         totalXp: true,
+        xpRanking: true,
         streak: true,
         prestige: true,
       },

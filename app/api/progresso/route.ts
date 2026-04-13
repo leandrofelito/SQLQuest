@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
+import { aplicarPrestigioSeElegivelTx } from '@/lib/aplicar-prestigio'
+import { COOKIE_NAME } from '@/lib/locale'
 import { calcularEstrelas, XP_POR_ESTRELAS, getLevel } from '@/lib/xp'
 import { verificarConquistasRanking } from '@/lib/ranking-conquistas'
 import { verificarToken } from '@/lib/validacao-token'
@@ -114,18 +117,34 @@ export async function POST(req: Request) {
       agora,
     })
 
-    await prisma.user.update({
-      where: { id: userId },
-      data: {
-        totalXp: { increment: xpDelta },
-        streak: streakNovo,
-        lastActiveAt: agora,
-      },
+    const xpAposIncremento = (userBefore?.totalXp ?? 0) + xpDelta
+    const nivelAposIncremento = getLevel(xpAposIncremento)
+
+    const cookieStore = await cookies()
+    const localePrestigio = cookieStore.get(COOKIE_NAME)?.value ?? 'pt'
+
+    const prestigioResult = await prisma.$transaction(async tx => {
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          totalXp: { increment: xpDelta },
+          xpRanking: { increment: xpDelta },
+          streak: streakNovo,
+          lastActiveAt: agora,
+        },
+      })
+      return aplicarPrestigioSeElegivelTx(tx, userId, localePrestigio)
     })
 
-    nivelAtual = getLevel((userBefore?.totalXp ?? 0) + xpDelta)
+    nivelAtual = prestigioResult.applied
+      ? getLevel(prestigioResult.totalXp ?? 0)
+      : nivelAposIncremento
+
     novasConquistas.push(...novasConquistasStreak(streakAnterior, streakNovo))
-    novasConquistas.push(...novasConquistasNivel(nivelAnterior, nivelAtual))
+    novasConquistas.push(...novasConquistasNivel(nivelAnterior, nivelAposIncremento))
+    if (prestigioResult.applied && prestigioResult.novasConquistas?.length) {
+      novasConquistas.push(...prestigioResult.novasConquistas)
+    }
 
     if (estrelas === 3 && tresEstrelasCountAntes === 0) {
       novasConquistas.push({
