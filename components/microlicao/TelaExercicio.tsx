@@ -231,7 +231,6 @@ function ExercicioQuiz({
   const [indiceSelecionado, setIndiceSelecionado] = useState<number | null>(null)
   const [vfSelecionado, setVfSelecionado] = useState<boolean | null>(null)
   const [textoReflexao, setTextoReflexao] = useState('')
-  const dicaPendenteRef = useRef('')
   const estrelasFinalRef = useRef(0)
   const tokenRef = useRef('')
   const ultimoPayloadRef = useRef<Record<string, unknown>>({})
@@ -262,18 +261,16 @@ function ExercicioQuiz({
 
   function pedirDica() {
     setDicasUsadas(prev => prev + 1)
-    const dica = resolverDicaQuiz()
     if (!isPro) {
-      dicaPendenteRef.current = dica
       setShowAnuncioDica(true)
     } else {
-      aplicarDicaQuizRevelada(dica)
+      aplicarDicaQuizRevelada(resolverDicaQuiz())
     }
   }
 
   function liberarDica() {
     setShowAnuncioDica(false)
-    aplicarDicaQuizRevelada(dicaPendenteRef.current)
+    aplicarDicaQuizRevelada(resolverDicaQuiz())
   }
 
   async function verificar() {
@@ -478,7 +475,7 @@ function ExercicioQuiz({
         </AnimatePresence>
 
         <AnimatePresence>
-          {estado === 'erro' && dicaAtual ? (
+          {dicaAtual && estado !== 'acerto' ? (
             <motion.div
               className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
               initial={{ opacity: 0, y: -8 }}
@@ -589,7 +586,6 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   const [showPerformanceAviso, setShowPerformanceAviso] = useState(false)
   const [validandoServidor, setValidandoServidor] = useState(false)
   const { ready, run } = useSQL()
-  const dicaPendenteRef = useRef('')
   const estrelasFinalRef = useRef(0)
   const tokenRef = useRef('')
   const toolbarDragRef = useRef(false)
@@ -614,18 +610,16 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
 
   function pedirDica() {
     setDicasUsadas(prev => prev + 1)
-    const dica = resolverDicaSql()
     if (!isPro) {
-      dicaPendenteRef.current = dica
       setShowAnuncioDica(true)
     } else {
-      aplicarDicaSqlRevelada(dica)
+      aplicarDicaSqlRevelada(resolverDicaSql())
     }
   }
 
   function liberarDica() {
     setShowAnuncioDica(false)
-    aplicarDicaSqlRevelada(dicaPendenteRef.current)
+    aplicarDicaSqlRevelada(resolverDicaSql())
   }
 
   async function verificar() {
@@ -812,7 +806,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
       </AnimatePresence>
 
       <AnimatePresence>
-        {estado === 'erro' && dicaAtual ? (
+        {dicaAtual && estado !== 'acerto' && estado !== 'performance_aviso' ? (
           <motion.div
             className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
             initial={{ opacity: 0, y: -8 }}
