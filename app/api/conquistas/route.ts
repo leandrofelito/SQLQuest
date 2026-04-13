@@ -14,10 +14,13 @@ import {
   TRILHA_CONQUISTA_SLUGS,
   TRES_ESTRELAS_CONQUISTA,
   listarDefinicoesConquistasGerais,
+  localizarPrestigioConquista,
+  parsePrestigioEstrelaN,
   temAlgumaTresEstrelas,
   trilhaConquistaId,
   trilhaExerciciosConcluida,
   totalExerciciosConcluidosGlobal,
+  type ConquistaDef,
   type ProgressoConquistaInput,
 } from '@/lib/conquistas-definitions'
 
@@ -37,7 +40,7 @@ export async function GET() {
     }),
     prisma.user.findUnique({
       where: { id: userId },
-      select: { streak: true, totalXp: true },
+      select: { streak: true, totalXp: true, prestige: true },
     }),
     prisma.trilha.findMany({
       select: { slug: true, etapas: { select: { tipo: true } } },
@@ -48,6 +51,7 @@ export async function GET() {
   const rankingDesbloqueados = new Set(conquistasRanking.map(c => c.tipo))
   const streak = dbUser?.streak ?? 0
   const nivelAtual = getLevel(dbUser?.totalXp ?? 0)
+  const prestige = dbUser?.prestige ?? 0
 
   const exerciciosPorTrilha = Object.fromEntries(
     trilhas.map(t => [t.slug, t.etapas.filter(e => e.tipo === 'exercicio').length])
@@ -77,6 +81,9 @@ export async function GET() {
     } else if (def.categoria === 'exercicios') {
       const m = EXERCISE_MILESTONES.find(e => e.id === def.id)
       desbloqueada = m ? totalExGlobal >= m.count : false
+    } else if (def.categoria === 'prestigio') {
+      const pn = parsePrestigioEstrelaN(def.id)
+      desbloqueada = pn != null && prestige >= pn
     }
 
     return {
@@ -93,6 +100,9 @@ export async function GET() {
   const locale = cookieStore.get(COOKIE_NAME)?.value ?? 'pt'
 
   function localizar<T extends { id: string; nome: string; desc: string }>(c: T): T {
+    if (c.id.startsWith('prestigio_estrela_')) {
+      return localizarPrestigioConquista(c as unknown as ConquistaDef, locale) as unknown as T
+    }
     const tr = CONQUISTAS_I18N[c.id]?.[locale]
     return tr ? { ...c, ...tr } : c
   }

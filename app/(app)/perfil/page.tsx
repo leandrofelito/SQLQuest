@@ -2,14 +2,16 @@
 import { useEffect, useState, useRef, useMemo } from 'react'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Cpu, type LucideIcon } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { NavBottom } from '@/components/layout/NavBottom'
 import { XpBar } from '@/components/ui/XpBar'
 import { Button } from '@/components/ui/Button'
+import { ConquistaToast } from '@/components/ui/ConquistaToast'
 import { useUser } from '@/hooks/useUser'
 import { getLevel, getLevelBadge } from '@/lib/xp'
+import { PRESTIGIO_NIVEL_MINIMO } from '@/lib/prestigio'
 import { PrestigeBadge, getPrestigeTier } from '@/components/ui/PrestigeBadge'
 import { useAppData } from '@/context/AppDataContext'
 import { useLocale } from '@/context/LocaleContext'
@@ -106,6 +108,12 @@ export default function PerfilPage() {
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [filtroConquistas, setFiltroConquistas] = useState<'desbloqueadas' | 'todas' | 'bloqueadas'>('desbloqueadas')
   const tooltipRef = useRef<HTMLDivElement>(null)
+  const [conquistasPrestigioFila, setConquistasPrestigioFila] = useState<Array<{ id: string; emoji: string; nome: string }>>([])
+  const conquistasPrestigioPendentesRef = useRef<Array<{ id: string; emoji: string; nome: string }>>([])
+  const exibirProximaConquistaPrestigio = () => {
+    conquistasPrestigioPendentesRef.current.shift()
+    setConquistasPrestigioFila([...conquistasPrestigioPendentesRef.current])
+  }
 
   const { conquistasGerais, conquistasFiltradas } = useMemo(() => {
     const gerais = conquistas.filter(c => !c.tier)
@@ -135,7 +143,7 @@ export default function PerfilPage() {
   const xp = (user as any)?.totalXp ?? 0
   const streak = (user as any)?.streak ?? 0
   const nivel = getLevel(xp)
-  const badge = getLevelBadge(nivel)
+  const badge = getLevelBadge(nivel, locale)
 
   useEffect(() => {
     async function load() {
@@ -182,6 +190,17 @@ export default function PerfilPage() {
     const data = await res.json()
     if (res.ok) {
       setPrestige(data.prestige)
+      if (Array.isArray(data.novasConquistas) && data.novasConquistas.length > 0) {
+        conquistasPrestigioPendentesRef.current = [...data.novasConquistas]
+        setConquistasPrestigioFila([...data.novasConquistas])
+      }
+      try {
+        const conquistasRes = await fetch('/api/conquistas').then(r => r.json())
+        if (Array.isArray(conquistasRes)) setConquistas(conquistasRes)
+      } catch {
+        /* ignore */
+      }
+      await loadProgresso()
       router.refresh()
     }
     setPrestigeLoading(false)
@@ -422,7 +441,7 @@ export default function PerfilPage() {
         </div>
 
         {/* Botão de Prestígio */}
-        {nivel >= 100 && (() => {
+        {nivel >= PRESTIGIO_NIVEL_MINIMO && (() => {
           const next = getPrestigeTier(prestige + 1)
           const TIER_NAMES = [m.tierBronze, m.tierPrata, m.tierOuro, m.tierRubi]
           const TIER_COLORS = ['#cd7f32', '#c0c0c0', '#facc15', '#ef4444']
@@ -508,6 +527,17 @@ export default function PerfilPage() {
           {m.sair}
         </Button>
       </div>
+
+      <AnimatePresence>
+        {conquistasPrestigioFila.length > 0 && (
+          <ConquistaToast
+            key={conquistasPrestigioFila[0].id}
+            emoji={conquistasPrestigioFila[0].emoji}
+            nome={conquistasPrestigioFila[0].nome}
+            onDismiss={exibirProximaConquistaPrestigio}
+          />
+        )}
+      </AnimatePresence>
 
       <NavBottom />
     </div>

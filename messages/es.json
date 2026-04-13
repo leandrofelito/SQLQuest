@@ -166,6 +166,16 @@
     "proximo": "Siguiente →"
   },
   "levelup": {
-    "titulo": "¡Nivel UP!"
+    "titulo": "¡Nivel UP!",
+    "subiu": "¡Subiste de nivel!",
+    "continuar": "Continuar",
+    "milestones": {
+      "10": "🗺️ ¡Rango: Explorador de Datos!",
+      "20": "📈 ¡Rango: Analista Oficial!",
+      "30": "💎 ¡Rango: Especialista Certificado!",
+      "50": "⚔️ ¡Rango: Maestro de Batalla!",
+      "75": "🔥 ¡Rango: Cazador de Bugs!",
+      "100": "👑 ¡Rango: Centella Máxima — prestigio disponible!"
+    }
   }
 }

@@ -16,8 +16,8 @@ interface LevelUpToastProps {
  * Auto-dismiss em 3.5s. Clicar também dispensa.
  */
 export function LevelUpToast({ nivelAnterior, nivelAtual, onDismiss }: LevelUpToastProps) {
-  const { messages } = useLocale()
-  const badge = getLevelBadge(nivelAtual)
+  const { messages, locale } = useLocale()
+  const badge = getLevelBadge(nivelAtual, locale)
 
   useEffect(() => {
     const t = setTimeout(onDismiss, 3500)

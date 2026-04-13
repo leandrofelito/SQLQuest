@@ -1,3 +1,9 @@
+import {
+  PRESTIGIO_CONQUISTAS_CAP,
+  PRESTIGIO_ESTRELAS_POR_TIER,
+  PRESTIGIO_NIVEL_MINIMO,
+} from './prestigio'
+
 /** Metadados de toast / carta (sem descrição longa) */
 export interface ConquistaToastMeta {
   emoji: string
@@ -156,9 +162,79 @@ function nivelDefs(): ConquistaDef[] {
   }))
 }
 
+const TIER_PT = ['Bronze', 'Prata', 'Ouro', 'Rubi'] as const
+
+export function prestigioEstrelaId(n: number): string {
+  return `prestigio_estrela_${n}`
+}
+
+export function parsePrestigioEstrelaN(id: string): number | null {
+  const m = /^prestigio_estrela_(\d+)$/.exec(id)
+  return m ? Number(m[1]) : null
+}
+
+function prestigeTierIndex(n: number): number {
+  return Math.min(Math.floor((n - 1) / PRESTIGIO_ESTRELAS_POR_TIER), TIER_PT.length - 1)
+}
+
+function prestigeStarInTier(n: number): number {
+  return ((n - 1) % PRESTIGIO_ESTRELAS_POR_TIER) + 1
+}
+
+const PRESTIGE_EMOJIS = ['🌟', '✨', '⭐', '💫', '🔆']
+
+function emojiPrestige(n: number): string {
+  return PRESTIGE_EMOJIS[(n - 1) % PRESTIGE_EMOJIS.length]
+}
+
+/** Uma conquista por cada ativação de prestígio (estrela no perfil). */
+export function buildPrestigeConquistaDef(n: number): ConquistaDef {
+  const ti = prestigeTierIndex(n)
+  const s = prestigeStarInTier(n)
+  const tier = TIER_PT[ti]
+  return {
+    id: prestigioEstrelaId(n),
+    emoji: emojiPrestige(n),
+    nome: `${s}ª estrela — ${tier}`,
+    desc: `Ganhe a ${s}ª estrela de prestígio no tier ${tier} (ativação ${n} no total: atingir nível ${PRESTIGIO_NIVEL_MINIMO} e confirmar o reset de XP).`,
+    categoria: 'prestigio',
+  }
+}
+
+function prestigioDefs(): ConquistaDef[] {
+  return Array.from({ length: PRESTIGIO_CONQUISTAS_CAP }, (_, i) => buildPrestigeConquistaDef(i + 1))
+}
+
+export function localizarPrestigioConquista(def: ConquistaDef, locale: string): ConquistaDef {
+  const n = parsePrestigioEstrelaN(def.id)
+  if (n == null) return def
+  if (locale === 'pt') return def
+  const ti = prestigeTierIndex(n)
+  const s = prestigeStarInTier(n)
+  const tiersEn = ['Bronze', 'Silver', 'Gold', 'Ruby'] as const
+  const tiersEs = ['Bronce', 'Plata', 'Oro', 'Rubí'] as const
+  if (locale === 'en') {
+    const tier = tiersEn[ti]
+    return {
+      ...def,
+      nome: `Star ${s} — ${tier}`,
+      desc: `Earn prestige star ${n} (${s} of ${PRESTIGIO_ESTRELAS_POR_TIER} in ${tier}): reach level ${PRESTIGIO_NIVEL_MINIMO} and reset XP.`,
+    }
+  }
+  if (locale === 'es') {
+    const tier = tiersEs[ti]
+    return {
+      ...def,
+      nome: `${s}ª estrella — ${tier}`,
+      desc: `Gana la estrella de prestigio ${n} (${s}ª de ${PRESTIGIO_ESTRELAS_POR_TIER} en ${tier}): alcanza nivel ${PRESTIGIO_NIVEL_MINIMO} y confirma el reset de XP.`,
+    }
+  }
+  return def
+}
+
 /** Lista estática em PT (desbloqueio calculado na API) */
 export function listarDefinicoesConquistasGerais(): ConquistaDef[] {
-  return [...trilhaDefs(), tresEstrelasDef(), ...nivelDefs(), ...streakDefs(), ...exerciseDefs()]
+  return [...trilhaDefs(), tresEstrelasDef(), ...nivelDefs(), ...prestigioDefs(), ...streakDefs(), ...exerciseDefs()]
 }
 
 /** i18n EN/ES: chave = id da conquista */
@@ -297,6 +373,13 @@ export interface ConquistaNotificacao {
   id: string
   emoji: string
   nome: string
+}
+
+/** Toast/localização para a estrela `n` recém conquistada. */
+export function buildPrestigeConquistaNotificacao(n: number, locale: string = 'pt'): ConquistaNotificacao {
+  const def = buildPrestigeConquistaDef(n)
+  const loc = localizarPrestigioConquista(def, locale)
+  return { id: loc.id, emoji: loc.emoji, nome: loc.nome }
 }
 
 export function novasConquistasStreak(streakAnterior: number, streakNovo: number): ConquistaNotificacao[] {

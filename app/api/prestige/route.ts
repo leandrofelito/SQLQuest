@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { getLevel } from '@/lib/xp'
+import { PRESTIGIO_NIVEL_MINIMO } from '@/lib/prestigio'
+import { buildPrestigeConquistaNotificacao } from '@/lib/conquistas-definitions'
+import { COOKIE_NAME } from '@/lib/locale'
 
-// POST /api/prestige — reseta XP para 0 e incrementa prestige (somente se level >= 100)
+// POST /api/prestige — reseta XP para 0 e incrementa prestige (somente no nível mínimo do ciclo)
 export async function POST() {
   const session = await getServerSession(authOptions)
   if (!session?.user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
@@ -19,9 +23,11 @@ export async function POST() {
   if (!user) return NextResponse.json({ error: 'Usuário não encontrado' }, { status: 404 })
 
   const nivelAtual = getLevel(user.totalXp)
-  if (nivelAtual < 100) {
+  if (nivelAtual < PRESTIGIO_NIVEL_MINIMO) {
     return NextResponse.json(
-      { error: `Você precisa estar no Nível 100 para fazer o Prestígio. Nível atual: ${nivelAtual}` },
+      {
+        error: `Você precisa estar no Nível ${PRESTIGIO_NIVEL_MINIMO} para fazer o Prestígio. Nível atual: ${nivelAtual}`,
+      },
       { status: 400 }
     )
   }
@@ -33,7 +39,15 @@ export async function POST() {
     data: { totalXp: 0, prestige: novoPrestige },
   })
 
-  return NextResponse.json({ prestige: novoPrestige, mensagem: `Prestígio ${novoPrestige} alcançado! Voltando ao Nível 1.` })
+  const cookieStore = await cookies()
+  const loc = cookieStore.get(COOKIE_NAME)?.value ?? 'pt'
+  const novasConquistas = [buildPrestigeConquistaNotificacao(novoPrestige, loc)]
+
+  return NextResponse.json({
+    prestige: novoPrestige,
+    mensagem: `Prestígio ${novoPrestige} alcançado! Voltando ao Nível 1.`,
+    novasConquistas,
+  })
 }
 
 export async function GET() {
@@ -52,6 +66,6 @@ export async function GET() {
   return NextResponse.json({
     prestige: user?.prestige ?? 0,
     nivelAtual,
-    elegivel: nivelAtual >= 100,
+    elegivel: nivelAtual >= PRESTIGIO_NIVEL_MINIMO,
   })
 }
