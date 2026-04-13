@@ -3,7 +3,7 @@
   "titulo": "Subqueries",
   "descricao": "Use queries dentro de queries para resolver problemas complexos com subqueries escalares, IN e EXISTS.",
   "icone": "🔮",
-  "ordem": 9,
+  "ordem": 10,
   "xpTotal": 800,
   "traducoes": {
     "en": {
@@ -17,36 +17,68 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Subqueries — Queries dentro de Queries",
-      "conteudo": { "emoji": "🔮", "subtitulo": "Resolva problemas complexos aninhando consultas" },
+      "conteudo": {
+        "emoji": "🔮",
+        "subtitulo": "Resolva problemas complexos aninhando consultas"
+      },
       "traducoes": {
         "en": {
           "titulo": "Subqueries — Queries Inside Queries",
-          "conteudo": { "subtitulo": "Solve complex problems by nesting queries" }
+          "conteudo": {
+            "subtitulo": "Solve complex problems by nesting queries"
+          }
         },
         "es": {
           "titulo": "Subconsultas — Consultas dentro de Consultas",
-          "conteudo": { "subtitulo": "Resuelve problemas complejos anidando consultas" }
+          "conteudo": {
+            "subtitulo": "Resuelve problemas complejos anidando consultas"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "O que é uma Subquery?",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "Subquery (Subconsulta)", "def": "Uma query escrita dentro de outra query, sempre entre parênteses. A subquery é executada primeiro e seu resultado é usado pela query externa." },
-        { "type": "code", "code": "SELECT * FROM Produtos\nWHERE Preco > (SELECT AVG(Preco) FROM Produtos)", "lese": "Seleciona produtos cujo preço é maior que a média dos preços — a subquery calcula a média, a query externa filtra" },
-        { "type": "nota", "texto": "A subquery entre parênteses é executada PRIMEIRO. O resultado é passado para a query externa." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "Subquery (Subconsulta)",
+            "def": "Uma query escrita dentro de outra query, sempre entre parênteses. A subquery é executada primeiro e seu resultado é usado pela query externa."
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos\nWHERE Preco > (SELECT AVG(Preco) FROM Produtos)",
+            "lese": "Seleciona produtos cujo preço é maior que a média dos preços — a subquery calcula a média, a query externa filtra"
+          },
+          {
+            "type": "nota",
+            "texto": "A subquery entre parênteses é executada PRIMEIRO. O resultado é passado para a query externa."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "What is a Subquery?",
           "conteudo": {
             "blocos": [
-              { "def": "A query written inside another query, always enclosed in parentheses. The subquery is executed first and its result is used by the outer query." },
-              { "lese": "Selects products whose price is greater than the average price — the subquery calculates the average, the outer query filters" },
-              { "texto": "The subquery inside parentheses is executed FIRST. The result is passed to the outer query." }
+              {
+                "def": "A query written inside another query, always enclosed in parentheses. The subquery is executed first and its result is used by the outer query."
+              },
+              {
+                "lese": "Selects products whose price is greater than the average price — the subquery calculates the average, the outer query filters"
+              },
+              {
+                "texto": "The subquery inside parentheses is executed FIRST. The result is passed to the outer query."
+              }
             ]
           }
         },
@@ -54,30 +86,59 @@
           "titulo": "¿Qué es una Subconsulta?",
           "conteudo": {
             "blocos": [
-              { "def": "Una consulta escrita dentro de otra consulta, siempre entre paréntesis. La subconsulta se ejecuta primero y su resultado es usado por la consulta externa." },
-              { "lese": "Selecciona productos cuyo precio es mayor que la media de los precios — la subconsulta calcula la media, la consulta externa filtra" },
-              { "texto": "La subconsulta entre paréntesis se ejecuta PRIMERO. El resultado se pasa a la consulta externa." }
+              {
+                "def": "Una consulta escrita dentro de otra consulta, siempre entre paréntesis. La subconsulta se ejecuta primero y su resultado es usado por la consulta externa."
+              },
+              {
+                "lese": "Selecciona productos cuyo precio es mayor que la media de los precios — la subconsulta calcula la media, la consulta externa filtra"
+              },
+              {
+                "texto": "La subconsulta entre paréntesis se ejecuta PRIMERO. El resultado se pasa a la consulta externa."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Subquery Escalar — Um Único Valor",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "Subquery Escalar", "def": "Uma subquery que retorna exatamente um único valor (uma linha, uma coluna). Pode ser usada em qualquer lugar onde um valor simples é esperado." },
-        { "type": "code", "code": "SELECT Nome, Salario,\n  (SELECT AVG(Salario) FROM Funcionarios) AS MediaGeral\nFROM Funcionarios", "lese": "Mostra o nome e salário de cada funcionário, junto com a média salarial geral — a subquery escalar recalcula a média para cada linha" },
-        { "type": "code", "code": "SELECT * FROM Pedidos\nWHERE Valor = (SELECT MAX(Valor) FROM Pedidos)", "lese": "Seleciona o(s) pedido(s) com o maior valor de todos — a subquery encontra o máximo, a externa filtra" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "Subquery Escalar",
+            "def": "Uma subquery que retorna exatamente um único valor (uma linha, uma coluna). Pode ser usada em qualquer lugar onde um valor simples é esperado."
+          },
+          {
+            "type": "code",
+            "code": "SELECT Nome, Salario,\n  (SELECT AVG(Salario) FROM Funcionarios) AS MediaGeral\nFROM Funcionarios",
+            "lese": "Mostra o nome e salário de cada funcionário, junto com a média salarial geral — a subquery escalar recalcula a média para cada linha"
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Pedidos\nWHERE Valor = (SELECT MAX(Valor) FROM Pedidos)",
+            "lese": "Seleciona o(s) pedido(s) com o maior valor de todos — a subquery encontra o máximo, a externa filtra"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Scalar Subquery — A Single Value",
           "conteudo": {
             "blocos": [
-              { "def": "A subquery that returns exactly one single value (one row, one column). It can be used anywhere a simple value is expected." },
-              { "lese": "Shows the name and salary of each employee, along with the overall salary average — the scalar subquery recalculates the average for each row" },
-              { "lese": "Selects the order(s) with the highest value of all — the subquery finds the maximum, the outer query filters" }
+              {
+                "def": "A subquery that returns exactly one single value (one row, one column). It can be used anywhere a simple value is expected."
+              },
+              {
+                "lese": "Shows the name and salary of each employee, along with the overall salary average — the scalar subquery recalculates the average for each row"
+              },
+              {
+                "lese": "Selects the order(s) with the highest value of all — the subquery finds the maximum, the outer query filters"
+              }
             ]
           }
         },
@@ -85,16 +146,25 @@
           "titulo": "Subconsulta Escalar — Un Solo Valor",
           "conteudo": {
             "blocos": [
-              { "def": "Una subconsulta que devuelve exactamente un único valor (una fila, una columna). Puede usarse en cualquier lugar donde se espera un valor simple." },
-              { "lese": "Muestra el nombre y salario de cada empleado, junto con la media salarial general — la subconsulta escalar recalcula la media para cada fila" },
-              { "lese": "Selecciona el/los pedido(s) con el mayor valor de todos — la subconsulta encuentra el máximo, la externa filtra" }
+              {
+                "def": "Una subconsulta que devuelve exactamente un único valor (una fila, una columna). Puede usarse en cualquier lugar donde se espera un valor simple."
+              },
+              {
+                "lese": "Muestra el nombre y salario de cada empleado, junto con la media salarial general — la subconsulta escalar recalcula la media para cada fila"
+              },
+              {
+                "lese": "Selecciona el/los pedido(s) con el mayor valor de todos — la subconsulta encuentra el máximo, la externa filtra"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "ordem": 4,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 150,
       "titulo": "Acima da Média",
       "conteudo": {
         "instrucao": "Busque todos os funcionários com salário acima da média salarial geral.",
@@ -102,7 +172,9 @@
         "placeholder": "SELECT * FROM Funcionarios\nWHERE Salario > (SELECT ...)",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 3 }
+        "checkConfig": {
+          "expected_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -122,21 +194,38 @@
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Subquery com IN",
-      "conteudo": { "blocos": [
-        "Uma subquery pode retornar uma lista de valores para ser usada com IN:",
-        { "type": "code", "code": "SELECT * FROM Clientes\nWHERE ClienteID IN (\n  SELECT ClienteID FROM Pedidos\n  WHERE Valor > 1000\n)", "lese": "Seleciona clientes que têm pelo menos um pedido com valor maior que 1000 — a subquery retorna uma lista de IDs de clientes" },
-        { "type": "code", "code": "SELECT * FROM Produtos\nWHERE CategoriaID NOT IN (\n  SELECT CategoriaID FROM Categorias\n  WHERE Status = 'inativo'\n)", "lese": "Seleciona produtos que NÃO pertencem a categorias inativas" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Uma subquery pode retornar uma lista de valores para ser usada com IN:",
+          {
+            "type": "code",
+            "code": "SELECT * FROM Clientes\nWHERE ClienteID IN (\n  SELECT ClienteID FROM Pedidos\n  WHERE Valor > 1000\n)",
+            "lese": "Seleciona clientes que têm pelo menos um pedido com valor maior que 1000 — a subquery retorna uma lista de IDs de clientes"
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos\nWHERE CategoriaID NOT IN (\n  SELECT CategoriaID FROM Categorias\n  WHERE Status = 'inativo'\n)",
+            "lese": "Seleciona produtos que NÃO pertencem a categorias inativas"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Subquery with IN",
           "conteudo": {
             "blocos": [
               "A subquery can return a list of values to be used with IN:",
-              { "lese": "Selects customers that have at least one order with a value greater than 1000 — the subquery returns a list of customer IDs" },
-              { "lese": "Selects products that do NOT belong to inactive categories" }
+              {
+                "lese": "Selects customers that have at least one order with a value greater than 1000 — the subquery returns a list of customer IDs"
+              },
+              {
+                "lese": "Selects products that do NOT belong to inactive categories"
+              }
             ]
           }
         },
@@ -145,15 +234,22 @@
           "conteudo": {
             "blocos": [
               "Una subconsulta puede devolver una lista de valores para ser usada con IN:",
-              { "lese": "Selecciona clientes que tienen al menos un pedido con valor mayor que 1000 — la subconsulta devuelve una lista de IDs de clientes" },
-              { "lese": "Selecciona productos que NO pertenecen a categorías inactivas" }
+              {
+                "lese": "Selecciona clientes que tienen al menos un pedido con valor mayor que 1000 — la subconsulta devuelve una lista de IDs de clientes"
+              },
+              {
+                "lese": "Selecciona productos que NO pertenecen a categorías inactivas"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "ordem": 6,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 150,
       "titulo": "Clientes com Pedidos",
       "conteudo": {
         "instrucao": "Busque os dados dos clientes que fizeram pelo menos um pedido.",
@@ -161,7 +257,9 @@
         "placeholder": "SELECT * FROM Clientes\nWHERE ClienteID IN (\n  SELECT ...\n)",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'),(4,'João','SP'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,3,'Mouse',89),(103,1,'Teclado',150);",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 2 }
+        "checkConfig": {
+          "expected_rows": 2
+        }
       },
       "traducoes": {
         "en": {
@@ -181,21 +279,37 @@
       }
     },
     {
-      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 7,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Subquery no FROM",
-      "conteudo": { "blocos": [
-        "Uma subquery pode ser usada como se fosse uma tabela no FROM:",
-        { "type": "code", "code": "SELECT Departamento, MediaSalarial\nFROM (\n  SELECT Departamento, AVG(Salario) AS MediaSalarial\n  FROM Funcionarios\n  GROUP BY Departamento\n) AS resumo\nWHERE MediaSalarial > 6000", "lese": "A subquery gera uma tabela temporária chamada 'resumo' com a média salarial por departamento, e a query externa filtra apenas os departamentos com média maior que 6000" },
-        { "type": "nota", "texto": "Subqueries no FROM são chamadas de 'tabelas derivadas'. Elas precisam de um alias (AS resumo)." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Uma subquery pode ser usada como se fosse uma tabela no FROM:",
+          {
+            "type": "code",
+            "code": "SELECT Departamento, MediaSalarial\nFROM (\n  SELECT Departamento, AVG(Salario) AS MediaSalarial\n  FROM Funcionarios\n  GROUP BY Departamento\n) AS resumo\nWHERE MediaSalarial > 6000",
+            "lese": "A subquery gera uma tabela temporária chamada 'resumo' com a média salarial por departamento, e a query externa filtra apenas os departamentos com média maior que 6000"
+          },
+          {
+            "type": "nota",
+            "texto": "Subqueries no FROM são chamadas de 'tabelas derivadas'. Elas precisam de um alias (AS resumo)."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Subquery in the FROM Clause",
           "conteudo": {
             "blocos": [
               "A subquery can be used as if it were a table in the FROM clause:",
-              { "lese": "The subquery generates a temporary table called 'resumo' with the average salary per department, and the outer query filters only departments with an average greater than 6000" },
-              { "texto": "Subqueries in the FROM clause are called 'derived tables'. They require an alias (AS resumo)." }
+              {
+                "lese": "The subquery generates a temporary table called 'resumo' with the average salary per department, and the outer query filters only departments with an average greater than 6000"
+              },
+              {
+                "texto": "Subqueries in the FROM clause are called 'derived tables'. They require an alias (AS resumo)."
+              }
             ]
           }
         },
@@ -204,15 +318,22 @@
           "conteudo": {
             "blocos": [
               "Una subconsulta puede usarse como si fuera una tabla en el FROM:",
-              { "lese": "La subconsulta genera una tabla temporal llamada 'resumo' con la media salarial por departamento, y la consulta externa filtra solo los departamentos con media mayor que 6000" },
-              { "texto": "Las subconsultas en el FROM se llaman 'tablas derivadas'. Necesitan un alias (AS resumo)." }
+              {
+                "lese": "La subconsulta genera una tabla temporal llamada 'resumo' con la media salarial por departamento, y la consulta externa filtra solo los departamentos con media mayor que 6000"
+              },
+              {
+                "texto": "Las subconsultas en el FROM se llaman 'tablas derivadas'. Necesitan un alias (AS resumo)."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
       "titulo": "Departamentos com Alta Média",
       "conteudo": {
         "instrucao": "Use uma subquery no FROM para listar apenas os departamentos cuja média salarial é maior que 6500.",
@@ -220,7 +341,9 @@
         "placeholder": "SELECT Departamento, MediaSalarial\nFROM (\n  SELECT Departamento, AVG(Salario) AS MediaSalarial\n  FROM Funcionarios\n  GROUP BY Departamento\n) AS resumo\nWHERE ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 2 }
+        "checkConfig": {
+          "expected_rows": 2
+        }
       },
       "traducoes": {
         "en": {
@@ -240,21 +363,43 @@
       }
     },
     {
-      "ordem": 9, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 9,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "EXISTS — Verificando Existência",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "EXISTS", "def": "Verifica se uma subquery retorna pelo menos um resultado. Retorna verdadeiro se a subquery encontrar algum registro." },
-        { "type": "code", "code": "SELECT * FROM Clientes c\nWHERE EXISTS (\n  SELECT 1 FROM Pedidos p\n  WHERE p.ClienteID = c.ClienteID\n)", "lese": "Seleciona apenas os clientes que fizeram pelo menos um pedido — EXISTS retorna verdadeiro se encontrar algum pedido do cliente" },
-        { "type": "nota", "texto": "EXISTS é mais eficiente que IN quando a subquery retorna muitos resultados, pois para de procurar ao encontrar o primeiro registro." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "EXISTS",
+            "def": "Verifica se uma subquery retorna pelo menos um resultado. Retorna verdadeiro se a subquery encontrar algum registro."
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Clientes c\nWHERE EXISTS (\n  SELECT 1 FROM Pedidos p\n  WHERE p.ClienteID = c.ClienteID\n)",
+            "lese": "Seleciona apenas os clientes que fizeram pelo menos um pedido — EXISTS retorna verdadeiro se encontrar algum pedido do cliente"
+          },
+          {
+            "type": "nota",
+            "texto": "EXISTS é mais eficiente que IN quando a subquery retorna muitos resultados, pois para de procurar ao encontrar o primeiro registro."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "EXISTS — Checking Existence",
           "conteudo": {
             "blocos": [
-              { "def": "Checks whether a subquery returns at least one result. Returns true if the subquery finds any record." },
-              { "lese": "Selects only customers who placed at least one order — EXISTS returns true if it finds any order for the customer" },
-              { "texto": "EXISTS is more efficient than IN when the subquery returns many results, because it stops searching as soon as it finds the first record." }
+              {
+                "def": "Checks whether a subquery returns at least one result. Returns true if the subquery finds any record."
+              },
+              {
+                "lese": "Selects only customers who placed at least one order — EXISTS returns true if it finds any order for the customer"
+              },
+              {
+                "texto": "EXISTS is more efficient than IN when the subquery returns many results, because it stops searching as soon as it finds the first record."
+              }
             ]
           }
         },
@@ -262,16 +407,25 @@
           "titulo": "EXISTS — Verificando Existencia",
           "conteudo": {
             "blocos": [
-              { "def": "Verifica si una subconsulta devuelve al menos un resultado. Devuelve verdadero si la subconsulta encuentra algún registro." },
-              { "lese": "Selecciona solo los clientes que realizaron al menos un pedido — EXISTS devuelve verdadero si encuentra algún pedido del cliente" },
-              { "texto": "EXISTS es más eficiente que IN cuando la subconsulta devuelve muchos resultados, ya que deja de buscar al encontrar el primer registro." }
+              {
+                "def": "Verifica si una subconsulta devuelve al menos un resultado. Devuelve verdadero si la subconsulta encuentra algún registro."
+              },
+              {
+                "lese": "Selecciona solo los clientes que realizaron al menos un pedido — EXISTS devuelve verdadero si encuentra algún pedido del cliente"
+              },
+              {
+                "texto": "EXISTS es más eficiente que IN cuando la subconsulta devuelve muchos resultados, ya que deja de buscar al encontrar el primer registro."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "ordem": 10,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
       "titulo": "Quem tem Pedido Caro?",
       "conteudo": {
         "instrucao": "Liste os clientes que têm pelo menos um pedido com valor acima de 500 usando EXISTS.",
@@ -279,7 +433,9 @@
         "placeholder": "SELECT * FROM Clientes c\nWHERE EXISTS (\n  SELECT 1 FROM Pedidos p\n  WHERE p.ClienteID = c.ClienteID\n  AND ...\n)",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'),(4,'João','SP'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,3,'Teclado',150),(104,1,'Monitor',1200),(105,4,'Cadeira',890);",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 3 }
+        "checkConfig": {
+          "expected_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -299,16 +455,22 @@
       }
     },
     {
-      "ordem": 11, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 11,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: Subqueries",
-      "conteudo": { "cor": "roxo", "itens": [
-        "Subquery: query dentro de query, entre parênteses",
-        "Escalar: retorna um único valor",
-        "IN (subquery): retorna lista de valores",
-        "FROM (subquery) AS alias: tabela derivada",
-        "EXISTS: verifica se subquery tem resultado",
-        "A subquery é executada ANTES da query externa"
-      ]},
+      "conteudo": {
+        "cor": "roxo",
+        "itens": [
+          "Subquery: query dentro de query, entre parênteses",
+          "Escalar: retorna um único valor",
+          "IN (subquery): retorna lista de valores",
+          "FROM (subquery) AS alias: tabela derivada",
+          "EXISTS: verifica se subquery tem resultado",
+          "A subquery é executada ANTES da query externa"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: Subqueries",
@@ -341,17 +503,27 @@
       }
     },
     {
-      "ordem": 12, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 12,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "Subqueries dominadas!",
-      "conteudo": { "mensagem": "Subqueries abrem um novo mundo de possibilidades. Agora você consegue resolver problemas que seriam impossíveis com queries simples!", "xpGanho": 350 },
+      "conteudo": {
+        "mensagem": "Subqueries abrem um novo mundo de possibilidades. Agora você consegue resolver problemas que seriam impossíveis com queries simples!",
+        "xpGanho": 350
+      },
       "traducoes": {
         "en": {
           "titulo": "Subqueries mastered!",
-          "conteudo": { "mensagem": "Subqueries open a whole new world of possibilities. Now you can solve problems that would be impossible with simple queries!" }
+          "conteudo": {
+            "mensagem": "Subqueries open a whole new world of possibilities. Now you can solve problems that would be impossible with simple queries!"
+          }
         },
         "es": {
           "titulo": "¡Subconsultas dominadas!",
-          "conteudo": { "mensagem": "Las subconsultas abren un nuevo mundo de posibilidades. ¡Ahora puedes resolver problemas que serían imposibles con consultas simples!" }
+          "conteudo": {
+            "mensagem": "Las subconsultas abren un nuevo mundo de posibilidades. ¡Ahora puedes resolver problemas que serían imposibles con consultas simples!"
+          }
         }
       }
     }

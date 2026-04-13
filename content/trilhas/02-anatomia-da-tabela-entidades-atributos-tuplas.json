@@ -1,0 +1,254 @@
+{
+  "slug": "anatomia-da-tabela-entidades-atributos-tuplas",
+  "titulo": "A Anatomia da Tabela: Entidades, Atributos e a Tupla",
+  "descricao": "Desvendando a estrutura fundamental do modelo relacional: da ideia abstrata à linha de código.",
+  "icone": "🧬",
+  "ordem": 2,
+  "xpTotal": 350,
+  "traducoes": {
+    "en": {
+      "titulo": "Table Anatomy: Entities, Attributes, and Tuples",
+      "descricao": "Unveiling the fundamental structure of the relational model: from abstract idea to line of code."
+    },
+    "es": {
+      "titulo": "Anatomía de la Tabla: Entidades, Atributos y Tuplas",
+      "descricao": "Desvelando la estructura fundamental del modelo relacional: de la idea abstracta a la línea de código."
+    }
+  },
+  "etapas": [
+    {
+      "ordem": 1,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "A Fôrma e o Bolo: Do Abstrato ao Real",
+      "conteudo": {
+        "blocos": [
+          "No universo SQL, tudo começa com uma Entidade: a ideia abstrata de algo que queremos mapear (um Cliente, um Produto). Quando essa ideia ganha vida no banco de dados, ela se torna uma Tabela.",
+          {
+            "type": "definicao",
+            "termo": "Analogia da Fôrma de Bolo",
+            "def": "A Tabela é a fôrma (define o formato e limites); a Tupla é o bolo (o registro real assado naquela fôrma)."
+          },
+          {
+            "type": "tabela",
+            "cabecalhos": ["Termo Formal (Codd)", "Termo Comum", "Analogia"],
+            "linhas": [
+              ["Relação", "Tabela", "A Fôrma de Bolo"],
+              ["Atributo", "Coluna", "Os ingredientes/medidas"],
+              ["Tupla", "Linha / Registro", "O Bolo pronto individual"]
+            ]
+          },
+          {
+            "type": "nota",
+            "texto": "A Chave Primária (PK) é o DNA da tupla. Ela garante que, em uma sala com mil bolos, você consiga identificar exatamente UM, sem risco de duplicidade."
+          },
+          {
+            "type": "code",
+            "code": "CREATE TABLE carros (\n  id_carro SERIAL PRIMARY KEY,\n  modelo VARCHAR(50),\n  ano INTEGER\n);",
+            "lese": "Crie uma tabela chamada 'carros' onde cada linha terá um ID único (Chave Primária), um modelo de texto e um ano numérico."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Mold and the Cake: From Abstract to Real",
+          "conteudo": {
+            "blocos": [
+              "In the SQL universe, everything starts with an Entity: the abstract idea of something we want to map. When this idea comes to life, it becomes a Table.",
+              {
+                "type": "definicao",
+                "termo": "Cake Mold Analogy",
+                "def": "The Table is the mold (defines shape and limits); the Tuple is the cake (the actual record baked in that mold)."
+              },
+              {
+                "type": "tabela",
+                "cabecalhos": ["Formal Term", "Common Term", "Analogy"],
+                "linhas": [
+                  ["Relation", "Table", "The Cake Mold"],
+                  ["Attribute", "Column", "The ingredients/measurements"],
+                  ["Tuple", "Row / Record", "The individual finished cake"]
+                ]
+              },
+              {
+                "type": "nota",
+                "texto": "The Primary Key (PK) is the tuple's DNA. It ensures that in a room with a thousand cakes, you can identify exactly ONE."
+              },
+              {
+                "type": "code",
+                "code": "CREATE TABLE carros (\n  id_carro SERIAL PRIMARY KEY,\n  modelo VARCHAR(50),\n  ano INTEGER\n);",
+                "lese": "Creates a table 'carros' where each row has a unique ID (Primary Key), a text model, and a numeric year."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Molde y el Pastel: De lo Abstracto a lo Real",
+          "conteudo": {
+            "blocos": [
+              "En el universo SQL, todo comienza con una Entidad: la idea abstracta. Cuando esta idea cobra vida en la base de datos, se convierte en una Tabla.",
+              {
+                "type": "definicao",
+                "termo": "Analogía del Molde de Pastel",
+                "def": "La Tabla es el molde (define forma y límites); la Tupla es el pastel (el registro real horneado en ese molde)."
+              },
+              {
+                "type": "tabela",
+                "cabecalhos": ["Término Formal", "Término Común", "Analogía"],
+                "linhas": [
+                  ["Relación", "Tabla", "El Molde de Pastel"],
+                  ["Atributo", "Columna", "Los ingredientes/medidas"],
+                  ["Tupla", "Fila / Registro", "El pastel individual terminado"]
+                ]
+              },
+              {
+                "type": "nota",
+                "texto": "La Clave Primaria (PK) es el ADN de la tupla. Garantiza que puedas identificar exactamente UNO entre mil."
+              },
+              {
+                "type": "code",
+                "code": "CREATE TABLE carros (\n  id_carro SERIAL PRIMARY KEY,\n  modelo VARCHAR(50),\n  ano INTEGER\n);",
+                "lese": "Crea la tabla 'carros' donde cada fila tiene un ID único (clave primaria), un modelo de texto y un año numérico."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "O que define a Tupla?",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "No modelo relacional, o que representa uma 'Tupla'?",
+        "opcoes": [
+          "A estrutura vertical que define o tipo de dado.",
+          "O nome dado ao banco de dados completo.",
+          "Uma linha individual que representa um registro único na tabela.",
+          "Um comando usado para deletar tabelas."
+        ],
+        "indiceCorreto": 2,
+        "dica": "Lembre-se da analogia: se o atributo é a coluna (vertical), a tupla é o que preenchemos horizontalmente."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "What defines a Tuple?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "In the relational model, what does a 'Tuple' represent?",
+            "opcoes": [
+              "The vertical structure defining the data type.",
+              "The name given to the complete database.",
+              "An individual row representing a unique record in the table.",
+              "A command used to delete tables."
+            ],
+            "indiceCorreto": 2,
+            "dica": "Remember the analogy: if the attribute is the column (vertical), the tuple is what we fill horizontally."
+          }
+        },
+        "es": {
+          "titulo": "¿Qué define la Tupla?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "En el modelo relacional, ¿qué representa una 'Tupla'?",
+            "opcoes": [
+              "La estructura vertical que define el tipo de dato.",
+              "El nombre dado a la base de datos completa.",
+              "Una fila individual que representa un registro único en la tabla.",
+              "Un comando usado para borrar tablas."
+            ],
+            "indiceCorreto": 2,
+            "dica": "Recuerda la analogía: si el atributo es la columna (vertical), la tupla es lo que llenamos horizontalmente."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 3,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Regra de Ouro da PK",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a afirmação sobre integridade:",
+        "afirmacao": "Uma Chave Primária (PK) permite valores nulos (NULL), desde que não haja repetição de outros dados na mesma linha.",
+        "respostaCorreta": false,
+        "dica": "Para ser um identificador universal (DNA), a PK nunca pode ser 'desconhecida' ou vazia."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Golden Rule of PK",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the statement about integrity:",
+            "afirmacao": "A Primary Key (PK) allows null values (NULL), as long as there is no repetition of other data in the same row.",
+            "respostaCorreta": false,
+            "dica": "To be a universal identifier (DNA), the PK can never be 'unknown' or empty."
+          }
+        },
+        "es": {
+          "titulo": "La Regla de Oro de la PK",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la afirmación sobre integridad:",
+            "afirmacao": "Una Clave Primaria (PK) permite valores nulos (NULL), siempre que no haya repetición de otros datos en la misma fila.",
+            "respostaCorreta": false,
+            "dica": "Para ser un identificador universal (ADN), la PK nunca puede ser 'desconocida' o estar vacía."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 4,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Modelagem de Carro",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "reflexao",
+        "instrucao": "Liste 3 atributos (colunas) para uma entidade 'Carro' e aponte qual seria a Chave Primária (PK) ideal para garantir a unicidade.",
+        "cenario": "Sistema de Gestão de Frota.",
+        "placeholder": "Ex: Marca, Cor, Placa... A PK seria...",
+        "minLength": 50,
+        "dica": "Pense em algo que nunca se repete em nenhum carro no mundo. O nome do modelo pode se repetir, mas a Placa ou Chassi não."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Car Modeling",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "reflexao",
+            "instrucao": "List 3 attributes (columns) for a 'Car' entity and point out what would be the ideal Primary Key (PK) to ensure uniqueness.",
+            "cenario": "Fleet Management System.",
+            "placeholder": "Ex: Brand, Color, License Plate... The PK would be...",
+            "minLength": 50,
+            "dica": "Think of something that never repeats in any car in the world. The model name can repeat, but the License Plate or Chassis cannot."
+          }
+        },
+        "es": {
+          "titulo": "Modelado de Coche",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "reflexao",
+            "instrucao": "Enumera 3 atributos (columnas) para una entidad 'Coche' e indica cuál sería la Clave Primaria (PK) ideal para garantizar la unicidad.",
+            "cenario": "Sistema de Gestión de Flotas.",
+            "placeholder": "Ej: Marca, Color, Matrícula... La PK sería...",
+            "minLength": 50,
+            "dica": "Piensa en algo que nunca se repita en ningún coche del mundo. El nombre del modelo puede repetirse, pero la Matrícula o el Chasis no."
+          }
+        }
+      }
+    }
+  ]
+}

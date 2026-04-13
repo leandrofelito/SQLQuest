@@ -1,7 +1,18 @@
 {
   "_guia_para_geracao": {
     "aviso": "Remova o objeto inteiro _guia_para_geracao antes de salvar em content/trilhas/ ou antes do seed/admin. O app e o Prisma não usam esta chave.",
-    "objetivo": "Este arquivo é o molde: outra IA deve gerar uma trilha real trocando textos, mantendo a estrutura e os nomes das chaves.",
+    "fluxo_padrao_substituicao": {
+      "regra_principal": "Por padrão o conteúdo gerado SUBSTITUI etapas já existentes no JSON da trilha no repositório. Não criar trilha nova nem novo arquivo .json, salvo pedido explícito do editor humano.",
+      "o_que_a_ia_deve_informar": [
+        "slug da trilha existente (ex: fundamentos, select-basico)",
+        "lista ou intervalo das ordens de etapa a substituir (ex: substituir ordens 6, 7 e 8)",
+        "array etapas completo só para essas posições, com campo ordem igual ao que será substituído no arquivo"
+      ],
+      "integracao_no_repo": "Quem integra remove do JSON da trilha as etapas antigas nas ordens indicadas e coloca as novas no mesmo lugar; renumera as etapas seguintes se a quantidade mudar; recalcula xpTotal e totalEtapas conforme o arquivo.",
+      "trilha_raiz_no_json_gerado": "Se só etapas mudam, pode omitir titulo/descricao/icone/ordem da trilha no payload e mandar apenas { slug, etapas: [...] } — o editor mescla no arquivo existente. Se metadados da trilha também mudarem, inclua os campos raiz para merge.",
+      "excecao": "Criar trilha nova ou inserir no mapa com nova ordem só quando o humano pedir explicitamente."
+    },
+    "objetivo": "Este arquivo é o molde: outra IA gera JSON no mesmo schema do app para SUBSTITUIR trechos de uma trilha já existente (por slug + ordem das etapas), mantendo chaves e tipos válidos.",
     "trilha_raiz": {
       "slug": "unico_sem_espacos_ou_acentos",
       "titulo": "Nome exibido no app",
@@ -13,7 +24,7 @@
     },
     "etapas": {
       "ordem": "Inteiro sequencial 1, 2, 3… dentro desta trilha (único por trilha)",
-      "tipo": "Um de: intro | texto | resumo | exercicio | conclusao",
+      "tipo": "Um de: intro | texto | resumo | exercicio (SQL ou quiz via conteudo.modo) | conclusao",
       "temAnuncio": "true = anúncio entre esta etapa e a próxima (fluxo do app); não confundir com dica",
       "xpReward": "XP ao concluir a etapa; intro/texto/resumo costumam ser 0; exercícios costumam ser 100; conclusao costuma ter bônus (ex.: 50)",
       "titulo": "Título da etapa",
@@ -76,17 +87,18 @@
       "xpGanho": "Número exibido no card (pode diferir do xpReward da etapa)"
     },
     "instrucoes_google_gemini": {
-      "para_que_serve": "Use este bloco quando a IA for o Google Gemini (ou similar). Ela deve devolver JSON pronto para revisão humana e depois para colar no formato do app (conteúdo em PT + traducoes en/es).",
+      "para_que_serve": "Use quando a IA for Google Gemini (ou similar). Devolver JSON no formato do app (PT + traducoes en/es) para SUBSTITUIÇÃO de etapas em trilha existente — não inventar slug novo nem trilha extra.",
       "no_inicio_da_resposta_declarar": {
-        "trilha": {
-          "slug": "identificador da trilha alvo, ex: fundamentos",
+        "trilha_alvo": {
+          "slug": "obrigatório: slug da trilha que JÁ EXISTE em content/trilhas/*.json (ex: fundamentos)",
           "titulo": { "pt": "", "en": "", "es": "" },
-          "descricao": { "pt": "", "en": "", "es": "" }
+          "descricao": { "pt": "", "en": "", "es": "" },
+          "nota": "titulo/descricao só se forem alterados; senão omitir e mandar só slug + etapas."
         },
-        "modulo_ou_etapa": {
-          "descricao": "Diga em qual trilha e em qual faixa de etapas isso entra.",
-          "ordem_primeira_etapa_sugerida": "inteiro — ex: 9 (as seguintes serão ordem+1, +2…)",
-          "titulo_modulo_opcional": { "pt": "", "en": "", "es": "" }
+        "substituicao_de_etapas": {
+          "descricao": "Declarar quais ordens serão trocadas no arquivo da trilha.",
+          "ordens_substituidas": "ex: [6, 7, 8] ou intervalo \"6-8\" em texto livre no meta",
+          "etapas": "Cada objeto etapa deve ter ordem igual à posição que substitui no arquivo atual (não renumere toda a trilha na saída da IA; quem integra ajusta o restante se o número de etapas mudar)."
         }
       },
       "sequencia_obrigatoria_de_exercicios": [
@@ -120,8 +132,8 @@
     "exemplo_saida_modulo_gemini": {
       "meta": {
         "trilha_slug": "fundamentos",
-        "ordem_inicio_sugerida": 9,
-        "nota": "Exemplo mínimo: só os 3 quizzes + gabarito. Teoria (texto) pode vir antes, no mesmo padrão do restante do arquivo."
+        "substituir_ordens": [9, 10, 11],
+        "nota": "Exemplo: substituir no arquivo fundamentos.json as etapas com ordem 9, 10 e 11 por este bloco. Não é trilha nova. Se só 3 quizzes, meta.substituir_ordens lista essas três ordens; incluir teoria antes implica mais ordens no mesmo array substituir_ordens."
       },
       "gabarito_declarado": {
         "exercicio_multipla": { "indiceCorreto": 1, "letra": "B" },

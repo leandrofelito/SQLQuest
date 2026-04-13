@@ -3,7 +3,7 @@
   "titulo": "Window Functions",
   "descricao": "Domine ROW_NUMBER, RANK, LAG, LEAD e OVER PARTITION BY para análises avançadas sem perder o detalhe das linhas.",
   "icone": "🪟",
-  "ordem": 11,
+  "ordem": 12,
   "xpTotal": 900,
   "traducoes": {
     "en": {
@@ -17,76 +17,176 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Window Functions",
-      "conteudo": { "emoji": "🪟", "subtitulo": "O nível avançado do SQL analítico" },
+      "conteudo": {
+        "emoji": "🪟",
+        "subtitulo": "O nível avançado do SQL analítico"
+      },
       "traducoes": {
         "en": {
           "titulo": "Window Functions",
-          "conteudo": { "subtitulo": "The advanced level of analytical SQL" }
+          "conteudo": {
+            "subtitulo": "The advanced level of analytical SQL"
+          }
         },
         "es": {
           "titulo": "Window Functions",
-          "conteudo": { "subtitulo": "El nivel avanzado del SQL analítico" }
+          "conteudo": {
+            "subtitulo": "El nivel avanzado del SQL analítico"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "O que são Window Functions?",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "Window Function (Função de Janela)", "def": "Funções que calculam valores baseados em um conjunto de linhas relacionadas (a 'janela'), sem colapsar o resultado em uma única linha como o GROUP BY faz." },
-        { "type": "code", "code": "-- GROUP BY: colapsa em uma linha por grupo\nSELECT Departamento, AVG(Salario) FROM Funcionarios\nGROUP BY Departamento\n\n-- Window Function: mantém todas as linhas\nSELECT Nome, Salario, Departamento,\n  AVG(Salario) OVER (PARTITION BY Departamento) AS MediaDept\nFROM Funcionarios", "lese": "Com GROUP BY você perde o detalhe de cada funcionário. Com Window Function você vê cada funcionário junto com a média do seu departamento na mesma linha" },
-        { "type": "nota", "texto": "A sintaxe é: função() OVER (PARTITION BY coluna ORDER BY coluna)" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "Window Function (Função de Janela)",
+            "def": "Funções que calculam valores baseados em um conjunto de linhas relacionadas (a 'janela'), sem colapsar o resultado em uma única linha como o GROUP BY faz."
+          },
+          {
+            "type": "code",
+            "code": "-- GROUP BY: colapsa em uma linha por grupo\nSELECT Departamento, AVG(Salario) FROM Funcionarios\nGROUP BY Departamento\n\n-- Window Function: mantém todas as linhas\nSELECT Nome, Salario, Departamento,\n  AVG(Salario) OVER (PARTITION BY Departamento) AS MediaDept\nFROM Funcionarios",
+            "lese": "Com GROUP BY você perde o detalhe de cada funcionário. Com Window Function você vê cada funcionário junto com a média do seu departamento na mesma linha"
+          },
+          {
+            "type": "nota",
+            "texto": "A sintaxe é: função() OVER (PARTITION BY coluna ORDER BY coluna)"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "What are Window Functions?",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "Window Function", "def": "Functions that calculate values based on a set of related rows (the 'window'), without collapsing the result into a single row as GROUP BY does." },
-            { "type": "code", "code": "-- GROUP BY: colapsa em uma linha por grupo\nSELECT Departamento, AVG(Salario) FROM Funcionarios\nGROUP BY Departamento\n\n-- Window Function: mantém todas as linhas\nSELECT Nome, Salario, Departamento,\n  AVG(Salario) OVER (PARTITION BY Departamento) AS MediaDept\nFROM Funcionarios", "lese": "With GROUP BY you lose each employee's detail. With Window Function you see each employee alongside their department's average in the same row" },
-            { "type": "nota", "texto": "The syntax is: function() OVER (PARTITION BY column ORDER BY column)" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "Window Function",
+                "def": "Functions that calculate values based on a set of related rows (the 'window'), without collapsing the result into a single row as GROUP BY does."
+              },
+              {
+                "type": "code",
+                "code": "-- GROUP BY: colapsa em uma linha por grupo\nSELECT Departamento, AVG(Salario) FROM Funcionarios\nGROUP BY Departamento\n\n-- Window Function: mantém todas as linhas\nSELECT Nome, Salario, Departamento,\n  AVG(Salario) OVER (PARTITION BY Departamento) AS MediaDept\nFROM Funcionarios",
+                "lese": "With GROUP BY you lose each employee's detail. With Window Function you see each employee alongside their department's average in the same row"
+              },
+              {
+                "type": "nota",
+                "texto": "The syntax is: function() OVER (PARTITION BY column ORDER BY column)"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "¿Qué son las Window Functions?",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "Window Function (Función de Ventana)", "def": "Funciones que calculan valores basados en un conjunto de filas relacionadas (la 'ventana'), sin colapsar el resultado en una sola fila como hace GROUP BY." },
-            { "type": "code", "code": "-- GROUP BY: colapsa em uma linha por grupo\nSELECT Departamento, AVG(Salario) FROM Funcionarios\nGROUP BY Departamento\n\n-- Window Function: mantém todas as linhas\nSELECT Nome, Salario, Departamento,\n  AVG(Salario) OVER (PARTITION BY Departamento) AS MediaDept\nFROM Funcionarios", "lese": "Con GROUP BY pierdes el detalle de cada empleado. Con Window Function ves a cada empleado junto con el promedio de su departamento en la misma fila" },
-            { "type": "nota", "texto": "La sintaxis es: función() OVER (PARTITION BY columna ORDER BY columna)" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "Window Function (Función de Ventana)",
+                "def": "Funciones que calculan valores basados en un conjunto de filas relacionadas (la 'ventana'), sin colapsar el resultado en una sola fila como hace GROUP BY."
+              },
+              {
+                "type": "code",
+                "code": "-- GROUP BY: colapsa em uma linha por grupo\nSELECT Departamento, AVG(Salario) FROM Funcionarios\nGROUP BY Departamento\n\n-- Window Function: mantém todas as linhas\nSELECT Nome, Salario, Departamento,\n  AVG(Salario) OVER (PARTITION BY Departamento) AS MediaDept\nFROM Funcionarios",
+                "lese": "Con GROUP BY pierdes el detalle de cada empleado. Con Window Function ves a cada empleado junto con el promedio de su departamento en la misma fila"
+              },
+              {
+                "type": "nota",
+                "texto": "La sintaxis es: función() OVER (PARTITION BY columna ORDER BY columna)"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "ROW_NUMBER e RANK",
-      "conteudo": { "blocos": [
-        { "type": "code", "code": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (ORDER BY Salario DESC) AS Posicao\nFROM Funcionarios", "lese": "Numera cada funcionário de 1 em diante, ordenados do maior para o menor salário — sem empates, cada linha tem um número único" },
-        { "type": "code", "code": "SELECT Nome, Salario,\n  RANK() OVER (ORDER BY Salario DESC) AS Ranking\nFROM Funcionarios", "lese": "Ranqueia funcionários por salário — se dois têm o mesmo salário, recebem o mesmo rank, e o próximo rank pula (ex: 1, 2, 2, 4)" },
-        { "type": "code", "code": "SELECT Nome, Salario, Departamento,\n  RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) AS RankDept\nFROM Funcionarios", "lese": "Ranqueia funcionários por salário DENTRO de cada departamento separadamente — cada departamento tem seu próprio ranking começando do 1" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "code",
+            "code": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (ORDER BY Salario DESC) AS Posicao\nFROM Funcionarios",
+            "lese": "Numera cada funcionário de 1 em diante, ordenados do maior para o menor salário — sem empates, cada linha tem um número único"
+          },
+          {
+            "type": "code",
+            "code": "SELECT Nome, Salario,\n  RANK() OVER (ORDER BY Salario DESC) AS Ranking\nFROM Funcionarios",
+            "lese": "Ranqueia funcionários por salário — se dois têm o mesmo salário, recebem o mesmo rank, e o próximo rank pula (ex: 1, 2, 2, 4)"
+          },
+          {
+            "type": "code",
+            "code": "SELECT Nome, Salario, Departamento,\n  RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) AS RankDept\nFROM Funcionarios",
+            "lese": "Ranqueia funcionários por salário DENTRO de cada departamento separadamente — cada departamento tem seu próprio ranking começando do 1"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "ROW_NUMBER and RANK",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (ORDER BY Salario DESC) AS Posicao\nFROM Funcionarios", "lese": "Numbers each employee from 1 onward, sorted from highest to lowest salary — no ties, each row gets a unique number" },
-            { "type": "code", "code": "SELECT Nome, Salario,\n  RANK() OVER (ORDER BY Salario DESC) AS Ranking\nFROM Funcionarios", "lese": "Ranks employees by salary — if two have the same salary they get the same rank, and the next rank skips (e.g.: 1, 2, 2, 4)" },
-            { "type": "code", "code": "SELECT Nome, Salario, Departamento,\n  RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) AS RankDept\nFROM Funcionarios", "lese": "Ranks employees by salary WITHIN each department separately — each department has its own ranking starting at 1" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (ORDER BY Salario DESC) AS Posicao\nFROM Funcionarios",
+                "lese": "Numbers each employee from 1 onward, sorted from highest to lowest salary — no ties, each row gets a unique number"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario,\n  RANK() OVER (ORDER BY Salario DESC) AS Ranking\nFROM Funcionarios",
+                "lese": "Ranks employees by salary — if two have the same salary they get the same rank, and the next rank skips (e.g.: 1, 2, 2, 4)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario, Departamento,\n  RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) AS RankDept\nFROM Funcionarios",
+                "lese": "Ranks employees by salary WITHIN each department separately — each department has its own ranking starting at 1"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "ROW_NUMBER y RANK",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (ORDER BY Salario DESC) AS Posicao\nFROM Funcionarios", "lese": "Numera cada empleado desde 1 en adelante, ordenados de mayor a menor salario — sin empates, cada fila tiene un número único" },
-            { "type": "code", "code": "SELECT Nome, Salario,\n  RANK() OVER (ORDER BY Salario DESC) AS Ranking\nFROM Funcionarios", "lese": "Clasifica empleados por salario — si dos tienen el mismo salario reciben el mismo rank, y el siguiente rank salta (ej: 1, 2, 2, 4)" },
-            { "type": "code", "code": "SELECT Nome, Salario, Departamento,\n  RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) AS RankDept\nFROM Funcionarios", "lese": "Clasifica empleados por salario DENTRO de cada departamento por separado — cada departamento tiene su propio ranking comenzando en 1" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (ORDER BY Salario DESC) AS Posicao\nFROM Funcionarios",
+                "lese": "Numera cada empleado desde 1 en adelante, ordenados de mayor a menor salario — sin empates, cada fila tiene un número único"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario,\n  RANK() OVER (ORDER BY Salario DESC) AS Ranking\nFROM Funcionarios",
+                "lese": "Clasifica empleados por salario — si dos tienen el mismo salario reciben el mismo rank, y el siguiente rank salta (ej: 1, 2, 2, 4)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario, Departamento,\n  RANK() OVER (PARTITION BY Departamento ORDER BY Salario DESC) AS RankDept\nFROM Funcionarios",
+                "lese": "Clasifica empleados por salario DENTRO de cada departamento por separado — cada departamento tiene su propio ranking comenzando en 1"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "ordem": 4,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 150,
       "titulo": "Numerando por Salário",
       "conteudo": {
         "instrucao": "Numere os funcionários por ordem de salário (do maior para o menor) usando ROW_NUMBER.",
@@ -94,7 +194,14 @@
         "placeholder": "SELECT Nome, Salario,\n  ROW_NUMBER() OVER (...) AS Posicao\nFROM Funcionarios",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Salario","Posicao"], "min_rows": 6 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Salario",
+            "Posicao"
+          ],
+          "min_rows": 6
+        }
       },
       "traducoes": {
         "en": {
@@ -114,31 +221,67 @@
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "DENSE_RANK e NTILE",
-      "conteudo": { "blocos": [
-        { "type": "code", "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sempre único)", "lese": "Diferença entre RANK (pula números em empate), DENSE_RANK (não pula) e ROW_NUMBER (sempre sequencial)" },
-        { "type": "code", "code": "SELECT Nome, Salario,\n  NTILE(4) OVER (ORDER BY Salario DESC) AS Quartil\nFROM Funcionarios", "lese": "Divide os funcionários em 4 grupos iguais (quartis) ordenados por salário — Quartil 1 é o grupo dos maiores salários" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "code",
+            "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sempre único)",
+            "lese": "Diferença entre RANK (pula números em empate), DENSE_RANK (não pula) e ROW_NUMBER (sempre sequencial)"
+          },
+          {
+            "type": "code",
+            "code": "SELECT Nome, Salario,\n  NTILE(4) OVER (ORDER BY Salario DESC) AS Quartil\nFROM Funcionarios",
+            "lese": "Divide os funcionários em 4 grupos iguais (quartis) ordenados por salário — Quartil 1 é o grupo dos maiores salários"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "DENSE_RANK and NTILE",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sempre único)", "lese": "Difference between RANK (skips numbers on ties), DENSE_RANK (does not skip), and ROW_NUMBER (always sequential)" },
-            { "type": "code", "code": "SELECT Nome, Salario,\n  NTILE(4) OVER (ORDER BY Salario DESC) AS Quartil\nFROM Funcionarios", "lese": "Divides employees into 4 equal groups (quartiles) ordered by salary — Quartile 1 is the group with the highest salaries" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sempre único)",
+                "lese": "Difference between RANK (skips numbers on ties), DENSE_RANK (does not skip), and ROW_NUMBER (always sequential)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario,\n  NTILE(4) OVER (ORDER BY Salario DESC) AS Quartil\nFROM Funcionarios",
+                "lese": "Divides employees into 4 equal groups (quartiles) ordered by salary — Quartile 1 is the group with the highest salaries"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "DENSE_RANK y NTILE",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sempre único)", "lese": "Diferencia entre RANK (salta números en empate), DENSE_RANK (no salta) y ROW_NUMBER (siempre secuencial)" },
-            { "type": "code", "code": "SELECT Nome, Salario,\n  NTILE(4) OVER (ORDER BY Salario DESC) AS Quartil\nFROM Funcionarios", "lese": "Divide a los empleados en 4 grupos iguales (cuartiles) ordenados por salario — Cuartil 1 es el grupo con los salarios más altos" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "RANK:       1, 2, 2, 4   (pula o 3)\nDENSE_RANK: 1, 2, 2, 3   (não pula)\nROW_NUMBER: 1, 2, 3, 4   (sempre único)",
+                "lese": "Diferencia entre RANK (salta números en empate), DENSE_RANK (no salta) y ROW_NUMBER (siempre secuencial)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario,\n  NTILE(4) OVER (ORDER BY Salario DESC) AS Quartil\nFROM Funcionarios",
+                "lese": "Divide a los empleados en 4 grupos iguales (cuartiles) ordenados por salario — Cuartil 1 es el grupo con los salarios más altos"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "ordem": 6,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 150,
       "titulo": "Ranking por Departamento",
       "conteudo": {
         "instrucao": "Ranqueie os funcionários por salário dentro de cada departamento usando RANK com PARTITION BY.",
@@ -146,7 +289,15 @@
         "placeholder": "SELECT Nome, Departamento, Salario,\n  RANK() OVER (PARTITION BY ... ORDER BY ...) AS RankDept\nFROM Funcionarios",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Departamento","Salario","RankDept"], "min_rows": 7 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Departamento",
+            "Salario",
+            "RankDept"
+          ],
+          "min_rows": 7
+        }
       },
       "traducoes": {
         "en": {
@@ -166,58 +317,136 @@
       }
     },
     {
-      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 7,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "LAG e LEAD — Comparando Linhas",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "LAG", "def": "Acessa o valor de uma linha ANTERIOR na janela. Útil para comparar com o período anterior." },
-        { "type": "definicao", "termo": "LEAD", "def": "Acessa o valor de uma linha POSTERIOR na janela. Útil para comparar com o período seguinte." },
-        { "type": "code", "code": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY Mes) AS VendasMesAnterior,\n  Vendas - LAG(Vendas) OVER (ORDER BY Mes) AS Variacao\nFROM VendasMensais", "lese": "Para cada mês, mostra as vendas do mês atual, as vendas do mês anterior (LAG) e a variação entre eles — perfeito para análise de crescimento" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "LAG",
+            "def": "Acessa o valor de uma linha ANTERIOR na janela. Útil para comparar com o período anterior."
+          },
+          {
+            "type": "definicao",
+            "termo": "LEAD",
+            "def": "Acessa o valor de uma linha POSTERIOR na janela. Útil para comparar com o período seguinte."
+          },
+          {
+            "type": "code",
+            "code": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY Mes) AS VendasMesAnterior,\n  Vendas - LAG(Vendas) OVER (ORDER BY Mes) AS Variacao\nFROM VendasMensais",
+            "lese": "Para cada mês, mostra as vendas do mês atual, as vendas do mês anterior (LAG) e a variação entre eles — perfeito para análise de crescimento"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "LAG and LEAD — Comparing Rows",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "LAG", "def": "Accesses the value of a PREVIOUS row in the window. Useful for comparing with the previous period." },
-            { "type": "definicao", "termo": "LEAD", "def": "Accesses the value of a FOLLOWING row in the window. Useful for comparing with the next period." },
-            { "type": "code", "code": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY Mes) AS VendasMesAnterior,\n  Vendas - LAG(Vendas) OVER (ORDER BY Mes) AS Variacao\nFROM VendasMensais", "lese": "For each month, shows current month sales, previous month sales (LAG), and the variation between them — perfect for growth analysis" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "LAG",
+                "def": "Accesses the value of a PREVIOUS row in the window. Useful for comparing with the previous period."
+              },
+              {
+                "type": "definicao",
+                "termo": "LEAD",
+                "def": "Accesses the value of a FOLLOWING row in the window. Useful for comparing with the next period."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY Mes) AS VendasMesAnterior,\n  Vendas - LAG(Vendas) OVER (ORDER BY Mes) AS Variacao\nFROM VendasMensais",
+                "lese": "For each month, shows current month sales, previous month sales (LAG), and the variation between them — perfect for growth analysis"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "LAG y LEAD — Comparando Filas",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "LAG", "def": "Accede al valor de una fila ANTERIOR en la ventana. Útil para comparar con el período anterior." },
-            { "type": "definicao", "termo": "LEAD", "def": "Accede al valor de una fila POSTERIOR en la ventana. Útil para comparar con el período siguiente." },
-            { "type": "code", "code": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY Mes) AS VendasMesAnterior,\n  Vendas - LAG(Vendas) OVER (ORDER BY Mes) AS Variacao\nFROM VendasMensais", "lese": "Para cada mes, muestra las ventas del mes actual, las ventas del mes anterior (LAG) y la variación entre ellas — perfecto para el análisis de crecimiento" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "LAG",
+                "def": "Accede al valor de una fila ANTERIOR en la ventana. Útil para comparar con el período anterior."
+              },
+              {
+                "type": "definicao",
+                "termo": "LEAD",
+                "def": "Accede al valor de una fila POSTERIOR en la ventana. Útil para comparar con el período siguiente."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY Mes) AS VendasMesAnterior,\n  Vendas - LAG(Vendas) OVER (ORDER BY Mes) AS Variacao\nFROM VendasMensais",
+                "lese": "Para cada mes, muestra las ventas del mes actual, las ventas del mes anterior (LAG) y la variación entre ellas — perfecto para el análisis de crecimiento"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 8,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "SUM e AVG como Window Functions",
-      "conteudo": { "blocos": [
-        { "type": "code", "code": "SELECT Nome, Salario, Departamento,\n  SUM(Salario) OVER (PARTITION BY Departamento) AS TotalDept,\n  ROUND(100.0 * Salario / SUM(Salario) OVER (PARTITION BY Departamento), 1) AS PctDept\nFROM Funcionarios", "lese": "Para cada funcionário, mostra o salário total do departamento e qual percentual do total aquele funcionário representa — sem colapsar as linhas" },
-        { "type": "nota", "texto": "Window Functions são processadas DEPOIS do WHERE, GROUP BY e HAVING, mas ANTES do ORDER BY e LIMIT." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "code",
+            "code": "SELECT Nome, Salario, Departamento,\n  SUM(Salario) OVER (PARTITION BY Departamento) AS TotalDept,\n  ROUND(100.0 * Salario / SUM(Salario) OVER (PARTITION BY Departamento), 1) AS PctDept\nFROM Funcionarios",
+            "lese": "Para cada funcionário, mostra o salário total do departamento e qual percentual do total aquele funcionário representa — sem colapsar as linhas"
+          },
+          {
+            "type": "nota",
+            "texto": "Window Functions são processadas DEPOIS do WHERE, GROUP BY e HAVING, mas ANTES do ORDER BY e LIMIT."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "SUM and AVG as Window Functions",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "SELECT Nome, Salario, Departamento,\n  SUM(Salario) OVER (PARTITION BY Departamento) AS TotalDept,\n  ROUND(100.0 * Salario / SUM(Salario) OVER (PARTITION BY Departamento), 1) AS PctDept\nFROM Funcionarios", "lese": "For each employee, shows the department's total salary and what percentage of that total the employee represents — without collapsing rows" },
-            { "type": "nota", "texto": "Window Functions are processed AFTER WHERE, GROUP BY, and HAVING, but BEFORE ORDER BY and LIMIT." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario, Departamento,\n  SUM(Salario) OVER (PARTITION BY Departamento) AS TotalDept,\n  ROUND(100.0 * Salario / SUM(Salario) OVER (PARTITION BY Departamento), 1) AS PctDept\nFROM Funcionarios",
+                "lese": "For each employee, shows the department's total salary and what percentage of that total the employee represents — without collapsing rows"
+              },
+              {
+                "type": "nota",
+                "texto": "Window Functions are processed AFTER WHERE, GROUP BY, and HAVING, but BEFORE ORDER BY and LIMIT."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "SUM y AVG como Window Functions",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "SELECT Nome, Salario, Departamento,\n  SUM(Salario) OVER (PARTITION BY Departamento) AS TotalDept,\n  ROUND(100.0 * Salario / SUM(Salario) OVER (PARTITION BY Departamento), 1) AS PctDept\nFROM Funcionarios", "lese": "Para cada empleado, muestra el salario total del departamento y qué porcentaje del total representa ese empleado — sin colapsar las filas" },
-            { "type": "nota", "texto": "Las Window Functions se procesan DESPUÉS del WHERE, GROUP BY y HAVING, pero ANTES del ORDER BY y LIMIT." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "SELECT Nome, Salario, Departamento,\n  SUM(Salario) OVER (PARTITION BY Departamento) AS TotalDept,\n  ROUND(100.0 * Salario / SUM(Salario) OVER (PARTITION BY Departamento), 1) AS PctDept\nFROM Funcionarios",
+                "lese": "Para cada empleado, muestra el salario total del departamento y qué porcentaje del total representa ese empleado — sin colapsar las filas"
+              },
+              {
+                "type": "nota",
+                "texto": "Las Window Functions se procesan DESPUÉS del WHERE, GROUP BY y HAVING, pero ANTES del ORDER BY y LIMIT."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
       "titulo": "Comparando com o Mês Anterior",
       "conteudo": {
         "instrucao": "Mostre as vendas mensais com uma coluna extra indicando o valor do mês anterior usando LAG.",
@@ -225,7 +454,14 @@
         "placeholder": "SELECT Mes, Vendas,\n  LAG(Vendas) OVER (ORDER BY MesNum) AS MesAnterior\nFROM VendasMensais",
         "schema": "CREATE TABLE VendasMensais (MesNum INTEGER, Mes TEXT, Vendas REAL); INSERT INTO VendasMensais VALUES (1,'Janeiro',45000),(2,'Fevereiro',52000),(3,'Março',48000),(4,'Abril',61000),(5,'Maio',58000);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Mes","Vendas","MesAnterior"], "min_rows": 5 }
+        "checkConfig": {
+          "required_columns": [
+            "Mes",
+            "Vendas",
+            "MesAnterior"
+          ],
+          "min_rows": 5
+        }
       },
       "traducoes": {
         "en": {
@@ -245,32 +481,62 @@
       }
     },
     {
-      "ordem": 10, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 10,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: Window Functions",
-      "conteudo": { "cor": "roxo", "itens": [
-        "função() OVER (...) — sintaxe básica",
-        "PARTITION BY: define os grupos da janela",
-        "ORDER BY: define a ordem dentro da janela",
-        "ROW_NUMBER(): numeração sequencial única",
-        "RANK(): ranking com pulos em empate",
-        "DENSE_RANK(): ranking sem pulos",
-        "LAG(col): valor da linha anterior",
-        "LEAD(col): valor da próxima linha"
-      ]},
+      "conteudo": {
+        "cor": "roxo",
+        "itens": [
+          "função() OVER (...) — sintaxe básica",
+          "PARTITION BY: define os grupos da janela",
+          "ORDER BY: define a ordem dentro da janela",
+          "ROW_NUMBER(): numeração sequencial única",
+          "RANK(): ranking com pulos em empate",
+          "DENSE_RANK(): ranking sem pulos",
+          "LAG(col): valor da linha anterior",
+          "LEAD(col): valor da próxima linha"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: Window Functions",
           "conteudo": {
             "titulo": "Summary: Window Functions",
             "itens": [
-              { "titulo": "function() OVER (...)", "descricao": "basic syntax" },
-              { "titulo": "PARTITION BY", "descricao": "defines the window groups" },
-              { "titulo": "ORDER BY", "descricao": "defines order within the window" },
-              { "titulo": "ROW_NUMBER()", "descricao": "unique sequential numbering" },
-              { "titulo": "RANK()", "descricao": "ranking with gaps on ties" },
-              { "titulo": "DENSE_RANK()", "descricao": "ranking without gaps" },
-              { "titulo": "LAG(col)", "descricao": "value of the previous row" },
-              { "titulo": "LEAD(col)", "descricao": "value of the next row" }
+              {
+                "titulo": "function() OVER (...)",
+                "descricao": "basic syntax"
+              },
+              {
+                "titulo": "PARTITION BY",
+                "descricao": "defines the window groups"
+              },
+              {
+                "titulo": "ORDER BY",
+                "descricao": "defines order within the window"
+              },
+              {
+                "titulo": "ROW_NUMBER()",
+                "descricao": "unique sequential numbering"
+              },
+              {
+                "titulo": "RANK()",
+                "descricao": "ranking with gaps on ties"
+              },
+              {
+                "titulo": "DENSE_RANK()",
+                "descricao": "ranking without gaps"
+              },
+              {
+                "titulo": "LAG(col)",
+                "descricao": "value of the previous row"
+              },
+              {
+                "titulo": "LEAD(col)",
+                "descricao": "value of the next row"
+              }
             ]
           }
         },
@@ -279,31 +545,65 @@
           "conteudo": {
             "titulo": "Resumen: Window Functions",
             "itens": [
-              { "titulo": "función() OVER (...)", "descricao": "sintaxis básica" },
-              { "titulo": "PARTITION BY", "descricao": "define los grupos de la ventana" },
-              { "titulo": "ORDER BY", "descricao": "define el orden dentro de la ventana" },
-              { "titulo": "ROW_NUMBER()", "descricao": "numeración secuencial única" },
-              { "titulo": "RANK()", "descricao": "clasificación con saltos en empate" },
-              { "titulo": "DENSE_RANK()", "descricao": "clasificación sin saltos" },
-              { "titulo": "LAG(col)", "descricao": "valor de la fila anterior" },
-              { "titulo": "LEAD(col)", "descricao": "valor de la siguiente fila" }
+              {
+                "titulo": "función() OVER (...)",
+                "descricao": "sintaxis básica"
+              },
+              {
+                "titulo": "PARTITION BY",
+                "descricao": "define los grupos de la ventana"
+              },
+              {
+                "titulo": "ORDER BY",
+                "descricao": "define el orden dentro de la ventana"
+              },
+              {
+                "titulo": "ROW_NUMBER()",
+                "descricao": "numeración secuencial única"
+              },
+              {
+                "titulo": "RANK()",
+                "descricao": "clasificación con saltos en empate"
+              },
+              {
+                "titulo": "DENSE_RANK()",
+                "descricao": "clasificación sin saltos"
+              },
+              {
+                "titulo": "LAG(col)",
+                "descricao": "valor de la fila anterior"
+              },
+              {
+                "titulo": "LEAD(col)",
+                "descricao": "valor de la siguiente fila"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 11,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "Window Functions dominadas!",
-      "conteudo": { "mensagem": "Parabéns! Window Functions são o topo do SQL analítico. Você agora tem habilidades de Engenheiro de Dados e Analista Avançado!", "xpGanho": 350 },
+      "conteudo": {
+        "mensagem": "Parabéns! Window Functions são o topo do SQL analítico. Você agora tem habilidades de Engenheiro de Dados e Analista Avançado!",
+        "xpGanho": 350
+      },
       "traducoes": {
         "en": {
           "titulo": "Window Functions mastered!",
-          "conteudo": { "mensagem": "Congratulations! Window Functions are the pinnacle of analytical SQL. You now have the skills of a Data Engineer and Advanced Analyst!" }
+          "conteudo": {
+            "mensagem": "Congratulations! Window Functions are the pinnacle of analytical SQL. You now have the skills of a Data Engineer and Advanced Analyst!"
+          }
         },
         "es": {
           "titulo": "¡Window Functions dominadas!",
-          "conteudo": { "mensagem": "¡Felicitaciones! Las Window Functions son el nivel más alto del SQL analítico. ¡Ahora tienes habilidades de Ingeniero de Datos y Analista Avanzado!" }
+          "conteudo": {
+            "mensagem": "¡Felicitaciones! Las Window Functions son el nivel más alto del SQL analítico. ¡Ahora tienes habilidades de Ingeniero de Datos y Analista Avanzado!"
+          }
         }
       }
     }

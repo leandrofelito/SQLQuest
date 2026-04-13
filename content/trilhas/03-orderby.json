@@ -3,7 +3,7 @@
   "titulo": "ORDER BY — Ordenando",
   "descricao": "Ordene resultados em ordem crescente ou decrescente, combine com LIMIT para pegar os top-N.",
   "icone": "📊",
-  "ordem": 4,
+  "ordem": 5,
   "xpTotal": 600,
   "traducoes": {
     "en": {
@@ -17,155 +17,357 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Ordenando Resultados",
-      "conteudo": { "emoji": "📊", "subtitulo": "Controle a ordem em que os dados aparecem" },
+      "conteudo": {
+        "emoji": "📊",
+        "subtitulo": "Controle a ordem em que os dados aparecem"
+      },
       "traducoes": {
         "en": {
           "titulo": "Sorting Results",
-          "conteudo": { "subtitulo": "Control the order in which data appears" }
+          "conteudo": {
+            "subtitulo": "Control the order in which data appears"
+          }
         },
         "es": {
           "titulo": "Ordenando Resultados",
-          "conteudo": { "subtitulo": "Controla el orden en que aparecen los datos" }
+          "conteudo": {
+            "subtitulo": "Controla el orden en que aparecen los datos"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "ORDER BY — Crescente e Decrescente",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "ORDER BY", "def": "Ordena o resultado da query por uma ou mais colunas. Por padrão, ordena em ordem crescente (ASC)." },
-        { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco", "lese": "Seleciona todos os produtos ordenados pelo preço, do menor para o maior (ASC é o padrão)" },
-        { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco DESC", "lese": "Seleciona todos os produtos ordenados pelo preço, do maior para o menor (DESC = decrescente)" },
-        { "type": "code", "code": "SELECT * FROM Clientes ORDER BY Nome ASC", "lese": "Seleciona todos os clientes em ordem alfabética pelo nome (A → Z)" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "ORDER BY",
+            "def": "Ordena o resultado da query por uma ou mais colunas. Por padrão, ordena em ordem crescente (ASC)."
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos ORDER BY Preco",
+            "lese": "Seleciona todos os produtos ordenados pelo preço, do menor para o maior (ASC é o padrão)"
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos ORDER BY Preco DESC",
+            "lese": "Seleciona todos os produtos ordenados pelo preço, do maior para o menor (DESC = decrescente)"
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Clientes ORDER BY Nome ASC",
+            "lese": "Seleciona todos os clientes em ordem alfabética pelo nome (A → Z)"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "ORDER BY — Ascending and Descending",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "ORDER BY", "def": "Sorts the query result by one or more columns. By default, sorts in ascending order (ASC)." },
-            { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco", "lese": "Selects all products sorted by price, from lowest to highest (ASC is the default)" },
-            { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco DESC", "lese": "Selects all products sorted by price, from highest to lowest (DESC = descending)" },
-            { "type": "code", "code": "SELECT * FROM Clientes ORDER BY Nome ASC", "lese": "Selects all customers in alphabetical order by name (A → Z)" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "ORDER BY",
+                "def": "Sorts the query result by one or more columns. By default, sorts in ascending order (ASC)."
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos ORDER BY Preco",
+                "lese": "Selects all products sorted by price, from lowest to highest (ASC is the default)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos ORDER BY Preco DESC",
+                "lese": "Selects all products sorted by price, from highest to lowest (DESC = descending)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Clientes ORDER BY Nome ASC",
+                "lese": "Selects all customers in alphabetical order by name (A → Z)"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "ORDER BY — Ascendente y Descendente",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "ORDER BY", "def": "Ordena el resultado de la query por una o más columnas. Por defecto, ordena de forma ascendente (ASC)." },
-            { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco", "lese": "Selecciona todos los productos ordenados por precio, de menor a mayor (ASC es el valor predeterminado)" },
-            { "type": "code", "code": "SELECT * FROM Produtos ORDER BY Preco DESC", "lese": "Selecciona todos los productos ordenados por precio, de mayor a menor (DESC = descendente)" },
-            { "type": "code", "code": "SELECT * FROM Clientes ORDER BY Nome ASC", "lese": "Selecciona todos los clientes en orden alfabético por nombre (A → Z)" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "ORDER BY",
+                "def": "Ordena el resultado de la query por una o más columnas. Por defecto, ordena de forma ascendente (ASC)."
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos ORDER BY Preco",
+                "lese": "Selecciona todos los productos ordenados por precio, de menor a mayor (ASC es el valor predeterminado)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos ORDER BY Preco DESC",
+                "lese": "Selecciona todos los productos ordenados por precio, de mayor a menor (DESC = descendente)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Clientes ORDER BY Nome ASC",
+                "lese": "Selecciona todos los clientes en orden alfabético por nombre (A → Z)"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Ordenando por Múltiplas Colunas",
-      "conteudo": { "blocos": [
-        "Você pode ordenar por mais de uma coluna separando-as com vírgula. A segunda coluna é usada como critério de desempate.",
-        { "type": "code", "code": "SELECT * FROM Funcionarios\nORDER BY Departamento ASC, Salario DESC", "lese": "Ordena primeiro por departamento (A→Z) e, dentro do mesmo departamento, ordena pelo salário do maior para o menor" },
-        { "type": "nota", "texto": "A ordem das colunas no ORDER BY importa: a primeira coluna é o critério principal, a segunda é o desempate." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Você pode ordenar por mais de uma coluna separando-as com vírgula. A segunda coluna é usada como critério de desempate.",
+          {
+            "type": "code",
+            "code": "SELECT * FROM Funcionarios\nORDER BY Departamento ASC, Salario DESC",
+            "lese": "Ordena primeiro por departamento (A→Z) e, dentro do mesmo departamento, ordena pelo salário do maior para o menor"
+          },
+          {
+            "type": "nota",
+            "texto": "A ordem das colunas no ORDER BY importa: a primeira coluna é o critério principal, a segunda é o desempate."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Sorting by Multiple Columns",
-          "conteudo": { "blocos": [
-            "You can sort by more than one column by separating them with commas. The second column is used as a tiebreaker.",
-            { "type": "code", "code": "SELECT * FROM Funcionarios\nORDER BY Departamento ASC, Salario DESC", "lese": "Sorts first by department (A→Z) and, within the same department, by salary from highest to lowest" },
-            { "type": "nota", "texto": "The order of columns in ORDER BY matters: the first column is the primary criterion, the second is the tiebreaker." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "You can sort by more than one column by separating them with commas. The second column is used as a tiebreaker.",
+              {
+                "type": "code",
+                "code": "SELECT * FROM Funcionarios\nORDER BY Departamento ASC, Salario DESC",
+                "lese": "Sorts first by department (A→Z) and, within the same department, by salary from highest to lowest"
+              },
+              {
+                "type": "nota",
+                "texto": "The order of columns in ORDER BY matters: the first column is the primary criterion, the second is the tiebreaker."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "Ordenando por Múltiples Columnas",
-          "conteudo": { "blocos": [
-            "Puedes ordenar por más de una columna separándolas con coma. La segunda columna se usa como criterio de desempate.",
-            { "type": "code", "code": "SELECT * FROM Funcionarios\nORDER BY Departamento ASC, Salario DESC", "lese": "Ordena primero por departamento (A→Z) y, dentro del mismo departamento, por salario de mayor a menor" },
-            { "type": "nota", "texto": "El orden de las columnas en ORDER BY importa: la primera columna es el criterio principal, la segunda es el desempate." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Puedes ordenar por más de una columna separándolas con coma. La segunda columna se usa como criterio de desempate.",
+              {
+                "type": "code",
+                "code": "SELECT * FROM Funcionarios\nORDER BY Departamento ASC, Salario DESC",
+                "lese": "Ordena primero por departamento (A→Z) y, dentro del mismo departamento, por salario de mayor a menor"
+              },
+              {
+                "type": "nota",
+                "texto": "El orden de las columnas en ORDER BY importa: la primera columna es el criterio principal, la segunda es el desempate."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "ORDER BY + LIMIT — Os Top-N",
-      "conteudo": { "blocos": [
-        "Combinar ORDER BY com LIMIT é uma das queries mais usadas na prática: pegar os N melhores ou piores.",
-        { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco DESC\nLIMIT 5", "lese": "Seleciona os 5 produtos mais caros (ordena por preço decrescente e pega os 5 primeiros)" },
-        { "type": "code", "code": "SELECT * FROM Clientes\nORDER BY CadastradoEm DESC\nLIMIT 10", "lese": "Seleciona os 10 clientes mais recentes (ordena pela data de cadastro mais recente primeiro)" },
-        { "type": "nota", "texto": "Sem ORDER BY, LIMIT retorna registros em ordem indeterminada. Sempre combine os dois para resultados previsíveis!" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Combinar ORDER BY com LIMIT é uma das queries mais usadas na prática: pegar os N melhores ou piores.",
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos\nORDER BY Preco DESC\nLIMIT 5",
+            "lese": "Seleciona os 5 produtos mais caros (ordena por preço decrescente e pega os 5 primeiros)"
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Clientes\nORDER BY CadastradoEm DESC\nLIMIT 10",
+            "lese": "Seleciona os 10 clientes mais recentes (ordena pela data de cadastro mais recente primeiro)"
+          },
+          {
+            "type": "nota",
+            "texto": "Sem ORDER BY, LIMIT retorna registros em ordem indeterminada. Sempre combine os dois para resultados previsíveis!"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "ORDER BY + LIMIT — The Top-N",
-          "conteudo": { "blocos": [
-            "Combining ORDER BY with LIMIT is one of the most used queries in practice: getting the N best or worst.",
-            { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco DESC\nLIMIT 5", "lese": "Selects the 5 most expensive products (sorts by price descending and takes the first 5)" },
-            { "type": "code", "code": "SELECT * FROM Clientes\nORDER BY CadastradoEm DESC\nLIMIT 10", "lese": "Selects the 10 most recent customers (sorts by most recent registration date first)" },
-            { "type": "nota", "texto": "Without ORDER BY, LIMIT returns records in an indeterminate order. Always combine both for predictable results!" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Combining ORDER BY with LIMIT is one of the most used queries in practice: getting the N best or worst.",
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos\nORDER BY Preco DESC\nLIMIT 5",
+                "lese": "Selects the 5 most expensive products (sorts by price descending and takes the first 5)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Clientes\nORDER BY CadastradoEm DESC\nLIMIT 10",
+                "lese": "Selects the 10 most recent customers (sorts by most recent registration date first)"
+              },
+              {
+                "type": "nota",
+                "texto": "Without ORDER BY, LIMIT returns records in an indeterminate order. Always combine both for predictable results!"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "ORDER BY + LIMIT — Los Top-N",
-          "conteudo": { "blocos": [
-            "Combinar ORDER BY con LIMIT es una de las queries más usadas en la práctica: obtener los N mejores o peores.",
-            { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco DESC\nLIMIT 5", "lese": "Selecciona los 5 productos más caros (ordena por precio descendente y toma los primeros 5)" },
-            { "type": "code", "code": "SELECT * FROM Clientes\nORDER BY CadastradoEm DESC\nLIMIT 10", "lese": "Selecciona los 10 clientes más recientes (ordena por fecha de registro más reciente primero)" },
-            { "type": "nota", "texto": "Sin ORDER BY, LIMIT devuelve registros en orden indeterminado. ¡Siempre combínalos para resultados predecibles!" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Combinar ORDER BY con LIMIT es una de las queries más usadas en la práctica: obtener los N mejores o peores.",
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos\nORDER BY Preco DESC\nLIMIT 5",
+                "lese": "Selecciona los 5 productos más caros (ordena por precio descendente y toma los primeros 5)"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Clientes\nORDER BY CadastradoEm DESC\nLIMIT 10",
+                "lese": "Selecciona los 10 clientes más recientes (ordena por fecha de registro más reciente primero)"
+              },
+              {
+                "type": "nota",
+                "texto": "Sin ORDER BY, LIMIT devuelve registros en orden indeterminado. ¡Siempre combínalos para resultados predecibles!"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "OFFSET — Pulando Registros",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "OFFSET", "def": "Indica quantos registros pular antes de começar a retornar. Usado para paginação." },
-        { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco ASC\nLIMIT 10 OFFSET 20", "lese": "Pula os primeiros 20 produtos (mais baratos) e retorna os próximos 10 — equivale à página 3 de resultados" },
-        { "type": "nota", "texto": "Paginação = LIMIT (tamanho da página) + OFFSET (quantas páginas pular). Ex: página 2 com 10 por página = LIMIT 10 OFFSET 10." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "OFFSET",
+            "def": "Indica quantos registros pular antes de começar a retornar. Usado para paginação."
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos\nORDER BY Preco ASC\nLIMIT 10 OFFSET 20",
+            "lese": "Pula os primeiros 20 produtos (mais baratos) e retorna os próximos 10 — equivale à página 3 de resultados"
+          },
+          {
+            "type": "nota",
+            "texto": "Paginação = LIMIT (tamanho da página) + OFFSET (quantas páginas pular). Ex: página 2 com 10 por página = LIMIT 10 OFFSET 10."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "OFFSET — Skipping Records",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "OFFSET", "def": "Specifies how many records to skip before starting to return results. Used for pagination." },
-            { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco ASC\nLIMIT 10 OFFSET 20", "lese": "Skips the first 20 products (cheapest) and returns the next 10 — equivalent to page 3 of results" },
-            { "type": "nota", "texto": "Pagination = LIMIT (page size) + OFFSET (how many pages to skip). E.g.: page 2 with 10 per page = LIMIT 10 OFFSET 10." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "OFFSET",
+                "def": "Specifies how many records to skip before starting to return results. Used for pagination."
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos\nORDER BY Preco ASC\nLIMIT 10 OFFSET 20",
+                "lese": "Skips the first 20 products (cheapest) and returns the next 10 — equivalent to page 3 of results"
+              },
+              {
+                "type": "nota",
+                "texto": "Pagination = LIMIT (page size) + OFFSET (how many pages to skip). E.g.: page 2 with 10 per page = LIMIT 10 OFFSET 10."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "OFFSET — Saltando Registros",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "OFFSET", "def": "Indica cuántos registros saltar antes de empezar a devolver resultados. Se usa para paginación." },
-            { "type": "code", "code": "SELECT * FROM Produtos\nORDER BY Preco ASC\nLIMIT 10 OFFSET 20", "lese": "Salta los primeros 20 productos (más baratos) y devuelve los siguientes 10 — equivale a la página 3 de resultados" },
-            { "type": "nota", "texto": "Paginación = LIMIT (tamaño de página) + OFFSET (cuántas páginas saltar). Ej: página 2 con 10 por página = LIMIT 10 OFFSET 10." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "OFFSET",
+                "def": "Indica cuántos registros saltar antes de empezar a devolver resultados. Se usa para paginación."
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos\nORDER BY Preco ASC\nLIMIT 10 OFFSET 20",
+                "lese": "Salta los primeros 20 productos (más baratos) y devuelve los siguientes 10 — equivale a la página 3 de resultados"
+              },
+              {
+                "type": "nota",
+                "texto": "Paginación = LIMIT (tamaño de página) + OFFSET (cuántas páginas saltar). Ej: página 2 con 10 por página = LIMIT 10 OFFSET 10."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: ORDER BY",
-      "conteudo": { "cor": "verde", "itens": [
-        "ORDER BY coluna ASC: crescente (padrão, A→Z, 0→9)",
-        "ORDER BY coluna DESC: decrescente (Z→A, 9→0)",
-        "ORDER BY col1 ASC, col2 DESC: múltiplos critérios",
-        "LIMIT n: retorna no máximo n registros",
-        "LIMIT n OFFSET k: pula k registros e retorna n"
-      ]},
+      "conteudo": {
+        "cor": "verde",
+        "itens": [
+          "ORDER BY coluna ASC: crescente (padrão, A→Z, 0→9)",
+          "ORDER BY coluna DESC: decrescente (Z→A, 9→0)",
+          "ORDER BY col1 ASC, col2 DESC: múltiplos critérios",
+          "LIMIT n: retorna no máximo n registros",
+          "LIMIT n OFFSET k: pula k registros e retorna n"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: ORDER BY",
           "conteudo": {
             "titulo": "Summary: ORDER BY",
             "itens": [
-              { "titulo": "ORDER BY col ASC", "descricao": "ascending (default, A→Z, 0→9)" },
-              { "titulo": "ORDER BY col DESC", "descricao": "descending (Z→A, 9→0)" },
-              { "titulo": "ORDER BY col1 ASC, col2 DESC", "descricao": "multiple sort criteria" },
-              { "titulo": "LIMIT n", "descricao": "returns at most n records" },
-              { "titulo": "LIMIT n OFFSET k", "descricao": "skips k records and returns n" }
+              {
+                "titulo": "ORDER BY col ASC",
+                "descricao": "ascending (default, A→Z, 0→9)"
+              },
+              {
+                "titulo": "ORDER BY col DESC",
+                "descricao": "descending (Z→A, 9→0)"
+              },
+              {
+                "titulo": "ORDER BY col1 ASC, col2 DESC",
+                "descricao": "multiple sort criteria"
+              },
+              {
+                "titulo": "LIMIT n",
+                "descricao": "returns at most n records"
+              },
+              {
+                "titulo": "LIMIT n OFFSET k",
+                "descricao": "skips k records and returns n"
+              }
             ]
           }
         },
@@ -174,18 +376,36 @@
           "conteudo": {
             "titulo": "Resumen: ORDER BY",
             "itens": [
-              { "titulo": "ORDER BY col ASC", "descricao": "ascendente (predeterminado, A→Z, 0→9)" },
-              { "titulo": "ORDER BY col DESC", "descricao": "descendente (Z→A, 9→0)" },
-              { "titulo": "ORDER BY col1 ASC, col2 DESC", "descricao": "múltiples criterios de ordenación" },
-              { "titulo": "LIMIT n", "descricao": "devuelve como máximo n registros" },
-              { "titulo": "LIMIT n OFFSET k", "descricao": "salta k registros y devuelve n" }
+              {
+                "titulo": "ORDER BY col ASC",
+                "descricao": "ascendente (predeterminado, A→Z, 0→9)"
+              },
+              {
+                "titulo": "ORDER BY col DESC",
+                "descricao": "descendente (Z→A, 9→0)"
+              },
+              {
+                "titulo": "ORDER BY col1 ASC, col2 DESC",
+                "descricao": "múltiples criterios de ordenación"
+              },
+              {
+                "titulo": "LIMIT n",
+                "descricao": "devuelve como máximo n registros"
+              },
+              {
+                "titulo": "LIMIT n OFFSET k",
+                "descricao": "salta k registros y devuelve n"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 1 — ORDER BY",
       "conteudo": {
         "instrucao": "Liste todos os produtos ordenados pelo preço do mais caro ao mais barato.",
@@ -193,7 +413,13 @@
         "placeholder": "SELECT * FROM Produtos ORDER BY ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89,'Eletrônicos'),(3,'Monitor',1200,'Eletrônicos'),(4,'Mesa',450,'Móveis'),(5,'Cadeira',890,'Móveis'),(6,'Teclado',150,'Eletrônicos');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Preco"], "min_rows": 6 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Preco"
+          ],
+          "min_rows": 6
+        }
       },
       "traducoes": {
         "en": {
@@ -213,7 +439,10 @@
       }
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 2 — TOP 3 mais caros",
       "conteudo": {
         "instrucao": "Busque os 3 produtos mais caros da loja.",
@@ -221,7 +450,9 @@
         "placeholder": "SELECT * FROM Produtos ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Monitor',1200,'Eletrônicos',30),(4,'Mesa',450,'Móveis',8),(5,'Cadeira',890,'Móveis',25),(6,'Servidor',8500,'Eletrônicos',5);",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 3 }
+        "checkConfig": {
+          "expected_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -241,7 +472,10 @@
       }
     },
     {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 3 — Ordenação múltipla",
       "conteudo": {
         "instrucao": "Liste os funcionários ordenados por departamento (A→Z) e, dentro do mesmo departamento, pelo salário maior primeiro.",
@@ -249,7 +483,14 @@
         "placeholder": "SELECT * FROM Funcionarios ORDER BY ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Departamento","Salario"], "min_rows": 7 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Departamento",
+            "Salario"
+          ],
+          "min_rows": 7
+        }
       },
       "traducoes": {
         "en": {
@@ -269,17 +510,27 @@
       }
     },
     {
-      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 10,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "Ordenação dominada!",
-      "conteudo": { "mensagem": "ORDER BY é uma das ferramentas mais usadas em qualquer projeto. Agora você sabe como exibir dados na ordem certa!", "xpGanho": 350 },
+      "conteudo": {
+        "mensagem": "ORDER BY é uma das ferramentas mais usadas em qualquer projeto. Agora você sabe como exibir dados na ordem certa!",
+        "xpGanho": 350
+      },
       "traducoes": {
         "en": {
           "titulo": "Sorting mastered!",
-          "conteudo": { "mensagem": "ORDER BY is one of the most used tools in any project. Now you know how to display data in the right order!" }
+          "conteudo": {
+            "mensagem": "ORDER BY is one of the most used tools in any project. Now you know how to display data in the right order!"
+          }
         },
         "es": {
           "titulo": "¡Ordenación dominada!",
-          "conteudo": { "mensagem": "ORDER BY es una de las herramientas más usadas en cualquier proyecto. ¡Ahora sabes cómo mostrar los datos en el orden correcto!" }
+          "conteudo": {
+            "mensagem": "ORDER BY es una de las herramientas más usadas en cualquier proyecto. ¡Ahora sabes cómo mostrar los datos en el orden correcto!"
+          }
         }
       }
     }
