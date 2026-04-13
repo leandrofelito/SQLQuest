@@ -40,7 +40,8 @@
       "subtitulo": "string"
     },
     "texto_conteudo": {
-      "blocos": "Array de: string OU {type:definicao|nota|code|tabela}. code tem code e opcional lese. tabela tem cabecalhos[] e linhas[][]"
+      "blocos": "Array de: string OU {type:definicao|nota|code|tabela}. code tem code e opcional lese. tabela tem cabecalhos[] e linhas[][]",
+      "html_externo": "O app não renderiza HTML: converta <article>/<p>/<h3> etc. para blocos (parágrafos string ou definicao/nota/code)."
     },
     "resumo_conteudo": {
       "cor": "verde | roxo | azul | laranja",
