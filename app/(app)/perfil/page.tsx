@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
@@ -104,7 +104,23 @@ export default function PerfilPage() {
   const [loading, setLoading] = useState(false)
   const [prestigeLoading, setPrestigeLoading] = useState(false)
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
+  const [filtroConquistas, setFiltroConquistas] = useState<'desbloqueadas' | 'todas' | 'bloqueadas'>('desbloqueadas')
   const tooltipRef = useRef<HTMLDivElement>(null)
+
+  const { conquistasGerais, conquistasFiltradas } = useMemo(() => {
+    const gerais = conquistas.filter(c => !c.tier)
+    if (filtroConquistas === 'desbloqueadas') {
+      return { conquistasGerais: gerais, conquistasFiltradas: gerais.filter(c => c.desbloqueada) }
+    }
+    if (filtroConquistas === 'bloqueadas') {
+      return { conquistasGerais: gerais, conquistasFiltradas: gerais.filter(c => !c.desbloqueada) }
+    }
+    return { conquistasGerais: gerais, conquistasFiltradas: gerais }
+  }, [conquistas, filtroConquistas])
+
+  useEffect(() => {
+    setActiveTooltip(null)
+  }, [filtroConquistas])
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -284,18 +300,58 @@ export default function PerfilPage() {
           <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-3">
             {conquistasLoading
               ? m.conquistas
-              : `${m.conquistas} — ${conquistas.filter(c => c.desbloqueada && !c.tier).length}/${conquistas.filter(c => !c.tier).length}`}
+              : `${m.conquistas} — ${conquistasGerais.filter(c => c.desbloqueada).length}/${conquistasGerais.length}`}
           </h3>
           {conquistasLoading ? <ConquistasSkeleton /> : null}
+          {!conquistasLoading && conquistasGerais.length > 0 ? (
+            <div
+              className="flex gap-2 mb-3 overflow-x-auto pb-1 -mx-1 px-1"
+              role="tablist"
+              aria-label={m.conquistas}
+            >
+              {(
+                [
+                  ['desbloqueadas', m.conquistasFiltroDesbloqueadas] as const,
+                  ['todas', m.conquistasFiltroTodas] as const,
+                  ['bloqueadas', m.conquistasFiltroBloqueadas] as const,
+                ] as const
+              ).map(([key, label]) => {
+                const ativo = filtroConquistas === key
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    role="tab"
+                    aria-selected={ativo}
+                    onClick={() => setFiltroConquistas(key)}
+                    className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors border ${
+                      ativo
+                        ? 'bg-[#8b5cf6]/25 border-[#8b5cf6]/50 text-white'
+                        : 'bg-[#0f1117] border-[#1e2028] text-white/50 hover:text-white/70'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                )
+              })}
+            </div>
+          ) : null}
           <div className={`grid grid-cols-3 gap-2 ${conquistasLoading ? 'hidden' : ''}`} ref={tooltipRef}>
-            {conquistas.filter(c => !c.tier).map((c, i) => {
+            {!conquistasLoading && conquistasFiltradas.length === 0 ? (
+              <div className="col-span-3 rounded-2xl border border-[#1e2028] bg-[#0f1117]/80 px-4 py-6 text-center">
+                <p className="text-white/45 text-sm leading-relaxed">
+                  {filtroConquistas === 'desbloqueadas' ? m.conquistasVazioDesbloqueadas : m.conquistasVazioBloqueadas}
+                </p>
+              </div>
+            ) : null}
+            {conquistasFiltradas.map((c, i) => {
               const isOpen = activeTooltip === c.id
               return (
                 <motion.div
-                  key={c.id}
+                  key={`${filtroConquistas}-${c.id}`}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.04 }}
+                  transition={{ delay: Math.min(i * 0.05, 0.6) }}
                   className={`relative bg-[#0f1117] border rounded-2xl p-3 text-center transition-all group ${
                     c.desbloqueada
                       ? 'border-[#8b5cf6]/40 shadow-[0_0_12px_rgba(139,92,246,0.15)]'
