@@ -3,7 +3,7 @@
   "titulo": "CREATE TABLE — Desenhando seu Banco",
   "descricao": "Aprenda a criar tabelas do zero definindo tipos de dados, chaves primárias e relacionamentos entre tabelas.",
   "icone": "🏗️",
-  "ordem": 15,
+  "ordem": 16,
   "xpTotal": 800,
   "traducoes": {
     "en": {
@@ -17,97 +17,205 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "CREATE TABLE — Construindo a Estrutura",
-      "conteudo": { "emoji": "🏗️", "subtitulo": "Crie tabelas do zero e defina a estrutura do seu banco de dados" },
+      "conteudo": {
+        "emoji": "🏗️",
+        "subtitulo": "Crie tabelas do zero e defina a estrutura do seu banco de dados"
+      },
       "traducoes": {
         "en": {
           "titulo": "CREATE TABLE — Building the Structure",
-          "conteudo": { "emoji": "🏗️", "subtitulo": "Create tables from scratch and define your database structure" }
+          "conteudo": {
+            "emoji": "🏗️",
+            "subtitulo": "Create tables from scratch and define your database structure"
+          }
         },
         "es": {
           "titulo": "CREATE TABLE — Construyendo la Estructura",
-          "conteudo": { "emoji": "🏗️", "subtitulo": "Crea tablas desde cero y define la estructura de tu base de datos" }
+          "conteudo": {
+            "emoji": "🏗️",
+            "subtitulo": "Crea tablas desde cero y define la estructura de tu base de datos"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "DDL vs DML — Dois Tipos de Comandos",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "DDL — Data Definition Language", "def": "Comandos que definem a ESTRUTURA do banco: CREATE, ALTER, DROP, TRUNCATE. Mudam como os dados são armazenados." },
-        { "type": "definicao", "termo": "DML — Data Manipulation Language", "def": "Comandos que manipulam os DADOS dentro das estruturas: SELECT, INSERT, UPDATE, DELETE. Trabalham com o conteúdo das tabelas." },
-        { "type": "nota", "texto": "Você já usou DML nas trilhas anteriores. Agora vamos aprender DDL — a fundação de qualquer sistema de banco de dados." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "DDL — Data Definition Language",
+            "def": "Comandos que definem a ESTRUTURA do banco: CREATE, ALTER, DROP, TRUNCATE. Mudam como os dados são armazenados."
+          },
+          {
+            "type": "definicao",
+            "termo": "DML — Data Manipulation Language",
+            "def": "Comandos que manipulam os DADOS dentro das estruturas: SELECT, INSERT, UPDATE, DELETE. Trabalham com o conteúdo das tabelas."
+          },
+          {
+            "type": "nota",
+            "texto": "Você já usou DML nas trilhas anteriores. Agora vamos aprender DDL — a fundação de qualquer sistema de banco de dados."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "DDL vs DML — Two Types of Commands",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "DDL — Data Definition Language", "def": "Commands that define the database STRUCTURE: CREATE, ALTER, DROP, TRUNCATE. They change how data is stored." },
-            { "type": "definicao", "termo": "DML — Data Manipulation Language", "def": "Commands that manipulate DATA within structures: SELECT, INSERT, UPDATE, DELETE. They work with the content of tables." },
-            { "type": "nota", "texto": "You already used DML in previous trails. Now let's learn DDL — the foundation of any database system." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "DDL — Data Definition Language",
+                "def": "Commands that define the database STRUCTURE: CREATE, ALTER, DROP, TRUNCATE. They change how data is stored."
+              },
+              {
+                "type": "definicao",
+                "termo": "DML — Data Manipulation Language",
+                "def": "Commands that manipulate DATA within structures: SELECT, INSERT, UPDATE, DELETE. They work with the content of tables."
+              },
+              {
+                "type": "nota",
+                "texto": "You already used DML in previous trails. Now let's learn DDL — the foundation of any database system."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "DDL vs DML — Dos Tipos de Comandos",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "DDL — Data Definition Language", "def": "Comandos que definen la ESTRUCTURA de la base: CREATE, ALTER, DROP, TRUNCATE. Cambian cómo se almacenan los datos." },
-            { "type": "definicao", "termo": "DML — Data Manipulation Language", "def": "Comandos que manipulan los DATOS dentro de las estructuras: SELECT, INSERT, UPDATE, DELETE. Trabajan con el contenido de las tablas." },
-            { "type": "nota", "texto": "Ya usaste DML en los módulos anteriores. Ahora aprenderemos DDL — la base de cualquier sistema de base de datos." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "DDL — Data Definition Language",
+                "def": "Comandos que definen la ESTRUCTURA de la base: CREATE, ALTER, DROP, TRUNCATE. Cambian cómo se almacenan los datos."
+              },
+              {
+                "type": "definicao",
+                "termo": "DML — Data Manipulation Language",
+                "def": "Comandos que manipulan los DATOS dentro de las estructuras: SELECT, INSERT, UPDATE, DELETE. Trabajan con el contenido de las tablas."
+              },
+              {
+                "type": "nota",
+                "texto": "Ya usaste DML en los módulos anteriores. Ahora aprenderemos DDL — la base de cualquier sistema de base de datos."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Tipos de Dados Essenciais",
-      "conteudo": { "blocos": [
-        "Cada coluna precisa de um tipo. Os mais comuns:",
-        { "type": "code", "code": "-- Números\nINTEGER / INT       -- números inteiros: 1, 42, -7\nDECIMAL(10, 2)      -- números com casas decimais: 1999.99\nREAL / FLOAT        -- ponto flutuante (aproximado)\n\n-- Texto\nVARCHAR(255)        -- texto com limite: nomes, emails\nTEXT                -- texto longo sem limite: descrições\nCHAR(2)             -- tamanho fixo: 'BR', 'SP'\n\n-- Data e Hora\nDATE                -- apenas data: 2024-01-15\nTIMESTAMP           -- data e hora: 2024-01-15 14:30:00\n\n-- Outros\nBOOLEAN             -- true ou false\nSERIAL / BIGSERIAL  -- inteiro autoincremento (PostgreSQL)", "lese": "Tipos de dados definem o que pode ser armazenado e quanto espaço ocupa — escolher o tipo certo economiza espaço e evita dados inválidos" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Cada coluna precisa de um tipo. Os mais comuns:",
+          {
+            "type": "code",
+            "code": "-- Números\nINTEGER / INT       -- números inteiros: 1, 42, -7\nDECIMAL(10, 2)      -- números com casas decimais: 1999.99\nREAL / FLOAT        -- ponto flutuante (aproximado)\n\n-- Texto\nVARCHAR(255)        -- texto com limite: nomes, emails\nTEXT                -- texto longo sem limite: descrições\nCHAR(2)             -- tamanho fixo: 'BR', 'SP'\n\n-- Data e Hora\nDATE                -- apenas data: 2024-01-15\nTIMESTAMP           -- data e hora: 2024-01-15 14:30:00\n\n-- Outros\nBOOLEAN             -- true ou false\nSERIAL / BIGSERIAL  -- inteiro autoincremento (PostgreSQL)",
+            "lese": "Tipos de dados definem o que pode ser armazenado e quanto espaço ocupa — escolher o tipo certo economiza espaço e evita dados inválidos"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Essential Data Types",
-          "conteudo": { "blocos": [
-            "Each column needs a type. The most common ones:",
-            { "type": "code", "code": "-- Números\nINTEGER / INT       -- números inteiros: 1, 42, -7\nDECIMAL(10, 2)      -- números com casas decimais: 1999.99\nREAL / FLOAT        -- ponto flutuante (aproximado)\n\n-- Texto\nVARCHAR(255)        -- texto com limite: nomes, emails\nTEXT                -- texto longo sem limite: descrições\nCHAR(2)             -- tamanho fixo: 'BR', 'SP'\n\n-- Data e Hora\nDATE                -- apenas data: 2024-01-15\nTIMESTAMP           -- data e hora: 2024-01-15 14:30:00\n\n-- Outros\nBOOLEAN             -- true ou false\nSERIAL / BIGSERIAL  -- inteiro autoincremento (PostgreSQL)", "lese": "Data types define what can be stored and how much space it takes — choosing the right type saves space and prevents invalid data" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Each column needs a type. The most common ones:",
+              {
+                "type": "code",
+                "code": "-- Números\nINTEGER / INT       -- números inteiros: 1, 42, -7\nDECIMAL(10, 2)      -- números com casas decimais: 1999.99\nREAL / FLOAT        -- ponto flutuante (aproximado)\n\n-- Texto\nVARCHAR(255)        -- texto com limite: nomes, emails\nTEXT                -- texto longo sem limite: descrições\nCHAR(2)             -- tamanho fixo: 'BR', 'SP'\n\n-- Data e Hora\nDATE                -- apenas data: 2024-01-15\nTIMESTAMP           -- data e hora: 2024-01-15 14:30:00\n\n-- Outros\nBOOLEAN             -- true ou false\nSERIAL / BIGSERIAL  -- inteiro autoincremento (PostgreSQL)",
+                "lese": "Data types define what can be stored and how much space it takes — choosing the right type saves space and prevents invalid data"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "Tipos de Datos Esenciales",
-          "conteudo": { "blocos": [
-            "Cada columna necesita un tipo. Los más comunes:",
-            { "type": "code", "code": "-- Números\nINTEGER / INT       -- números inteiros: 1, 42, -7\nDECIMAL(10, 2)      -- números com casas decimais: 1999.99\nREAL / FLOAT        -- ponto flutuante (aproximado)\n\n-- Texto\nVARCHAR(255)        -- texto com limite: nomes, emails\nTEXT                -- texto longo sem limite: descrições\nCHAR(2)             -- tamanho fixo: 'BR', 'SP'\n\n-- Data e Hora\nDATE                -- apenas data: 2024-01-15\nTIMESTAMP           -- data e hora: 2024-01-15 14:30:00\n\n-- Outros\nBOOLEAN             -- true ou false\nSERIAL / BIGSERIAL  -- inteiro autoincremento (PostgreSQL)", "lese": "Los tipos de datos definen qué se puede almacenar y cuánto espacio ocupa — elegir el tipo correcto ahorra espacio y evita datos inválidos" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Cada columna necesita un tipo. Los más comunes:",
+              {
+                "type": "code",
+                "code": "-- Números\nINTEGER / INT       -- números inteiros: 1, 42, -7\nDECIMAL(10, 2)      -- números com casas decimais: 1999.99\nREAL / FLOAT        -- ponto flutuante (aproximado)\n\n-- Texto\nVARCHAR(255)        -- texto com limite: nomes, emails\nTEXT                -- texto longo sem limite: descrições\nCHAR(2)             -- tamanho fixo: 'BR', 'SP'\n\n-- Data e Hora\nDATE                -- apenas data: 2024-01-15\nTIMESTAMP           -- data e hora: 2024-01-15 14:30:00\n\n-- Outros\nBOOLEAN             -- true ou false\nSERIAL / BIGSERIAL  -- inteiro autoincremento (PostgreSQL)",
+                "lese": "Los tipos de datos definen qué se puede almacenar y cuánto espacio ocupa — elegir el tipo correcto ahorra espacio y evita datos inválidos"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "CREATE TABLE — A Sintaxe Completa",
-      "conteudo": { "blocos": [
-        { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID   SERIAL        PRIMARY KEY,\n  Nome        VARCHAR(100)  NOT NULL,\n  Email       VARCHAR(150)  UNIQUE NOT NULL,\n  Telefone    VARCHAR(20),\n  Cidade      VARCHAR(80)   DEFAULT 'São Paulo',\n  Ativo       BOOLEAN       DEFAULT true,\n  CriadoEm   TIMESTAMP     DEFAULT NOW()\n)", "lese": "Cria a tabela Clientes: ClienteID é autoincrementado e chave primária, Nome e Email são obrigatórios, Email deve ser único, Telefone é opcional, Cidade tem valor padrão, Ativo começa como verdadeiro e CriadoEm registra a data automaticamente" },
-        { "type": "nota", "texto": "NOT NULL: campo obrigatório. DEFAULT: valor usado quando não informado. UNIQUE: sem duplicatas. SERIAL: autoincrementa (1, 2, 3...)." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "code",
+            "code": "CREATE TABLE Clientes (\n  ClienteID   SERIAL        PRIMARY KEY,\n  Nome        VARCHAR(100)  NOT NULL,\n  Email       VARCHAR(150)  UNIQUE NOT NULL,\n  Telefone    VARCHAR(20),\n  Cidade      VARCHAR(80)   DEFAULT 'São Paulo',\n  Ativo       BOOLEAN       DEFAULT true,\n  CriadoEm   TIMESTAMP     DEFAULT NOW()\n)",
+            "lese": "Cria a tabela Clientes: ClienteID é autoincrementado e chave primária, Nome e Email são obrigatórios, Email deve ser único, Telefone é opcional, Cidade tem valor padrão, Ativo começa como verdadeiro e CriadoEm registra a data automaticamente"
+          },
+          {
+            "type": "nota",
+            "texto": "NOT NULL: campo obrigatório. DEFAULT: valor usado quando não informado. UNIQUE: sem duplicatas. SERIAL: autoincrementa (1, 2, 3...)."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "CREATE TABLE — The Full Syntax",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID   SERIAL        PRIMARY KEY,\n  Nome        VARCHAR(100)  NOT NULL,\n  Email       VARCHAR(150)  UNIQUE NOT NULL,\n  Telefone    VARCHAR(20),\n  Cidade      VARCHAR(80)   DEFAULT 'São Paulo',\n  Ativo       BOOLEAN       DEFAULT true,\n  CriadoEm   TIMESTAMP     DEFAULT NOW()\n)", "lese": "Creates the Clientes table: ClienteID is auto-incremented and the primary key, Nome and Email are required, Email must be unique, Telefone is optional, Cidade has a default value, Ativo starts as true and CriadoEm records the date automatically" },
-            { "type": "nota", "texto": "NOT NULL: required field. DEFAULT: value used when not provided. UNIQUE: no duplicates. SERIAL: auto-increments (1, 2, 3...)." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "CREATE TABLE Clientes (\n  ClienteID   SERIAL        PRIMARY KEY,\n  Nome        VARCHAR(100)  NOT NULL,\n  Email       VARCHAR(150)  UNIQUE NOT NULL,\n  Telefone    VARCHAR(20),\n  Cidade      VARCHAR(80)   DEFAULT 'São Paulo',\n  Ativo       BOOLEAN       DEFAULT true,\n  CriadoEm   TIMESTAMP     DEFAULT NOW()\n)",
+                "lese": "Creates the Clientes table: ClienteID is auto-incremented and the primary key, Nome and Email are required, Email must be unique, Telefone is optional, Cidade has a default value, Ativo starts as true and CriadoEm records the date automatically"
+              },
+              {
+                "type": "nota",
+                "texto": "NOT NULL: required field. DEFAULT: value used when not provided. UNIQUE: no duplicates. SERIAL: auto-increments (1, 2, 3...)."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "CREATE TABLE — La Sintaxis Completa",
-          "conteudo": { "blocos": [
-            { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID   SERIAL        PRIMARY KEY,\n  Nome        VARCHAR(100)  NOT NULL,\n  Email       VARCHAR(150)  UNIQUE NOT NULL,\n  Telefone    VARCHAR(20),\n  Cidade      VARCHAR(80)   DEFAULT 'São Paulo',\n  Ativo       BOOLEAN       DEFAULT true,\n  CriadoEm   TIMESTAMP     DEFAULT NOW()\n)", "lese": "Crea la tabla Clientes: ClienteID es autoincremental y clave primaria, Nome y Email son obligatorios, Email debe ser único, Telefone es opcional, Cidade tiene valor predeterminado, Ativo empieza como verdadero y CriadoEm registra la fecha automáticamente" },
-            { "type": "nota", "texto": "NOT NULL: campo obligatorio. DEFAULT: valor usado cuando no se informa. UNIQUE: sin duplicados. SERIAL: autoincrementa (1, 2, 3...)." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "code",
+                "code": "CREATE TABLE Clientes (\n  ClienteID   SERIAL        PRIMARY KEY,\n  Nome        VARCHAR(100)  NOT NULL,\n  Email       VARCHAR(150)  UNIQUE NOT NULL,\n  Telefone    VARCHAR(20),\n  Cidade      VARCHAR(80)   DEFAULT 'São Paulo',\n  Ativo       BOOLEAN       DEFAULT true,\n  CriadoEm   TIMESTAMP     DEFAULT NOW()\n)",
+                "lese": "Crea la tabla Clientes: ClienteID es autoincremental y clave primaria, Nome y Email son obligatorios, Email debe ser único, Telefone es opcional, Cidade tiene valor predeterminado, Ativo empieza como verdadero y CriadoEm registra la fecha automáticamente"
+              },
+              {
+                "type": "nota",
+                "texto": "NOT NULL: campo obligatorio. DEFAULT: valor usado cuando no se informa. UNIQUE: sin duplicados. SERIAL: autoincrementa (1, 2, 3...)."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 5, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "ordem": 5,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 150,
       "titulo": "Crie a Tabela de Produtos",
       "conteudo": {
         "instrucao": "Crie uma tabela chamada Produtos com as colunas: ProdutoID (INTEGER, PRIMARY KEY), Nome (TEXT, NOT NULL), Preco (REAL, NOT NULL) e Estoque (INTEGER, DEFAULT 0).",
@@ -115,7 +223,15 @@
         "placeholder": "CREATE TABLE Produtos (\n  ProdutoID INTEGER PRIMARY KEY,\n  Nome      TEXT    NOT NULL,\n  Preco     REAL    NOT NULL,\n  Estoque   INTEGER DEFAULT 0\n)",
         "schema": "",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Preco", "Estoque"], "min_rows": 0 }
+        "checkConfig": {
+          "required_columns": [
+            "ProdutoID",
+            "Nome",
+            "Preco",
+            "Estoque"
+          ],
+          "min_rows": 0
+        }
       },
       "traducoes": {
         "en": {
@@ -126,7 +242,15 @@
             "placeholder": "CREATE TABLE Produtos (\n  ProdutoID INTEGER PRIMARY KEY,\n  Nome      TEXT    NOT NULL,\n  Preco     REAL    NOT NULL,\n  Estoque   INTEGER DEFAULT 0\n)",
             "schema": "",
             "checkType": "columns",
-            "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Preco", "Estoque"], "min_rows": 0 }
+            "checkConfig": {
+              "required_columns": [
+                "ProdutoID",
+                "Nome",
+                "Preco",
+                "Estoque"
+              ],
+              "min_rows": 0
+            }
           }
         },
         "es": {
@@ -137,67 +261,150 @@
             "placeholder": "CREATE TABLE Produtos (\n  ProdutoID INTEGER PRIMARY KEY,\n  Nome      TEXT    NOT NULL,\n  Preco     REAL    NOT NULL,\n  Estoque   INTEGER DEFAULT 0\n)",
             "schema": "",
             "checkType": "columns",
-            "checkConfig": { "required_columns": ["ProdutoID", "Nome", "Preco", "Estoque"], "min_rows": 0 }
+            "checkConfig": {
+              "required_columns": [
+                "ProdutoID",
+                "Nome",
+                "Preco",
+                "Estoque"
+              ],
+              "min_rows": 0
+            }
           }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "FOREIGN KEY — Ligando Tabelas",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "FOREIGN KEY", "def": "Uma coluna que referencia a PRIMARY KEY de outra tabela. Garante que você não pode inserir um valor que não existe na tabela referenciada — isso é chamado de integridade referencial." },
-        { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID   SERIAL       PRIMARY KEY,\n  ClienteID  INTEGER      NOT NULL,\n  Produto    VARCHAR(100) NOT NULL,\n  Valor      DECIMAL(10,2) NOT NULL,\n  PedidoEm  TIMESTAMP    DEFAULT NOW(),\n\n  CONSTRAINT fk_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE CASCADE\n)", "lese": "Cria a tabela Pedidos onde ClienteID é uma chave estrangeira que aponta para Clientes — ON DELETE CASCADE significa: se o cliente for deletado, seus pedidos também são deletados automaticamente" },
-        { "type": "nota", "texto": "ON DELETE CASCADE: deleta registros filhos quando o pai é deletado. ON DELETE RESTRICT (padrão): impede deletar o pai se houver filhos. ON DELETE SET NULL: define o campo como NULL." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "FOREIGN KEY",
+            "def": "Uma coluna que referencia a PRIMARY KEY de outra tabela. Garante que você não pode inserir um valor que não existe na tabela referenciada — isso é chamado de integridade referencial."
+          },
+          {
+            "type": "code",
+            "code": "CREATE TABLE Pedidos (\n  PedidoID   SERIAL       PRIMARY KEY,\n  ClienteID  INTEGER      NOT NULL,\n  Produto    VARCHAR(100) NOT NULL,\n  Valor      DECIMAL(10,2) NOT NULL,\n  PedidoEm  TIMESTAMP    DEFAULT NOW(),\n\n  CONSTRAINT fk_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE CASCADE\n)",
+            "lese": "Cria a tabela Pedidos onde ClienteID é uma chave estrangeira que aponta para Clientes — ON DELETE CASCADE significa: se o cliente for deletado, seus pedidos também são deletados automaticamente"
+          },
+          {
+            "type": "nota",
+            "texto": "ON DELETE CASCADE: deleta registros filhos quando o pai é deletado. ON DELETE RESTRICT (padrão): impede deletar o pai se houver filhos. ON DELETE SET NULL: define o campo como NULL."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "FOREIGN KEY — Linking Tables",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "FOREIGN KEY", "def": "A column that references the PRIMARY KEY of another table. Ensures you cannot insert a value that doesn't exist in the referenced table — this is called referential integrity." },
-            { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID   SERIAL       PRIMARY KEY,\n  ClienteID  INTEGER      NOT NULL,\n  Produto    VARCHAR(100) NOT NULL,\n  Valor      DECIMAL(10,2) NOT NULL,\n  PedidoEm  TIMESTAMP    DEFAULT NOW(),\n\n  CONSTRAINT fk_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE CASCADE\n)", "lese": "Creates the Pedidos table where ClienteID is a foreign key pointing to Clientes — ON DELETE CASCADE means: if the customer is deleted, their orders are also deleted automatically" },
-            { "type": "nota", "texto": "ON DELETE CASCADE: deletes child records when the parent is deleted. ON DELETE RESTRICT (default): prevents deleting the parent if there are children. ON DELETE SET NULL: sets the field to NULL." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "FOREIGN KEY",
+                "def": "A column that references the PRIMARY KEY of another table. Ensures you cannot insert a value that doesn't exist in the referenced table — this is called referential integrity."
+              },
+              {
+                "type": "code",
+                "code": "CREATE TABLE Pedidos (\n  PedidoID   SERIAL       PRIMARY KEY,\n  ClienteID  INTEGER      NOT NULL,\n  Produto    VARCHAR(100) NOT NULL,\n  Valor      DECIMAL(10,2) NOT NULL,\n  PedidoEm  TIMESTAMP    DEFAULT NOW(),\n\n  CONSTRAINT fk_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE CASCADE\n)",
+                "lese": "Creates the Pedidos table where ClienteID is a foreign key pointing to Clientes — ON DELETE CASCADE means: if the customer is deleted, their orders are also deleted automatically"
+              },
+              {
+                "type": "nota",
+                "texto": "ON DELETE CASCADE: deletes child records when the parent is deleted. ON DELETE RESTRICT (default): prevents deleting the parent if there are children. ON DELETE SET NULL: sets the field to NULL."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "FOREIGN KEY — Vinculando Tablas",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "FOREIGN KEY", "def": "Una columna que referencia la PRIMARY KEY de otra tabla. Garantiza que no puedes insertar un valor que no existe en la tabla referenciada — esto se llama integridad referencial." },
-            { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID   SERIAL       PRIMARY KEY,\n  ClienteID  INTEGER      NOT NULL,\n  Produto    VARCHAR(100) NOT NULL,\n  Valor      DECIMAL(10,2) NOT NULL,\n  PedidoEm  TIMESTAMP    DEFAULT NOW(),\n\n  CONSTRAINT fk_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE CASCADE\n)", "lese": "Crea la tabla Pedidos donde ClienteID es una clave foránea que apunta a Clientes — ON DELETE CASCADE significa: si el cliente es eliminado, sus pedidos también se eliminan automáticamente" },
-            { "type": "nota", "texto": "ON DELETE CASCADE: elimina registros hijos cuando se elimina el padre. ON DELETE RESTRICT (predeterminado): impide eliminar el padre si hay hijos. ON DELETE SET NULL: define el campo como NULL." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "FOREIGN KEY",
+                "def": "Una columna que referencia la PRIMARY KEY de otra tabla. Garantiza que no puedes insertar un valor que no existe en la tabla referenciada — esto se llama integridad referencial."
+              },
+              {
+                "type": "code",
+                "code": "CREATE TABLE Pedidos (\n  PedidoID   SERIAL       PRIMARY KEY,\n  ClienteID  INTEGER      NOT NULL,\n  Produto    VARCHAR(100) NOT NULL,\n  Valor      DECIMAL(10,2) NOT NULL,\n  PedidoEm  TIMESTAMP    DEFAULT NOW(),\n\n  CONSTRAINT fk_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE CASCADE\n)",
+                "lese": "Crea la tabla Pedidos donde ClienteID es una clave foránea que apunta a Clientes — ON DELETE CASCADE significa: si el cliente es eliminado, sus pedidos también se eliminan automáticamente"
+              },
+              {
+                "type": "nota",
+                "texto": "ON DELETE CASCADE: elimina registros hijos cuando se elimina el padre. ON DELETE RESTRICT (predeterminado): impide eliminar el padre si hay hijos. ON DELETE SET NULL: define el campo como NULL."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 7, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 7,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "CREATE TABLE IF NOT EXISTS",
-      "conteudo": { "blocos": [
-        "Para evitar erros ao rodar o script mais de uma vez:",
-        { "type": "code", "code": "CREATE TABLE IF NOT EXISTS Categorias (\n  CategoriaID SERIAL       PRIMARY KEY,\n  Nome        VARCHAR(80)  NOT NULL UNIQUE,\n  Descricao   TEXT\n)", "lese": "Cria a tabela Categorias apenas se ela ainda não existir — evita o erro 'tabela já existe' ao rodar migrations múltiplas vezes" },
-        { "type": "nota", "texto": "Em produção, use sempre IF NOT EXISTS para que seus scripts de criação sejam idempotentes — seguros para rodar mais de uma vez." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Para evitar erros ao rodar o script mais de uma vez:",
+          {
+            "type": "code",
+            "code": "CREATE TABLE IF NOT EXISTS Categorias (\n  CategoriaID SERIAL       PRIMARY KEY,\n  Nome        VARCHAR(80)  NOT NULL UNIQUE,\n  Descricao   TEXT\n)",
+            "lese": "Cria a tabela Categorias apenas se ela ainda não existir — evita o erro 'tabela já existe' ao rodar migrations múltiplas vezes"
+          },
+          {
+            "type": "nota",
+            "texto": "Em produção, use sempre IF NOT EXISTS para que seus scripts de criação sejam idempotentes — seguros para rodar mais de uma vez."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "CREATE TABLE IF NOT EXISTS",
-          "conteudo": { "blocos": [
-            "To avoid errors when running the script more than once:",
-            { "type": "code", "code": "CREATE TABLE IF NOT EXISTS Categorias (\n  CategoriaID SERIAL       PRIMARY KEY,\n  Nome        VARCHAR(80)  NOT NULL UNIQUE,\n  Descricao   TEXT\n)", "lese": "Creates the Categorias table only if it doesn't already exist — avoids the 'table already exists' error when running migrations multiple times" },
-            { "type": "nota", "texto": "In production, always use IF NOT EXISTS so your creation scripts are idempotent — safe to run more than once." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "To avoid errors when running the script more than once:",
+              {
+                "type": "code",
+                "code": "CREATE TABLE IF NOT EXISTS Categorias (\n  CategoriaID SERIAL       PRIMARY KEY,\n  Nome        VARCHAR(80)  NOT NULL UNIQUE,\n  Descricao   TEXT\n)",
+                "lese": "Creates the Categorias table only if it doesn't already exist — avoids the 'table already exists' error when running migrations multiple times"
+              },
+              {
+                "type": "nota",
+                "texto": "In production, always use IF NOT EXISTS so your creation scripts are idempotent — safe to run more than once."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "CREATE TABLE IF NOT EXISTS",
-          "conteudo": { "blocos": [
-            "Para evitar errores al ejecutar el script más de una vez:",
-            { "type": "code", "code": "CREATE TABLE IF NOT EXISTS Categorias (\n  CategoriaID SERIAL       PRIMARY KEY,\n  Nome        VARCHAR(80)  NOT NULL UNIQUE,\n  Descricao   TEXT\n)", "lese": "Crea la tabla Categorias solo si aún no existe — evita el error 'tabla ya existe' al ejecutar migraciones varias veces" },
-            { "type": "nota", "texto": "En producción, usa siempre IF NOT EXISTS para que tus scripts de creación sean idempotentes — seguros para ejecutar más de una vez." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Para evitar errores al ejecutar el script más de una vez:",
+              {
+                "type": "code",
+                "code": "CREATE TABLE IF NOT EXISTS Categorias (\n  CategoriaID SERIAL       PRIMARY KEY,\n  Nome        VARCHAR(80)  NOT NULL UNIQUE,\n  Descricao   TEXT\n)",
+                "lese": "Crea la tabla Categorias solo si aún no existe — evita el error 'tabla ya existe' al ejecutar migraciones varias veces"
+              },
+              {
+                "type": "nota",
+                "texto": "En producción, usa siempre IF NOT EXISTS para que tus scripts de creación sean idempotentes — seguros para ejecutar más de una vez."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
       "titulo": "Tabela com Chave Estrangeira",
       "conteudo": {
         "instrucao": "Crie a tabela Pedidos com: PedidoID (INTEGER PRIMARY KEY), ClienteID (INTEGER NOT NULL), Valor (REAL NOT NULL) e uma FOREIGN KEY em ClienteID referenciando Clientes(ClienteID).",
@@ -205,7 +412,14 @@
         "placeholder": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT);\n\nCREATE TABLE Pedidos (\n  PedidoID  INTEGER PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     REAL    NOT NULL,\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n)",
         "schema": "",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["PedidoID", "ClienteID", "Valor"], "min_rows": 0 }
+        "checkConfig": {
+          "required_columns": [
+            "PedidoID",
+            "ClienteID",
+            "Valor"
+          ],
+          "min_rows": 0
+        }
       },
       "traducoes": {
         "en": {
@@ -216,7 +430,14 @@
             "placeholder": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT);\n\nCREATE TABLE Pedidos (\n  PedidoID  INTEGER PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     REAL    NOT NULL,\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n)",
             "schema": "",
             "checkType": "columns",
-            "checkConfig": { "required_columns": ["PedidoID", "ClienteID", "Valor"], "min_rows": 0 }
+            "checkConfig": {
+              "required_columns": [
+                "PedidoID",
+                "ClienteID",
+                "Valor"
+              ],
+              "min_rows": 0
+            }
           }
         },
         "es": {
@@ -227,13 +448,23 @@
             "placeholder": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT);\n\nCREATE TABLE Pedidos (\n  PedidoID  INTEGER PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     REAL    NOT NULL,\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n)",
             "schema": "",
             "checkType": "columns",
-            "checkConfig": { "required_columns": ["PedidoID", "ClienteID", "Valor"], "min_rows": 0 }
+            "checkConfig": {
+              "required_columns": [
+                "PedidoID",
+                "ClienteID",
+                "Valor"
+              ],
+              "min_rows": 0
+            }
           }
         }
       }
     },
     {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
       "titulo": "Schema Completo de uma Livraria",
       "conteudo": {
         "instrucao": "Crie a tabela Livros com: LivroID (INTEGER PRIMARY KEY), Titulo (TEXT NOT NULL), AutorID (INTEGER), Preco (REAL NOT NULL DEFAULT 0), Publicado (INTEGER DEFAULT 1).",
@@ -241,7 +472,16 @@
         "placeholder": "CREATE TABLE Livros (\n  LivroID   INTEGER PRIMARY KEY,\n  Titulo    TEXT    NOT NULL,\n  AutorID   INTEGER,\n  Preco     REAL    NOT NULL DEFAULT 0,\n  Publicado INTEGER DEFAULT 1\n)",
         "schema": "",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["LivroID", "Titulo", "AutorID", "Preco", "Publicado"], "min_rows": 0 }
+        "checkConfig": {
+          "required_columns": [
+            "LivroID",
+            "Titulo",
+            "AutorID",
+            "Preco",
+            "Publicado"
+          ],
+          "min_rows": 0
+        }
       },
       "traducoes": {
         "en": {
@@ -252,7 +492,16 @@
             "placeholder": "CREATE TABLE Livros (\n  LivroID   INTEGER PRIMARY KEY,\n  Titulo    TEXT    NOT NULL,\n  AutorID   INTEGER,\n  Preco     REAL    NOT NULL DEFAULT 0,\n  Publicado INTEGER DEFAULT 1\n)",
             "schema": "",
             "checkType": "columns",
-            "checkConfig": { "required_columns": ["LivroID", "Titulo", "AutorID", "Preco", "Publicado"], "min_rows": 0 }
+            "checkConfig": {
+              "required_columns": [
+                "LivroID",
+                "Titulo",
+                "AutorID",
+                "Preco",
+                "Publicado"
+              ],
+              "min_rows": 0
+            }
           }
         },
         "es": {
@@ -263,59 +512,92 @@
             "placeholder": "CREATE TABLE Livros (\n  LivroID   INTEGER PRIMARY KEY,\n  Titulo    TEXT    NOT NULL,\n  AutorID   INTEGER,\n  Preco     REAL    NOT NULL DEFAULT 0,\n  Publicado INTEGER DEFAULT 1\n)",
             "schema": "",
             "checkType": "columns",
-            "checkConfig": { "required_columns": ["LivroID", "Titulo", "AutorID", "Preco", "Publicado"], "min_rows": 0 }
+            "checkConfig": {
+              "required_columns": [
+                "LivroID",
+                "Titulo",
+                "AutorID",
+                "Preco",
+                "Publicado"
+              ],
+              "min_rows": 0
+            }
           }
         }
       }
     },
     {
-      "ordem": 10, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 10,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: CREATE TABLE",
-      "conteudo": { "cor": "verde", "itens": [
-        "DDL = estrutura (CREATE/ALTER/DROP), DML = dados (SELECT/INSERT/UPDATE/DELETE)",
-        "Tipos principais: INTEGER, DECIMAL, VARCHAR, TEXT, DATE, TIMESTAMP, BOOLEAN",
-        "NOT NULL: campo obrigatório | DEFAULT valor: valor padrão",
-        "PRIMARY KEY: identificador único | SERIAL: autoincremento",
-        "FOREIGN KEY: liga tabelas e garante integridade referencial",
-        "IF NOT EXISTS: script seguro para rodar múltiplas vezes"
-      ]},
+      "conteudo": {
+        "cor": "verde",
+        "itens": [
+          "DDL = estrutura (CREATE/ALTER/DROP), DML = dados (SELECT/INSERT/UPDATE/DELETE)",
+          "Tipos principais: INTEGER, DECIMAL, VARCHAR, TEXT, DATE, TIMESTAMP, BOOLEAN",
+          "NOT NULL: campo obrigatório | DEFAULT valor: valor padrão",
+          "PRIMARY KEY: identificador único | SERIAL: autoincremento",
+          "FOREIGN KEY: liga tabelas e garante integridade referencial",
+          "IF NOT EXISTS: script seguro para rodar múltiplas vezes"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: CREATE TABLE",
-          "conteudo": { "cor": "verde", "itens": [
-            "DDL = structure (CREATE/ALTER/DROP), DML = data (SELECT/INSERT/UPDATE/DELETE)",
-            "Main types: INTEGER, DECIMAL, VARCHAR, TEXT, DATE, TIMESTAMP, BOOLEAN",
-            "NOT NULL: required field | DEFAULT value: default value",
-            "PRIMARY KEY: unique identifier | SERIAL: auto-increment",
-            "FOREIGN KEY: links tables and ensures referential integrity",
-            "IF NOT EXISTS: safe script to run multiple times"
-          ]}
+          "conteudo": {
+            "cor": "verde",
+            "itens": [
+              "DDL = structure (CREATE/ALTER/DROP), DML = data (SELECT/INSERT/UPDATE/DELETE)",
+              "Main types: INTEGER, DECIMAL, VARCHAR, TEXT, DATE, TIMESTAMP, BOOLEAN",
+              "NOT NULL: required field | DEFAULT value: default value",
+              "PRIMARY KEY: unique identifier | SERIAL: auto-increment",
+              "FOREIGN KEY: links tables and ensures referential integrity",
+              "IF NOT EXISTS: safe script to run multiple times"
+            ]
+          }
         },
         "es": {
           "titulo": "Resumen: CREATE TABLE",
-          "conteudo": { "cor": "verde", "itens": [
-            "DDL = estructura (CREATE/ALTER/DROP), DML = datos (SELECT/INSERT/UPDATE/DELETE)",
-            "Tipos principales: INTEGER, DECIMAL, VARCHAR, TEXT, DATE, TIMESTAMP, BOOLEAN",
-            "NOT NULL: campo obligatorio | DEFAULT valor: valor predeterminado",
-            "PRIMARY KEY: identificador único | SERIAL: autoincremento",
-            "FOREIGN KEY: vincula tablas y garantiza integridad referencial",
-            "IF NOT EXISTS: script seguro para ejecutar varias veces"
-          ]}
+          "conteudo": {
+            "cor": "verde",
+            "itens": [
+              "DDL = estructura (CREATE/ALTER/DROP), DML = datos (SELECT/INSERT/UPDATE/DELETE)",
+              "Tipos principales: INTEGER, DECIMAL, VARCHAR, TEXT, DATE, TIMESTAMP, BOOLEAN",
+              "NOT NULL: campo obligatorio | DEFAULT valor: valor predeterminado",
+              "PRIMARY KEY: identificador único | SERIAL: autoincremento",
+              "FOREIGN KEY: vincula tablas y garantiza integridad referencial",
+              "IF NOT EXISTS: script seguro para ejecutar varias veces"
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 11,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "CREATE TABLE dominado!",
-      "conteudo": { "mensagem": "Agora você cria estruturas de banco do zero! Tipos de dados, chaves e relacionamentos — você tem o vocabulário completo de um DBA.", "xpGanho": 500 },
+      "conteudo": {
+        "mensagem": "Agora você cria estruturas de banco do zero! Tipos de dados, chaves e relacionamentos — você tem o vocabulário completo de um DBA.",
+        "xpGanho": 500
+      },
       "traducoes": {
         "en": {
           "titulo": "CREATE TABLE mastered!",
-          "conteudo": { "mensagem": "Now you create database structures from scratch! Data types, keys and relationships — you have the complete vocabulary of a DBA.", "xpGanho": 500 }
+          "conteudo": {
+            "mensagem": "Now you create database structures from scratch! Data types, keys and relationships — you have the complete vocabulary of a DBA.",
+            "xpGanho": 500
+          }
         },
         "es": {
           "titulo": "¡CREATE TABLE dominado!",
-          "conteudo": { "mensagem": "¡Ahora creas estructuras de base de datos desde cero! Tipos de datos, claves y relaciones — tienes el vocabulario completo de un DBA.", "xpGanho": 500 }
+          "conteudo": {
+            "mensagem": "¡Ahora creas estructuras de base de datos desde cero! Tipos de datos, claves y relaciones — tienes el vocabulario completo de un DBA.",
+            "xpGanho": 500
+          }
         }
       }
     }

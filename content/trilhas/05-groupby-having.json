@@ -3,7 +3,7 @@
   "titulo": "GROUP BY e HAVING",
   "descricao": "Agrupe dados por categoria e filtre grupos com HAVING para relatórios e análises poderosas.",
   "icone": "🗂️",
-  "ordem": 6,
+  "ordem": 7,
   "xpTotal": 750,
   "traducoes": {
     "en": {
@@ -17,181 +17,419 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "GROUP BY e HAVING",
-      "conteudo": { "emoji": "🗂️", "subtitulo": "Agrupe e resuma dados por categoria" },
+      "conteudo": {
+        "emoji": "🗂️",
+        "subtitulo": "Agrupe e resuma dados por categoria"
+      },
       "traducoes": {
         "en": {
           "titulo": "GROUP BY and HAVING",
-          "conteudo": { "subtitulo": "Group and summarize data by category" }
+          "conteudo": {
+            "subtitulo": "Group and summarize data by category"
+          }
         },
         "es": {
           "titulo": "GROUP BY y HAVING",
-          "conteudo": { "subtitulo": "Agrupa y resume datos por categoría" }
+          "conteudo": {
+            "subtitulo": "Agrupa y resume datos por categoría"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "GROUP BY — Agrupando por Categoria",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "GROUP BY", "def": "Agrupa registros com o mesmo valor em uma coluna e aplica funções de agregação em cada grupo." },
-        { "type": "code", "code": "SELECT Departamento, COUNT(*) AS TotalFuncionarios\nFROM Funcionarios\nGROUP BY Departamento", "lese": "Para cada departamento diferente, conta quantos funcionários existem — retorna uma linha por departamento" },
-        { "type": "code", "code": "SELECT Categoria, SUM(Estoque) AS EstoqueTotal\nFROM Produtos\nGROUP BY Categoria", "lese": "Para cada categoria de produto, soma o estoque total disponível" },
-        { "type": "nota", "texto": "Toda coluna no SELECT que não é uma função de agregação (SUM, COUNT, AVG...) deve aparecer no GROUP BY." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "GROUP BY",
+            "def": "Agrupa registros com o mesmo valor em uma coluna e aplica funções de agregação em cada grupo."
+          },
+          {
+            "type": "code",
+            "code": "SELECT Departamento, COUNT(*) AS TotalFuncionarios\nFROM Funcionarios\nGROUP BY Departamento",
+            "lese": "Para cada departamento diferente, conta quantos funcionários existem — retorna uma linha por departamento"
+          },
+          {
+            "type": "code",
+            "code": "SELECT Categoria, SUM(Estoque) AS EstoqueTotal\nFROM Produtos\nGROUP BY Categoria",
+            "lese": "Para cada categoria de produto, soma o estoque total disponível"
+          },
+          {
+            "type": "nota",
+            "texto": "Toda coluna no SELECT que não é uma função de agregação (SUM, COUNT, AVG...) deve aparecer no GROUP BY."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "GROUP BY — Grouping by Category",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "GROUP BY", "def": "Groups records with the same value in a column and applies aggregate functions to each group." },
-            { "type": "code", "code": "SELECT Departamento, COUNT(*) AS TotalFuncionarios\nFROM Funcionarios\nGROUP BY Departamento", "lese": "For each different department, counts how many employees exist — returns one row per department" },
-            { "type": "code", "code": "SELECT Categoria, SUM(Estoque) AS EstoqueTotal\nFROM Produtos\nGROUP BY Categoria", "lese": "For each product category, sums the total available stock" },
-            { "type": "nota", "texto": "Every column in SELECT that is not an aggregate function (SUM, COUNT, AVG...) must appear in GROUP BY." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "GROUP BY",
+                "def": "Groups records with the same value in a column and applies aggregate functions to each group."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Departamento, COUNT(*) AS TotalFuncionarios\nFROM Funcionarios\nGROUP BY Departamento",
+                "lese": "For each different department, counts how many employees exist — returns one row per department"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Categoria, SUM(Estoque) AS EstoqueTotal\nFROM Produtos\nGROUP BY Categoria",
+                "lese": "For each product category, sums the total available stock"
+              },
+              {
+                "type": "nota",
+                "texto": "Every column in SELECT that is not an aggregate function (SUM, COUNT, AVG...) must appear in GROUP BY."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "GROUP BY — Agrupando por Categoría",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "GROUP BY", "def": "Agrupa registros con el mismo valor en una columna y aplica funciones de agregación a cada grupo." },
-            { "type": "code", "code": "SELECT Departamento, COUNT(*) AS TotalFuncionarios\nFROM Funcionarios\nGROUP BY Departamento", "lese": "Para cada departamento diferente, cuenta cuántos empleados hay — devuelve una fila por departamento" },
-            { "type": "code", "code": "SELECT Categoria, SUM(Estoque) AS EstoqueTotal\nFROM Produtos\nGROUP BY Categoria", "lese": "Para cada categoría de producto, suma el stock total disponible" },
-            { "type": "nota", "texto": "Toda columna en SELECT que no es una función de agregación (SUM, COUNT, AVG...) debe aparecer en GROUP BY." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "GROUP BY",
+                "def": "Agrupa registros con el mismo valor en una columna y aplica funciones de agregación a cada grupo."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Departamento, COUNT(*) AS TotalFuncionarios\nFROM Funcionarios\nGROUP BY Departamento",
+                "lese": "Para cada departamento diferente, cuenta cuántos empleados hay — devuelve una fila por departamento"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Categoria, SUM(Estoque) AS EstoqueTotal\nFROM Produtos\nGROUP BY Categoria",
+                "lese": "Para cada categoría de producto, suma el stock total disponible"
+              },
+              {
+                "type": "nota",
+                "texto": "Toda columna en SELECT que no es una función de agregación (SUM, COUNT, AVG...) debe aparecer en GROUP BY."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "GROUP BY com Múltiplas Colunas",
-      "conteudo": { "blocos": [
-        "Você pode agrupar por mais de uma coluna para criar grupos mais específicos:",
-        { "type": "code", "code": "SELECT Departamento, Cargo, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento, Cargo", "lese": "Conta funcionários agrupados por departamento E cargo — cada combinação de departamento+cargo vira uma linha" },
-        { "type": "code", "code": "SELECT Cidade, Categoria, AVG(Preco) AS PrecoMedio\nFROM Produtos\nGROUP BY Cidade, Categoria", "lese": "Para cada combinação de cidade e categoria, calcula o preço médio dos produtos" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Você pode agrupar por mais de uma coluna para criar grupos mais específicos:",
+          {
+            "type": "code",
+            "code": "SELECT Departamento, Cargo, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento, Cargo",
+            "lese": "Conta funcionários agrupados por departamento E cargo — cada combinação de departamento+cargo vira uma linha"
+          },
+          {
+            "type": "code",
+            "code": "SELECT Cidade, Categoria, AVG(Preco) AS PrecoMedio\nFROM Produtos\nGROUP BY Cidade, Categoria",
+            "lese": "Para cada combinação de cidade e categoria, calcula o preço médio dos produtos"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "GROUP BY with Multiple Columns",
-          "conteudo": { "blocos": [
-            "You can group by more than one column to create more specific groups:",
-            { "type": "code", "code": "SELECT Departamento, Cargo, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento, Cargo", "lese": "Counts employees grouped by department AND role — each department+role combination becomes a row" },
-            { "type": "code", "code": "SELECT Cidade, Categoria, AVG(Preco) AS PrecoMedio\nFROM Produtos\nGROUP BY Cidade, Categoria", "lese": "For each city and category combination, calculates the average product price" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "You can group by more than one column to create more specific groups:",
+              {
+                "type": "code",
+                "code": "SELECT Departamento, Cargo, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento, Cargo",
+                "lese": "Counts employees grouped by department AND role — each department+role combination becomes a row"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Cidade, Categoria, AVG(Preco) AS PrecoMedio\nFROM Produtos\nGROUP BY Cidade, Categoria",
+                "lese": "For each city and category combination, calculates the average product price"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "GROUP BY con Múltiples Columnas",
-          "conteudo": { "blocos": [
-            "Puedes agrupar por más de una columna para crear grupos más específicos:",
-            { "type": "code", "code": "SELECT Departamento, Cargo, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento, Cargo", "lese": "Cuenta empleados agrupados por departamento Y cargo — cada combinación departamento+cargo se convierte en una fila" },
-            { "type": "code", "code": "SELECT Cidade, Categoria, AVG(Preco) AS PrecoMedio\nFROM Produtos\nGROUP BY Cidade, Categoria", "lese": "Para cada combinación de ciudad y categoría, calcula el precio promedio de los productos" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Puedes agrupar por más de una columna para crear grupos más específicos:",
+              {
+                "type": "code",
+                "code": "SELECT Departamento, Cargo, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento, Cargo",
+                "lese": "Cuenta empleados agrupados por departamento Y cargo — cada combinación departamento+cargo se convierte en una fila"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Cidade, Categoria, AVG(Preco) AS PrecoMedio\nFROM Produtos\nGROUP BY Cidade, Categoria",
+                "lese": "Para cada combinación de ciudad y categoría, calcula el precio promedio de los productos"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "HAVING — Filtrando Grupos",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "HAVING", "def": "Filtra grupos criados pelo GROUP BY. É como um WHERE, mas aplicado DEPOIS do agrupamento." },
-        { "type": "code", "code": "SELECT Departamento, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento\nHAVING COUNT(*) > 2", "lese": "Agrupa funcionários por departamento e retorna apenas os departamentos que têm MAIS de 2 funcionários" },
-        { "type": "code", "code": "SELECT Categoria, SUM(Valor) AS TotalVendas\nFROM Pedidos\nGROUP BY Categoria\nHAVING SUM(Valor) >= 10000", "lese": "Mostra apenas as categorias que tiveram 10.000 reais ou mais em vendas totais" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "HAVING",
+            "def": "Filtra grupos criados pelo GROUP BY. É como um WHERE, mas aplicado DEPOIS do agrupamento."
+          },
+          {
+            "type": "code",
+            "code": "SELECT Departamento, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento\nHAVING COUNT(*) > 2",
+            "lese": "Agrupa funcionários por departamento e retorna apenas os departamentos que têm MAIS de 2 funcionários"
+          },
+          {
+            "type": "code",
+            "code": "SELECT Categoria, SUM(Valor) AS TotalVendas\nFROM Pedidos\nGROUP BY Categoria\nHAVING SUM(Valor) >= 10000",
+            "lese": "Mostra apenas as categorias que tiveram 10.000 reais ou mais em vendas totais"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "HAVING — Filtering Groups",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "HAVING", "def": "Filters groups created by GROUP BY. It is like a WHERE, but applied AFTER grouping." },
-            { "type": "code", "code": "SELECT Departamento, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento\nHAVING COUNT(*) > 2", "lese": "Groups employees by department and returns only departments with MORE than 2 employees" },
-            { "type": "code", "code": "SELECT Categoria, SUM(Valor) AS TotalVendas\nFROM Pedidos\nGROUP BY Categoria\nHAVING SUM(Valor) >= 10000", "lese": "Shows only categories that had 10,000 or more in total sales" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "HAVING",
+                "def": "Filters groups created by GROUP BY. It is like a WHERE, but applied AFTER grouping."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Departamento, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento\nHAVING COUNT(*) > 2",
+                "lese": "Groups employees by department and returns only departments with MORE than 2 employees"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Categoria, SUM(Valor) AS TotalVendas\nFROM Pedidos\nGROUP BY Categoria\nHAVING SUM(Valor) >= 10000",
+                "lese": "Shows only categories that had 10,000 or more in total sales"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "HAVING — Filtrando Grupos",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "HAVING", "def": "Filtra los grupos creados por GROUP BY. Es como un WHERE, pero aplicado DESPUÉS del agrupamiento." },
-            { "type": "code", "code": "SELECT Departamento, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento\nHAVING COUNT(*) > 2", "lese": "Agrupa empleados por departamento y devuelve solo los departamentos con MÁS de 2 empleados" },
-            { "type": "code", "code": "SELECT Categoria, SUM(Valor) AS TotalVendas\nFROM Pedidos\nGROUP BY Categoria\nHAVING SUM(Valor) >= 10000", "lese": "Muestra solo las categorías que tuvieron 10.000 o más en ventas totales" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "HAVING",
+                "def": "Filtra los grupos creados por GROUP BY. Es como un WHERE, pero aplicado DESPUÉS del agrupamiento."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Departamento, COUNT(*) AS Total\nFROM Funcionarios\nGROUP BY Departamento\nHAVING COUNT(*) > 2",
+                "lese": "Agrupa empleados por departamento y devuelve solo los departamentos con MÁS de 2 empleados"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Categoria, SUM(Valor) AS TotalVendas\nFROM Pedidos\nGROUP BY Categoria\nHAVING SUM(Valor) >= 10000",
+                "lese": "Muestra solo las categorías que tuvieron 10.000 o más en ventas totales"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "WHERE vs HAVING — A Diferença",
-      "conteudo": { "blocos": [
-        { "type": "nota", "texto": "Esta é uma dúvida muito comum: WHERE e HAVING parecem iguais, mas são aplicados em momentos diferentes!" },
-        { "type": "code", "code": "WHERE → filtra REGISTROS individuais ANTES do agrupamento\nHAVING → filtra GRUPOS DEPOIS do agrupamento", "lese": "WHERE acontece antes do GROUP BY. HAVING acontece depois do GROUP BY." },
-        { "type": "code", "code": "SELECT Departamento, AVG(Salario) AS Media\nFROM Funcionarios\nWHERE Salario > 3000          -- filtra funcionários antes\nGROUP BY Departamento\nHAVING AVG(Salario) > 6000    -- filtra grupos depois", "lese": "Primeiro filtra apenas funcionários com salário > 3000 (WHERE), agrupa por departamento, depois filtra apenas departamentos com média salarial > 6000 (HAVING)" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "nota",
+            "texto": "Esta é uma dúvida muito comum: WHERE e HAVING parecem iguais, mas são aplicados em momentos diferentes!"
+          },
+          {
+            "type": "code",
+            "code": "WHERE → filtra REGISTROS individuais ANTES do agrupamento\nHAVING → filtra GRUPOS DEPOIS do agrupamento",
+            "lese": "WHERE acontece antes do GROUP BY. HAVING acontece depois do GROUP BY."
+          },
+          {
+            "type": "code",
+            "code": "SELECT Departamento, AVG(Salario) AS Media\nFROM Funcionarios\nWHERE Salario > 3000          -- filtra funcionários antes\nGROUP BY Departamento\nHAVING AVG(Salario) > 6000    -- filtra grupos depois",
+            "lese": "Primeiro filtra apenas funcionários com salário > 3000 (WHERE), agrupa por departamento, depois filtra apenas departamentos com média salarial > 6000 (HAVING)"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "WHERE vs HAVING — The Difference",
-          "conteudo": { "blocos": [
-            { "type": "nota", "texto": "This is a very common question: WHERE and HAVING seem the same, but they are applied at different moments!" },
-            { "type": "code", "code": "WHERE → filtra REGISTROS individuais ANTES do agrupamento\nHAVING → filtra GRUPOS DEPOIS do agrupamento", "lese": "WHERE happens before GROUP BY. HAVING happens after GROUP BY." },
-            { "type": "code", "code": "SELECT Departamento, AVG(Salario) AS Media\nFROM Funcionarios\nWHERE Salario > 3000          -- filtra funcionários antes\nGROUP BY Departamento\nHAVING AVG(Salario) > 6000    -- filtra grupos depois", "lese": "First filters only employees with salary > 3000 (WHERE), groups by department, then filters only departments with average salary > 6000 (HAVING)" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "nota",
+                "texto": "This is a very common question: WHERE and HAVING seem the same, but they are applied at different moments!"
+              },
+              {
+                "type": "code",
+                "code": "WHERE → filtra REGISTROS individuais ANTES do agrupamento\nHAVING → filtra GRUPOS DEPOIS do agrupamento",
+                "lese": "WHERE happens before GROUP BY. HAVING happens after GROUP BY."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Departamento, AVG(Salario) AS Media\nFROM Funcionarios\nWHERE Salario > 3000          -- filtra funcionários antes\nGROUP BY Departamento\nHAVING AVG(Salario) > 6000    -- filtra grupos depois",
+                "lese": "First filters only employees with salary > 3000 (WHERE), groups by department, then filters only departments with average salary > 6000 (HAVING)"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "WHERE vs HAVING — La Diferencia",
-          "conteudo": { "blocos": [
-            { "type": "nota", "texto": "¡Esta es una duda muy común: WHERE y HAVING parecen iguales, pero se aplican en momentos diferentes!" },
-            { "type": "code", "code": "WHERE → filtra REGISTROS individuais ANTES do agrupamento\nHAVING → filtra GRUPOS DEPOIS do agrupamento", "lese": "WHERE ocurre antes del GROUP BY. HAVING ocurre después del GROUP BY." },
-            { "type": "code", "code": "SELECT Departamento, AVG(Salario) AS Media\nFROM Funcionarios\nWHERE Salario > 3000          -- filtra funcionários antes\nGROUP BY Departamento\nHAVING AVG(Salario) > 6000    -- filtra grupos depois", "lese": "Primero filtra solo empleados con salario > 3000 (WHERE), agrupa por departamento, luego filtra solo departamentos con salario promedio > 6000 (HAVING)" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "nota",
+                "texto": "¡Esta es una duda muy común: WHERE y HAVING parecen iguales, pero se aplican en momentos diferentes!"
+              },
+              {
+                "type": "code",
+                "code": "WHERE → filtra REGISTROS individuais ANTES do agrupamento\nHAVING → filtra GRUPOS DEPOIS do agrupamento",
+                "lese": "WHERE ocurre antes del GROUP BY. HAVING ocurre después del GROUP BY."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Departamento, AVG(Salario) AS Media\nFROM Funcionarios\nWHERE Salario > 3000          -- filtra funcionários antes\nGROUP BY Departamento\nHAVING AVG(Salario) > 6000    -- filtra grupos depois",
+                "lese": "Primero filtra solo empleados con salario > 3000 (WHERE), agrupa por departamento, luego filtra solo departamentos con salario promedio > 6000 (HAVING)"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Ordem de Execução do SQL",
-      "conteudo": { "blocos": [
-        "O SQL executa as cláusulas em uma ordem específica (diferente da ordem de escrita):",
-        { "type": "code", "code": "1. FROM   → de qual tabela?\n2. WHERE  → quais registros?\n3. GROUP BY → agrupar por quê?\n4. HAVING → quais grupos?\n5. SELECT → quais colunas?\n6. ORDER BY → em que ordem?\n7. LIMIT  → quantos registros?", "lese": "A ordem de execução do SQL: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT" },
-        { "type": "nota", "texto": "Por isso você não pode usar alias do SELECT no WHERE ou HAVING — eles ainda não existem nesse momento da execução!" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "O SQL executa as cláusulas em uma ordem específica (diferente da ordem de escrita):",
+          {
+            "type": "code",
+            "code": "1. FROM   → de qual tabela?\n2. WHERE  → quais registros?\n3. GROUP BY → agrupar por quê?\n4. HAVING → quais grupos?\n5. SELECT → quais colunas?\n6. ORDER BY → em que ordem?\n7. LIMIT  → quantos registros?",
+            "lese": "A ordem de execução do SQL: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"
+          },
+          {
+            "type": "nota",
+            "texto": "Por isso você não pode usar alias do SELECT no WHERE ou HAVING — eles ainda não existem nesse momento da execução!"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "SQL Execution Order",
-          "conteudo": { "blocos": [
-            "SQL executes clauses in a specific order (different from the writing order):",
-            { "type": "code", "code": "1. FROM   → de qual tabela?\n2. WHERE  → quais registros?\n3. GROUP BY → agrupar por quê?\n4. HAVING → quais grupos?\n5. SELECT → quais colunas?\n6. ORDER BY → em que ordem?\n7. LIMIT  → quantos registros?", "lese": "SQL execution order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT" },
-            { "type": "nota", "texto": "That is why you cannot use SELECT aliases in WHERE or HAVING — they do not exist yet at that point in execution!" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "SQL executes clauses in a specific order (different from the writing order):",
+              {
+                "type": "code",
+                "code": "1. FROM   → de qual tabela?\n2. WHERE  → quais registros?\n3. GROUP BY → agrupar por quê?\n4. HAVING → quais grupos?\n5. SELECT → quais colunas?\n6. ORDER BY → em que ordem?\n7. LIMIT  → quantos registros?",
+                "lese": "SQL execution order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"
+              },
+              {
+                "type": "nota",
+                "texto": "That is why you cannot use SELECT aliases in WHERE or HAVING — they do not exist yet at that point in execution!"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "Orden de Ejecución del SQL",
-          "conteudo": { "blocos": [
-            "SQL ejecuta las cláusulas en un orden específico (diferente al orden de escritura):",
-            { "type": "code", "code": "1. FROM   → de qual tabela?\n2. WHERE  → quais registros?\n3. GROUP BY → agrupar por quê?\n4. HAVING → quais grupos?\n5. SELECT → quais colunas?\n6. ORDER BY → em que ordem?\n7. LIMIT  → quantos registros?", "lese": "Orden de ejecución de SQL: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT" },
-            { "type": "nota", "texto": "¡Por eso no puedes usar alias del SELECT en WHERE o HAVING — aún no existen en ese momento de la ejecución!" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "SQL ejecuta las cláusulas en un orden específico (diferente al orden de escritura):",
+              {
+                "type": "code",
+                "code": "1. FROM   → de qual tabela?\n2. WHERE  → quais registros?\n3. GROUP BY → agrupar por quê?\n4. HAVING → quais grupos?\n5. SELECT → quais colunas?\n6. ORDER BY → em que ordem?\n7. LIMIT  → quantos registros?",
+                "lese": "Orden de ejecución de SQL: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"
+              },
+              {
+                "type": "nota",
+                "texto": "¡Por eso no puedes usar alias del SELECT en WHERE o HAVING — aún no existen en ese momento de la ejecución!"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 7,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: GROUP BY e HAVING",
-      "conteudo": { "cor": "laranja", "itens": [
-        "GROUP BY: agrupa linhas com o mesmo valor",
-        "Colunas não-agregadas devem estar no GROUP BY",
-        "HAVING: filtra grupos após o agrupamento",
-        "WHERE filtra antes do GROUP BY",
-        "HAVING usa funções de agregação (COUNT, SUM, AVG...)",
-        "Ordem: FROM → WHERE → GROUP BY → HAVING → SELECT"
-      ]},
+      "conteudo": {
+        "cor": "laranja",
+        "itens": [
+          "GROUP BY: agrupa linhas com o mesmo valor",
+          "Colunas não-agregadas devem estar no GROUP BY",
+          "HAVING: filtra grupos após o agrupamento",
+          "WHERE filtra antes do GROUP BY",
+          "HAVING usa funções de agregação (COUNT, SUM, AVG...)",
+          "Ordem: FROM → WHERE → GROUP BY → HAVING → SELECT"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: GROUP BY and HAVING",
           "conteudo": {
             "titulo": "Summary: GROUP BY and HAVING",
             "itens": [
-              { "titulo": "GROUP BY", "descricao": "groups rows with the same value" },
-              { "titulo": "Non-aggregated columns", "descricao": "must appear in GROUP BY" },
-              { "titulo": "HAVING", "descricao": "filters groups after grouping" },
-              { "titulo": "WHERE", "descricao": "filters before GROUP BY" },
-              { "titulo": "HAVING uses aggregates", "descricao": "COUNT, SUM, AVG..." },
-              { "titulo": "Order", "descricao": "FROM → WHERE → GROUP BY → HAVING → SELECT" }
+              {
+                "titulo": "GROUP BY",
+                "descricao": "groups rows with the same value"
+              },
+              {
+                "titulo": "Non-aggregated columns",
+                "descricao": "must appear in GROUP BY"
+              },
+              {
+                "titulo": "HAVING",
+                "descricao": "filters groups after grouping"
+              },
+              {
+                "titulo": "WHERE",
+                "descricao": "filters before GROUP BY"
+              },
+              {
+                "titulo": "HAVING uses aggregates",
+                "descricao": "COUNT, SUM, AVG..."
+              },
+              {
+                "titulo": "Order",
+                "descricao": "FROM → WHERE → GROUP BY → HAVING → SELECT"
+              }
             ]
           }
         },
@@ -200,19 +438,40 @@
           "conteudo": {
             "titulo": "Resumen: GROUP BY y HAVING",
             "itens": [
-              { "titulo": "GROUP BY", "descricao": "agrupa filas con el mismo valor" },
-              { "titulo": "Columnas no agregadas", "descricao": "deben estar en GROUP BY" },
-              { "titulo": "HAVING", "descricao": "filtra grupos después del agrupamiento" },
-              { "titulo": "WHERE", "descricao": "filtra antes del GROUP BY" },
-              { "titulo": "HAVING usa agregaciones", "descricao": "COUNT, SUM, AVG..." },
-              { "titulo": "Orden", "descricao": "FROM → WHERE → GROUP BY → HAVING → SELECT" }
+              {
+                "titulo": "GROUP BY",
+                "descricao": "agrupa filas con el mismo valor"
+              },
+              {
+                "titulo": "Columnas no agregadas",
+                "descricao": "deben estar en GROUP BY"
+              },
+              {
+                "titulo": "HAVING",
+                "descricao": "filtra grupos después del agrupamiento"
+              },
+              {
+                "titulo": "WHERE",
+                "descricao": "filtra antes del GROUP BY"
+              },
+              {
+                "titulo": "HAVING usa agregaciones",
+                "descricao": "COUNT, SUM, AVG..."
+              },
+              {
+                "titulo": "Orden",
+                "descricao": "FROM → WHERE → GROUP BY → HAVING → SELECT"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 1 — GROUP BY",
       "conteudo": {
         "instrucao": "Conte quantos funcionários existem em cada departamento.",
@@ -220,7 +479,9 @@
         "placeholder": "SELECT Departamento, COUNT(*) AS ...",
         "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100),(8,'Bruno','TI',6800);",
         "checkType": "aggregate",
-        "checkConfig": { "min_rows": 3 }
+        "checkConfig": {
+          "min_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -240,7 +501,10 @@
       }
     },
     {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 2 — SUM com GROUP BY",
       "conteudo": {
         "instrucao": "Calcule o total de vendas por categoria de produto.",
@@ -248,7 +512,9 @@
         "placeholder": "SELECT Categoria, SUM(Valor) AS ...",
         "schema": "CREATE TABLE Vendas (ID INTEGER, Produto TEXT, Categoria TEXT, Valor REAL, Data TEXT); INSERT INTO Vendas VALUES (1,'Notebook','Eletrônicos',3200,'2024-01'),(2,'Mouse','Eletrônicos',89,'2024-01'),(3,'Mesa','Móveis',450,'2024-01'),(4,'Monitor','Eletrônicos',1200,'2024-02'),(5,'Cadeira','Móveis',890,'2024-02'),(6,'Teclado','Eletrônicos',150,'2024-02');",
         "checkType": "aggregate",
-        "checkConfig": { "min_rows": 2 }
+        "checkConfig": {
+          "min_rows": 2
+        }
       },
       "traducoes": {
         "en": {
@@ -268,7 +534,10 @@
       }
     },
     {
-      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 10,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 3 — HAVING",
       "conteudo": {
         "instrucao": "Liste apenas as categorias de produto que têm mais de 2 produtos cadastrados.",
@@ -276,7 +545,9 @@
         "placeholder": "SELECT Categoria, COUNT(*) AS Total\nFROM Produtos\nGROUP BY ...",
         "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Categoria TEXT, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook','Eletrônicos',3200),(2,'Mouse','Eletrônicos',89),(3,'Monitor','Eletrônicos',1200),(4,'Mesa','Móveis',450),(5,'Teclado','Eletrônicos',150),(6,'Cadeira','Móveis',890),(7,'Caneta','Papelaria',5);",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 1 }
+        "checkConfig": {
+          "expected_rows": 1
+        }
       },
       "traducoes": {
         "en": {
@@ -296,17 +567,27 @@
       }
     },
     {
-      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 11,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "Agrupamento dominado!",
-      "conteudo": { "mensagem": "GROUP BY e HAVING são fundamentais para qualquer relatório analítico. Você está construindo habilidades de analista de dados!", "xpGanho": 350 },
+      "conteudo": {
+        "mensagem": "GROUP BY e HAVING são fundamentais para qualquer relatório analítico. Você está construindo habilidades de analista de dados!",
+        "xpGanho": 350
+      },
       "traducoes": {
         "en": {
           "titulo": "Grouping mastered!",
-          "conteudo": { "mensagem": "GROUP BY and HAVING are fundamental for any analytical report. You are building data analyst skills!" }
+          "conteudo": {
+            "mensagem": "GROUP BY and HAVING are fundamental for any analytical report. You are building data analyst skills!"
+          }
         },
         "es": {
           "titulo": "¡Agrupamiento dominado!",
-          "conteudo": { "mensagem": "¡GROUP BY y HAVING son fundamentales para cualquier informe analítico. Estás construyendo habilidades de analista de datos!" }
+          "conteudo": {
+            "mensagem": "¡GROUP BY y HAVING son fundamentales para cualquier informe analítico. Estás construyendo habilidades de analista de datos!"
+          }
         }
       }
     }
