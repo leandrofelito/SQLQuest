@@ -54,7 +54,8 @@
     "reflexaoCurta": "Texto abaixo do mínimo de caracteres exigido.",
     "quizIncorreto": "Resposta incorreta. Tente de novo ou peça uma dica.",
     "dicaReveladaTitulo": "Dica",
-    "dicaEtapaAusente": "Esta etapa ainda não tem dica cadastrada."
+    "dicaEtapaAusente": "Esta etapa ainda não tem dica cadastrada.",
+    "publicidade": "Publicidade"
   },
   "intro": {
     "continuar": "Toque para Continuar"

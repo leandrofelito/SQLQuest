@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
+import { AdBanner } from '@/components/layout/AdBanner'
 import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
 import type { ConteudoConclusao } from '@/types'
@@ -80,6 +81,17 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
           <span className="text-amber-300 font-bold text-lg">+{xpGanho > 0 ? xpGanho : conteudo.xpGanho} XP</span>
         </motion.div>
       </div>
+
+      {!isPro && (
+        <motion.div
+          className="w-full max-w-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.55 }}
+        >
+          <AdBanner />
+        </motion.div>
+      )}
 
       <div className="w-full">
         <Button

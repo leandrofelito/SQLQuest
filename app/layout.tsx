@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Syne, JetBrains_Mono } from 'next/font/google'
 import { SessionProvider } from './providers'
+import { getAdsenseScriptSrc } from '@/lib/adsense-config'
 import './globals.css'
 
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne', display: 'swap' })
@@ -25,6 +26,8 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const adsenseScriptSrc = getAdsenseScriptSrc()
+
   return (
     <html lang="pt-BR" className={`${syne.variable} ${jetbrains.variable}`}>
       <head>
@@ -39,13 +42,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
         <link rel="icon" type="image/png" sizes="64x64" href="/icons/favicon.png" />
-        {/* Google AdSense */}
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4150729063109368"
-          crossOrigin="anonymous"
-        />
+        {/* AdSense: só carrega com NEXT_PUBLIC_ADSENSE_ID (e LOAD_SCRIPT !== false) */}
+        {adsenseScriptSrc ? (
+          /* eslint-disable-next-line @next/next/no-sync-scripts */
+          <script async src={adsenseScriptSrc} crossOrigin="anonymous" />
+        ) : null}
       </head>
       <body className="bg-[#080a0f] text-white font-syne antialiased">
         <SessionProvider>{children}</SessionProvider>

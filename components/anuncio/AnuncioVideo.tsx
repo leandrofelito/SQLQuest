@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { getAdsenseClientId, hasAdsenseModalUnit } from '@/lib/adsense-config'
 
 export type AdType = 'rewarded' | 'interstitial'
 
@@ -34,6 +35,8 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   const onConcluidoRef = useRef(onConcluido)
   const onFecharRef = useRef(onFechar)
   const onFalhouRef = useRef(onFalhou)
+  /** Após cleanup do efeito Flutter: evita setState no desmontado; `completed` tardio ainda usa os refs. */
+  const flutterHostReleasedRef = useRef(false)
   useEffect(() => { onConcluidoRef.current = onConcluido }, [onConcluido])
   useEffect(() => { onFecharRef.current = onFechar }, [onFechar])
   useEffect(() => { onFalhouRef.current = onFalhou }, [onFalhou])
@@ -55,8 +58,11 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
 
     // --- Modo Flutter: AdMob nativo via JavascriptChannel ---
     if (flutter.current) {
-      ;(window as any).onAdMobResult = (result: string) => {
-        setFlutterAdState('done')
+      flutterHostReleasedRef.current = false
+      const handler = (result: string) => {
+        if (!flutterHostReleasedRef.current) {
+          setFlutterAdState('done')
+        }
         if (adType === 'interstitial') {
           // Interstitial: avança independentemente de ter assistido até o fim
           onConcluidoRef.current()
@@ -72,6 +78,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
           }
         }
       }
+      ;(window as any).onAdMobResult = handler
 
       const timer = setTimeout(() => {
         setFlutterAdState('showing')
@@ -81,7 +88,14 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
 
       return () => {
         clearTimeout(timer)
-        delete (window as any).onAdMobResult
+        flutterHostReleasedRef.current = true
+        // Não apagar na hora: `completed` pode chegar após `dismissed` fechar o overlay (AdMob / mediação).
+        const handlerSnapshot = handler
+        setTimeout(() => {
+          if ((window as any).onAdMobResult === handlerSnapshot) {
+            delete (window as any).onAdMobResult
+          }
+        }, 600)
       }
     }
 
@@ -89,6 +103,10 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
     const timer = setTimeout(() => {
       if (!pushed.current) {
         pushed.current = true
+        if (!hasAdsenseModalUnit()) {
+          setAdFailed(true)
+          return
+        }
         try {
           ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
 
@@ -230,7 +248,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
               ref={adRef}
               className="adsbygoogle"
               style={{ display: 'block' }}
-              data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_ID}
+              data-ad-client={getAdsenseClientId() ?? ''}
               data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TRILHA_MODAL}
               data-ad-format="auto"
               data-full-width-responsive="true"
