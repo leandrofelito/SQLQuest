@@ -3,7 +3,7 @@
   "titulo": "Índices — Fazendo o Banco Voar",
   "descricao": "Entenda como o banco lê dados e aprenda a criar índices estratégicos para transformar queries lentas em rápidas.",
   "icone": "⚡",
-  "ordem": 18,
+  "ordem": 19,
   "xpTotal": 800,
   "traducoes": {
     "en": {
@@ -17,36 +17,72 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Índices — O Segredo da Performance",
-      "conteudo": { "emoji": "⚡", "subtitulo": "Transforme queries de segundos em milissegundos com índices estratégicos" },
+      "conteudo": {
+        "emoji": "⚡",
+        "subtitulo": "Transforme queries de segundos em milissegundos com índices estratégicos"
+      },
       "traducoes": {
         "en": {
           "titulo": "Indexes — The Secret to Performance",
-          "conteudo": { "subtitulo": "Turn queries that take seconds into milliseconds with strategic indexes" }
+          "conteudo": {
+            "subtitulo": "Turn queries that take seconds into milliseconds with strategic indexes"
+          }
         },
         "es": {
           "titulo": "Índices — El Secreto del Rendimiento",
-          "conteudo": { "subtitulo": "Convierte consultas de segundos en milisegundos con índices estratégicos" }
+          "conteudo": {
+            "subtitulo": "Convierte consultas de segundos en milisegundos con índices estratégicos"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "O Problema: Full Table Scan",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "Full Table Scan", "def": "Quando o banco precisa ler TODAS as linhas da tabela para encontrar os registros que você quer. Em tabelas grandes (milhões de linhas) isso é muito lento." },
-        { "type": "code", "code": "-- Sem índice: o banco lê TODAS as linhas\nSELECT * FROM Pedidos WHERE ClienteID = 1234\n-- Em 10 milhões de pedidos → pode demorar segundos\n\n-- Com índice em ClienteID: o banco vai direto ao resultado\nSELECT * FROM Pedidos WHERE ClienteID = 1234\n-- Com índice → milissegundos", "lese": "Sem índice o banco varre linha por linha como folhear um livro sem sumário; com índice ele vai direto à página certa como consultar o sumário" },
-        { "type": "nota", "texto": "Analogia perfeita: um índice de banco de dados funciona como o índice do fim de um livro — você encontra a página sem ler tudo." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "Full Table Scan",
+            "def": "Quando o banco precisa ler TODAS as linhas da tabela para encontrar os registros que você quer. Em tabelas grandes (milhões de linhas) isso é muito lento."
+          },
+          {
+            "type": "code",
+            "code": "-- Sem índice: o banco lê TODAS as linhas\nSELECT * FROM Pedidos WHERE ClienteID = 1234\n-- Em 10 milhões de pedidos → pode demorar segundos\n\n-- Com índice em ClienteID: o banco vai direto ao resultado\nSELECT * FROM Pedidos WHERE ClienteID = 1234\n-- Com índice → milissegundos",
+            "lese": "Sem índice o banco varre linha por linha como folhear um livro sem sumário; com índice ele vai direto à página certa como consultar o sumário"
+          },
+          {
+            "type": "nota",
+            "texto": "Analogia perfeita: um índice de banco de dados funciona como o índice do fim de um livro — você encontra a página sem ler tudo."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "The Problem: Full Table Scan",
           "conteudo": {
             "blocos": [
-              { "type": "definicao", "termo": "Full Table Scan", "def": "When the database needs to read ALL rows in the table to find the records you want. In large tables (millions of rows) this is very slow." },
-              { "type": "code", "lese": "Without an index the database scans row by row like flipping through a book without a table of contents; with an index it goes straight to the right page like consulting the index" },
-              { "type": "nota", "texto": "Perfect analogy: a database index works like the index at the back of a book — you find the page without reading everything." }
+              {
+                "type": "definicao",
+                "termo": "Full Table Scan",
+                "def": "When the database needs to read ALL rows in the table to find the records you want. In large tables (millions of rows) this is very slow."
+              },
+              {
+                "type": "code",
+                "lese": "Without an index the database scans row by row like flipping through a book without a table of contents; with an index it goes straight to the right page like consulting the index"
+              },
+              {
+                "type": "nota",
+                "texto": "Perfect analogy: a database index works like the index at the back of a book — you find the page without reading everything."
+              }
             ]
           }
         },
@@ -54,28 +90,56 @@
           "titulo": "El Problema: Full Table Scan",
           "conteudo": {
             "blocos": [
-              { "type": "definicao", "termo": "Full Table Scan", "def": "Cuando la base de datos necesita leer TODAS las filas de la tabla para encontrar los registros que deseas. En tablas grandes (millones de filas) esto es muy lento." },
-              { "type": "code", "lese": "Sin índice la base de datos escanea fila por fila como hojear un libro sin índice; con índice va directamente a la página correcta como consultar el índice" },
-              { "type": "nota", "texto": "Analogía perfecta: un índice de base de datos funciona como el índice al final de un libro — encuentras la página sin leer todo." }
+              {
+                "type": "definicao",
+                "termo": "Full Table Scan",
+                "def": "Cuando la base de datos necesita leer TODAS las filas de la tabla para encontrar los registros que deseas. En tablas grandes (millones de filas) esto es muy lento."
+              },
+              {
+                "type": "code",
+                "lese": "Sin índice la base de datos escanea fila por fila como hojear un libro sin índice; con índice va directamente a la página correcta como consultar el índice"
+              },
+              {
+                "type": "nota",
+                "texto": "Analogía perfecta: un índice de base de datos funciona como el índice al final de un libro — encuentras la página sin leer todo."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "CREATE INDEX — Criando Índices",
-      "conteudo": { "blocos": [
-        { "type": "code", "code": "-- Índice simples\nCREATE INDEX idx_pedidos_clienteid\nON Pedidos(ClienteID)\n\n-- Índice único (também garante sem duplicatas)\nCREATE UNIQUE INDEX idx_clientes_email\nON Clientes(Email)\n\n-- Índice composto (múltiplas colunas)\nCREATE INDEX idx_pedidos_cliente_data\nON Pedidos(ClienteID, DataPedido)\n\n-- Remover índice\nDROP INDEX idx_pedidos_clienteid", "lese": "O primeiro cria um índice em ClienteID para acelerar buscas por cliente; o UNIQUE garante unicidade; o composto acelera queries que filtram por cliente E data ao mesmo tempo" },
-        { "type": "nota", "texto": "Convenção: prefixe índices com idx_ e inclua o nome da tabela e colunas: idx_nomeDaTabela_nomeDaColuna." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "code",
+            "code": "-- Índice simples\nCREATE INDEX idx_pedidos_clienteid\nON Pedidos(ClienteID)\n\n-- Índice único (também garante sem duplicatas)\nCREATE UNIQUE INDEX idx_clientes_email\nON Clientes(Email)\n\n-- Índice composto (múltiplas colunas)\nCREATE INDEX idx_pedidos_cliente_data\nON Pedidos(ClienteID, DataPedido)\n\n-- Remover índice\nDROP INDEX idx_pedidos_clienteid",
+            "lese": "O primeiro cria um índice em ClienteID para acelerar buscas por cliente; o UNIQUE garante unicidade; o composto acelera queries que filtram por cliente E data ao mesmo tempo"
+          },
+          {
+            "type": "nota",
+            "texto": "Convenção: prefixe índices com idx_ e inclua o nome da tabela e colunas: idx_nomeDaTabela_nomeDaColuna."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "CREATE INDEX — Creating Indexes",
           "conteudo": {
             "blocos": [
-              { "type": "code", "lese": "The first creates an index on ClienteID to speed up customer lookups; UNIQUE also enforces uniqueness; the composite one speeds up queries that filter by customer AND date at the same time" },
-              { "type": "nota", "texto": "Convention: prefix indexes with idx_ and include the table and column names: idx_tableName_columnName." }
+              {
+                "type": "code",
+                "lese": "The first creates an index on ClienteID to speed up customer lookups; UNIQUE also enforces uniqueness; the composite one speeds up queries that filter by customer AND date at the same time"
+              },
+              {
+                "type": "nota",
+                "texto": "Convention: prefix indexes with idx_ and include the table and column names: idx_tableName_columnName."
+              }
             ]
           }
         },
@@ -83,15 +147,24 @@
           "titulo": "CREATE INDEX — Creando Índices",
           "conteudo": {
             "blocos": [
-              { "type": "code", "lese": "El primero crea un índice en ClienteID para acelerar búsquedas por cliente; UNIQUE también garantiza unicidad; el compuesto acelera consultas que filtran por cliente Y fecha al mismo tiempo" },
-              { "type": "nota", "texto": "Convención: prefija los índices con idx_ e incluye el nombre de la tabla y las columnas: idx_nombreTabla_nombreColumna." }
+              {
+                "type": "code",
+                "lese": "El primero crea un índice en ClienteID para acelerar búsquedas por cliente; UNIQUE también garantiza unicidad; el compuesto acelera consultas que filtran por cliente Y fecha al mismo tiempo"
+              },
+              {
+                "type": "nota",
+                "texto": "Convención: prefija los índices con idx_ e incluye el nombre de la tabla y las columnas: idx_nombreTabla_nombreColumna."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 150,
+      "ordem": 4,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 150,
       "titulo": "Crie um Índice de Performance",
       "conteudo": {
         "instrucao": "A tabela Pedidos é consultada frequentemente por ClienteID. Crie um índice chamado idx_pedidos_cliente na coluna ClienteID da tabela Pedidos.",
@@ -99,7 +172,16 @@
         "placeholder": "CREATE INDEX idx_pedidos_cliente\nON Pedidos(ClienteID)",
         "schema": "CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER, Produto TEXT, Valor REAL, DataPedido TEXT); INSERT INTO Pedidos VALUES (1,1,'Notebook',3200,'2024-01-10'),(2,2,'Mouse',89,'2024-01-11'),(3,1,'Monitor',1200,'2024-01-12');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["PedidoID", "ClienteID", "Produto", "Valor", "DataPedido"], "min_rows": 3 }
+        "checkConfig": {
+          "required_columns": [
+            "PedidoID",
+            "ClienteID",
+            "Produto",
+            "Valor",
+            "DataPedido"
+          ],
+          "min_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -119,19 +201,39 @@
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "EXPLAIN ANALYZE — Lendo o Plano de Execução",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "EXPLAIN ANALYZE", "def": "Mostra como o banco planeja e executa uma query: quais índices usou, quantas linhas varreu, e quanto tempo cada etapa levou." },
-        { "type": "code", "code": "-- Ver o plano de execução\nEXPLAIN ANALYZE\nSELECT * FROM Pedidos WHERE ClienteID = 1234\n\n-- Resultado sem índice:\n-- Seq Scan on pedidos (cost=... rows=9999987 ...)\n--   Filter: (clienteid = 1234)\n\n-- Resultado com índice:\n-- Index Scan using idx_pedidos_clienteid on pedidos\n--   Index Cond: (clienteid = 1234)", "lese": "Seq Scan significa varredura sequencial (lento); Index Scan significa que usou o índice (rápido) — EXPLAIN ANALYZE é a ferramenta de diagnóstico de qualquer DBA" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "EXPLAIN ANALYZE",
+            "def": "Mostra como o banco planeja e executa uma query: quais índices usou, quantas linhas varreu, e quanto tempo cada etapa levou."
+          },
+          {
+            "type": "code",
+            "code": "-- Ver o plano de execução\nEXPLAIN ANALYZE\nSELECT * FROM Pedidos WHERE ClienteID = 1234\n\n-- Resultado sem índice:\n-- Seq Scan on pedidos (cost=... rows=9999987 ...)\n--   Filter: (clienteid = 1234)\n\n-- Resultado com índice:\n-- Index Scan using idx_pedidos_clienteid on pedidos\n--   Index Cond: (clienteid = 1234)",
+            "lese": "Seq Scan significa varredura sequencial (lento); Index Scan significa que usou o índice (rápido) — EXPLAIN ANALYZE é a ferramenta de diagnóstico de qualquer DBA"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "EXPLAIN ANALYZE — Reading the Execution Plan",
           "conteudo": {
             "blocos": [
-              { "type": "definicao", "termo": "EXPLAIN ANALYZE", "def": "Shows how the database plans and executes a query: which indexes it used, how many rows it scanned, and how long each step took." },
-              { "type": "code", "lese": "Seq Scan means sequential scan (slow); Index Scan means it used the index (fast) — EXPLAIN ANALYZE is the diagnostic tool of any DBA" }
+              {
+                "type": "definicao",
+                "termo": "EXPLAIN ANALYZE",
+                "def": "Shows how the database plans and executes a query: which indexes it used, how many rows it scanned, and how long each step took."
+              },
+              {
+                "type": "code",
+                "lese": "Seq Scan means sequential scan (slow); Index Scan means it used the index (fast) — EXPLAIN ANALYZE is the diagnostic tool of any DBA"
+              }
             ]
           }
         },
@@ -139,27 +241,52 @@
           "titulo": "EXPLAIN ANALYZE — Leyendo el Plan de Ejecución",
           "conteudo": {
             "blocos": [
-              { "type": "definicao", "termo": "EXPLAIN ANALYZE", "def": "Muestra cómo la base de datos planifica y ejecuta una consulta: qué índices usó, cuántas filas escaneó y cuánto tiempo tardó cada etapa." },
-              { "type": "code", "lese": "Seq Scan significa escaneo secuencial (lento); Index Scan significa que usó el índice (rápido) — EXPLAIN ANALYZE es la herramienta de diagnóstico de cualquier DBA" }
+              {
+                "type": "definicao",
+                "termo": "EXPLAIN ANALYZE",
+                "def": "Muestra cómo la base de datos planifica y ejecuta una consulta: qué índices usó, cuántas filas escaneó y cuánto tiempo tardó cada etapa."
+              },
+              {
+                "type": "code",
+                "lese": "Seq Scan significa escaneo secuencial (lento); Index Scan significa que usó el índice (rápido) — EXPLAIN ANALYZE es la herramienta de diagnóstico de cualquier DBA"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Quando NÃO Criar Índices",
-      "conteudo": { "blocos": [
-        { "type": "nota", "texto": "⚠️ Índices têm custo: cada INSERT, UPDATE e DELETE precisa atualizar todos os índices da tabela. Em tabelas com muitas escritas, índices demais podem ser mais prejudiciais do que úteis." },
-        { "type": "code", "code": "-- ✅ Bons candidatos para índice:\n-- Colunas usadas em WHERE frequentemente\n-- Colunas usadas em JOIN\n-- Colunas usadas em ORDER BY em tabelas grandes\n-- Colunas com alta cardinalidade (muitos valores distintos)\n\n-- ❌ Não vale criar índice em:\n-- Tabelas muito pequenas (< 1000 linhas)\n-- Colunas booleanas (só 2 valores: true/false)\n-- Colunas raramente usadas em filtro\n-- Tabelas com muito mais escrita do que leitura", "lese": "A regra é: índice ajuda nas leituras mas custa nas escritas — analise o padrão de uso antes de criar" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "nota",
+            "texto": "⚠️ Índices têm custo: cada INSERT, UPDATE e DELETE precisa atualizar todos os índices da tabela. Em tabelas com muitas escritas, índices demais podem ser mais prejudiciais do que úteis."
+          },
+          {
+            "type": "code",
+            "code": "-- ✅ Bons candidatos para índice:\n-- Colunas usadas em WHERE frequentemente\n-- Colunas usadas em JOIN\n-- Colunas usadas em ORDER BY em tabelas grandes\n-- Colunas com alta cardinalidade (muitos valores distintos)\n\n-- ❌ Não vale criar índice em:\n-- Tabelas muito pequenas (< 1000 linhas)\n-- Colunas booleanas (só 2 valores: true/false)\n-- Colunas raramente usadas em filtro\n-- Tabelas com muito mais escrita do que leitura",
+            "lese": "A regra é: índice ajuda nas leituras mas custa nas escritas — analise o padrão de uso antes de criar"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "When NOT to Create Indexes",
           "conteudo": {
             "blocos": [
-              { "type": "nota", "texto": "⚠️ Indexes have a cost: every INSERT, UPDATE and DELETE needs to update all the table's indexes. In tables with many writes, too many indexes can be more harmful than helpful." },
-              { "type": "code", "lese": "The rule is: indexes help with reads but cost on writes — analyze the usage pattern before creating one" }
+              {
+                "type": "nota",
+                "texto": "⚠️ Indexes have a cost: every INSERT, UPDATE and DELETE needs to update all the table's indexes. In tables with many writes, too many indexes can be more harmful than helpful."
+              },
+              {
+                "type": "code",
+                "lese": "The rule is: indexes help with reads but cost on writes — analyze the usage pattern before creating one"
+              }
             ]
           }
         },
@@ -167,15 +294,24 @@
           "titulo": "Cuándo NO Crear Índices",
           "conteudo": {
             "blocos": [
-              { "type": "nota", "texto": "⚠️ Los índices tienen un costo: cada INSERT, UPDATE y DELETE necesita actualizar todos los índices de la tabla. En tablas con muchas escrituras, demasiados índices pueden ser más perjudiciales que útiles." },
-              { "type": "code", "lese": "La regla es: los índices ayudan en las lecturas pero cuestan en las escrituras — analiza el patrón de uso antes de crearlos" }
+              {
+                "type": "nota",
+                "texto": "⚠️ Los índices tienen un costo: cada INSERT, UPDATE y DELETE necesita actualizar todos los índices de la tabla. En tablas con muchas escrituras, demasiados índices pueden ser más perjudiciales que útiles."
+              },
+              {
+                "type": "code",
+                "lese": "La regla es: los índices ayudan en las lecturas pero cuestan en las escrituras — analiza el patrón de uso antes de crearlos"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 7, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
       "titulo": "Índice Composto",
       "conteudo": {
         "instrucao": "Crie um índice composto chamado idx_vendas_produto_data na tabela Vendas, cobrindo as colunas ProdutoID e DataVenda.",
@@ -183,7 +319,16 @@
         "placeholder": "CREATE INDEX idx_vendas_produto_data\nON Vendas(ProdutoID, DataVenda)",
         "schema": "CREATE TABLE Vendas (VendaID INTEGER PRIMARY KEY, ProdutoID INTEGER, ClienteID INTEGER, Quantidade INTEGER, DataVenda TEXT); INSERT INTO Vendas VALUES (1,1,1,2,'2024-01-10'),(2,2,1,1,'2024-01-11'),(3,1,2,3,'2024-01-12');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["VendaID", "ProdutoID", "ClienteID", "Quantidade", "DataVenda"], "min_rows": 3 }
+        "checkConfig": {
+          "required_columns": [
+            "VendaID",
+            "ProdutoID",
+            "ClienteID",
+            "Quantidade",
+            "DataVenda"
+          ],
+          "min_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -203,7 +348,10 @@
       }
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 150,
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
       "titulo": "Índice Único",
       "conteudo": {
         "instrucao": "Crie um índice único chamado idx_clientes_email na coluna Email da tabela Clientes para garantir que não haverá emails duplicados.",
@@ -211,7 +359,9 @@
         "placeholder": "CREATE UNIQUE INDEX idx_clientes_email\nON Clientes(Email)",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT); INSERT INTO Clientes VALUES (1,'Ana','ana@email.com'),(2,'Carlos','carlos@email.com'),(3,'Maria','maria@email.com');",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 3 }
+        "checkConfig": {
+          "expected_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -231,16 +381,22 @@
       }
     },
     {
-      "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 9,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: Índices",
-      "conteudo": { "cor": "amarelo", "itens": [
-        "Sem índice = Full Table Scan (lê tudo, lento em tabelas grandes)",
-        "CREATE INDEX nome ON tabela(coluna): cria o índice",
-        "UNIQUE INDEX: índice + restrição de unicidade",
-        "Índice composto: abrange múltiplas colunas juntas",
-        "EXPLAIN ANALYZE: diagnóstica se o índice está sendo usado",
-        "Cuidado: índices custam em INSERT/UPDATE/DELETE"
-      ]},
+      "conteudo": {
+        "cor": "amarelo",
+        "itens": [
+          "Sem índice = Full Table Scan (lê tudo, lento em tabelas grandes)",
+          "CREATE INDEX nome ON tabela(coluna): cria o índice",
+          "UNIQUE INDEX: índice + restrição de unicidade",
+          "Índice composto: abrange múltiplas colunas juntas",
+          "EXPLAIN ANALYZE: diagnóstica se o índice está sendo usado",
+          "Cuidado: índices custam em INSERT/UPDATE/DELETE"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: Indexes",
@@ -273,17 +429,27 @@
       }
     },
     {
-      "ordem": 10, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 10,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "Índices dominados!",
-      "conteudo": { "mensagem": "Agora você sabe como fazer o banco trabalhar de forma inteligente. Um índice bem colocado pode ser a diferença entre um sistema travando e voando!", "xpGanho": 500 },
+      "conteudo": {
+        "mensagem": "Agora você sabe como fazer o banco trabalhar de forma inteligente. Um índice bem colocado pode ser a diferença entre um sistema travando e voando!",
+        "xpGanho": 500
+      },
       "traducoes": {
         "en": {
           "titulo": "Indexes mastered!",
-          "conteudo": { "mensagem": "Now you know how to make the database work intelligently. A well-placed index can be the difference between a system grinding to a halt and flying!" }
+          "conteudo": {
+            "mensagem": "Now you know how to make the database work intelligently. A well-placed index can be the difference between a system grinding to a halt and flying!"
+          }
         },
         "es": {
           "titulo": "¡Índices dominados!",
-          "conteudo": { "mensagem": "¡Ahora sabes cómo hacer que la base de datos trabaje de forma inteligente. Un índice bien ubicado puede ser la diferencia entre un sistema bloqueado y uno que vuela!" }
+          "conteudo": {
+            "mensagem": "¡Ahora sabes cómo hacer que la base de datos trabaje de forma inteligente. Un índice bien ubicado puede ser la diferencia entre un sistema bloqueado y uno que vuela!"
+          }
         }
       }
     }

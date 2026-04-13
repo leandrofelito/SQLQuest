@@ -3,7 +3,7 @@
   "titulo": "Chaves e Relacionamentos",
   "descricao": "Entenda PRIMARY KEY, FOREIGN KEY, tipos de relacionamento e como criar tabelas com integridade referencial.",
   "icone": "🔑",
-  "ordem": 8,
+  "ordem": 9,
   "xpTotal": 700,
   "traducoes": {
     "en": {
@@ -17,36 +17,68 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Chaves e Relacionamentos",
-      "conteudo": { "emoji": "🔑", "subtitulo": "A base que mantém os dados organizados e íntegros" },
+      "conteudo": {
+        "emoji": "🔑",
+        "subtitulo": "A base que mantém os dados organizados e íntegros"
+      },
       "traducoes": {
         "en": {
           "titulo": "Keys and Relationships",
-          "conteudo": { "subtitulo": "The foundation that keeps data organized and consistent" }
+          "conteudo": {
+            "subtitulo": "The foundation that keeps data organized and consistent"
+          }
         },
         "es": {
           "titulo": "Claves y Relaciones",
-          "conteudo": { "subtitulo": "La base que mantiene los datos organizados e íntegros" }
+          "conteudo": {
+            "subtitulo": "La base que mantiene los datos organizados e íntegros"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "PRIMARY KEY — Identificador Único",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "PRIMARY KEY", "def": "Campo (ou conjunto de campos) que identifica unicamente cada registro de uma tabela. Não pode ser NULL nem repetido." },
-        { "type": "code", "code": "CREATE TABLE Clientes (\n  ClienteID  INTEGER PRIMARY KEY,\n  Nome       TEXT NOT NULL,\n  Email      TEXT UNIQUE,\n  CadastroEm TEXT\n)", "lese": "Cria a tabela Clientes onde ClienteID é a chave primária única e obrigatória, Nome não pode ser NULL e Email deve ser único" },
-        { "type": "nota", "texto": "Em bancos de dados modernos, é comum usar AUTOINCREMENT (SQLite) ou SERIAL (PostgreSQL) para gerar IDs automaticamente." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "PRIMARY KEY",
+            "def": "Campo (ou conjunto de campos) que identifica unicamente cada registro de uma tabela. Não pode ser NULL nem repetido."
+          },
+          {
+            "type": "code",
+            "code": "CREATE TABLE Clientes (\n  ClienteID  INTEGER PRIMARY KEY,\n  Nome       TEXT NOT NULL,\n  Email      TEXT UNIQUE,\n  CadastroEm TEXT\n)",
+            "lese": "Cria a tabela Clientes onde ClienteID é a chave primária única e obrigatória, Nome não pode ser NULL e Email deve ser único"
+          },
+          {
+            "type": "nota",
+            "texto": "Em bancos de dados modernos, é comum usar AUTOINCREMENT (SQLite) ou SERIAL (PostgreSQL) para gerar IDs automaticamente."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "PRIMARY KEY — Unique Identifier",
           "conteudo": {
             "blocos": [
-              { "def": "Field (or set of fields) that uniquely identifies each record in a table. Cannot be NULL or duplicated." },
-              { "lese": "Creates the Customers table where ClienteID is the unique and mandatory primary key, Nome cannot be NULL and Email must be unique" },
-              { "texto": "In modern databases, it is common to use AUTOINCREMENT (SQLite) or SERIAL (PostgreSQL) to generate IDs automatically." }
+              {
+                "def": "Field (or set of fields) that uniquely identifies each record in a table. Cannot be NULL or duplicated."
+              },
+              {
+                "lese": "Creates the Customers table where ClienteID is the unique and mandatory primary key, Nome cannot be NULL and Email must be unique"
+              },
+              {
+                "texto": "In modern databases, it is common to use AUTOINCREMENT (SQLite) or SERIAL (PostgreSQL) to generate IDs automatically."
+              }
             ]
           }
         },
@@ -54,30 +86,58 @@
           "titulo": "PRIMARY KEY — Identificador Único",
           "conteudo": {
             "blocos": [
-              { "def": "Campo (o conjunto de campos) que identifica de forma única cada registro de una tabla. No puede ser NULL ni estar repetido." },
-              { "lese": "Crea la tabla Clientes donde ClienteID es la clave primaria única y obligatoria, Nome no puede ser NULL y Email debe ser único" },
-              { "texto": "En bases de datos modernas, es común usar AUTOINCREMENT (SQLite) o SERIAL (PostgreSQL) para generar IDs automáticamente." }
+              {
+                "def": "Campo (o conjunto de campos) que identifica de forma única cada registro de una tabla. No puede ser NULL ni estar repetido."
+              },
+              {
+                "lese": "Crea la tabla Clientes donde ClienteID es la clave primaria única y obligatoria, Nome no puede ser NULL y Email debe ser único"
+              },
+              {
+                "texto": "En bases de datos modernas, es común usar AUTOINCREMENT (SQLite) o SERIAL (PostgreSQL) para generar IDs automáticamente."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "FOREIGN KEY — Conectando Tabelas",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "FOREIGN KEY", "def": "Campo em uma tabela que referencia a PRIMARY KEY de outra tabela. Garante que o relacionamento entre dados seja válido." },
-        { "type": "code", "code": "CREATE TABLE Pedidos (\n  PedidoID  INTEGER PRIMARY KEY,\n  ClienteID INTEGER,\n  Produto   TEXT,\n  Valor     REAL,\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n)", "lese": "Cria a tabela Pedidos onde ClienteID é uma chave estrangeira que referencia o ClienteID da tabela Clientes — você só pode inserir um pedido para um cliente que existe" },
-        { "type": "nota", "texto": "A FOREIGN KEY garante integridade referencial: você não pode ter um pedido para um cliente que não existe." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "FOREIGN KEY",
+            "def": "Campo em uma tabela que referencia a PRIMARY KEY de outra tabela. Garante que o relacionamento entre dados seja válido."
+          },
+          {
+            "type": "code",
+            "code": "CREATE TABLE Pedidos (\n  PedidoID  INTEGER PRIMARY KEY,\n  ClienteID INTEGER,\n  Produto   TEXT,\n  Valor     REAL,\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n)",
+            "lese": "Cria a tabela Pedidos onde ClienteID é uma chave estrangeira que referencia o ClienteID da tabela Clientes — você só pode inserir um pedido para um cliente que existe"
+          },
+          {
+            "type": "nota",
+            "texto": "A FOREIGN KEY garante integridade referencial: você não pode ter um pedido para um cliente que não existe."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "FOREIGN KEY — Connecting Tables",
           "conteudo": {
             "blocos": [
-              { "def": "A field in one table that references the PRIMARY KEY of another table. Ensures that the relationship between data is valid." },
-              { "lese": "Creates the Orders table where ClienteID is a foreign key referencing the ClienteID of the Customers table — you can only insert an order for a customer that exists" },
-              { "texto": "The FOREIGN KEY ensures referential integrity: you cannot have an order for a customer that does not exist." }
+              {
+                "def": "A field in one table that references the PRIMARY KEY of another table. Ensures that the relationship between data is valid."
+              },
+              {
+                "lese": "Creates the Orders table where ClienteID is a foreign key referencing the ClienteID of the Customers table — you can only insert an order for a customer that exists"
+              },
+              {
+                "texto": "The FOREIGN KEY ensures referential integrity: you cannot have an order for a customer that does not exist."
+              }
             ]
           }
         },
@@ -85,16 +145,25 @@
           "titulo": "FOREIGN KEY — Conectando Tablas",
           "conteudo": {
             "blocos": [
-              { "def": "Campo en una tabla que referencia la PRIMARY KEY de otra tabla. Garantiza que la relación entre datos sea válida." },
-              { "lese": "Crea la tabla Pedidos donde ClienteID es una clave foránea que referencia el ClienteID de la tabla Clientes — solo puedes insertar un pedido para un cliente que existe" },
-              { "texto": "La FOREIGN KEY garantiza la integridad referencial: no puedes tener un pedido para un cliente que no existe." }
+              {
+                "def": "Campo en una tabla que referencia la PRIMARY KEY de otra tabla. Garantiza que la relación entre datos sea válida."
+              },
+              {
+                "lese": "Crea la tabla Pedidos donde ClienteID es una clave foránea que referencia el ClienteID de la tabla Clientes — solo puedes insertar un pedido para un cliente que existe"
+              },
+              {
+                "texto": "La FOREIGN KEY garantiza la integridad referencial: no puedes tener un pedido para un cliente que no existe."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "ordem": 4,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
       "titulo": "Navegando pelo ClienteID",
       "conteudo": {
         "instrucao": "Liste todos os pedidos e o nome do cliente correspondente, unindo as tabelas Clientes e Pedidos pela chave ClienteID.",
@@ -102,7 +171,14 @@
         "placeholder": "SELECT c.Nome, p.Produto, p.Valor\nFROM Pedidos p\nINNER JOIN ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',149),(104,3,'Monitor',1200);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","Produto","Valor"], "min_rows": 4 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Produto",
+            "Valor"
+          ],
+          "min_rows": 4
+        }
       },
       "traducoes": {
         "en": {
@@ -122,23 +198,51 @@
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Tipos de Relacionamento",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "1 para N (Um para Muitos)", "def": "Um registro de A pode se relacionar com vários de B. Ex: um cliente pode ter muitos pedidos, mas cada pedido pertence a um único cliente." },
-        { "type": "code", "code": "1 Cliente → N Pedidos\n1 Categoria → N Produtos\n1 Professor → N Alunos", "lese": "Exemplos de relacionamento 1 para N (um para muitos) — o mais comum em bancos de dados" },
-        { "type": "definicao", "termo": "N para N (Muitos para Muitos)", "def": "Vários registros de A podem se relacionar com vários de B. Ex: um pedido pode ter vários produtos e um produto pode estar em vários pedidos." },
-        { "type": "nota", "texto": "Relacionamentos N:N precisam de uma tabela intermediária (tabela de junção) com duas FOREIGN KEYs." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "1 para N (Um para Muitos)",
+            "def": "Um registro de A pode se relacionar com vários de B. Ex: um cliente pode ter muitos pedidos, mas cada pedido pertence a um único cliente."
+          },
+          {
+            "type": "code",
+            "code": "1 Cliente → N Pedidos\n1 Categoria → N Produtos\n1 Professor → N Alunos",
+            "lese": "Exemplos de relacionamento 1 para N (um para muitos) — o mais comum em bancos de dados"
+          },
+          {
+            "type": "definicao",
+            "termo": "N para N (Muitos para Muitos)",
+            "def": "Vários registros de A podem se relacionar com vários de B. Ex: um pedido pode ter vários produtos e um produto pode estar em vários pedidos."
+          },
+          {
+            "type": "nota",
+            "texto": "Relacionamentos N:N precisam de uma tabela intermediária (tabela de junção) com duas FOREIGN KEYs."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Relationship Types",
           "conteudo": {
             "blocos": [
-              { "def": "One record in A can relate to many in B. E.g.: one customer can have many orders, but each order belongs to a single customer." },
-              { "lese": "Examples of 1-to-N (one-to-many) relationships — the most common type in databases" },
-              { "def": "Many records in A can relate to many in B. E.g.: an order can have many products and a product can appear in many orders." },
-              { "texto": "N:N relationships require an intermediate table (junction table) with two FOREIGN KEYs." }
+              {
+                "def": "One record in A can relate to many in B. E.g.: one customer can have many orders, but each order belongs to a single customer."
+              },
+              {
+                "lese": "Examples of 1-to-N (one-to-many) relationships — the most common type in databases"
+              },
+              {
+                "def": "Many records in A can relate to many in B. E.g.: an order can have many products and a product can appear in many orders."
+              },
+              {
+                "texto": "N:N relationships require an intermediate table (junction table) with two FOREIGN KEYs."
+              }
             ]
           }
         },
@@ -146,31 +250,56 @@
           "titulo": "Tipos de Relación",
           "conteudo": {
             "blocos": [
-              { "def": "Un registro de A puede relacionarse con varios de B. Ej: un cliente puede tener muchos pedidos, pero cada pedido pertenece a un único cliente." },
-              { "lese": "Ejemplos de relación 1 a N (uno a muchos) — el más común en bases de datos" },
-              { "def": "Varios registros de A pueden relacionarse con varios de B. Ej: un pedido puede tener varios productos y un producto puede estar en varios pedidos." },
-              { "texto": "Las relaciones N:N necesitan una tabla intermedia (tabla de unión) con dos FOREIGN KEYs." }
+              {
+                "def": "Un registro de A puede relacionarse con varios de B. Ej: un cliente puede tener muchos pedidos, pero cada pedido pertenece a un único cliente."
+              },
+              {
+                "lese": "Ejemplos de relación 1 a N (uno a muchos) — el más común en bases de datos"
+              },
+              {
+                "def": "Varios registros de A pueden relacionarse con varios de B. Ej: un pedido puede tener varios productos y un producto puede estar en varios pedidos."
+              },
+              {
+                "texto": "Las relaciones N:N necesitan una tabla intermedia (tabla de unión) con dos FOREIGN KEYs."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Constraints — Regras de Dados",
-      "conteudo": { "blocos": [
-        "Além de chaves, existem outras restrições (constraints) que garantem a qualidade dos dados:",
-        { "type": "code", "code": "NOT NULL    → campo obrigatório, não pode ser vazio\nUNIQUE     → valor não pode se repetir na coluna\nDEFAULT    → valor padrão se não informado\nCHECK      → validação de valor (ex: Salario > 0)", "lese": "Tabela das principais constraints (restrições) em SQL" },
-        { "type": "code", "code": "CREATE TABLE Funcionarios (\n  ID       INTEGER PRIMARY KEY,\n  Nome     TEXT NOT NULL,\n  Email    TEXT UNIQUE NOT NULL,\n  Salario  REAL CHECK(Salario > 0),\n  Status   TEXT DEFAULT 'ativo'\n)", "lese": "Cria tabela de funcionários com ID único, Nome e Email obrigatórios, Salario deve ser positivo e Status tem 'ativo' como valor padrão" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Além de chaves, existem outras restrições (constraints) que garantem a qualidade dos dados:",
+          {
+            "type": "code",
+            "code": "NOT NULL    → campo obrigatório, não pode ser vazio\nUNIQUE     → valor não pode se repetir na coluna\nDEFAULT    → valor padrão se não informado\nCHECK      → validação de valor (ex: Salario > 0)",
+            "lese": "Tabela das principais constraints (restrições) em SQL"
+          },
+          {
+            "type": "code",
+            "code": "CREATE TABLE Funcionarios (\n  ID       INTEGER PRIMARY KEY,\n  Nome     TEXT NOT NULL,\n  Email    TEXT UNIQUE NOT NULL,\n  Salario  REAL CHECK(Salario > 0),\n  Status   TEXT DEFAULT 'ativo'\n)",
+            "lese": "Cria tabela de funcionários com ID único, Nome e Email obrigatórios, Salario deve ser positivo e Status tem 'ativo' como valor padrão"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Constraints — Data Rules",
           "conteudo": {
             "blocos": [
               "In addition to keys, there are other restrictions (constraints) that ensure data quality:",
-              { "lese": "Table of the main SQL constraints (restrictions)" },
-              { "lese": "Creates an employees table with a unique ID, mandatory Name and Email, Salary must be positive and Status defaults to 'ativo'" }
+              {
+                "lese": "Table of the main SQL constraints (restrictions)"
+              },
+              {
+                "lese": "Creates an employees table with a unique ID, mandatory Name and Email, Salary must be positive and Status defaults to 'ativo'"
+              }
             ]
           }
         },
@@ -179,15 +308,22 @@
           "conteudo": {
             "blocos": [
               "Además de las claves, existen otras restricciones (constraints) que garantizan la calidad de los datos:",
-              { "lese": "Tabla de las principales constraints (restricciones) en SQL" },
-              { "lese": "Crea la tabla de empleados con ID único, Nombre y Email obligatorios, Salario debe ser positivo y Status tiene 'ativo' como valor predeterminado" }
+              {
+                "lese": "Tabla de las principales constraints (restricciones) en SQL"
+              },
+              {
+                "lese": "Crea la tabla de empleados con ID único, Nombre y Email obligatorios, Salario debe ser positivo y Status tiene 'ativo' como valor predeterminado"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 7, "tipo": "exercicio", "temAnuncio": false, "xpReward": 100,
+      "ordem": 7,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
       "titulo": "Contando Pedidos por Cliente",
       "conteudo": {
         "instrucao": "Conte quantos pedidos cada cliente tem, exibindo o nome do cliente e a quantidade de pedidos. Use GROUP BY após o JOIN.",
@@ -195,7 +331,13 @@
         "placeholder": "SELECT c.Nome, COUNT(*) AS TotalPedidos\nFROM Pedidos p\nINNER JOIN ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER PRIMARY KEY, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'); CREATE TABLE Pedidos (PedidoID INTEGER PRIMARY KEY, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',149),(104,3,'Monitor',1200),(105,1,'Cadeira',890),(106,2,'Webcam',320);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","TotalPedidos"], "min_rows": 3 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "TotalPedidos"
+          ],
+          "min_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -215,21 +357,43 @@
       }
     },
     {
-      "ordem": 8, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 8,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Índices — Acelerando Consultas",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "Índice (INDEX)", "def": "Uma estrutura de dados que acelera a busca por registros em uma tabela, como o índice de um livro. A PRIMARY KEY cria um índice automaticamente." },
-        { "type": "code", "code": "CREATE INDEX idx_clientes_email ON Clientes(Email)", "lese": "Cria um índice na coluna Email da tabela Clientes para acelerar buscas por email" },
-        { "type": "nota", "texto": "Índices aceleram leituras (SELECT) mas deixam gravações (INSERT/UPDATE) ligeiramente mais lentas. Use em colunas frequentemente buscadas ou usadas em JOINs." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "Índice (INDEX)",
+            "def": "Uma estrutura de dados que acelera a busca por registros em uma tabela, como o índice de um livro. A PRIMARY KEY cria um índice automaticamente."
+          },
+          {
+            "type": "code",
+            "code": "CREATE INDEX idx_clientes_email ON Clientes(Email)",
+            "lese": "Cria um índice na coluna Email da tabela Clientes para acelerar buscas por email"
+          },
+          {
+            "type": "nota",
+            "texto": "Índices aceleram leituras (SELECT) mas deixam gravações (INSERT/UPDATE) ligeiramente mais lentas. Use em colunas frequentemente buscadas ou usadas em JOINs."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Indexes — Speeding Up Queries",
           "conteudo": {
             "blocos": [
-              { "def": "A data structure that speeds up the search for records in a table, like the index of a book. The PRIMARY KEY automatically creates an index." },
-              { "lese": "Creates an index on the Email column of the Customers table to speed up searches by email" },
-              { "texto": "Indexes speed up reads (SELECT) but make writes (INSERT/UPDATE) slightly slower. Use them on columns that are frequently searched or used in JOINs." }
+              {
+                "def": "A data structure that speeds up the search for records in a table, like the index of a book. The PRIMARY KEY automatically creates an index."
+              },
+              {
+                "lese": "Creates an index on the Email column of the Customers table to speed up searches by email"
+              },
+              {
+                "texto": "Indexes speed up reads (SELECT) but make writes (INSERT/UPDATE) slightly slower. Use them on columns that are frequently searched or used in JOINs."
+              }
             ]
           }
         },
@@ -237,27 +401,39 @@
           "titulo": "Índices — Acelerando Consultas",
           "conteudo": {
             "blocos": [
-              { "def": "Una estructura de datos que acelera la búsqueda de registros en una tabla, como el índice de un libro. La PRIMARY KEY crea un índice automáticamente." },
-              { "lese": "Crea un índice en la columna Email de la tabla Clientes para acelerar las búsquedas por email" },
-              { "texto": "Los índices aceleran las lecturas (SELECT) pero hacen que las escrituras (INSERT/UPDATE) sean ligeramente más lentas. Úsalos en columnas frecuentemente buscadas o usadas en JOINs." }
+              {
+                "def": "Una estructura de datos que acelera la búsqueda de registros en una tabla, como el índice de un libro. La PRIMARY KEY crea un índice automáticamente."
+              },
+              {
+                "lese": "Crea un índice en la columna Email de la tabla Clientes para acelerar las búsquedas por email"
+              },
+              {
+                "texto": "Los índices aceleran las lecturas (SELECT) pero hacen que las escrituras (INSERT/UPDATE) sean ligeramente más lentas. Úsalos en columnas frecuentemente buscadas o usadas en JOINs."
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 9, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 9,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: Chaves e Relacionamentos",
-      "conteudo": { "cor": "roxo", "itens": [
-        "PRIMARY KEY: identifica unicamente cada registro",
-        "FOREIGN KEY: conecta tabelas garantindo integridade",
-        "NOT NULL: campo obrigatório",
-        "UNIQUE: valor não pode se repetir",
-        "DEFAULT: valor padrão quando não informado",
-        "CHECK: validação de valor",
-        "1:N é o relacionamento mais comum",
-        "INDEX acelera consultas em colunas frequentes"
-      ]},
+      "conteudo": {
+        "cor": "roxo",
+        "itens": [
+          "PRIMARY KEY: identifica unicamente cada registro",
+          "FOREIGN KEY: conecta tabelas garantindo integridade",
+          "NOT NULL: campo obrigatório",
+          "UNIQUE: valor não pode se repetir",
+          "DEFAULT: valor padrão quando não informado",
+          "CHECK: validação de valor",
+          "1:N é o relacionamento mais comum",
+          "INDEX acelera consultas em colunas frequentes"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: Keys and Relationships",
@@ -294,7 +470,10 @@
       }
     },
     {
-      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 10,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Consultando Tabelas Relacionadas",
       "conteudo": {
         "instrucao": "Liste o nome do funcionário e o nome do departamento ao qual pertence, usando JOIN pela chave estrangeira.",
@@ -302,7 +481,13 @@
         "placeholder": "SELECT f.Nome, d.NomeDepartamento\nFROM Funcionarios f\nINNER JOIN ...",
         "schema": "CREATE TABLE Departamentos (DeptID INTEGER PRIMARY KEY, NomeDepartamento TEXT); INSERT INTO Departamentos VALUES (1,'TI'),(2,'Vendas'),(3,'RH'); CREATE TABLE Funcionarios (FuncID INTEGER PRIMARY KEY, Nome TEXT, DeptID INTEGER, Salario REAL, FOREIGN KEY (DeptID) REFERENCES Departamentos(DeptID)); INSERT INTO Funcionarios VALUES (1,'Ana',1,7200),(2,'Carlos',2,9800),(3,'Maria',1,5500),(4,'João',3,4800),(5,'Lucia',2,6200);",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome","NomeDepartamento"], "min_rows": 5 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "NomeDepartamento"
+          ],
+          "min_rows": 5
+        }
       },
       "traducoes": {
         "en": {
@@ -322,17 +507,27 @@
       }
     },
     {
-      "ordem": 11, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 11,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "Estrutura dominada!",
-      "conteudo": { "mensagem": "Agora você entende a espinha dorsal de qualquer banco de dados. Chaves, relacionamentos e constraints garantem dados confiáveis!", "xpGanho": 350 },
+      "conteudo": {
+        "mensagem": "Agora você entende a espinha dorsal de qualquer banco de dados. Chaves, relacionamentos e constraints garantem dados confiáveis!",
+        "xpGanho": 350
+      },
       "traducoes": {
         "en": {
           "titulo": "Structure mastered!",
-          "conteudo": { "mensagem": "Now you understand the backbone of any database. Keys, relationships and constraints ensure reliable data!" }
+          "conteudo": {
+            "mensagem": "Now you understand the backbone of any database. Keys, relationships and constraints ensure reliable data!"
+          }
         },
         "es": {
           "titulo": "¡Estructura dominada!",
-          "conteudo": { "mensagem": "Ahora entiendes la columna vertebral de cualquier base de datos. ¡Las claves, relaciones y constraints garantizan datos confiables!" }
+          "conteudo": {
+            "mensagem": "Ahora entiendes la columna vertebral de cualquier base de datos. ¡Las claves, relaciones y constraints garantizan datos confiables!"
+          }
         }
       }
     }

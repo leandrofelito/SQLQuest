@@ -3,7 +3,7 @@
   "titulo": "SELECT — Lendo Dados",
   "descricao": "Aprenda a buscar dados com SELECT, escolher colunas, usar aliases e limitar resultados.",
   "icone": "🔍",
-  "ordem": 2,
+  "ordem": 3,
   "xpTotal": 750,
   "traducoes": {
     "en": {
@@ -17,196 +17,446 @@
   },
   "etapas": [
     {
-      "ordem": 1, "tipo": "intro", "temAnuncio": false, "xpReward": 0,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "O Comando SELECT",
-      "conteudo": { "emoji": "🔍", "subtitulo": "A base de tudo: como buscar dados em qualquer tabela" },
+      "conteudo": {
+        "emoji": "🔍",
+        "subtitulo": "A base de tudo: como buscar dados em qualquer tabela"
+      },
       "traducoes": {
         "en": {
           "titulo": "The SELECT Command",
-          "conteudo": { "subtitulo": "The foundation of everything: how to retrieve data from any table" }
+          "conteudo": {
+            "subtitulo": "The foundation of everything: how to retrieve data from any table"
+          }
         },
         "es": {
           "titulo": "El Comando SELECT",
-          "conteudo": { "subtitulo": "La base de todo: cómo consultar datos en cualquier tabla" }
+          "conteudo": {
+            "subtitulo": "La base de todo: cómo consultar datos en cualquier tabla"
+          }
         }
       }
     },
     {
-      "ordem": 2, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 2,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "SELECT — A Estrutura Básica",
-      "conteudo": { "blocos": [
-        "SELECT é o comando mais usado em SQL. Com ele você diz ao banco de dados quais dados quer ver.",
-        { "type": "code", "code": "SELECT coluna1, coluna2 FROM NomeDaTabela", "lese": "Seleciona as colunas 'coluna1' e 'coluna2' da tabela 'NomeDaTabela'" },
-        { "type": "code", "code": "SELECT Nome, Email FROM Clientes", "lese": "Seleciona apenas os campos Nome e Email de todos os registros da tabela Clientes" },
-        { "type": "nota", "texto": "A ordem das partes importa: primeiro SELECT (o quê), depois FROM (de onde)." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "SELECT é o comando mais usado em SQL. Com ele você diz ao banco de dados quais dados quer ver.",
+          {
+            "type": "code",
+            "code": "SELECT coluna1, coluna2 FROM NomeDaTabela",
+            "lese": "Seleciona as colunas 'coluna1' e 'coluna2' da tabela 'NomeDaTabela'"
+          },
+          {
+            "type": "code",
+            "code": "SELECT Nome, Email FROM Clientes",
+            "lese": "Seleciona apenas os campos Nome e Email de todos os registros da tabela Clientes"
+          },
+          {
+            "type": "nota",
+            "texto": "A ordem das partes importa: primeiro SELECT (o quê), depois FROM (de onde)."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "SELECT — The Basic Structure",
-          "conteudo": { "blocos": [
-            "SELECT is the most used command in SQL. With it you tell the database which data you want to see.",
-            { "type": "code", "code": "SELECT coluna1, coluna2 FROM NomeDaTabela", "lese": "Selects the columns 'coluna1' and 'coluna2' from the table 'NomeDaTabela'" },
-            { "type": "code", "code": "SELECT Nome, Email FROM Clientes", "lese": "Selects only the Nome and Email fields from all records in the Clientes table" },
-            { "type": "nota", "texto": "The order of the parts matters: first SELECT (what), then FROM (from where)." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "SELECT is the most used command in SQL. With it you tell the database which data you want to see.",
+              {
+                "type": "code",
+                "code": "SELECT coluna1, coluna2 FROM NomeDaTabela",
+                "lese": "Selects the columns 'coluna1' and 'coluna2' from the table 'NomeDaTabela'"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Email FROM Clientes",
+                "lese": "Selects only the Nome and Email fields from all records in the Clientes table"
+              },
+              {
+                "type": "nota",
+                "texto": "The order of the parts matters: first SELECT (what), then FROM (from where)."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "SELECT — La Estructura Básica",
-          "conteudo": { "blocos": [
-            "SELECT es el comando más usado en SQL. Con él le dices a la base de datos qué datos quieres ver.",
-            { "type": "code", "code": "SELECT coluna1, coluna2 FROM NomeDaTabela", "lese": "Selecciona las columnas 'coluna1' y 'coluna2' de la tabla 'NomeDaTabela'" },
-            { "type": "code", "code": "SELECT Nome, Email FROM Clientes", "lese": "Selecciona solo los campos Nome y Email de todos los registros de la tabla Clientes" },
-            { "type": "nota", "texto": "El orden de las partes importa: primero SELECT (qué), luego FROM (de dónde)." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "SELECT es el comando más usado en SQL. Con él le dices a la base de datos qué datos quieres ver.",
+              {
+                "type": "code",
+                "code": "SELECT coluna1, coluna2 FROM NomeDaTabela",
+                "lese": "Selecciona las columnas 'coluna1' y 'coluna2' de la tabla 'NomeDaTabela'"
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome, Email FROM Clientes",
+                "lese": "Selecciona solo los campos Nome y Email de todos los registros de la tabla Clientes"
+              },
+              {
+                "type": "nota",
+                "texto": "El orden de las partes importa: primero SELECT (qué), luego FROM (de dónde)."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 3, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 3,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "SELECT * — Todas as Colunas",
-      "conteudo": { "blocos": [
-        "O asterisco * é um atalho para 'todas as colunas'. Útil para explorar uma tabela.",
-        { "type": "code", "code": "SELECT * FROM Produtos", "lese": "Seleciona TODOS os campos de TODOS os registros da tabela Produtos" },
-        { "type": "nota", "texto": "Evite usar SELECT * em produção em tabelas grandes — selecione apenas as colunas que você realmente precisa." },
-        "Para selecionar múltiplas colunas específicas, separe-as com vírgula:",
-        { "type": "code", "code": "SELECT Nome, Preco, Categoria FROM Produtos", "lese": "Seleciona as colunas Nome, Preco e Categoria de todos os registros da tabela Produtos" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "O asterisco * é um atalho para 'todas as colunas'. Útil para explorar uma tabela.",
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos",
+            "lese": "Seleciona TODOS os campos de TODOS os registros da tabela Produtos"
+          },
+          {
+            "type": "nota",
+            "texto": "Evite usar SELECT * em produção em tabelas grandes — selecione apenas as colunas que você realmente precisa."
+          },
+          "Para selecionar múltiplas colunas específicas, separe-as com vírgula:",
+          {
+            "type": "code",
+            "code": "SELECT Nome, Preco, Categoria FROM Produtos",
+            "lese": "Seleciona as colunas Nome, Preco e Categoria de todos os registros da tabela Produtos"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "SELECT * — All Columns",
-          "conteudo": { "blocos": [
-            "The asterisk * is a shortcut for 'all columns'. Useful for exploring a table.",
-            { "type": "code", "code": "SELECT * FROM Produtos", "lese": "Selects ALL fields from ALL records in the Produtos table" },
-            { "type": "nota", "texto": "Avoid using SELECT * in production on large tables — select only the columns you actually need." },
-            "To select multiple specific columns, separate them with a comma:",
-            { "type": "code", "code": "SELECT Nome, Preco, Categoria FROM Produtos", "lese": "Selects the Nome, Preco, and Categoria columns from all records in the Produtos table" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "The asterisk * is a shortcut for 'all columns'. Useful for exploring a table.",
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos",
+                "lese": "Selects ALL fields from ALL records in the Produtos table"
+              },
+              {
+                "type": "nota",
+                "texto": "Avoid using SELECT * in production on large tables — select only the columns you actually need."
+              },
+              "To select multiple specific columns, separate them with a comma:",
+              {
+                "type": "code",
+                "code": "SELECT Nome, Preco, Categoria FROM Produtos",
+                "lese": "Selects the Nome, Preco, and Categoria columns from all records in the Produtos table"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "SELECT * — Todas las Columnas",
-          "conteudo": { "blocos": [
-            "El asterisco * es un atajo para 'todas las columnas'. Útil para explorar una tabla.",
-            { "type": "code", "code": "SELECT * FROM Produtos", "lese": "Selecciona TODOS los campos de TODOS los registros de la tabla Produtos" },
-            { "type": "nota", "texto": "Evita usar SELECT * en producción en tablas grandes — selecciona solo las columnas que realmente necesitas." },
-            "Para seleccionar múltiples columnas específicas, sepáralas con coma:",
-            { "type": "code", "code": "SELECT Nome, Preco, Categoria FROM Produtos", "lese": "Selecciona las columnas Nome, Preco y Categoria de todos los registros de la tabla Produtos" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "El asterisco * es un atajo para 'todas las columnas'. Útil para explorar una tabla.",
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos",
+                "lese": "Selecciona TODOS los campos de TODOS los registros de la tabla Produtos"
+              },
+              {
+                "type": "nota",
+                "texto": "Evita usar SELECT * en producción en tablas grandes — selecciona solo las columnas que realmente necesitas."
+              },
+              "Para seleccionar múltiples columnas específicas, sepáralas con coma:",
+              {
+                "type": "code",
+                "code": "SELECT Nome, Preco, Categoria FROM Produtos",
+                "lese": "Selecciona las columnas Nome, Preco y Categoria de todos los registros de la tabla Produtos"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 4, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 4,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "DISTINCT — Sem Repetição",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "DISTINCT", "def": "Elimina linhas duplicadas no resultado. Útil quando você quer saber quais valores únicos existem numa coluna." },
-        { "type": "code", "code": "SELECT DISTINCT Cidade FROM Clientes", "lese": "Seleciona cada cidade diferente (sem repetir) que aparece na tabela Clientes" },
-        "Sem DISTINCT, se 100 clientes forem de SP, você veria SP 100 vezes. Com DISTINCT, SP aparece uma vez.",
-        { "type": "code", "code": "SELECT DISTINCT Categoria FROM Produtos", "lese": "Retorna cada categoria única de produto, sem duplicatas" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "DISTINCT",
+            "def": "Elimina linhas duplicadas no resultado. Útil quando você quer saber quais valores únicos existem numa coluna."
+          },
+          {
+            "type": "code",
+            "code": "SELECT DISTINCT Cidade FROM Clientes",
+            "lese": "Seleciona cada cidade diferente (sem repetir) que aparece na tabela Clientes"
+          },
+          "Sem DISTINCT, se 100 clientes forem de SP, você veria SP 100 vezes. Com DISTINCT, SP aparece uma vez.",
+          {
+            "type": "code",
+            "code": "SELECT DISTINCT Categoria FROM Produtos",
+            "lese": "Retorna cada categoria única de produto, sem duplicatas"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "DISTINCT — No Repetition",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "DISTINCT", "def": "Removes duplicate rows from the result. Useful when you want to know which unique values exist in a column." },
-            { "type": "code", "code": "SELECT DISTINCT Cidade FROM Clientes", "lese": "Selects each different city (without repeating) that appears in the Clientes table" },
-            "Without DISTINCT, if 100 customers are from SP, you would see SP 100 times. With DISTINCT, SP appears once.",
-            { "type": "code", "code": "SELECT DISTINCT Categoria FROM Produtos", "lese": "Returns each unique product category, without duplicates" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "DISTINCT",
+                "def": "Removes duplicate rows from the result. Useful when you want to know which unique values exist in a column."
+              },
+              {
+                "type": "code",
+                "code": "SELECT DISTINCT Cidade FROM Clientes",
+                "lese": "Selects each different city (without repeating) that appears in the Clientes table"
+              },
+              "Without DISTINCT, if 100 customers are from SP, you would see SP 100 times. With DISTINCT, SP appears once.",
+              {
+                "type": "code",
+                "code": "SELECT DISTINCT Categoria FROM Produtos",
+                "lese": "Returns each unique product category, without duplicates"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "DISTINCT — Sin Repetición",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "DISTINCT", "def": "Elimina filas duplicadas en el resultado. Útil cuando quieres saber qué valores únicos existen en una columna." },
-            { "type": "code", "code": "SELECT DISTINCT Cidade FROM Clientes", "lese": "Selecciona cada ciudad diferente (sin repetir) que aparece en la tabla Clientes" },
-            "Sin DISTINCT, si 100 clientes son de SP, verías SP 100 veces. Con DISTINCT, SP aparece una vez.",
-            { "type": "code", "code": "SELECT DISTINCT Categoria FROM Produtos", "lese": "Devuelve cada categoría única de producto, sin duplicados" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "DISTINCT",
+                "def": "Elimina filas duplicadas en el resultado. Útil cuando quieres saber qué valores únicos existen en una columna."
+              },
+              {
+                "type": "code",
+                "code": "SELECT DISTINCT Cidade FROM Clientes",
+                "lese": "Selecciona cada ciudad diferente (sin repetir) que aparece en la tabla Clientes"
+              },
+              "Sin DISTINCT, si 100 clientes son de SP, verías SP 100 veces. Con DISTINCT, SP aparece una vez.",
+              {
+                "type": "code",
+                "code": "SELECT DISTINCT Categoria FROM Produtos",
+                "lese": "Devuelve cada categoría única de producto, sin duplicados"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 5, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 5,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "TOP e LIMIT — Limitando Resultados",
-      "conteudo": { "blocos": [
-        "Às vezes você quer ver só os primeiros registros — para testar, ou para pegar os 'N melhores'.",
-        { "type": "code", "code": "SELECT TOP(10) * FROM Clientes", "lese": "Seleciona os 10 primeiros registros (linhas) da tabela Clientes" },
-        { "type": "code", "code": "SELECT * FROM Produtos LIMIT 5", "lese": "Retorna no máximo 5 registros da tabela Produtos (sintaxe MySQL/PostgreSQL/SQLite)" },
-        { "type": "nota", "texto": "TOP é sintaxe do SQL Server e Access. LIMIT é usado no MySQL, PostgreSQL e SQLite. Aqui no SQLQuest usamos LIMIT." }
-      ]},
+      "conteudo": {
+        "blocos": [
+          "Às vezes você quer ver só os primeiros registros — para testar, ou para pegar os 'N melhores'.",
+          {
+            "type": "code",
+            "code": "SELECT TOP(10) * FROM Clientes",
+            "lese": "Seleciona os 10 primeiros registros (linhas) da tabela Clientes"
+          },
+          {
+            "type": "code",
+            "code": "SELECT * FROM Produtos LIMIT 5",
+            "lese": "Retorna no máximo 5 registros da tabela Produtos (sintaxe MySQL/PostgreSQL/SQLite)"
+          },
+          {
+            "type": "nota",
+            "texto": "TOP é sintaxe do SQL Server e Access. LIMIT é usado no MySQL, PostgreSQL e SQLite. Aqui no SQLQuest usamos LIMIT."
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "TOP and LIMIT — Limiting Results",
-          "conteudo": { "blocos": [
-            "Sometimes you only want to see the first few records — for testing, or to get the 'top N'.",
-            { "type": "code", "code": "SELECT TOP(10) * FROM Clientes", "lese": "Selects the first 10 records (rows) from the Clientes table" },
-            { "type": "code", "code": "SELECT * FROM Produtos LIMIT 5", "lese": "Returns at most 5 records from the Produtos table (MySQL/PostgreSQL/SQLite syntax)" },
-            { "type": "nota", "texto": "TOP is SQL Server and Access syntax. LIMIT is used in MySQL, PostgreSQL, and SQLite. Here in SQLQuest we use LIMIT." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "Sometimes you only want to see the first few records — for testing, or to get the 'top N'.",
+              {
+                "type": "code",
+                "code": "SELECT TOP(10) * FROM Clientes",
+                "lese": "Selects the first 10 records (rows) from the Clientes table"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos LIMIT 5",
+                "lese": "Returns at most 5 records from the Produtos table (MySQL/PostgreSQL/SQLite syntax)"
+              },
+              {
+                "type": "nota",
+                "texto": "TOP is SQL Server and Access syntax. LIMIT is used in MySQL, PostgreSQL, and SQLite. Here in SQLQuest we use LIMIT."
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "TOP y LIMIT — Limitando Resultados",
-          "conteudo": { "blocos": [
-            "A veces solo quieres ver los primeros registros — para probar, o para obtener los 'N mejores'.",
-            { "type": "code", "code": "SELECT TOP(10) * FROM Clientes", "lese": "Selecciona los primeros 10 registros (filas) de la tabla Clientes" },
-            { "type": "code", "code": "SELECT * FROM Produtos LIMIT 5", "lese": "Devuelve como máximo 5 registros de la tabla Produtos (sintaxis MySQL/PostgreSQL/SQLite)" },
-            { "type": "nota", "texto": "TOP es sintaxis de SQL Server y Access. LIMIT se usa en MySQL, PostgreSQL y SQLite. Aquí en SQLQuest usamos LIMIT." }
-          ]}
+          "conteudo": {
+            "blocos": [
+              "A veces solo quieres ver los primeros registros — para probar, o para obtener los 'N mejores'.",
+              {
+                "type": "code",
+                "code": "SELECT TOP(10) * FROM Clientes",
+                "lese": "Selecciona los primeros 10 registros (filas) de la tabla Clientes"
+              },
+              {
+                "type": "code",
+                "code": "SELECT * FROM Produtos LIMIT 5",
+                "lese": "Devuelve como máximo 5 registros de la tabla Produtos (sintaxis MySQL/PostgreSQL/SQLite)"
+              },
+              {
+                "type": "nota",
+                "texto": "TOP es sintaxis de SQL Server y Access. LIMIT se usa en MySQL, PostgreSQL y SQLite. Aquí en SQLQuest usamos LIMIT."
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 6, "tipo": "texto", "temAnuncio": false, "xpReward": 0,
+      "ordem": 6,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "AS — Renomeando Colunas",
-      "conteudo": { "blocos": [
-        { "type": "definicao", "termo": "AS (Alias)", "def": "Renomeia uma coluna no resultado da query. Não altera o banco de dados, só o nome exibido." },
-        { "type": "code", "code": "SELECT Nome AS 'Nome do Cliente', Email AS 'Endereço de Email'\nFROM Clientes", "lese": "Seleciona Nome (exibido como 'Nome do Cliente') e Email (exibido como 'Endereço de Email') da tabela Clientes" },
-        "Aliases com espaços precisam de aspas simples ou colchetes. Sem espaço, você pode omitir as aspas.",
-        { "type": "code", "code": "SELECT Preco AS PrecoFinal FROM Produtos", "lese": "Seleciona o campo Preco, mas exibe com o nome PrecoFinal no resultado" }
-      ]},
+      "conteudo": {
+        "blocos": [
+          {
+            "type": "definicao",
+            "termo": "AS (Alias)",
+            "def": "Renomeia uma coluna no resultado da query. Não altera o banco de dados, só o nome exibido."
+          },
+          {
+            "type": "code",
+            "code": "SELECT Nome AS 'Nome do Cliente', Email AS 'Endereço de Email'\nFROM Clientes",
+            "lese": "Seleciona Nome (exibido como 'Nome do Cliente') e Email (exibido como 'Endereço de Email') da tabela Clientes"
+          },
+          "Aliases com espaços precisam de aspas simples ou colchetes. Sem espaço, você pode omitir as aspas.",
+          {
+            "type": "code",
+            "code": "SELECT Preco AS PrecoFinal FROM Produtos",
+            "lese": "Seleciona o campo Preco, mas exibe com o nome PrecoFinal no resultado"
+          }
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "AS — Renaming Columns",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "AS (Alias)", "def": "Renames a column in the query result. It does not change the database, only the displayed name." },
-            { "type": "code", "code": "SELECT Nome AS 'Nome do Cliente', Email AS 'Endereço de Email'\nFROM Clientes", "lese": "Selects Nome (displayed as 'Nome do Cliente') and Email (displayed as 'Endereço de Email') from the Clientes table" },
-            "Aliases with spaces require single quotes or brackets. Without spaces, you can omit the quotes.",
-            { "type": "code", "code": "SELECT Preco AS PrecoFinal FROM Produtos", "lese": "Selects the Preco field but displays it with the name PrecoFinal in the result" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "AS (Alias)",
+                "def": "Renames a column in the query result. It does not change the database, only the displayed name."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome AS 'Nome do Cliente', Email AS 'Endereço de Email'\nFROM Clientes",
+                "lese": "Selects Nome (displayed as 'Nome do Cliente') and Email (displayed as 'Endereço de Email') from the Clientes table"
+              },
+              "Aliases with spaces require single quotes or brackets. Without spaces, you can omit the quotes.",
+              {
+                "type": "code",
+                "code": "SELECT Preco AS PrecoFinal FROM Produtos",
+                "lese": "Selects the Preco field but displays it with the name PrecoFinal in the result"
+              }
+            ]
+          }
         },
         "es": {
           "titulo": "AS — Renombrando Columnas",
-          "conteudo": { "blocos": [
-            { "type": "definicao", "termo": "AS (Alias)", "def": "Renombra una columna en el resultado de la query. No modifica la base de datos, solo el nombre mostrado." },
-            { "type": "code", "code": "SELECT Nome AS 'Nome do Cliente', Email AS 'Endereço de Email'\nFROM Clientes", "lese": "Selecciona Nome (mostrado como 'Nome do Cliente') y Email (mostrado como 'Endereço de Email') de la tabla Clientes" },
-            "Los alias con espacios necesitan comillas simples o corchetes. Sin espacios, puedes omitir las comillas.",
-            { "type": "code", "code": "SELECT Preco AS PrecoFinal FROM Produtos", "lese": "Selecciona el campo Preco, pero lo muestra con el nombre PrecoFinal en el resultado" }
-          ]}
+          "conteudo": {
+            "blocos": [
+              {
+                "type": "definicao",
+                "termo": "AS (Alias)",
+                "def": "Renombra una columna en el resultado de la query. No modifica la base de datos, solo el nombre mostrado."
+              },
+              {
+                "type": "code",
+                "code": "SELECT Nome AS 'Nome do Cliente', Email AS 'Endereço de Email'\nFROM Clientes",
+                "lese": "Selecciona Nome (mostrado como 'Nome do Cliente') y Email (mostrado como 'Endereço de Email') de la tabla Clientes"
+              },
+              "Los alias con espacios necesitan comillas simples o corchetes. Sin espacios, puedes omitir las comillas.",
+              {
+                "type": "code",
+                "code": "SELECT Preco AS PrecoFinal FROM Produtos",
+                "lese": "Selecciona el campo Preco, pero lo muestra con el nombre PrecoFinal en el resultado"
+              }
+            ]
+          }
         }
       }
     },
     {
-      "ordem": 7, "tipo": "resumo", "temAnuncio": false, "xpReward": 0,
+      "ordem": 7,
+      "tipo": "resumo",
+      "temAnuncio": false,
+      "xpReward": 0,
       "titulo": "Resumo: SELECT",
-      "conteudo": { "cor": "verde", "itens": [
-        "SELECT col FROM tabela — busca colunas específicas",
-        "SELECT * FROM tabela — busca todas as colunas",
-        "SELECT DISTINCT col FROM tabela — valores únicos",
-        "SELECT TOP(n) * FROM tabela — primeiros N registros (SQL Server)",
-        "SELECT * FROM tabela LIMIT n — primeiros N registros (MySQL/SQLite)",
-        "SELECT col AS alias — renomeia a coluna no resultado"
-      ]},
+      "conteudo": {
+        "cor": "verde",
+        "itens": [
+          "SELECT col FROM tabela — busca colunas específicas",
+          "SELECT * FROM tabela — busca todas as colunas",
+          "SELECT DISTINCT col FROM tabela — valores únicos",
+          "SELECT TOP(n) * FROM tabela — primeiros N registros (SQL Server)",
+          "SELECT * FROM tabela LIMIT n — primeiros N registros (MySQL/SQLite)",
+          "SELECT col AS alias — renomeia a coluna no resultado"
+        ]
+      },
       "traducoes": {
         "en": {
           "titulo": "Summary: SELECT",
           "conteudo": {
             "titulo": "Summary: SELECT",
             "itens": [
-              { "titulo": "SELECT col FROM table", "descricao": "retrieves specific columns" },
-              { "titulo": "SELECT * FROM table", "descricao": "retrieves all columns" },
-              { "titulo": "SELECT DISTINCT col FROM table", "descricao": "unique values only" },
-              { "titulo": "SELECT TOP(n) * FROM table", "descricao": "first N records (SQL Server)" },
-              { "titulo": "SELECT * FROM table LIMIT n", "descricao": "first N records (MySQL/SQLite)" },
-              { "titulo": "SELECT col AS alias", "descricao": "renames the column in the result" }
+              {
+                "titulo": "SELECT col FROM table",
+                "descricao": "retrieves specific columns"
+              },
+              {
+                "titulo": "SELECT * FROM table",
+                "descricao": "retrieves all columns"
+              },
+              {
+                "titulo": "SELECT DISTINCT col FROM table",
+                "descricao": "unique values only"
+              },
+              {
+                "titulo": "SELECT TOP(n) * FROM table",
+                "descricao": "first N records (SQL Server)"
+              },
+              {
+                "titulo": "SELECT * FROM table LIMIT n",
+                "descricao": "first N records (MySQL/SQLite)"
+              },
+              {
+                "titulo": "SELECT col AS alias",
+                "descricao": "renames the column in the result"
+              }
             ]
           }
         },
@@ -215,19 +465,40 @@
           "conteudo": {
             "titulo": "Resumen: SELECT",
             "itens": [
-              { "titulo": "SELECT col FROM tabla", "descricao": "consulta columnas específicas" },
-              { "titulo": "SELECT * FROM tabla", "descricao": "consulta todas las columnas" },
-              { "titulo": "SELECT DISTINCT col FROM tabla", "descricao": "valores únicos" },
-              { "titulo": "SELECT TOP(n) * FROM tabla", "descricao": "primeros N registros (SQL Server)" },
-              { "titulo": "SELECT * FROM tabla LIMIT n", "descricao": "primeros N registros (MySQL/SQLite)" },
-              { "titulo": "SELECT col AS alias", "descricao": "renombra la columna en el resultado" }
+              {
+                "titulo": "SELECT col FROM tabla",
+                "descricao": "consulta columnas específicas"
+              },
+              {
+                "titulo": "SELECT * FROM tabla",
+                "descricao": "consulta todas las columnas"
+              },
+              {
+                "titulo": "SELECT DISTINCT col FROM tabla",
+                "descricao": "valores únicos"
+              },
+              {
+                "titulo": "SELECT TOP(n) * FROM tabla",
+                "descricao": "primeros N registros (SQL Server)"
+              },
+              {
+                "titulo": "SELECT * FROM tabla LIMIT n",
+                "descricao": "primeros N registros (MySQL/SQLite)"
+              },
+              {
+                "titulo": "SELECT col AS alias",
+                "descricao": "renombra la columna en el resultado"
+              }
             ]
           }
         }
       }
     },
     {
-      "ordem": 8, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 1 — SELECT básico",
       "conteudo": {
         "instrucao": "Busque o nome e o email de todos os clientes da tabela.",
@@ -235,7 +506,13 @@
         "placeholder": "SELECT ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Email TEXT, Cidade TEXT, Telefone TEXT); INSERT INTO Clientes VALUES (1,'Ana Silva','ana@email.com','São Paulo','11 99999-0001'),(2,'Carlos Souza','carlos@email.com','Rio de Janeiro','21 99999-0002'),(3,'Maria Santos','maria@email.com','Belo Horizonte','31 99999-0003'),(4,'João Lima','joao@email.com','São Paulo','11 99999-0004');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Nome", "Email"], "min_rows": 4 }
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Email"
+          ],
+          "min_rows": 4
+        }
       },
       "traducoes": {
         "en": {
@@ -255,7 +532,10 @@
       }
     },
     {
-      "ordem": 9, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 2 — DISTINCT",
       "conteudo": {
         "instrucao": "Liste todas as cidades diferentes (sem repetição) em que há clientes cadastrados.",
@@ -263,7 +543,9 @@
         "placeholder": "SELECT DISTINCT ...",
         "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Email TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','ana@email.com','São Paulo'),(2,'Carlos','c@email.com','Rio de Janeiro'),(3,'Maria','m@email.com','São Paulo'),(4,'João','j@email.com','Belo Horizonte'),(5,'Lucia','l@email.com','Rio de Janeiro'),(6,'Pedro','p@email.com','Curitiba');",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 4 }
+        "checkConfig": {
+          "expected_rows": 4
+        }
       },
       "traducoes": {
         "en": {
@@ -283,7 +565,10 @@
       }
     },
     {
-      "ordem": 10, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 10,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 3 — LIMIT",
       "conteudo": {
         "instrucao": "Busque apenas os 3 primeiros produtos do catálogo.",
@@ -291,7 +576,9 @@
         "placeholder": "SELECT * FROM Produtos ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200.00,'Eletrônicos',15),(2,'Mouse',89.90,'Eletrônicos',120),(3,'Mesa',450.00,'Móveis',8),(4,'Cadeira',890.00,'Móveis',25),(5,'Monitor',1200.00,'Eletrônicos',30),(6,'Teclado',150.00,'Eletrônicos',75);",
         "checkType": "count",
-        "checkConfig": { "expected_rows": 3 }
+        "checkConfig": {
+          "expected_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -311,7 +598,10 @@
       }
     },
     {
-      "ordem": 11, "tipo": "exercicio", "temAnuncio": true, "xpReward": 100,
+      "ordem": 11,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
       "titulo": "Exercício 4 — Alias com AS",
       "conteudo": {
         "instrucao": "Busque o nome e o preço dos produtos, renomeando 'Nome' para 'Produto' e 'Preco' para 'Valor'.",
@@ -319,7 +609,13 @@
         "placeholder": "SELECT Nome AS ...",
         "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200.00,'Eletrônicos'),(2,'Mouse',89.90,'Eletrônicos'),(3,'Mesa',450.00,'Móveis');",
         "checkType": "columns",
-        "checkConfig": { "required_columns": ["Produto", "Valor"], "min_rows": 3 }
+        "checkConfig": {
+          "required_columns": [
+            "Produto",
+            "Valor"
+          ],
+          "min_rows": 3
+        }
       },
       "traducoes": {
         "en": {
@@ -339,17 +635,27 @@
       }
     },
     {
-      "ordem": 12, "tipo": "conclusao", "temAnuncio": false, "xpReward": 50,
+      "ordem": 12,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
       "titulo": "SELECT dominado!",
-      "conteudo": { "mensagem": "Você já sabe buscar dados, selecionar colunas, eliminar duplicatas e limitar resultados. Excelente começo!", "xpGanho": 450 },
+      "conteudo": {
+        "mensagem": "Você já sabe buscar dados, selecionar colunas, eliminar duplicatas e limitar resultados. Excelente começo!",
+        "xpGanho": 450
+      },
       "traducoes": {
         "en": {
           "titulo": "SELECT mastered!",
-          "conteudo": { "mensagem": "You already know how to retrieve data, select columns, eliminate duplicates, and limit results. Excellent start!" }
+          "conteudo": {
+            "mensagem": "You already know how to retrieve data, select columns, eliminate duplicates, and limit results. Excellent start!"
+          }
         },
         "es": {
           "titulo": "¡SELECT dominado!",
-          "conteudo": { "mensagem": "Ya sabes consultar datos, seleccionar columnas, eliminar duplicados y limitar resultados. ¡Excelente comienzo!" }
+          "conteudo": {
+            "mensagem": "Ya sabes consultar datos, seleccionar columnas, eliminar duplicados y limitar resultados. ¡Excelente comienzo!"
+          }
         }
       }
     }
