@@ -54,6 +54,11 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
     setTimeout(() => setFluxo('ad2'), 600)
   }
 
+  /** Fechar/sair sem recompensa não avança nem libera; volta ao banner para tentar de novo. */
+  function abortarDesbloqueioPorAnuncios() {
+    setFluxo('banner')
+  }
+
   async function segundoAnuncioConcluido() {
     if (!trilhaAlvo) return
     if (desbloqueioSegundoJaFeito.current) return
@@ -146,8 +151,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           adType="rewarded"
           label="Anúncio 1 de 2"
           onConcluido={primeiroAnuncioConcluido}
-          onFechar={primeiroAnuncioConcluido}
-          onFalhou={() => setFluxo('idle')}
+          onFechar={abortarDesbloqueioPorAnuncios}
+          onFalhou={() => setFluxo('banner')}
         />
       )}
       {fluxo === 'ad2' && (
@@ -157,8 +162,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           adType="rewarded"
           label="Anúncio 2 de 2"
           onConcluido={segundoAnuncioConcluido}
-          onFechar={segundoAnuncioConcluido}
-          onFalhou={() => setFluxo('idle')}
+          onFechar={abortarDesbloqueioPorAnuncios}
+          onFalhou={() => setFluxo('banner')}
         />
       )}
 
