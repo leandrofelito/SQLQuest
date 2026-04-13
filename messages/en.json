@@ -51,8 +51,10 @@
     "falso": "False",
     "escolhaOpcao": "Choose an option",
     "reflexaoPlaceholder": "Write your answer here…",
-    "reflexaoCurta": "Answer too short. Expand a bit (keys, linking tables).",
-    "quizIncorreto": "Incorrect answer. Try again or ask for a hint."
+    "reflexaoCurta": "Text is below the minimum character count.",
+    "quizIncorreto": "Incorrect answer. Try again or ask for a hint.",
+    "dicaReveladaTitulo": "Hint",
+    "dicaEtapaAusente": "This step does not have a hint configured yet."
   },
   "intro": {
     "continuar": "Tap to Continue"

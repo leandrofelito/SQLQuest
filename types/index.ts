@@ -42,6 +42,8 @@ export interface ConteudoExercicioSql {
   performanceAviso?: string
   /** Explicação técnica exibida após resposta correta, referenciando o plano de execução */
   explicacaoTecnica?: string
+  /** Inserido no editor após "Ver dica" (com anúncio), antes do texto que o usuário já digitou */
+  dicaPreenchimento?: string
 }
 
 export type ConteudoExercicioQuiz =
@@ -67,6 +69,8 @@ export type ConteudoExercicioQuiz =
       instrucao: string
       cenario?: string
       dica: string
+      /** Trecho sugerido inserido no textarea após revelar a dica */
+      dicaPreenchimento?: string
       placeholder?: string
       minLength: number
     }
