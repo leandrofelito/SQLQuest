@@ -246,7 +246,8 @@
         "cenario": "Sistema de Gestão de Frota: Tabelas 'Carros' e 'Manutenções'.",
         "placeholder": "Digite sua explicação lógica aqui...",
         "minLength": 50,
-        "dica": "Pense na Placa ou Chassi como identificadores que nunca mudam."
+        "dica": "Pense na Placa ou Chassi como identificadores que nunca mudam.",
+        "dicaPreenchimento": "Um identificador estável (ID, placa ou chassi) não muda quando o nome exibido do veículo muda; já um nome pode ser corrigido, duplicado ou ambíguo, quebrando o vínculo correto entre as tabelas Carros e Manutenções."
       },
       "traducoes": {
         "en": {
@@ -258,7 +259,8 @@
             "cenario": "Fleet Management System: 'Cars' and 'Maintenance' tables.",
             "placeholder": "Type your logical explanation here...",
             "minLength": 50,
-            "dica": "Think of the License Plate or Chassis as identifiers that never change."
+            "dica": "Think of the License Plate or Chassis as identifiers that never change.",
+            "dicaPreenchimento": "A stable identifier (ID, plate, or VIN) does not change when the display name of the vehicle changes; a name can be edited, duplicated, or ambiguous, breaking the correct link between Cars and Maintenance."
           }
         },
         "es": {
@@ -270,7 +272,8 @@
             "cenario": "Sistema de Gestión de Flotas: Tablas 'Coches' y 'Mantenimiento'.",
             "placeholder": "Escribe tu explicación lógica aquí...",
             "minLength": 50,
-            "dica": "Piensa en la Matrícula o el Chasis como identificadores que nunca cambian."
+            "dica": "Piensa en la Matrícula o el Chasis como identificadores que nunca cambian.",
+            "dicaPreenchimento": "Un identificador estable (ID, matrícula o bastidor) no cambia cuando cambia el nombre mostrado del vehículo; un nombre puede editarse, duplicarse o ser ambiguo, rompiendo el vínculo correcto entre Coches y Mantenimiento."
           }
         }
       }
