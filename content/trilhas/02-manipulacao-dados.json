@@ -4,7 +4,7 @@
   "descricao": "SELECT, FROM, projeção de colunas, aliases (AS) e boas práticas de leitura no PostgreSQL.",
   "icone": "📊",
   "ordem": 2,
-  "xpTotal": 900,
+  "xpTotal": 1550,
   "traducoes": {
     "en": {
       "titulo": "Data Manipulation (Reads)",
@@ -621,6 +621,416 @@
             "placeholder": "SELECT ... AS ...",
             "dica": "Sintaxis: SELECT columna AS nuevo_nombre — coma entre pares y luego FROM planetas.",
             "explicacaoTecnica": "Los alias hacen legibles los resultados y ayudan en expresiones y joins; no cambian el catálogo de la tabla."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 29,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "O Freio da Consulta: Cláusula LIMIT",
+      "conteudo": {
+        "blocos": [
+          "Imagine que você está explorando uma galáxia com bilhões de estrelas. Se você pedir ao seu computador para listar todas de uma vez, o sistema irá travar. Às vezes, você só precisa das 5 primeiras.",
+          "A cláusula **LIMIT** funciona como um 'freio' ou uma 'cerca' para a sua query. Ela define o número máximo de registros (tuplas) que o banco de dados deve retornar.",
+          {
+            "type": "definicao",
+            "termo": "LIMIT",
+            "def": "Uma restrição aplicada ao final da consulta que determina a quantidade máxima de linhas retornadas pelo SGBD."
+          },
+          "No **Neon.tech**, usar o LIMIT é uma questão de sobrevivência e performance. Buscar apenas os 10 primeiros registros em uma tabela de 1 milhão economiza memória, processamento e largura de banda, tornando seu aplicativo extremamente veloz.",
+          {
+            "type": "code",
+            "code": "SELECT * FROM planetas \nLIMIT 5;",
+            "lese": "Selecione todas as colunas da tabela planetas, mas pare a execução assim que encontrar os primeiros 5 registros."
+          },
+          {
+            "type": "nota",
+            "texto": "O LIMIT é sempre a última parte da sua frase SQL básica. Ele diz: 'Ok, terminei de filtrar, agora me dê apenas este tanto'."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Query Brake: LIMIT Clause",
+          "conteudo": {
+            "blocos": [
+              "Imagine exploring a galaxy with billions of stars. If you ask your computer to list them all at once, the system will crash. Sometimes, you only need the top 5.",
+              "The **LIMIT** clause acts as a 'brake' or a 'fence' for your query. It defines the maximum number of records (tuples) the database should return.",
+              {
+                "type": "definicao",
+                "termo": "LIMIT",
+                "def": "A constraint applied at the end of the query that determines the maximum number of rows returned by the DBMS."
+              },
+              "In **Neon.tech**, using LIMIT is about survival and performance. Fetching only the first 10 records in a table of 1 million saves memory and bandwidth."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Freno de la Consulta: Cláusula LIMIT",
+          "conteudo": {
+            "blocos": [
+              "Imagina explorar una galaxia con miles de millones de estrellas. Si le pides a tu computadora que las enumere todas a la vez, el sistema se colapsará. A veces, solo necesitas las primeras 5.",
+              "La cláusula **LIMIT** funciona como un 'freno' o una 'valla' para tu consulta. Define el número máximo de registros (tuplas) que la base de datos debe devolver.",
+              {
+                "type": "definicao",
+                "termo": "LIMIT",
+                "def": "Una restricción aplicada al final de la consulta que determina la cantidad máxima de filas devueltas por el SGBD."
+              },
+              "En **Neon.tech**, usar LIMIT es una cuestión de supervivencia y rendimiento. Buscar solo los primeros 10 registros en una tabla de 1 millón ahorra memoria y ancho de banda."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 30,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Posicionamento Estratégico",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Em que posição da query a cláusula LIMIT deve ser colocada para que a sintaxe seja válida no PostgreSQL?",
+        "opcoes": [
+          "Logo após o SELECT.",
+          "Entre o SELECT e o FROM.",
+          "Antes do nome da tabela no FROM.",
+          "Ao final da consulta, após o nome da tabela ou filtros."
+        ],
+        "indiceCorreto": 3,
+        "dica": "O LIMIT é a 'cereja do bolo', ele vem por último na ordem das cláusulas fundamentais."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Strategic Positioning",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "In what position of the query should the LIMIT clause be placed for the syntax to be valid in PostgreSQL?",
+            "opcoes": [
+              "Right after the SELECT.",
+              "Between the SELECT and the FROM.",
+              "Before the table name in the FROM.",
+              "At the end of the query, after the table name or filters."
+            ],
+            "indiceCorreto": 3,
+            "dica": "LIMIT is the 'cherry on top', it comes last in the order of fundamental clauses."
+          }
+        },
+        "es": {
+          "titulo": "Posicionamiento Estratégico",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿En qué posición de la consulta se debe colocar la cláusula LIMIT para que la sintaxis sea válida en PostgreSQL?",
+            "opcoes": [
+              "Justo después del SELECT.",
+              "Entre el SELECT y el FROM.",
+              "Antes del nombre de la tabla en el FROM.",
+              "Al final de la consulta, después del nombre de la tabla o filtros."
+            ],
+            "indiceCorreto": 3,
+            "dica": "El LIMIT es la 'cereza del pastel', viene al final en el orden de las cláusulas fundamentales."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 31,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Filtro Vertical vs Horizontal",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a função técnica do comando:",
+        "afirmacao": "O comando LIMIT serve para filtrar as colunas da tabela, escondendo as informações que o desenvolvedor não deseja exibir no resultado final.",
+        "respostaCorreta": false,
+        "dica": "Lembre-se: quem escolhe colunas é o SELECT. O LIMIT lida com a quantidade de linhas (registros)."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Vertical vs Horizontal Filter",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the technical function of the command:",
+            "afirmacao": "The LIMIT command is used to filter table columns, hiding information that the developer does not want to display in the final result.",
+            "respostaCorreta": false,
+            "dica": "Remember: SELECT chooses columns. LIMIT deals with the number of rows (records)."
+          }
+        },
+        "es": {
+          "titulo": "Filtro Vertical vs Horizontal",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la función técnica del comando:",
+            "afirmacao": "El comando LIMIT sirve para filtrar las columnas de la tabla, ocultando la información que el desarrollador no desea mostrar en el resultado final.",
+            "respostaCorreta": false,
+            "dica": "Recuerda: quien elige las columnas es el SELECT. El LIMIT se encarga de la cantidad de filas (registros)."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 32,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Amostragem Espacial",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Selecione todas as colunas da tabela planetas, mas limite o resultado para mostrar apenas os primeiros 2 registros.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": [
+            "id",
+            "nome",
+            "clima"
+          ],
+          "max_rows": 2
+        },
+        "dica": "Use o asterisco (*) para todas as colunas e não esqueça de terminar com 'LIMIT 2;'.",
+        "explicacaoTecnica": "O LIMIT instrui o motor do PostgreSQL a encerrar a varredura assim que o número solicitado de tuplas for alcançado, otimizando o I/O do disco."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Practice: Spatial Sampling",
+          "conteudo": {
+            "instrucao": "Select all columns from the planets table, but limit the result to show only the first 2 records.",
+            "placeholder": "SELECT ...",
+            "dica": "Use the asterisk (*) for all columns and don't forget to end with 'LIMIT 2;'.",
+            "explicacaoTecnica": "LIMIT instructs the PostgreSQL engine to stop scanning as soon as the requested number of tuples is reached, optimizing disk I/O."
+          }
+        },
+        "es": {
+          "titulo": "Práctica: Muestreo Espacial",
+          "conteudo": {
+            "instrucao": "Selecciona todas las columnas de la tabla planetas, pero limita el resultado para mostrar solo los primeros 2 registros.",
+            "placeholder": "SELECT ...",
+            "dica": "Usa el asterisco (*) para todas las columnas y no olvides terminar con 'LIMIT 2;'.",
+            "explicacaoTecnica": "El LIMIT indica al motor de PostgreSQL que finalice el escaneo en cuanto se alcance el número solicitado de tuplas, optimizando el I/O del disco."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 33,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "O Organizador da Fila: ORDER BY",
+      "conteudo": {
+        "blocos": [
+          "No universo dos dados, o PostgreSQL não garante que os registros apareçam em uma ordem específica. Sem instruções, o banco entrega os dados como uma **pilha de papéis bagunçada**.",
+          "A cláusula **ORDER BY** é o Arquiteto que coloca ordem no caos, organizando as tuplas em uma fila lógica baseada em uma ou mais colunas.",
+          {
+            "type": "definicao",
+            "termo": "Modificadores de Ordem",
+            "def": "ASC (Ascendente) organiza do menor para o maior (A-Z, 0-9). DESC (Descendente) faz o inverso (Z-A, 9-0)."
+          },
+          "Você pode ordenar tanto por números (como IDs ou preços) quanto por textos (ordem alfabética). No Neon.tech, a ordenação é fundamental para relatórios e listas de usuários.",
+          {
+            "type": "code",
+            "code": "SELECT nome \nFROM planetas \nORDER BY nome DESC;",
+            "lese": "Selecione a coluna nome da tabela planetas e organize o resultado do final para o começo do alfabeto (Z-A)."
+          },
+          {
+            "type": "nota",
+            "texto": "Ponto de Mestre: Se você não especificar o modificador, o PostgreSQL usará o **ASC** por padrão."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Queue Organizer: ORDER BY",
+          "conteudo": {
+            "blocos": [
+              "In the data universe, PostgreSQL does not guarantee that records appear in a specific order. Without instructions, the database delivers data like a **messy pile of papers**.",
+              "The **ORDER BY** clause is the Architect that brings order to chaos, organizing tuples in a logical queue based on one or more columns.",
+              {
+                "type": "definicao",
+                "termo": "Order Modifiers",
+                "def": "ASC (Ascending) organizes from smallest to largest (A-Z, 0-9). DESC (Descending) does the opposite (Z-A, 9-0)."
+              },
+              "You can sort by numbers (such as IDs or prices) or by text (alphabetical order). On Neon.tech, sorting is essential for reports and user lists.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nORDER BY nome DESC;",
+                "lese": "Select the nome column from planetas and sort the result from the end to the start of the alphabet (Z-A)."
+              },
+              {
+                "type": "nota",
+                "texto": "Master point: If you don't specify a modifier, PostgreSQL will use **ASC** by default."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Organizador de la Fila: ORDER BY",
+          "conteudo": {
+            "blocos": [
+              "En el universo de los datos, PostgreSQL no garantiza que los registros aparezcan en un orden específico. Sin instrucciones, la base de datos entrega los datos como una **pila de papeles desordenada**.",
+              "La cláusula **ORDER BY** es el Arquitecto que pone orden al caos, organizando las tuplas en una fila lógica basada en una o más columnas.",
+              {
+                "type": "definicao",
+                "termo": "Modificadores de Orden",
+                "def": "ASC (Ascendente) organiza de menor a mayor (A-Z, 0-9). DESC (Descendente) hace lo contrario (Z-A, 9-0)."
+              },
+              "Puedes ordenar por números (como IDs o precios) o por textos (orden alfabético). En Neon.tech, la ordenación es fundamental para informes y listas de usuarios.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nORDER BY nome DESC;",
+                "lese": "Selecciona la columna nome de la tabla planetas y ordena el resultado del final al principio del alfabeto (Z-A)."
+              },
+              {
+                "type": "nota",
+                "texto": "Punto maestro: si no especificas el modificador, PostgreSQL usará **ASC** por defecto."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 34,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Invertendo o Alfabeto",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Se você deseja listar os nomes dos planetas do Z para o A (ordem alfabética inversa), qual modificador deve acompanhar a cláusula ORDER BY?",
+        "opcoes": [
+          "ASC",
+          "DESC",
+          "REVERSE",
+          "BACK"
+        ],
+        "indiceCorreto": 1,
+        "dica": "Pense no termo inglês para 'descendente' ou 'decrescente'."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Inverting the Alphabet",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "If you want to list the names of the planets from Z to A (reverse alphabetical order), which modifier should accompany the ORDER BY clause?",
+            "opcoes": [
+              "ASC",
+              "DESC",
+              "REVERSE",
+              "BACK"
+            ],
+            "indiceCorreto": 1,
+            "dica": "Think of the English term for 'descending'."
+          }
+        },
+        "es": {
+          "titulo": "Invirtiendo el Alfabeto",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Si deseas listar los nombres de los planetas de la Z a la A (orden alfabético inverso), ¿qué modificador debe acompañar a la cláusula ORDER BY?",
+            "opcoes": [
+              "ASC",
+              "DESC",
+              "REVERSE",
+              "BACK"
+            ],
+            "indiceCorreto": 1,
+            "dica": "Piensa en el término en inglés para 'descendente'."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 35,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: O Padrão do Sistema",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre o comportamento padrão da ordenação:",
+        "afirmacao": "No PostgreSQL, se o desenvolvedor não especificar explicitamente ASC ou DESC, o banco de dados organizará os dados de forma descendente (DESC) por segurança.",
+        "respostaCorreta": false,
+        "dica": "O SQL sempre privilegia a ordem natural crescente por padrão."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: System Default",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Regarding the default sorting behavior:",
+            "afirmacao": "In PostgreSQL, if the developer does not explicitly specify ASC or DESC, the database will organize the data in descending (DESC) order for safety.",
+            "respostaCorreta": false,
+            "dica": "SQL always favors the natural ascending order by default."
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Estándar del Sistema",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre el comportamiento por defecto de la ordenación:",
+            "afirmacao": "En PostgreSQL, si el desarrollador no especifica explícitamente ASC o DESC, la base de datos organizará los datos de forma descendente (DESC) por seguridad.",
+            "respostaCorreta": false,
+            "dica": "SQL siempre favorece el orden natural ascendente por defecto."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 36,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Desfile de Planetas",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Selecione o nome de todos os planetas, organizando-os em ordem alfabética (A-Z).",
+        "placeholder": "SELECT ... FROM ... ORDER BY ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Vênus', 'Infernizar');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": [
+            "nome"
+          ],
+          "min_rows": 4
+        },
+        "dica": "Use a cláusula ORDER BY seguida do nome da coluna 'nome'. O padrão já é alfabético (ASC).",
+        "explicacaoTecnica": "A ordenação ocorre após o processamento da cláusula FROM, mas antes da exibição final, permitindo que o Neon.tech entregue dados prontos para o consumo humano."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Practice: Planet Parade",
+          "conteudo": {
+            "instrucao": "Select the name of all planets, organizing them in alphabetical order (A-Z).",
+            "placeholder": "SELECT ... FROM ... ORDER BY ...",
+            "dica": "Use the ORDER BY clause followed by the column name 'nome'. The default is already alphabetical (ASC).",
+            "explicacaoTecnica": "Sorting occurs after FROM processing but before final display, allowing Neon.tech to deliver data ready for human consumption."
+          }
+        },
+        "es": {
+          "titulo": "Práctica: Desfile de Planetas",
+          "conteudo": {
+            "instrucao": "Selecciona el nombre de todos los planetas, organizándolos en orden alfabético (A-Z).",
+            "placeholder": "SELECT ... FROM ... ORDER BY ...",
+            "dica": "Usa la cláusula ORDER BY seguida del nombre de la columna 'nome'. El estándar ya es alfabético (ASC).",
+            "explicacaoTecnica": "La ordenación ocurre después del procesamiento de FROM pero antes de la visualización final, permitiendo que Neon.tech entregue datos listos para el consumo humano."
           }
         }
       }

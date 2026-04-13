@@ -4,7 +4,7 @@
   "descricao": "Filtre registros com WHERE, combine condições com AND/OR, use LIKE para padrões e IN para listas.",
   "icone": "🎯",
   "ordem": 4,
-  "xpTotal": 800,
+  "xpTotal": 1850,
   "traducoes": {
     "en": {
       "titulo": "WHERE — Filtering Data",
@@ -17,108 +17,65 @@
   },
   "etapas": [
     {
-      "ordem": 1,
-      "tipo": "intro",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Filtrando com WHERE",
-      "conteudo": {
-        "emoji": "🎯",
-        "subtitulo": "Encontre exatamente o que precisa, ignorando o resto"
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "Filtering with WHERE",
-          "conteudo": {
-            "subtitulo": "Find exactly what you need, ignoring the rest"
-          }
-        },
-        "es": {
-          "titulo": "Filtrando con WHERE",
-          "conteudo": {
-            "subtitulo": "Encuentra exactamente lo que necesitas, ignorando el resto"
-          }
-        }
-      }
-    },
-    {
-      "ordem": 2,
+      "ordem": 37,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
-      "titulo": "O Comando WHERE",
+      "titulo": "O Crivo do Arquiteto: Cláusula WHERE",
       "conteudo": {
         "blocos": [
+          "Até agora, você aprendeu a iluminar colunas e organizar a fila. Mas em um universo com bilhões de registros, você raramente quer ver todos. É aqui que o SQL realmente brilha: na capacidade de filtrar.",
+          "A cláusula **WHERE** funciona como um 'Scanner de Identidade' ou um filtro de segurança na entrada de um clube exclusivo. Ela define uma condição; apenas as linhas (tuplas) que atenderem a essa condição recebem permissão para aparecer no resultado.",
           {
             "type": "definicao",
-            "termo": "WHERE",
-            "def": "Filtra os registros de uma tabela. Apenas as linhas que satisfazem a condição são retornadas."
+            "termo": "Operadores de Igualdade",
+            "def": "O símbolo '=' verifica se o valor da coluna é idêntico ao critério. O símbolo '<>' (ou '!=') verifica se os valores são diferentes."
           },
+          "Ponto de Atenção: Ao lidar com textos (Strings), você **precisa** envolver o valor em aspas simples (ex: 'Terra'). Para números, as aspas são proibidas.",
           {
             "type": "code",
-            "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'",
-            "lese": "Seleciona todos os campos da tabela Clientes, mas apenas os registros onde a Cidade é igual a 'São Paulo'"
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Produtos WHERE Preco > 500",
-            "lese": "Seleciona todos os campos da tabela Produtos onde o preço é maior que 500"
-          },
-          {
-            "type": "nota",
-            "texto": "Valores de texto usam aspas simples. Valores numéricos não usam aspas."
+            "code": "SELECT nome \nFROM planetas \nWHERE clima = 'Temperado';",
+            "lese": "Selecione os nomes da tabela planetas, mas traga apenas as linhas onde o conteúdo da coluna clima seja exatamente igual a 'Temperado'."
           }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "The WHERE Command",
+          "titulo": "The Architect's Sieve: WHERE Clause",
           "conteudo": {
             "blocos": [
+              "So far, you've learned to light up columns and organize the queue. But in a universe with billions of records, you rarely want to see them all. This is where SQL truly shines: in its ability to filter.",
+              "The **WHERE** clause acts as an 'Identity Scanner' or a security filter. It defines a condition; only rows that meet this condition are allowed in the result.",
               {
                 "type": "definicao",
-                "termo": "WHERE",
-                "def": "Filters the records of a table. Only rows that satisfy the condition are returned."
+                "termo": "Equality Operators",
+                "def": "The '=' symbol checks if the column value is identical to the criteria. The '<>' (or '!=') symbol checks if the values are different."
               },
+              "Attention Point: When dealing with text (Strings), you **must** wrap the value in single quotes (e.g., 'Earth'). For numbers, quotes are forbidden.",
               {
                 "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'",
-                "lese": "Selects all fields from the Clientes table, but only records where the City equals 'São Paulo'"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE Preco > 500",
-                "lese": "Selects all fields from the Produtos table where the price is greater than 500"
-              },
-              {
-                "type": "nota",
-                "texto": "Text values use single quotes. Numeric values do not use quotes."
+                "code": "SELECT nome \nFROM planetas \nWHERE clima = 'Temperado';",
+                "lese": "Select names from planetas, but return only rows where clima is exactly equal to 'Temperado'."
               }
             ]
           }
         },
         "es": {
-          "titulo": "El Comando WHERE",
+          "titulo": "El Cribo del Arquitecto: Cláusula WHERE",
           "conteudo": {
             "blocos": [
+              "Hasta ahora, has aprendido a iluminar columnas y organizar la fila. Pero en un universo con miles de millones de registros, rara vez querrás verlos todos. Aquí es donde SQL realmente brilla: en su capacidad de filtrar.",
+              "La cláusula **WHERE** funciona como un 'Escáner de Identidad' o un filtro de seguridad. Define una condición; solo las filas que cumplen con esa condición tienen permiso para aparecer en el resultado.",
               {
                 "type": "definicao",
-                "termo": "WHERE",
-                "def": "Filtra los registros de una tabla. Solo se devuelven las filas que satisfacen la condición."
+                "termo": "Operadores de Igualdad",
+                "def": "El símbolo '=' verifica si el valor de la columna es idéntico al criterio. El símbolo '<>' (o '!=') verifica si los valores son diferentes."
               },
+              "Punto de Atención: Al tratar con textos (Strings), **debes** envolver el valor en comillas simples (ej: 'Tierra'). Para los números, las comillas están prohibidas.",
               {
                 "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Cidade = 'São Paulo'",
-                "lese": "Selecciona todos los campos de la tabla Clientes, pero solo los registros donde la Ciudad es igual a 'São Paulo'"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE Preco > 500",
-                "lese": "Selecciona todos los campos de la tabla Produtos donde el precio es mayor que 500"
-              },
-              {
-                "type": "nota",
-                "texto": "Los valores de texto usan comillas simples. Los valores numéricos no usan comillas."
+                "code": "SELECT nome \nFROM planetas \nWHERE clima = 'Temperado';",
+                "lese": "Selecciona los nombres de la tabla planetas, pero trae solo las filas donde el contenido de la columna clima sea exactamente igual a 'Temperado'."
               }
             ]
           }
@@ -126,724 +83,750 @@
       }
     },
     {
-      "ordem": 3,
-      "tipo": "texto",
+      "ordem": 38,
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Operadores de Comparação",
+      "xpReward": 100,
+      "titulo": "A Missão do Porteiro",
       "conteudo": {
-        "blocos": [
-          "Os operadores de comparação definem a condição do filtro:",
-          {
-            "type": "code",
-            "code": "=    igual a\n<>   diferente de (também pode ser !=)\n>    maior que\n<    menor que\n>=   maior ou igual a\n<=   menor ou igual a",
-            "lese": "Tabela dos operadores de comparação em SQL"
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Funcionarios WHERE Salario >= 5000",
-            "lese": "Seleciona todos os funcionários cujo salário é maior ou igual a 5000"
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Produtos WHERE Estoque <> 0",
-            "lese": "Seleciona todos os produtos onde o estoque é diferente de zero (ou seja, em estoque)"
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual é a função técnica da cláusula WHERE em uma consulta SQL?",
+        "opcoes": [
+          "Definir quais colunas serão exibidas no resultado final.",
+          "Filtrar as linhas (registros) que atendem a uma condição específica.",
+          "Ordenar os dados de forma crescente ou decrescente.",
+          "Limitar a quantidade total de registros retornados pelo servidor."
+        ],
+        "indiceCorreto": 1,
+        "dica": "Pense no WHERE como uma peneira que deixa passar apenas o que você quer."
       },
       "traducoes": {
         "en": {
-          "titulo": "Comparison Operators",
+          "titulo": "The Doorman's Mission",
           "conteudo": {
-            "blocos": [
-              "Comparison operators define the filter condition:",
-              {
-                "type": "code",
-                "code": "=    igual a\n<>   diferente de (também pode ser !=)\n>    maior que\n<    menor que\n>=   maior ou igual a\n<=   menor ou igual a",
-                "lese": "Table of SQL comparison operators"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Funcionarios WHERE Salario >= 5000",
-                "lese": "Selects all employees whose salary is greater than or equal to 5000"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE Estoque <> 0",
-                "lese": "Selects all products where the stock is different from zero (i.e., in stock)"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the technical function of the WHERE clause in an SQL query?",
+            "opcoes": [
+              "Define which columns will be displayed in the final result.",
+              "Filter the rows (records) that meet a specific condition.",
+              "Sort the data in ascending or descending order.",
+              "Limit the total amount of records returned by the server."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Think of WHERE as a sieve that only lets through what you want."
           }
         },
         "es": {
-          "titulo": "Operadores de Comparación",
+          "titulo": "La Misión del Portero",
           "conteudo": {
-            "blocos": [
-              "Los operadores de comparación definen la condición del filtro:",
-              {
-                "type": "code",
-                "code": "=    igual a\n<>   diferente de (também pode ser !=)\n>    maior que\n<    menor que\n>=   maior ou igual a\n<=   menor ou igual a",
-                "lese": "Tabla de operadores de comparación en SQL"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Funcionarios WHERE Salario >= 5000",
-                "lese": "Selecciona todos los empleados cuyo salario es mayor o igual a 5000"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE Estoque <> 0",
-                "lese": "Selecciona todos los productos donde el stock es diferente de cero (es decir, en stock)"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es la función técnica de la cláusula WHERE en una consulta SQL?",
+            "opcoes": [
+              "Definir qué columnas se mostrarán en el resultado final.",
+              "Filtrar las filas (registros) que cumplen con una condición específica.",
+              "Ordenar los datos de forma ascendente o descendente.",
+              "Limitar la cantidad total de registros devueltos por el servidor."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Piensa en el WHERE como un tamiz que solo deja pasar lo que quieres."
           }
         }
       }
     },
     {
-      "ordem": 4,
-      "tipo": "texto",
+      "ordem": 39,
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "AND e OR — Múltiplas Condições",
+      "xpReward": 100,
+      "titulo": "V ou F: Aspas e Textos",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "AND",
-            "def": "Todas as condições precisam ser verdadeiras para o registro ser retornado."
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Produtos\nWHERE Categoria = 'Eletrônicos' AND Preco < 1000",
-            "lese": "Seleciona produtos que são da categoria Eletrônicos E que custam menos de 1000 — ambas as condições devem ser verdadeiras"
-          },
-          {
-            "type": "definicao",
-            "termo": "OR",
-            "def": "Pelo menos uma das condições precisa ser verdadeira."
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Clientes\nWHERE Cidade = 'São Paulo' OR Cidade = 'Rio de Janeiro'",
-            "lese": "Seleciona clientes que moram em São Paulo OU no Rio de Janeiro — basta uma das condições ser verdadeira"
-          },
-          {
-            "type": "nota",
-            "texto": "Você pode combinar AND e OR usando parênteses para definir a precedência: WHERE (A OR B) AND C"
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a sintaxe de filtragem de strings:",
+        "afirmacao": "Para filtrar um valor de texto no WHERE, como o nome de um planeta, devemos obrigatoriamente envolver o valor entre aspas simples (' ').",
+        "respostaCorreta": true,
+        "dica": "Sem as aspas, o PostgreSQL tentará interpretar o texto como se fosse o nome de outra coluna, gerando erro."
       },
       "traducoes": {
         "en": {
-          "titulo": "AND and OR — Multiple Conditions",
+          "titulo": "T/F: Quotes and Texts",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "AND",
-                "def": "All conditions must be true for the record to be returned."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos\nWHERE Categoria = 'Eletrônicos' AND Preco < 1000",
-                "lese": "Selects products in the Electronics category AND priced under 1000 — both conditions must be true"
-              },
-              {
-                "type": "definicao",
-                "termo": "OR",
-                "def": "At least one of the conditions must be true."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes\nWHERE Cidade = 'São Paulo' OR Cidade = 'Rio de Janeiro'",
-                "lese": "Selects customers who live in São Paulo OR Rio de Janeiro — only one condition needs to be true"
-              },
-              {
-                "type": "nota",
-                "texto": "You can combine AND and OR using parentheses to define precedence: WHERE (A OR B) AND C"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Regarding string filtering syntax:",
+            "afirmacao": "To filter a text value in the WHERE clause, such as the name of a planet, we must wrap the value in single quotes (' ').",
+            "respostaCorreta": true,
+            "dica": "Without quotes, PostgreSQL will try to interpret the text as if it were the name of another column, causing an error."
           }
         },
         "es": {
-          "titulo": "AND y OR — Múltiples Condiciones",
+          "titulo": "V o F: Comillas y Textos",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "AND",
-                "def": "Todas las condiciones deben ser verdaderas para que el registro sea devuelto."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos\nWHERE Categoria = 'Eletrônicos' AND Preco < 1000",
-                "lese": "Selecciona productos de la categoría Electrónicos Y con precio menor a 1000 — ambas condiciones deben ser verdaderas"
-              },
-              {
-                "type": "definicao",
-                "termo": "OR",
-                "def": "Al menos una de las condiciones debe ser verdadera."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes\nWHERE Cidade = 'São Paulo' OR Cidade = 'Rio de Janeiro'",
-                "lese": "Selecciona clientes que viven en São Paulo O en Rio de Janeiro — basta que una condición sea verdadera"
-              },
-              {
-                "type": "nota",
-                "texto": "Puedes combinar AND y OR usando paréntesis para definir la precedencia: WHERE (A OR B) AND C"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la sintaxis de filtrado de cadenas:",
+            "afirmacao": "Para filtrar un valor de texto en el WHERE, como el nombre de un planeta, debemos obligatoriamente envolver el valor entre comillas simples (' ').",
+            "respostaCorreta": true,
+            "dica": "Sin las comillas, PostgreSQL intentará interpretar el texto como si fuera el nombre de otra columna, generando un error."
           }
         }
       }
     },
     {
-      "ordem": 5,
-      "tipo": "texto",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "NOT — Negando uma Condição",
-      "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "NOT",
-            "def": "Inverte uma condição. Retorna registros que NÃO satisfazem a condição especificada."
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Produtos WHERE NOT Categoria = 'Móveis'",
-            "lese": "Seleciona todos os produtos que NÃO são da categoria Móveis"
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Clientes WHERE NOT Cidade = 'São Paulo'",
-            "lese": "Seleciona clientes que NÃO moram em São Paulo"
-          },
-          {
-            "type": "nota",
-            "texto": "NOT pode ser combinado com outros operadores: NOT IN, NOT LIKE, NOT BETWEEN — você vai ver isso a seguir!"
-          }
-        ]
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "NOT — Negating a Condition",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "NOT",
-                "def": "Inverts a condition. Returns records that do NOT satisfy the specified condition."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE NOT Categoria = 'Móveis'",
-                "lese": "Selects all products that are NOT in the Furniture category"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE NOT Cidade = 'São Paulo'",
-                "lese": "Selects customers who do NOT live in São Paulo"
-              },
-              {
-                "type": "nota",
-                "texto": "NOT can be combined with other operators: NOT IN, NOT LIKE, NOT BETWEEN — you will see this next!"
-              }
-            ]
-          }
-        },
-        "es": {
-          "titulo": "NOT — Negando una Condición",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "NOT",
-                "def": "Invierte una condición. Devuelve registros que NO satisfacen la condición especificada."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE NOT Categoria = 'Móveis'",
-                "lese": "Selecciona todos los productos que NO son de la categoría Muebles"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE NOT Cidade = 'São Paulo'",
-                "lese": "Selecciona clientes que NO viven en São Paulo"
-              },
-              {
-                "type": "nota",
-                "texto": "NOT puede combinarse con otros operadores: NOT IN, NOT LIKE, NOT BETWEEN — ¡lo verás a continuación!"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "ordem": 6,
-      "tipo": "texto",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "LIKE — Buscando por Padrão",
-      "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "LIKE",
-            "def": "Permite buscar registros que correspondem a um padrão de texto. Usa % (qualquer sequência) e _ (qualquer um caractere)."
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Clientes WHERE Nome LIKE 'A%'",
-            "lese": "Seleciona clientes cujo nome começa com a letra A (o % representa qualquer coisa depois)"
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Clientes WHERE Email LIKE '%@gmail.com'",
-            "lese": "Seleciona clientes com email terminando em @gmail.com (qualquer coisa antes do @)"
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Produtos WHERE Nome LIKE '%teclado%'",
-            "lese": "Seleciona produtos que contêm a palavra 'teclado' em qualquer posição do nome"
-          }
-        ]
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "LIKE — Searching by Pattern",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "LIKE",
-                "def": "Allows searching for records that match a text pattern. Uses % (any sequence) and _ (any single character)."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Nome LIKE 'A%'",
-                "lese": "Selects customers whose name starts with the letter A (% represents anything after)"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Email LIKE '%@gmail.com'",
-                "lese": "Selects customers with emails ending in @gmail.com (anything before the @)"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE Nome LIKE '%teclado%'",
-                "lese": "Selects products that contain the word 'teclado' anywhere in the name"
-              }
-            ]
-          }
-        },
-        "es": {
-          "titulo": "LIKE — Búsqueda por Patrón",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "LIKE",
-                "def": "Permite buscar registros que coinciden con un patrón de texto. Usa % (cualquier secuencia) y _ (cualquier carácter único)."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Nome LIKE 'A%'",
-                "lese": "Selecciona clientes cuyo nombre comienza con la letra A (el % representa cualquier cosa después)"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Email LIKE '%@gmail.com'",
-                "lese": "Selecciona clientes con email que termina en @gmail.com (cualquier cosa antes del @)"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Produtos WHERE Nome LIKE '%teclado%'",
-                "lese": "Selecciona productos que contienen la palabra 'teclado' en cualquier posición del nombre"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "ordem": 7,
-      "tipo": "texto",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "IN e BETWEEN",
-      "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "IN",
-            "def": "Verifica se um valor está em uma lista. Mais legível que vários OR."
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Clientes\nWHERE Cidade IN ('São Paulo', 'Rio de Janeiro', 'Belo Horizonte')",
-            "lese": "Seleciona clientes que moram em São Paulo, Rio de Janeiro OU Belo Horizonte — equivale a três condições OR"
-          },
-          {
-            "type": "definicao",
-            "termo": "BETWEEN",
-            "def": "Verifica se um valor está dentro de um intervalo (inclusivo — inclui os extremos)."
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Pedidos WHERE Valor BETWEEN 100 AND 500",
-            "lese": "Seleciona pedidos com valor entre 100 e 500 reais, incluindo 100 e 500"
-          }
-        ]
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "IN and BETWEEN",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "IN",
-                "def": "Checks if a value is in a list. More readable than multiple OR conditions."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes\nWHERE Cidade IN ('São Paulo', 'Rio de Janeiro', 'Belo Horizonte')",
-                "lese": "Selects customers who live in São Paulo, Rio de Janeiro OR Belo Horizonte — equivalent to three OR conditions"
-              },
-              {
-                "type": "definicao",
-                "termo": "BETWEEN",
-                "def": "Checks if a value is within a range (inclusive — includes the endpoints)."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Pedidos WHERE Valor BETWEEN 100 AND 500",
-                "lese": "Selects orders with value between 100 and 500, including 100 and 500"
-              }
-            ]
-          }
-        },
-        "es": {
-          "titulo": "IN y BETWEEN",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "IN",
-                "def": "Verifica si un valor está en una lista. Más legible que varios OR."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes\nWHERE Cidade IN ('São Paulo', 'Rio de Janeiro', 'Belo Horizonte')",
-                "lese": "Selecciona clientes que viven en São Paulo, Rio de Janeiro O Belo Horizonte — equivale a tres condiciones OR"
-              },
-              {
-                "type": "definicao",
-                "termo": "BETWEEN",
-                "def": "Verifica si un valor está dentro de un rango (inclusivo — incluye los extremos)."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Pedidos WHERE Valor BETWEEN 100 AND 500",
-                "lese": "Selecciona pedidos con valor entre 100 y 500, incluyendo 100 y 500"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "ordem": 8,
-      "tipo": "texto",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "IS NULL — Campos Vazios",
-      "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "NULL",
-            "def": "Representa a ausência de valor. Não é zero, não é string vazia — é literalmente 'sem informação'."
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Clientes WHERE Telefone IS NULL",
-            "lese": "Seleciona clientes que não têm telefone cadastrado (campo Telefone sem valor)"
-          },
-          {
-            "type": "code",
-            "code": "SELECT * FROM Clientes WHERE Telefone IS NOT NULL",
-            "lese": "Seleciona apenas clientes que têm telefone cadastrado"
-          },
-          {
-            "type": "nota",
-            "texto": "Nunca use = NULL ou <> NULL — sempre use IS NULL e IS NOT NULL!"
-          }
-        ]
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "IS NULL — Empty Fields",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "NULL",
-                "def": "Represents the absence of a value. It is not zero, not an empty string — it is literally 'no information'."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Telefone IS NULL",
-                "lese": "Selects customers who have no phone registered (Telefone field has no value)"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Telefone IS NOT NULL",
-                "lese": "Selects only customers who have a phone number registered"
-              },
-              {
-                "type": "nota",
-                "texto": "Never use = NULL or <> NULL — always use IS NULL and IS NOT NULL!"
-              }
-            ]
-          }
-        },
-        "es": {
-          "titulo": "IS NULL — Campos Vacíos",
-          "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "NULL",
-                "def": "Representa la ausencia de valor. No es cero, no es cadena vacía — es literalmente 'sin información'."
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Telefone IS NULL",
-                "lese": "Selecciona clientes que no tienen teléfono registrado (campo Telefone sin valor)"
-              },
-              {
-                "type": "code",
-                "code": "SELECT * FROM Clientes WHERE Telefone IS NOT NULL",
-                "lese": "Selecciona solo los clientes que tienen teléfono registrado"
-              },
-              {
-                "type": "nota",
-                "texto": "¡Nunca uses = NULL o <> NULL — siempre usa IS NULL e IS NOT NULL!"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "ordem": 9,
-      "tipo": "resumo",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Resumo: WHERE e Filtros",
-      "conteudo": {
-        "cor": "azul",
-        "itens": [
-          "WHERE filtra as linhas que atendem à condição",
-          "AND: todas as condições verdadeiras",
-          "OR: pelo menos uma condição verdadeira",
-          "NOT: inverte a condição",
-          "LIKE '%texto%': busca por padrão no texto",
-          "IN ('a','b','c'): valor em lista",
-          "BETWEEN 100 AND 500: intervalo inclusivo",
-          "IS NULL / IS NOT NULL: verifica campo vazio"
-        ]
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "Summary: WHERE and Filters",
-          "conteudo": {
-            "titulo": "Summary: WHERE and Filters",
-            "itens": [
-              {
-                "titulo": "WHERE",
-                "descricao": "filters rows that meet the condition"
-              },
-              {
-                "titulo": "AND",
-                "descricao": "all conditions must be true"
-              },
-              {
-                "titulo": "OR",
-                "descricao": "at least one condition must be true"
-              },
-              {
-                "titulo": "NOT",
-                "descricao": "inverts the condition"
-              },
-              {
-                "titulo": "LIKE '%text%'",
-                "descricao": "pattern search in text"
-              },
-              {
-                "titulo": "IN ('a','b','c')",
-                "descricao": "value in a list"
-              },
-              {
-                "titulo": "BETWEEN 100 AND 500",
-                "descricao": "inclusive range"
-              },
-              {
-                "titulo": "IS NULL / IS NOT NULL",
-                "descricao": "checks for empty fields"
-              }
-            ]
-          }
-        },
-        "es": {
-          "titulo": "Resumen: WHERE y Filtros",
-          "conteudo": {
-            "titulo": "Resumen: WHERE y Filtros",
-            "itens": [
-              {
-                "titulo": "WHERE",
-                "descricao": "filtra las filas que cumplen la condición"
-              },
-              {
-                "titulo": "AND",
-                "descricao": "todas las condiciones deben ser verdaderas"
-              },
-              {
-                "titulo": "OR",
-                "descricao": "al menos una condición debe ser verdadera"
-              },
-              {
-                "titulo": "NOT",
-                "descricao": "invierte la condición"
-              },
-              {
-                "titulo": "LIKE '%texto%'",
-                "descricao": "búsqueda por patrón en texto"
-              },
-              {
-                "titulo": "IN ('a','b','c')",
-                "descricao": "valor en una lista"
-              },
-              {
-                "titulo": "BETWEEN 100 AND 500",
-                "descricao": "rango inclusivo"
-              },
-              {
-                "titulo": "IS NULL / IS NOT NULL",
-                "descricao": "verifica campo vacío"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "ordem": 10,
+      "ordem": 40,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
-      "titulo": "Exercício 1 — WHERE básico",
+      "titulo": "Prática: Zona Habitável",
       "conteudo": {
-        "instrucao": "Busque todos os produtos com preço maior que 500 reais.",
-        "dica": "Para filtrar registros com valor acima de um número, use WHERE com um operador de comparação. Qual símbolo representa 'maior que'? Números no WHERE não precisam de aspas.",
-        "placeholder": "SELECT * FROM Produtos WHERE ...",
-        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT, Estoque INTEGER); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos',15),(2,'Mouse',89,'Eletrônicos',120),(3,'Mesa',450,'Móveis',8),(4,'Cadeira',890,'Móveis',25),(5,'Monitor',1200,'Eletrônicos',30),(6,'Caneta',5,'Papelaria',500);",
-        "checkType": "count",
+        "modo": "sql",
+        "instrucao": "Selecione todas as colunas da tabela planetas onde o clima seja exatamente igual a 'Temperado'.",
+        "placeholder": "SELECT * FROM ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado');",
+        "checkType": "columns",
         "checkConfig": {
-          "expected_rows": 3
-        }
+          "required_columns": [
+            "id",
+            "nome",
+            "clima"
+          ],
+          "min_rows": 2
+        },
+        "dica": "Use o asterisco (*) para todas as colunas e lembre-se das aspas simples para o valor 'Temperado' no WHERE.",
+        "explicacaoTecnica": "O PostgreSQL realiza uma varredura (Scan) na tabela e compara o valor da coluna 'clima' de cada linha com a string fornecida, retornando apenas os sucessos."
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 1 — Basic WHERE",
+          "titulo": "Practice: Habitable Zone",
           "conteudo": {
-            "pergunta": "Retrieve all products with a price greater than 500.",
-            "dica": "To filter records with a value above a number, use WHERE with a comparison operator. Which symbol represents 'greater than'? Numbers in WHERE do not need quotes."
+            "instrucao": "Select all columns from the planets table where the climate is exactly equal to 'Temperado'.",
+            "placeholder": "SELECT * FROM ...",
+            "dica": "Use the asterisk (*) for all columns and remember the single quotes for the 'Temperado' value in the WHERE clause.",
+            "explicacaoTecnica": "PostgreSQL performs a scan on the table and compares the value of the 'clima' column of each row with the provided string, returning only the matches."
           }
         },
         "es": {
-          "titulo": "Ejercicio 1 — WHERE básico",
+          "titulo": "Práctica: Zona Habitable",
           "conteudo": {
-            "pergunta": "Busca todos los productos con precio mayor a 500.",
-            "dica": "Para filtrar registros con un valor por encima de un número, usa WHERE con un operador de comparación. ¿Qué símbolo representa 'mayor que'? Los números en WHERE no necesitan comillas."
+            "instrucao": "Selecciona todas las columnas de la tabla planetas donde el clima sea exactamente igual a 'Temperado'.",
+            "placeholder": "SELECT * FROM ...",
+            "dica": "Usa el asterisco (*) para todas las columnas y recuerda las comillas simples para el valor 'Temperado' en el WHERE.",
+            "explicacaoTecnica": "PostgreSQL realiza un escaneo en la tabla y compara el valor de la columna 'clima' de cada fila con la cadena proporcionada, devolviendo solo las coincidencias."
           }
         }
       }
     },
     {
-      "ordem": 11,
+      "ordem": 41,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Magnitudes: O Banco como Matemático",
+      "conteudo": {
+        "blocos": [
+          "O PostgreSQL não é apenas um organizador de arquivos; ele é um mestre da matemática. Além de filtrar nomes, ele pode analisar magnitudes e quantidades.",
+          "Imagine um **Medidor de Altura** em um parque de diversões: apenas quem tem uma altura 'maior ou igual' a um limite pode entrar na montanha-russa. No banco de dados, usamos essa mesma lógica para filtrar IDs, preços ou populações.",
+          {
+            "type": "definicao",
+            "termo": "Operadores de Magnitude",
+            "def": "Usamos '>' (maior), '<' (menor), '>=' (maior ou igual) e '<=' (menor ou igual) para comparar valores numéricos."
+          },
+          "**A Regra de Ouro:** Diferente dos textos, os números são escritos 'puros'. Nunca use aspas ao filtrar valores numéricos, pois as aspas transformam o número em um texto estático, impedindo que o banco entenda sua magnitude matemática.",
+          {
+            "type": "code",
+            "code": "SELECT nome \nFROM planetas \nWHERE id > 2;",
+            "lese": "Selecione a coluna nome da tabela planetas, mas filtre apenas os registros onde o valor da coluna id seja matematicamente maior que 2."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Magnitudes: The Database as a Mathematician",
+          "conteudo": {
+            "blocos": [
+              "PostgreSQL is not just a file organizer; it is a master of mathematics. Beyond filtering names, it can analyze magnitudes and quantities.",
+              "Imagine a **Height Meter** at a theme park: only those with a height 'greater than or equal' to a limit can enter the roller coaster. In the database, we use the same logic to filter IDs, prices, or populations.",
+              {
+                "type": "definicao",
+                "termo": "Magnitude Operators",
+                "def": "We use '>' (greater than), '<' (less than), '>=' (greater than or equal), and '<=' (less than or equal) to compare numerical values."
+              },
+              "**The Golden Rule:** Unlike text, numbers are written 'pure'. Never use quotes when filtering numeric values, because quotes turn the number into static text and the engine loses the numeric meaning.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nWHERE id > 2;",
+                "lese": "Select the nome column from planetas, but return only rows where id is mathematically greater than 2."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Magnitudes: La Base como Matemático",
+          "conteudo": {
+            "blocos": [
+              "PostgreSQL no es solo un organizador de archivos; es un maestro de las matemáticas. Además de filtrar nombres, puede analizar magnitudes y cantidades.",
+              "Imagina un **Medidor de Estatura** en un parque de diversiones: solo quien tiene una altura 'mayor o igual' a un límite puede entrar en la montaña rusa. En la base de datos usamos la misma lógica para filtrar IDs, precios o poblaciones.",
+              {
+                "type": "definicao",
+                "termo": "Operadores de Magnitud",
+                "def": "Usamos '>' (mayor), '<' (menor), '>=' (mayor o igual) y '<=' (menor o igual) para comparar valores numéricos."
+              },
+              "**La Regla de Oro:** A diferencia de los textos, los números se escriben 'puros'. Nunca uses comillas al filtrar valores numéricos, porque convierten el número en texto estático y el motor pierde el sentido numérico.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nWHERE id > 2;",
+                "lese": "Selecciona la columna nome de la tabla planetas, pero filtra solo las filas donde el valor de id sea matemáticamente mayor que 2."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 42,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "O Limite Inclusivo",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual operador deve ser usado para encontrar registros que possuam 'pelo menos' um determinado valor, incluindo o próprio valor na comparação?",
+        "opcoes": [
+          ">",
+          "<=",
+          ">=",
+          "<>"
+        ],
+        "indiceCorreto": 2,
+        "dica": "Você quer valores maiores E também os valores que sejam exatamente iguais."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Inclusive Limit",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which operator should be used to find records that have 'at least' a certain value, including the value itself in the comparison?",
+            "opcoes": [
+              ">",
+              "<=",
+              ">=",
+              "<>"
+            ],
+            "indiceCorreto": 2,
+            "dica": "You want values that are greater AND also values that are exactly equal."
+          }
+        },
+        "es": {
+          "titulo": "El Límite Inclusivo",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué operador debe usarse para encontrar registros que tengan 'al menos' un valor determinado, incluyendo el valor mismo en la comparación?",
+            "opcoes": [
+              ">",
+              "<=",
+              ">=",
+              "<>"
+            ],
+            "indiceCorreto": 2,
+            "dica": "Quieres valores mayores Y también los valores que sean exactamente iguales."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 43,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Roupa do Número",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a sintaxe correta para o padrão PostgreSQL:",
+        "afirmacao": "Ao filtrar uma coluna numérica como o ID, a query WHERE id = '1' (com aspas simples) é a forma tecnicamente correta de representar a comparação no padrão SQL profissional.",
+        "respostaCorreta": false,
+        "dica": "Aspas simples transformam o dado em texto (string). Números devem ser digitados sem elas."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: Number's Clothing",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the correct syntax for the PostgreSQL standard:",
+            "afirmacao": "When filtering a numeric column like ID, the query WHERE id = '1' (with single quotes) is the technically correct way to represent the comparison in professional SQL standard.",
+            "respostaCorreta": false,
+            "dica": "Single quotes turn the data into text (string). Numbers should be typed without them."
+          }
+        },
+        "es": {
+          "titulo": "V o F: La Ropa del Número",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la sintaxis correcta para el estándar PostgreSQL:",
+            "afirmacao": "Al filtrar una columna numérica como el ID, la consulta WHERE id = '1' (con comillas simples) es la forma técnicamente correcta de representar la comparación en el estándar SQL profesional.",
+            "respostaCorreta": false,
+            "dica": "Las comillas simples transforman el dato en texto (string). Los números deben escribirse sin ellas."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 44,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
-      "titulo": "Exercício 2 — AND",
+      "titulo": "Prática: Além do Horizonte",
       "conteudo": {
-        "instrucao": "Busque funcionários do departamento TI com salário maior que 6000.",
-        "dica": "Você precisa de duas condições ao mesmo tempo: departamento específico E salário acima de um valor. Qual conector lógico exige que AMBAS as condições sejam verdadeiras?",
-        "placeholder": "SELECT * FROM Funcionarios WHERE ...",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL, Cargo TEXT); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200,'Dev'),(2,'Carlos','Vendas',9800,'Gerente'),(3,'Maria','TI',5500,'Analista'),(4,'João','TI',8100,'Dev Senior'),(5,'Lucia','RH',4800,'Assistente');",
-        "checkType": "count",
+        "modo": "sql",
+        "instrucao": "Selecione o nome de todos os planetas cujo id seja estritamente maior que 2.",
+        "placeholder": "SELECT ... FROM ... WHERE ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
+        "checkType": "columns",
         "checkConfig": {
-          "expected_rows": 2
-        }
+          "required_columns": [
+            "nome"
+          ],
+          "min_rows": 2
+        },
+        "dica": "Sua cláusula WHERE deve comparar a coluna 'id' com o número 2 usando o sinal de maior ( > ) sem aspas.",
+        "explicacaoTecnica": "O PostgreSQL utiliza índices B-Tree (se existentes) para localizar rapidamente registros que atendam a critérios de magnitude, evitando a leitura de toda a tabela."
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 2 — AND",
+          "titulo": "Practice: Beyond the Horizon",
           "conteudo": {
-            "pergunta": "Retrieve employees from the TI department with a salary greater than 6000.",
-            "dica": "You need two conditions at the same time: a specific department AND salary above a value. Which logical connector requires BOTH conditions to be true?"
+            "instrucao": "Select the name of all planets whose id is strictly greater than 2.",
+            "placeholder": "SELECT ... FROM ... WHERE ...",
+            "dica": "Your WHERE clause should compare the 'id' column with the number 2 using the greater-than sign ( > ) without quotes.",
+            "explicacaoTecnica": "PostgreSQL uses B-Tree indexes (if they exist) to quickly locate records that meet magnitude criteria, avoiding a full table scan."
           }
         },
         "es": {
-          "titulo": "Ejercicio 2 — AND",
+          "titulo": "Práctica: Más allá del Horizonte",
           "conteudo": {
-            "pergunta": "Busca empleados del departamento TI con salario mayor a 6000.",
-            "dica": "Necesitas dos condiciones al mismo tiempo: un departamento específico Y un salario por encima de un valor. ¿Qué conector lógico exige que AMBAS condiciones sean verdaderas?"
+            "instrucao": "Selecciona el nombre de todos los planetas cuyo id sea estrictamente mayor que 2.",
+            "placeholder": "SELECT ... FROM ... WHERE ...",
+            "dica": "Tu cláusula WHERE debe comparar la columna 'id' con el número 2 usando el signo de mayor ( > ) sin comillas.",
+            "explicacaoTecnica": "PostgreSQL utiliza índices B-Tree (si existen) para localizar rápidamente registros que cumplan con los criterios de magnitud, evitando la lectura de toda la tabla."
           }
         }
       }
     },
     {
-      "ordem": 12,
+      "ordem": 45,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Lógica Proposicional: AND, OR e NOT",
+      "conteudo": {
+        "blocos": [
+          "No dia a dia, raramente fazemos escolhas simples. Você não quer apenas um 'café'; você quer um café que seja 'Quente' **E** 'Sem Açúcar'. No SQL, combinamos filtros para encontrar exatamente o que precisamos.",
+          "Imagine um **Filtro de Site de Compras**: você seleciona a Marca (Apple) **E** a faixa de preço (Até R$ 5000). Se o produto não atender aos dois critérios, ele não aparece. Isso é o operador **AND**.",
+          {
+            "type": "definicao",
+            "termo": "Operadores Lógicos",
+            "def": "AND (E): Todas as condições devem ser verdadeiras. OR (OU): Pelo menos uma condição deve ser verdadeira. NOT (NÃO): Inverte o resultado (tudo, exceto o que foi definido)."
+          },
+          "O operador **OR** é mais flexível: você aceita planetas que sejam 'Temperados' **OU** que tenham um 'ID maior que 100'. Já o **NOT** funciona como um escudo: 'Quero todos os planetas, **NÃO** (NOT) os que são gasosos'.",
+          {
+            "type": "code",
+            "code": "SELECT nome \nFROM planetas \nWHERE clima = 'Temperado' \nAND id > 1;",
+            "lese": "Selecione o nome dos planetas onde o clima seja 'Temperado' e, simultaneamente, o ID seja superior a 1."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Propositional Logic: AND, OR, and NOT",
+          "conteudo": {
+            "blocos": [
+              "In daily life, we rarely make simple choices. You don't just want 'coffee'; you want coffee that is 'Hot' **AND** 'Sugar-free'. In SQL, we combine filters to find exactly what we need.",
+              "Imagine a **Shopping Site Filter**: you select the Brand (Apple) **AND** the price range (Up to R$ 5000). If the product does not meet both criteria, it does not show. That is the **AND** operator.",
+              {
+                "type": "definicao",
+                "termo": "Logical Operators",
+                "def": "AND: All conditions must be true. OR: At least one condition must be true. NOT: Reverses the result (everything except what was defined)."
+              },
+              "The **OR** operator is more flexible: you accept planets that are 'Temperate' **OR** have an 'ID greater than 100'. **NOT** works like a shield: 'I want all planets, **NOT** the gaseous ones'.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nWHERE clima = 'Temperado' \nAND id > 1;",
+                "lese": "Select planet names where the climate is 'Temperado' and, at the same time, the ID is greater than 1."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Lógica Proposicional: AND, OR y NOT",
+          "conteudo": {
+            "blocos": [
+              "En el día a día, raramente tomamos decisiones simples. No solo quieres un 'café'; quieres un café que esté 'Caliente' **Y** 'Sin Azúcar'. En SQL, combinamos filtros para encontrar exactamente lo que necesitamos.",
+              "Imagina un **Filtro de Sitio de Compras**: seleccionas la Marca (Apple) **Y** el rango de precio (Hasta R$ 5000). Si el producto no cumple ambos criterios, no aparece. Ese es el operador **AND**.",
+              {
+                "type": "definicao",
+                "termo": "Operadores Lógicos",
+                "def": "AND (Y): Todas las condiciones deben ser verdaderas. OR (O): Al menos una condición debe ser verdadera. NOT (NO): Invierte el resultado (todo excepto lo definido)."
+              },
+              "El operador **OR** es más flexible: aceptas planetas que sean 'Templados' **O** que tengan un 'ID mayor que 100'. **NOT** funciona como un escudo: 'Quiero todos los planetas, **NO** los gaseosos'.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nWHERE clima = 'Temperado' \nAND id > 1;",
+                "lese": "Selecciona el nombre de los planetas donde el clima sea 'Temperado' y, al mismo tiempo, el ID sea superior a 1."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 46,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Quiz: O Rigor do AND",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Se você executar uma busca por planetas com: clima = 'Temperado' AND id > 10, o que o PostgreSQL irá retornar?",
+        "opcoes": [
+          "Todos os planetas temperados, ignorando o ID.",
+          "Apenas os planetas que forem temperados e tiverem ID maior que 10 ao mesmo tempo.",
+          "Planetas que sejam temperados ou que tenham ID maior que 10.",
+          "Nenhum planeta, pois o ID e o clima não podem ser filtrados juntos."
+        ],
+        "indiceCorreto": 1,
+        "dica": "O operador AND exige que a linha passe por todos os testes para ser exibida."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Quiz: The Rigor of AND",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "If you run a search for planets with: clima = 'Temperado' AND id > 10, what will PostgreSQL return?",
+            "opcoes": [
+              "All temperate planets, ignoring the ID.",
+              "Only planets that are both temperate and have an ID greater than 10 at the same time.",
+              "Planets that are either temperate or have an ID greater than 10.",
+              "No planets, as ID and climate cannot be filtered together."
+            ],
+            "indiceCorreto": 1,
+            "dica": "The AND operator requires the row to pass all tests to be displayed."
+          }
+        },
+        "es": {
+          "titulo": "Quiz: El Rigor del AND",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Si ejecutas una búsqueda de planetas con: clima = 'Temperado' AND id > 10, ¿qué devolverá PostgreSQL?",
+            "opcoes": [
+              "Todos los planetas templados, ignorando el ID.",
+              "Solo los planetas que sean templados y tengan un ID mayor que 10 al mismo tiempo.",
+              "Planetas que sean templados o que tengan un ID mayor que 10.",
+              "Ningún planeta, ya que el ID y el clima no se pueden filtrar juntos."
+            ],
+            "indiceCorreto": 1,
+            "dica": "El operador AND exige que la fila pase todas las pruebas para ser mostrada."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 47,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Flexibilidade do OR",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a lógica do operador OR:",
+        "afirmacao": "O operador OR exige que todas as condições listadas na query sejam obrigatoriamente verdadeiras para que a linha apareça no resultado final.",
+        "respostaCorreta": false,
+        "dica": "O OR é satisfeito se apenas uma parte da condição for verdadeira."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Flexibility of OR",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the logic of the OR operator:",
+            "afirmacao": "The OR operator requires that all conditions listed in the query must be true for the row to appear in the final result.",
+            "respostaCorreta": false,
+            "dica": "OR is satisfied if only one part of the condition is true."
+          }
+        },
+        "es": {
+          "titulo": "V o F: La Flexibilidad del OR",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la lógica del operador OR:",
+            "afirmacao": "El operador OR exige que todas las condiciones enumeradas en la consulta sean obligatoriamente verdaderas para que la fila aparezca en el resultado final.",
+            "respostaCorreta": false,
+            "dica": "El OR se satisface si solo una parte de la condición es verdadera."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 48,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
-      "titulo": "Exercício 3 — IN",
+      "titulo": "Prática: Interseção Cósmica",
       "conteudo": {
-        "instrucao": "Liste os clientes que moram em São Paulo, Rio de Janeiro ou Curitiba.",
-        "dica": "Para filtrar por uma lista de cidades, existe um operador mais limpo que encadear vários OR. Os valores ficam dentro de parênteses separados por vírgula. Lembre que cidades são texto — use aspas simples.",
-        "placeholder": "SELECT * FROM Clientes WHERE ...",
-        "schema": "CREATE TABLE Clientes (ID INTEGER, Nome TEXT, Cidade TEXT, Email TEXT); INSERT INTO Clientes VALUES (1,'Ana','São Paulo','a@email.com'),(2,'Carlos','Rio de Janeiro','c@email.com'),(3,'Maria','Belo Horizonte','m@email.com'),(4,'João','São Paulo','j@email.com'),(5,'Lucia','Curitiba','l@email.com'),(6,'Pedro','Salvador','p@email.com');",
-        "checkType": "count",
+        "modo": "sql",
+        "instrucao": "Selecione o nome de todos os planetas cujo clima seja 'Temperado' E o id seja estritamente maior que 1.",
+        "placeholder": "SELECT ... FROM ... WHERE ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Proxima-b', 'Temperado');",
+        "checkType": "columns",
         "checkConfig": {
-          "expected_rows": 3
-        }
+          "required_columns": [
+            "nome"
+          ],
+          "min_rows": 2
+        },
+        "dica": "Combine as duas condições no WHERE usando a palavra-chave AND entre elas. Lembre-se das aspas para o texto!",
+        "explicacaoTecnica": "O PostgreSQL avalia ambas as expressões booleanas. A linha só é incluída no conjunto de resultados se o resultado da operação (clima = 'Temperado') AND (id > 1) for verdadeiro."
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 3 — IN",
+          "titulo": "Practice: Cosmic Intersection",
           "conteudo": {
-            "pergunta": "List the customers who live in São Paulo, Rio de Janeiro, or Curitiba.",
-            "dica": "To filter by a list of cities, there is a cleaner operator than chaining several ORs. The values go inside parentheses separated by commas. Remember that cities are text — use single quotes."
+            "instrucao": "Select the name of all planets whose climate is 'Temperado' AND the id is strictly greater than 1.",
+            "placeholder": "SELECT ... FROM ... WHERE ...",
+            "dica": "Combine the two conditions in the WHERE clause using the AND keyword between them. Remember the quotes for text!",
+            "explicacaoTecnica": "PostgreSQL evaluates both boolean expressions. The row is only included in the result set if the result of (clima = 'Temperado') AND (id > 1) is true."
           }
         },
         "es": {
-          "titulo": "Ejercicio 3 — IN",
+          "titulo": "Práctica: Intersección Cósmica",
           "conteudo": {
-            "pergunta": "Lista los clientes que viven en São Paulo, Rio de Janeiro o Curitiba.",
-            "dica": "Para filtrar por una lista de ciudades, hay un operador más limpio que encadenar varios OR. Los valores van dentro de paréntesis separados por coma. Recuerda que las ciudades son texto — usa comillas simples."
+            "instrucao": "Selecciona el nombre de todos los planetas cuyo clima sea 'Temperado' Y el id sea estrictamente mayor que 1.",
+            "placeholder": "SELECT ... FROM ... WHERE ...",
+            "dica": "Combina las dos condiciones en el WHERE usando la palabra clave AND entre ellas. ¡Recuerda las comillas para el texto!",
+            "explicacaoTecnica": "PostgreSQL evalúa ambas expresiones booleanas. La fila solo se incluye si el resultado de (clima = 'Temperado') AND (id > 1) es verdadero."
           }
         }
       }
     },
     {
-      "ordem": 13,
+      "ordem": 49,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Busca por Padrões: LIKE e o Curinga %",
+      "conteudo": {
+        "blocos": [
+          "No dia a dia como Arquiteto de Dados, nem sempre você terá o valor exato para filtrar. Às vezes, você só lembra que o nome do planeta começa com 'Mar' ou termina com 'terra'.",
+          "O operador **LIKE** permite realizar buscas por aproximação ou padrões. Para isso, utilizamos o símbolo de **percentagem (%)**, que funciona como um 'curinga' (wildcard) capaz de substituir qualquer quantidade de caracteres.",
+          {
+            "type": "definicao",
+            "termo": "Operador LIKE",
+            "def": "Utilizado no WHERE para buscar padrões em colunas de texto. 'A%' busca o que começa com A, '%A' o que termina com A, e '%A%' o que contém A em qualquer lugar."
+          },
+          "**LIKE vs ILIKE:** No PostgreSQL, o LIKE é 'Case Sensitive' (diferencia 'M' de 'm'). Já o **ILIKE** é o seu melhor amigo para buscas mais flexíveis, pois ele ignora se as letras são maiúsculas ou minúsculas.",
+          "Imagine a barra de **Busca no Google** ou o preenchimento automático: você digita o início e o sistema sugere o padrão completo. É exatamente isso que você está ensinando ao seu banco de dados agora.",
+          {
+            "type": "code",
+            "code": "SELECT nome \nFROM planetas \nWHERE nome ILIKE 'mar%';",
+            "lese": "Selecione os nomes da tabela planetas onde o nome comece com 'mar', ignorando se as letras estão em maiúsculo ou minúsculo."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Pattern Matching: LIKE and the % Wildcard",
+          "conteudo": {
+            "blocos": [
+              "As a Data Architect, you won't always have the exact value to filter. Sometimes, you only remember that the planet's name starts with 'Mar' or ends with 'earth'.",
+              "The **LIKE** operator allows pattern matching. We use the **percent (%)** symbol, which acts as a wildcard that can match any amount of characters.",
+              {
+                "type": "definicao",
+                "termo": "LIKE Operator",
+                "def": "Used in WHERE to search patterns in text columns. 'A%' matches what starts with A, '%A' what ends with A, and '%A%' what contains A anywhere."
+              },
+              "**LIKE vs ILIKE:** In PostgreSQL, LIKE is case sensitive. **ILIKE** is your best friend for flexible searches because it ignores letter case.",
+              "Think of the **Google search bar** or autocomplete: you type the beginning and the system suggests the full pattern. That is what you are teaching the database now.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nWHERE nome ILIKE 'mar%';",
+                "lese": "Select names from planetas where the name starts with 'mar', ignoring uppercase vs lowercase."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Búsqueda por Patrones: LIKE y el Comodín %",
+          "conteudo": {
+            "blocos": [
+              "Como Arquitecto de Datos, no siempre tendrás el valor exacto para filtrar. A veces, solo recuerdas que el nombre del planeta comienza con 'Mar' o termina con 'tierra'.",
+              "El operador **LIKE** permite búsquedas por patrones. Usamos el símbolo de **porcentaje (%)**, un comodín que puede sustituir cualquier cantidad de caracteres.",
+              {
+                "type": "definicao",
+                "termo": "Operador LIKE",
+                "def": "Se usa en el WHERE para buscar patrones en columnas de texto. 'A%' busca lo que empieza con A, '%A' lo que termina con A, y '%A%' lo que contiene A en cualquier lugar."
+              },
+              "**LIKE vs ILIKE:** En PostgreSQL, LIKE distingue mayúsculas y minúsculas. **ILIKE** ignora esa distinción y es ideal para búsquedas flexibles.",
+              "Imagina la **barra de búsqueda de Google** o el autocompletado: escribes el inicio y el sistema sugiere el patrón completo. Eso es lo que enseñas a la base de datos ahora.",
+              {
+                "type": "code",
+                "code": "SELECT nome \nFROM planetas \nWHERE nome ILIKE 'mar%';",
+                "lese": "Selecciona los nombres donde el nombre empiece por 'mar', sin importar mayúsculas o minúsculas."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 50,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Decifrando o Curinga",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "O que o comando WHERE nome LIKE 'A%' irá retornar como resultado de uma consulta?",
+        "opcoes": [
+          "Todos os nomes que começam exatamente com a letra A.",
+          "Apenas nomes que possuem apenas uma letra (a própria letra A).",
+          "Nomes que terminam com a letra A.",
+          "Nomes que possuem a letra A em qualquer posição do texto."
+        ],
+        "indiceCorreto": 0,
+        "dica": "O símbolo % após a letra diz ao banco: 'Comece com A e aceite qualquer coisa depois'."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Deciphering the Wildcard",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What will the command WHERE nome LIKE 'A%' return as a result of a query?",
+            "opcoes": [
+              "All names that start exactly with the letter A.",
+              "Only names that have only one letter (the letter A itself).",
+              "Names that end with the letter A.",
+              "Names that have the letter A in any position of the text."
+            ],
+            "indiceCorreto": 0,
+            "dica": "The % symbol after the letter tells the database: 'Start with A and accept anything after'."
+          }
+        },
+        "es": {
+          "titulo": "Descifrando el Comodín",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué devolverá el comando WHERE nome LIKE 'A%' como resultado de una consulta?",
+            "opcoes": [
+              "Todos los nombres que comienzan exactamente con la letra A.",
+              "Solo nombres que tienen una sola letra (la propia letra A).",
+              "Nombres que terminan con la letra A.",
+              "Nombres que tienen la letra A en cualquier posición del texto."
+            ],
+            "indiceCorreto": 0,
+            "dica": "El símbolo % después de la letra le dice a la base: 'Empieza con A y acepta cualquier cosa después'."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 51,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: Sensibilidade ao Caso",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a diferença entre operadores no PostgreSQL:",
+        "afirmacao": "No PostgreSQL, o operador ILIKE funciona de forma 'Case Insensitive', ou seja, ele ignora se a letra é maiúscula ou minúscula no momento de realizar a comparação.",
+        "respostaCorreta": true,
+        "dica": "Essa é uma exclusividade muito útil do PostgreSQL para facilitar buscas de usuários."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: Case Sensitivity",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the difference between operators in PostgreSQL:",
+            "afirmacao": "In PostgreSQL, the ILIKE operator is 'Case Insensitive', meaning it ignores whether letters are uppercase or lowercase during the comparison.",
+            "respostaCorreta": true,
+            "dica": "This is a very useful PostgreSQL feature to make user searches easier."
+          }
+        },
+        "es": {
+          "titulo": "V o F: Sensibilidad a Mayúsculas",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la diferencia entre operadores en PostgreSQL:",
+            "afirmacao": "En PostgreSQL, el operador ILIKE funciona de forma 'Case Insensitive', es decir, ignora si la letra es mayúscula o minúscula al realizar la comparación.",
+            "respostaCorreta": true,
+            "dica": "Es una característica muy útil de PostgreSQL para facilitar las búsquedas de los usuarios."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 52,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: A Inicial de Marte",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Selecione o nome de todos os planetas que começam com a letra 'M' (maiúscula).",
+        "placeholder": "SELECT ... FROM ... WHERE ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Mercúrio', 'Escaldante');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": [
+            "nome"
+          ],
+          "min_rows": 2
+        },
+        "dica": "Use WHERE nome LIKE 'M%'. Lembre-se que o % deve estar dentro das aspas simples!",
+        "explicacaoTecnica": "O operador LIKE com o curinga '%' no final instrui o PostgreSQL a buscar strings que tenham o prefixo 'M', independente do que venha depois."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Practice: Mars' Initial",
+          "conteudo": {
+            "instrucao": "Select the name of all planets that start with the letter 'M' (uppercase).",
+            "placeholder": "SELECT ... FROM ... WHERE ...",
+            "dica": "Use WHERE nome LIKE 'M%'. Remember that the % must be inside the single quotes!",
+            "explicacaoTecnica": "The LIKE operator with the '%' wildcard at the end tells PostgreSQL to match strings that start with 'M', regardless of what follows."
+          }
+        },
+        "es": {
+          "titulo": "Práctica: La Inicial de Marte",
+          "conteudo": {
+            "instrucao": "Selecciona el nombre de todos los planetas que comienzan con la letra 'M' (mayúscula).",
+            "placeholder": "SELECT ... FROM ... WHERE ...",
+            "dica": "Usa WHERE nome LIKE 'M%'. ¡Recuerda que el % debe estar dentro de las comillas simples!",
+            "explicacaoTecnica": "El operador LIKE con el comodín '%' al final indica a PostgreSQL buscar cadenas con prefijo 'M', sin importar lo que venga después."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 53,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -876,7 +859,7 @@
       }
     },
     {
-      "ordem": 14,
+      "ordem": 54,
       "tipo": "conclusao",
       "temAnuncio": false,
       "xpReward": 50,

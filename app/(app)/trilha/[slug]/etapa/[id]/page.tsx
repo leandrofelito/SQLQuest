@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useRef } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TelaIntro } from '@/components/microlicao/TelaIntro'
@@ -51,10 +51,25 @@ export default function EtapaPage() {
   const [levelUp, setLevelUp] = useState<{ anterior: number; atual: number } | null>(null)
   const [conquistasFila, setConquistasFila] = useState<Array<{ id: string; emoji: string; nome: string }>>([])
   const conquistasPendentesRef = useRef<Array<{ id: string; emoji: string; nome: string }>>([])
-  const exibirProximaConquista = () => {
+  /** Level up após esvaziar a fila de toasts de conquista (evita modal cobrir o toast). */
+  const deferredLevelUpRef = useRef<{ anterior: number; atual: number } | null>(null)
+  /** Navegação/anúncio só depois que o usuário viu todas as conquistas da fila. */
+  const proximaEtapaAposConquistasRef = useRef<(() => void) | null>(null)
+  const exibirProximaConquista = useCallback(() => {
     conquistasPendentesRef.current.shift()
-    setConquistasFila([...conquistasPendentesRef.current])
-  }
+    const rest = [...conquistasPendentesRef.current]
+    setConquistasFila(rest)
+    if (rest.length === 0) {
+      if (deferredLevelUpRef.current) {
+        setLevelUp(deferredLevelUpRef.current)
+        deferredLevelUpRef.current = null
+      } else if (proximaEtapaAposConquistasRef.current) {
+        const fn = proximaEtapaAposConquistasRef.current
+        proximaEtapaAposConquistasRef.current = null
+        fn()
+      }
+    }
+  }, [])
   const [trilhaConcluida, setTrilhaConcluida] = useState(false)
   const [loading, setLoading] = useState(true)
   const [erroConexao, setErroConexao] = useState(false)
@@ -166,10 +181,14 @@ export default function EtapaPage() {
     }
     if (data.novasConquistasRanking?.length > 0) {
       setNovaConquistaRanking(data.novasConquistasRanking[0])
-      setTimeout(() => setNovaConquistaRanking(null), 5000)
+      setTimeout(() => setNovaConquistaRanking(null), 8000)
     }
     if (data.nivelAtual > data.nivelAnterior) {
-      setLevelUp({ anterior: data.nivelAnterior, atual: data.nivelAtual })
+      if (data.novasConquistas?.length > 0) {
+        deferredLevelUpRef.current = { anterior: data.nivelAnterior, atual: data.nivelAtual }
+      } else {
+        setLevelUp({ anterior: data.nivelAnterior, atual: data.nivelAtual })
+      }
     }
     if (data.novasConquistas?.length > 0) {
       conquistasPendentesRef.current = [...data.novasConquistas]
@@ -346,6 +365,8 @@ export default function EtapaPage() {
 
                     if (data?.nivelAtual > data?.nivelAnterior) {
                       proximaEtapaAposLevelUpRef.current = seguirEmFrente
+                    } else if ((data?.novasConquistas?.length ?? 0) > 0) {
+                      proximaEtapaAposConquistasRef.current = seguirEmFrente
                     } else {
                       seguirEmFrente()
                     }
