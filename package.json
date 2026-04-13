@@ -10,6 +10,7 @@
     "db:studio": "dotenv -e .env.local -- prisma studio",
     "db:generate": "dotenv -e .env.local -- prisma generate",
     "seed": "tsx scripts/seed.ts",
+    "script:concluir-trilha": "tsx scripts/concluir-trilha-usuario.ts",
     "db:check": "tsx prisma/seed-check.ts",
     "setup": "npm run db:generate && npm run db:check",
     "cap:add": "cap add android",
