@@ -52,6 +52,35 @@ function RenderBloco({ bloco, leseLabel }: { bloco: BlocoTexto; leseLabel: strin
     )
   }
 
+  if (bloco.type === 'tabela') {
+    return (
+      <div className="overflow-x-auto rounded-xl border border-[#2a2d3a] bg-[#0a0c12]">
+        <table className="w-full text-sm text-left">
+          <thead>
+            <tr className="border-b border-[#2a2d3a]">
+              {bloco.cabecalhos.map((h, i) => (
+                <th key={i} className="px-3 py-2.5 text-[#a78bfa] font-semibold whitespace-nowrap">
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {bloco.linhas.map((linha, ri) => (
+              <tr key={ri} className="border-b border-[#1e2028] last:border-0">
+                {linha.map((cel, ci) => (
+                  <td key={ci} className="px-3 py-2 text-white/80 leading-relaxed align-top">
+                    {cel}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
   return null
 }
 

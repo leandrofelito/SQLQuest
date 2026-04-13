@@ -46,7 +46,13 @@
     "queryLenta": "Query Lenta Detectada",
     "otimizar": "Intentar optimizar 🚀",
     "continuarAssim": "Continuar así (2 estrellas)",
-    "planoExecucao": "🔍 Ver análisis del plan de ejecución"
+    "planoExecucao": "🔍 Ver análisis del plan de ejecución",
+    "verdadeiro": "Verdadero",
+    "falso": "Falso",
+    "escolhaOpcao": "Elige una opción",
+    "reflexaoPlaceholder": "Escribe tu respuesta aquí…",
+    "reflexaoCurta": "Respuesta demasiado corta. Amplía un poco (claves, vínculo entre tablas).",
+    "quizIncorreto": "Respuesta incorrecta. Inténtalo de nuevo o pide una pista."
   },
   "intro": {
     "continuar": "Toca para Continuar"
