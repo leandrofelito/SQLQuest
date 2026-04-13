@@ -225,6 +225,10 @@ export default function EtapaPage() {
   const ordenadas = [...todasEtapas].sort((a, b) => a.ordem - b.ordem)
   const idx = ordenadas.findIndex(e => e.id === etapa.id)
   const progressoPct = ((idx + 1) / ordenadas.length) * 100
+  const ehUltimaEtapaConclusao =
+    etapa.tipo === 'conclusao' &&
+    ordenadas.length > 0 &&
+    ordenadas[ordenadas.length - 1].id === etapa.id
 
   return (
     <div className="min-h-screen bg-[#080a0f] flex flex-col">
@@ -359,7 +363,7 @@ export default function EtapaPage() {
                   xpGanho={xpGanho}
                   trilhaSlug={slug}
                   trilhaId={trilha.id}
-                  trilhaConcluida={trilhaConcluida}
+                  trilhaConcluida={trilhaConcluida || ehUltimaEtapaConclusao}
                   isPro={isPro}
                 />
               </div>

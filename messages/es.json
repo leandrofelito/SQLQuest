@@ -75,7 +75,8 @@
   },
   "conclusao": {
     "parabens": "¡Felicitaciones!",
-    "verTrilha": "Ver ruta completa"
+    "verTrilha": "Ver ruta completa",
+    "certificadoConvite": "Toca abajo para ver o descargar tu certificado de esta ruta."
   },
   "upgrade": {
     "titulo": "Suscribirse Pro",

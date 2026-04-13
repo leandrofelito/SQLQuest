@@ -75,7 +75,8 @@
   },
   "conclusao": {
     "parabens": "Congratulations!",
-    "verTrilha": "View complete trail"
+    "verTrilha": "View complete trail",
+    "certificadoConvite": "Tap below to view or download your certificate for this trail."
   },
   "upgrade": {
     "titulo": "Go Pro",

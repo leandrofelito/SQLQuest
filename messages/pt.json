@@ -75,7 +75,8 @@
   },
   "conclusao": {
     "parabens": "Parabéns!",
-    "verTrilha": "Ver trilha completa"
+    "verTrilha": "Ver trilha completa",
+    "certificadoConvite": "Toque abaixo para ver ou baixar seu certificado desta trilha."
   },
   "upgrade": {
     "titulo": "Assinar Pro",
