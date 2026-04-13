@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CardTrilha } from './CardTrilha'
@@ -32,13 +32,16 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const [fluxo, setFluxo] = useState<FluxoState>('idle')
   const [trilhaAlvo, setTrilhaAlvo] = useState<TrilhaData | null>(null)
   const [desbloqueadasSessao, setDesbloqueadasSessao] = useState<Set<string>>(new Set())
+  const desbloqueioSegundoJaFeito = useRef(false)
 
   function handleBloqueadaClick(trilha: TrilhaData) {
+    desbloqueioSegundoJaFeito.current = false
     setTrilhaAlvo(trilha)
     setFluxo('banner')
   }
 
   function iniciarAnuncios() {
+    desbloqueioSegundoJaFeito.current = false
     // Fecha o banner primeiro para evitar sobreposição com o anúncio
     setFluxo('idle')
     setTimeout(() => setFluxo('ad1'), 380)
@@ -51,6 +54,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
 
   async function segundoAnuncioConcluido() {
     if (!trilhaAlvo) return
+    if (desbloqueioSegundoJaFeito.current) return
+    desbloqueioSegundoJaFeito.current = true
     setDesbloqueadasSessao(prev => new Set(prev).add(trilhaAlvo.slug))
     setFluxo('sucesso')
     await fetch('/api/desbloquear-trilha', {
@@ -136,7 +141,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           adType="rewarded"
           label="Anúncio 1 de 2"
           onConcluido={primeiroAnuncioConcluido}
-          onFechar={() => setFluxo('idle')}
+          onFechar={primeiroAnuncioConcluido}
+          onFalhou={() => setFluxo('idle')}
         />
       )}
       {fluxo === 'ad2' && (
@@ -146,7 +152,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           adType="rewarded"
           label="Anúncio 2 de 2"
           onConcluido={segundoAnuncioConcluido}
-          onFechar={() => setFluxo('idle')}
+          onFechar={segundoAnuncioConcluido}
+          onFalhou={() => setFluxo('idle')}
         />
       )}
 
