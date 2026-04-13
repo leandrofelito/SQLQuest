@@ -93,6 +93,7 @@ export async function GET() {
       desc: def.desc,
       desbloqueada,
       categoria: def.categoria,
+      secao: def.secao,
     }
   })
 
@@ -119,6 +120,7 @@ export async function GET() {
       alcancadaEm: registro?.alcancadaEm ?? null,
       posicao: registro?.posicao ?? null,
       tier: rc.tipo,
+      secao: 'especial' as const,
     }
   })
 

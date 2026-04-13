@@ -1,6 +1,10 @@
 /**
- * Coloca o usuário no topo do nível 100 (ciclo atual), streak/prestígio altos,
+ * Coloca o usuário no máximo de XP do ciclo **sem** atingir o nível de prestígio automático na sessão,
  * completa todos os exercícios do banco (3★ + XP) e grava conquistas de ranking.
+ *
+ * Importante: `lib/auth.ts` chama `aplicarPrestigioSeElegivel` em todo carregamento de sessão se
+ * `getLevel(totalXp) >= PRESTIGIO_NIVEL_MINIMO` (100), zerando o XP. Por isso o alvo é o teto do
+ * nível 99 (`xpParaNivel(100) - 1`), não o teto do nível 100 — senão o próximo login mostra nível 1.
  *
  * Uso:
  *   npx dotenv -e .env.local -- tsx scripts/desbloquear-todas-conquistas.ts [email]
@@ -14,15 +18,15 @@ dotenv.config({ path: '.env.local' })
 
 import { prisma } from '../lib/db'
 import { XP_POR_ESTRELAS, xpParaNivel, getLevel } from '../lib/xp'
-import { PRESTIGIO_CONQUISTAS_CAP } from '../lib/prestigio'
+import { PRESTIGIO_CONQUISTAS_CAP, PRESTIGIO_NIVEL_MINIMO } from '../lib/prestigio'
 
 const XP_3 = XP_POR_ESTRELAS[3] ?? 100
 const STREAK_ALVO = 3650
 const RANKING_TIPOS = ['top1', 'top10', 'top100', 'top1000'] as const
 
-/** Maior XP ainda no nível 100 (antes do 101). */
-function xpMaxNivel100(): number {
-  return xpParaNivel(101) - 1
+/** Maior XP ainda no nível PRESTIGIO_NIVEL_MINIMO - 1 (evita prestígio no callback de sessão). */
+function xpMaxCicloSemPrestigioNaSessao(): number {
+  return xpParaNivel(PRESTIGIO_NIVEL_MINIMO) - 1
 }
 
 async function main() {
@@ -93,7 +97,7 @@ async function main() {
   }
   console.log('Conquistas de ranking (top1/10/100/1000) gravadas.')
 
-  const xpAlvo = xpMaxNivel100()
+  const xpAlvo = xpMaxCicloSemPrestigioNaSessao()
   const sumAgg = await prisma.progresso.aggregate({
     where: { userId: user.id },
     _sum: { xpGanho: true },

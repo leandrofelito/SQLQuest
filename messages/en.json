@@ -54,7 +54,8 @@
     "reflexaoCurta": "Text is below the minimum character count.",
     "quizIncorreto": "Incorrect answer. Try again or ask for a hint.",
     "dicaReveladaTitulo": "Hint",
-    "dicaEtapaAusente": "This step does not have a hint configured yet."
+    "dicaEtapaAusente": "This step does not have a hint configured yet.",
+    "publicidade": "Ad"
   },
   "intro": {
     "continuar": "Tap to Continue"
@@ -121,6 +122,12 @@
     "conquistasFiltroBloqueadas": "Locked",
     "conquistasVazioDesbloqueadas": "No achievements yet. Complete lessons and exercises to unlock your first ones.",
     "conquistasVazioBloqueadas": "You've unlocked every achievement in this list.",
+    "conquistasMostrarMais": "Show more ({{n}} left)",
+    "conquistasSecaoIniciante": "Beginner",
+    "conquistasSecaoIntermediario": "Intermediate",
+    "conquistasSecaoAvancado": "Advanced",
+    "conquistasSecaoEspecial": "Special",
+    "conquistasPrestigioToggle": "Prestige stars · {{desbloqueadas}}/{{total}}",
     "rankingGlobal": "Global Ranking",
     "mundoDo": "of the world",
     "comoDesbloquear": "How to unlock",

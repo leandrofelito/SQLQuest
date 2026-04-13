@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -88,6 +89,9 @@ class _WebViewScreenState extends State<WebViewScreen>
   InterstitialAd? _interstitialAd;
   BannerAd? _bannerAd;
   bool _showingBanner = false;
+
+  /// Evita enviar `dismissed` ao JS antes de `onUserEarnedReward` (mediação / bridge).
+  Timer? _rewardedDismissNotifyTimer;
 
   @override
   void initState() {
@@ -234,14 +238,25 @@ class _WebViewScreenState extends State<WebViewScreen>
   /// - `failed` se falhou ao carregar ou exibir (React pode cancelar sem liberar trilha).
   void _showRewardedAd() {
     void present(RewardedAd ad) {
+      _rewardedDismissNotifyTimer?.cancel();
+      _rewardedDismissNotifyTimer = null;
+
       var rewardEarned = false;
       ad.fullScreenContentCallback = FullScreenContentCallback(
         onAdDismissedFullScreenContent: (ad) {
           ad.dispose();
           if (mounted) setState(() => _rewardedAd = null);
-          if (!rewardEarned) {
-            _controller.runJavaScript("window.onAdMobResult('dismissed')");
-          }
+          // Adia `dismissed`: se `onUserEarnedReward` vier depois do dismiss (rede
+          // mediada / timing WebView), o React não deve fechar o overlay antes do
+          // `completed` — senão remove `window.onAdMobResult` e a dica não libera.
+          _rewardedDismissNotifyTimer?.cancel();
+          _rewardedDismissNotifyTimer = Timer(const Duration(milliseconds: 450), () {
+            _rewardedDismissNotifyTimer = null;
+            if (!mounted) return;
+            if (!rewardEarned) {
+              _controller.runJavaScript("window.onAdMobResult('dismissed')");
+            }
+          });
           _loadRewardedAd();
         },
         onAdFailedToShowFullScreenContent: (ad, error) {
@@ -372,6 +387,8 @@ class _WebViewScreenState extends State<WebViewScreen>
 
   @override
   void dispose() {
+    _rewardedDismissNotifyTimer?.cancel();
+    _rewardedDismissNotifyTimer = null;
     _fadeController.dispose();
     _rewardedAd?.dispose();
     _interstitialAd?.dispose();

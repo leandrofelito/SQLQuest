@@ -10,11 +10,22 @@ export interface ConquistaToastMeta {
   nome: string
 }
 
+/** Agrupamento visual no perfil (nível de dificuldade / tipo) */
+export type SecaoConquista = 'iniciante' | 'intermediario' | 'avancado' | 'especial'
+
+export const SECOES_CONQUISTA_ORDEM: readonly SecaoConquista[] = [
+  'iniciante',
+  'intermediario',
+  'avancado',
+  'especial',
+] as const
+
 /** Definição completa de uma conquista geral (PT base) */
 export interface ConquistaDef extends ConquistaToastMeta {
   id: string
   desc: string
   categoria?: string
+  secao: SecaoConquista
 }
 
 export const TRILHA_CONQUISTA_SLUGS = ['fundamentos', 'manipulacao-dados'] as const
@@ -103,6 +114,24 @@ export const EXERCISE_MILESTONES: { id: string; count: number; emoji: string; no
   { id: 'exercicios_10000', count: 10000, emoji: '👑', nome: 'Lenda dos Exercícios', desc: 'Conclua 10000 exercícios com XP.' },
 ]
 
+function secaoStreak(id: string): SecaoConquista {
+  if (id === 'streak_7' || id === 'streak_14' || id === 'streak_30') return 'iniciante'
+  if (id === 'streak_60' || id === 'streak_90') return 'intermediario'
+  return 'avancado'
+}
+
+function secaoExercicio(count: number): SecaoConquista {
+  if (count <= 100) return 'iniciante'
+  if (count <= 500) return 'intermediario'
+  return 'avancado'
+}
+
+function secaoNivel(nivel: number): SecaoConquista {
+  if (nivel <= 15) return 'iniciante'
+  if (nivel <= 40) return 'intermediario'
+  return 'avancado'
+}
+
 function trilhaDefs(): ConquistaDef[] {
   return [
     {
@@ -111,6 +140,7 @@ function trilhaDefs(): ConquistaDef[] {
       nome: TRILHA_CONQUISTAS.fundamentos.nome,
       desc: 'Conclua todos os exercícios da trilha Fundamentos do SQL (com validação e XP).',
       categoria: 'trilha',
+      secao: 'iniciante',
     },
     {
       id: trilhaConquistaId('manipulacao-dados'),
@@ -118,6 +148,7 @@ function trilhaDefs(): ConquistaDef[] {
       nome: TRILHA_CONQUISTAS['manipulacao-dados'].nome,
       desc: 'Conclua todos os exercícios da trilha Manipulação de Dados (com validação e XP).',
       categoria: 'trilha',
+      secao: 'intermediario',
     },
   ]
 }
@@ -129,6 +160,7 @@ function streakDefs(): ConquistaDef[] {
     nome: m.nome,
     desc: m.desc,
     categoria: 'streak',
+    secao: secaoStreak(m.id),
   }))
 }
 
@@ -139,6 +171,7 @@ function exerciseDefs(): ConquistaDef[] {
     nome: m.nome,
     desc: m.desc,
     categoria: 'exercicios',
+    secao: secaoExercicio(m.count),
   }))
 }
 
@@ -149,6 +182,7 @@ function tresEstrelasDef(): ConquistaDef {
     nome: TRES_ESTRELAS_CONQUISTA.nome,
     desc: TRES_ESTRELAS_CONQUISTA.desc,
     categoria: 'habilidade',
+    secao: 'iniciante',
   }
 }
 
@@ -159,6 +193,7 @@ function nivelDefs(): ConquistaDef[] {
     nome: m.nome,
     desc: m.desc,
     categoria: 'nivel',
+    secao: secaoNivel(m.nivel),
   }))
 }
 
@@ -198,6 +233,7 @@ export function buildPrestigeConquistaDef(n: number): ConquistaDef {
     nome: `${s}ª estrela — ${tier}`,
     desc: `Ganhe a ${s}ª estrela de prestígio no tier ${tier} (ativação ${n} no total: atingir nível ${PRESTIGIO_NIVEL_MINIMO} e confirmar o reset de XP).`,
     categoria: 'prestigio',
+    secao: 'especial',
   }
 }
 

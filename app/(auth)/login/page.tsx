@@ -198,10 +198,15 @@ function LoginForm() {
           </Button>
         </form>
 
-        <p className="text-center text-white/30 text-sm pb-16">
+        <p className="text-center text-white/30 text-sm">
           Não tem conta?{' '}
           <Link href="/register" className="text-[#a78bfa] hover:underline">
             Criar conta grátis
+          </Link>
+        </p>
+        <p className="text-center text-white/25 text-xs pb-16 pt-2">
+          <Link href="/privacidade" className="hover:text-white/40 underline underline-offset-2">
+            Política de privacidade
           </Link>
         </p>
       </div>

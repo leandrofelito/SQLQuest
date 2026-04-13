@@ -54,7 +54,8 @@
     "reflexaoCurta": "El texto está por debajo del mínimo de caracteres.",
     "quizIncorreto": "Respuesta incorrecta. Inténtalo de nuevo o pide una pista.",
     "dicaReveladaTitulo": "Pista",
-    "dicaEtapaAusente": "Esta etapa aún no tiene pista configurada."
+    "dicaEtapaAusente": "Esta etapa aún no tiene pista configurada.",
+    "publicidade": "Publicidad"
   },
   "intro": {
     "continuar": "Toca para Continuar"
@@ -121,6 +122,12 @@
     "conquistasFiltroBloqueadas": "Bloqueados",
     "conquistasVazioDesbloqueadas": "Aún no hay logros. Completa pasos y ejercicios para desbloquear los primeros.",
     "conquistasVazioBloqueadas": "Has desbloqueado todos los logros de esta lista.",
+    "conquistasMostrarMais": "Mostrar más ({{n}} restantes)",
+    "conquistasSecaoIniciante": "Principiante",
+    "conquistasSecaoIntermediario": "Intermedio",
+    "conquistasSecaoAvancado": "Avanzado",
+    "conquistasSecaoEspecial": "Especial",
+    "conquistasPrestigioToggle": "Estrellas de prestigio · {{desbloqueadas}}/{{total}}",
     "rankingGlobal": "Ranking Global",
     "mundoDo": "del mundo",
     "comoDesbloquear": "Cómo desbloquear",
