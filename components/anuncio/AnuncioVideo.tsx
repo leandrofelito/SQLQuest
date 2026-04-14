@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getAdsenseClientId, hasAdsenseModalUnit } from '@/lib/adsense-config'
+import { useNativeAdHost } from '@/hooks/useNativeAdHost'
 
 export type AdType = 'rewarded' | 'interstitial'
 
@@ -15,11 +16,6 @@ interface AnuncioVideoProps {
   adType?: AdType // 'rewarded' (dica/trilha) | 'interstitial' (frequência)
 }
 
-// Detecta se está rodando dentro do app Flutter (WebView com AdMobBridge)
-function isFlutterApp(): boolean {
-  return typeof window !== 'undefined' && !!(window as any).AdMobBridge
-}
-
 // Timer inicial: rewarded=30s, interstitial=15s
 const TIMER_INICIAL: Record<AdType, number> = { rewarded: 30, interstitial: 15 }
 
@@ -28,9 +24,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   const [adFailed, setAdFailed] = useState(false)
   const [flutterAdState, setFlutterAdState] = useState<'loading' | 'showing' | 'done'>('loading')
   const [confirmandoSaida, setConfirmandoSaida] = useState(false)
+  const nativeHost = useNativeAdHost()
   const pushed = useRef(false)
   const adRef = useRef<HTMLModElement>(null)
-  const flutter = useRef(isFlutterApp())
   // Ref para sempre chamar a versão mais recente do callback sem reiniciar o efeito
   const onConcluidoRef = useRef(onConcluido)
   const onFecharRef = useRef(onFechar)
@@ -56,8 +52,12 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       return
     }
 
+    if (nativeHost === 'pending') {
+      return
+    }
+
     // --- Modo Flutter: AdMob nativo via JavascriptChannel ---
-    if (flutter.current) {
+    if (nativeHost === 'native') {
       flutterHostReleasedRef.current = false
       const expectedRequestId =
         adType === 'rewarded'
@@ -165,8 +165,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       clearTimeout(timer)
       clearInterval(interval)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPro])
+  }, [isPro, adType, nativeHost])
 
   if (isPro) return null
 
@@ -219,20 +218,35 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
     </AnimatePresence>
   )
 
+  if (nativeHost === 'pending') {
+    return (
+      <motion.div
+        className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
+        <p className="text-white/50 text-sm text-center">Carregando anúncio…</p>
+        {label ? <p className="text-white/30 text-xs text-center">{label}</p> : null}
+      </motion.div>
+    )
+  }
+
   // --- UI Flutter ---
   // Sem botão X sobre o WebView: o fechamento é pelo próprio anúncio nativo;
   // um X em cima confundia com o anúncio e, ao fechar o vídeo, o callback
   // `dismissed` já trata saída sem prêmio.
-  if (flutter.current) {
+  if (nativeHost === 'native') {
     if (flutterAdState === 'loading' || flutterAdState === 'showing') {
       return (
         <motion.div
-          className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6"
+          className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
           <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
-          <p className="text-white/50 text-sm">Carregando anúncio…</p>
+          <p className="text-white/50 text-sm text-center">Carregando anúncio…</p>
+          {label ? <p className="text-white/30 text-xs text-center">{label}</p> : null}
         </motion.div>
       )
     }

@@ -2,16 +2,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
+import { useNativeAdHost } from '@/hooks/useNativeAdHost'
 import {
   getAdsenseClientId,
   getAdsenseBannerSlotId,
   hasAdsenseBannerUnit,
   type AdBannerPlacement,
 } from '@/lib/adsense-config'
-
-function isFlutterApp(): boolean {
-  return typeof window !== 'undefined' && !!(window as any).AdMobBridge
-}
 
 interface AdBannerProps {
   /** Web: slot dedicado no modal de estrelas (opcional; fallback = banner padrão). */
@@ -25,13 +22,14 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
   const { messages } = useLocale()
   const ref = useRef<HTMLDivElement>(null)
   const pushed = useRef(false)
-  const flutter = useRef(isFlutterApp())
+  const nativeHost = useNativeAdHost()
   const [bannerNativeFailed, setBannerNativeFailed] = useState(false)
 
   useEffect(() => {
     if (isPro) return
+    if (nativeHost === 'pending') return
 
-    if (flutter.current) {
+    if (nativeHost === 'native') {
       setBannerNativeFailed(false)
       const onResult = (result: string) => {
         if (result === 'failed') setBannerNativeFailed(true)
@@ -58,12 +56,25 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
     try {
       ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
     } catch {}
-  }, [isPro, placement])
+  }, [isPro, placement, nativeHost])
 
   if (isPro) return null
 
+  if (nativeHost === 'pending') {
+    return (
+      <div className="flex flex-col items-center gap-1" aria-hidden="true">
+        {showLabel && (
+          <span className="text-[10px] uppercase tracking-wider text-white/30">
+            {messages.exercicio.publicidade}
+          </span>
+        )}
+        <div style={{ height: 50 }} />
+      </div>
+    )
+  }
+
   // Flutter: banner é renderizado nativamente, exibe espaço reservado
-  if (flutter.current) {
+  if (nativeHost === 'native') {
     if (bannerNativeFailed) return null
     return (
       <div className="flex flex-col items-center gap-1">
