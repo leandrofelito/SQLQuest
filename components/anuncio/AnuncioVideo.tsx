@@ -95,7 +95,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
         } catch {
           // Legado: result é a string 'completed' | 'dismissed' | 'failed'
         }
-        if (expectedRequestId !== null && msgRequestId !== expectedRequestId) {
+        // Algumas bridges legadas retornam status sem requestId.
+        // Nesse caso, aceitamos o callback para evitar travar o fluxo de recompensa.
+        if (expectedRequestId !== null && msgRequestId && msgRequestId !== expectedRequestId) {
           return
         }
 
@@ -173,7 +175,6 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       setTempo(t => {
         if (t <= 1) {
           clearInterval(interval)
-          resolveOnce('completed')
           return 0
         }
         return t - 1
@@ -338,9 +339,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
           <button
             type="button"
             onClick={tentarFechar}
-            className="w-full text-center text-xs text-white/35 hover:text-white/50 underline underline-offset-2 py-1"
+            className="w-full py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-white/70 hover:bg-white/10 transition-colors"
           >
-            Sair sem assistir
+            {adType === 'rewarded' ? 'Fechar anúncio e continuar' : 'Fechar anúncio'}
           </button>
         )}
       </div>
