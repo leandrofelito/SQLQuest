@@ -99,7 +99,12 @@
           "Limitar a quantidade total de registros retornados pelo servidor."
         ],
         "indiceCorreto": 1,
-        "dica": "Pense no WHERE como uma peneira que deixa passar apenas o que você quer."
+        "dica": "Pense no WHERE como uma peneira que deixa passar apenas o que você quer.",
+        "dicas": [
+          "Pense no WHERE como uma peneira que deixa passar apenas o que você quer.",
+          "Pense no WHERE como uma peneira que deixa passar apenas o que você quer. Compare com o que o enunciado pede.",
+          "Pense no WHERE como uma peneira que deixa passar apenas o que você quer. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -115,7 +120,12 @@
               "Limit the total amount of records returned by the server."
             ],
             "indiceCorreto": 1,
-            "dica": "Think of WHERE as a sieve that only lets through what you want."
+            "dica": "Think of WHERE as a sieve that only lets through what you want.",
+            "dicas": [
+              "Think of WHERE as a sieve that only lets through what you want.",
+              "Think of WHERE as a sieve that only lets through what you want. Compare com o que o enunciado pede.",
+              "Think of WHERE as a sieve that only lets through what you want. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -131,7 +141,12 @@
               "Limitar la cantidad total de registros devueltos por el servidor."
             ],
             "indiceCorreto": 1,
-            "dica": "Piensa en el WHERE como un tamiz que solo deja pasar lo que quieres."
+            "dica": "Piensa en el WHERE como un tamiz que solo deja pasar lo que quieres.",
+            "dicas": [
+              "Piensa en el WHERE como un tamiz que solo deja pasar lo que quieres.",
+              "Piensa en el WHERE como un tamiz que solo deja pasar lo que quieres. Compare com o que o enunciado pede.",
+              "Piensa en el WHERE como un tamiz que solo deja pasar lo que quieres. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -148,7 +163,12 @@
         "instrucao": "Sobre a sintaxe de filtragem de strings:",
         "afirmacao": "Para filtrar um valor de texto no WHERE, como o nome de um planeta, devemos obrigatoriamente envolver o valor entre aspas simples (' ').",
         "respostaCorreta": true,
-        "dica": "Sem as aspas, o PostgreSQL tentará interpretar o texto como se fosse o nome de outra coluna, gerando erro."
+        "dica": "Sem as aspas, o PostgreSQL tentará interpretar o texto como se fosse o nome de outra coluna, gerando erro.",
+        "dicas": [
+          "o PostgreSQL tentará interpretar o texto como se fosse o nome de outra coluna",
+          "gerando erro.",
+          "Sem as aspas, o PostgreSQL tentará interpretar o texto como se fosse o nome de outra coluna, gerando erro."
+        ]
       },
       "traducoes": {
         "en": {
@@ -159,7 +179,12 @@
             "instrucao": "Regarding string filtering syntax:",
             "afirmacao": "To filter a text value in the WHERE clause, such as the name of a planet, we must wrap the value in single quotes (' ').",
             "respostaCorreta": true,
-            "dica": "Without quotes, PostgreSQL will try to interpret the text as if it were the name of another column, causing an error."
+            "dica": "Without quotes, PostgreSQL will try to interpret the text as if it were the name of another column, causing an error.",
+            "dicas": [
+              "Without quotes",
+              "PostgreSQL will try to interpret the text as if it were the name of another column",
+              "causing an error."
+            ]
           }
         },
         "es": {
@@ -170,7 +195,12 @@
             "instrucao": "Sobre la sintaxis de filtrado de cadenas:",
             "afirmacao": "Para filtrar un valor de texto en el WHERE, como el nombre de un planeta, debemos obligatoriamente envolver el valor entre comillas simples (' ').",
             "respostaCorreta": true,
-            "dica": "Sin las comillas, PostgreSQL intentará interpretar el texto como si fuera el nombre de otra columna, generando un error."
+            "dica": "Sin las comillas, PostgreSQL intentará interpretar el texto como si fuera el nombre de otra columna, generando un error.",
+            "dicas": [
+              "Sin las comillas",
+              "PostgreSQL intentará interpretar el texto como si fuera el nombre de otra columna",
+              "generando un error."
+            ]
           }
         }
       }
@@ -196,7 +226,12 @@
           "min_rows": 2
         },
         "dica": "Use o asterisco (*) para todas as colunas e lembre-se das aspas simples para o valor 'Temperado' no WHERE.",
-        "explicacaoTecnica": "O PostgreSQL realiza uma varredura (Scan) na tabela e compara o valor da coluna 'clima' de cada linha com a string fornecida, retornando apenas os sucessos."
+        "explicacaoTecnica": "O PostgreSQL realiza uma varredura (Scan) na tabela e compara o valor da coluna 'clima' de cada linha com a string fornecida, retornando apenas os sucessos.",
+        "dicas": [
+          "Use o asterisco (*) para todas as colunas e lembre-se das aspas simples para o valor 'Temperado' no WHERE.",
+          "Use o asterisco (*) para todas as colunas e lembre-se das aspas simples para o valor 'Temperado' no WHERE. Compare com o que o enunciado pede.",
+          "Use o asterisco (*) para todas as colunas e lembre-se das aspas simples para o valor 'Temperado' no WHERE. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -205,7 +240,12 @@
             "instrucao": "Select all columns from the planets table where the climate is exactly equal to 'Temperado'.",
             "placeholder": "SELECT * FROM ...",
             "dica": "Use the asterisk (*) for all columns and remember the single quotes for the 'Temperado' value in the WHERE clause.",
-            "explicacaoTecnica": "PostgreSQL performs a scan on the table and compares the value of the 'clima' column of each row with the provided string, returning only the matches."
+            "explicacaoTecnica": "PostgreSQL performs a scan on the table and compares the value of the 'clima' column of each row with the provided string, returning only the matches.",
+            "dicas": [
+              "Use the asterisk (*) for all columns and remember the single quotes for the 'Temperado' value in the WHERE clause.",
+              "Use the asterisk (*) for all columns and remember the single quotes for the 'Temperado' value in the WHERE clause. Compare com o que o enunciado pede.",
+              "Use the asterisk (*) for all columns and remember the single quotes for the 'Temperado' value in the WHERE clause. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -214,7 +254,12 @@
             "instrucao": "Selecciona todas las columnas de la tabla planetas donde el clima sea exactamente igual a 'Temperado'.",
             "placeholder": "SELECT * FROM ...",
             "dica": "Usa el asterisco (*) para todas las columnas y recuerda las comillas simples para el valor 'Temperado' en el WHERE.",
-            "explicacaoTecnica": "PostgreSQL realiza un escaneo en la tabla y compara el valor de la columna 'clima' de cada fila con la cadena proporcionada, devolviendo solo las coincidencias."
+            "explicacaoTecnica": "PostgreSQL realiza un escaneo en la tabla y compara el valor de la columna 'clima' de cada fila con la cadena proporcionada, devolviendo solo las coincidencias.",
+            "dicas": [
+              "Usa el asterisco (*) para todas las columnas y recuerda las comillas simples para el valor 'Temperado' en el WHERE.",
+              "Usa el asterisco (*) para todas las columnas y recuerda las comillas simples para el valor 'Temperado' en el WHERE. Compare com o que o enunciado pede.",
+              "Usa el asterisco (*) para todas las columnas y recuerda las comillas simples para el valor 'Temperado' en el WHERE. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -302,7 +347,12 @@
           "<>"
         ],
         "indiceCorreto": 2,
-        "dica": "Você quer valores maiores E também os valores que sejam exatamente iguais."
+        "dica": "Você quer valores maiores E também os valores que sejam exatamente iguais.",
+        "dicas": [
+          "Você quer valores maiores E também os valores que sejam exatamente iguais.",
+          "Você quer valores maiores E também os valores que sejam exatamente iguais. Compare com o que o enunciado pede.",
+          "Você quer valores maiores E também os valores que sejam exatamente iguais. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -318,7 +368,12 @@
               "<>"
             ],
             "indiceCorreto": 2,
-            "dica": "You want values that are greater AND also values that are exactly equal."
+            "dica": "You want values that are greater AND also values that are exactly equal.",
+            "dicas": [
+              "You want values that are greater AND also values that are exactly equal.",
+              "You want values that are greater AND also values that are exactly equal. Compare com o que o enunciado pede.",
+              "You want values that are greater AND also values that are exactly equal. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -334,7 +389,12 @@
               "<>"
             ],
             "indiceCorreto": 2,
-            "dica": "Quieres valores mayores Y también los valores que sean exactamente iguales."
+            "dica": "Quieres valores mayores Y también los valores que sean exactamente iguales.",
+            "dicas": [
+              "Quieres valores mayores Y también los valores que sean exactamente iguales.",
+              "Quieres valores mayores Y también los valores que sean exactamente iguales. Compare com o que o enunciado pede.",
+              "Quieres valores mayores Y también los valores que sean exactamente iguales. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -351,7 +411,12 @@
         "instrucao": "Analise a sintaxe correta para o padrão PostgreSQL:",
         "afirmacao": "Ao filtrar uma coluna numérica como o ID, a query WHERE id = '1' (com aspas simples) é a forma tecnicamente correta de representar a comparação no padrão SQL profissional.",
         "respostaCorreta": false,
-        "dica": "Aspas simples transformam o dado em texto (string). Números devem ser digitados sem elas."
+        "dica": "Aspas simples transformam o dado em texto (string). Números devem ser digitados sem elas.",
+        "dicas": [
+          "Aspas simples transformam o dado em texto (string).",
+          "Números devem ser digitados sem elas.",
+          "Números devem ser digitados sem elas."
+        ]
       },
       "traducoes": {
         "en": {
@@ -362,7 +427,12 @@
             "instrucao": "Analyze the correct syntax for the PostgreSQL standard:",
             "afirmacao": "When filtering a numeric column like ID, the query WHERE id = '1' (with single quotes) is the technically correct way to represent the comparison in professional SQL standard.",
             "respostaCorreta": false,
-            "dica": "Single quotes turn the data into text (string). Numbers should be typed without them."
+            "dica": "Single quotes turn the data into text (string). Numbers should be typed without them.",
+            "dicas": [
+              "Single quotes turn the data into text (string).",
+              "Numbers should be typed without them.",
+              "Numbers should be typed without them."
+            ]
           }
         },
         "es": {
@@ -373,7 +443,12 @@
             "instrucao": "Analiza la sintaxis correcta para el estándar PostgreSQL:",
             "afirmacao": "Al filtrar una columna numérica como el ID, la consulta WHERE id = '1' (con comillas simples) es la forma técnicamente correcta de representar la comparación en el estándar SQL profesional.",
             "respostaCorreta": false,
-            "dica": "Las comillas simples transforman el dato en texto (string). Los números deben escribirse sin ellas."
+            "dica": "Las comillas simples transforman el dato en texto (string). Los números deben escribirse sin ellas.",
+            "dicas": [
+              "Las comillas simples transforman el dato en texto (string).",
+              "Los números deben escribirse sin ellas.",
+              "Los números deben escribirse sin ellas."
+            ]
           }
         }
       }
@@ -397,7 +472,12 @@
           "min_rows": 2
         },
         "dica": "Sua cláusula WHERE deve comparar a coluna 'id' com o número 2 usando o sinal de maior ( > ) sem aspas.",
-        "explicacaoTecnica": "O PostgreSQL utiliza índices B-Tree (se existentes) para localizar rapidamente registros que atendam a critérios de magnitude, evitando a leitura de toda a tabela."
+        "explicacaoTecnica": "O PostgreSQL utiliza índices B-Tree (se existentes) para localizar rapidamente registros que atendam a critérios de magnitude, evitando a leitura de toda a tabela.",
+        "dicas": [
+          "Sua cláusula WHERE deve comparar a coluna 'id' com o número 2 usando o sinal de maior ( > ) sem aspas.",
+          "Sua cláusula WHERE deve comparar a coluna 'id' com o número 2 usando o sinal de maior ( > ) sem aspas. Compare com o que o enunciado pede.",
+          "Sua cláusula WHERE deve comparar a coluna 'id' com o número 2 usando o sinal de maior ( > ) sem aspas. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -406,7 +486,12 @@
             "instrucao": "Select the name of all planets whose id is strictly greater than 2.",
             "placeholder": "SELECT ... FROM ... WHERE ...",
             "dica": "Your WHERE clause should compare the 'id' column with the number 2 using the greater-than sign ( > ) without quotes.",
-            "explicacaoTecnica": "PostgreSQL uses B-Tree indexes (if they exist) to quickly locate records that meet magnitude criteria, avoiding a full table scan."
+            "explicacaoTecnica": "PostgreSQL uses B-Tree indexes (if they exist) to quickly locate records that meet magnitude criteria, avoiding a full table scan.",
+            "dicas": [
+              "Your WHERE clause should compare the 'id' column with the number 2 using the greater-than sign ( > ) without quotes.",
+              "Your WHERE clause should compare the 'id' column with the number 2 using the greater-than sign ( > ) without quotes. Compare com o que o enunciado pede.",
+              "Your WHERE clause should compare the 'id' column with the number 2 using the greater-than sign ( > ) without quotes. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -415,7 +500,12 @@
             "instrucao": "Selecciona el nombre de todos los planetas cuyo id sea estrictamente mayor que 2.",
             "placeholder": "SELECT ... FROM ... WHERE ...",
             "dica": "Tu cláusula WHERE debe comparar la columna 'id' con el número 2 usando el signo de mayor ( > ) sin comillas.",
-            "explicacaoTecnica": "PostgreSQL utiliza índices B-Tree (si existen) para localizar rápidamente registros que cumplan con los criterios de magnitud, evitando la lectura de toda la tabla."
+            "explicacaoTecnica": "PostgreSQL utiliza índices B-Tree (si existen) para localizar rápidamente registros que cumplan con los criterios de magnitud, evitando la lectura de toda la tabla.",
+            "dicas": [
+              "Tu cláusula WHERE debe comparar la columna 'id' con el número 2 usando el signo de mayor ( > ) sin comillas.",
+              "Tu cláusula WHERE debe comparar la columna 'id' con el número 2 usando el signo de mayor ( > ) sin comillas. Compare com o que o enunciado pede.",
+              "Tu cláusula WHERE debe comparar la columna 'id' con el número 2 usando el signo de mayor ( > ) sin comillas. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -503,7 +593,12 @@
           "Nenhum planeta, pois o ID e o clima não podem ser filtrados juntos."
         ],
         "indiceCorreto": 1,
-        "dica": "O operador AND exige que a linha passe por todos os testes para ser exibida."
+        "dica": "O operador AND exige que a linha passe por todos os testes para ser exibida.",
+        "dicas": [
+          "O operador AND exige que a linha passe por todos os testes para ser exibida.",
+          "O operador AND exige que a linha passe por todos os testes para ser exibida. Compare com o que o enunciado pede.",
+          "O operador AND exige que a linha passe por todos os testes para ser exibida. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -519,7 +614,12 @@
               "No planets, as ID and climate cannot be filtered together."
             ],
             "indiceCorreto": 1,
-            "dica": "The AND operator requires the row to pass all tests to be displayed."
+            "dica": "The AND operator requires the row to pass all tests to be displayed.",
+            "dicas": [
+              "The AND operator requires the row to pass all tests to be displayed.",
+              "The AND operator requires the row to pass all tests to be displayed. Compare com o que o enunciado pede.",
+              "The AND operator requires the row to pass all tests to be displayed. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -535,7 +635,12 @@
               "Ningún planeta, ya que el ID y el clima no se pueden filtrar juntos."
             ],
             "indiceCorreto": 1,
-            "dica": "El operador AND exige que la fila pase todas las pruebas para ser mostrada."
+            "dica": "El operador AND exige que la fila pase todas las pruebas para ser mostrada.",
+            "dicas": [
+              "El operador AND exige que la fila pase todas las pruebas para ser mostrada.",
+              "El operador AND exige que la fila pase todas las pruebas para ser mostrada. Compare com o que o enunciado pede.",
+              "El operador AND exige que la fila pase todas las pruebas para ser mostrada. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -552,7 +657,12 @@
         "instrucao": "Analise a lógica do operador OR:",
         "afirmacao": "O operador OR exige que todas as condições listadas na query sejam obrigatoriamente verdadeiras para que a linha apareça no resultado final.",
         "respostaCorreta": false,
-        "dica": "O OR é satisfeito se apenas uma parte da condição for verdadeira."
+        "dica": "O OR é satisfeito se apenas uma parte da condição for verdadeira.",
+        "dicas": [
+          "O OR é satisfeito se apenas uma parte da condição for verdadeira.",
+          "O OR é satisfeito se apenas uma parte da condição for verdadeira. Compare com o que o enunciado pede.",
+          "O OR é satisfeito se apenas uma parte da condição for verdadeira. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -563,7 +673,12 @@
             "instrucao": "Analyze the logic of the OR operator:",
             "afirmacao": "The OR operator requires that all conditions listed in the query must be true for the row to appear in the final result.",
             "respostaCorreta": false,
-            "dica": "OR is satisfied if only one part of the condition is true."
+            "dica": "OR is satisfied if only one part of the condition is true.",
+            "dicas": [
+              "OR is satisfied if only one part of the condition is true.",
+              "OR is satisfied if only one part of the condition is true. Compare com o que o enunciado pede.",
+              "OR is satisfied if only one part of the condition is true. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -574,7 +689,12 @@
             "instrucao": "Analiza la lógica del operador OR:",
             "afirmacao": "El operador OR exige que todas las condiciones enumeradas en la consulta sean obligatoriamente verdaderas para que la fila aparezca en el resultado final.",
             "respostaCorreta": false,
-            "dica": "El OR se satisface si solo una parte de la condición es verdadera."
+            "dica": "El OR se satisface si solo una parte de la condición es verdadera.",
+            "dicas": [
+              "El OR se satisface si solo una parte de la condición es verdadera.",
+              "El OR se satisface si solo una parte de la condición es verdadera. Compare com o que o enunciado pede.",
+              "El OR se satisface si solo una parte de la condición es verdadera. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -598,7 +718,12 @@
           "min_rows": 2
         },
         "dica": "Combine as duas condições no WHERE usando a palavra-chave AND entre elas. Lembre-se das aspas para o texto!",
-        "explicacaoTecnica": "O PostgreSQL avalia ambas as expressões booleanas. A linha só é incluída no conjunto de resultados se o resultado da operação (clima = 'Temperado') AND (id > 1) for verdadeiro."
+        "explicacaoTecnica": "O PostgreSQL avalia ambas as expressões booleanas. A linha só é incluída no conjunto de resultados se o resultado da operação (clima = 'Temperado') AND (id > 1) for verdadeiro.",
+        "dicas": [
+          "Combine as duas condições no WHERE usando a palavra-chave AND entre elas.",
+          "Lembre-se das aspas para o texto!",
+          "Lembre-se das aspas para o texto!"
+        ]
       },
       "traducoes": {
         "en": {
@@ -607,7 +732,12 @@
             "instrucao": "Select the name of all planets whose climate is 'Temperado' AND the id is strictly greater than 1.",
             "placeholder": "SELECT ... FROM ... WHERE ...",
             "dica": "Combine the two conditions in the WHERE clause using the AND keyword between them. Remember the quotes for text!",
-            "explicacaoTecnica": "PostgreSQL evaluates both boolean expressions. The row is only included in the result set if the result of (clima = 'Temperado') AND (id > 1) is true."
+            "explicacaoTecnica": "PostgreSQL evaluates both boolean expressions. The row is only included in the result set if the result of (clima = 'Temperado') AND (id > 1) is true.",
+            "dicas": [
+              "Combine the two conditions in the WHERE clause using the AND keyword between them.",
+              "Remember the quotes for text!",
+              "Remember the quotes for text!"
+            ]
           }
         },
         "es": {
@@ -616,7 +746,12 @@
             "instrucao": "Selecciona el nombre de todos los planetas cuyo clima sea 'Temperado' Y el id sea estrictamente mayor que 1.",
             "placeholder": "SELECT ... FROM ... WHERE ...",
             "dica": "Combina las dos condiciones en el WHERE usando la palabra clave AND entre ellas. ¡Recuerda las comillas para el texto!",
-            "explicacaoTecnica": "PostgreSQL evalúa ambas expresiones booleanas. La fila solo se incluye si el resultado de (clima = 'Temperado') AND (id > 1) es verdadero."
+            "explicacaoTecnica": "PostgreSQL evalúa ambas expresiones booleanas. La fila solo se incluye si el resultado de (clima = 'Temperado') AND (id > 1) es verdadero.",
+            "dicas": [
+              "Combina las dos condiciones en el WHERE usando la palabra clave AND entre ellas.",
+              "¡Recuerda las comillas para el texto!",
+              "¡Recuerda las comillas para el texto!"
+            ]
           }
         }
       }
@@ -707,7 +842,12 @@
           "Nomes que possuem a letra A em qualquer posição do texto."
         ],
         "indiceCorreto": 0,
-        "dica": "O símbolo % após a letra diz ao banco: 'Comece com A e aceite qualquer coisa depois'."
+        "dica": "O símbolo % após a letra diz ao banco: 'Comece com A e aceite qualquer coisa depois'.",
+        "dicas": [
+          "O símbolo % após a letra diz ao banco: 'Comece com A e aceite qualquer coisa depois'.",
+          "O símbolo % após a letra diz ao banco: 'Comece com A e aceite qualquer coisa depois'. Compare com o que o enunciado pede.",
+          "O símbolo % após a letra diz ao banco: 'Comece com A e aceite qualquer coisa depois'. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -723,7 +863,12 @@
               "Names that have the letter A in any position of the text."
             ],
             "indiceCorreto": 0,
-            "dica": "The % symbol after the letter tells the database: 'Start with A and accept anything after'."
+            "dica": "The % symbol after the letter tells the database: 'Start with A and accept anything after'.",
+            "dicas": [
+              "The % symbol after the letter tells the database: 'Start with A and accept anything after'.",
+              "The % symbol after the letter tells the database: 'Start with A and accept anything after'. Compare com o que o enunciado pede.",
+              "The % symbol after the letter tells the database: 'Start with A and accept anything after'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -739,7 +884,12 @@
               "Nombres que tienen la letra A en cualquier posición del texto."
             ],
             "indiceCorreto": 0,
-            "dica": "El símbolo % después de la letra le dice a la base: 'Empieza con A y acepta cualquier cosa después'."
+            "dica": "El símbolo % después de la letra le dice a la base: 'Empieza con A y acepta cualquier cosa después'.",
+            "dicas": [
+              "El símbolo % después de la letra le dice a la base: 'Empieza con A y acepta cualquier cosa después'.",
+              "El símbolo % después de la letra le dice a la base: 'Empieza con A y acepta cualquier cosa después'. Compare com o que o enunciado pede.",
+              "El símbolo % después de la letra le dice a la base: 'Empieza con A y acepta cualquier cosa después'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -756,7 +906,12 @@
         "instrucao": "Analise a diferença entre operadores no PostgreSQL:",
         "afirmacao": "No PostgreSQL, o operador ILIKE funciona de forma 'Case Insensitive', ou seja, ele ignora se a letra é maiúscula ou minúscula no momento de realizar a comparação.",
         "respostaCorreta": true,
-        "dica": "Essa é uma exclusividade muito útil do PostgreSQL para facilitar buscas de usuários."
+        "dica": "Essa é uma exclusividade muito útil do PostgreSQL para facilitar buscas de usuários.",
+        "dicas": [
+          "Essa é uma exclusividade muito útil do PostgreSQL para facilitar buscas de usuários.",
+          "Essa é uma exclusividade muito útil do PostgreSQL para facilitar buscas de usuários. Compare com o que o enunciado pede.",
+          "Essa é uma exclusividade muito útil do PostgreSQL para facilitar buscas de usuários. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -767,7 +922,12 @@
             "instrucao": "Analyze the difference between operators in PostgreSQL:",
             "afirmacao": "In PostgreSQL, the ILIKE operator is 'Case Insensitive', meaning it ignores whether letters are uppercase or lowercase during the comparison.",
             "respostaCorreta": true,
-            "dica": "This is a very useful PostgreSQL feature to make user searches easier."
+            "dica": "This is a very useful PostgreSQL feature to make user searches easier.",
+            "dicas": [
+              "This is a very useful PostgreSQL feature to make user searches easier.",
+              "This is a very useful PostgreSQL feature to make user searches easier. Compare com o que o enunciado pede.",
+              "This is a very useful PostgreSQL feature to make user searches easier. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -778,7 +938,12 @@
             "instrucao": "Analiza la diferencia entre operadores en PostgreSQL:",
             "afirmacao": "En PostgreSQL, el operador ILIKE funciona de forma 'Case Insensitive', es decir, ignora si la letra es mayúscula o minúscula al realizar la comparación.",
             "respostaCorreta": true,
-            "dica": "Es una característica muy útil de PostgreSQL para facilitar las búsquedas de los usuarios."
+            "dica": "Es una característica muy útil de PostgreSQL para facilitar las búsquedas de los usuarios.",
+            "dicas": [
+              "Es una característica muy útil de PostgreSQL para facilitar las búsquedas de los usuarios.",
+              "Es una característica muy útil de PostgreSQL para facilitar las búsquedas de los usuarios. Compare com o que o enunciado pede.",
+              "Es una característica muy útil de PostgreSQL para facilitar las búsquedas de los usuarios. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -802,7 +967,12 @@
           "min_rows": 2
         },
         "dica": "Use WHERE nome LIKE 'M%'. Lembre-se que o % deve estar dentro das aspas simples!",
-        "explicacaoTecnica": "O operador LIKE com o curinga '%' no final instrui o PostgreSQL a buscar strings que tenham o prefixo 'M', independente do que venha depois."
+        "explicacaoTecnica": "O operador LIKE com o curinga '%' no final instrui o PostgreSQL a buscar strings que tenham o prefixo 'M', independente do que venha depois.",
+        "dicas": [
+          "Use WHERE nome LIKE 'M%'.",
+          "Lembre-se que o % deve estar dentro das aspas simples!",
+          "Lembre-se que o % deve estar dentro das aspas simples!"
+        ]
       },
       "traducoes": {
         "en": {
@@ -811,7 +981,12 @@
             "instrucao": "Select the name of all planets that start with the letter 'M' (uppercase).",
             "placeholder": "SELECT ... FROM ... WHERE ...",
             "dica": "Use WHERE nome LIKE 'M%'. Remember that the % must be inside the single quotes!",
-            "explicacaoTecnica": "The LIKE operator with the '%' wildcard at the end tells PostgreSQL to match strings that start with 'M', regardless of what follows."
+            "explicacaoTecnica": "The LIKE operator with the '%' wildcard at the end tells PostgreSQL to match strings that start with 'M', regardless of what follows.",
+            "dicas": [
+              "Use WHERE nome LIKE 'M%'.",
+              "Remember that the % must be inside the single quotes!",
+              "Remember that the % must be inside the single quotes!"
+            ]
           }
         },
         "es": {
@@ -820,7 +995,12 @@
             "instrucao": "Selecciona el nombre de todos los planetas que comienzan con la letra 'M' (mayúscula).",
             "placeholder": "SELECT ... FROM ... WHERE ...",
             "dica": "Usa WHERE nome LIKE 'M%'. ¡Recuerda que el % debe estar dentro de las comillas simples!",
-            "explicacaoTecnica": "El operador LIKE con el comodín '%' al final indica a PostgreSQL buscar cadenas con prefijo 'M', sin importar lo que venga después."
+            "explicacaoTecnica": "El operador LIKE con el comodín '%' al final indica a PostgreSQL buscar cadenas con prefijo 'M', sin importar lo que venga después.",
+            "dicas": [
+              "Usa WHERE nome LIKE 'M%'.",
+              "¡Recuerda que el % debe estar dentro de las comillas simples!",
+              "¡Recuerda que el % debe estar dentro de las comillas simples!"
+            ]
           }
         }
       }
@@ -839,21 +1019,36 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Para buscar por padrão de texto, use LIKE.",
+          "O caractere % representa 'qualquer coisa'.",
+          "Se o padrão é o começo do nome, onde você coloca o %?"
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 4 — LIKE",
           "conteudo": {
             "pergunta": "Retrieve all products whose name starts with 'Mo'.",
-            "dica": "To search by text pattern, use LIKE. The % character represents 'anything'. If the pattern is the beginning of the name, where do you place the %? Before or after the text?"
+            "dica": "To search by text pattern, use LIKE. The % character represents 'anything'. If the pattern is the beginning of the name, where do you place the %? Before or after the text?",
+            "dicas": [
+              "To search by text pattern, use LIKE.",
+              "The % character represents 'anything'.",
+              "If the pattern is the beginning of the name, where do you place the %?"
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 4 — LIKE",
           "conteudo": {
             "pergunta": "Busca todos los productos cuyo nombre comienza con 'Mo'.",
-            "dica": "Para buscar por patrón de texto, usa LIKE. El carácter % representa 'cualquier cosa'. Si el patrón es el comienzo del nombre, ¿dónde colocas el %? ¿Antes o después del texto?"
+            "dica": "Para buscar por patrón de texto, usa LIKE. El carácter % representa 'cualquier cosa'. Si el patrón es el comienzo del nombre, ¿dónde colocas el %? ¿Antes o después del texto?",
+            "dicas": [
+              "Para buscar por patrón de texto, usa LIKE.",
+              "El carácter % representa 'cualquier cosa'.",
+              "Si el patrón es el comienzo del nombre, ¿dónde colocas el %?"
+            ]
           }
         }
       }

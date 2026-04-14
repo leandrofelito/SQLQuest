@@ -419,21 +419,36 @@
             "Preco"
           ],
           "min_rows": 6
-        }
+        },
+        "dicas": [
+          "Para ordenar o resultado, use ORDER BY no final da query seguido do nome da coluna.",
+          "Por padrão é crescente.",
+          "Para inverter (maior primeiro), adicione uma palavra-chave após o nome da coluna — qual é ela?"
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 1 — ORDER BY",
           "conteudo": {
             "pergunta": "List all products sorted by price from most expensive to cheapest.",
-            "dica": "To sort the result, use ORDER BY at the end of the query followed by the column name. By default it is ascending. To reverse it (highest first), add a keyword after the column name — what is it?"
+            "dica": "To sort the result, use ORDER BY at the end of the query followed by the column name. By default it is ascending. To reverse it (highest first), add a keyword after the column name — what is it?",
+            "dicas": [
+              "To sort the result, use ORDER BY at the end of the query followed by the column name.",
+              "By default it is ascending.",
+              "To reverse it (highest first), add a keyword after the column name — what is it?"
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 1 — ORDER BY",
           "conteudo": {
             "pergunta": "Lista todos los productos ordenados por precio de mayor a menor.",
-            "dica": "Para ordenar el resultado, usa ORDER BY al final de la query seguido del nombre de la columna. Por defecto es ascendente. Para invertirlo (el mayor primero), agrega una palabra clave después del nombre de la columna — ¿cuál es?"
+            "dica": "Para ordenar el resultado, usa ORDER BY al final de la query seguido del nombre de la columna. Por defecto es ascendente. Para invertirlo (el mayor primero), agrega una palabra clave después del nombre de la columna — ¿cuál es?",
+            "dicas": [
+              "Para ordenar el resultado, usa ORDER BY al final de la query seguido del nombre de la columna.",
+              "Por defecto es ascendente.",
+              "Para invertirlo (el mayor primero), agrega una palabra clave después del nombre de la columna — ¿cuál es?"
+            ]
           }
         }
       }
@@ -452,21 +467,36 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Para os 3 mais caros você precisa de duas coisas: ordenar pelo preço (do maior para o menor) e limitar a quantidade de resultados.",
+          "São duas cláusulas separadas — qual vai primeiro?",
+          "São duas cláusulas separadas — qual vai primeiro?"
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 2 — Top 3 most expensive",
           "conteudo": {
             "pergunta": "Retrieve the 3 most expensive products in the store.",
-            "dica": "For the 3 most expensive you need two things: sort by price (from highest to lowest) and limit the number of results. These are two separate clauses — which one comes first?"
+            "dica": "For the 3 most expensive you need two things: sort by price (from highest to lowest) and limit the number of results. These are two separate clauses — which one comes first?",
+            "dicas": [
+              "For the 3 most expensive you need two things: sort by price (from highest to lowest) and limit the number of results.",
+              "These are two separate clauses — which one comes first?",
+              "These are two separate clauses — which one comes first?"
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 2 — Top 3 más caros",
           "conteudo": {
             "pergunta": "Busca los 3 productos más caros de la tienda.",
-            "dica": "Para los 3 más caros necesitas dos cosas: ordenar por precio (de mayor a menor) y limitar la cantidad de resultados. Son dos cláusulas separadas — ¿cuál va primero?"
+            "dica": "Para los 3 más caros necesitas dos cosas: ordenar por precio (de mayor a menor) y limitar la cantidad de resultados. Son dos cláusulas separadas — ¿cuál va primero?",
+            "dicas": [
+              "Para los 3 más caros necesitas dos cosas: ordenar por precio (de mayor a menor) y limitar la cantidad de resultados.",
+              "Son dos cláusulas separadas — ¿cuál va primero?",
+              "Son dos cláusulas separadas — ¿cuál va primero?"
+            ]
           }
         }
       }
@@ -490,21 +520,36 @@
             "Salario"
           ],
           "min_rows": 7
-        }
+        },
+        "dicas": [
+          "Você pode ordenar por mais de uma coluna separando-as com vírgula após ORDER BY.",
+          "Cada coluna pode ter sua própria direção.",
+          "Qual é o critério principal e qual é o desempate?"
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 3 — Multiple sort",
           "conteudo": {
             "pergunta": "List employees sorted by department (A→Z) and, within the same department, by highest salary first.",
-            "dica": "You can sort by more than one column by separating them with commas after ORDER BY. Each column can have its own direction. What is the primary criterion and what is the tiebreaker?"
+            "dica": "You can sort by more than one column by separating them with commas after ORDER BY. Each column can have its own direction. What is the primary criterion and what is the tiebreaker?",
+            "dicas": [
+              "You can sort by more than one column by separating them with commas after ORDER BY.",
+              "Each column can have its own direction.",
+              "What is the primary criterion and what is the tiebreaker?"
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 3 — Ordenación múltiple",
           "conteudo": {
             "pergunta": "Lista los empleados ordenados por departamento (A→Z) y, dentro del mismo departamento, por el salario más alto primero.",
-            "dica": "Puedes ordenar por más de una columna separándolas con coma después de ORDER BY. Cada columna puede tener su propia dirección. ¿Cuál es el criterio principal y cuál es el desempate?"
+            "dica": "Puedes ordenar por más de una columna separándolas con coma después de ORDER BY. Cada columna puede tener su propia dirección. ¿Cuál es el criterio principal y cuál es el desempate?",
+            "dicas": [
+              "Puedes ordenar por más de una columna separándolas con coma después de ORDER BY.",
+              "Cada columna puede tener su propia dirección.",
+              "¿Cuál es el criterio principal y cuál es el desempate?"
+            ]
           }
         }
       }

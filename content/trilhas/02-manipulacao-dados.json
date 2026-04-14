@@ -99,7 +99,12 @@
           "FROM tabela;"
         ],
         "indiceCorreto": 1,
-        "dica": "No SQL, primeiro você decide «o quê» quer ver e depois diz «de onde» está."
+        "dica": "No SQL, primeiro você decide «o quê» quer ver e depois diz «de onde» está.",
+        "dicas": [
+          "No SQL, primeiro você decide «o quê» quer ver e depois diz «de onde» está.",
+          "No SQL, primeiro você decide «o quê» quer ver e depois diz «de onde» está. Compare com o que o enunciado pede.",
+          "No SQL, primeiro você decide «o quê» quer ver e depois diz «de onde» está. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -115,7 +120,12 @@
               "FROM table;"
             ],
             "indiceCorreto": 1,
-            "dica": "In SQL, first you decide «what» you want to see, then you say «where» it lives."
+            "dica": "In SQL, first you decide «what» you want to see, then you say «where» it lives.",
+            "dicas": [
+              "first you decide «what» you want to see",
+              "then you say «where» it lives.",
+              "In SQL, first you decide «what» you want to see, then you say «where» it lives."
+            ]
           }
         },
         "es": {
@@ -131,7 +141,12 @@
               "FROM tabla;"
             ],
             "indiceCorreto": 1,
-            "dica": "En SQL, primero decides «qué» quieres ver y luego dices «dónde» está."
+            "dica": "En SQL, primero decides «qué» quieres ver y luego dices «dónde» está.",
+            "dicas": [
+              "En SQL, primero decides «qué» quieres ver y luego dices «dónde» está.",
+              "En SQL, primero decides «qué» quieres ver y luego dices «dónde» está. Compare com o que o enunciado pede.",
+              "En SQL, primero decides «qué» quieres ver y luego dices «dónde» está. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -148,7 +163,12 @@
         "instrucao": "Sobre a pontuação no PostgreSQL:",
         "afirmacao": "O ponto e vírgula (;) é estritamente opcional no PostgreSQL, mesmo quando estamos separando múltiplas instruções em um mesmo comando ou script.",
         "respostaCorreta": false,
-        "dica": "Embora em uma única consulta isolada alguns clientes aceitem omitir o ;, para várias instruções o terminador é essencial — e é boa prática usá-lo sempre."
+        "dica": "Embora em uma única consulta isolada alguns clientes aceitem omitir o ;, para várias instruções o terminador é essencial — e é boa prática usá-lo sempre.",
+        "dicas": [
+          "Embora em uma única consulta isolada alguns clientes aceitem omitir o ;",
+          "para várias instruções o terminador é essencial — e é boa prática usá-lo sempre.",
+          "Embora em uma única consulta isolada alguns clientes aceitem omitir o ;, para várias instruções o terminador é essencial — e é boa prática usá-lo sempre."
+        ]
       },
       "traducoes": {
         "en": {
@@ -159,7 +179,12 @@
             "instrucao": "About punctuation in PostgreSQL:",
             "afirmacao": "The semicolon (;) is strictly optional in PostgreSQL, even when separating multiple statements in the same script.",
             "respostaCorreta": false,
-            "dica": "Some clients allow omitting ; on a single statement, but for multiple statements the terminator is required — and using it always is best practice."
+            "dica": "Some clients allow omitting ; on a single statement, but for multiple statements the terminator is required — and using it always is best practice.",
+            "dicas": [
+              "Some clients allow omitting ; on a single statement",
+              "but for multiple statements the terminator is required — and using it always is best practice.",
+              "Some clients allow omitting ; on a single statement, but for multiple statements the terminator is required — and using it always is best practice."
+            ]
           }
         },
         "es": {
@@ -170,7 +195,12 @@
             "instrucao": "Sobre la puntuación en PostgreSQL:",
             "afirmacao": "El punto y coma (;) es estrictamente opcional en PostgreSQL, incluso al separar varias instrucciones en el mismo script.",
             "respostaCorreta": false,
-            "dica": "A veces se omite en una sola consulta, pero con varias instrucciones el terminador es necesario — y usarlo siempre es buena práctica."
+            "dica": "A veces se omite en una sola consulta, pero con varias instrucciones el terminador es necesario — y usarlo siempre es buena práctica.",
+            "dicas": [
+              "A veces se omite en una sola consulta",
+              "pero con varias instrucciones el terminador es necesario — y usarlo siempre es buena práctica.",
+              "A veces se omite en una sola consulta, pero con varias instrucciones el terminador es necesario — y usarlo siempre es buena práctica."
+            ]
           }
         }
       }
@@ -188,11 +218,20 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["id", "nome", "clima"],
+          "required_columns": [
+            "id",
+            "nome",
+            "clima"
+          ],
           "min_rows": 3
         },
         "dica": "Use o asterisco (*) para trazer tudo e não esqueça do FROM.",
-        "explicacaoTecnica": "O asterisco (*) pede ao PostgreSQL todas as colunas definidas no schema da tabela planetas."
+        "explicacaoTecnica": "O asterisco (*) pede ao PostgreSQL todas as colunas definidas no schema da tabela planetas.",
+        "dicas": [
+          "Use o asterisco (*) para trazer tudo e não esqueça do FROM.",
+          "Use o asterisco (*) para trazer tudo e não esqueça do FROM. Compare com o que o enunciado pede.",
+          "Use o asterisco (*) para trazer tudo e não esqueça do FROM. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -201,7 +240,12 @@
             "instrucao": "Select all columns from the planetas table.",
             "placeholder": "-- Write your query here",
             "dica": "Use the asterisk (*) to select all columns, and don't forget FROM.",
-            "explicacaoTecnica": "The asterisk (*) asks PostgreSQL for every column defined in the planetas table schema."
+            "explicacaoTecnica": "The asterisk (*) asks PostgreSQL for every column defined in the planetas table schema.",
+            "dicas": [
+              "Use the asterisk (*) to select all columns",
+              "and don't forget FROM.",
+              "Use the asterisk (*) to select all columns, and don't forget FROM."
+            ]
           }
         },
         "es": {
@@ -210,7 +254,12 @@
             "instrucao": "Selecciona todas las columnas de la tabla planetas.",
             "placeholder": "-- Escribe tu consulta aquí",
             "dica": "Usa el asterisco (*) para traer todas las columnas y no olvides el FROM.",
-            "explicacaoTecnica": "El asterisco (*) pide a PostgreSQL todas las columnas definidas en el esquema de la tabla planetas."
+            "explicacaoTecnica": "El asterisco (*) pide a PostgreSQL todas las columnas definidas en el esquema de la tabla planetas.",
+            "dicas": [
+              "Usa el asterisco (*) para traer todas las columnas y no olvides el FROM.",
+              "Usa el asterisco (*) para traer todas las columnas y no olvides el FROM. Compare com o que o enunciado pede.",
+              "Usa el asterisco (*) para traer todas las columnas y no olvides el FROM. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -298,7 +347,12 @@
           "FROM planetas SELECT nome, clima;"
         ],
         "indiceCorreto": 1,
-        "dica": "Use a vírgula para separar os atributos; o FROM indica a tabela."
+        "dica": "Use a vírgula para separar os atributos; o FROM indica a tabela.",
+        "dicas": [
+          "Use a vírgula para separar os atributos; o FROM indica a tabela.",
+          "Use a vírgula para separar os atributos; o FROM indica a tabela. Compare com o que o enunciado pede.",
+          "Use a vírgula para separar os atributos; o FROM indica a tabela. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -314,7 +368,12 @@
               "FROM planetas SELECT nome, clima;"
             ],
             "indiceCorreto": 1,
-            "dica": "Use a comma between attributes; FROM names the table."
+            "dica": "Use a comma between attributes; FROM names the table.",
+            "dicas": [
+              "Use a comma between attributes; FROM names the table.",
+              "Use a comma between attributes; FROM names the table. Compare com o que o enunciado pede.",
+              "Use a comma between attributes; FROM names the table. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -330,7 +389,12 @@
               "FROM planetas SELECT nome, clima;"
             ],
             "indiceCorreto": 1,
-            "dica": "Usa la coma entre atributos; FROM indica la tabla."
+            "dica": "Usa la coma entre atributos; FROM indica la tabla.",
+            "dicas": [
+              "Usa la coma entre atributos; FROM indica la tabla.",
+              "Usa la coma entre atributos; FROM indica la tabla. Compare com o que o enunciado pede.",
+              "Usa la coma entre atributos; FROM indica la tabla. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -347,7 +411,12 @@
         "instrucao": "Sobre a exibição do resultado:",
         "afirmacao": "A ordem das colunas no resultado final será sempre a mesma ordem em que a tabela foi criada, independentemente de como eu as listo no SELECT.",
         "respostaCorreta": false,
-        "dica": "Você reorganiza a visão na saída só mudando a ordem das colunas no SELECT — a tabela física não muda."
+        "dica": "Você reorganiza a visão na saída só mudando a ordem das colunas no SELECT — a tabela física não muda.",
+        "dicas": [
+          "Você reorganiza a visão na saída só mudando a ordem das colunas no SELECT — a tabela física não muda.",
+          "Você reorganiza a visão na saída só mudando a ordem das colunas no SELECT — a tabela física não muda. Compare com o que o enunciado pede.",
+          "Você reorganiza a visão na saída só mudando a ordem das colunas no SELECT — a tabela física não muda. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -358,7 +427,12 @@
             "instrucao": "About the result display:",
             "afirmacao": "The column order in the final result will always match the order in which the table was created, no matter how I list them in SELECT.",
             "respostaCorreta": false,
-            "dica": "You reshape the view in the result by reordering columns in SELECT — the physical table stays the same."
+            "dica": "You reshape the view in the result by reordering columns in SELECT — the physical table stays the same.",
+            "dicas": [
+              "You reshape the view in the result by reordering columns in SELECT — the physical table stays the same.",
+              "You reshape the view in the result by reordering columns in SELECT — the physical table stays the same. Compare com o que o enunciado pede.",
+              "You reshape the view in the result by reordering columns in SELECT — the physical table stays the same. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -369,7 +443,12 @@
             "instrucao": "Sobre la visualización del resultado:",
             "afirmacao": "El orden de las columnas en el resultado final siempre será el mismo con que se creó la tabla, sin importar cómo las enumere en el SELECT.",
             "respostaCorreta": false,
-            "dica": "Reorganizas la vista en la salida cambiando el orden en el SELECT — la tabla física no cambia."
+            "dica": "Reorganizas la vista en la salida cambiando el orden en el SELECT — la tabla física no cambia.",
+            "dicas": [
+              "Reorganizas la vista en la salida cambiando el orden en el SELECT — la tabla física no cambia.",
+              "Reorganizas la vista en la salida cambiando el orden en el SELECT — la tabla física no cambia. Compare com o que o enunciado pede.",
+              "Reorganizas la vista en la salida cambiando el orden en el SELECT — la tabla física no cambia. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -387,11 +466,19 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["nome", "clima"],
+          "required_columns": [
+            "nome",
+            "clima"
+          ],
           "min_rows": 3
         },
         "dica": "Coloque uma vírgula entre nome e clima logo após o SELECT.",
-        "explicacaoTecnica": "Listar só as colunas necessárias reduz dados trafegados e trabalho no servidor — melhor para a aplicação e para o usuário."
+        "explicacaoTecnica": "Listar só as colunas necessárias reduz dados trafegados e trabalho no servidor — melhor para a aplicação e para o usuário.",
+        "dicas": [
+          "Coloque uma vírgula entre nome e clima logo após o SELECT.",
+          "Coloque uma vírgula entre nome e clima logo após o SELECT. Compare com o que o enunciado pede.",
+          "Coloque uma vírgula entre nome e clima logo após o SELECT. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -400,7 +487,12 @@
             "instrucao": "Select only the nome and clima columns from the planetas table.",
             "placeholder": "SELECT ...",
             "dica": "Put a comma between nome and clima right after SELECT.",
-            "explicacaoTecnica": "Listing only the columns you need cuts data volume and server work — better for the app and the user."
+            "explicacaoTecnica": "Listing only the columns you need cuts data volume and server work — better for the app and the user.",
+            "dicas": [
+              "Put a comma between nome and clima right after SELECT.",
+              "Put a comma between nome and clima right after SELECT. Compare com o que o enunciado pede.",
+              "Put a comma between nome and clima right after SELECT. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -409,7 +501,12 @@
             "instrucao": "Selecciona solo las columnas nome y clima de la tabla planetas.",
             "placeholder": "SELECT ...",
             "dica": "Coloca una coma entre nome y clima justo después del SELECT.",
-            "explicacaoTecnica": "Enumerar solo las columnas necesarias reduce datos y trabajo en el servidor — mejor para la app y el usuario."
+            "explicacaoTecnica": "Enumerar solo las columnas necesarias reduce datos y trabajo en el servidor — mejor para la app y el usuario.",
+            "dicas": [
+              "Coloca una coma entre nome y clima justo después del SELECT.",
+              "Coloca una coma entre nome y clima justo después del SELECT. Compare com o que o enunciado pede.",
+              "Coloca una coma entre nome y clima justo después del SELECT. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -509,7 +606,12 @@
           "Agrupar várias tabelas em uma única visualização."
         ],
         "indiceCorreto": 1,
-        "dica": "Pense no AS como codinome que só vale para quem está lendo o resultado agora."
+        "dica": "Pense no AS como codinome que só vale para quem está lendo o resultado agora.",
+        "dicas": [
+          "Pense no AS como codinome que só vale para quem está lendo o resultado agora.",
+          "Pense no AS como codinome que só vale para quem está lendo o resultado agora. Compare com o que o enunciado pede.",
+          "Pense no AS como codinome que só vale para quem está lendo o resultado agora. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -525,7 +627,12 @@
               "To merge several tables into one view."
             ],
             "indiceCorreto": 1,
-            "dica": "Think of AS as a codename that only applies to the result you see right now."
+            "dica": "Think of AS as a codename that only applies to the result you see right now.",
+            "dicas": [
+              "Think of AS as a codename that only applies to the result you see right now.",
+              "Think of AS as a codename that only applies to the result you see right now. Compare com o que o enunciado pede.",
+              "Think of AS as a codename that only applies to the result you see right now. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -541,7 +648,12 @@
               "Agrupar varias tablas en una sola visualización."
             ],
             "indiceCorreto": 1,
-            "dica": "Piensa en el AS como nombre clave que solo vale para quien lee el resultado ahora."
+            "dica": "Piensa en el AS como nombre clave que solo vale para quien lee el resultado ahora.",
+            "dicas": [
+              "Piensa en el AS como nombre clave que solo vale para quien lee el resultado ahora.",
+              "Piensa en el AS como nombre clave que solo vale para quien lee el resultado ahora. Compare com o que o enunciado pede.",
+              "Piensa en el AS como nombre clave que solo vale para quien lee el resultado ahora. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -558,7 +670,12 @@
         "instrucao": "Analise a afirmação sobre persistência:",
         "afirmacao": "Ao usar SELECT nome AS apelido, o nome da coluna na tabela original (no armazenamento físico) será permanentemente alterado para 'apelido'.",
         "respostaCorreta": false,
-        "dica": "O AS muda a visão lógica do resultado, não a estrutura física da tabela no disco."
+        "dica": "O AS muda a visão lógica do resultado, não a estrutura física da tabela no disco.",
+        "dicas": [
+          "O AS muda a visão lógica do resultado",
+          "não a estrutura física da tabela no disco.",
+          "O AS muda a visão lógica do resultado, não a estrutura física da tabela no disco."
+        ]
       },
       "traducoes": {
         "en": {
@@ -569,7 +686,12 @@
             "instrucao": "Analyze the statement about persistence:",
             "afirmacao": "When using SELECT nome AS apelido, the column name in the original table (on physical storage) will be permanently changed to apelido.",
             "respostaCorreta": false,
-            "dica": "AS changes the logical view in the result, not the physical table structure on disk."
+            "dica": "AS changes the logical view in the result, not the physical table structure on disk.",
+            "dicas": [
+              "AS changes the logical view in the result",
+              "not the physical table structure on disk.",
+              "AS changes the logical view in the result, not the physical table structure on disk."
+            ]
           }
         },
         "es": {
@@ -580,7 +702,12 @@
             "instrucao": "Analiza la afirmación sobre persistencia:",
             "afirmacao": "Al usar SELECT nome AS apodo, el nombre de la columna en la tabla original (en el almacenamiento físico) cambiará permanentemente a apodo.",
             "respostaCorreta": false,
-            "dica": "El AS cambia la vista lógica del resultado, no la estructura física de la tabla en disco."
+            "dica": "El AS cambia la vista lógica del resultado, no la estructura física de la tabla en disco.",
+            "dicas": [
+              "El AS cambia la vista lógica del resultado",
+              "no la estructura física de la tabla en disco.",
+              "El AS cambia la vista lógica del resultado, no la estructura física de la tabla en disco."
+            ]
           }
         }
       }
@@ -598,11 +725,19 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["identificacao", "situacao_atmosferica"],
+          "required_columns": [
+            "identificacao",
+            "situacao_atmosferica"
+          ],
           "min_rows": 3
         },
         "dica": "Sintaxe: SELECT coluna AS novo_nome — use vírgula entre os pares e termine com FROM planetas.",
-        "explicacaoTecnica": "Aliases deixam resultados legíveis e ajudam em expressões e joins; não alteram o catálogo da tabela."
+        "explicacaoTecnica": "Aliases deixam resultados legíveis e ajudam em expressões e joins; não alteram o catálogo da tabela.",
+        "dicas": [
+          "Sintaxe: SELECT coluna AS novo_nome — use vírgula entre os pares e termine com FROM planetas.",
+          "Sintaxe: SELECT coluna AS novo_nome — use vírgula entre os pares e termine com FROM planetas. Compare com o que o enunciado pede.",
+          "Sintaxe: SELECT coluna AS novo_nome — use vírgula entre os pares e termine com FROM planetas. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -611,7 +746,12 @@
             "instrucao": "Select column nome as identificacao and column clima as situacao_atmosferica from the planetas table.",
             "placeholder": "SELECT ... AS ...",
             "dica": "Syntax: SELECT column AS new_name — comma between pairs, then FROM planetas.",
-            "explicacaoTecnica": "Aliases make results readable and help with expressions and joins; they don't change the table catalog."
+            "explicacaoTecnica": "Aliases make results readable and help with expressions and joins; they don't change the table catalog.",
+            "dicas": [
+              "Syntax: SELECT column AS new_name — comma between pairs",
+              "then FROM planetas.",
+              "Syntax: SELECT column AS new_name — comma between pairs, then FROM planetas."
+            ]
           }
         },
         "es": {
@@ -620,7 +760,12 @@
             "instrucao": "Selecciona la columna nome como identificacao y la columna clima como situacao_atmosferica de la tabla planetas.",
             "placeholder": "SELECT ... AS ...",
             "dica": "Sintaxis: SELECT columna AS nuevo_nombre — coma entre pares y luego FROM planetas.",
-            "explicacaoTecnica": "Los alias hacen legibles los resultados y ayudan en expresiones y joins; no cambian el catálogo de la tabla."
+            "explicacaoTecnica": "Los alias hacen legibles los resultados y ayudan en expresiones y joins; no cambian el catálogo de la tabla.",
+            "dicas": [
+              "Sintaxis: SELECT columna AS nuevo_nombre — coma entre pares y luego FROM planetas.",
+              "Sintaxis: SELECT columna AS nuevo_nombre — coma entre pares y luego FROM planetas. Compare com o que o enunciado pede.",
+              "Sintaxis: SELECT columna AS nuevo_nombre — coma entre pares y luego FROM planetas. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -702,7 +847,12 @@
           "Ao final da consulta, após o nome da tabela ou filtros."
         ],
         "indiceCorreto": 3,
-        "dica": "O LIMIT é a 'cereja do bolo', ele vem por último na ordem das cláusulas fundamentais."
+        "dica": "O LIMIT é a 'cereja do bolo', ele vem por último na ordem das cláusulas fundamentais.",
+        "dicas": [
+          "O LIMIT é a 'cereja do bolo'",
+          "ele vem por último na ordem das cláusulas fundamentais.",
+          "O LIMIT é a 'cereja do bolo', ele vem por último na ordem das cláusulas fundamentais."
+        ]
       },
       "traducoes": {
         "en": {
@@ -718,7 +868,12 @@
               "At the end of the query, after the table name or filters."
             ],
             "indiceCorreto": 3,
-            "dica": "LIMIT is the 'cherry on top', it comes last in the order of fundamental clauses."
+            "dica": "LIMIT is the 'cherry on top', it comes last in the order of fundamental clauses.",
+            "dicas": [
+              "LIMIT is the 'cherry on top'",
+              "it comes last in the order of fundamental clauses.",
+              "LIMIT is the 'cherry on top', it comes last in the order of fundamental clauses."
+            ]
           }
         },
         "es": {
@@ -734,7 +889,12 @@
               "Al final de la consulta, después del nombre de la tabla o filtros."
             ],
             "indiceCorreto": 3,
-            "dica": "El LIMIT es la 'cereza del pastel', viene al final en el orden de las cláusulas fundamentales."
+            "dica": "El LIMIT es la 'cereza del pastel', viene al final en el orden de las cláusulas fundamentales.",
+            "dicas": [
+              "El LIMIT es la 'cereza del pastel'",
+              "viene al final en el orden de las cláusulas fundamentales.",
+              "El LIMIT es la 'cereza del pastel', viene al final en el orden de las cláusulas fundamentales."
+            ]
           }
         }
       }
@@ -751,7 +911,12 @@
         "instrucao": "Analise a função técnica do comando:",
         "afirmacao": "O comando LIMIT serve para filtrar as colunas da tabela, escondendo as informações que o desenvolvedor não deseja exibir no resultado final.",
         "respostaCorreta": false,
-        "dica": "Lembre-se: quem escolhe colunas é o SELECT. O LIMIT lida com a quantidade de linhas (registros)."
+        "dica": "Lembre-se: quem escolhe colunas é o SELECT. O LIMIT lida com a quantidade de linhas (registros).",
+        "dicas": [
+          "Lembre-se: quem escolhe colunas é o SELECT.",
+          "O LIMIT lida com a quantidade de linhas (registros).",
+          "O LIMIT lida com a quantidade de linhas (registros)."
+        ]
       },
       "traducoes": {
         "en": {
@@ -762,7 +927,12 @@
             "instrucao": "Analyze the technical function of the command:",
             "afirmacao": "The LIMIT command is used to filter table columns, hiding information that the developer does not want to display in the final result.",
             "respostaCorreta": false,
-            "dica": "Remember: SELECT chooses columns. LIMIT deals with the number of rows (records)."
+            "dica": "Remember: SELECT chooses columns. LIMIT deals with the number of rows (records).",
+            "dicas": [
+              "Remember: SELECT chooses columns.",
+              "LIMIT deals with the number of rows (records).",
+              "LIMIT deals with the number of rows (records)."
+            ]
           }
         },
         "es": {
@@ -773,7 +943,12 @@
             "instrucao": "Analiza la función técnica del comando:",
             "afirmacao": "El comando LIMIT sirve para filtrar las columnas de la tabla, ocultando la información que el desarrollador no desea mostrar en el resultado final.",
             "respostaCorreta": false,
-            "dica": "Recuerda: quien elige las columnas es el SELECT. El LIMIT se encarga de la cantidad de filas (registros)."
+            "dica": "Recuerda: quien elige las columnas es el SELECT. El LIMIT se encarga de la cantidad de filas (registros).",
+            "dicas": [
+              "Recuerda: quien elige las columnas es el SELECT.",
+              "El LIMIT se encarga de la cantidad de filas (registros).",
+              "El LIMIT se encarga de la cantidad de filas (registros)."
+            ]
           }
         }
       }
@@ -799,7 +974,12 @@
           "max_rows": 2
         },
         "dica": "Use o asterisco (*) para todas as colunas e não esqueça de terminar com 'LIMIT 2;'.",
-        "explicacaoTecnica": "O LIMIT instrui o motor do PostgreSQL a encerrar a varredura assim que o número solicitado de tuplas for alcançado, otimizando o I/O do disco."
+        "explicacaoTecnica": "O LIMIT instrui o motor do PostgreSQL a encerrar a varredura assim que o número solicitado de tuplas for alcançado, otimizando o I/O do disco.",
+        "dicas": [
+          "Use o asterisco (*) para todas as colunas e não esqueça de terminar com 'LIMIT 2;'.",
+          "Use o asterisco (*) para todas as colunas e não esqueça de terminar com 'LIMIT 2;'. Compare com o que o enunciado pede.",
+          "Use o asterisco (*) para todas as colunas e não esqueça de terminar com 'LIMIT 2;'. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -808,7 +988,12 @@
             "instrucao": "Select all columns from the planets table, but limit the result to show only the first 2 records.",
             "placeholder": "SELECT ...",
             "dica": "Use the asterisk (*) for all columns and don't forget to end with 'LIMIT 2;'.",
-            "explicacaoTecnica": "LIMIT instructs the PostgreSQL engine to stop scanning as soon as the requested number of tuples is reached, optimizing disk I/O."
+            "explicacaoTecnica": "LIMIT instructs the PostgreSQL engine to stop scanning as soon as the requested number of tuples is reached, optimizing disk I/O.",
+            "dicas": [
+              "Use the asterisk (*) for all columns and don't forget to end with 'LIMIT 2;'.",
+              "Use the asterisk (*) for all columns and don't forget to end with 'LIMIT 2;'. Compare com o que o enunciado pede.",
+              "Use the asterisk (*) for all columns and don't forget to end with 'LIMIT 2;'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -817,7 +1002,12 @@
             "instrucao": "Selecciona todas las columnas de la tabla planetas, pero limita el resultado para mostrar solo los primeros 2 registros.",
             "placeholder": "SELECT ...",
             "dica": "Usa el asterisco (*) para todas las columnas y no olvides terminar con 'LIMIT 2;'.",
-            "explicacaoTecnica": "El LIMIT indica al motor de PostgreSQL que finalice el escaneo en cuanto se alcance el número solicitado de tuplas, optimizando el I/O del disco."
+            "explicacaoTecnica": "El LIMIT indica al motor de PostgreSQL que finalice el escaneo en cuanto se alcance el número solicitado de tuplas, optimizando el I/O del disco.",
+            "dicas": [
+              "Usa el asterisco (*) para todas las columnas y no olvides terminar con 'LIMIT 2;'.",
+              "Usa el asterisco (*) para todas las columnas y no olvides terminar con 'LIMIT 2;'. Compare com o que o enunciado pede.",
+              "Usa el asterisco (*) para todas las columnas y no olvides terminar con 'LIMIT 2;'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -917,7 +1107,12 @@
           "BACK"
         ],
         "indiceCorreto": 1,
-        "dica": "Pense no termo inglês para 'descendente' ou 'decrescente'."
+        "dica": "Pense no termo inglês para 'descendente' ou 'decrescente'.",
+        "dicas": [
+          "Pense no termo inglês para 'descendente' ou 'decrescente'.",
+          "Pense no termo inglês para 'descendente' ou 'decrescente'. Compare com o que o enunciado pede.",
+          "Pense no termo inglês para 'descendente' ou 'decrescente'. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -933,7 +1128,12 @@
               "BACK"
             ],
             "indiceCorreto": 1,
-            "dica": "Think of the English term for 'descending'."
+            "dica": "Think of the English term for 'descending'.",
+            "dicas": [
+              "Think of the English term for 'descending'.",
+              "Think of the English term for 'descending'. Compare com o que o enunciado pede.",
+              "Think of the English term for 'descending'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -949,7 +1149,12 @@
               "BACK"
             ],
             "indiceCorreto": 1,
-            "dica": "Piensa en el término en inglés para 'descendente'."
+            "dica": "Piensa en el término en inglés para 'descendente'.",
+            "dicas": [
+              "Piensa en el término en inglés para 'descendente'.",
+              "Piensa en el término en inglés para 'descendente'. Compare com o que o enunciado pede.",
+              "Piensa en el término en inglés para 'descendente'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -966,7 +1171,12 @@
         "instrucao": "Sobre o comportamento padrão da ordenação:",
         "afirmacao": "No PostgreSQL, se o desenvolvedor não especificar explicitamente ASC ou DESC, o banco de dados organizará os dados de forma descendente (DESC) por segurança.",
         "respostaCorreta": false,
-        "dica": "O SQL sempre privilegia a ordem natural crescente por padrão."
+        "dica": "O SQL sempre privilegia a ordem natural crescente por padrão.",
+        "dicas": [
+          "O SQL sempre privilegia a ordem natural crescente por padrão.",
+          "O SQL sempre privilegia a ordem natural crescente por padrão. Compare com o que o enunciado pede.",
+          "O SQL sempre privilegia a ordem natural crescente por padrão. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -977,7 +1187,12 @@
             "instrucao": "Regarding the default sorting behavior:",
             "afirmacao": "In PostgreSQL, if the developer does not explicitly specify ASC or DESC, the database will organize the data in descending (DESC) order for safety.",
             "respostaCorreta": false,
-            "dica": "SQL always favors the natural ascending order by default."
+            "dica": "SQL always favors the natural ascending order by default.",
+            "dicas": [
+              "SQL always favors the natural ascending order by default.",
+              "SQL always favors the natural ascending order by default. Compare com o que o enunciado pede.",
+              "SQL always favors the natural ascending order by default. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -988,7 +1203,12 @@
             "instrucao": "Sobre el comportamiento por defecto de la ordenación:",
             "afirmacao": "En PostgreSQL, si el desarrollador no especifica explícitamente ASC o DESC, la base de datos organizará los datos de forma descendente (DESC) por seguridad.",
             "respostaCorreta": false,
-            "dica": "SQL siempre favorece el orden natural ascendente por defecto."
+            "dica": "SQL siempre favorece el orden natural ascendente por defecto.",
+            "dicas": [
+              "SQL siempre favorece el orden natural ascendente por defecto.",
+              "SQL siempre favorece el orden natural ascendente por defecto. Compare com o que o enunciado pede.",
+              "SQL siempre favorece el orden natural ascendente por defecto. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -1012,7 +1232,12 @@
           "min_rows": 4
         },
         "dica": "Use a cláusula ORDER BY seguida do nome da coluna 'nome'. O padrão já é alfabético (ASC).",
-        "explicacaoTecnica": "A ordenação ocorre após o processamento da cláusula FROM, mas antes da exibição final, permitindo que o Neon.tech entregue dados prontos para o consumo humano."
+        "explicacaoTecnica": "A ordenação ocorre após o processamento da cláusula FROM, mas antes da exibição final, permitindo que o Neon.tech entregue dados prontos para o consumo humano.",
+        "dicas": [
+          "Use a cláusula ORDER BY seguida do nome da coluna 'nome'.",
+          "O padrão já é alfabético (ASC).",
+          "O padrão já é alfabético (ASC)."
+        ]
       },
       "traducoes": {
         "en": {
@@ -1021,7 +1246,12 @@
             "instrucao": "Select the name of all planets, organizing them in alphabetical order (A-Z).",
             "placeholder": "SELECT ... FROM ... ORDER BY ...",
             "dica": "Use the ORDER BY clause followed by the column name 'nome'. The default is already alphabetical (ASC).",
-            "explicacaoTecnica": "Sorting occurs after FROM processing but before final display, allowing Neon.tech to deliver data ready for human consumption."
+            "explicacaoTecnica": "Sorting occurs after FROM processing but before final display, allowing Neon.tech to deliver data ready for human consumption.",
+            "dicas": [
+              "Use the ORDER BY clause followed by the column name 'nome'.",
+              "The default is already alphabetical (ASC).",
+              "The default is already alphabetical (ASC)."
+            ]
           }
         },
         "es": {
@@ -1030,7 +1260,12 @@
             "instrucao": "Selecciona el nombre de todos los planetas, organizándolos en orden alfabético (A-Z).",
             "placeholder": "SELECT ... FROM ... ORDER BY ...",
             "dica": "Usa la cláusula ORDER BY seguida del nombre de la columna 'nome'. El estándar ya es alfabético (ASC).",
-            "explicacaoTecnica": "La ordenación ocurre después del procesamiento de FROM pero antes de la visualización final, permitiendo que Neon.tech entregue datos listos para el consumo humano."
+            "explicacaoTecnica": "La ordenación ocurre después del procesamiento de FROM pero antes de la visualización final, permitiendo que Neon.tech entregue datos listos para el consumo humano.",
+            "dicas": [
+              "Usa la cláusula ORDER BY seguida del nombre de la columna 'nome'.",
+              "El estándar ya es alfabético (ASC).",
+              "El estándar ya es alfabético (ASC)."
+            ]
           }
         }
       }

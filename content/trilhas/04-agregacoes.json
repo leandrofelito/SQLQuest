@@ -151,7 +151,12 @@
           "ADD()"
         ],
         "indiceCorreto": 0,
-        "dica": "Pense no comando que 'conta' as ocorrências em vez de somar valores internos."
+        "dica": "Pense no comando que 'conta' as ocorrências em vez de somar valores internos.",
+        "dicas": [
+          "Pense no comando que 'conta' as ocorrências em vez de somar valores internos.",
+          "Pense no comando que 'conta' as ocorrências em vez de somar valores internos. Compare com o que o enunciado pede.",
+          "Pense no comando que 'conta' as ocorrências em vez de somar valores internos. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -167,7 +172,12 @@
               "ADD()"
             ],
             "indiceCorreto": 0,
-            "dica": "Think of the command that 'counts' occurrences instead of adding internal values."
+            "dica": "Think of the command that 'counts' occurrences instead of adding internal values.",
+            "dicas": [
+              "Think of the command that 'counts' occurrences instead of adding internal values.",
+              "Think of the command that 'counts' occurrences instead of adding internal values. Compare com o que o enunciado pede.",
+              "Think of the command that 'counts' occurrences instead of adding internal values. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -183,7 +193,12 @@
               "ADD()"
             ],
             "indiceCorreto": 0,
-            "dica": "Piensa en el comando que 'cuenta' las ocurrencias en lugar de sumar valores internos."
+            "dica": "Piensa en el comando que 'cuenta' las ocurrencias en lugar de sumar valores internos.",
+            "dicas": [
+              "Piensa en el comando que 'cuenta' las ocurrencias en lugar de sumar valores internos.",
+              "Piensa en el comando que 'cuenta' las ocurrencias en lugar de sumar valores internos. Compare com o que o enunciado pede.",
+              "Piensa en el comando que 'cuenta' las ocurrencias en lugar de sumar valores internos. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -200,7 +215,12 @@
         "instrucao": "Analise a possibilidade técnica no PostgreSQL:",
         "afirmacao": "A função SUM() pode ser aplicada em colunas do tipo texto (como o nome de um planeta) para concatenar automaticamente todas as palavras em um único resultado.",
         "respostaCorreta": false,
-        "dica": "SUM() é uma operação aritmética. Para textos, o comportamento esperado seria um erro de tipo de dado no banco."
+        "dica": "SUM() é uma operação aritmética. Para textos, o comportamento esperado seria um erro de tipo de dado no banco.",
+        "dicas": [
+          "SUM() é uma operação aritmética.",
+          "Para textos, o comportamento esperado seria um erro de tipo de dado no banco.",
+          "Para textos, o comportamento esperado seria um erro de tipo de dado no banco."
+        ]
       },
       "traducoes": {
         "en": {
@@ -211,7 +231,12 @@
             "instrucao": "Analyze the technical possibility in PostgreSQL:",
             "afirmacao": "The SUM() function can be applied to text-type columns (like a planet's name) to automatically concatenate all words into a single result.",
             "respostaCorreta": false,
-            "dica": "SUM() is an arithmetic operation. For text, the expected behavior would be a data type error in the database."
+            "dica": "SUM() is an arithmetic operation. For text, the expected behavior would be a data type error in the database.",
+            "dicas": [
+              "SUM() is an arithmetic operation.",
+              "For text, the expected behavior would be a data type error in the database.",
+              "For text, the expected behavior would be a data type error in the database."
+            ]
           }
         },
         "es": {
@@ -222,7 +247,12 @@
             "instrucao": "Analiza la posibilidad técnica en PostgreSQL:",
             "afirmacao": "La función SUM() se puede aplicar en columnas de tipo texto (como el nombre de un planeta) para concatenar automáticamente todas las palabras en un solo resultado.",
             "respostaCorreta": false,
-            "dica": "SUM() es una operación aritmética. Para textos, el comportamiento esperado sería un error de tipo de dato en la base."
+            "dica": "SUM() es una operación aritmética. Para textos, el comportamiento esperado sería un error de tipo de dato en la base.",
+            "dicas": [
+              "SUM() es una operación aritmética.",
+              "Para textos, el comportamiento esperado sería un error de tipo de dato en la base.",
+              "Para textos, el comportamiento esperado sería un error de tipo de dato en la base."
+            ]
           }
         }
       }
@@ -239,11 +269,18 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Vênus', 'Escaldante');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["count"],
+          "required_columns": [
+            "count"
+          ],
           "min_rows": 1
         },
         "dica": "Use a função COUNT(*) no seu comando SELECT para realizar o censo total da tabela.",
-        "explicacaoTecnica": "O COUNT(*) é uma operação altamente otimizada no PostgreSQL para retornar a cardinalidade total de um conjunto de resultados."
+        "explicacaoTecnica": "O COUNT(*) é uma operação altamente otimizada no PostgreSQL para retornar a cardinalidade total de um conjunto de resultados.",
+        "dicas": [
+          "Use a função COUNT(*) no seu comando SELECT para realizar o censo total da tabela.",
+          "Use a função COUNT(*) no seu comando SELECT para realizar o censo total da tabela. Compare com o que o enunciado pede.",
+          "Use a função COUNT(*) no seu comando SELECT para realizar o censo total da tabela. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -254,11 +291,18 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Vênus', 'Escaldante');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["count"],
+              "required_columns": [
+                "count"
+              ],
               "min_rows": 1
             },
             "dica": "Use the COUNT(*) function in your SELECT command to perform the total census of the table.",
-            "explicacaoTecnica": "COUNT(*) is a highly optimized operation in PostgreSQL to return the total cardinality of a result set."
+            "explicacaoTecnica": "COUNT(*) is a highly optimized operation in PostgreSQL to return the total cardinality of a result set.",
+            "dicas": [
+              "Use the COUNT(*) function in your SELECT command to perform the total census of the table.",
+              "Use the COUNT(*) function in your SELECT command to perform the total census of the table. Compare com o que o enunciado pede.",
+              "Use the COUNT(*) function in your SELECT command to perform the total census of the table. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -269,11 +313,18 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Vênus', 'Escaldante');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["count"],
+              "required_columns": [
+                "count"
+              ],
               "min_rows": 1
             },
             "dica": "Usa la función COUNT(*) en tu comando SELECT para realizar el censo total de la tabla.",
-            "explicacaoTecnica": "COUNT(*) es una operación altamente optimizada en PostgreSQL para devolver la cardinalidad total de un conjunto de resultados."
+            "explicacaoTecnica": "COUNT(*) es una operación altamente optimizada en PostgreSQL para devolver la cardinalidad total de un conjunto de resultados.",
+            "dicas": [
+              "Usa la función COUNT(*) en tu comando SELECT para realizar el censo total de la tabla.",
+              "Usa la función COUNT(*) en tu comando SELECT para realizar el censo total de la tabla. Compare com o que o enunciado pede.",
+              "Usa la función COUNT(*) en tu comando SELECT para realizar el censo total de la tabla. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -385,7 +436,12 @@
           "SUM()"
         ],
         "indiceCorreto": 2,
-        "dica": "Pense no 'máximo'. Você quer o valor que está no topo da escala."
+        "dica": "Pense no 'máximo'. Você quer o valor que está no topo da escala.",
+        "dicas": [
+          "Pense no 'máximo'.",
+          "Você quer o valor que está no topo da escala.",
+          "Você quer o valor que está no topo da escala."
+        ]
       },
       "traducoes": {
         "en": {
@@ -401,7 +457,12 @@
               "SUM()"
             ],
             "indiceCorreto": 2,
-            "dica": "Think of 'maximum'. You want the value that is at the top of the scale."
+            "dica": "Think of 'maximum'. You want the value that is at the top of the scale.",
+            "dicas": [
+              "Think of 'maximum'.",
+              "You want the value that is at the top of the scale.",
+              "You want the value that is at the top of the scale."
+            ]
           }
         },
         "es": {
@@ -417,7 +478,12 @@
               "SUM()"
             ],
             "indiceCorreto": 2,
-            "dica": "Piensa en el 'máximo'. Quieres el valor que está en la cima de la escala."
+            "dica": "Piensa en el 'máximo'. Quieres el valor que está en la cima de la escala.",
+            "dicas": [
+              "Piensa en el 'máximo'.",
+              "Quieres el valor que está en la cima de la escala.",
+              "Quieres el valor que está en la cima de la escala."
+            ]
           }
         }
       }
@@ -434,7 +500,12 @@
         "instrucao": "Analise a lógica matemática no SQL:",
         "afirmacao": "A função AVG() pode ser usada para calcular a média de uma coluna que contém nomes de cidades, retornando a 'cidade média' da lista.",
         "respostaCorreta": false,
-        "dica": "A média exige uma divisão matemática. Como você dividiria a palavra 'Londres' por 2?"
+        "dica": "A média exige uma divisão matemática. Como você dividiria a palavra 'Londres' por 2?",
+        "dicas": [
+          "A média exige uma divisão matemática.",
+          "Como você dividiria a palavra 'Londres' por 2?",
+          "Como você dividiria a palavra 'Londres' por 2?"
+        ]
       },
       "traducoes": {
         "en": {
@@ -445,7 +516,12 @@
             "instrucao": "Analyze the mathematical logic in SQL:",
             "afirmacao": "The AVG() function can be used to calculate the average of a column containing city names, returning the 'average city' of the list.",
             "respostaCorreta": false,
-            "dica": "The average requires a mathematical division. How would you divide the word 'London' by 2?"
+            "dica": "The average requires a mathematical division. How would you divide the word 'London' by 2?",
+            "dicas": [
+              "The average requires a mathematical division.",
+              "How would you divide the word 'London' by 2?",
+              "How would you divide the word 'London' by 2?"
+            ]
           }
         },
         "es": {
@@ -456,7 +532,12 @@
             "instrucao": "Analiza la lógica matemática en SQL:",
             "afirmacao": "La función AVG() se puede usar para calcular el promedio de una columna que contiene nombres de ciudades, devolviendo la 'ciudad promedio' de la lista.",
             "respostaCorreta": false,
-            "dica": "El promedio requiere una división matemática. ¿Cómo dividirías la palabra 'Londres' por 2?"
+            "dica": "El promedio requiere una división matemática. ¿Cómo dividirías la palabra 'Londres' por 2?",
+            "dicas": [
+              "El promedio requiere una división matemática.",
+              "¿Cómo dividirías la palabra 'Londres' por 2?",
+              "¿Cómo dividirías la palabra 'Londres' por 2?"
+            ]
           }
         }
       }
@@ -473,11 +554,18 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["max"],
+          "required_columns": [
+            "max"
+          ],
           "min_rows": 1
         },
         "dica": "Use SELECT MAX(id) FROM planetas;. O resultado será o maior número encontrado nessa coluna.",
-        "explicacaoTecnica": "O MAX() percorre os valores da coluna id (ou consulta o índice da PK no Neon.tech) e retorna o valor de maior magnitude encontrado."
+        "explicacaoTecnica": "O MAX() percorre os valores da coluna id (ou consulta o índice da PK no Neon.tech) e retorna o valor de maior magnitude encontrado.",
+        "dicas": [
+          "Use SELECT MAX(id) FROM planetas;.",
+          "O resultado será o maior número encontrado nessa coluna.",
+          "O resultado será o maior número encontrado nessa coluna."
+        ]
       },
       "traducoes": {
         "en": {
@@ -488,11 +576,18 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["max"],
+              "required_columns": [
+                "max"
+              ],
               "min_rows": 1
             },
             "dica": "Use SELECT MAX(id) FROM planetas;. The result will be the highest number found in that column.",
-            "explicacaoTecnica": "MAX() scans the values of the id column (or consults the PK index in Neon.tech) and returns the highest magnitude value found."
+            "explicacaoTecnica": "MAX() scans the values of the id column (or consults the PK index in Neon.tech) and returns the highest magnitude value found.",
+            "dicas": [
+              "Use SELECT MAX(id) FROM planetas;.",
+              "The result will be the highest number found in that column.",
+              "The result will be the highest number found in that column."
+            ]
           }
         },
         "es": {
@@ -503,11 +598,18 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["max"],
+              "required_columns": [
+                "max"
+              ],
               "min_rows": 1
             },
             "dica": "Usa SELECT MAX(id) FROM planetas;. El resultado será el número más alto encontrado en esa columna.",
-            "explicacaoTecnica": "MAX() recorre los valores de la columna id (o consulta el índice de la PK en Neon.tech) y devuelve el valor de mayor magnitud encontrado."
+            "explicacaoTecnica": "MAX() recorre los valores de la columna id (o consulta el índice de la PK en Neon.tech) y devuelve el valor de mayor magnitud encontrado.",
+            "dicas": [
+              "Usa SELECT MAX(id) FROM planetas;.",
+              "El resultado será el número más alto encontrado en esa columna.",
+              "El resultado será el número más alto encontrado en esa columna."
+            ]
           }
         }
       }
@@ -598,7 +700,12 @@
           "Impedir que usuários sem permissão vejam os dados agrupados."
         ],
         "indiceCorreto": 1,
-        "dica": "Sem o agrupamento, o banco conta tudo junto. Com ele, você cria pequenas 'caixas' para cada categoria."
+        "dica": "Sem o agrupamento, o banco conta tudo junto. Com ele, você cria pequenas 'caixas' para cada categoria.",
+        "dicas": [
+          "Sem o agrupamento, o banco conta tudo junto.",
+          "Com ele, você cria pequenas 'caixas' para cada categoria.",
+          "Com ele, você cria pequenas 'caixas' para cada categoria."
+        ]
       },
       "traducoes": {
         "en": {
@@ -614,7 +721,12 @@
               "To prevent unauthorized users from seeing grouped data."
             ],
             "indiceCorreto": 1,
-            "dica": "Without grouping, the database counts everything together. With it, you create small 'boxes' for each category."
+            "dica": "Without grouping, the database counts everything together. With it, you create small 'boxes' for each category.",
+            "dicas": [
+              "Without grouping, the database counts everything together.",
+              "With it, you create small 'boxes' for each category.",
+              "With it, you create small 'boxes' for each category."
+            ]
           }
         },
         "es": {
@@ -630,7 +742,12 @@
               "Impedir que usuarios sin permiso vean los datos agrupados."
             ],
             "indiceCorreto": 1,
-            "dica": "Sin el agrupamiento, la base cuenta todo junto. Con él, creas pequeñas 'cajas' para cada categoría."
+            "dica": "Sin el agrupamiento, la base cuenta todo junto. Con él, creas pequeñas 'cajas' para cada categoría.",
+            "dicas": [
+              "Sin el agrupamiento, la base cuenta todo junto.",
+              "Con él, creas pequeñas 'cajas' para cada categoría.",
+              "Con él, creas pequeñas 'cajas' para cada categoría."
+            ]
           }
         }
       }
@@ -647,7 +764,12 @@
         "instrucao": "Analise a restrição de sintaxe do agrupamento:",
         "afirmacao": "Ao utilizar o GROUP BY, eu posso selecionar qualquer coluna da tabela no meu comando SELECT, mesmo que essa coluna não esteja listada no agrupamento ou dentro de uma função de agregação.",
         "respostaCorreta": false,
-        "dica": "Lembre-se da Regra de Ouro: se a coluna aparece no SELECT e não está 'encolhida' por uma função, ela DEVE estar no GROUP BY."
+        "dica": "Lembre-se da Regra de Ouro: se a coluna aparece no SELECT e não está 'encolhida' por uma função, ela DEVE estar no GROUP BY.",
+        "dicas": [
+          "Lembre-se da Regra de Ouro: se a coluna aparece no SELECT e não está 'encolhida' por uma função",
+          "ela DEVE estar no GROUP BY.",
+          "Lembre-se da Regra de Ouro: se a coluna aparece no SELECT e não está 'encolhida' por uma função, ela DEVE estar no GROUP BY."
+        ]
       },
       "traducoes": {
         "en": {
@@ -658,7 +780,12 @@
             "instrucao": "Analyze the grouping syntax restriction:",
             "afirmacao": "When using GROUP BY, I can select any column from the table in my SELECT command, even if that column is not listed in the grouping or within an aggregate function.",
             "respostaCorreta": false,
-            "dica": "Remember the Golden Rule: if the column appears in the SELECT and is not 'shrunk' by a function, it MUST be in the GROUP BY."
+            "dica": "Remember the Golden Rule: if the column appears in the SELECT and is not 'shrunk' by a function, it MUST be in the GROUP BY.",
+            "dicas": [
+              "Remember the Golden Rule: if the column appears in the SELECT and is not 'shrunk' by a function",
+              "it MUST be in the GROUP BY.",
+              "Remember the Golden Rule: if the column appears in the SELECT and is not 'shrunk' by a function, it MUST be in the GROUP BY."
+            ]
           }
         },
         "es": {
@@ -669,7 +796,12 @@
             "instrucao": "Analiza la restricción de sintaxis del agrupamiento:",
             "afirmacao": "Al utilizar el GROUP BY, puedo seleccionar cualquier columna de la tabla en mi comando SELECT, incluso si esa columna no está listada en el agrupamiento o dentro de una función de agregación.",
             "respostaCorreta": false,
-            "dica": "Recuerda la Regla de Oro: si la columna aparece en el SELECT y no está 'encogida' por una función, DEBE estar en el GROUP BY."
+            "dica": "Recuerda la Regla de Oro: si la columna aparece en el SELECT y no está 'encogida' por una función, DEBE estar en el GROUP BY.",
+            "dicas": [
+              "Recuerda la Regla de Oro: si la columna aparece en el SELECT y no está 'encogida' por una función",
+              "DEBE estar en el GROUP BY.",
+              "Recuerda la Regla de Oro: si la columna aparece en el SELECT y no está 'encogida' por una función, DEBE estar en el GROUP BY."
+            ]
           }
         }
       }
@@ -686,11 +818,19 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["clima", "count"],
+          "required_columns": [
+            "clima",
+            "count"
+          ],
           "min_rows": 3
         },
         "dica": "Liste 'clima' e 'COUNT(*)' no SELECT e não esqueça de repetir 'clima' após a cláusula GROUP BY.",
-        "explicacaoTecnica": "O PostgreSQL organiza os dados em buckets baseados nos valores da coluna 'clima' e, para cada bucket, executa a função de contagem, devolvendo uma linha por categoria única."
+        "explicacaoTecnica": "O PostgreSQL organiza os dados em buckets baseados nos valores da coluna 'clima' e, para cada bucket, executa a função de contagem, devolvendo uma linha por categoria única.",
+        "dicas": [
+          "Liste 'clima' e 'COUNT(*)' no SELECT e não esqueça de repetir 'clima' após a cláusula GROUP BY.",
+          "Liste 'clima' e 'COUNT(*)' no SELECT e não esqueça de repetir 'clima' após a cláusula GROUP BY. Compare com o que o enunciado pede.",
+          "Liste 'clima' e 'COUNT(*)' no SELECT e não esqueça de repetir 'clima' após a cláusula GROUP BY. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -701,11 +841,19 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["clima", "count"],
+              "required_columns": [
+                "clima",
+                "count"
+              ],
               "min_rows": 3
             },
             "dica": "List 'clima' and 'COUNT(*)' in the SELECT and don't forget to repeat 'clima' after the GROUP BY clause.",
-            "explicacaoTecnica": "PostgreSQL organizes data into buckets based on 'clima' column values and, for each bucket, executes the count function, returning one row per unique category."
+            "explicacaoTecnica": "PostgreSQL organizes data into buckets based on 'clima' column values and, for each bucket, executes the count function, returning one row per unique category.",
+            "dicas": [
+              "List 'clima' and 'COUNT(*)' in the SELECT and don't forget to repeat 'clima' after the GROUP BY clause.",
+              "List 'clima' and 'COUNT(*)' in the SELECT and don't forget to repeat 'clima' after the GROUP BY clause. Compare com o que o enunciado pede.",
+              "List 'clima' and 'COUNT(*)' in the SELECT and don't forget to repeat 'clima' after the GROUP BY clause. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -716,11 +864,19 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["clima", "count"],
+              "required_columns": [
+                "clima",
+                "count"
+              ],
               "min_rows": 3
             },
             "dica": "Lista 'clima' y 'COUNT(*)' en el SELECT y no olvides repetir 'clima' después de la cláusula GROUP BY.",
-            "explicacaoTecnica": "PostgreSQL organiza los datos en cubetas (buckets) basadas en los valores de la columna 'clima' y, para cada cubeta, ejecuta la función de conteo, devolviendo una fila por categoría única."
+            "explicacaoTecnica": "PostgreSQL organiza los datos en cubetas (buckets) basadas en los valores de la columna 'clima' y, para cada cubeta, ejecuta la función de conteo, devolviendo una fila por categoría única.",
+            "dicas": [
+              "Lista 'clima' y 'COUNT(*)' en el SELECT y no olvides repetir 'clima' después de la cláusula GROUP BY.",
+              "Lista 'clima' y 'COUNT(*)' en el SELECT y no olvides repetir 'clima' después de la cláusula GROUP BY. Compare com o que o enunciado pede.",
+              "Lista 'clima' y 'COUNT(*)' en el SELECT y no olvides repetir 'clima' después de la cláusula GROUP BY. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -811,7 +967,12 @@
           "Não há diferença; ambas servem exatamente para o mesmo propósito de filtragem."
         ],
         "indiceCorreto": 1,
-        "dica": "O WHERE age no registro individual. O HAVING age no resultado do cálculo do grupo."
+        "dica": "O WHERE age no registro individual. O HAVING age no resultado do cálculo do grupo.",
+        "dicas": [
+          "O WHERE age no registro individual.",
+          "O HAVING age no resultado do cálculo do grupo.",
+          "O HAVING age no resultado do cálculo do grupo."
+        ]
       },
       "traducoes": {
         "en": {
@@ -827,7 +988,12 @@
               "There is no difference; both serve exactly the same filtering purpose."
             ],
             "indiceCorreto": 1,
-            "dica": "WHERE acts on individual records. HAVING acts on the group calculation result."
+            "dica": "WHERE acts on individual records. HAVING acts on the group calculation result.",
+            "dicas": [
+              "WHERE acts on individual records.",
+              "HAVING acts on the group calculation result.",
+              "HAVING acts on the group calculation result."
+            ]
           }
         },
         "es": {
@@ -843,7 +1009,12 @@
               "No hay diferencia; ambas sirven exactamente para el mismo propósito de filtrado."
             ],
             "indiceCorreto": 1,
-            "dica": "El WHERE actúa en el registro individual. El HAVING actúa en el resultado del cálculo del grupo."
+            "dica": "El WHERE actúa en el registro individual. El HAVING actúa en el resultado del cálculo del grupo.",
+            "dicas": [
+              "El WHERE actúa en el registro individual.",
+              "El HAVING actúa en el resultado del cálculo del grupo.",
+              "El HAVING actúa en el resultado del cálculo del grupo."
+            ]
           }
         }
       }
@@ -860,7 +1031,12 @@
         "instrucao": "Analise a estrutura lógica do SQL:",
         "afirmacao": "No PostgreSQL, é perfeitamente possível e comum utilizar a cláusula HAVING para realizar filtros sem a necessidade de um GROUP BY na consulta.",
         "respostaCorreta": false,
-        "dica": "Sem um grupo formado (GROUP BY), não há 'casa' para o HAVING morar no SQL padrão."
+        "dica": "Sem um grupo formado (GROUP BY), não há 'casa' para o HAVING morar no SQL padrão.",
+        "dicas": [
+          "Sem um grupo formado (GROUP BY)",
+          "não há 'casa' para o HAVING morar no SQL padrão.",
+          "Sem um grupo formado (GROUP BY), não há 'casa' para o HAVING morar no SQL padrão."
+        ]
       },
       "traducoes": {
         "en": {
@@ -871,7 +1047,12 @@
             "instrucao": "Analyze the SQL logical structure:",
             "afirmacao": "In PostgreSQL, it is perfectly possible and common to use the HAVING clause to perform filters without needing a GROUP BY in the query.",
             "respostaCorreta": false,
-            "dica": "Without a formed group (GROUP BY), there's no 'home' for HAVING to live in standard SQL."
+            "dica": "Without a formed group (GROUP BY), there's no 'home' for HAVING to live in standard SQL.",
+            "dicas": [
+              "Without a formed group (GROUP BY)",
+              "there's no 'home' for HAVING to live in standard SQL.",
+              "Without a formed group (GROUP BY), there's no 'home' for HAVING to live in standard SQL."
+            ]
           }
         },
         "es": {
@@ -882,7 +1063,12 @@
             "instrucao": "Analiza la estructura lógica de SQL:",
             "afirmacao": "En PostgreSQL, es perfectamente posible y común utilizar la cláusula HAVING para realizar filtros sin necesidad de un GROUP BY en la consulta.",
             "respostaCorreta": false,
-            "dica": "Sin un grupo formado (GROUP BY), no hay 'hogar' para que el HAVING resida en el SQL estándar."
+            "dica": "Sin un grupo formado (GROUP BY), no hay 'hogar' para que el HAVING resida en el SQL estándar.",
+            "dicas": [
+              "Sin un grupo formado (GROUP BY)",
+              "no hay 'hogar' para que el HAVING resida en el SQL estándar.",
+              "Sin un grupo formado (GROUP BY), no hay 'hogar' para que el HAVING resida en el SQL estándar."
+            ]
           }
         }
       }
@@ -899,11 +1085,19 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["clima", "count"],
+          "required_columns": [
+            "clima",
+            "count"
+          ],
           "min_rows": 2
         },
         "dica": "Sua query deve ter a estrutura: SELECT... GROUP BY... HAVING COUNT(*) > 1;",
-        "explicacaoTecnica": "O PostgreSQL primeiro agrupa os dados por clima, calcula o COUNT para cada grupo e, por último, aplica a restrição do HAVING para descartar grupos que não atingiram a contagem mínima."
+        "explicacaoTecnica": "O PostgreSQL primeiro agrupa os dados por clima, calcula o COUNT para cada grupo e, por último, aplica a restrição do HAVING para descartar grupos que não atingiram a contagem mínima.",
+        "dicas": [
+          "Sua query deve ter a estrutura: SELECT...",
+          "GROUP BY...",
+          "HAVING COUNT(*) > 1;."
+        ]
       },
       "traducoes": {
         "en": {
@@ -914,11 +1108,19 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["clima", "count"],
+              "required_columns": [
+                "clima",
+                "count"
+              ],
               "min_rows": 2
             },
             "dica": "Your query should follow the structure: SELECT... GROUP BY... HAVING COUNT(*) > 1;",
-            "explicacaoTecnica": "PostgreSQL first groups data by climate, calculates the COUNT for each group, and finally applies the HAVING constraint to discard groups that didn't reach the minimum count."
+            "explicacaoTecnica": "PostgreSQL first groups data by climate, calculates the COUNT for each group, and finally applies the HAVING constraint to discard groups that didn't reach the minimum count.",
+            "dicas": [
+              "Your query should follow the structure: SELECT...",
+              "GROUP BY...",
+              "HAVING COUNT(*) > 1;."
+            ]
           }
         },
         "es": {
@@ -929,11 +1131,19 @@
             "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["clima", "count"],
+              "required_columns": [
+                "clima",
+                "count"
+              ],
               "min_rows": 2
             },
             "dica": "Tu consulta debe tener la estructura: SELECT... GROUP BY... HAVING COUNT(*) > 1;",
-            "explicacaoTecnica": "PostgreSQL primero agrupa los datos por clima, calcula el COUNT para cada grupo y, finalmente, aplica la restricción del HAVING para descartar grupos que no alcanzaron el conteo mínimo."
+            "explicacaoTecnica": "PostgreSQL primero agrupa los datos por clima, calcula el COUNT para cada grupo y, finalmente, aplica la restricción del HAVING para descartar grupos que no alcanzaron el conteo mínimo.",
+            "dicas": [
+              "Tu consulta debe tener la estructura: SELECT...",
+              "GROUP BY...",
+              "HAVING COUNT(*) > 1;."
+            ]
           }
         }
       }

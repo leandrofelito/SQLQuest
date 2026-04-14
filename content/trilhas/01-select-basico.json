@@ -512,21 +512,36 @@
             "Email"
           ],
           "min_rows": 4
-        }
+        },
+        "dicas": [
+          "O exercício pede duas colunas específicas — não todas.",
+          "Liste-as após SELECT separadas por vírgula, depois FROM e o nome da tabela.",
+          "Quais dois campos o enunciado pede?"
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 1 — Basic SELECT",
           "conteudo": {
             "pergunta": "Retrieve the name and email of all customers in the table.",
-            "dica": "The exercise asks for two specific columns — not all of them. List them after SELECT separated by a comma, then FROM and the table name. Which two fields does the prompt ask for?"
+            "dica": "The exercise asks for two specific columns — not all of them. List them after SELECT separated by a comma, then FROM and the table name. Which two fields does the prompt ask for?",
+            "dicas": [
+              "The exercise asks for two specific columns — not all of them.",
+              "List them after SELECT separated by a comma, then FROM and the table name.",
+              "Which two fields does the prompt ask for?"
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 1 — SELECT básico",
           "conteudo": {
             "pergunta": "Consulta el nombre y el email de todos los clientes de la tabla.",
-            "dica": "El ejercicio pide dos columnas específicas — no todas. Lístalasafter SELECT separadas por coma, luego FROM y el nombre de la tabla. ¿Qué dos campos pide el enunciado?"
+            "dica": "El ejercicio pide dos columnas específicas — no todas. Lístalasafter SELECT separadas por coma, luego FROM y el nombre de la tabla. ¿Qué dos campos pide el enunciado?",
+            "dicas": [
+              "El ejercicio pide dos columnas específicas — no todas.",
+              "Lístalasafter SELECT separadas por coma, luego FROM y el nombre de la tabla.",
+              "¿Qué dos campos pide el enunciado?"
+            ]
           }
         }
       }
@@ -545,21 +560,36 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 4
-        }
+        },
+        "dicas": [
+          "O exercício quer cidades sem repetição.",
+          "Existe uma palavra-chave que você coloca entre SELECT e o nome da coluna para remover duplicatas.",
+          "Você a viu no conteúdo desta trilha."
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 2 — DISTINCT",
           "conteudo": {
             "pergunta": "List all different cities (without repetition) where customers are registered.",
-            "dica": "The exercise wants cities without repetition. There is a keyword you place between SELECT and the column name to remove duplicates. You saw it in the content of this trail."
+            "dica": "The exercise wants cities without repetition. There is a keyword you place between SELECT and the column name to remove duplicates. You saw it in the content of this trail.",
+            "dicas": [
+              "The exercise wants cities without repetition.",
+              "There is a keyword you place between SELECT and the column name to remove duplicates.",
+              "You saw it in the content of this trail."
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 2 — DISTINCT",
           "conteudo": {
             "pergunta": "Lista todas las ciudades diferentes (sin repetición) en las que hay clientes registrados.",
-            "dica": "El ejercicio quiere ciudades sin repetición. Hay una palabra clave que colocas entre SELECT y el nombre de la columna para eliminar duplicados. La viste en el contenido de esta ruta."
+            "dica": "El ejercicio quiere ciudades sin repetición. Hay una palabra clave que colocas entre SELECT y el nombre de la columna para eliminar duplicados. La viste en el contenido de esta ruta.",
+            "dicas": [
+              "El ejercicio quiere ciudades sin repetición.",
+              "Hay una palabra clave que colocas entre SELECT y el nombre de la columna para eliminar duplicados.",
+              "La viste en el contenido de esta ruta."
+            ]
           }
         }
       }
@@ -578,21 +608,36 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Para restringir quantas linhas o banco retorna, existe uma cláusula que vai no FINAL da query.",
+          "Ela recebe um número como parâmetro.",
+          "Você a viu no resumo desta trilha."
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 3 — LIMIT",
           "conteudo": {
             "pergunta": "Retrieve only the first 3 products from the catalog.",
-            "dica": "To restrict how many rows the database returns, there is a clause that goes at the END of the query. It takes a number as a parameter. You saw it in the summary of this trail."
+            "dica": "To restrict how many rows the database returns, there is a clause that goes at the END of the query. It takes a number as a parameter. You saw it in the summary of this trail.",
+            "dicas": [
+              "To restrict how many rows the database returns, there is a clause that goes at the END of the query.",
+              "It takes a number as a parameter.",
+              "You saw it in the summary of this trail."
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 3 — LIMIT",
           "conteudo": {
             "pergunta": "Consulta solo los 3 primeros productos del catálogo.",
-            "dica": "Para restringir cuántas filas devuelve la base de datos, hay una cláusula que va al FINAL de la query. Recibe un número como parámetro. La viste en el resumen de esta ruta."
+            "dica": "Para restringir cuántas filas devuelve la base de datos, hay una cláusula que va al FINAL de la query. Recibe un número como parámetro. La viste en el resumen de esta ruta.",
+            "dicas": [
+              "Para restringir cuántas filas devuelve la base de datos, hay una cláusula que va al FINAL de la query.",
+              "Recibe un número como parámetro.",
+              "La viste en el resumen de esta ruta."
+            ]
           }
         }
       }
@@ -615,21 +660,36 @@
             "Valor"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "Para renomear uma coluna no resultado, coloque AS após o nome da coluna original e escreva o novo nome.",
+          "O exercício pede nomes específicos — use exatamente os nomes indicados.",
+          "O exercício pede nomes específicos — use exatamente os nomes indicados."
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 4 — Alias with AS",
           "conteudo": {
             "pergunta": "Retrieve the name and price of products, renaming 'Nome' to 'Produto' and 'Preco' to 'Valor'.",
-            "dica": "To rename a column in the result, place AS after the original column name and write the new name. The exercise asks for specific names — use exactly the names indicated."
+            "dica": "To rename a column in the result, place AS after the original column name and write the new name. The exercise asks for specific names — use exactly the names indicated.",
+            "dicas": [
+              "To rename a column in the result, place AS after the original column name and write the new name.",
+              "The exercise asks for specific names — use exactly the names indicated.",
+              "The exercise asks for specific names — use exactly the names indicated."
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 4 — Alias con AS",
           "conteudo": {
             "pergunta": "Consulta el nombre y el precio de los productos, renombrando 'Nome' a 'Produto' y 'Preco' a 'Valor'.",
-            "dica": "Para renombrar una columna en el resultado, coloca AS después del nombre de la columna original y escribe el nuevo nombre. El ejercicio pide nombres específicos — usa exactamente los nombres indicados."
+            "dica": "Para renombrar una columna en el resultado, coloca AS después del nombre de la columna original y escribe el nuevo nombre. El ejercicio pide nombres específicos — usa exactamente los nombres indicados.",
+            "dicas": [
+              "Para renombrar una columna en el resultado, coloca AS después del nombre de la columna original y escribe el nuevo nombre.",
+              "El ejercicio pide nombres específicos — usa exactamente los nombres indicados.",
+              "El ejercicio pide nombres específicos — usa exactamente los nombres indicados."
+            ]
           }
         }
       }

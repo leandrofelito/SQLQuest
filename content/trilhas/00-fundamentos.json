@@ -34,11 +34,27 @@
           "Pense na metáfora da «Biblioteca de Fios Invisíveis»: os livros (tabelas) flutuam livremente. Você não precisa saber em qual prateleira física o livro está; você usa uma etiqueta lógica para puxá-lo. A forma como o dado aparece para você não depende de onde ele mora no disco.",
           {
             "type": "tabela",
-            "cabecalhos": ["Termo Formal", "Termo Comum", "O que é?"],
+            "cabecalhos": [
+              "Termo Formal",
+              "Termo Comum",
+              "O que é?"
+            ],
             "linhas": [
-              ["Relação", "Tabela", "O conjunto de dados sobre um tema"],
-              ["Tupla", "Linha / Registro", "Uma ocorrência única de um dado"],
-              ["Atributo", "Coluna / Campo", "Uma característica do dado"]
+              [
+                "Relação",
+                "Tabela",
+                "O conjunto de dados sobre um tema"
+              ],
+              [
+                "Tupla",
+                "Linha / Registro",
+                "Uma ocorrência única de um dado"
+              ],
+              [
+                "Atributo",
+                "Coluna / Campo",
+                "Uma característica do dado"
+              ]
             ]
           }
         ]
@@ -58,9 +74,17 @@
               "Picture the “Library of Invisible Wires”: books (tables) float freely. You don't need to know which physical shelf a book sits on; you use a logical tag to fetch it. The way data appears to you does not depend on where it lives on disk.",
               {
                 "type": "tabela",
-                "cabecalhos": ["Formal term", "Everyday term", "What is it?"],
+                "cabecalhos": [
+                  "Formal term",
+                  "Everyday term",
+                  "What is it?"
+                ],
                 "linhas": [
-                  ["Relation", "Table", "The set of data about one subject"],
+                  [
+                    "Relation",
+                    "Table",
+                    "The set of data about one subject"
+                  ],
                   [
                     "Tuple",
                     "Row / Record",
@@ -90,15 +114,27 @@
               "Piensa en la metáfora de la «Biblioteca de Hilos Invisibles»: los libros (tablas) flotan libremente. No necesitas saber en qué estante físico está el libro; usas una etiqueta lógica para traerlo. La forma en que ves el dato no depende de dónde vive en el disco.",
               {
                 "type": "tabela",
-                "cabecalhos": ["Término formal", "Término común", "¿Qué es?"],
+                "cabecalhos": [
+                  "Término formal",
+                  "Término común",
+                  "¿Qué es?"
+                ],
                 "linhas": [
-                  ["Relación", "Tabla", "El conjunto de datos sobre un tema"],
+                  [
+                    "Relación",
+                    "Tabla",
+                    "El conjunto de datos sobre un tema"
+                  ],
                   [
                     "Tupla",
                     "Fila / Registro",
                     "Una ocurrencia única de un dato"
                   ],
-                  ["Atributo", "Columna / Campo", "Una característica del dato"]
+                  [
+                    "Atributo",
+                    "Columna / Campo",
+                    "Una característica del dato"
+                  ]
                 ]
               }
             ]
@@ -123,7 +159,12 @@
           "O fim do uso de tabelas para organizar informações."
         ],
         "indiceCorreto": 1,
-        "dica": "Pense na separação entre 'como o dado é guardado' e 'como nós o vemos'."
+        "dica": "Pense na separação entre 'como o dado é guardado' e 'como nós o vemos'.",
+        "dicas": [
+          "Pense na separação entre 'como o dado é guardado' e 'como nós o vemos'.",
+          "Pense na separação entre 'como o dado é guardado' e 'como nós o vemos'. Compare com o que o enunciado pede.",
+          "Pense na separação entre 'como o dado é guardado' e 'como nós o vemos'. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -139,7 +180,12 @@
               "The end of using tables to organize information."
             ],
             "indiceCorreto": 1,
-            "dica": "Think about the separation between 'how data is stored' and 'how we see it'."
+            "dica": "Think about the separation between 'how data is stored' and 'how we see it'.",
+            "dicas": [
+              "Think about the separation between 'how data is stored' and 'how we see it'.",
+              "Think about the separation between 'how data is stored' and 'how we see it'. Compare com o que o enunciado pede.",
+              "Think about the separation between 'how data is stored' and 'how we see it'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -155,7 +201,12 @@
               "El fin del uso de tablas para organizar información."
             ],
             "indiceCorreto": 1,
-            "dica": "Piensa en la separación entre 'cómo se guarda el dato' y 'cómo lo vemos'."
+            "dica": "Piensa en la separación entre 'cómo se guarda el dato' y 'cómo lo vemos'.",
+            "dicas": [
+              "Piensa en la separación entre 'cómo se guarda el dato' y 'cómo lo vemos'.",
+              "Piensa en la separación entre 'cómo se guarda el dato' y 'cómo lo vemos'. Compare com o que o enunciado pede.",
+              "Piensa en la separación entre 'cómo se guarda el dato' y 'cómo lo vemos'. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -172,7 +223,12 @@
         "instrucao": "Analise a afirmação sobre a era pré-relacional:",
         "afirmacao": "Antes do modelo de Codd, se você alterasse a forma como um arquivo era salvo no disco, era frequentemente necessário reescrever o programa que lia esses dados.",
         "respostaCorreta": true,
-        "dica": "Antes de Codd, os programas eram escravos do local físico do arquivo no disco."
+        "dica": "Antes de Codd, os programas eram escravos do local físico do arquivo no disco.",
+        "dicas": [
+          "Antes de Codd",
+          "os programas eram escravos do local físico do arquivo no disco.",
+          "Antes de Codd, os programas eram escravos do local físico do arquivo no disco."
+        ]
       },
       "traducoes": {
         "en": {
@@ -183,7 +239,12 @@
             "instrucao": "Analyze the statement about the pre-relational era:",
             "afirmacao": "Before Codd's model, if you changed how a file was saved on the disk, it was often necessary to rewrite the program that read that data.",
             "respostaCorreta": true,
-            "dica": "Before Codd, programs were slaves to the physical location of the file on the disk."
+            "dica": "Before Codd, programs were slaves to the physical location of the file on the disk.",
+            "dicas": [
+              "Before Codd, programs were slaves to the physical location of the file on the disk.",
+              "Before Codd, programs were slaves to the physical location of the file on the disk. Compare com o que o enunciado pede.",
+              "Before Codd, programs were slaves to the physical location of the file on the disk. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -194,7 +255,12 @@
             "instrucao": "Analiza la afirmación sobre la era prerreacional:",
             "afirmacao": "Antes del modelo de Codd, si cambiabas la forma en que se guardaba un archivo en el disco, a menudo era necesario reescribir el programa que leía esos datos.",
             "respostaCorreta": true,
-            "dica": "Antes de Codd, los programas eran esclavos de la ubicación física del archivo en el disco."
+            "dica": "Antes de Codd, los programas eran esclavos de la ubicación física del archivo en el disco.",
+            "dicas": [
+              "Antes de Codd",
+              "los programas eran esclavos de la ubicación física del archivo en el disco.",
+              "Antes de Codd, los programas eran esclavos de la ubicación física del archivo en el disco."
+            ]
           }
         }
       }
@@ -216,7 +282,12 @@
           "O uso de cabos de rede sem fio para conectar servidores de dados."
         ],
         "indiceCorreto": 0,
-        "dica": "Independência significa que a mudança em baixo (disco) não quebra o que está em cima (app)."
+        "dica": "Independência significa que a mudança em baixo (disco) não quebra o que está em cima (app).",
+        "dicas": [
+          "Independência significa que a mudança em baixo (disco) não quebra o que está em cima (app).",
+          "Independência significa que a mudança em baixo (disco) não quebra o que está em cima (app). Compare com o que o enunciado pede.",
+          "Independência significa que a mudança em baixo (disco) não quebra o que está em cima (app). Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -232,7 +303,12 @@
               "The use of wireless network cables to connect data servers."
             ],
             "indiceCorreto": 0,
-            "dica": "Independence means that a change at the bottom (disk) doesn't break what's at the top (app)."
+            "dica": "Independence means that a change at the bottom (disk) doesn't break what's at the top (app).",
+            "dicas": [
+              "Independence means that a change at the bottom (disk) doesn't break what's at the top (app).",
+              "Independence means that a change at the bottom (disk) doesn't break what's at the top (app). Compare com o que o enunciado pede.",
+              "Independence means that a change at the bottom (disk) doesn't break what's at the top (app). Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -248,7 +324,12 @@
               "El uso de cables de red inalámbricos para conectar servidores de datos."
             ],
             "indiceCorreto": 0,
-            "dica": "Independencia significa que el cambio abajo (disco) no rompe lo que está arriba (app)."
+            "dica": "Independencia significa que el cambio abajo (disco) no rompe lo que está arriba (app).",
+            "dicas": [
+              "Independencia significa que el cambio abajo (disco) no rompe lo que está arriba (app).",
+              "Independencia significa que el cambio abajo (disco) no rompe lo que está arriba (app). Compare com o que o enunciado pede.",
+              "Independencia significa que el cambio abajo (disco) no rompe lo que está arriba (app). Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -270,7 +351,11 @@
           },
           {
             "type": "tabela",
-            "cabecalhos": ["Conceito", "Termo Técnico", "Exemplo Prático"],
+            "cabecalhos": [
+              "Conceito",
+              "Termo Técnico",
+              "Exemplo Prático"
+            ],
             "linhas": [
               [
                 "Característica",
@@ -389,7 +474,12 @@
           "Entidade refere-se apenas às colunas e Tabela apenas às linhas."
         ],
         "indiceCorreto": 2,
-        "dica": "A entidade é o que você desenha no papel; a tabela é o que você cria no PostgreSQL."
+        "dica": "A entidade é o que você desenha no papel; a tabela é o que você cria no PostgreSQL.",
+        "dicas": [
+          "A entidade é o que você desenha no papel; a tabela é o que você cria no PostgreSQL.",
+          "A entidade é o que você desenha no papel; a tabela é o que você cria no PostgreSQL. Compare com o que o enunciado pede.",
+          "A entidade é o que você desenha no papel; a tabela é o que você cria no PostgreSQL. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -405,7 +495,12 @@
               "Entity refers only to columns and Table only to rows."
             ],
             "indiceCorreto": 2,
-            "dica": "The entity is what you draw on paper; the table is what you create in PostgreSQL."
+            "dica": "The entity is what you draw on paper; the table is what you create in PostgreSQL.",
+            "dicas": [
+              "The entity is what you draw on paper; the table is what you create in PostgreSQL.",
+              "The entity is what you draw on paper; the table is what you create in PostgreSQL. Compare com o que o enunciado pede.",
+              "The entity is what you draw on paper; the table is what you create in PostgreSQL. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -421,7 +516,12 @@
               "Entidad se refiere solo a las columnas y Tabla solo a las filas."
             ],
             "indiceCorreto": 2,
-            "dica": "La entidad es lo que dibujas en el papel; la tabla es lo que creas en PostgreSQL."
+            "dica": "La entidad es lo que dibujas en el papel; la tabla es lo que creas en PostgreSQL.",
+            "dicas": [
+              "La entidad es lo que dibujas en el papel; la tabla es lo que creas en PostgreSQL.",
+              "La entidad es lo que dibujas en el papel; la tabla es lo que creas en PostgreSQL. Compare com o que o enunciado pede.",
+              "La entidad es lo que dibujas en el papel; la tabla es lo que creas en PostgreSQL. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -438,7 +538,12 @@
         "instrucao": "Analise a afirmação sobre Chaves Primárias:",
         "afirmacao": "Uma Chave Primária (PK) pode aceitar valores nulos (NULL) se o nome do cliente estiver devidamente preenchido na mesma linha.",
         "respostaCorreta": false,
-        "dica": "A PK exige unicidade E obrigatoriedade (NOT NULL). Sem ela, o registro não tem identidade."
+        "dica": "A PK exige unicidade E obrigatoriedade (NOT NULL). Sem ela, o registro não tem identidade.",
+        "dicas": [
+          "A PK exige unicidade E obrigatoriedade (NOT NULL).",
+          "Sem ela, o registro não tem identidade.",
+          "Sem ela, o registro não tem identidade."
+        ]
       },
       "traducoes": {
         "en": {
@@ -449,7 +554,12 @@
             "instrucao": "Analyze the statement about Primary Keys:",
             "afirmacao": "A Primary Key (PK) can accept null values (NULL) if the customer's name is properly filled in the same row.",
             "respostaCorreta": false,
-            "dica": "PK requires uniqueness AND must be NOT NULL. Without it, the record has no identity."
+            "dica": "PK requires uniqueness AND must be NOT NULL. Without it, the record has no identity.",
+            "dicas": [
+              "PK requires uniqueness AND must be NOT NULL.",
+              "Without it, the record has no identity.",
+              "Without it, the record has no identity."
+            ]
           }
         },
         "es": {
@@ -460,7 +570,12 @@
             "instrucao": "Analiza la afirmación sobre Claves Primarias:",
             "afirmacao": "Una Clave Primaria (PK) puede aceptar valores nulos (NULL) si el nombre del cliente está debidamente completado en la misma fila.",
             "respostaCorreta": false,
-            "dica": "La PK requiere unicidad Y obligatoriedad (NOT NULL). Sin ella, el registro no tiene identidad."
+            "dica": "La PK requiere unicidad Y obligatoriedad (NOT NULL). Sin ella, el registro no tiene identidad.",
+            "dicas": [
+              "La PK requiere unicidad Y obligatoriedad (NOT NULL).",
+              "Sin ella, el registro no tiene identidad.",
+              "Sin ella, el registro no tiene identidad."
+            ]
           }
         }
       }
@@ -482,7 +597,12 @@
           "Ano de Publicação"
         ],
         "indiceCorreto": 1,
-        "dica": "Títulos e autores se repetem. A PK deve ser algo que nunca, em hipótese alguma, se duplique no universo da tabela."
+        "dica": "Títulos e autores se repetem. A PK deve ser algo que nunca, em hipótese alguma, se duplique no universo da tabela.",
+        "dicas": [
+          "Títulos e autores se repetem.",
+          "A PK deve ser algo que nunca, em hipótese alguma, se duplique no universo da tabela.",
+          "A PK deve ser algo que nunca, em hipótese alguma, se duplique no universo da tabela."
+        ]
       },
       "traducoes": {
         "en": {
@@ -498,7 +618,12 @@
               "Year of Publication"
             ],
             "indiceCorreto": 1,
-            "dica": "Titles and authors repeat. The PK must be something that never, under any circumstances, duplicates in the table universe."
+            "dica": "Titles and authors repeat. The PK must be something that never, under any circumstances, duplicates in the table universe.",
+            "dicas": [
+              "Titles and authors repeat.",
+              "The PK must be something that never, under any circumstances, duplicates in the table universe.",
+              "The PK must be something that never, under any circumstances, duplicates in the table universe."
+            ]
           }
         },
         "es": {
@@ -514,7 +639,12 @@
               "Año de Publicación"
             ],
             "indiceCorreto": 1,
-            "dica": "Los títulos y autores se repiten. La PK debe ser algo que nunca, bajo ninguna circunstancia, se duplique en el universo de la tabla."
+            "dica": "Los títulos y autores se repiten. La PK debe ser algo que nunca, bajo ninguna circunstancia, se duplique en el universo de la tabla.",
+            "dicas": [
+              "Los títulos y autores se repiten.",
+              "La PK debe ser algo que nunca, bajo ninguna circunstancia, se duplique en el universo de la tabla.",
+              "La PK debe ser algo que nunca, bajo ninguna circunstancia, se duplique en el universo de la tabla."
+            ]
           }
         }
       }
@@ -614,7 +744,12 @@
           "Para esconder os dados sensíveis dos usuários."
         ],
         "indiceCorreto": 2,
-        "dica": "O asterisco é um curinga que «puxa» todas as colunas que a tabela possui."
+        "dica": "O asterisco é um curinga que «puxa» todas as colunas que a tabela possui.",
+        "dicas": [
+          "O asterisco é um curinga que «puxa» todas as colunas que a tabela possui.",
+          "O asterisco é um curinga que «puxa» todas as colunas que a tabela possui. Compare com o que o enunciado pede.",
+          "O asterisco é um curinga que «puxa» todas as colunas que a tabela possui. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -630,7 +765,12 @@
               "To hide sensitive data from users."
             ],
             "indiceCorreto": 2,
-            "dica": "The asterisk is a wildcard that «pulls» every column the table has."
+            "dica": "The asterisk is a wildcard that «pulls» every column the table has.",
+            "dicas": [
+              "The asterisk is a wildcard that «pulls» every column the table has.",
+              "The asterisk is a wildcard that «pulls» every column the table has. Compare com o que o enunciado pede.",
+              "The asterisk is a wildcard that «pulls» every column the table has. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -646,7 +786,12 @@
               "Para ocultar los datos sensibles de los usuarios."
             ],
             "indiceCorreto": 2,
-            "dica": "El asterisco es un comodín que «extrae» todas las columnas que tiene la tabla."
+            "dica": "El asterisco es un comodín que «extrae» todas las columnas que tiene la tabla.",
+            "dicas": [
+              "El asterisco es un comodín que «extrae» todas las columnas que tiene la tabla.",
+              "El asterisco es un comodín que «extrae» todas las columnas que tiene la tabla. Compare com o que o enunciado pede.",
+              "El asterisco es un comodín que «extrae» todas las columnas que tiene la tabla. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -663,7 +808,12 @@
         "instrucao": "Analise a afirmação técnica:",
         "afirmacao": "Ao executar um comando SELECT, o SGBD apaga os dados originais da tabela para garantir que o resultado da consulta seja o mais atualizado possível.",
         "respostaCorreta": false,
-        "dica": "Consultas (DQL) são passivas: leem, não destroem."
+        "dica": "Consultas (DQL) são passivas: leem, não destroem.",
+        "dicas": [
+          "Consultas (DQL) são passivas: leem",
+          "não destroem.",
+          "Consultas (DQL) são passivas: leem, não destroem."
+        ]
       },
       "traducoes": {
         "en": {
@@ -674,7 +824,12 @@
             "instrucao": "Analyze the technical statement:",
             "afirmacao": "When executing a SELECT command, the DBMS deletes the original data from the table to ensure the query result is as up-to-date as possible.",
             "respostaCorreta": false,
-            "dica": "Queries (DQL) are passive: they read, they don't destroy."
+            "dica": "Queries (DQL) are passive: they read, they don't destroy.",
+            "dicas": [
+              "Queries (DQL) are passive: they read",
+              "they don't destroy.",
+              "Queries (DQL) are passive: they read, they don't destroy."
+            ]
           }
         },
         "es": {
@@ -685,7 +840,12 @@
             "instrucao": "Analiza la afirmación técnica:",
             "afirmacao": "Al ejecutar un comando SELECT, el SGBD borra los datos originales de la tabla para asegurar que el resultado de la consulta esté lo más actualizado posible.",
             "respostaCorreta": false,
-            "dica": "Las consultas (DQL) son pasivas: leen, no destruyen."
+            "dica": "Las consultas (DQL) son pasivas: leen, no destruyen.",
+            "dicas": [
+              "Las consultas (DQL) son pasivas: leen",
+              "no destruyen.",
+              "Las consultas (DQL) son pasivas: leen, no destruyen."
+            ]
           }
         }
       }
@@ -707,7 +867,12 @@
           "Porque listar colunas impede que outros usuários vejam os dados."
         ],
         "indiceCorreto": 0,
-        "dica": "Menos dados trafegando significa mais velocidade para o usuário final."
+        "dica": "Menos dados trafegando significa mais velocidade para o usuário final.",
+        "dicas": [
+          "Menos dados trafegando significa mais velocidade para o usuário final.",
+          "Menos dados trafegando significa mais velocidade para o usuário final. Compare com o que o enunciado pede.",
+          "Menos dados trafegando significa mais velocidade para o usuário final. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -723,7 +888,12 @@
               "Because listing columns prevents other users from seeing the data."
             ],
             "indiceCorreto": 0,
-            "dica": "Less data moving means more speed for the end user."
+            "dica": "Less data moving means more speed for the end user.",
+            "dicas": [
+              "Less data moving means more speed for the end user.",
+              "Less data moving means more speed for the end user. Compare com o que o enunciado pede.",
+              "Less data moving means more speed for the end user. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -739,7 +909,12 @@
               "Porque listar columnas impide que otros usuarios vean los datos."
             ],
             "indiceCorreto": 0,
-            "dica": "Menos datos viajando significa más velocidad para el usuario final."
+            "dica": "Menos datos viajando significa más velocidad para el usuario final.",
+            "dicas": [
+              "Menos datos viajando significa más velocidad para el usuario final.",
+              "Menos datos viajando significa más velocidad para el usuario final. Compare com o que o enunciado pede.",
+              "Menos datos viajando significa más velocidad para el usuario final. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -839,7 +1014,12 @@
           "O novo registro sobrescreve o antigo sem avisar."
         ],
         "indiceCorreto": 1,
-        "dica": "A PK é única: repetir o «DNA» faz o SGBD rejeitar na hora. É como um CPF — não existem duas pessoas com o mesmo número."
+        "dica": "A PK é única: repetir o «DNA» faz o SGBD rejeitar na hora. É como um CPF — não existem duas pessoas com o mesmo número.",
+        "dicas": [
+          "A PK é única: repetir o «DNA» faz o SGBD rejeitar na hora.",
+          "É como um CPF — não existem duas pessoas com o mesmo número.",
+          "É como um CPF — não existem duas pessoas com o mesmo número."
+        ]
       },
       "traducoes": {
         "en": {
@@ -855,7 +1035,12 @@
               "The new record overwrites the old one without warning."
             ],
             "indiceCorreto": 1,
-            "dica": "The PK is unique: repeating the «DNA» makes the DBMS reject the row at once — like a national ID, two people can't share the same number."
+            "dica": "The PK is unique: repeating the «DNA» makes the DBMS reject the row at once — like a national ID, two people can't share the same number.",
+            "dicas": [
+              "The PK is unique: repeating the «DNA» makes the DBMS reject the row at once — like a national ID",
+              "two people can't share the same number.",
+              "The PK is unique: repeating the «DNA» makes the DBMS reject the row at once — like a national ID, two people can't share the same number."
+            ]
           }
         },
         "es": {
@@ -871,7 +1056,12 @@
               "El nuevo registro sobrescribe al antiguo sin avisar."
             ],
             "indiceCorreto": 1,
-            "dica": "La PK es única: repetir el «ADN» hace que el SGBD rechace al instante — como un DNI, no hay dos personas con el mismo número."
+            "dica": "La PK es única: repetir el «ADN» hace que el SGBD rechace al instante — como un DNI, no hay dos personas con el mismo número.",
+            "dicas": [
+              "La PK es única: repetir el «ADN» hace que el SGBD rechace al instante — como un DNI",
+              "no hay dos personas con el mismo número.",
+              "La PK es única: repetir el «ADN» hace que el SGBD rechace al instante — como un DNI, no hay dos personas con el mismo número."
+            ]
           }
         }
       }
@@ -888,7 +1078,12 @@
         "instrucao": "Sobre a função da Chave Estrangeira (FK):",
         "afirmacao": "Uma Foreign Key serve para garantir a integridade referencial, impedindo que existam registros em uma tabela 'filha' que não possuam correspondência válida na tabela 'pai'.",
         "respostaCorreta": true,
-        "dica": "A FK é o vínculo: não deixa um «filho» (pedido) existir sem um «pai» (cliente) válido."
+        "dica": "A FK é o vínculo: não deixa um «filho» (pedido) existir sem um «pai» (cliente) válido.",
+        "dicas": [
+          "A FK é o vínculo: não deixa um «filho» (pedido) existir sem um «pai» (cliente) válido.",
+          "A FK é o vínculo: não deixa um «filho» (pedido) existir sem um «pai» (cliente) válido. Compare com o que o enunciado pede.",
+          "A FK é o vínculo: não deixa um «filho» (pedido) existir sem um «pai» (cliente) válido. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -899,7 +1094,12 @@
             "instrucao": "Regarding the function of a Foreign Key (FK):",
             "afirmacao": "A Foreign Key serves to ensure referential integrity, preventing records in a 'child' table that do not have a valid correspondence in the 'parent' table.",
             "respostaCorreta": true,
-            "dica": "The FK is the link: it won't let a «child» (order) exist without a valid «parent» (customer)."
+            "dica": "The FK is the link: it won't let a «child» (order) exist without a valid «parent» (customer).",
+            "dicas": [
+              "The FK is the link: it won't let a «child» (order) exist without a valid «parent» (customer).",
+              "The FK is the link: it won't let a «child» (order) exist without a valid «parent» (customer). Compare com o que o enunciado pede.",
+              "The FK is the link: it won't let a «child» (order) exist without a valid «parent» (customer). Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -910,7 +1110,12 @@
             "instrucao": "Sobre la función de la Clave Foránea (FK):",
             "afirmacao": "Una Foreign Key sirve para garantizar la integridad referencial, evitando que existan registros en una tabla 'hija' que no tengan una correspondencia válida en la tabla 'padre'.",
             "respostaCorreta": true,
-            "dica": "La FK es el vínculo: no deja que un «hijo» (pedido) exista sin un «padre» (cliente) válido."
+            "dica": "La FK es el vínculo: no deja que un «hijo» (pedido) exista sin un «padre» (cliente) válido.",
+            "dicas": [
+              "La FK es el vínculo: no deja que un «hijo» (pedido) exista sin un «padre» (cliente) válido.",
+              "La FK es el vínculo: no deja que un «hijo» (pedido) exista sin un «padre» (cliente) válido. Compare com o que o enunciado pede.",
+              "La FK es el vínculo: no deja que un «hijo» (pedido) exista sin un «padre» (cliente) válido. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
@@ -925,9 +1130,19 @@
         "modo": "quiz",
         "quizTipo": "multipla",
         "instrucao": "Qual restrição de integridade devemos usar para garantir que um atributo, como o 'Email' de um usuário, nunca seja deixado em branco durante o cadastro?",
-        "opcoes": ["UNIQUE", "CHECK", "PRIMARY KEY", "NOT NULL"],
+        "opcoes": [
+          "UNIQUE",
+          "CHECK",
+          "PRIMARY KEY",
+          "NOT NULL"
+        ],
         "indiceCorreto": 3,
-        "dica": "O nome da restrição diz literalmente «não nulo» em inglês — NOT NULL proíbe valor ausente."
+        "dica": "O nome da restrição diz literalmente «não nulo» em inglês — NOT NULL proíbe valor ausente.",
+        "dicas": [
+          "O nome da restrição diz literalmente «não nulo» em inglês — NOT NULL proíbe valor ausente.",
+          "O nome da restrição diz literalmente «não nulo» em inglês — NOT NULL proíbe valor ausente. Compare com o que o enunciado pede.",
+          "O nome da restrição diz literalmente «não nulo» em inglês — NOT NULL proíbe valor ausente. Revise sintaxe e nomes de colunas/tabelas do schema."
+        ]
       },
       "traducoes": {
         "en": {
@@ -936,9 +1151,19 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "Which integrity constraint should we use to ensure that an attribute, such as a user's 'Email', is never left blank during registration?",
-            "opcoes": ["UNIQUE", "CHECK", "PRIMARY KEY", "NOT NULL"],
+            "opcoes": [
+              "UNIQUE",
+              "CHECK",
+              "PRIMARY KEY",
+              "NOT NULL"
+            ],
             "indiceCorreto": 3,
-            "dica": "The name literally says «not null» — NOT NULL forbids a missing value."
+            "dica": "The name literally says «not null» — NOT NULL forbids a missing value.",
+            "dicas": [
+              "The name literally says «not null» — NOT NULL forbids a missing value.",
+              "The name literally says «not null» — NOT NULL forbids a missing value. Compare com o que o enunciado pede.",
+              "The name literally says «not null» — NOT NULL forbids a missing value. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         },
         "es": {
@@ -947,9 +1172,19 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "¿Qué restricción de integridad debemos usar para asegurar que un atributo, como el 'Email' de un usuario, nunca se deje en blanco durante el registro?",
-            "opcoes": ["UNIQUE", "CHECK", "PRIMARY KEY", "NOT NULL"],
+            "opcoes": [
+              "UNIQUE",
+              "CHECK",
+              "PRIMARY KEY",
+              "NOT NULL"
+            ],
             "indiceCorreto": 3,
-            "dica": "El nombre lo dice en inglés: «not null» — NOT NULL prohíbe el valor ausente."
+            "dica": "El nombre lo dice en inglés: «not null» — NOT NULL prohíbe el valor ausente.",
+            "dicas": [
+              "El nombre lo dice en inglés: «not null» — NOT NULL prohíbe el valor ausente.",
+              "El nombre lo dice en inglés: «not null» — NOT NULL prohíbe el valor ausente. Compare com o que o enunciado pede.",
+              "El nombre lo dice en inglés: «not null» — NOT NULL prohíbe el valor ausente. Revise sintaxe e nomes de colunas/tabelas do schema."
+            ]
           }
         }
       }
