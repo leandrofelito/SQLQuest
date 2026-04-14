@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -15,6 +16,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 // Para interstitial e banner: crie as unidades no console AdMob e passe via
 //   --dart-define=ADMOB_INTERSTITIAL_ID=ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX
 //   --dart-define=ADMOB_BANNER_ID=ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX
+//
+// Banner (release): crie uma unidade "Banner" no console AdMob para o app
+// ca-app-pub-4150729063109368~4419072443 e passe o ID via ADMOB_BANNER_ID.
+// Em debug usa-se o banner de teste oficial do Google (kDebugMode).
 
 const String _rewardedAdUnitId = 'ca-app-pub-4150729063109368/8892235156';
 
@@ -23,10 +28,19 @@ const String _interstitialAdUnitId = String.fromEnvironment(
   defaultValue: 'ca-app-pub-4150729063109368/REPLACE_WITH_INTERSTITIAL_ID',
 );
 
-const String _bannerAdUnitId = String.fromEnvironment(
-  'ADMOB_BANNER_ID',
-  defaultValue: 'ca-app-pub-4150729063109368/REPLACE_WITH_BANNER_ID',
-);
+/// Banner de teste Google (somente debug). Não usar em release.
+const String _googleTestBannerAdUnitId =
+    'ca-app-pub-3940256099942544/6300978111';
+
+const String _bannerAdUnitIdFromEnv = String.fromEnvironment('ADMOB_BANNER_ID');
+
+/// ID efetivo do banner: teste em debug; em release/profile o valor de
+/// `--dart-define=ADMOB_BANNER_ID=...` (obrigatório para anúncio real).
+String _effectiveBannerAdUnitId() {
+  if (kDebugMode) return _googleTestBannerAdUnitId;
+  if (_bannerAdUnitIdFromEnv.isNotEmpty) return _bannerAdUnitIdFromEnv;
+  return '';
+}
 
 const String _appUrl = String.fromEnvironment(
   'APP_URL',
@@ -135,6 +149,7 @@ class _WebViewScreenState extends State<WebViewScreen>
         //   "showInterstitialAd" → InterstitialAd (envia dismissed via onAdMobResult — React avança sempre)
         //   "showBanner"       → BannerAd nativo na base da tela
         //   "hideBanner"       → remove o BannerAd
+        //   Banner: Flutter chama window.onBannerAdResult('failed') se não houver ID ou load falhar
         'AdMobBridge',
         onMessageReceived: (JavaScriptMessage message) {
           final msg = message.message;
@@ -349,11 +364,28 @@ class _WebViewScreenState extends State<WebViewScreen>
 
   // ── Banner ────────────────────────────────────────────────────────────────
 
+  void _notifyBannerAdResult(String result) {
+    final encoded = jsonEncode(result);
+    _controller.runJavaScript(
+      'try { if (typeof window.onBannerAdResult === "function") window.onBannerAdResult($encoded); } catch (e) {}',
+    );
+  }
+
   void _loadBannerAd() {
     if (_showingBanner) return; // já exibindo
 
+    final unitId = _effectiveBannerAdUnitId();
+    if (unitId.isEmpty) {
+      debugPrint(
+        '[AdMob] Banner: em release defina --dart-define=ADMOB_BANNER_ID=ca-app-pub-…/… '
+        '(unidade Banner criada no AdMob).',
+      );
+      _notifyBannerAdResult('failed');
+      return;
+    }
+
     final banner = BannerAd(
-      adUnitId: _bannerAdUnitId,
+      adUnitId: unitId,
       size: AdSize.banner, // 320×50 — alinhado ao placeholder de 50px do AdBanner.tsx
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -368,6 +400,9 @@ class _WebViewScreenState extends State<WebViewScreen>
         onAdFailedToLoad: (ad, error) {
           debugPrint('[AdMob] Banner falhou ao carregar: ${error.message}');
           ad.dispose();
+          if (mounted) {
+            _notifyBannerAdResult('failed');
+          }
         },
       ),
     );
