@@ -59,7 +59,28 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
     // --- Modo Flutter: AdMob nativo via JavascriptChannel ---
     if (flutter.current) {
       flutterHostReleasedRef.current = false
+      const expectedRequestId =
+        adType === 'rewarded'
+          ? typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`
+          : null
       const handler = (result: string) => {
+        let status = result
+        let msgRequestId: string | undefined
+        try {
+          const o = JSON.parse(result) as { status?: string; requestId?: string }
+          if (o && typeof o.status === 'string') {
+            status = o.status
+            if (typeof o.requestId === 'string') msgRequestId = o.requestId
+          }
+        } catch {
+          // Legado: result é a string 'completed' | 'dismissed' | 'failed'
+        }
+        if (expectedRequestId !== null && msgRequestId !== expectedRequestId) {
+          return
+        }
+
         if (!flutterHostReleasedRef.current) {
           setFlutterAdState('done')
         }
@@ -68,9 +89,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
           onConcluidoRef.current()
         } else {
           // Rewarded: completed = recompensa; failed = erro técnico; dismissed = fechou sem prêmio
-          if (result === 'completed') {
+          if (status === 'completed') {
             onConcluidoRef.current()
-          } else if (result === 'failed') {
+          } else if (status === 'failed') {
             if (onFalhouRef.current) onFalhouRef.current()
             else onFecharRef.current?.()
           } else {
@@ -82,20 +103,27 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
 
       const timer = setTimeout(() => {
         setFlutterAdState('showing')
-        const msg = adType === 'interstitial' ? 'showInterstitialAd' : 'showRewardedAd'
-        ;(window as any).AdMobBridge.postMessage(msg)
+        if (adType === 'interstitial') {
+          ;(window as any).AdMobBridge.postMessage('showInterstitialAd')
+        } else if (expectedRequestId) {
+          ;(window as any).AdMobBridge.postMessage(
+            JSON.stringify({ action: 'showRewardedAd', requestId: expectedRequestId }),
+          )
+        } else {
+          ;(window as any).AdMobBridge.postMessage('showRewardedAd')
+        }
       }, 300)
 
       return () => {
         clearTimeout(timer)
         flutterHostReleasedRef.current = true
-        // Não apagar na hora: `completed` pode chegar após `dismissed` fechar o overlay (AdMob / mediação).
+        // Não apagar na hora: `completed` pode chegar após dismiss (AdMob / mediação; ver _rewardedDismissGrace no Flutter).
         const handlerSnapshot = handler
         setTimeout(() => {
           if ((window as any).onAdMobResult === handlerSnapshot) {
             delete (window as any).onAdMobResult
           }
-        }, 600)
+        }, 2600)
       }
     }
 

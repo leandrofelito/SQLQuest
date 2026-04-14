@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -15,18 +16,35 @@ import 'package:webview_flutter/webview_flutter.dart';
 // Para interstitial e banner: crie as unidades no console AdMob e passe via
 //   --dart-define=ADMOB_INTERSTITIAL_ID=ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX
 //   --dart-define=ADMOB_BANNER_ID=ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX
+//
+// Banner (release): crie uma unidade "Banner" no console AdMob para o app
+// ca-app-pub-4150729063109368~4419072443 e passe o ID via ADMOB_BANNER_ID.
+// Em debug usa-se o banner de teste oficial do Google (kDebugMode).
 
 const String _rewardedAdUnitId = 'ca-app-pub-4150729063109368/8892235156';
+
+/// Tempo após o dismiss do rewarded antes de notificar `dismissed` ao JS.
+/// Redes mediadas podem disparar `onUserEarnedReward` depois de `onAdDismissedFullScreenContent`.
+const Duration _rewardedDismissGrace = Duration(milliseconds: 2000);
 
 const String _interstitialAdUnitId = String.fromEnvironment(
   'ADMOB_INTERSTITIAL_ID',
   defaultValue: 'ca-app-pub-4150729063109368/REPLACE_WITH_INTERSTITIAL_ID',
 );
 
-const String _bannerAdUnitId = String.fromEnvironment(
-  'ADMOB_BANNER_ID',
-  defaultValue: 'ca-app-pub-4150729063109368/REPLACE_WITH_BANNER_ID',
-);
+/// Banner de teste Google (somente debug). Não usar em release.
+const String _googleTestBannerAdUnitId =
+    'ca-app-pub-3940256099942544/6300978111';
+
+const String _bannerAdUnitIdFromEnv = String.fromEnvironment('ADMOB_BANNER_ID');
+
+/// ID efetivo do banner: teste em debug; em release/profile o valor de
+/// `--dart-define=ADMOB_BANNER_ID=...` (obrigatório para anúncio real).
+String _effectiveBannerAdUnitId() {
+  if (kDebugMode) return _googleTestBannerAdUnitId;
+  if (_bannerAdUnitIdFromEnv.isNotEmpty) return _bannerAdUnitIdFromEnv;
+  return '';
+}
 
 const String _appUrl = String.fromEnvironment(
   'APP_URL',
@@ -130,23 +148,16 @@ class _WebViewScreenState extends State<WebViewScreen>
       )
       ..addJavaScriptChannel(
         // Contrato com AnuncioVideo.tsx e AdBanner.tsx:
-        //   "showRewardedAd"   → RewardedAd (envia completed | dismissed via onAdMobResult)
-        //   "showAd"           → alias legado de showRewardedAd
+        //   "showRewardedAd" | "showAd" → RewardedAd
+        //   JSON: {"action":"showRewardedAd","requestId":"<uuid>"} (recomendado; ecoa requestId no resultado)
+        //   onAdMobResult: string legado OU JSON {"status":"completed|dismissed|failed","requestId":"..."}
         //   "showInterstitialAd" → InterstitialAd (envia dismissed via onAdMobResult — React avança sempre)
         //   "showBanner"       → BannerAd nativo na base da tela
         //   "hideBanner"       → remove o BannerAd
+        //   Banner: Flutter chama window.onBannerAdResult('failed') se não houver ID ou load falhar
         'AdMobBridge',
         onMessageReceived: (JavaScriptMessage message) {
-          final msg = message.message;
-          if (msg == 'showAd' || msg == 'showRewardedAd') {
-            _showRewardedAd();
-          } else if (msg == 'showInterstitialAd') {
-            _showInterstitialAd();
-          } else if (msg == 'showBanner') {
-            _loadBannerAd();
-          } else if (msg == 'hideBanner') {
-            _hideBanner();
-          }
+          _handleAdMobBridgeMessage(message.message);
         },
       )
       ..addJavaScriptChannel(
@@ -213,6 +224,45 @@ class _WebViewScreenState extends State<WebViewScreen>
     }
   }
 
+  void _handleAdMobBridgeMessage(String raw) {
+    var action = raw;
+    String? requestId;
+    final trimmed = raw.trimLeft();
+    if (trimmed.startsWith('{')) {
+      try {
+        final decoded = jsonDecode(raw);
+        if (decoded is Map) {
+          final m = Map<String, dynamic>.from(decoded);
+          final a = m['action'];
+          if (a is String) action = a;
+          final r = m['requestId'];
+          if (r is String && r.isNotEmpty) requestId = r;
+        }
+      } catch (_) {
+        // mantém action = raw
+      }
+    }
+    if (action == 'showAd' || action == 'showRewardedAd') {
+      _showRewardedAd(requestId);
+    } else if (action == 'showInterstitialAd') {
+      _showInterstitialAd();
+    } else if (action == 'showBanner') {
+      _loadBannerAd();
+    } else if (action == 'hideBanner') {
+      _hideBanner();
+    }
+  }
+
+  /// Notifica o WebView sobre o fim do rewarded (sempre JSON para correlacionar com requestId).
+  void _emitRewardedAdResult(String status, String? requestId) {
+    final map = <String, dynamic>{'status': status};
+    if (requestId != null && requestId.isNotEmpty) {
+      map['requestId'] = requestId;
+    }
+    final inner = jsonEncode(map);
+    _controller.runJavaScript('window.onAdMobResult(${jsonEncode(inner)})');
+  }
+
   // ── Rewarded ──────────────────────────────────────────────────────────────
 
   void _loadRewardedAd() {
@@ -231,12 +281,12 @@ class _WebViewScreenState extends State<WebViewScreen>
     );
   }
 
-  /// Exibe rewarded e envia **apenas um** resultado ao JS por exibição:
+  /// Exibe rewarded e envia **apenas um** resultado ao JS por exibição (JSON com status + requestId):
   /// - `completed` se o usuário ganhou o prêmio (não envia `dismissed` depois,
   ///   senão o React trata como fechamento e cancela o 2º anúncio / liberação).
-  /// - `dismissed` se fechou sem prêmio.
+  /// - `dismissed` se fechou sem prêmio após [_rewardedDismissGrace].
   /// - `failed` se falhou ao carregar ou exibir (React pode cancelar sem liberar trilha).
-  void _showRewardedAd() {
+  void _showRewardedAd([String? requestId]) {
     void present(RewardedAd ad) {
       _rewardedDismissNotifyTimer?.cancel();
       _rewardedDismissNotifyTimer = null;
@@ -250,11 +300,11 @@ class _WebViewScreenState extends State<WebViewScreen>
           // mediada / timing WebView), o React não deve fechar o overlay antes do
           // `completed` — senão remove `window.onAdMobResult` e a dica não libera.
           _rewardedDismissNotifyTimer?.cancel();
-          _rewardedDismissNotifyTimer = Timer(const Duration(milliseconds: 450), () {
+          _rewardedDismissNotifyTimer = Timer(_rewardedDismissGrace, () {
             _rewardedDismissNotifyTimer = null;
             if (!mounted) return;
             if (!rewardEarned) {
-              _controller.runJavaScript("window.onAdMobResult('dismissed')");
+              _emitRewardedAdResult('dismissed', requestId);
             }
           });
           _loadRewardedAd();
@@ -264,13 +314,13 @@ class _WebViewScreenState extends State<WebViewScreen>
           ad.dispose();
           if (mounted) setState(() => _rewardedAd = null);
           _loadRewardedAd();
-          _controller.runJavaScript("window.onAdMobResult('failed')");
+          _emitRewardedAdResult('failed', requestId);
         },
       );
       ad.show(
         onUserEarnedReward: (_, _) {
           rewardEarned = true;
-          _controller.runJavaScript("window.onAdMobResult('completed')");
+          _emitRewardedAdResult('completed', requestId);
         },
       );
     }
@@ -293,7 +343,7 @@ class _WebViewScreenState extends State<WebViewScreen>
         },
         onAdFailedToLoad: (error) {
           debugPrint('[AdMob] Rewarded falhou ao carregar: ${error.message}');
-          _controller.runJavaScript("window.onAdMobResult('failed')");
+          _emitRewardedAdResult('failed', requestId);
           _loadRewardedAd();
         },
       ),
@@ -349,11 +399,28 @@ class _WebViewScreenState extends State<WebViewScreen>
 
   // ── Banner ────────────────────────────────────────────────────────────────
 
+  void _notifyBannerAdResult(String result) {
+    final encoded = jsonEncode(result);
+    _controller.runJavaScript(
+      'try { if (typeof window.onBannerAdResult === "function") window.onBannerAdResult($encoded); } catch (e) {}',
+    );
+  }
+
   void _loadBannerAd() {
     if (_showingBanner) return; // já exibindo
 
+    final unitId = _effectiveBannerAdUnitId();
+    if (unitId.isEmpty) {
+      debugPrint(
+        '[AdMob] Banner: em release defina --dart-define=ADMOB_BANNER_ID=ca-app-pub-…/… '
+        '(unidade Banner criada no AdMob).',
+      );
+      _notifyBannerAdResult('failed');
+      return;
+    }
+
     final banner = BannerAd(
-      adUnitId: _bannerAdUnitId,
+      adUnitId: unitId,
       size: AdSize.banner, // 320×50 — alinhado ao placeholder de 50px do AdBanner.tsx
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -368,6 +435,9 @@ class _WebViewScreenState extends State<WebViewScreen>
         onAdFailedToLoad: (ad, error) {
           debugPrint('[AdMob] Banner falhou ao carregar: ${error.message}');
           ad.dispose();
+          if (mounted) {
+            _notifyBannerAdResult('failed');
+          }
         },
       ),
     );

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
 import {
@@ -26,16 +26,25 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
   const ref = useRef<HTMLDivElement>(null)
   const pushed = useRef(false)
   const flutter = useRef(isFlutterApp())
+  const [bannerNativeFailed, setBannerNativeFailed] = useState(false)
 
   useEffect(() => {
     if (isPro) return
 
     if (flutter.current) {
+      setBannerNativeFailed(false)
+      const onResult = (result: string) => {
+        if (result === 'failed') setBannerNativeFailed(true)
+      }
+      ;(window as any).onBannerAdResult = onResult
       // Solicita banner nativo ao AdMob via bridge
       try {
         ;(window as any).AdMobBridge.postMessage('showBanner')
       } catch {}
       return () => {
+        try {
+          delete (window as any).onBannerAdResult
+        } catch {}
         try {
           ;(window as any).AdMobBridge.postMessage('hideBanner')
         } catch {}
@@ -55,6 +64,7 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
 
   // Flutter: banner é renderizado nativamente, exibe espaço reservado
   if (flutter.current) {
+    if (bannerNativeFailed) return null
     return (
       <div className="flex flex-col items-center gap-1">
         {showLabel && (
