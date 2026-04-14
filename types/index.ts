@@ -33,7 +33,10 @@ export interface ExercicioCheckConfig {
 export interface ConteudoExercicioSql {
   modo?: 'sql'
   instrucao: string
-  dica: string
+  /** Uma única dica (legado); use `dicas` para progressão com anúncio. */
+  dica?: string
+  /** Lista de dicas reveladas em sequência (gratuito: uma por anúncio). */
+  dicas?: string[]
   placeholder: string
   schema: string
   checkType: ExercicioCheckType
@@ -51,7 +54,8 @@ export type ConteudoExercicioQuiz =
       modo: 'quiz'
       quizTipo: 'multipla'
       instrucao: string
-      dica: string
+      dica?: string
+      dicas?: string[]
       opcoes: string[]
       indiceCorreto: number
     }
@@ -60,7 +64,8 @@ export type ConteudoExercicioQuiz =
       quizTipo: 'vf'
       afirmacao: string
       instrucao?: string
-      dica: string
+      dica?: string
+      dicas?: string[]
       respostaCorreta: boolean
     }
   | {
@@ -68,7 +73,8 @@ export type ConteudoExercicioQuiz =
       quizTipo: 'reflexao'
       instrucao: string
       cenario?: string
-      dica: string
+      dica?: string
+      dicas?: string[]
       /** Trecho sugerido inserido no textarea após revelar a dica */
       dicaPreenchimento?: string
       placeholder?: string

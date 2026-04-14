@@ -481,21 +481,36 @@
         "checkType": "aggregate",
         "checkConfig": {
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "Você quer uma linha por departamento com a contagem.",
+          "Isso exige agrupar os dados.",
+          "Toda coluna no SELECT que não é uma função de agregação deve aparecer na cláusula de agrupamento também."
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 1 — GROUP BY",
           "conteudo": {
             "pergunta": "Count how many employees exist in each department.",
-            "dica": "You want one row per department with the count. This requires grouping the data. Every column in SELECT that is not an aggregate function must also appear in the grouping clause."
+            "dica": "You want one row per department with the count. This requires grouping the data. Every column in SELECT that is not an aggregate function must also appear in the grouping clause.",
+            "dicas": [
+              "You want one row per department with the count.",
+              "This requires grouping the data.",
+              "Every column in SELECT that is not an aggregate function must also appear in the grouping clause."
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 1 — GROUP BY",
           "conteudo": {
             "pergunta": "Cuenta cuántos empleados hay en cada departamento.",
-            "dica": "Quieres una fila por departamento con el conteo. Esto requiere agrupar los datos. Toda columna en SELECT que no es una función de agregación también debe aparecer en la cláusula de agrupamiento."
+            "dica": "Quieres una fila por departamento con el conteo. Esto requiere agrupar los datos. Toda columna en SELECT que no es una función de agregación también debe aparecer en la cláusula de agrupamiento.",
+            "dicas": [
+              "Quieres una fila por departamento con el conteo.",
+              "Esto requiere agrupar los datos.",
+              "Toda columna en SELECT que no es una función de agregación también debe aparecer en la cláusula de agrupamiento."
+            ]
           }
         }
       }
@@ -514,21 +529,36 @@
         "checkType": "aggregate",
         "checkConfig": {
           "min_rows": 2
-        }
+        },
+        "dicas": [
+          "Para somar separadamente por categoria, você precisa agrupar os dados antes de calcular.",
+          "O que vai no SELECT?",
+          "Qual cláusula diz ao banco para separar os cálculos por categoria?"
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 2 — SUM with GROUP BY",
           "conteudo": {
             "pergunta": "Calculate the total sales per product category.",
-            "dica": "To sum separately by category, you need to group the data before calculating. What goes in SELECT? Which clause tells the database to separate calculations by category?"
+            "dica": "To sum separately by category, you need to group the data before calculating. What goes in SELECT? Which clause tells the database to separate calculations by category?",
+            "dicas": [
+              "To sum separately by category, you need to group the data before calculating.",
+              "What goes in SELECT?",
+              "Which clause tells the database to separate calculations by category?"
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 2 — SUM con GROUP BY",
           "conteudo": {
             "pergunta": "Calcula el total de ventas por categoría de producto.",
-            "dica": "Para sumar por separado por categoría, necesitas agrupar los datos antes de calcular. ¿Qué va en SELECT? ¿Qué cláusula le dice a la base de datos que separe los cálculos por categoría?"
+            "dica": "Para sumar por separado por categoría, necesitas agrupar los datos antes de calcular. ¿Qué va en SELECT? ¿Qué cláusula le dice a la base de datos que separe los cálculos por categoría?",
+            "dicas": [
+              "Para sumar por separado por categoría, necesitas agrupar los datos antes de calcular.",
+              "¿Qué va en SELECT?",
+              "¿Qué cláusula le dice a la base de datos que separe los cálculos por categoría?"
+            ]
           }
         }
       }
@@ -547,21 +577,36 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 1
-        }
+        },
+        "dicas": [
+          "Após agrupar por categoria e contar os produtos, você precisa filtrar os grupos pelo número de itens.",
+          "WHERE não funciona aqui — ele filtra antes do agrupamento.",
+          "Qual cláusula filtra grupos depois?"
+        ]
       },
       "traducoes": {
         "en": {
           "titulo": "Exercise 3 — HAVING",
           "conteudo": {
             "pergunta": "List only product categories that have more than 2 products registered.",
-            "dica": "After grouping by category and counting products, you need to filter groups by number of items. WHERE does not work here — it filters before grouping. Which clause filters groups afterward?"
+            "dica": "After grouping by category and counting products, you need to filter groups by number of items. WHERE does not work here — it filters before grouping. Which clause filters groups afterward?",
+            "dicas": [
+              "After grouping by category and counting products, you need to filter groups by number of items.",
+              "WHERE does not work here — it filters before grouping.",
+              "Which clause filters groups afterward?"
+            ]
           }
         },
         "es": {
           "titulo": "Ejercicio 3 — HAVING",
           "conteudo": {
             "pergunta": "Lista solo las categorías de producto que tienen más de 2 productos registrados.",
-            "dica": "Después de agrupar por categoría y contar los productos, necesitas filtrar los grupos por número de elementos. WHERE no funciona aquí — filtra antes del agrupamiento. ¿Qué cláusula filtra grupos después?"
+            "dica": "Después de agrupar por categoría y contar los productos, necesitas filtrar los grupos por número de elementos. WHERE no funciona aquí — filtra antes del agrupamiento. ¿Qué cláusula filtra grupos después?",
+            "dicas": [
+              "Después de agrupar por categoría y contar los productos, necesitas filtrar los grupos por número de elementos.",
+              "WHERE no funciona aquí — filtra antes del agrupamiento.",
+              "¿Qué cláusula filtra grupos después?"
+            ]
           }
         }
       }
