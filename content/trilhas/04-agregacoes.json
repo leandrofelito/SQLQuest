@@ -4,7 +4,7 @@
   "descricao": "Conte registros, some valores, calcule médias e encontre mínimos e máximos com COUNT, SUM, AVG, MIN e MAX.",
   "icone": "📈",
   "ordem": 6,
-  "xpTotal": 750,
+  "xpTotal": 1450,
   "traducoes": {
     "en": {
       "titulo": "Aggregate Functions",
@@ -45,53 +45,89 @@
       "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "O que são Funções de Agregação?",
+      "xpReward": 50,
+      "titulo": "Resumo Estatístico: COUNT e SUM",
       "conteudo": {
         "blocos": [
+          "Até agora, você aprendeu a filtrar e organizar linhas individuais. Mas e se o seu objetivo for obter uma visão panorâmica? É aqui que entram as **Funções de Agregação**.",
+          "Diferente de um SELECT comum que retorna várias linhas, as funções de agregação processam um conjunto de dados e retornam um **único valor resumido**.",
           {
             "type": "definicao",
-            "termo": "Funções de Agregação",
-            "def": "Funções que processam um conjunto de registros e retornam um único valor resumido. Ex: quantos registros há? Qual a soma total? Qual a média?"
+            "termo": "COUNT(*)",
+            "def": "Funciona como um 'Contador de Passagens'. Ele conta o número total de registros que existem em uma tabela ou que atendem a um filtro."
           },
-          "As 5 funções de agregação mais usadas são: COUNT, SUM, AVG, MIN e MAX.",
+          {
+            "type": "definicao",
+            "termo": "SUM(coluna)",
+            "def": "Funciona como uma 'Balança de Supermercado'. Ele soma todos os valores numéricos de uma coluna específica para entregar o total acumulado."
+          },
+          "**Importante:** Enquanto o COUNT(*) olha para a existência da linha, o SUM() exige que a coluna seja estritamente numérica (inteiros, decimais, etc.). Tentar somar textos resultará em erro no PostgreSQL.",
+          {
+            "type": "code",
+            "code": "SELECT COUNT(*) AS total_planetas \nFROM planetas;",
+            "lese": "Conte todas as linhas da tabela planetas e mostre o resultado sob o apelido 'total_planetas'."
+          },
           {
             "type": "nota",
-            "texto": "Funções de agregação transformam MUITAS linhas em UM único resultado."
+            "texto": "Curiosidade: Funções de agregação como SUM ignoram valores nulos (NULL), mas o COUNT(*) conta todas as linhas, mesmo que alguns campos estejam vazios."
           }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "What are Aggregate Functions?",
+          "titulo": "Statistical Summary: COUNT and SUM",
           "conteudo": {
             "blocos": [
+              "So far, you've learned to filter and organize individual rows. But what if your goal is to get a panoramic view? This is where **Aggregate Functions** come in.",
+              "Unlike a standard SELECT that returns multiple rows, aggregate functions process a dataset and return a **single summarized value**.",
               {
                 "type": "definicao",
-                "termo": "Aggregate Functions",
-                "def": "Functions that process a set of records and return a single summarized value. E.g.: how many records are there? What is the total sum? What is the average?"
+                "termo": "COUNT(*)",
+                "def": "Works like a 'Turnstile Counter'. It counts the total number of records in a table or that meet a filter."
               },
-              "The 5 most used aggregate functions are: COUNT, SUM, AVG, MIN, and MAX.",
+              {
+                "type": "definicao",
+                "termo": "SUM(column)",
+                "def": "Works like a 'Supermarket Scale'. It adds up all the numeric values in a specific column to deliver the accumulated total."
+              },
+              "**Important:** While COUNT(*) looks at row existence, SUM() requires the column to be strictly numeric (integers, decimals, etc.). Trying to sum text will result in an error in PostgreSQL.",
+              {
+                "type": "code",
+                "code": "SELECT COUNT(*) AS total_planetas \nFROM planetas;",
+                "lese": "Count all rows in the planetas table and show the result under the alias 'total_planetas'."
+              },
               {
                 "type": "nota",
-                "texto": "Aggregate functions transform MANY rows into ONE single result."
+                "texto": "Fun fact: aggregate functions like SUM ignore NULL values, but COUNT(*) counts every row even if some fields are empty."
               }
             ]
           }
         },
         "es": {
-          "titulo": "¿Qué son las Funciones de Agregación?",
+          "titulo": "Resumen Estadístico: COUNT y SUM",
           "conteudo": {
             "blocos": [
+              "Hasta ahora, has aprendido a filtrar y organizar filas individuales. Pero, ¿y si tu objetivo es obtener una visión panorámica? Aquí es donde entran las **Funciones de Agregación**.",
+              "A diferencia de un SELECT común que devuelve varias filas, las funciones de agregación procesan un conjunto de datos y devuelven un **único valor resumido**.",
               {
                 "type": "definicao",
-                "termo": "Funciones de Agregación",
-                "def": "Funciones que procesan un conjunto de registros y devuelven un único valor resumido. Ej: ¿cuántos registros hay? ¿Cuál es la suma total? ¿Cuál es el promedio?"
+                "termo": "COUNT(*)",
+                "def": "Funciona como un 'Contador de Pasajes'. Cuenta el número total de registros que existen en una tabla o que cumplen con un filtro."
               },
-              "Las 5 funciones de agregación más usadas son: COUNT, SUM, AVG, MIN y MAX.",
+              {
+                "type": "definicao",
+                "termo": "SUM(columna)",
+                "def": "Funciona como una 'Balanza de Supermercado'. Suma todos los valores numéricos de una columna específica para entregar el total acumulado."
+              },
+              "**Importante:** Mientras COUNT(*) mira la existencia de la fila, SUM() exige que la columna sea estrictamente numérica (enteros, decimales, etc.). Intentar sumar textos dará error en PostgreSQL.",
+              {
+                "type": "code",
+                "code": "SELECT COUNT(*) AS total_planetas \nFROM planetas;",
+                "lese": "Cuenta todas las filas de la tabla planetas y muestra el resultado bajo el alias 'total_planetas'."
+              },
               {
                 "type": "nota",
-                "texto": "Las funciones de agregación transforman MUCHAS filas en UN único resultado."
+                "texto": "Curiosidad: las funciones de agregación como SUM ignoran valores nulos (NULL), pero COUNT(*) cuenta todas las filas aunque algunos campos estén vacíos."
               }
             ]
           }
@@ -100,240 +136,144 @@
     },
     {
       "ordem": 3,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "COUNT — Contando Registros",
+      "xpReward": 100,
+      "titulo": "Censo Galático",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "COUNT",
-            "def": "Conta o número de registros (linhas). COUNT(*) conta tudo, COUNT(coluna) conta apenas valores não-NULL."
-          },
-          {
-            "type": "code",
-            "code": "SELECT COUNT(*) FROM Clientes",
-            "lese": "Conta o número total de registros (linhas) na tabela Clientes"
-          },
-          {
-            "type": "code",
-            "code": "SELECT COUNT(*) AS TotalClientes FROM Clientes\nWHERE Cidade = 'São Paulo'",
-            "lese": "Conta quantos clientes existem em São Paulo e exibe o resultado com o nome 'TotalClientes'"
-          },
-          {
-            "type": "code",
-            "code": "SELECT COUNT(Telefone) FROM Clientes",
-            "lese": "Conta apenas os clientes que têm telefone cadastrado (ignora os NULL)"
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual função de agregação deve ser utilizada para descobrir o número total de linhas presentes em uma tabela?",
+        "opcoes": [
+          "COUNT(*)",
+          "SUM(*)",
+          "TOTAL()",
+          "ADD()"
+        ],
+        "indiceCorreto": 0,
+        "dica": "Pense no comando que 'conta' as ocorrências em vez de somar valores internos."
       },
       "traducoes": {
         "en": {
-          "titulo": "COUNT — Counting Records",
+          "titulo": "Galactic Census",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "COUNT",
-                "def": "Counts the number of records (rows). COUNT(*) counts everything, COUNT(column) counts only non-NULL values."
-              },
-              {
-                "type": "code",
-                "code": "SELECT COUNT(*) FROM Clientes",
-                "lese": "Counts the total number of records (rows) in the Clientes table"
-              },
-              {
-                "type": "code",
-                "code": "SELECT COUNT(*) AS TotalClientes FROM Clientes\nWHERE Cidade = 'São Paulo'",
-                "lese": "Counts how many customers exist in São Paulo and displays the result as 'TotalClientes'"
-              },
-              {
-                "type": "code",
-                "code": "SELECT COUNT(Telefone) FROM Clientes",
-                "lese": "Counts only customers who have a phone registered (ignores NULLs)"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which aggregate function should be used to find out the total number of rows in a table?",
+            "opcoes": [
+              "COUNT(*)",
+              "SUM(*)",
+              "TOTAL()",
+              "ADD()"
+            ],
+            "indiceCorreto": 0,
+            "dica": "Think of the command that 'counts' occurrences instead of adding internal values."
           }
         },
         "es": {
-          "titulo": "COUNT — Contando Registros",
+          "titulo": "Censo Galáctico",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "COUNT",
-                "def": "Cuenta el número de registros (filas). COUNT(*) cuenta todo, COUNT(columna) cuenta solo los valores no NULL."
-              },
-              {
-                "type": "code",
-                "code": "SELECT COUNT(*) FROM Clientes",
-                "lese": "Cuenta el número total de registros (filas) en la tabla Clientes"
-              },
-              {
-                "type": "code",
-                "code": "SELECT COUNT(*) AS TotalClientes FROM Clientes\nWHERE Cidade = 'São Paulo'",
-                "lese": "Cuenta cuántos clientes hay en São Paulo y muestra el resultado como 'TotalClientes'"
-              },
-              {
-                "type": "code",
-                "code": "SELECT COUNT(Telefone) FROM Clientes",
-                "lese": "Cuenta solo los clientes que tienen teléfono registrado (ignora los NULL)"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué función de agregación se debe utilizar para descubrir el número total de filas presentes en una tabla?",
+            "opcoes": [
+              "COUNT(*)",
+              "SUM(*)",
+              "TOTAL()",
+              "ADD()"
+            ],
+            "indiceCorreto": 0,
+            "dica": "Piensa en el comando que 'cuenta' las ocurrencias en lugar de sumar valores internos."
           }
         }
       }
     },
     {
       "ordem": 4,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "SUM e AVG — Soma e Média",
+      "xpReward": 100,
+      "titulo": "Matemática de Strings",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "code",
-            "code": "SELECT SUM(Valor) FROM Pedidos",
-            "lese": "Soma o valor de todos os pedidos da tabela — retorna o total geral de vendas"
-          },
-          {
-            "type": "code",
-            "code": "SELECT SUM(Valor) AS TotalVendas FROM Pedidos\nWHERE MES = '2024-01'",
-            "lese": "Soma apenas os pedidos de janeiro de 2024 e nomeia o resultado como TotalVendas"
-          },
-          {
-            "type": "code",
-            "code": "SELECT AVG(Salario) AS SalarioMedio FROM Funcionarios",
-            "lese": "Calcula a média salarial de todos os funcionários e exibe como SalarioMedio"
-          },
-          {
-            "type": "nota",
-            "texto": "SUM e AVG só funcionam com colunas numéricas. Usar em colunas de texto resultará em erro."
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a possibilidade técnica no PostgreSQL:",
+        "afirmacao": "A função SUM() pode ser aplicada em colunas do tipo texto (como o nome de um planeta) para concatenar automaticamente todas as palavras em um único resultado.",
+        "respostaCorreta": false,
+        "dica": "SUM() é uma operação aritmética. Para textos, o comportamento esperado seria um erro de tipo de dado no banco."
       },
       "traducoes": {
         "en": {
-          "titulo": "SUM and AVG — Sum and Average",
+          "titulo": "String Mathematics",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "SELECT SUM(Valor) FROM Pedidos",
-                "lese": "Sums the value of all orders in the table — returns the total overall sales"
-              },
-              {
-                "type": "code",
-                "code": "SELECT SUM(Valor) AS TotalVendas FROM Pedidos\nWHERE MES = '2024-01'",
-                "lese": "Sums only January 2024 orders and names the result TotalVendas"
-              },
-              {
-                "type": "code",
-                "code": "SELECT AVG(Salario) AS SalarioMedio FROM Funcionarios",
-                "lese": "Calculates the average salary of all employees and displays it as SalarioMedio"
-              },
-              {
-                "type": "nota",
-                "texto": "SUM and AVG only work with numeric columns. Using them on text columns will result in an error."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the technical possibility in PostgreSQL:",
+            "afirmacao": "The SUM() function can be applied to text-type columns (like a planet's name) to automatically concatenate all words into a single result.",
+            "respostaCorreta": false,
+            "dica": "SUM() is an arithmetic operation. For text, the expected behavior would be a data type error in the database."
           }
         },
         "es": {
-          "titulo": "SUM y AVG — Suma y Promedio",
+          "titulo": "Matemática de Cadenas",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "SELECT SUM(Valor) FROM Pedidos",
-                "lese": "Suma el valor de todos los pedidos de la tabla — devuelve el total general de ventas"
-              },
-              {
-                "type": "code",
-                "code": "SELECT SUM(Valor) AS TotalVendas FROM Pedidos\nWHERE MES = '2024-01'",
-                "lese": "Suma solo los pedidos de enero 2024 y nombra el resultado como TotalVendas"
-              },
-              {
-                "type": "code",
-                "code": "SELECT AVG(Salario) AS SalarioMedio FROM Funcionarios",
-                "lese": "Calcula el salario promedio de todos los empleados y lo muestra como SalarioMedio"
-              },
-              {
-                "type": "nota",
-                "texto": "SUM y AVG solo funcionan con columnas numéricas. Usarlos en columnas de texto resultará en error."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la posibilidad técnica en PostgreSQL:",
+            "afirmacao": "La función SUM() se puede aplicar en columnas de tipo texto (como el nombre de un planeta) para concatenar automáticamente todas las palabras en un solo resultado.",
+            "respostaCorreta": false,
+            "dica": "SUM() es una operación aritmética. Para textos, el comportamiento esperado sería un error de tipo de dato en la base."
           }
         }
       }
     },
     {
       "ordem": 5,
-      "tipo": "texto",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "MIN e MAX — Mínimo e Máximo",
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Contagem Total",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "code",
-            "code": "SELECT MIN(Preco) AS MaisBarato, MAX(Preco) AS MaisCaro\nFROM Produtos",
-            "lese": "Retorna o menor preço (como MaisBarato) e o maior preço (como MaisCaro) de todos os produtos em uma única linha"
-          },
-          {
-            "type": "code",
-            "code": "SELECT MIN(DataPedido) AS PrimeiroPedido FROM Pedidos",
-            "lese": "Retorna a data do pedido mais antigo (menor data) da tabela"
-          },
-          {
-            "type": "nota",
-            "texto": "MIN e MAX funcionam com números, datas e texto (para texto, usam a ordem alfabética)."
-          }
-        ]
+        "instrucao": "Conte o total de registros (linhas) presentes na tabela planetas.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Vênus', 'Escaldante');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["count"],
+          "min_rows": 1
+        },
+        "dica": "Use a função COUNT(*) no seu comando SELECT para realizar o censo total da tabela.",
+        "explicacaoTecnica": "O COUNT(*) é uma operação altamente otimizada no PostgreSQL para retornar a cardinalidade total de um conjunto de resultados."
       },
       "traducoes": {
         "en": {
-          "titulo": "MIN and MAX — Minimum and Maximum",
+          "titulo": "Practice: Total Count",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "SELECT MIN(Preco) AS MaisBarato, MAX(Preco) AS MaisCaro\nFROM Produtos",
-                "lese": "Returns the lowest price (as MaisBarato) and the highest price (as MaisCaro) of all products in a single row"
-              },
-              {
-                "type": "code",
-                "code": "SELECT MIN(DataPedido) AS PrimeiroPedido FROM Pedidos",
-                "lese": "Returns the date of the oldest order (lowest date) in the table"
-              },
-              {
-                "type": "nota",
-                "texto": "MIN and MAX work with numbers, dates, and text (for text, they use alphabetical order)."
-              }
-            ]
+            "instrucao": "Count the total records (rows) present in the planets table.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Vênus', 'Escaldante');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["count"],
+              "min_rows": 1
+            },
+            "dica": "Use the COUNT(*) function in your SELECT command to perform the total census of the table.",
+            "explicacaoTecnica": "COUNT(*) is a highly optimized operation in PostgreSQL to return the total cardinality of a result set."
           }
         },
         "es": {
-          "titulo": "MIN y MAX — Mínimo y Máximo",
+          "titulo": "Práctica: Conteo Total",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "SELECT MIN(Preco) AS MaisBarato, MAX(Preco) AS MaisCaro\nFROM Produtos",
-                "lese": "Devuelve el precio más bajo (como MaisBarato) y el precio más alto (como MaisCaro) de todos los productos en una sola fila"
-              },
-              {
-                "type": "code",
-                "code": "SELECT MIN(DataPedido) AS PrimeiroPedido FROM Pedidos",
-                "lese": "Devuelve la fecha del pedido más antiguo (fecha menor) de la tabla"
-              },
-              {
-                "type": "nota",
-                "texto": "MIN y MAX funcionan con números, fechas y texto (para texto, usan el orden alfabético)."
-              }
-            ]
+            "instrucao": "Cuenta el total de registros (filas) presentes en la tabla planetas.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Vênus', 'Escaldante');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["count"],
+              "min_rows": 1
+            },
+            "dica": "Usa la función COUNT(*) en tu comando SELECT para realizar el censo total de la tabla.",
+            "explicacaoTecnica": "COUNT(*) es una operación altamente optimizada en PostgreSQL para devolver la cardinalidad total de un conjunto de resultados."
           }
         }
       }
@@ -342,53 +282,86 @@
       "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Combinando Múltiplas Agregações",
+      "xpReward": 50,
+      "titulo": "AVG, MIN e MAX: Os Buscadores de Recordes",
       "conteudo": {
         "blocos": [
-          "Você pode usar múltiplas funções de agregação na mesma query para um relatório completo:",
+          "Continuando nossa jornada pelas Funções de Agregação, vamos além da contagem. Como Arquitetos de Dados, muitas vezes precisamos identificar tendências e extremos nos nossos conjuntos de dados.",
+          {
+            "type": "definicao",
+            "termo": "AVG(coluna)",
+            "def": "Calcula a média aritmética dos valores (soma total dividida pela contagem). É exclusivo para colunas numéricas."
+          },
+          {
+            "type": "definicao",
+            "termo": "MIN(coluna) e MAX(coluna)",
+            "def": "São os 'buscadores de recordes'. O MIN encontra o menor valor e o MAX encontra o maior valor em um grupo."
+          },
+          "**O Diferencial Bíblia do SQL:** Enquanto a média (AVG) só faz sentido para números, o MIN e o MAX são mais versáteis. Eles funcionam com **datas** (o registro mais antigo ou mais recente) e até com **textos** (seguindo a ordem alfabética de A a Z).",
           {
             "type": "code",
-            "code": "SELECT\n  COUNT(*) AS TotalProdutos,\n  AVG(Preco) AS PrecoMedio,\n  MIN(Preco) AS MaisBarato,\n  MAX(Preco) AS MaisCaro,\n  SUM(Estoque) AS EstoqueTotal\nFROM Produtos",
-            "lese": "Retorna um relatório completo dos produtos: total de produtos, preço médio, menor preço, maior preço e estoque total — tudo em uma única linha"
+            "code": "SELECT \n  AVG(populacao) AS media_habitantes, \n  MAX(id) AS ultimo_id \nFROM planetas;",
+            "lese": "Calcule a média da coluna populacao e encontre o maior valor da coluna id na tabela planetas."
           },
           {
             "type": "nota",
-            "texto": "Quando você usa funções de agregação sem GROUP BY, você obtém uma única linha com o resumo de toda a tabela."
+            "texto": "Lembre-se: Essas funções também ignoram valores NULL, processando apenas os dados existentes na coluna."
           }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Combining Multiple Aggregations",
+          "titulo": "AVG, MIN, and MAX: The Record Seekers",
           "conteudo": {
             "blocos": [
-              "You can use multiple aggregate functions in the same query for a complete report:",
+              "Continuing our journey through Aggregate Functions, let's go beyond counting. As Data Architects, we often need to identify trends and extremes.",
+              {
+                "type": "definicao",
+                "termo": "AVG(column)",
+                "def": "Calculates the arithmetic mean of values (total sum divided by count). It is exclusive to numeric columns."
+              },
+              {
+                "type": "definicao",
+                "termo": "MIN(column) and MAX(column)",
+                "def": "The 'record seekers'. MIN finds the lowest value and MAX finds the highest value in a group."
+              },
+              "**SQL Bible Differential:** While AVG only makes sense for numbers, MIN and MAX are more versatile. They work with **dates** (the oldest or newest record) and even **text** (alphabetical order from A to Z).",
               {
                 "type": "code",
-                "code": "SELECT\n  COUNT(*) AS TotalProdutos,\n  AVG(Preco) AS PrecoMedio,\n  MIN(Preco) AS MaisBarato,\n  MAX(Preco) AS MaisCaro,\n  SUM(Estoque) AS EstoqueTotal\nFROM Produtos",
-                "lese": "Returns a complete product report: total products, average price, lowest price, highest price, and total stock — all in a single row"
+                "code": "SELECT \n  AVG(populacao) AS media_habitantes, \n  MAX(id) AS ultimo_id \nFROM planetas;",
+                "lese": "Calculate the average of the populacao column and find the highest id value in the planetas table."
               },
               {
                 "type": "nota",
-                "texto": "When you use aggregate functions without GROUP BY, you get a single row summarizing the entire table."
+                "texto": "Remember: these functions also ignore NULL values, processing only existing data in the column."
               }
             ]
           }
         },
         "es": {
-          "titulo": "Combinando Múltiples Agregaciones",
+          "titulo": "AVG, MIN y MAX: Los Buscadores de Récords",
           "conteudo": {
             "blocos": [
-              "Puedes usar múltiples funciones de agregación en la misma query para un informe completo:",
+              "Continuando nuestro viaje por las Funciones de Agregación, vamos más allá del conteo. Como Arquitectos de Datos, a menudo necesitamos identificar tendencias y extremos.",
+              {
+                "type": "definicao",
+                "termo": "AVG(columna)",
+                "def": "Calcula el promedio aritmético de los valores (suma total dividida por el conteo). Es exclusivo para columnas numéricas."
+              },
+              {
+                "type": "definicao",
+                "termo": "MIN(columna) y MAX(columna)",
+                "def": "Son los 'buscadores de récords'. MIN encuentra el valor más bajo y MAX encuentra el valor más alto en un grupo."
+              },
+              "**Diferencial Biblia del SQL:** Mientras que el promedio (AVG) solo tiene sentido para números, MIN y MAX son más versátiles. Funcionan con **fechas** (el registro más antiguo o más reciente) e incluso con **textos** (orden alfabético de la A a la Z).",
               {
                 "type": "code",
-                "code": "SELECT\n  COUNT(*) AS TotalProdutos,\n  AVG(Preco) AS PrecoMedio,\n  MIN(Preco) AS MaisBarato,\n  MAX(Preco) AS MaisCaro,\n  SUM(Estoque) AS EstoqueTotal\nFROM Produtos",
-                "lese": "Devuelve un informe completo de productos: total de productos, precio promedio, precio más bajo, precio más alto y stock total — todo en una sola fila"
+                "code": "SELECT \n  AVG(populacao) AS media_habitantes, \n  MAX(id) AS ultimo_id \nFROM planetas;",
+                "lese": "Calcula el promedio de la columna populacao y encuentra el mayor valor de la columna id en la tabla planetas."
               },
               {
                 "type": "nota",
-                "texto": "Cuando usas funciones de agregación sin GROUP BY, obtienes una sola fila con el resumen de toda la tabla."
+                "texto": "Recuerda: estas funciones también ignoran valores NULL y solo procesan los datos existentes en la columna."
               }
             ]
           }
@@ -397,93 +370,54 @@
     },
     {
       "ordem": 7,
-      "tipo": "resumo",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Resumo: Agregações",
+      "xpReward": 100,
+      "titulo": "Buscando o Topo",
       "conteudo": {
-        "cor": "azul",
-        "itens": [
-          "COUNT(*): conta todos os registros",
-          "COUNT(col): conta registros não-NULL",
-          "SUM(col): soma os valores numéricos",
-          "AVG(col): média dos valores numéricos",
-          "MIN(col): menor valor",
-          "MAX(col): maior valor",
-          "Combine com AS para nomear o resultado"
-        ]
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual função você utilizaria para encontrar o preço do produto mais caro em uma tabela de estoque?",
+        "opcoes": [
+          "AVG()",
+          "MIN()",
+          "MAX()",
+          "SUM()"
+        ],
+        "indiceCorreto": 2,
+        "dica": "Pense no 'máximo'. Você quer o valor que está no topo da escala."
       },
       "traducoes": {
         "en": {
-          "titulo": "Summary: Aggregations",
+          "titulo": "Seeking the Top",
           "conteudo": {
-            "titulo": "Summary: Aggregations",
-            "itens": [
-              {
-                "titulo": "COUNT(*)",
-                "descricao": "counts all records"
-              },
-              {
-                "titulo": "COUNT(col)",
-                "descricao": "counts non-NULL records"
-              },
-              {
-                "titulo": "SUM(col)",
-                "descricao": "sums numeric values"
-              },
-              {
-                "titulo": "AVG(col)",
-                "descricao": "average of numeric values"
-              },
-              {
-                "titulo": "MIN(col)",
-                "descricao": "minimum value"
-              },
-              {
-                "titulo": "MAX(col)",
-                "descricao": "maximum value"
-              },
-              {
-                "titulo": "AS alias",
-                "descricao": "combine with AS to name the result"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which function would you use to find the most expensive product price in an inventory table?",
+            "opcoes": [
+              "AVG()",
+              "MIN()",
+              "MAX()",
+              "SUM()"
+            ],
+            "indiceCorreto": 2,
+            "dica": "Think of 'maximum'. You want the value that is at the top of the scale."
           }
         },
         "es": {
-          "titulo": "Resumen: Agregaciones",
+          "titulo": "Buscando la Cima",
           "conteudo": {
-            "titulo": "Resumen: Agregaciones",
-            "itens": [
-              {
-                "titulo": "COUNT(*)",
-                "descricao": "cuenta todos los registros"
-              },
-              {
-                "titulo": "COUNT(col)",
-                "descricao": "cuenta registros no NULL"
-              },
-              {
-                "titulo": "SUM(col)",
-                "descricao": "suma los valores numéricos"
-              },
-              {
-                "titulo": "AVG(col)",
-                "descricao": "promedio de los valores numéricos"
-              },
-              {
-                "titulo": "MIN(col)",
-                "descricao": "valor mínimo"
-              },
-              {
-                "titulo": "MAX(col)",
-                "descricao": "valor máximo"
-              },
-              {
-                "titulo": "AS alias",
-                "descricao": "combina con AS para nombrar el resultado"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué función utilizarías para encontrar el precio del producto más caro en una tabla de inventario?",
+            "opcoes": [
+              "AVG()",
+              "MIN()",
+              "MAX()",
+              "SUM()"
+            ],
+            "indiceCorreto": 2,
+            "dica": "Piensa en el 'máximo'. Quieres el valor que está en la cima de la escala."
           }
         }
       }
@@ -491,32 +425,38 @@
     {
       "ordem": 8,
       "tipo": "exercicio",
-      "temAnuncio": true,
+      "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "Exercício 1 — COUNT",
+      "titulo": "Limitação da Média",
       "conteudo": {
-        "instrucao": "Conte quantos funcionários existem na empresa.",
-        "dica": "Para retornar quantos registros existem na tabela, existe uma função de agregação que começa com C. Ela vai dentro do SELECT. O * dentro dela significa 'contar tudo'.",
-        "placeholder": "SELECT COUNT(*) ...",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL, Cargo TEXT); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200,'Dev'),(2,'Carlos','Vendas',9800,'Gerente'),(3,'Maria','TI',5500,'Analista'),(4,'João','TI',8100,'Dev Senior'),(5,'Lucia','RH',4800,'Assistente'),(6,'Pedro','Vendas',6200,'Vendedor');",
-        "checkType": "aggregate",
-        "checkConfig": {
-          "min_rows": 1
-        }
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a lógica matemática no SQL:",
+        "afirmacao": "A função AVG() pode ser usada para calcular a média de uma coluna que contém nomes de cidades, retornando a 'cidade média' da lista.",
+        "respostaCorreta": false,
+        "dica": "A média exige uma divisão matemática. Como você dividiria a palavra 'Londres' por 2?"
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 1 — COUNT",
+          "titulo": "Average Limitation",
           "conteudo": {
-            "pergunta": "Count how many employees exist in the company.",
-            "dica": "To return how many records exist in a table, there is an aggregate function starting with C. It goes inside SELECT. The * inside it means 'count everything'."
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the mathematical logic in SQL:",
+            "afirmacao": "The AVG() function can be used to calculate the average of a column containing city names, returning the 'average city' of the list.",
+            "respostaCorreta": false,
+            "dica": "The average requires a mathematical division. How would you divide the word 'London' by 2?"
           }
         },
         "es": {
-          "titulo": "Ejercicio 1 — COUNT",
+          "titulo": "Limitación del Promedio",
           "conteudo": {
-            "pergunta": "Cuenta cuántos empleados hay en la empresa.",
-            "dica": "Para saber cuántos registros hay en la tabla, existe una función de agregación que empieza con C. Va dentro del SELECT. El * dentro de ella significa 'contar todo'."
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la lógica matemática en SQL:",
+            "afirmacao": "La función AVG() se puede usar para calcular el promedio de una columna que contiene nombres de ciudades, devolviendo la 'ciudad promedio' de la lista.",
+            "respostaCorreta": false,
+            "dica": "El promedio requiere una división matemática. ¿Cómo dividirías la palabra 'Londres' por 2?"
           }
         }
       }
@@ -526,77 +466,480 @@
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
-      "titulo": "Exercício 2 — SUM e AVG",
+      "titulo": "Prática: O Maior ID",
       "conteudo": {
-        "instrucao": "Calcule a soma total e a média dos salários de todos os funcionários. Nomeie os resultados como TotalSalarios e MediaSalarial.",
-        "dica": "O exercício pede dois cálculos diferentes: a soma total e a média. Cada um tem sua função de agregação. Você pode ter várias no mesmo SELECT. Use AS para dar os nomes pedidos: TotalSalarios e MediaSalarial.",
-        "placeholder": "SELECT SUM(Salario) AS ...",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200);",
+        "instrucao": "Selecione o maior valor de id da tabela planetas.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": [
-            "TotalSalarios",
-            "MediaSalarial"
-          ],
+          "required_columns": ["max"],
           "min_rows": 1
-        }
+        },
+        "dica": "Use SELECT MAX(id) FROM planetas;. O resultado será o maior número encontrado nessa coluna.",
+        "explicacaoTecnica": "O MAX() percorre os valores da coluna id (ou consulta o índice da PK no Neon.tech) e retorna o valor de maior magnitude encontrado."
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 2 — SUM and AVG",
+          "titulo": "Practice: The Highest ID",
           "conteudo": {
-            "pergunta": "Calculate the total sum and average of all employees' salaries. Name the results TotalSalarios and MediaSalarial.",
-            "dica": "The exercise asks for two different calculations: the total sum and the average. Each has its own aggregate function. You can have multiple ones in the same SELECT. Use AS to give the requested names: TotalSalarios and MediaSalarial."
+            "instrucao": "Select the highest id value from the planets table.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["max"],
+              "min_rows": 1
+            },
+            "dica": "Use SELECT MAX(id) FROM planetas;. The result will be the highest number found in that column.",
+            "explicacaoTecnica": "MAX() scans the values of the id column (or consults the PK index in Neon.tech) and returns the highest magnitude value found."
           }
         },
         "es": {
-          "titulo": "Ejercicio 2 — SUM y AVG",
+          "titulo": "Práctica: El ID más Alto",
           "conteudo": {
-            "pergunta": "Calcula la suma total y el promedio de los salarios de todos los empleados. Nombra los resultados como TotalSalarios y MediaSalarial.",
-            "dica": "El ejercicio pide dos cálculos distintos: la suma total y el promedio. Cada uno tiene su función de agregación. Puedes tener varias en el mismo SELECT. Usa AS para dar los nombres pedidos: TotalSalarios y MediaSalarial."
+            "instrucao": "Selecciona el valor más alto de id de la tabla planetas.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Saturno', 'Ventoso');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["max"],
+              "min_rows": 1
+            },
+            "dica": "Usa SELECT MAX(id) FROM planetas;. El resultado será el número más alto encontrado en esa columna.",
+            "explicacaoTecnica": "MAX() recorre los valores de la columna id (o consulta el índice de la PK en Neon.tech) y devuelve el valor de mayor magnitud encontrado."
           }
         }
       }
     },
     {
       "ordem": 10,
-      "tipo": "exercicio",
-      "temAnuncio": true,
-      "xpReward": 100,
-      "titulo": "Exercício 3 — MIN e MAX",
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Triagem de Dados: A Cláusula GROUP BY",
       "conteudo": {
-        "instrucao": "Encontre o produto mais barato e o mais caro. Nomeie os resultados como MaisBarato e MaisCaro.",
-        "dica": "Há duas funções de agregação, uma para o menor valor e outra para o maior. Coloque as duas no mesmo SELECT e use AS para dar os nomes exatos pedidos: MaisBarato e MaisCaro.",
-        "placeholder": "SELECT MIN(Preco) AS ...",
-        "schema": "CREATE TABLE Produtos (ID INTEGER, Nome TEXT, Preco REAL, Categoria TEXT); INSERT INTO Produtos VALUES (1,'Notebook',3200,'Eletrônicos'),(2,'Mouse',89.90,'Eletrônicos'),(3,'Monitor',1200,'Eletrônicos'),(4,'Mesa',450,'Móveis'),(5,'Cadeira',890,'Móveis'),(6,'Caneta',5.50,'Papelaria');",
-        "checkType": "columns",
-        "checkConfig": {
-          "required_columns": [
-            "MaisBarato",
-            "MaisCaro"
-          ],
-          "min_rows": 1
-        }
+        "blocos": [
+          "Até agora, nossas funções de agregação olhavam para a tabela como um todo. Mas e se você quisesse saber quantos planetas existem **para cada tipo de clima** separadamente? É aqui que o **GROUP BY** entra em cena.",
+          "O GROUP BY funciona como um funcionário de triagem em um centro de distribuição: ele separa os registros em 'caixas' (grupos) antes de aplicar qualquer contagem ou soma. Para cada caixa criada, o banco de dados gera uma única linha de resultado.",
+          {
+            "type": "definicao",
+            "termo": "GROUP BY",
+            "def": "Cláusula que agrupa linhas que têm os mesmos valores em colunas especificadas, permitindo realizar cálculos em cada grupo individualmente."
+          },
+          "**Analogia das Roupas:** Imagine que você tem uma pilha de roupas. Antes de contar, você as separa por cor. O GROUP BY cria as pilhas (Azul, Vermelho, Branco), e o COUNT(*) conta as peças dentro de cada pilha.",
+          "**A Regra de Ouro do Agrupamento:** Se você selecionar uma coluna normal (como `clima`) junto com uma função de agregação (como `COUNT`), essa coluna **precisa** obrigatoriamente aparecer na cláusula GROUP BY. Caso contrário, o PostgreSQL não saberá como organizar os dados.",
+          {
+            "type": "code",
+            "code": "SELECT clima, COUNT(*) \nFROM planetas \nGROUP BY clima;",
+            "lese": "Selecione o clima e a contagem de registros da tabela planetas, organizando os resultados em grupos baseados no clima."
+          }
+        ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 3 — MIN and MAX",
+          "titulo": "Data Sorting: The GROUP BY Clause",
           "conteudo": {
-            "pergunta": "Find the cheapest and most expensive product. Name the results MaisBarato and MaisCaro.",
-            "dica": "There are two aggregate functions, one for the minimum value and one for the maximum. Put both in the same SELECT and use AS to give the exact names requested: MaisBarato and MaisCaro."
+            "blocos": [
+              "So far, our aggregate functions looked at the table as a whole. But what if you wanted to know how many planets exist **for each climate type** separately? This is where **GROUP BY** comes in.",
+              "GROUP BY works like a sorting clerk in a distribution center: it separates records into 'boxes' (groups) before applying any counts or sums. For each box created, the database produces a single result row.",
+              {
+                "type": "definicao",
+                "termo": "GROUP BY",
+                "def": "A clause that groups rows that have the same values in specified columns, allowing calculations on each individual group."
+              },
+              "**Clothing analogy:** Imagine a pile of clothes. Before counting, you sort them by color. GROUP BY creates the piles (Blue, Red, White), and COUNT(*) counts the items in each pile.",
+              "**The Golden Rule of Grouping:** If you select a normal column (like `clima`) together with an aggregate function (like `COUNT`), that column **must** appear in the GROUP BY clause. Otherwise PostgreSQL will not know how to organize the data.",
+              {
+                "type": "code",
+                "code": "SELECT clima, COUNT(*) \nFROM planetas \nGROUP BY clima;",
+                "lese": "Select the climate and the row count from planetas, organizing results into groups by climate."
+              }
+            ]
           }
         },
         "es": {
-          "titulo": "Ejercicio 3 — MIN y MAX",
+          "titulo": "Clasificación de Datos: La Cláusula GROUP BY",
           "conteudo": {
-            "pergunta": "Encuentra el producto más barato y el más caro. Nombra los resultados como MaisBarato y MaisCaro.",
-            "dica": "Hay dos funciones de agregación, una para el valor mínimo y otra para el máximo. Ponlas ambas en el mismo SELECT y usa AS para dar los nombres exactos pedidos: MaisBarato y MaisCaro."
+            "blocos": [
+              "Hasta ahora, nuestras funciones de agregación miraban la tabla como un todo. ¿Pero qué pasa si quieres saber cuántos planetas hay **por cada tipo de clima**? Aquí es donde entra el **GROUP BY**.",
+              "El GROUP BY funciona como un empleado de clasificación en un centro de distribución: separa los registros en 'cajas' (grupos) antes de aplicar cualquier conteo o suma. Para cada caja creada, la base genera una sola fila de resultado.",
+              {
+                "type": "definicao",
+                "termo": "GROUP BY",
+                "def": "Cláusula que agrupa filas que tienen los mismos valores en columnas especificadas, permitiendo realizar cálculos en cada grupo individualmente."
+              },
+              "**Analogía de la ropa:** Imagina un montón de ropa. Antes de contar, la separas por color. GROUP BY crea las pilas (Azul, Rojo, Blanco) y COUNT(*) cuenta las piezas en cada pila.",
+              "**La Regla de Oro del Agrupamiento:** Si seleccionas una columna normal (como `clima`) junto con una función de agregación (como `COUNT`), esa columna **debe** aparecer obligatoriamente en la cláusula GROUP BY. Si no, PostgreSQL no sabrá cómo organizar los datos.",
+              {
+                "type": "code",
+                "code": "SELECT clima, COUNT(*) \nFROM planetas \nGROUP BY clima;",
+                "lese": "Selecciona el clima y el conteo de filas de la tabla planetas, agrupando los resultados por clima."
+              }
+            ]
           }
         }
       }
     },
     {
       "ordem": 11,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "O Poder dos Subtotais",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual é o objetivo principal de utilizar a cláusula GROUP BY em conjunto com uma função de agregação como o COUNT()?",
+        "opcoes": [
+          "Remover permanentemente as linhas duplicadas da tabela física.",
+          "Gerar subtotais ou contagens separadas para cada categoria encontrada na coluna.",
+          "Ordenar o resultado final em ordem alfabética automaticamente.",
+          "Impedir que usuários sem permissão vejam os dados agrupados."
+        ],
+        "indiceCorreto": 1,
+        "dica": "Sem o agrupamento, o banco conta tudo junto. Com ele, você cria pequenas 'caixas' para cada categoria."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Power of Subtotals",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the main purpose of using the GROUP BY clause along with an aggregate function like COUNT()?",
+            "opcoes": [
+              "To permanently remove duplicate rows from the physical table.",
+              "To generate subtotals or separate counts for each category found in the column.",
+              "To automatically sort the final result in alphabetical order.",
+              "To prevent unauthorized users from seeing grouped data."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Without grouping, the database counts everything together. With it, you create small 'boxes' for each category."
+          }
+        },
+        "es": {
+          "titulo": "El Poder de los Subtotales",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es el objetivo principal de utilizar la cláusula GROUP BY junto con una función de agregación como COUNT()?",
+            "opcoes": [
+              "Eliminar permanentemente las filas duplicadas de la tabla física.",
+              "Generar subtotales o conteos separados para cada categoría encontrada en la columna.",
+              "Ordenar el resultado final en orden alfabético automáticamente.",
+              "Impedir que usuarios sin permiso vean los datos agrupados."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Sin el agrupamiento, la base cuenta todo junto. Con él, creas pequeñas 'cajas' para cada categoría."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Regra de Ouro",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a restrição de sintaxe do agrupamento:",
+        "afirmacao": "Ao utilizar o GROUP BY, eu posso selecionar qualquer coluna da tabela no meu comando SELECT, mesmo que essa coluna não esteja listada no agrupamento ou dentro de uma função de agregação.",
+        "respostaCorreta": false,
+        "dica": "Lembre-se da Regra de Ouro: se a coluna aparece no SELECT e não está 'encolhida' por uma função, ela DEVE estar no GROUP BY."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Golden Rule",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the grouping syntax restriction:",
+            "afirmacao": "When using GROUP BY, I can select any column from the table in my SELECT command, even if that column is not listed in the grouping or within an aggregate function.",
+            "respostaCorreta": false,
+            "dica": "Remember the Golden Rule: if the column appears in the SELECT and is not 'shrunk' by a function, it MUST be in the GROUP BY."
+          }
+        },
+        "es": {
+          "titulo": "V o F: La Regla de Oro",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la restricción de sintaxis del agrupamiento:",
+            "afirmacao": "Al utilizar el GROUP BY, puedo seleccionar cualquier columna de la tabla en mi comando SELECT, incluso si esa columna no está listada en el agrupamiento o dentro de una función de agregación.",
+            "respostaCorreta": false,
+            "dica": "Recuerda la Regla de Oro: si la columna aparece en el SELECT y no está 'encogida' por una función, DEBE estar en el GROUP BY."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 13,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Censo por Clima",
+      "conteudo": {
+        "instrucao": "Selecione o clima e a contagem total de planetas para cada clima, agrupando o resultado por clima.",
+        "placeholder": "SELECT ..., COUNT(*) FROM ... GROUP BY ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["clima", "count"],
+          "min_rows": 3
+        },
+        "dica": "Liste 'clima' e 'COUNT(*)' no SELECT e não esqueça de repetir 'clima' após a cláusula GROUP BY.",
+        "explicacaoTecnica": "O PostgreSQL organiza os dados em buckets baseados nos valores da coluna 'clima' e, para cada bucket, executa a função de contagem, devolvendo uma linha por categoria única."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Practice: Climate Census",
+          "conteudo": {
+            "instrucao": "Select the climate and the total count of planets for each climate, grouping the result by climate.",
+            "placeholder": "SELECT ..., COUNT(*) FROM ... GROUP BY ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["clima", "count"],
+              "min_rows": 3
+            },
+            "dica": "List 'clima' and 'COUNT(*)' in the SELECT and don't forget to repeat 'clima' after the GROUP BY clause.",
+            "explicacaoTecnica": "PostgreSQL organizes data into buckets based on 'clima' column values and, for each bucket, executes the count function, returning one row per unique category."
+          }
+        },
+        "es": {
+          "titulo": "Práctica: Censo por Clima",
+          "conteudo": {
+            "instrucao": "Selecciona el clima y el conteo total de planetas para cada clima, agrupando el resultado por clima.",
+            "placeholder": "SELECT ..., COUNT(*) FROM ... GROUP BY ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["clima", "count"],
+              "min_rows": 3
+            },
+            "dica": "Lista 'clima' y 'COUNT(*)' en el SELECT y no olvides repetir 'clima' después de la cláusula GROUP BY.",
+            "explicacaoTecnica": "PostgreSQL organiza los datos en cubetas (buckets) basadas en los valores de la columna 'clima' y, para cada cubeta, ejecuta la función de conteo, devolviendo una fila por categoría única."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 14,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "O Filtro dos Grupos: Cláusula HAVING",
+      "conteudo": {
+        "blocos": [
+          "Imagine que você tenta usar o WHERE para filtrar o resultado de uma contagem: `WHERE COUNT(*) > 1`. O PostgreSQL irá reclamar imediatamente. Por quê? Porque o **WHERE filtra linhas individuais** antes mesmo do banco saber o que é um grupo.",
+          "A cláusula **HAVING** é a solução para esse dilema. Ela funciona como um filtro de segurança exclusivo para os grupos já formados pelo GROUP BY.",
+          {
+            "type": "definicao",
+            "termo": "HAVING",
+            "def": "Cláusula utilizada para filtrar os resultados de funções de agregação (como COUNT, SUM, AVG) após o agrupamento dos dados."
+          },
+          "**Analogia da Sala VIP:** Primeiro, o bouncer (GROUP BY) separa as pessoas em grupos por categoria (ex: Clientes Ouro, Prata e Bronze). Depois, o **HAVING** entra em cena para escolher apenas os grupos que possuem mais de X pessoas para entrar na Sala VIP.",
+          "**Como se lê:** 'Selecione o clima e a contagem, agrupe por clima, mas mantenha apenas (**HAVING**) aqueles onde a contagem final for maior que 1'.",
+          {
+            "type": "code",
+            "code": "SELECT clima, COUNT(*) \nFROM planetas \nGROUP BY clima \nHAVING COUNT(*) > 1;",
+            "lese": "Agrupe os planetas por clima e conte-os, mas mostre apenas as linhas de clima que resultaram em mais de um planeta."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Group Filter: HAVING Clause",
+          "conteudo": {
+            "blocos": [
+              "Imagine trying to use WHERE to filter a count result: `WHERE COUNT(*) > 1`. PostgreSQL will complain immediately. Why? Because **WHERE filters individual rows** before the database even knows what a group is.",
+              "The **HAVING** clause is the solution to this dilemma. It works like an exclusive security filter for groups already formed by GROUP BY.",
+              {
+                "type": "definicao",
+                "termo": "HAVING",
+                "def": "A clause used to filter the results of aggregate functions (like COUNT, SUM, AVG) after the data has been grouped."
+              },
+              "**VIP Room Analogy:** First, the bouncer (GROUP BY) sorts people into groups by category (e.g. Gold, Silver, Bronze). Then **HAVING** steps in to choose only groups with more than X people for VIP access.",
+              "**How to read it:** 'Select the climate and the count, group by climate, but keep only (**HAVING**) those where the final count is greater than 1.'",
+              {
+                "type": "code",
+                "code": "SELECT clima, COUNT(*) \nFROM planetas \nGROUP BY clima \nHAVING COUNT(*) > 1;",
+                "lese": "Group planets by climate and count them, but show only climate rows where more than one planet matched."
+              }
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Filtro de Grupos: Cláusula HAVING",
+          "conteudo": {
+            "blocos": [
+              "Imagina intentar usar WHERE para filtrar el resultado de un conteo: `WHERE COUNT(*) > 1`. PostgreSQL se quejará al instante. ¿Por qué? Porque **WHERE filtra filas individuales** antes de que la base sepa qué es un grupo.",
+              "La cláusula **HAVING** es la solución a ese dilema. Funciona como un filtro de seguridad exclusivo para los grupos ya formados por GROUP BY.",
+              {
+                "type": "definicao",
+                "termo": "HAVING",
+                "def": "Cláusula utilizada para filtrar los resultados de funciones de agregación (como COUNT, SUM, AVG) después del agrupamiento de los datos."
+              },
+              "**Analogía de la Sala VIP:** Primero, el portero (GROUP BY) separa a las personas en grupos por categoría (ej.: Oro, Plata y Bronce). Después, el **HAVING** elige solo los grupos que tienen más de X personas para entrar en la Sala VIP.",
+              "**Cómo se lee:** 'Selecciona el clima y el conteo, agrupa por clima, pero conserva solo (**HAVING**) aquellos donde el conteo final sea mayor que 1'.",
+              {
+                "type": "code",
+                "code": "SELECT clima, COUNT(*) \nFROM planetas \nGROUP BY clima \nHAVING COUNT(*) > 1;",
+                "lese": "Agrupa los planetas por clima y cuéntalos, pero muestra solo las filas de clima con más de un planeta."
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 15,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "WHERE vs HAVING",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual é a principal diferença técnica entre a utilização das cláusulas WHERE e HAVING em uma consulta SQL?",
+        "opcoes": [
+          "O WHERE é usado apenas para números e o HAVING apenas para textos.",
+          "O WHERE filtra registros individuais antes da agregação; o HAVING filtra grupos após a agregação.",
+          "O HAVING é opcional, enquanto o WHERE é obrigatório em todas as consultas.",
+          "Não há diferença; ambas servem exatamente para o mesmo propósito de filtragem."
+        ],
+        "indiceCorreto": 1,
+        "dica": "O WHERE age no registro individual. O HAVING age no resultado do cálculo do grupo."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "WHERE vs HAVING",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the main technical difference between using WHERE and HAVING clauses in an SQL query?",
+            "opcoes": [
+              "WHERE is used only for numbers and HAVING only for text.",
+              "WHERE filters individual records before aggregation; HAVING filters groups after aggregation.",
+              "HAVING is optional, while WHERE is mandatory in all queries.",
+              "There is no difference; both serve exactly the same filtering purpose."
+            ],
+            "indiceCorreto": 1,
+            "dica": "WHERE acts on individual records. HAVING acts on the group calculation result."
+          }
+        },
+        "es": {
+          "titulo": "WHERE vs HAVING",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es la principal diferencia técnica entre el uso de las cláusulas WHERE y HAVING en una consulta SQL?",
+            "opcoes": [
+              "El WHERE se usa solo para números y el HAVING solo para textos.",
+              "El WHERE filtra registros individuales antes de la agregación; el HAVING filtra grupos después de la agregación.",
+              "El HAVING es opcional, mientras que el WHERE es obligatorio en todas las consultas.",
+              "No hay diferencia; ambas sirven exactamente para el mismo propósito de filtrado."
+            ],
+            "indiceCorreto": 1,
+            "dica": "El WHERE actúa en el registro individual. El HAVING actúa en el resultado del cálculo del grupo."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 16,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Dependência de Cláusula",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a estrutura lógica do SQL:",
+        "afirmacao": "No PostgreSQL, é perfeitamente possível e comum utilizar a cláusula HAVING para realizar filtros sem a necessidade de um GROUP BY na consulta.",
+        "respostaCorreta": false,
+        "dica": "Sem um grupo formado (GROUP BY), não há 'casa' para o HAVING morar no SQL padrão."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Clause Dependency",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the SQL logical structure:",
+            "afirmacao": "In PostgreSQL, it is perfectly possible and common to use the HAVING clause to perform filters without needing a GROUP BY in the query.",
+            "respostaCorreta": false,
+            "dica": "Without a formed group (GROUP BY), there's no 'home' for HAVING to live in standard SQL."
+          }
+        },
+        "es": {
+          "titulo": "Dependencia de Cláusula",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la estructura lógica de SQL:",
+            "afirmacao": "En PostgreSQL, es perfectamente posible y común utilizar la cláusula HAVING para realizar filtros sin necesidad de un GROUP BY en la consulta.",
+            "respostaCorreta": false,
+            "dica": "Sin un grupo formado (GROUP BY), no hay 'hogar' para que el HAVING resida en el SQL estándar."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 17,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Filtrando Categorias",
+      "conteudo": {
+        "instrucao": "Selecione o clima e a contagem de planetas, mas mostre apenas os climas que possuem mais de 1 planeta cadastrado.",
+        "placeholder": "SELECT ..., COUNT(*) FROM ... GROUP BY ... HAVING ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["clima", "count"],
+          "min_rows": 2
+        },
+        "dica": "Sua query deve ter a estrutura: SELECT... GROUP BY... HAVING COUNT(*) > 1;",
+        "explicacaoTecnica": "O PostgreSQL primeiro agrupa os dados por clima, calcula o COUNT para cada grupo e, por último, aplica a restrição do HAVING para descartar grupos que não atingiram a contagem mínima."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Practice: Filtering Categories",
+          "conteudo": {
+            "instrucao": "Select the climate and the planet count, but show only the climates that have more than 1 planet registered.",
+            "placeholder": "SELECT ..., COUNT(*) FROM ... GROUP BY ... HAVING ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["clima", "count"],
+              "min_rows": 2
+            },
+            "dica": "Your query should follow the structure: SELECT... GROUP BY... HAVING COUNT(*) > 1;",
+            "explicacaoTecnica": "PostgreSQL first groups data by climate, calculates the COUNT for each group, and finally applies the HAVING constraint to discard groups that didn't reach the minimum count."
+          }
+        },
+        "es": {
+          "titulo": "Práctica: Filtrando Categorías",
+          "conteudo": {
+            "instrucao": "Selecciona el clima y el conteo de planetas, pero muestra solo los climas que tienen más de 1 planeta registrado.",
+            "placeholder": "SELECT ..., COUNT(*) FROM ... GROUP BY ... HAVING ...",
+            "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas (nome, clima) VALUES ('Terra', 'Temperado'), ('Marte', 'Árido'), ('Júpiter', 'Gasoso'), ('Kepler-186f', 'Temperado'), ('Vênus', 'Árido');",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["clima", "count"],
+              "min_rows": 2
+            },
+            "dica": "Tu consulta debe tener la estructura: SELECT... GROUP BY... HAVING COUNT(*) > 1;",
+            "explicacaoTecnica": "PostgreSQL primero agrupa los datos por clima, calcula el COUNT para cada grupo y, finalmente, aplica la restricción del HAVING para descartar grupos que no alcanzaron el conteo mínimo."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 18,
       "tipo": "conclusao",
       "temAnuncio": false,
       "xpReward": 50,

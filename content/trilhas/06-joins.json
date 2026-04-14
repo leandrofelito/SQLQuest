@@ -1,42 +1,86 @@
 {
   "slug": "joins",
-  "titulo": "JOINs — Unindo Tabelas",
-  "descricao": "Combine dados de múltiplas tabelas com INNER JOIN, LEFT JOIN e RIGHT JOIN usando chaves de relacionamento.",
+  "titulo": "Relacionamento de Dados",
+  "descricao": "Una tabelas com INNER, LEFT, RIGHT e FULL OUTER JOIN, usando PK/FK e NULL em junções externas.",
   "icone": "🔗",
   "ordem": 8,
-  "xpTotal": 900,
+  "xpTotal": 1100,
   "traducoes": {
     "en": {
-      "titulo": "JOINs — Combining Tables",
-      "descricao": "Combine data from multiple tables using INNER JOIN, LEFT JOIN and RIGHT JOIN with relationship keys."
+      "titulo": "Data Relationships",
+      "descricao": "Join tables with INNER, LEFT, RIGHT, and FULL OUTER JOIN using PK/FK keys and NULLs in outer joins."
     },
     "es": {
-      "titulo": "JOINs — Uniendo Tablas",
-      "descricao": "Combina datos de múltiples tablas con INNER JOIN, LEFT JOIN y RIGHT JOIN usando claves de relación."
+      "titulo": "Relacionamiento de Datos",
+      "descricao": "Une tablas con INNER, LEFT, RIGHT y FULL OUTER JOIN usando claves PK/FK y NULL en uniones externas."
     }
   },
   "etapas": [
     {
       "ordem": 1,
-      "tipo": "intro",
+      "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "JOINs — O Poder do Relacionamento",
+      "xpReward": 50,
+      "titulo": "A Ponte entre Mundos: O INNER JOIN",
       "conteudo": {
-        "emoji": "🔗",
-        "subtitulo": "Combine dados de várias tabelas em uma única consulta"
+        "blocos": [
+          "No início desta jornada, aprendemos que o Modelo Relacional de Codd separa os dados em 'gavetas' independentes para evitar a redundância. Mas como um Arquiteto de Dados reconecta essas informações para gerar um relatório completo?",
+          "A resposta está no **INNER JOIN**. Ele é a ponte lógica que atravessa o abismo entre duas tabelas, utilizando a **Chave Estrangeira (FK)** como o ponto de conexão.",
+          {
+            "type": "definicao",
+            "termo": "INNER JOIN",
+            "def": "Uma operação que combina linhas de duas ou mais tabelas baseando-se em uma coluna comum, retornando apenas os registros onde há correspondência em ambos os lados."
+          },
+          "**Analogia do Passaporte:** Imagine que a tabela *Sistemas* é um país e a tabela *Planetas* é um viajante. O viajante carrega um **Passaporte (FK)** que contém o ID do país de destino. Quando o viajante chega à fronteira, o oficial (PostgreSQL) verifica se o ID no passaporte existe na lista de países (PK). Se houver o 'match', a passagem é liberada e os dados são unidos.",
+          "**Por que não uma tabela só?** Se colocássemos o nome do sistema, o clima do sistema e o governante do sistema em cada linha de planeta, teríamos uma tabela pesada e repetitiva. Com o JOIN, guardamos o nome do sistema uma única vez e apenas 'puxamos' quando necessário.",
+          {
+            "type": "code",
+            "code": "SELECT planetas.nome, sistemas.nome \nFROM planetas \nINNER JOIN sistemas \nON planetas.sistema_id = sistemas.id;",
+            "lese": "Selecione o nome do planeta e o nome do sistema, unindo as duas tabelas onde o campo sistema_id do planeta seja igual ao id do sistema."
+          }
+        ]
       },
       "traducoes": {
         "en": {
-          "titulo": "JOINs — The Power of Relationships",
+          "titulo": "The Bridge Between Worlds: INNER JOIN",
           "conteudo": {
-            "subtitulo": "Combine data from multiple tables in a single query"
+            "blocos": [
+              "Early in this journey, we learned that Codd's Relational Model separates data into independent 'drawers' to avoid redundancy. But how does a Data Architect reconnect this information to build a complete report?",
+              "The answer lies in **INNER JOIN**. It is the logical bridge across the gap between two tables, using the **Foreign Key (FK)** as the connection point.",
+              {
+                "type": "definicao",
+                "termo": "INNER JOIN",
+                "def": "An operation that combines rows from two or more tables based on a common column, returning only records with a match on both sides."
+              },
+              "**Passport Analogy:** Imagine the *Sistemas* table is a country and the *Planetas* table is a traveler. The traveler carries a **Passport (FK)** with the destination country's ID. At the border, the officer (PostgreSQL) checks whether that ID exists in the country list (PK). If there is a match, passage is granted and the rows are united.",
+              "**Why not one big table?** If we duplicated the system name, climate, ruler, etc. on every planet row, the table would be heavy and repetitive. With JOIN, we store the system name once and pull it only when needed.",
+              {
+                "type": "code",
+                "code": "SELECT planetas.nome, sistemas.nome \nFROM planetas \nINNER JOIN sistemas \nON planetas.sistema_id = sistemas.id;",
+                "lese": "Select the planet name and the system name, joining both tables where planetas.sistema_id equals sistemas.id."
+              }
+            ]
           }
         },
         "es": {
-          "titulo": "JOINs — El Poder de las Relaciones",
+          "titulo": "El Puente entre Mundos: INNER JOIN",
           "conteudo": {
-            "subtitulo": "Combina datos de varias tablas en una sola consulta"
+            "blocos": [
+              "Al principio de este viaje, aprendimos que el Modelo Relacional de Codd separa los datos en 'cajones' independientes para evitar la redundancia. ¿Pero cómo reconecta un Arquitecto de Datos esta información para generar un informe completo?",
+              "La respuesta es el **INNER JOIN**. Es el puente lógico que cruza el abismo entre dos tablas, utilizando la **Clave Foránea (FK)** como punto de conexión.",
+              {
+                "type": "definicao",
+                "termo": "INNER JOIN",
+                "def": "Una operación que combina filas de dos o más tablas basándose en una columna común, devolviendo solo los registros con correspondencia en ambos lados."
+              },
+              "**Analogía del Pasaporte:** Imagina que la tabla *Sistemas* es un país y la tabla *Planetas* es un viajero. El viajero lleva un **Pasaporte (FK)** con el ID del país de destino. En la frontera, el oficial (PostgreSQL) comprueba si ese ID existe en la lista de países (PK). Si hay 'match', se libera el paso y los datos se unen.",
+              "**¿Por qué no una sola tabla?** Si duplicáramos en cada fila de planeta el nombre del sistema, clima, gobernante, etc., tendríamos una tabla pesada y repetitiva. Con el JOIN guardamos el nombre del sistema una sola vez y lo traemos solo cuando hace falta.",
+              {
+                "type": "code",
+                "code": "SELECT planetas.nome, sistemas.nome \nFROM planetas \nINNER JOIN sistemas \nON planetas.sistema_id = sistemas.id;",
+                "lese": "Selecciona el nombre del planeta y el del sistema, uniendo ambas tablas donde planetas.sistema_id sea igual a sistemas.id."
+              }
+            ]
           }
         }
       }
@@ -45,48 +89,57 @@
       "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Por que Precisamos de JOINs?",
+      "xpReward": 50,
+      "titulo": "LEFT JOIN: O Protetor dos Dados",
       "conteudo": {
         "blocos": [
-          "Bancos de dados bem estruturados dividem as informações em múltiplas tabelas para evitar repetição.",
+          "**1. Contexto técnico: o problema da exclusão no INNER JOIN** — Até agora, vimos que o **INNER JOIN** é rigoroso: só entra no resultado quem tem par perfeito nas duas tabelas. E se houver um planeta errante ou ainda não mapeado? No INNER JOIN esse registro **some**, o que pode gerar relatórios incompletos e perda de informação.",
+          "**2. LEFT JOIN, o protetor** — O **LEFT JOIN** (ou LEFT OUTER JOIN) protege a integridade da tabela **à esquerda** do comando: **todos** os registros da primeira tabela aparecem. Se houver correspondência à direita, os dados se unem; se não houver, o PostgreSQL preenche as colunas da direita com **NULL**.",
+          "O **NULL** aqui não é erro: indica **ausência de relacionamento** — o banco diz: 'Conheço este planeta, mas ele não pertence a nenhum sistema conhecido'.",
+          "**3. Analogia: lista de convidados** — Você tem a **lista de convidados (esquerda)** e a **lista de confirmações (direita)**. Com INNER JOIN, só vê quem confirmou. Com **LEFT JOIN** a partir dos convidados, vê **todos** os nomes; quem não confirmou aparece com status vazio (**NULL**) na confirmação. Você não perde o convidado só porque ele não respondeu.",
+          "**4. Ecossistemas** — No **PostgreSQL (Neon.tech)** o LEFT JOIN é otimizado, mas em tabelas enormes sem necessidade pode aumentar o volume trafegado. Use LEFT JOIN quando a presença do registro 'pai' for obrigatória no resultado, mesmo sem 'filhos'.",
           {
             "type": "code",
-            "code": "Tabela Clientes:\n  ClienteID | Nome  | Cidade\n  1         | Ana   | SP\n  2         | Carlos| RJ\n\nTabela Pedidos:\n  PedidoID | ClienteID | Produto  | Valor\n  101      | 1         | Notebook | 3200\n  102      | 2         | Mouse    | 89",
-            "lese": "Para saber que Ana fez o pedido 101, precisamos CONECTAR as duas tabelas pelo ClienteID — isso é o que o JOIN faz"
+            "code": "SELECT \n  p.nome AS planeta,\n  s.nome AS sistema\nFROM planetas p\nLEFT JOIN sistemas s\nON p.sistema_id = s.id;",
+            "lese": "Priorize planetas (alias p); una com sistemas (s) pelo ON; onde não houver sistema, sistema virá NULL."
           },
-          {
-            "type": "nota",
-            "texto": "JOIN conecta tabelas usando campos em comum — geralmente a PRIMARY KEY de uma tabela e a FOREIGN KEY de outra."
-          }
+          "**Como se lê:** Busque todos os registros de planetas (prioridade total). Para cada um, tente achar o sistema pelo ID. Se achar, mostre o nome do sistema; senão, mantenha o planeta e deixe o campo do sistema nulo."
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Why Do We Need JOINs?",
+          "titulo": "LEFT JOIN: The Data Protector",
           "conteudo": {
             "blocos": [
-              "Well-structured databases split information into multiple tables to avoid repetition.",
+              "**1. Technical context: exclusion with INNER JOIN** — So far, **INNER JOIN** is strict: only rows with a perfect match on both sides appear. What about a rogue planet or one not yet mapped? With INNER JOIN that row **vanishes**, which can make reports incomplete.",
+              "**2. LEFT JOIN as protector** — **LEFT JOIN** (or LEFT OUTER JOIN) protects the **left-hand** table: **every** row from the first table appears. If there is a match on the right, columns are filled; if not, PostgreSQL fills the right-hand columns with **NULL**.",
+              "**NULL** here is not a bug: it signals **no relationship** — 'I know this planet, but it belongs to no known system'.",
+              "**3. Guest-list analogy** — You have a **guest list (left)** and a **confirmation list (right)**. With INNER JOIN you only see who confirmed. With **LEFT JOIN** from guests you see **every** name; non-responders show an empty (**NULL**) confirmation. You don't lose a guest because they didn't reply.",
+              "**4. Ecosystems** — **PostgreSQL (Neon.tech)** optimizes LEFT JOIN, but on huge tables without need it can increase scanned volume. Use LEFT JOIN when parent rows must appear even without children.",
               {
-                "lese": "To know that Ana placed order 101, we need to CONNECT the two tables by ClienteID — that is what JOIN does"
+                "type": "code",
+                "code": "SELECT \n  p.nome AS planeta,\n  s.nome AS sistema\nFROM planetas p\nLEFT JOIN sistemas s\nON p.sistema_id = s.id;",
+                "lese": "Prioritize planetas (alias p); join sistemas (s) with ON; where there is no system, sistema is NULL."
               },
-              {
-                "texto": "JOIN connects tables using common fields — usually the PRIMARY KEY of one table and the FOREIGN KEY of another."
-              }
+              "**How to read it:** Read every planet row first. For each, try to find a system by ID. If found, show the system name; otherwise keep the planet and leave the system side null."
             ]
           }
         },
         "es": {
-          "titulo": "¿Por Qué Necesitamos JOINs?",
+          "titulo": "LEFT JOIN: El protector de los datos",
           "conteudo": {
             "blocos": [
-              "Las bases de datos bien estructuradas dividen la información en múltiples tablas para evitar la repetición.",
+              "**1. Contexto técnico: la exclusión con INNER JOIN** — Hasta ahora, **INNER JOIN** es estricto: solo entran filas con par perfecto. ¿Y un planeta errante o sin mapear? Con INNER JOIN esa fila **desaparece** y el informe puede quedar incompleto.",
+              "**2. LEFT JOIN como protector** — **LEFT JOIN** (o LEFT OUTER JOIN) protege la tabla de la **izquierda**: aparecen **todas** sus filas. Si hay coincidencia a la derecha, se unen datos; si no, PostgreSQL rellena la derecha con **NULL**.",
+              "El **NULL** no es un error: indica **ausencia de relación**.",
+              "**3. Analogía: lista de invitados** — Tienes la **lista de invitados (izquierda)** y las **confirmaciones (derecha)**. Con INNER JOIN solo ves quien confirmó. Con **LEFT JOIN** desde invitados ves **todos** los nombres; quien no respondió muestra confirmación vacía (**NULL**).",
+              "**4. Ecosistemas** — En **PostgreSQL (Neon.tech)** el LEFT JOIN está optimizado, pero en tablas enormes sin necesidad puede aumentar el trabajo. Úsalo cuando la fila 'padre' deba salir aunque no haya 'hijos'.",
               {
-                "lese": "Para saber que Ana hizo el pedido 101, necesitamos CONECTAR las dos tablas por ClienteID — eso es lo que hace el JOIN"
+                "type": "code",
+                "code": "SELECT \n  p.nome AS planeta,\n  s.nome AS sistema\nFROM planetas p\nLEFT JOIN sistemas s\nON p.sistema_id = s.id;",
+                "lese": "Prioriza planetas (alias p); une con sistemas (s) con ON; si no hay sistema, sistema será NULL."
               },
-              {
-                "texto": "JOIN conecta tablas usando campos en común — generalmente la PRIMARY KEY de una tabla y la FOREIGN KEY de otra."
-              }
+              "**Cómo se lee:** Lee todos los planetas. Para cada uno busca sistema por ID. Si hay match, muestra el nombre del sistema; si no, conserva el planeta y deja el sistema nulo."
             ]
           }
         }
@@ -94,169 +147,144 @@
     },
     {
       "ordem": 3,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "INNER JOIN — Somente Correspondências",
+      "xpReward": 100,
+      "titulo": "LEFT JOIN e a linha sem par",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "INNER JOIN",
-            "def": "Retorna apenas os registros que têm correspondência em AMBAS as tabelas. Se um registro não tem par na outra tabela, ele é excluído."
-          },
-          {
-            "type": "code",
-            "code": "SELECT Clientes.Nome, Pedidos.Produto, Pedidos.Valor\nFROM Clientes\nINNER JOIN Pedidos ON Clientes.ClienteID = Pedidos.ClienteID",
-            "lese": "Seleciona o nome do cliente, o produto e o valor, unindo Clientes com Pedidos onde o ClienteID coincide — apenas clientes que fizeram pedidos aparecem"
-          },
-          {
-            "type": "nota",
-            "texto": "O ON especifica a condição de junção — geralmente a relação entre chave primária e estrangeira."
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "O que acontece com um registro da tabela da esquerda que não possui par na tabela da direita durante a execução de um LEFT JOIN?",
+        "opcoes": [
+          "O registro é deletado permanentemente da tabela física.",
+          "O registro é ignorado e não aparece no resultado da consulta.",
+          "O registro aparece no resultado, mas as colunas da tabela da direita são preenchidas com NULL.",
+          "O banco de dados interrompe a execução e exibe um erro de integridade."
+        ],
+        "indiceCorreto": 2,
+        "dica": "Lembre-se que o LEFT JOIN é inclusivo para a primeira tabela mencionada. O resultado mantém a linha da esquerda e usa NULL na direita quando não há par."
       },
       "traducoes": {
         "en": {
-          "titulo": "INNER JOIN — Matches Only",
+          "titulo": "LEFT JOIN and the unmatched row",
           "conteudo": {
-            "blocos": [
-              {
-                "def": "Returns only the records that have a match in BOTH tables. If a record has no pair in the other table, it is excluded."
-              },
-              {
-                "lese": "Selects the customer name, product and value, joining Customers with Orders where ClienteID matches — only customers who placed orders appear"
-              },
-              {
-                "texto": "The ON clause specifies the join condition — usually the relationship between a primary key and a foreign key."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What happens to a record in the left table that has no match in the right table during a LEFT JOIN?",
+            "opcoes": [
+              "The record is permanently deleted from the physical table.",
+              "The record is ignored and does not appear in the result.",
+              "The record appears, but the right table columns are filled with NULL.",
+              "The database stops execution and shows an integrity error."
+            ],
+            "indiceCorreto": 2,
+            "dica": "LEFT JOIN is inclusive toward the left table. The left row stays; the right side uses NULL when there is no match."
           }
         },
         "es": {
-          "titulo": "INNER JOIN — Solo Coincidencias",
+          "titulo": "LEFT JOIN y la fila sin par",
           "conteudo": {
-            "blocos": [
-              {
-                "def": "Devuelve solo los registros que tienen correspondencia en AMBAS tablas. Si un registro no tiene par en la otra tabla, se excluye."
-              },
-              {
-                "lese": "Selecciona el nombre del cliente, el producto y el valor, uniendo Clientes con Pedidos donde coincide el ClienteID — solo aparecen los clientes que hicieron pedidos"
-              },
-              {
-                "texto": "El ON especifica la condición de unión — generalmente la relación entre la clave primaria y la clave foránea."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué sucede con un registro de la tabla de la izquierda que no tiene par en la tabla de la derecha durante un LEFT JOIN?",
+            "opcoes": [
+              "El registro se elimina permanentemente de la tabla física.",
+              "El registro se ignora y no aparece en el resultado.",
+              "El registro aparece, pero las columnas de la derecha se rellenan con NULL.",
+              "La base de datos detiene la ejecución y muestra un error de integridad."
+            ],
+            "indiceCorreto": 2,
+            "dica": "LEFT JOIN incluye la tabla izquierda. La fila izquierda se mantiene; la derecha usa NULL si no hay par."
           }
         }
       }
     },
     {
       "ordem": 4,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Aliases em JOINs",
+      "xpReward": 100,
+      "titulo": "V ou F: Mesma contagem?",
       "conteudo": {
-        "blocos": [
-          "Quando trabalhamos com múltiplas tabelas, usar aliases torna a query mais legível:",
-          {
-            "type": "code",
-            "code": "SELECT c.Nome, p.Produto, p.Valor\nFROM Clientes c\nINNER JOIN Pedidos p ON c.ClienteID = p.ClienteID",
-            "lese": "Mesmo que antes, mas usando 'c' como alias para Clientes e 'p' como alias para Pedidos — muito mais compacto"
-          },
-          {
-            "type": "nota",
-            "texto": "Quando duas tabelas têm colunas com o mesmo nome, você PRECISA usar o alias para especificar qual quer: c.Nome vs p.Nome."
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise quando INNER JOIN e LEFT JOIN coincidem:",
+        "afirmacao": "O comando LEFT JOIN e o INNER JOIN retornam exatamente a mesma quantidade de linhas se todos os registros da tabela da esquerda possuírem uma correspondência válida na tabela da direita.",
+        "respostaCorreta": true,
+        "dica": "Se não há 'órfãos' à esquerda, não há colunas da direita a preencher com NULL por falta de par — a intersecção cobre todos os planetas."
       },
       "traducoes": {
         "en": {
-          "titulo": "Aliases in JOINs",
+          "titulo": "T/F: Same row count?",
           "conteudo": {
-            "blocos": [
-              "When working with multiple tables, using aliases makes the query more readable:",
-              {
-                "lese": "Same as before, but using 'c' as an alias for Customers and 'p' as an alias for Orders — much more compact"
-              },
-              {
-                "texto": "When two tables have columns with the same name, you MUST use the alias to specify which one you want: c.Nome vs p.Nome."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze when INNER JOIN and LEFT JOIN align:",
+            "afirmacao": "LEFT JOIN and INNER JOIN return exactly the same number of rows if every row in the left table has a valid match in the right table.",
+            "respostaCorreta": true,
+            "dica": "If no left row is unmatched, there is no need for NULL padding on the right — the intersection matches everyone."
           }
         },
         "es": {
-          "titulo": "Alias en JOINs",
+          "titulo": "V o F: ¿Mismo recuento?",
           "conteudo": {
-            "blocos": [
-              "Cuando trabajamos con múltiples tablas, usar alias hace que la consulta sea más legible:",
-              {
-                "lese": "Igual que antes, pero usando 'c' como alias para Clientes y 'p' como alias para Pedidos — mucho más compacto"
-              },
-              {
-                "texto": "Cuando dos tablas tienen columnas con el mismo nombre, DEBES usar el alias para especificar cuál quieres: c.Nome vs p.Nome."
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza cuándo coinciden INNER JOIN y LEFT JOIN:",
+            "afirmacao": "LEFT JOIN e INNER JOIN devuelven exactamente la misma cantidad de filas si cada fila de la tabla izquierda tiene una correspondencia válida en la derecha.",
+            "respostaCorreta": true,
+            "dica": "Si ninguna fila izquierda queda sin par, no hace falta rellenar con NULL a la derecha."
           }
         }
       }
     },
     {
       "ordem": 5,
-      "tipo": "texto",
-      "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "LEFT JOIN — Todos da Esquerda",
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Planeta sem sistema",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "LEFT JOIN (LEFT OUTER JOIN)",
-            "def": "Retorna TODOS os registros da tabela da esquerda (FROM) e os correspondentes da direita. Se não houver correspondência, os campos da direita ficam NULL."
-          },
-          {
-            "type": "code",
-            "code": "SELECT c.Nome, p.Produto, p.Valor\nFROM Clientes c\nLEFT JOIN Pedidos p ON c.ClienteID = p.ClienteID",
-            "lese": "Retorna TODOS os clientes, com seus pedidos se houver. Clientes sem pedido aparecem com NULL no Produto e Valor"
-          },
-          {
-            "type": "nota",
-            "texto": "Use LEFT JOIN quando você quer 'todos os registros de A, mesmo os que não têm correspondência em B'."
-          }
-        ]
+        "instrucao": "Selecione o nome do planeta (alias 'planeta') e o nome do seu sistema (alias 'sistema'). Use LEFT JOIN para garantir que o planeta 'Planeta Errante' (sistema_id NULL) também apareça.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1), ('Planeta Errante', NULL);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["planeta", "sistema"],
+          "min_rows": 2
+        },
+        "dica": "Coloque planetas após o FROM; use LEFT JOIN sistemas ON planetas.sistema_id = sistemas.id. Aliases AS planeta e AS sistema.",
+        "explicacaoTecnica": "Com LEFT JOIN, cada linha de planetas é preservada; quando sistema_id é NULL, não há linha correspondente em sistemas e a coluna do sistema vem NULL — exatamente o caso do planeta errante."
       },
       "traducoes": {
         "en": {
-          "titulo": "LEFT JOIN — Everyone on the Left",
+          "titulo": "Practice: Planet without a system",
           "conteudo": {
-            "blocos": [
-              {
-                "def": "Returns ALL records from the left table (FROM) and matching ones from the right. If there is no match, the right-side fields are NULL."
-              },
-              {
-                "lese": "Returns ALL customers, with their orders if any. Customers without orders appear with NULL in the Product and Value columns"
-              },
-              {
-                "texto": "Use LEFT JOIN when you want 'all records from A, even those with no match in B'."
-              }
-            ]
+            "instrucao": "Select the planet name (as 'planeta') and the system name (as 'sistema'). Use LEFT JOIN so 'Planeta Errante' (sistema_id NULL) still appears.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1), ('Planeta Errante', NULL);",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["planeta", "sistema"],
+              "min_rows": 2
+            },
+            "dica": "Put planetas after FROM; use LEFT JOIN sistemas ON planetas.sistema_id = sistemas.id. AS aliases planeta and sistema.",
+            "explicacaoTecnica": "With LEFT JOIN every planet row is kept; when sistema_id is NULL there is no matching sistemas row and the system column is NULL."
           }
         },
         "es": {
-          "titulo": "LEFT JOIN — Todos de la Izquierda",
+          "titulo": "Práctica: Planeta sin sistema",
           "conteudo": {
-            "blocos": [
-              {
-                "def": "Devuelve TODOS los registros de la tabla izquierda (FROM) y los correspondientes de la derecha. Si no hay correspondencia, los campos de la derecha son NULL."
-              },
-              {
-                "lese": "Devuelve TODOS los clientes, con sus pedidos si los hay. Los clientes sin pedido aparecen con NULL en Producto y Valor"
-              },
-              {
-                "texto": "Usa LEFT JOIN cuando quieres 'todos los registros de A, incluso los que no tienen correspondencia en B'."
-              }
-            ]
+            "instrucao": "Selecciona el nombre del planeta (como 'planeta') y el del sistema (como 'sistema'). Usa LEFT JOIN para que 'Planeta Errante' (sistema_id NULL) también aparezca.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1), ('Planeta Errante', NULL);",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["planeta", "sistema"],
+              "min_rows": 2
+            },
+            "dica": "Pon planetas tras FROM; usa LEFT JOIN sistemas ON planetas.sistema_id = sistemas.id. Alias AS planeta y sistema.",
+            "explicacaoTecnica": "Con LEFT JOIN se conserva cada planeta; si sistema_id es NULL, no hay fila en sistemas y la columna del sistema es NULL."
           }
         }
       }
@@ -265,67 +293,48 @@
       "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "RIGHT JOIN e FULL JOIN",
+      "xpReward": 50,
+      "titulo": "RIGHT e FULL JOIN: uniões totais",
       "conteudo": {
         "blocos": [
-          {
-            "type": "definicao",
-            "termo": "RIGHT JOIN",
-            "def": "Retorna TODOS os registros da tabela da direita (JOIN) e os correspondentes da esquerda. O oposto do LEFT JOIN."
-          },
-          {
-            "type": "code",
-            "code": "SELECT c.Nome, p.Produto\nFROM Clientes c\nRIGHT JOIN Pedidos p ON c.ClienteID = p.ClienteID",
-            "lese": "Retorna TODOS os pedidos. Se um pedido não tiver cliente correspondente, o Nome aparece como NULL"
-          },
-          {
-            "type": "definicao",
-            "termo": "FULL OUTER JOIN",
-            "def": "Retorna TODOS os registros de ambas as tabelas. Onde não há correspondência, coloca NULL. (Não suportado em SQLite.)"
-          },
+          "**1. O espelho: RIGHT JOIN** — O **RIGHT JOIN** é o inverso do LEFT: prioriza a tabela **à direita** do `JOIN`, garantindo todos os seus registros mesmo sem par à esquerda.",
           {
             "type": "nota",
-            "texto": "Na prática, INNER JOIN e LEFT JOIN são os mais usados. RIGHT JOIN pode ser reescrito como LEFT JOIN trocando a ordem das tabelas."
-          }
+            "texto": "Na prática, o RIGHT JOIN é raro: basta inverter a ordem no `FROM` e usar **LEFT JOIN** para o mesmo efeito — código mais legível e padrão em equipes."
+          },
+          "**2. A união democrática: FULL OUTER JOIN** — Para um relatório que mostre **tudo** — planetas sem sistema, sistemas sem planetas e os pares que casam — use **FULL OUTER JOIN** (ou `FULL JOIN`). O PostgreSQL traz todas as linhas de **ambos** os lados; onde faltar par, preenche com **NULL** (à esquerda ou à direita).",
+          "**3. Analogia: baile de ex-alunos** — **Ex-aluno (esquerda):** alguns vieram sozinhos (LEFT). **Acompanhante (direita):** alguns vieram sem o ex-aluno (RIGHT). **Par:** vieram juntos (INNER). O **FULL JOIN** é a **foto panorâmica**: todos os ex-alunos e todos os acompanhantes no registro, acompanhados ou não.",
+          "**4. Como se lê:** Combine os dois lados onde as chaves batem, mas **mantenha** no resultado os órfãos da esquerda **e** os órfãos da direita."
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "RIGHT JOIN and FULL JOIN",
+          "titulo": "RIGHT and FULL JOIN: total unions",
           "conteudo": {
             "blocos": [
+              "**1. The mirror: RIGHT JOIN** — **RIGHT JOIN** is the inverse of LEFT: it prioritizes the table **on the right** of `JOIN`, keeping all its rows even without a match on the left.",
               {
-                "def": "Returns ALL records from the right table (JOIN) and matching ones from the left. The opposite of LEFT JOIN."
+                "type": "nota",
+                "texto": "In practice RIGHT JOIN is uncommon: swap table order in `FROM` and use **LEFT JOIN** for the same result — clearer and the usual team standard."
               },
-              {
-                "lese": "Returns ALL orders. If an order has no matching customer, the Name appears as NULL"
-              },
-              {
-                "def": "Returns ALL records from both tables. Where there is no match, it places NULL. (Not supported in SQLite.)"
-              },
-              {
-                "texto": "In practice, INNER JOIN and LEFT JOIN are the most used. RIGHT JOIN can be rewritten as LEFT JOIN by swapping the table order."
-              }
+              "**2. The democratic union: FULL OUTER JOIN** — For a report showing **everything** — planets without systems, systems without planets, and matching pairs — use **FULL OUTER JOIN** (or `FULL JOIN`). PostgreSQL returns **all** rows from **both** sides; missing matches become **NULL** on either side.",
+              "**3. Alumni ball analogy** — **Alumni (left):** some came alone (LEFT). **Guest (right):** some guests came without their alumni (RIGHT). **Couple:** came together (INNER). **FULL JOIN** is the **panoramic photo**: every alumni and every guest in the record.",
+              "**4. How to read it:** Join where keys match, but **keep** left orphans **and** right orphans in the final result."
             ]
           }
         },
         "es": {
-          "titulo": "RIGHT JOIN y FULL JOIN",
+          "titulo": "RIGHT y FULL JOIN: uniones totales",
           "conteudo": {
             "blocos": [
+              "**1. El espejo: RIGHT JOIN** — **RIGHT JOIN** es el inverso del LEFT: prioriza la tabla **a la derecha** del `JOIN`, manteniendo todas sus filas aunque no haya par a la izquierda.",
               {
-                "def": "Devuelve TODOS los registros de la tabla derecha (JOIN) y los correspondientes de la izquierda. Lo opuesto al LEFT JOIN."
+                "type": "nota",
+                "texto": "En la práctica el RIGHT JOIN es poco frecuente: invierte el orden en el `FROM` y usa **LEFT JOIN** para el mismo efecto — más legible y estándar en equipos."
               },
-              {
-                "lese": "Devuelve TODOS los pedidos. Si un pedido no tiene cliente correspondiente, el Nombre aparece como NULL"
-              },
-              {
-                "def": "Devuelve TODOS los registros de ambas tablas. Donde no hay correspondencia, coloca NULL. (No soportado en SQLite.)"
-              },
-              {
-                "texto": "En la práctica, INNER JOIN y LEFT JOIN son los más usados. RIGHT JOIN se puede reescribir como LEFT JOIN intercambiando el orden de las tablas."
-              }
+              "**2. La unión democrática: FULL OUTER JOIN** — Para ver **todo** — planetas sin sistema, sistemas sin planetas y pares que coinciden — usa **FULL OUTER JOIN** (o `FULL JOIN`). PostgreSQL devuelve **todas** las filas de **ambos** lados; donde falte par, rellena con **NULL**.",
+              "**3. Analogía: baile de exalumnos** — **Exalumno (izquierda):** algunos vinieron solos (LEFT). **Acompañante (derecha):** algunos sin el exalumno (RIGHT). **Pareja:** juntos (INNER). El **FULL JOIN** es la **foto panorámica**.",
+              "**4. Cómo se lee:** Une donde las claves coincidan, pero **conserva** huérfanos de la izquierda **y** de la derecha."
             ]
           }
         }
@@ -333,89 +342,93 @@
     },
     {
       "ordem": 7,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "JOIN com WHERE e Múltiplas Tabelas",
+      "xpReward": 100,
+      "titulo": "União democrática",
       "conteudo": {
-        "blocos": [
-          "Você pode filtrar e juntar múltiplas tabelas na mesma query:",
-          {
-            "type": "code",
-            "code": "SELECT c.Nome, p.Produto, cat.NomeCategoria\nFROM Clientes c\nINNER JOIN Pedidos p ON c.ClienteID = p.ClienteID\nINNER JOIN Categorias cat ON p.CategoriaID = cat.CategoriaID\nWHERE c.Cidade = 'São Paulo'\nORDER BY p.Valor DESC",
-            "lese": "Une três tabelas (Clientes, Pedidos e Categorias), filtra apenas clientes de SP e ordena por valor decrescente"
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual tipo de JOIN retornará todos os registros de ambas as tabelas envolvidas, independentemente de haver correspondência entre as chaves?",
+        "opcoes": [
+          "INNER JOIN",
+          "LEFT JOIN",
+          "FULL OUTER JOIN",
+          "CROSS JOIN"
+        ],
+        "indiceCorreto": 2,
+        "dica": "Pense na união 'democrática' onde ninguém fica de fora: o JOIN que preenche com NULL à esquerda ou à direita quando falta o par."
       },
       "traducoes": {
         "en": {
-          "titulo": "JOIN with WHERE and Multiple Tables",
+          "titulo": "Democratic union",
           "conteudo": {
-            "blocos": [
-              "You can filter and join multiple tables in the same query:",
-              {
-                "lese": "Joins three tables (Customers, Orders and Categories), filters only customers from SP and sorts by descending value"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which JOIN type returns all records from both tables, regardless of a key match?",
+            "opcoes": [
+              "INNER JOIN",
+              "LEFT JOIN",
+              "FULL OUTER JOIN",
+              "CROSS JOIN"
+            ],
+            "indiceCorreto": 2,
+            "dica": "Think of the 'democratic' union where nobody is left out: NULL on either side when there is no match."
           }
         },
         "es": {
-          "titulo": "JOIN con WHERE y Múltiples Tablas",
+          "titulo": "Unión democrática",
           "conteudo": {
-            "blocos": [
-              "Puedes filtrar y unir múltiples tablas en la misma consulta:",
-              {
-                "lese": "Une tres tablas (Clientes, Pedidos y Categorías), filtra solo los clientes de SP y ordena por valor descendente"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué tipo de JOIN devolverá todos los registros de ambas tablas, independientemente de si hay correspondencia?",
+            "opcoes": [
+              "INNER JOIN",
+              "LEFT JOIN",
+              "FULL OUTER JOIN",
+              "CROSS JOIN"
+            ],
+            "indiceCorreto": 2,
+            "dica": "Piensa en la unión 'democrática': NULL a izquierda o derecha cuando no hay par."
           }
         }
       }
     },
     {
       "ordem": 8,
-      "tipo": "resumo",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Resumo: JOINs",
+      "xpReward": 100,
+      "titulo": "V ou F: RIGHT vira LEFT",
       "conteudo": {
-        "cor": "verde",
-        "itens": [
-          "INNER JOIN: somente registros com par nas duas tabelas",
-          "LEFT JOIN: todos da esquerda + correspondentes da direita",
-          "RIGHT JOIN: todos da direita + correspondentes da esquerda",
-          "ON: define a condição de junção (geralmente PK = FK)",
-          "Use aliases (c., p.) para consultas com múltiplas tabelas",
-          "Pode combinar múltiplos JOINs numa mesma query"
-        ]
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise a equivalência posicional dos JOINs:",
+        "afirmacao": "É tecnicamente possível obter exatamente o mesmo resultado de um RIGHT JOIN apenas invertendo a ordem em que as tabelas são declaradas e utilizando um LEFT JOIN.",
+        "respostaCorreta": true,
+        "dica": "O JOIN depende da posição em relação à palavra JOIN; inverter as tabelas troca quem é o lado dominante — por isso muitos times padronizam só com LEFT."
       },
       "traducoes": {
         "en": {
-          "titulo": "Summary: JOINs",
+          "titulo": "T/F: RIGHT becomes LEFT",
           "conteudo": {
-            "titulo": "Summary: JOINs",
-            "itens": [
-              "INNER JOIN: only records with a match in both tables",
-              "LEFT JOIN: all from the left + matching ones from the right",
-              "RIGHT JOIN: all from the right + matching ones from the left",
-              "ON: defines the join condition (usually PK = FK)",
-              "Use aliases (c., p.) for queries with multiple tables",
-              "You can combine multiple JOINs in the same query"
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze positional equivalence of JOINs:",
+            "afirmacao": "You can get exactly the same result as a RIGHT JOIN by swapping the table order in FROM and using LEFT JOIN instead.",
+            "respostaCorreta": true,
+            "dica": "JOIN depends on left vs right of the keyword; swapping tables swaps the preserved side."
           }
         },
         "es": {
-          "titulo": "Resumen: JOINs",
+          "titulo": "V o F: RIGHT como LEFT",
           "conteudo": {
-            "titulo": "Resumen: JOINs",
-            "itens": [
-              "INNER JOIN: solo registros con par en ambas tablas",
-              "LEFT JOIN: todos de la izquierda + correspondientes de la derecha",
-              "RIGHT JOIN: todos de la derecha + correspondientes de la izquierda",
-              "ON: define la condición de unión (generalmente PK = FK)",
-              "Usa alias (c., p.) para consultas con múltiples tablas",
-              "Puedes combinar múltiples JOINs en la misma consulta"
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza la equivalencia posicional de los JOINs:",
+            "afirmacao": "Es posible obtener exactamente el mismo resultado que un RIGHT JOIN invirtiendo el orden de las tablas en el FROM y usando LEFT JOIN.",
+            "respostaCorreta": true,
+            "dica": "El JOIN depende de la posición respecto a la palabra clave; intercambiar tablas cambia el lado preservado."
           }
         }
       }
@@ -424,35 +437,46 @@
       "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
-      "xpReward": 150,
-      "titulo": "Exercício 1 — INNER JOIN",
+      "xpReward": 100,
+      "titulo": "Prática: FULL JOIN completo",
       "conteudo": {
-        "instrucao": "Liste o nome do cliente e o produto de cada pedido. Use INNER JOIN.",
-        "dica": "Para combinar dados de duas tabelas, use JOIN. O ON define o elo de ligação — procure o campo que existe em ambas as tabelas. A sintaxe é: FROM tabela1 JOIN tabela2 ON tabela1.coluna = tabela2.coluna.",
-        "placeholder": "SELECT c.Nome, p.Produto\nFROM Clientes c\nINNER JOIN ...",
-        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',150);",
-        "checkType": "columns",
+        "instrucao": "Selecione todas as colunas de planetas e sistemas (use `SELECT *` com aliases `p` e `s` se quiser), com **FULL JOIN** entre `planetas p` e `sistemas s` em `p.sistema_id = s.id`, para ver planetas sem sistema e sistemas ainda sem planetas.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'), ('Sistema Vazio'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1), ('Planeta Errante', NULL);",
+        "checkType": "count",
         "checkConfig": {
-          "required_columns": [
-            "Nome",
-            "Produto"
-          ],
-          "min_rows": 3
-        }
+          "expected_rows": 3
+        },
+        "dica": "Use `FROM planetas p FULL JOIN sistemas s ON p.sistema_id = s.id` (ou `FULL OUTER JOIN`). O `SELECT *` traz todas as colunas dos dois lados.",
+        "explicacaoTecnica": "Com FULL JOIN você obtém a linha casada (Terra + Sistema Solar), o planeta órfão (Planeta Errante) e o sistema sem planeta (Sistema Vazio) — três linhas no sandbox."
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 1 — INNER JOIN",
+          "titulo": "Practice: Complete FULL JOIN",
           "conteudo": {
-            "instrucao": "List the customer name and product for each order. Use INNER JOIN.",
-            "dica": "To combine data from two tables, use JOIN. The ON clause defines the link — look for the field that exists in both tables. The syntax is: FROM table1 JOIN table2 ON table1.column = table2.column."
+            "instrucao": "Select all columns from planets and systems (e.g. `SELECT *` with aliases `p` and `s`) using **FULL JOIN** between `planetas p` and `sistemas s` on `p.sistema_id = s.id`, so you see planets without a system and systems without planets.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'), ('Sistema Vazio'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1), ('Planeta Errante', NULL);",
+            "checkType": "count",
+            "checkConfig": {
+              "expected_rows": 3
+            },
+            "dica": "Use `FROM planetas p FULL JOIN sistemas s ON p.sistema_id = s.id` (or `FULL OUTER JOIN`). `SELECT *` returns all columns from both sides.",
+            "explicacaoTecnica": "FULL JOIN yields the matched row (Earth + Solar System), the orphan planet, and the system with no planet — three rows in this sandbox."
           }
         },
         "es": {
-          "titulo": "Ejercicio 1 — INNER JOIN",
+          "titulo": "Práctica: FULL JOIN completo",
           "conteudo": {
-            "instrucao": "Lista el nombre del cliente y el producto de cada pedido. Usa INNER JOIN.",
-            "dica": "Para combinar datos de dos tablas, usa JOIN. El ON define el vínculo — busca el campo que existe en ambas tablas. La sintaxis es: FROM tabla1 JOIN tabla2 ON tabla1.columna = tabla2.columna."
+            "instrucao": "Selecciona todas las columnas de planetas y sistemas (p. ej. `SELECT *` con alias `p` y `s`) con **FULL JOIN** entre `planetas p` y `sistemas s` en `p.sistema_id = s.id`, para ver planetas sin sistema y sistemas sin planetas.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'), ('Sistema Vazio'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1), ('Planeta Errante', NULL);",
+            "checkType": "count",
+            "checkConfig": {
+              "expected_rows": 3
+            },
+            "dica": "Usa `FROM planetas p FULL JOIN sistemas s ON p.sistema_id = s.id` (o `FULL OUTER JOIN`). `SELECT *` devuelve todas las columnas.",
+            "explicacaoTecnica": "El FULL JOIN da la fila emparejada, el planeta huérfano y el sistema sin planetas — tres filas en este sandbox."
           }
         }
       }
@@ -460,32 +484,53 @@
     {
       "ordem": 10,
       "tipo": "exercicio",
-      "temAnuncio": true,
-      "xpReward": 150,
-      "titulo": "Exercício 2 — LEFT JOIN",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "O Elo de Ligação",
       "conteudo": {
-        "instrucao": "Liste TODOS os clientes e seus pedidos. Clientes sem pedido devem aparecer com NULL.",
-        "dica": "INNER JOIN só mostra registros que têm correspondência nas duas tabelas. Se o enunciado pede TODOS os clientes — mesmo os sem pedido — qual tipo de JOIN inclui todos da tabela da esquerda?",
-        "placeholder": "SELECT c.Nome, p.Produto\nFROM Clientes c\nLEFT JOIN ...",
-        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'),(4,'João','SP'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Teclado',150);",
-        "checkType": "count",
-        "checkConfig": {
-          "expected_rows": 4
-        }
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Para que duas tabelas sejam unidas através de um JOIN no PostgreSQL, o que elas precisam ter obrigatoriamente em comum?",
+        "opcoes": [
+          "O mesmo número total de linhas e colunas.",
+          "Uma coluna de ligação lógica, geralmente uma Primary Key em uma e uma Foreign Key na outra.",
+          "Nomes de tabelas que comecem com a mesma letra.",
+          "Apenas tipos de dados de texto em todas as suas colunas."
+        ],
+        "indiceCorreto": 1,
+        "dica": "Pense na 'etiqueta' que uma tabela carrega para ser identificada em outra. Sem esse vínculo, não há união."
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 2 — LEFT JOIN",
+          "titulo": "The Link",
           "conteudo": {
-            "instrucao": "List ALL customers and their orders. Customers without orders should appear with NULL.",
-            "dica": "INNER JOIN only shows records that have a match in both tables. If the question asks for ALL customers — even those without orders — which type of JOIN includes all records from the left table?"
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "For two tables to be joined through a JOIN in PostgreSQL, what must they mandatorily have in common?",
+            "opcoes": [
+              "The same total number of rows and columns.",
+              "A logical link column, usually a Primary Key in one and a Foreign Key in the other.",
+              "Table names starting with the same letter.",
+              "Only text data types in all their columns."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Think about the 'tag' one table carries to be identified in another. Without this link, there is no union."
           }
         },
         "es": {
-          "titulo": "Ejercicio 2 — LEFT JOIN",
+          "titulo": "El Eslabón",
           "conteudo": {
-            "instrucao": "Lista TODOS los clientes y sus pedidos. Los clientes sin pedido deben aparecer con NULL.",
-            "dica": "INNER JOIN solo muestra registros que tienen correspondencia en ambas tablas. Si el enunciado pide TODOS los clientes — incluso los sin pedido — ¿qué tipo de JOIN incluye todos los registros de la tabla izquierda?"
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Para que dos tablas se unan mediante un JOIN en PostgreSQL, ¿qué deben tener obligatoriamente en común?",
+            "opcoes": [
+              "El mismo número total de filas y columnas.",
+              "Una columna de enlace lógico, generalmente una Clave Primaria en una y una Clave Foránea en la otra.",
+              "Nombres de tablas que comiencen con la misma letra.",
+              "Solo tipos de datos de texto en todas sus columnas."
+            ],
+            "indiceCorreto": 1,
+            "dica": "Piensa en la 'etiqueta' que una tabla lleva para ser identificada en otra. Sin ese vínculo, no hay unión."
           }
         }
       }
@@ -493,57 +538,89 @@
     {
       "ordem": 11,
       "tipo": "exercicio",
-      "temAnuncio": true,
-      "xpReward": 150,
-      "titulo": "Exercício 3 — JOIN com WHERE",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Regra da Intersecção",
       "conteudo": {
-        "instrucao": "Liste o nome do cliente e o valor do pedido, mas apenas para pedidos com valor maior que 500.",
-        "dica": "Primeiro una as tabelas com JOIN pelo campo em comum, depois adicione WHERE para filtrar os resultados. A ordem de execução é: FROM → JOIN → WHERE. O filtro por valor vem depois da junção.",
-        "placeholder": "SELECT c.Nome, p.Valor\nFROM Clientes c\nINNER JOIN Pedidos p ...\nWHERE ...",
-        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT, Cidade TEXT); INSERT INTO Clientes VALUES (1,'Ana','SP'),(2,'Carlos','RJ'),(3,'Maria','MG'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Cadeira',890),(105,2,'Caneta',15);",
-        "checkType": "count",
-        "checkConfig": {
-          "expected_rows": 3
-        }
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Analise o comportamento do operador de união padrão:",
+        "afirmacao": "O comando INNER JOIN retorna apenas os registros que possuem correspondência (match) exata em ambas as tabelas envolvidas na operação.",
+        "respostaCorreta": true,
+        "dica": "O INNER JOIN é seletivo; ele foca na intersecção, onde as chaves se encaixam perfeitamente."
       },
       "traducoes": {
         "en": {
-          "titulo": "Exercise 3 — JOIN with WHERE",
+          "titulo": "T/F: The Intersection Rule",
           "conteudo": {
-            "instrucao": "List the customer name and order value, but only for orders with a value greater than 500.",
-            "dica": "First join the tables using JOIN on the common field, then add WHERE to filter the results. The execution order is: FROM → JOIN → WHERE. The value filter comes after the join."
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analyze the behavior of the default join operator:",
+            "afirmacao": "The INNER JOIN command returns only records that have an exact match in both tables involved in the operation.",
+            "respostaCorreta": true,
+            "dica": "INNER JOIN is selective; it focuses on the intersection, where the keys fit perfectly."
           }
         },
         "es": {
-          "titulo": "Ejercicio 3 — JOIN con WHERE",
+          "titulo": "V o F: La Regla de Intersección",
           "conteudo": {
-            "instrucao": "Lista el nombre del cliente y el valor del pedido, pero solo para pedidos con valor mayor que 500.",
-            "dica": "Primero une las tablas con JOIN por el campo en común, luego agrega WHERE para filtrar los resultados. El orden de ejecución es: FROM → JOIN → WHERE. El filtro por valor viene después de la unión."
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Analiza el comportamiento del operador de unión por defecto:",
+            "afirmacao": "El comando INNER JOIN devuelve solo los registros que tienen una correspondencia (match) exacta en ambas tablas involucradas en la operación.",
+            "respostaCorreta": true,
+            "dica": "El INNER JOIN es selectivo; se centra en la intersección, donde las llaves encajan perfectamente."
           }
         }
       }
     },
     {
       "ordem": 12,
-      "tipo": "conclusao",
-      "temAnuncio": false,
-      "xpReward": 50,
-      "titulo": "JOINs dominados!",
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Prática: Unindo Mundos",
       "conteudo": {
-        "mensagem": "JOINs são o coração dos bancos de dados relacionais. Com isso você consegue consultar qualquer sistema de informações real!",
-        "xpGanho": 500
+        "instrucao": "Selecione o nome do planeta (como 'planeta') e o nome do seu sistema estelar (como 'sistema'), unindo as tabelas planetas e sistemas.",
+        "placeholder": "SELECT ...",
+        "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["planeta", "sistema"],
+          "min_rows": 1
+        },
+        "dica": "Use a estrutura: FROM planetas INNER JOIN sistemas ON planetas.sistema_id = sistemas.id. Não esqueça dos Aliases para os nomes!",
+        "explicacaoTecnica": "O PostgreSQL executa o JOIN comparando os valores das chaves. A cláusula ON define o predicado de junção, garantindo que os dados do planeta Terra sejam mesclados com os dados corretos do Sistema Solar."
       },
       "traducoes": {
         "en": {
-          "titulo": "JOINs mastered!",
+          "titulo": "Practice: Joining Worlds",
           "conteudo": {
-            "mensagem": "JOINs are the heart of relational databases. With this you can query any real information system!"
+            "instrucao": "Select the planet's name (as 'planeta') and its stellar system's name (as 'sistema'), joining the planetas and sistemas tables.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1);",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["planeta", "sistema"],
+              "min_rows": 1
+            },
+            "dica": "Use the structure: FROM planetas INNER JOIN sistemas ON planetas.sistema_id = sistemas.id. Don't forget the Aliases for the names!",
+            "explicacaoTecnica": "PostgreSQL executes the JOIN by comparing key values. The ON clause defines the join predicate, ensuring Earth's data is merged with the correct Solar System data."
           }
         },
         "es": {
-          "titulo": "¡JOINs dominados!",
+          "titulo": "Práctica: Uniendo Mundos",
           "conteudo": {
-            "mensagem": "Los JOINs son el corazón de las bases de datos relacionales. ¡Con esto puedes consultar cualquier sistema de información real!"
+            "instrucao": "Selecciona el nombre del planeta (como 'planeta') y el nombre de su sistema estelar (como 'sistema'), uniendo las tablas planetas y sistemas.",
+            "placeholder": "SELECT ...",
+            "schema": "CREATE TABLE sistemas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, sistema_id INTEGER REFERENCES sistemas(id)); INSERT INTO sistemas (nome) VALUES ('Sistema Solar'); INSERT INTO planetas (nome, sistema_id) VALUES ('Terra', 1);",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["planeta", "sistema"],
+              "min_rows": 1
+            },
+            "dica": "Usa la estructura: FROM planetas INNER JOIN sistemas ON planetas.sistema_id = sistemas.id. ¡No olvides los Aliases para los nombres!",
+            "explicacaoTecnica": "PostgreSQL ejecuta el JOIN comparando los valores de las llaves. La cláusula ON define el predicado de unión, asegurando que los datos de la Tierra se fusionen con los datos correctos del Sistema Solar."
           }
         }
       }
