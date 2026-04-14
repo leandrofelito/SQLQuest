@@ -33,9 +33,26 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   const onFalhouRef = useRef(onFalhou)
   /** Após cleanup do efeito Flutter: evita setState no desmontado; `completed` tardio ainda usa os refs. */
   const flutterHostReleasedRef = useRef(false)
+  const resolvedRef = useRef(false)
   useEffect(() => { onConcluidoRef.current = onConcluido }, [onConcluido])
   useEffect(() => { onFecharRef.current = onFechar }, [onFechar])
   useEffect(() => { onFalhouRef.current = onFalhou }, [onFalhou])
+
+  function resolveOnce(action: 'completed' | 'dismissed' | 'failed') {
+    if (resolvedRef.current) return
+    resolvedRef.current = true
+
+    if (action === 'completed') {
+      onConcluidoRef.current()
+      return
+    }
+    if (action === 'failed') {
+      if (onFalhouRef.current) onFalhouRef.current()
+      else onFecharRef.current?.()
+      return
+    }
+    onFecharRef.current?.()
+  }
 
   function tentarFechar() {
     if (onFechar) setConfirmandoSaida(true)
@@ -47,8 +64,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   }
 
   useEffect(() => {
+    resolvedRef.current = false
     if (isPro) {
-      onConcluidoRef.current()
+      resolveOnce('completed')
       return
     }
 
@@ -86,16 +104,17 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
         }
         if (adType === 'interstitial') {
           // Interstitial: avança independentemente de ter assistido até o fim
-          onConcluidoRef.current()
+          resolveOnce('completed')
         } else {
           // Rewarded: completed = recompensa; failed = erro técnico; dismissed = fechou sem prêmio
           if (status === 'completed') {
-            onConcluidoRef.current()
+            resolveOnce('completed')
           } else if (status === 'failed') {
-            if (onFalhouRef.current) onFalhouRef.current()
-            else onFecharRef.current?.()
+            resolveOnce('failed')
+          } else if (status === 'dismissed') {
+            resolveOnce('dismissed')
           } else {
-            onFecharRef.current?.()
+            resolveOnce('failed')
           }
         }
       }
@@ -154,7 +173,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       setTempo(t => {
         if (t <= 1) {
           clearInterval(interval)
-          onConcluidoRef.current()
+          resolveOnce('completed')
           return 0
         }
         return t - 1
@@ -302,7 +321,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       {/* Rodapé */}
       <div className="px-4 pb-6 space-y-3 safe-bottom">
         <button
-          onClick={onConcluido}
+          onClick={() => resolveOnce('completed')}
           disabled={tempo > 0}
           className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
             tempo === 0
