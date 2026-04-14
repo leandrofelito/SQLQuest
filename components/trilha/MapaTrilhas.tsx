@@ -50,8 +50,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   }
 
   function primeiroAnuncioConcluido() {
-    // Pausa para o AdMob concluir dismiss + carregar o próximo rewarded (mobile)
-    setTimeout(() => setFluxo('ad2'), 600)
+    // Pausa para o AdMob dar dismiss, pré-carregar o 2º rewarded e o WebView trocar de overlay (Flutter)
+    setTimeout(() => setFluxo('ad2'), 1400)
   }
 
   /** Fechar/sair sem recompensa não avança nem libera; volta ao banner para tentar de novo. */

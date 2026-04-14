@@ -170,15 +170,20 @@ class _WebViewScreenState extends State<WebViewScreen>
         NavigationDelegate(
           onPageStarted: (_) {
             if (mounted) setState(() => _isLoading = true);
+            // Cedo no carregamento: o React/hooks de anúncio nativo dependem disso
+            // antes de onPageFinished (evita cair no fluxo AdSense dentro do app).
+            _controller.runJavaScript(
+              'window.__sqlquestNativeApp = true;'
+              'try{document.documentElement.classList.add("native-app");}catch(e){}',
+            );
           },
           onPageFinished: (url) async {
             if (mounted) {
               setState(() => _isLoading = false);
-              // Define a flag E adiciona a classe de forma atômica para evitar
-              // condição de corrida com o useEffect do NativeAppDetector React.
+              // Reforço idempotente (NativeAppDetector / useNativeAdHost).
               _controller.runJavaScript(
                 'window.__sqlquestNativeApp = true;'
-                'document.documentElement.classList.add("native-app");',
+                'try{document.documentElement.classList.add("native-app");}catch(e){}',
               );
 
               // Sessão expirou: o servidor redirecionou para /login
