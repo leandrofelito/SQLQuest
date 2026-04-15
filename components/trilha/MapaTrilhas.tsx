@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CardTrilha } from './CardTrilha'
@@ -25,34 +25,33 @@ interface MapaTrilhasProps {
   trilhas: TrilhaData[]
 }
 
-type FluxoState = 'idle' | 'banner' | 'ad1' | 'ad2' | 'persistindo' | 'sucesso' | 'erro'
-
 export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const { isPro } = useUser()
   const { marcarTrilhaDesbloqueadaPorAnuncio } = useAppData()
   const router = useRouter()
-  const [fluxo, setFluxo] = useState<FluxoState>('idle')
+  const [adState, setAdState] = useState<'idle' | 'showing_ad' | 'transition' | 'unlocking' | 'success'>('idle')
   const [trilhaAlvo, setTrilhaAlvo] = useState<TrilhaData | null>(null)
   const [desbloqueadasSessao, setDesbloqueadasSessao] = useState<Set<string>>(new Set())
   const [erroDesbloqueio, setErroDesbloqueio] = useState<string | null>(null)
-  const desbloqueioSegundoJaFeito = useRef(false)
-  const desbloqueioPrimeiroJaFeito = useRef(false)
-  const attemptCounterRef = useRef(0)
-  const attemptIdAtivoRef = useRef<number | null>(null)
-  const trilhaAlvoRef = useRef<TrilhaData | null>(null)
+  const adSequenceRef = useRef({ adsCompleted: 0, isTransitioning: false })
+  const transicaoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  function novaTentativa(): number {
-    attemptCounterRef.current += 1
-    const id = attemptCounterRef.current
-    attemptIdAtivoRef.current = id
-    desbloqueioPrimeiroJaFeito.current = false
-    desbloqueioSegundoJaFeito.current = false
+  useEffect(() => {
+    return () => {
+      if (transicaoTimeoutRef.current !== null) {
+        clearTimeout(transicaoTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  const iniciarDesbloqueio = () => {
+    if (transicaoTimeoutRef.current !== null) {
+      clearTimeout(transicaoTimeoutRef.current)
+      transicaoTimeoutRef.current = null
+    }
+    adSequenceRef.current = { adsCompleted: 0, isTransitioning: false }
     setErroDesbloqueio(null)
-    return id
-  }
-
-  function tentativaAtivaEh(attemptId: number): boolean {
-    return attemptIdAtivoRef.current === attemptId
+    setAdState('showing_ad')
   }
 
   async function persistirDesbloqueio(trilha: TrilhaData): Promise<boolean> {
@@ -67,78 +66,70 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
     return true
   }
 
-  function handleBloqueadaClick(trilha: TrilhaData) {
-    trilhaAlvoRef.current = trilha
-    setTrilhaAlvo(trilha)
-    novaTentativa()
-    setFluxo('banner')
-  }
-
-  function iniciarAnuncios() {
-    const attemptId = novaTentativa()
-    // Fecha o banner primeiro para evitar sobreposição com o anúncio
-    setFluxo('idle')
-    setTimeout(() => {
-      if (!tentativaAtivaEh(attemptId)) return
-      setFluxo('ad1')
-    }, 380)
-  }
-
-  function primeiroAnuncioConcluido(attemptId: number) {
-    if (!tentativaAtivaEh(attemptId)) return
-    if (desbloqueioPrimeiroJaFeito.current) return
-    desbloqueioPrimeiroJaFeito.current = true
-    // Pausa para o AdMob dar dismiss, pré-carregar o 2º rewarded e o WebView trocar de overlay (Flutter)
-    setTimeout(() => {
-      if (!tentativaAtivaEh(attemptId)) return
-      setFluxo('ad2')
-    }, 1400)
-  }
-
-  /** Fechar/sair sem recompensa não avança nem libera; volta ao banner para tentar de novo. */
-  function abortarDesbloqueioPorAnuncios(attemptId: number) {
-    if (!tentativaAtivaEh(attemptId)) return
-    attemptIdAtivoRef.current = null
-    setFluxo('banner')
-  }
-
-  async function segundoAnuncioConcluido(attemptId: number) {
-    if (!tentativaAtivaEh(attemptId)) return
-    const trilha = trilhaAlvoRef.current
+  const handleAdConcluido = async () => {
+    if (adSequenceRef.current.isTransitioning) return
+    const trilha = trilhaAlvo
     if (!trilha) return
-    if (desbloqueioSegundoJaFeito.current) return
-    desbloqueioSegundoJaFeito.current = true
-    setFluxo('persistindo')
-    try {
-      await persistirDesbloqueio(trilha)
-      if (!tentativaAtivaEh(attemptId)) return
-      setDesbloqueadasSessao(prev => new Set(prev).add(trilha.slug))
-      marcarTrilhaDesbloqueadaPorAnuncio(trilha.slug)
-      setFluxo('sucesso')
-    } catch {
-      if (!tentativaAtivaEh(attemptId)) return
-      setErroDesbloqueio('Não foi possível confirmar o desbloqueio. Tente novamente.')
-      setFluxo('erro')
+
+    adSequenceRef.current.adsCompleted += 1
+    adSequenceRef.current.isTransitioning = true
+
+    if (adSequenceRef.current.adsCompleted >= 2) {
+      setAdState('unlocking')
+      try {
+        await persistirDesbloqueio(trilha)
+        setDesbloqueadasSessao(prev => new Set(prev).add(trilha.slug))
+        marcarTrilhaDesbloqueadaPorAnuncio(trilha.slug)
+        setAdState('success')
+      } catch {
+        setErroDesbloqueio('Não foi possível confirmar o desbloqueio. Tente novamente.')
+        adSequenceRef.current.isTransitioning = false
+        setAdState('idle')
+      }
+    } else {
+      setAdState('transition')
+      transicaoTimeoutRef.current = setTimeout(() => {
+        transicaoTimeoutRef.current = null
+        adSequenceRef.current.isTransitioning = false
+        setAdState('showing_ad')
+      }, 1500)
     }
+  }
+
+  const handleAdFechado = () => {
+    if (adSequenceRef.current.isTransitioning || adState === 'unlocking' || adState === 'success') return
+    if (transicaoTimeoutRef.current !== null) {
+      clearTimeout(transicaoTimeoutRef.current)
+      transicaoTimeoutRef.current = null
+    }
+    adSequenceRef.current = { adsCompleted: 0, isTransitioning: false }
+    setAdState('idle')
+    // Mantém trilhaAlvo para que o BannerPro reabra em vez de voltar direto ao mapa.
+    // O usuário pode fechar o BannerPro manualmente se quiser sair do fluxo.
   }
 
   async function tentarPersistirNovamente() {
-    const attemptId = attemptIdAtivoRef.current
-    const trilha = trilhaAlvoRef.current
-    if (!attemptId || !trilha) return
+    const trilha = trilhaAlvo
+    if (!trilha) return
     setErroDesbloqueio(null)
-    setFluxo('persistindo')
+    setAdState('unlocking')
+    adSequenceRef.current.isTransitioning = true
     try {
       await persistirDesbloqueio(trilha)
-      if (!tentativaAtivaEh(attemptId)) return
       setDesbloqueadasSessao(prev => new Set(prev).add(trilha.slug))
       marcarTrilhaDesbloqueadaPorAnuncio(trilha.slug)
-      setFluxo('sucesso')
+      setAdState('success')
     } catch {
-      if (!tentativaAtivaEh(attemptId)) return
       setErroDesbloqueio('Não foi possível confirmar o desbloqueio. Tente novamente.')
-      setFluxo('erro')
+      adSequenceRef.current.isTransitioning = false
+      setAdState('idle')
     }
+  }
+
+  function handleBloqueadaClick(trilha: TrilhaData) {
+    setTrilhaAlvo(trilha)
+    setErroDesbloqueio(null)
+    setAdState('idle')
   }
 
   function entrarNaTrilha() {
@@ -205,63 +196,44 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       </div>
 
       <BannerPro
-        open={fluxo === 'banner'}
+        open={Boolean(trilhaAlvo) && adState === 'idle' && !erroDesbloqueio}
         onClose={() => {
-          attemptIdAtivoRef.current = null
-          setFluxo('idle')
+          adSequenceRef.current = { adsCompleted: 0, isTransitioning: false }
+          setTrilhaAlvo(null)
+          setAdState('idle')
         }}
-        onAssistirAnuncio={iniciarAnuncios}
+        onAssistirAnuncio={iniciarDesbloqueio}
       />
 
-      {fluxo === 'ad1' && (
+      {adState === 'showing_ad' && (
         <AnuncioVideo
-          key="trilha-rewarded-1"
+          key={`trilha-rewarded-${adSequenceRef.current.adsCompleted + 1}`}
           isPro={false}
           adType="rewarded"
-          label="Anúncio 1 de 2"
-          onConcluido={() => {
-            const attemptId = attemptIdAtivoRef.current
-            if (!attemptId) return
-            primeiroAnuncioConcluido(attemptId)
-          }}
-          onFechar={() => {
-            const attemptId = attemptIdAtivoRef.current
-            if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
-          }}
-          onFalhou={() => {
-            const attemptId = attemptIdAtivoRef.current
-            if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
-          }}
-        />
-      )}
-      {fluxo === 'ad2' && (
-        <AnuncioVideo
-          key="trilha-rewarded-2"
-          isPro={false}
-          adType="rewarded"
-          label="Anúncio 2 de 2"
-          onConcluido={() => {
-            const attemptId = attemptIdAtivoRef.current
-            if (!attemptId) return
-            void segundoAnuncioConcluido(attemptId)
-          }}
-          onFechar={() => {
-            const attemptId = attemptIdAtivoRef.current
-            if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
-          }}
-          onFalhou={() => {
-            const attemptId = attemptIdAtivoRef.current
-            if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
-          }}
+          label={`Anúncio ${adSequenceRef.current.adsCompleted + 1} de 2`}
+          onConcluido={() => void handleAdConcluido()}
+          onFechar={handleAdFechado}
+          onFalhou={handleAdFechado}
         />
       )}
 
       <AnimatePresence>
-        {fluxo === 'persistindo' && (
+        {adState === 'transition' && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-4 px-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
+            <p className="text-white/70 text-sm text-center">Preparando anúncio 2 de 2...</p>
+            <p className="text-white/30 text-xs text-center">Aguarde um momento</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {adState === 'unlocking' && (
           <motion.div
             className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-4 px-6"
             initial={{ opacity: 0 }}
@@ -276,7 +248,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
 
       {/* Tela de sucesso após liberar trilha */}
       <AnimatePresence>
-        {fluxo === 'sucesso' && trilhaAlvo && (
+        {adState === 'success' && trilhaAlvo && (
           <motion.div
             className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -325,7 +297,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       </AnimatePresence>
 
       <AnimatePresence>
-        {fluxo === 'erro' && trilhaAlvo && (
+        {erroDesbloqueio && trilhaAlvo && adState === 'idle' && (
           <motion.div
             className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -354,7 +326,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
                 Tentar novamente
               </button>
               <button
-                onClick={() => setFluxo('banner')}
+                onClick={() => setTrilhaAlvo(null)}
                 className="w-full py-3 rounded-xl bg-white/5 text-white/70 font-medium"
               >
                 Voltar
