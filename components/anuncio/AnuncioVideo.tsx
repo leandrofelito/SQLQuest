@@ -257,21 +257,23 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   // um X em cima confundia com o anúncio e, ao fechar o vídeo, o callback
   // `dismissed` já trata saída sem prêmio.
   if (nativeHost === 'native') {
-    if (flutterAdState === 'loading' || flutterAdState === 'showing') {
-      return (
-        <motion.div
-          className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
-          <p className="text-white/50 text-sm text-center">Carregando anúncio…</p>
-          {label ? <p className="text-white/30 text-xs text-center">{label}</p> : null}
-        </motion.div>
-      )
-    }
-
-    return null
+    // Mantém overlay visível em todos os estados (loading, showing, done) para impedir
+    // que o usuário interaja com o mapa durante a transição entre anúncios (ex.: 1400ms
+    // entre ad1 concluído e ad2 iniciado). Se o overlay sumir o usuário pode tocar em
+    // outra trilha, invalidar o attemptId e o 2º anúncio nunca é exibido.
+    return (
+      <motion.div
+        className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
+        <p className="text-white/50 text-sm text-center">
+          {flutterAdState === 'done' ? 'Aguarde…' : 'Carregando anúncio…'}
+        </p>
+        {label ? <p className="text-white/30 text-xs text-center">{label}</p> : null}
+      </motion.div>
+    )
   }
 
   // --- UI Web (AdSense) ---
