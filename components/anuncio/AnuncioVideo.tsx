@@ -83,6 +83,12 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
             ? crypto.randomUUID()
             : `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`
           : null
+
+      // Grace period: alguns SDKs de mediação disparam 'dismissed' antes de 'completed'.
+      // Aguardamos até 900ms para ver se 'completed' chega logo após 'dismissed'.
+      let rewardEarned = false
+      let rewardedGraceTimeout: ReturnType<typeof setTimeout> | null = null
+
       const handler = (result: string) => {
         let status = result
         let msgRequestId: string | undefined
@@ -104,20 +110,37 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
         if (!flutterHostReleasedRef.current) {
           setFlutterAdState('done')
         }
+
         if (adType === 'interstitial') {
           // Interstitial: avança independentemente de ter assistido até o fim
           resolveOnce('completed')
-        } else {
-          // Rewarded: completed = recompensa; failed = erro técnico; dismissed = fechou sem prêmio
-          if (status === 'completed') {
-            resolveOnce('completed')
-          } else if (status === 'failed') {
-            resolveOnce('failed')
-          } else if (status === 'dismissed') {
-            resolveOnce('dismissed')
-          } else {
-            resolveOnce('failed')
+          return
+        }
+
+        // Rewarded: trata com grace period para 'dismissed' que chega antes de 'completed'
+        if (status === 'completed') {
+          rewardEarned = true
+          if (rewardedGraceTimeout !== null) {
+            clearTimeout(rewardedGraceTimeout)
+            rewardedGraceTimeout = null
           }
+          resolveOnce('completed')
+        } else if (status === 'failed') {
+          if (rewardedGraceTimeout !== null) {
+            clearTimeout(rewardedGraceTimeout)
+            rewardedGraceTimeout = null
+          }
+          resolveOnce('failed')
+        } else if (status === 'dismissed') {
+          // Se a recompensa já foi concedida antes do dismiss, ignora o dismiss
+          if (rewardEarned) return
+          // Aguarda brevemente: alguns SDKs enviam 'dismissed' antes de 'completed'
+          rewardedGraceTimeout = setTimeout(() => {
+            rewardedGraceTimeout = null
+            if (!rewardEarned) resolveOnce('dismissed')
+          }, 900)
+        } else {
+          resolveOnce('failed')
         }
       }
       ;(window as any).onAdMobResult = handler
@@ -137,8 +160,12 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
 
       return () => {
         clearTimeout(timer)
+        if (rewardedGraceTimeout !== null) {
+          clearTimeout(rewardedGraceTimeout)
+          rewardedGraceTimeout = null
+        }
         flutterHostReleasedRef.current = true
-        // Não apagar na hora: `completed` pode chegar após dismiss (AdMob / mediação; ver _rewardedDismissGrace no Flutter).
+        // Não apagar na hora: `completed` pode chegar após dismiss (AdMob / mediação).
         const handlerSnapshot = handler
         setTimeout(() => {
           if ((window as any).onAdMobResult === handlerSnapshot) {

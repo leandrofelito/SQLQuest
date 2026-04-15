@@ -102,9 +102,10 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
       clearTimeout(transicaoTimeoutRef.current)
       transicaoTimeoutRef.current = null
     }
-    adSequenceRef.current.adsCompleted = 0
+    adSequenceRef.current = { adsCompleted: 0, isTransitioning: false }
     setAdState('idle')
-    setTrilhaAlvo(null)
+    // Mantém trilhaAlvo para que o BannerPro reabra em vez de voltar direto ao mapa.
+    // O usuário pode fechar o BannerPro manualmente se quiser sair do fluxo.
   }
 
   async function tentarPersistirNovamente() {

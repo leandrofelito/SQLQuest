@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { useSQL } from '@/hooks/useSQL'
@@ -238,6 +238,16 @@ function ExercicioQuiz({
   const ultimoPayloadRef = useRef<Record<string, unknown>>({})
 
   const listaDicas = useMemo(() => normalizarDicas(conteudo), [conteudo])
+  const ultimaDicaRef = useRef<HTMLDivElement>(null)
+
+  // Rola suavemente até a dica recém-revelada para que ela fique visível
+  useEffect(() => {
+    if (dicasReveladas.length === 0) return
+    const t = setTimeout(() => {
+      ultimaDicaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }, 120)
+    return () => clearTimeout(t)
+  }, [dicasReveladas.length])
 
   const instrucaoTopo =
     conteudo.quizTipo === 'vf' && conteudo.instrucao
@@ -487,22 +497,26 @@ function ExercicioQuiz({
         {dicasReveladas.length > 0 && estado !== 'acerto' && (
           <div className="space-y-2">
             <AnimatePresence initial={false}>
-              {dicasReveladas.map((texto, i) => (
-                <motion.div
-                  key={i}
-                  className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
-                    {messages.exercicio.dicaReveladaTitulo}
-                    {listaDicas.length > 1
-                      ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
-                      : ''}
-                  </p>
-                  <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
-                </motion.div>
-              ))}
+              {dicasReveladas.map((texto, i) => {
+                const isUltima = i === dicasReveladas.length - 1
+                return (
+                  <motion.div
+                    key={i}
+                    ref={isUltima ? ultimaDicaRef : undefined}
+                    className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
+                      {messages.exercicio.dicaReveladaTitulo}
+                      {listaDicas.length > 1
+                        ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
+                        : ''}
+                    </p>
+                    <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
+                  </motion.div>
+                )
+              })}
             </AnimatePresence>
           </div>
         )}
@@ -521,7 +535,11 @@ function ExercicioQuiz({
             estado !== 'acerto' &&
             dicasReveladas.length < listaDicas.length && (
               <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
-                {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
+                {isPro
+                  ? messages.exercicio.dica
+                  : dicasReveladas.length === 0
+                    ? messages.exercicio.dicaAnuncio
+                    : `${messages.exercicio.dicaAnuncio} (${dicasReveladas.length + 1}/${listaDicas.length})`}
               </Button>
             )}
         </div>
@@ -619,6 +637,15 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   const toolbarStartXRef = useRef(0)
 
   const listaDicas = useMemo(() => normalizarDicas(conteudoSql), [conteudoSql])
+  const ultimaDicaSqlRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (dicasReveladas.length === 0) return
+    const t = setTimeout(() => {
+      ultimaDicaSqlRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }, 120)
+    return () => clearTimeout(t)
+  }, [dicasReveladas.length])
 
   function aplicarPreenchimentoSqlPrimeira() {
     const fill = conteudoSql.dicaPreenchimento?.trim()
@@ -840,22 +867,26 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
       {dicasReveladas.length > 0 && estado !== 'acerto' && (
         <div className="space-y-2">
           <AnimatePresence initial={false}>
-            {dicasReveladas.map((texto, i) => (
-              <motion.div
-                key={i}
-                className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
-                  {messages.exercicio.dicaReveladaTitulo}
-                  {listaDicas.length > 1
-                    ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
-                    : ''}
-                </p>
-                <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
-              </motion.div>
-            ))}
+            {dicasReveladas.map((texto, i) => {
+              const isUltima = i === dicasReveladas.length - 1
+              return (
+                <motion.div
+                  key={i}
+                  ref={isUltima ? ultimaDicaSqlRef : undefined}
+                  className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
+                    {messages.exercicio.dicaReveladaTitulo}
+                    {listaDicas.length > 1
+                      ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
+                      : ''}
+                  </p>
+                  <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
+                </motion.div>
+              )
+            })}
           </AnimatePresence>
         </div>
       )}
@@ -899,7 +930,11 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           estado !== 'acerto' &&
           dicasReveladas.length < listaDicas.length && (
             <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
-              {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
+              {isPro
+                ? messages.exercicio.dica
+                : dicasReveladas.length === 0
+                  ? messages.exercicio.dicaAnuncio
+                  : `${messages.exercicio.dicaAnuncio} (${dicasReveladas.length + 1}/${listaDicas.length})`}
             </Button>
           )}
       </div>
