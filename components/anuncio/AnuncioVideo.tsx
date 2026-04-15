@@ -33,9 +33,26 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   const onFalhouRef = useRef(onFalhou)
   /** Após cleanup do efeito Flutter: evita setState no desmontado; `completed` tardio ainda usa os refs. */
   const flutterHostReleasedRef = useRef(false)
+  const resolvedRef = useRef(false)
   useEffect(() => { onConcluidoRef.current = onConcluido }, [onConcluido])
   useEffect(() => { onFecharRef.current = onFechar }, [onFechar])
   useEffect(() => { onFalhouRef.current = onFalhou }, [onFalhou])
+
+  function resolveOnce(action: 'completed' | 'dismissed' | 'failed') {
+    if (resolvedRef.current) return
+    resolvedRef.current = true
+
+    if (action === 'completed') {
+      onConcluidoRef.current()
+      return
+    }
+    if (action === 'failed') {
+      if (onFalhouRef.current) onFalhouRef.current()
+      else onFecharRef.current?.()
+      return
+    }
+    onFecharRef.current?.()
+  }
 
   function tentarFechar() {
     if (onFechar) setConfirmandoSaida(true)
@@ -47,8 +64,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   }
 
   useEffect(() => {
+    resolvedRef.current = false
     if (isPro) {
-      onConcluidoRef.current()
+      resolveOnce('completed')
       return
     }
 
@@ -77,7 +95,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
         } catch {
           // Legado: result é a string 'completed' | 'dismissed' | 'failed'
         }
-        if (expectedRequestId !== null && msgRequestId !== expectedRequestId) {
+        // Algumas bridges legadas retornam status sem requestId.
+        // Nesse caso, aceitamos o callback para evitar travar o fluxo de recompensa.
+        if (expectedRequestId !== null && msgRequestId && msgRequestId !== expectedRequestId) {
           return
         }
 
@@ -86,16 +106,17 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
         }
         if (adType === 'interstitial') {
           // Interstitial: avança independentemente de ter assistido até o fim
-          onConcluidoRef.current()
+          resolveOnce('completed')
         } else {
           // Rewarded: completed = recompensa; failed = erro técnico; dismissed = fechou sem prêmio
           if (status === 'completed') {
-            onConcluidoRef.current()
+            resolveOnce('completed')
           } else if (status === 'failed') {
-            if (onFalhouRef.current) onFalhouRef.current()
-            else onFecharRef.current?.()
+            resolveOnce('failed')
+          } else if (status === 'dismissed') {
+            resolveOnce('dismissed')
           } else {
-            onFecharRef.current?.()
+            resolveOnce('failed')
           }
         }
       }
@@ -154,7 +175,6 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       setTempo(t => {
         if (t <= 1) {
           clearInterval(interval)
-          onConcluidoRef.current()
           return 0
         }
         return t - 1
@@ -237,21 +257,23 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   // um X em cima confundia com o anúncio e, ao fechar o vídeo, o callback
   // `dismissed` já trata saída sem prêmio.
   if (nativeHost === 'native') {
-    if (flutterAdState === 'loading' || flutterAdState === 'showing') {
-      return (
-        <motion.div
-          className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
-          <p className="text-white/50 text-sm text-center">Carregando anúncio…</p>
-          {label ? <p className="text-white/30 text-xs text-center">{label}</p> : null}
-        </motion.div>
-      )
-    }
-
-    return null
+    // Mantém overlay visível em todos os estados (loading, showing, done) para impedir
+    // que o usuário interaja com o mapa durante a transição entre anúncios (ex.: 1400ms
+    // entre ad1 concluído e ad2 iniciado). Se o overlay sumir o usuário pode tocar em
+    // outra trilha, invalidar o attemptId e o 2º anúncio nunca é exibido.
+    return (
+      <motion.div
+        className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
+        <p className="text-white/50 text-sm text-center">
+          {flutterAdState === 'done' ? 'Aguarde…' : 'Carregando anúncio…'}
+        </p>
+        {label ? <p className="text-white/30 text-xs text-center">{label}</p> : null}
+      </motion.div>
+    )
   }
 
   // --- UI Web (AdSense) ---
@@ -302,7 +324,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       {/* Rodapé */}
       <div className="px-4 pb-6 space-y-3 safe-bottom">
         <button
-          onClick={onConcluido}
+          onClick={() => resolveOnce('completed')}
           disabled={tempo > 0}
           className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
             tempo === 0
@@ -319,9 +341,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
           <button
             type="button"
             onClick={tentarFechar}
-            className="w-full text-center text-xs text-white/35 hover:text-white/50 underline underline-offset-2 py-1"
+            className="w-full py-3 rounded-xl border border-white/10 bg-white/5 text-sm text-white/70 hover:bg-white/10 transition-colors"
           >
-            Sair sem assistir
+            {adType === 'rewarded' ? 'Fechar anúncio e continuar' : 'Fechar anúncio'}
           </button>
         )}
       </div>
