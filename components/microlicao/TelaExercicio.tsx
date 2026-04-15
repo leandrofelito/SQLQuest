@@ -835,7 +835,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         )}
       </AnimatePresence>
 
-      {dicasReveladas.length > 0 && estado !== 'acerto' && estado !== 'performance_aviso' && (
+      {dicasReveladas.length > 0 && estado !== 'acerto' && (
         <div className="space-y-2">
           <AnimatePresence initial={false}>
             {dicasReveladas.map((texto, i) => (
@@ -895,7 +895,6 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         </Button>
         {(estado === 'erro' || jaTentouOuErrou) &&
           estado !== 'acerto' &&
-          estado !== 'performance_aviso' &&
           listaDicas.length > 0 &&
           dicasReveladas.length < listaDicas.length && (
             <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">

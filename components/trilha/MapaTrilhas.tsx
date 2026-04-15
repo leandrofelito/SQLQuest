@@ -103,13 +103,20 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
     }, 1200)
   }
 
-  /** Fechar/sair sem recompensa não avança nem libera; volta ao banner para tentar de novo. */
-  function abortarDesbloqueioPorAnuncios(attemptId: number) {
+  function abortarPrimeiroAnuncio(attemptId: number) {
     if (!tentativaAtivaEh(attemptId)) return
+    if (desbloqueioPrimeiroJaFeito.current) return
     if (transicaoTimeoutRef.current !== null) {
       clearTimeout(transicaoTimeoutRef.current)
       transicaoTimeoutRef.current = null
     }
+    attemptIdAtivoRef.current = null
+    setFluxo('banner')
+  }
+
+  function abortarSegundoAnuncio(attemptId: number) {
+    if (!tentativaAtivaEh(attemptId)) return
+    if (desbloqueioSegundoJaFeito.current) return
     attemptIdAtivoRef.current = null
     setFluxo('banner')
   }
@@ -239,12 +246,12 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           onFechar={() => {
             const attemptId = attemptIdAtivoRef.current
             if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
+            abortarPrimeiroAnuncio(attemptId)
           }}
           onFalhou={() => {
             const attemptId = attemptIdAtivoRef.current
             if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
+            abortarPrimeiroAnuncio(attemptId)
           }}
         />
       )}
@@ -262,12 +269,12 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           onFechar={() => {
             const attemptId = attemptIdAtivoRef.current
             if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
+            abortarSegundoAnuncio(attemptId)
           }}
           onFalhou={() => {
             const attemptId = attemptIdAtivoRef.current
             if (!attemptId) return
-            abortarDesbloqueioPorAnuncios(attemptId)
+            abortarSegundoAnuncio(attemptId)
           }}
         />
       )}
