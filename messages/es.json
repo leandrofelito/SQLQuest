@@ -54,6 +54,7 @@
     "reflexaoCurta": "El texto está por debajo del mínimo de caracteres.",
     "quizIncorreto": "Respuesta incorrecta. Inténtalo de nuevo o pide una pista.",
     "dicaReveladaTitulo": "Pista",
+    "dicaContadorDe": "de",
     "dicaEtapaAusente": "Esta etapa aún no tiene pista configurada.",
     "publicidade": "Publicidad"
   },
