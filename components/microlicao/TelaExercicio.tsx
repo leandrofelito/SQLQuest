@@ -285,6 +285,7 @@ function ExercicioQuiz({
 
     if (conteudo.quizTipo === 'multipla') {
       if (indiceSelecionado === null) {
+        setJaTentouOuErrou(true)
         setEstado('erro')
         setMensagemErro(messages.exercicio.escolhaOpcao)
         return
@@ -292,6 +293,7 @@ function ExercicioQuiz({
       payload = { indiceEscolhido: indiceSelecionado }
     } else if (conteudo.quizTipo === 'vf') {
       if (vfSelecionado === null) {
+        setJaTentouOuErrou(true)
         setEstado('erro')
         setMensagemErro(messages.exercicio.escolhaOpcao)
         return
@@ -300,6 +302,7 @@ function ExercicioQuiz({
     } else {
       const t = textoReflexao.trim()
       if (t.length < conteudo.minLength) {
+        setJaTentouOuErrou(true)
         setEstado('erro')
         setMensagemErro(messages.exercicio.reflexaoCurta)
         return
@@ -514,9 +517,8 @@ function ExercicioQuiz({
           >
             {messages.exercicio.verificar}
           </Button>
-          {(estado === 'erro' || jaTentouOuErrou) &&
+          {jaTentouOuErrou &&
             estado !== 'acerto' &&
-            listaDicas.length > 0 &&
             dicasReveladas.length < listaDicas.length && (
               <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
                 {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
@@ -893,9 +895,8 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         >
           {messages.exercicio.verificar}
         </Button>
-        {(estado === 'erro' || jaTentouOuErrou) &&
+        {jaTentouOuErrou &&
           estado !== 'acerto' &&
-          listaDicas.length > 0 &&
           dicasReveladas.length < listaDicas.length && (
             <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
               {isPro ? messages.exercicio.dica : messages.exercicio.dicaAnuncio}
