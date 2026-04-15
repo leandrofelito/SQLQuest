@@ -35,7 +35,6 @@ export default withAuth(
         // Rotas públicas passam sem token para evitar loop de redirecionamento
         if (PUBLIC_PATHS.some(p => pathname.startsWith(p))) return true
         if (pathname.startsWith('/api/conteudo-version')) return true
-        if (pathname.startsWith('/api/ping')) return true
         if (MANUTENCAO) return true // deixa passar pro redirect acima
         return !!token
       },
@@ -47,6 +46,6 @@ export default withAuth(
 export const config = {
   matcher: [
     // Exclui assets estáticos e api/auth do middleware
-    '/((?!_next/static|_next/image|favicon\\.ico|icons|images|api/auth|manutencao).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|icons|images|api/auth|api/ping|manutencao).*)',
   ],
 }
