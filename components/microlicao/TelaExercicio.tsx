@@ -280,8 +280,6 @@ function ExercicioQuiz({
   }
 
   async function verificar() {
-    setDicasReveladas([])
-
     let payload: Record<string, unknown> = {}
 
     if (conteudo.quizTipo === 'multipla') {
@@ -648,7 +646,6 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   async function verificar() {
     if (!ready || !query.trim()) return
     setEstado('verificando')
-    setDicasReveladas([])
 
     const novaTentativa = tentativas + 1
     setTentativas(novaTentativa)
