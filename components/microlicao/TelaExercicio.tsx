@@ -520,7 +520,14 @@ function ExercicioQuiz({
         </div>
 
         {showAnuncioDica && (
-          <AnuncioVideo isPro={false} adType="rewarded" label="Anúncio" onConcluido={liberarDica} onFechar={() => setShowAnuncioDica(false)} />
+          <AnuncioVideo
+            isPro={false}
+            adType="rewarded"
+            label="Anúncio"
+            onConcluido={liberarDica}
+            onFechar={() => setShowAnuncioDica(false)}
+            onFalhou={() => setShowAnuncioDica(false)}
+          />
         )}
 
         <AnimatePresence>
@@ -887,7 +894,14 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
 
       {/* Anúncio premiado antes de revelar a dica */}
       {showAnuncioDica && (
-        <AnuncioVideo isPro={false} adType="rewarded" label="Anúncio" onConcluido={liberarDica} onFechar={() => setShowAnuncioDica(false)} />
+        <AnuncioVideo
+          isPro={false}
+          adType="rewarded"
+          label="Anúncio"
+          onConcluido={liberarDica}
+          onFechar={() => setShowAnuncioDica(false)}
+          onFalhou={() => setShowAnuncioDica(false)}
+        />
       )}
 
       {/* Painel de aviso de performance (query lenta detectada) */}
