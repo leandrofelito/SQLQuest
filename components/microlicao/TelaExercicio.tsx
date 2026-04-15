@@ -224,6 +224,7 @@ function ExercicioQuiz({
   const [estado, setEstado] = useState<Estado>('idle')
   const [mensagemErro, setMensagemErro] = useState('')
   const [dicasReveladas, setDicasReveladas] = useState<string[]>([])
+  const [jaTentouOuErrou, setJaTentouOuErrou] = useState(false)
   const [tentativas, setTentativas] = useState(0)
   const [dicasUsadas, setDicasUsadas] = useState(0)
   const [showAnuncioDica, setShowAnuncioDica] = useState(false)
@@ -334,9 +335,11 @@ function ExercicioQuiz({
           return
         }
       }
+      setJaTentouOuErrou(true)
       setEstado('erro')
       setMensagemErro(messages.exercicio.quizIncorreto)
     } catch {
+      setJaTentouOuErrou(true)
       setEstado('erro')
       setMensagemErro(messages.exercicio.quizIncorreto)
     } finally {
@@ -478,25 +481,28 @@ function ExercicioQuiz({
           )}
         </AnimatePresence>
 
-        <AnimatePresence>
-          {dicasReveladas.length > 0 && estado !== 'acerto'
-            ? dicasReveladas.map((texto, i) => (
+        {dicasReveladas.length > 0 && estado !== 'acerto' && (
+          <div className="space-y-2">
+            <AnimatePresence initial={false}>
+              {dicasReveladas.map((texto, i) => (
                 <motion.div
                   key={i}
                   className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
                 >
                   <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
                     {messages.exercicio.dicaReveladaTitulo}
-                    {listaDicas.length > 1 ? ` ${i + 1}/${listaDicas.length}` : ''}
+                    {listaDicas.length > 1
+                      ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
+                      : ''}
                   </p>
                   <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
                 </motion.div>
-              ))
-            : null}
-        </AnimatePresence>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
 
         <div className="mt-auto space-y-2">
           <Button
@@ -508,7 +514,8 @@ function ExercicioQuiz({
           >
             {messages.exercicio.verificar}
           </Button>
-          {estado === 'erro' &&
+          {(estado === 'erro' || jaTentouOuErrou) &&
+            estado !== 'acerto' &&
             listaDicas.length > 0 &&
             dicasReveladas.length < listaDicas.length && (
               <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
@@ -595,6 +602,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   const [estado, setEstado] = useState<Estado>('idle')
   const [mensagemErro, setMensagemErro] = useState('')
   const [dicasReveladas, setDicasReveladas] = useState<string[]>([])
+  const [jaTentouOuErrou, setJaTentouOuErrou] = useState(false)
   const [resultado, setResultado] = useState<QueryResult | null>(null)
   const [tentativas, setTentativas] = useState(0)
   const [dicasUsadas, setDicasUsadas] = useState(0)
@@ -696,10 +704,12 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           setShowModal(true)
         }
       } else {
+        setJaTentouOuErrou(true)
         setEstado('erro')
         setMensagemErro(messages.exercicio.resultadoIncorreto)
       }
     } catch (e: any) {
+      setJaTentouOuErrou(true)
       setEstado('erro')
       const msg = e?.message ?? 'Erro ao executar SQL'
       setMensagemErro(msg)
@@ -825,25 +835,28 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {dicasReveladas.length > 0 && estado !== 'acerto' && estado !== 'performance_aviso'
-          ? dicasReveladas.map((texto, i) => (
+      {dicasReveladas.length > 0 && estado !== 'acerto' && estado !== 'performance_aviso' && (
+        <div className="space-y-2">
+          <AnimatePresence initial={false}>
+            {dicasReveladas.map((texto, i) => (
               <motion.div
                 key={i}
                 className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
               >
                 <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
                   {messages.exercicio.dicaReveladaTitulo}
-                  {listaDicas.length > 1 ? ` ${i + 1}/${listaDicas.length}` : ''}
+                  {listaDicas.length > 1
+                    ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
+                    : ''}
                 </p>
                 <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
               </motion.div>
-            ))
-          : null}
-      </AnimatePresence>
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* Resultado da query */}
       {resultado && resultado.columns.length > 0 && (
@@ -880,7 +893,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         >
           {messages.exercicio.verificar}
         </Button>
-        {estado === 'erro' &&
+        {(estado === 'erro' || jaTentouOuErrou) &&
+          estado !== 'acerto' &&
+          estado !== 'performance_aviso' &&
           listaDicas.length > 0 &&
           dicasReveladas.length < listaDicas.length && (
             <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">

@@ -54,6 +54,7 @@
     "reflexaoCurta": "Text is below the minimum character count.",
     "quizIncorreto": "Incorrect answer. Try again or ask for a hint.",
     "dicaReveladaTitulo": "Hint",
+    "dicaContadorDe": "of",
     "dicaEtapaAusente": "This step does not have a hint configured yet.",
     "publicidade": "Ad"
   },

@@ -25,7 +25,7 @@ interface MapaTrilhasProps {
   trilhas: TrilhaData[]
 }
 
-type FluxoState = 'idle' | 'banner' | 'ad1' | 'ad2' | 'persistindo' | 'sucesso' | 'erro'
+type FluxoState = 'idle' | 'banner' | 'ad1' | 'transicao_ads' | 'ad2' | 'persistindo' | 'sucesso' | 'erro'
 
 export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const { isPro } = useUser()
@@ -40,8 +40,13 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const attemptCounterRef = useRef(0)
   const attemptIdAtivoRef = useRef<number | null>(null)
   const trilhaAlvoRef = useRef<TrilhaData | null>(null)
+  const transicaoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   function novaTentativa(): number {
+    if (transicaoTimeoutRef.current !== null) {
+      clearTimeout(transicaoTimeoutRef.current)
+      transicaoTimeoutRef.current = null
+    }
     attemptCounterRef.current += 1
     const id = attemptCounterRef.current
     attemptIdAtivoRef.current = id
@@ -88,16 +93,23 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
     if (!tentativaAtivaEh(attemptId)) return
     if (desbloqueioPrimeiroJaFeito.current) return
     desbloqueioPrimeiroJaFeito.current = true
-    // Pausa para o AdMob dar dismiss, pré-carregar o 2º rewarded e o WebView trocar de overlay (Flutter)
-    setTimeout(() => {
+    // Exibe overlay de transição imediatamente para bloquear interação e sinalizar progresso.
+    // O timeout dá tempo ao AdMob de dar dismiss, pré-carregar o 2º rewarded e o WebView trocar de overlay.
+    setFluxo('transicao_ads')
+    transicaoTimeoutRef.current = setTimeout(() => {
+      transicaoTimeoutRef.current = null
       if (!tentativaAtivaEh(attemptId)) return
       setFluxo('ad2')
-    }, 1400)
+    }, 1200)
   }
 
   /** Fechar/sair sem recompensa não avança nem libera; volta ao banner para tentar de novo. */
   function abortarDesbloqueioPorAnuncios(attemptId: number) {
     if (!tentativaAtivaEh(attemptId)) return
+    if (transicaoTimeoutRef.current !== null) {
+      clearTimeout(transicaoTimeoutRef.current)
+      transicaoTimeoutRef.current = null
+    }
     attemptIdAtivoRef.current = null
     setFluxo('banner')
   }
@@ -259,6 +271,21 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           }}
         />
       )}
+
+      <AnimatePresence>
+        {fluxo === 'transicao_ads' && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-4 px-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
+            <p className="text-white/70 text-sm text-center">Preparando anúncio 2 de 2...</p>
+            <p className="text-white/30 text-xs text-center">Aguarde um momento</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {fluxo === 'persistindo' && (
