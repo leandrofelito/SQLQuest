@@ -118,26 +118,30 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
         }
 
         // Rewarded: trata com grace period para 'dismissed' que chega antes de 'completed'
-        if (status === 'completed') {
+        const normalizedStatus = String(status).toLowerCase()
+        if (normalizedStatus === 'completed' || normalizedStatus === 'rewarded' || normalizedStatus === 'earned') {
           rewardEarned = true
           if (rewardedGraceTimeout !== null) {
             clearTimeout(rewardedGraceTimeout)
             rewardedGraceTimeout = null
           }
           resolveOnce('completed')
-        } else if (status === 'failed') {
+        } else if (normalizedStatus === 'failed') {
           if (rewardedGraceTimeout !== null) {
             clearTimeout(rewardedGraceTimeout)
             rewardedGraceTimeout = null
           }
           resolveOnce('failed')
-        } else if (status === 'dismissed') {
+        } else if (normalizedStatus === 'dismissed') {
           // Se a recompensa já foi concedida antes do dismiss, ignora o dismiss
           if (rewardEarned) return
           // Aguarda brevemente: alguns SDKs enviam 'dismissed' antes de 'completed'
           rewardedGraceTimeout = setTimeout(() => {
             rewardedGraceTimeout = null
-            if (!rewardEarned) resolveOnce('dismissed')
+            if (rewardEarned) return
+            // Em alguns WebViews/mediadores Android, rewarded concluído ainda chega como "dismissed".
+            // Para não bloquear o fluxo de dica após o anúncio, liberamos a recompensa no host nativo.
+            resolveOnce(nativeHost === 'native' ? 'completed' : 'dismissed')
           }, 900)
         } else {
           resolveOnce('failed')
