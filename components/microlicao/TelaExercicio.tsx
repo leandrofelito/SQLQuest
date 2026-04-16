@@ -374,7 +374,8 @@ function ExercicioQuiz({
           }
         }
       } catch {
-        /* empty */
+        alert('Erro de conexão. Verifique sua internet.')
+        return
       }
     }
     onConcluido(estrelasFinalRef.current, dicasUsadas, tentativas, token)
@@ -719,7 +720,10 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
             tokenRef.current = token
           }
         }
-      } catch { /* token permanece vazio; /api/progresso vai rejeitar */ }
+      } catch {
+        alert('Erro de conexão. Verifique sua internet.')
+        return
+      }
     }
     onConcluido(estrelasFinalRef.current, dicasUsadas, tentativas, token)
   }
