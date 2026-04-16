@@ -128,14 +128,6 @@ export default function PrivacidadePage() {
               </a>
               . Assinantes do plano Pro não estão sujeitos à exibição de anúncios.
             </p>
-            <p>
-              O arquivo{' '}
-              <a href="/ads.txt" className="text-[#a78bfa] hover:underline">
-                /ads.txt
-              </a>{' '}
-              declara os vendedores autorizados de inventário publicitário desta plataforma,
-              conforme o padrão IAB Tech Lab.
-            </p>
           </Section>
 
           <Section title="6. Compartilhamento de dados">
