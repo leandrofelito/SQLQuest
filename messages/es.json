@@ -83,7 +83,7 @@
   },
   "upgrade": {
     "titulo": "Suscribirse Pro",
-    "preco": "R$19,90",
+    "preco": "R$39,90",
     "cta": "OBTENER PRO DE POR VIDA",
     "continuar": "Continuar con anuncios",
     "desconto": "80% DESC"
@@ -138,7 +138,7 @@
     "prestigeStars": "{stars} {tier} — {current}/5 estrellas en el tier",
     "ativarPrestigio": "✨ Activar Prestigio {n}",
     "confirmarPrestigio": "¿Estás seguro? Tu XP se reiniciará y volverás al Nivel 1, pero ganarás la Estrella de Prestigio {n} ({tier} {stars}).",
-    "assinarPro": "⭐ Suscribirse Pro — R$19,90",
+    "assinarPro": "⭐ Suscribirse Pro — R$39,90",
     "ajuda": "¿Necesitas ayuda?",
     "sair": "Salir",
     "preferencias": "Preferencias",
@@ -156,7 +156,7 @@
     "titulo": "Certificados",
     "proTitulo": "Certificados Pro",
     "proDesc": "Completa rutas y descarga certificados PDF para compartir.",
-    "assinarPro": "Suscribirse Pro — R$19,90",
+    "assinarPro": "Suscribirse Pro — R$39,90",
     "conquistados": "Obtenidos",
     "emAndamento": "En progreso",
     "semCerts": "Completa rutas para obtener certificados.",

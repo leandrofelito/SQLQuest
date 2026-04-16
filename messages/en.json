@@ -83,7 +83,7 @@
   },
   "upgrade": {
     "titulo": "Go Pro",
-    "preco": "R$19.90",
+    "preco": "R$39.90",
     "cta": "GET PRO FOR LIFE",
     "continuar": "Continue with ads",
     "desconto": "80% OFF"
@@ -138,7 +138,7 @@
     "prestigeStars": "{stars} {tier} — {current}/5 stars in tier",
     "ativarPrestigio": "✨ Activate Prestige {n}",
     "confirmarPrestigio": "Are you sure? Your XP will reset to 0 and you'll return to Level 1, but you'll earn Prestige Star {n} ({tier} {stars}).",
-    "assinarPro": "⭐ Subscribe Pro — R$19,90",
+    "assinarPro": "⭐ Subscribe Pro — R$39,90",
     "ajuda": "Need help?",
     "sair": "Sign out",
     "preferencias": "Preferences",
@@ -156,7 +156,7 @@
     "titulo": "Certificates",
     "proTitulo": "Pro Certificates",
     "proDesc": "Complete trails and download PDF certificates to share.",
-    "assinarPro": "Subscribe Pro — R$19,90",
+    "assinarPro": "Subscribe Pro — R$39,90",
     "conquistados": "Earned",
     "emAndamento": "In progress",
     "semCerts": "Complete trails to earn certificates.",

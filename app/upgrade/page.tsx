@@ -108,13 +108,13 @@ export default function UpgradePage() {
         <div className="space-y-4">
           <div className="bg-[#0f1117] border border-[#2a2d3a] rounded-3xl p-6 text-center space-y-2">
             <div className="flex items-center justify-center gap-2">
-              <span className="text-white/30 line-through text-lg">R$49,90</span>
+              <span className="text-white/30 line-through text-lg">R$99,90</span>
               <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-500/25">
                 60% OFF
               </span>
             </div>
             <p className="text-5xl font-bold text-white">
-              R$<span className="text-[#a78bfa]">19</span>
+              R$<span className="text-[#a78bfa]">39</span>
               <span className="text-2xl">,90</span>
             </p>
             <p className="text-white/30 text-sm">Pagamento único · Acesso vitalício</p>

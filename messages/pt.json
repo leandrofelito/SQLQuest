@@ -83,7 +83,7 @@
   },
   "upgrade": {
     "titulo": "Assinar Pro",
-    "preco": "R$19,90",
+    "preco": "R$39,90",
     "cta": "OBTENHA PRO PARA VIDA ÚTIL",
     "continuar": "Continuar com anúncios",
     "desconto": "80% OFF"
@@ -138,7 +138,7 @@
     "prestigeStars": "{stars} {tier} — {current}/5 estrelas no tier",
     "ativarPrestigio": "✨ Ativar Prestígio {n}",
     "confirmarPrestigio": "Tem certeza? Seu XP será zerado e você voltará ao Nível 1, mas ganhará a Estrela de Prestígio {n} ({tier} {stars}).",
-    "assinarPro": "⭐ Assinar Pro — R$19,90",
+    "assinarPro": "⭐ Assinar Pro — R$39,90",
     "ajuda": "Precisa de ajuda?",
     "sair": "Sair",
     "preferencias": "Preferências",
@@ -156,7 +156,7 @@
     "titulo": "Certificados",
     "proTitulo": "Certificados Pro",
     "proDesc": "Conclua trilhas e baixe certificados PDF para compartilhar.",
-    "assinarPro": "Assinar Pro — R$19,90",
+    "assinarPro": "Assinar Pro — R$39,90",
     "conquistados": "Conquistados",
     "emAndamento": "Em andamento",
     "semCerts": "Complete trilhas para ganhar certificados.",
