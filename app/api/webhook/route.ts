@@ -5,7 +5,13 @@ import type Stripe from 'stripe'
 
 export async function POST(req: Request) {
   const body = await req.text()
-  const sig = req.headers.get('stripe-signature')!
+  const sig = req.headers.get('stripe-signature')
+
+  // Rejeita imediatamente se não vier assinatura — requisições sem header da Stripe
+  // não são legítimas e não devem executar nenhuma lógica de negócio.
+  if (!sig) {
+    return NextResponse.json({ error: 'Assinatura ausente' }, { status: 400 })
+  }
 
   let event: Stripe.Event
   try {
@@ -18,6 +24,14 @@ export async function POST(req: Request) {
     const sess = event.data.object as Stripe.Checkout.Session
     const userId = sess.metadata?.userId
     if (!userId) return NextResponse.json({ ok: true })
+
+    // Confirma que o userId do metadata corresponde a um usuário real antes de
+    // conceder Pro — evita que metadados adulterados afetem contas arbitrárias.
+    const user = await prisma.user.findUnique({ where: { id: userId } })
+    if (!user) {
+      console.error('[webhook] userId do metadata não encontrado:', userId)
+      return NextResponse.json({ ok: true })
+    }
 
     await prisma.user.update({
       where: { id: userId },
