@@ -40,7 +40,7 @@ const baseBodySchema = z.object({
   query: z.string().max(2000).optional(),
   indiceEscolhido: z.number().int().min(0).max(25).optional(),
   valorVF: z.boolean().optional(),
-  textoReflexao: z.string().max(4000).optional(),
+  textoReflexao: z.string().max(1000).optional(),
 })
 
 function emitirToken(
@@ -122,7 +122,7 @@ export async function POST(req: Request) {
           return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
         }
         const len = body.textoReflexao.trim().length
-        const min = Math.max(1, Math.min(conteudo.minLength, 4000))
+        const min = Math.max(1, Math.min(conteudo.minLength, 1000))
         sucesso = len >= min
         break
       }
