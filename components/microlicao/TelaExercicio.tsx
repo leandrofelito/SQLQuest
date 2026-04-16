@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useMemo, useEffect } from 'react'
+import { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { useSQL } from '@/hooks/useSQL'
@@ -241,16 +241,16 @@ function ExercicioQuiz({
 
   const listaDicas = useMemo(() => normalizarDicas(conteudo), [conteudo])
 
-  function aplicarPreenchimentoReflexaoPrimeira() {
+  const aplicarPreenchimentoReflexaoPrimeira = useCallback(() => {
     if (conteudo.quizTipo !== 'reflexao') return
-    const fill = conteudo.dicaPreenchimento?.trim()
+    const fill = (conteudo as { dicaPreenchimento?: string }).dicaPreenchimento?.trim()
     if (!fill) return
     setTextoReflexao(prev => {
       const u = prev.trim()
       if (!u) return fill
       return `${fill}\n\n${u}`
     })
-  }
+  }, [conteudo])
 
   const {
     dicasReveladas,
@@ -605,7 +605,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
 
   const listaDicas = useMemo(() => normalizarDicas(conteudoSql), [conteudoSql])
 
-  function aplicarPreenchimentoSqlPrimeira() {
+  const aplicarPreenchimentoSqlPrimeira = useCallback(() => {
     const fill = conteudoSql.dicaPreenchimento?.trim()
     if (!fill) return
     setQuery(prev => {
@@ -613,7 +613,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
       if (!u) return fill
       return `${fill}\n\n${u}`
     })
-  }
+  }, [conteudoSql])
 
   const {
     dicasReveladas,
