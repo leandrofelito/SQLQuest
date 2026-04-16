@@ -2,6 +2,8 @@
 
 let SQL: any = null
 let db: any = null
+// Evita instanciar o engine WASM duas vezes em chamadas concorrentes (ex: React StrictMode)
+let _initPromise: Promise<void> | null = null
 
 function formatarErroSql(error: unknown): string {
   const mensagemOriginal =
@@ -34,11 +36,24 @@ function formatarErroSql(error: unknown): string {
 
 export async function initSQL(): Promise<void> {
   if (db) return
-  const sqljs = await import('sql.js')
-  SQL = await sqljs.default({
-    locateFile: () => '/sql-wasm.wasm',
-  })
-  db = new SQL.Database()
+  if (_initPromise) return _initPromise
+  _initPromise = (async () => {
+    const sqljs = await import('sql.js')
+    SQL = await sqljs.default({
+      locateFile: () => '/sql-wasm.wasm',
+    })
+    db = new SQL.Database()
+  })()
+  return _initPromise
+}
+
+export function closeSQL(): void {
+  if (db) {
+    db.close()
+    db = null
+  }
+  // Reseta a promise para que uma reinicialização posterior funcione corretamente
+  _initPromise = null
 }
 
 export function executarSQL(schema: string, query: string) {
