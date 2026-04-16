@@ -266,13 +266,12 @@ function ExercicioQuiz({
     onPrimeiraDica: aplicarPreenchimentoReflexaoPrimeira,
   })
 
-  // Rola suavemente até a dica recém-revelada para que ela fique visível
   const ultimaDicaRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (dicasReveladas.length === 0) return
     const t = setTimeout(() => {
-      ultimaDicaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-    }, 120)
+      ultimaDicaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }, 150)
     return () => clearTimeout(t)
   }, [dicasReveladas.length])
 
@@ -487,13 +486,12 @@ function ExercicioQuiz({
           )}
         </AnimatePresence>
 
-        {estado !== 'acerto' && (
-          <div ref={ultimaDicaRef}>
-            <PainelDicas dicasReveladas={dicasReveladas} totalDicas={listaDicas.length} />
-          </div>
-        )}
-
         <div className="mt-auto space-y-2">
+          {estado !== 'acerto' && (
+            <div ref={ultimaDicaRef}>
+              <PainelDicas dicasReveladas={dicasReveladas} totalDicas={listaDicas.length} />
+            </div>
+          )}
           <Button
             onClick={verificar}
             fullWidth
@@ -633,8 +631,8 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   useEffect(() => {
     if (dicasReveladas.length === 0) return
     const t = setTimeout(() => {
-      ultimaDicaSqlRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-    }, 120)
+      ultimaDicaSqlRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }, 150)
     return () => clearTimeout(t)
   }, [dicasReveladas.length])
 
@@ -822,12 +820,6 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         )}
       </AnimatePresence>
 
-      {estado !== 'acerto' && (
-        <div ref={ultimaDicaSqlRef}>
-          <PainelDicas dicasReveladas={dicasReveladas} totalDicas={listaDicas.length} />
-        </div>
-      )}
-
       {/* Resultado da query */}
       {resultado && resultado.columns.length > 0 && (
         <div className="overflow-x-auto rounded-xl border border-[#2a2d3a] bg-[#0a0c12] flex-shrink-0 max-h-36">
@@ -852,8 +844,13 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         </div>
       )}
 
-      {/* Ações */}
+      {/* Ações + Dicas (agrupados no rodapé para ficarem visíveis após anúncio) */}
       <div className="mt-auto space-y-2">
+        {estado !== 'acerto' && (
+          <div ref={ultimaDicaSqlRef}>
+            <PainelDicas dicasReveladas={dicasReveladas} totalDicas={listaDicas.length} />
+          </div>
+        )}
         <Button
           onClick={verificar}
           fullWidth
