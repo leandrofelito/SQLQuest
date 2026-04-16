@@ -236,7 +236,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           adType="rewarded"
           label="Anúncio 1 de 2"
           onConcluido={handleAdConcluido}
-          onFechar={handleAdFechado}
+          onFechar={handleAdConcluido}
           onFalhou={handleAdFechado}
         />
       )}
@@ -265,7 +265,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           adType="rewarded"
           label="Anúncio 2 de 2"
           onConcluido={handleAdConcluido}
-          onFechar={handleAdFechado}
+          onFechar={handleAdConcluido}
           onFalhou={handleAdFechado}
         />
       )}
@@ -359,10 +359,9 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
               transition={{ delay: 0.2 }}
             >
               <span className="text-3xl">{trilhaAlvo.icone}</span>
-              <h2 className="text-white text-xl font-bold">Trilha não liberada</h2>
+              <h2 className="text-white text-xl font-bold">Anúncio não disponível</h2>
               <p className="text-white/50 text-sm">
-                Para liberar gratuitamente você precisa assistir os{' '}
-                <span className="text-white/80 font-semibold">2 anúncios completos</span> sem fechar antes.
+                Não foi possível carregar o anúncio agora. Tente novamente em alguns instantes.
               </p>
             </motion.div>
 
