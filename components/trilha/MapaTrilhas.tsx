@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CardTrilha } from './CardTrilha'
@@ -25,120 +25,145 @@ interface MapaTrilhasProps {
   trilhas: TrilhaData[]
 }
 
+/**
+ * Máquina de estado para o fluxo de desbloqueio via anúncios.
+ *
+ * idle → confirming → watching_1 → between_ads → watching_2 → unlocking → success
+ *                         ↓ (fechar/falhar)          ↓ (fechar/falhar)
+ *                    ad_dismissed               ad_dismissed
+ *                         ↓ (tentar de novo)
+ *                      confirming
+ */
+type FlowPhase =
+  | 'idle'
+  | 'confirming'
+  | 'watching_1'
+  | 'between_ads'
+  | 'watching_2'
+  | 'unlocking'
+  | 'success'
+  | 'ad_dismissed'
+  | 'unlock_error'
+
 export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
   const { isPro } = useUser()
   const { marcarTrilhaDesbloqueadaPorAnuncio } = useAppData()
   const router = useRouter()
-  const [adState, setAdState] = useState<'idle' | 'showing_ad' | 'transition' | 'unlocking' | 'success'>('idle')
+
+  const [phase, setPhase] = useState<FlowPhase>('idle')
   const [trilhaAlvo, setTrilhaAlvo] = useState<TrilhaData | null>(null)
   const [desbloqueadasSessao, setDesbloqueadasSessao] = useState<Set<string>>(new Set())
-  const [erroDesbloqueio, setErroDesbloqueio] = useState<string | null>(null)
-  const adSequenceRef = useRef({ adsCompleted: 0, isTransitioning: false })
-  const transicaoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [unlockError, setUnlockError] = useState<string | null>(null)
+
+  // Controla qual dos 2 anúncios está sendo exibido (para chave única no React)
+  const [adIndex, setAdIndex] = useState<1 | 2>(1)
+
+  const betweenAdsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     return () => {
-      if (transicaoTimeoutRef.current !== null) {
-        clearTimeout(transicaoTimeoutRef.current)
-      }
+      if (betweenAdsTimerRef.current !== null) clearTimeout(betweenAdsTimerRef.current)
     }
   }, [])
 
-  const iniciarDesbloqueio = () => {
-    if (transicaoTimeoutRef.current !== null) {
-      clearTimeout(transicaoTimeoutRef.current)
-      transicaoTimeoutRef.current = null
-    }
-    adSequenceRef.current = { adsCompleted: 0, isTransitioning: false }
-    setErroDesbloqueio(null)
-    setAdState('showing_ad')
-  }
+  // ── Handlers de navegação de fase ─────────────────────────────────────────
 
-  async function persistirDesbloqueio(trilha: TrilhaData): Promise<boolean> {
-    const res = await fetch('/api/desbloquear-trilha', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ trilhaSlug: trilha.slug }),
+  const handleBloqueadaClick = useCallback((trilha: TrilhaData) => {
+    setTrilhaAlvo(trilha)
+    setUnlockError(null)
+    setAdIndex(1)
+    setPhase('confirming')
+  }, [])
+
+  const handleConfirmarAssistir = useCallback(() => {
+    setAdIndex(1)
+    setPhase('watching_1')
+  }, [])
+
+  const handleRejeitarOuFechar = useCallback(() => {
+    setTrilhaAlvo(null)
+    setUnlockError(null)
+    setAdIndex(1)
+    setPhase('idle')
+  }, [])
+
+  // Chamado quando um anúncio é concluído com sucesso (recompensa ganha)
+  const handleAdConcluido = useCallback(() => {
+    setPhase(prev => {
+      if (prev === 'watching_1') return 'between_ads'
+      if (prev === 'watching_2') return 'unlocking'
+      return prev
     })
-    if (!res.ok) {
-      throw new Error('Falha ao persistir desbloqueio')
-    }
-    return true
-  }
+  }, [])
 
-  const handleAdConcluido = async () => {
-    if (adSequenceRef.current.isTransitioning) return
+  // Chamado quando o usuário fecha o anúncio sem completá-lo, ou quando falha
+  const handleAdFechado = useCallback(() => {
+    if (betweenAdsTimerRef.current !== null) {
+      clearTimeout(betweenAdsTimerRef.current)
+      betweenAdsTimerRef.current = null
+    }
+    setPhase('ad_dismissed')
+  }, [])
+
+  // Transição automática de between_ads → watching_2
+  useEffect(() => {
+    if (phase !== 'between_ads') return
+    betweenAdsTimerRef.current = setTimeout(() => {
+      betweenAdsTimerRef.current = null
+      setAdIndex(2)
+      setPhase('watching_2')
+    }, 1200)
+    return () => {
+      if (betweenAdsTimerRef.current !== null) {
+        clearTimeout(betweenAdsTimerRef.current)
+        betweenAdsTimerRef.current = null
+      }
+    }
+  }, [phase])
+
+  // Dispara o desbloqueio quando entra na fase unlocking
+  useEffect(() => {
+    if (phase !== 'unlocking') return
     const trilha = trilhaAlvo
     if (!trilha) return
 
-    adSequenceRef.current.adsCompleted += 1
-    adSequenceRef.current.isTransitioning = true
-
-    if (adSequenceRef.current.adsCompleted >= 2) {
-      setAdState('unlocking')
+    let cancelled = false
+    ;(async () => {
       try {
-        await persistirDesbloqueio(trilha)
+        const res = await fetch('/api/desbloquear-trilha', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ trilhaSlug: trilha.slug }),
+        })
+        if (!res.ok) throw new Error('Falha ao persistir desbloqueio')
+        if (cancelled) return
         setDesbloqueadasSessao(prev => new Set(prev).add(trilha.slug))
         marcarTrilhaDesbloqueadaPorAnuncio(trilha.slug)
-        setAdState('success')
+        setPhase('success')
       } catch {
-        setErroDesbloqueio('Não foi possível confirmar o desbloqueio. Tente novamente.')
-        adSequenceRef.current.isTransitioning = false
-        setAdState('idle')
+        if (cancelled) return
+        setUnlockError('Não foi possível confirmar o desbloqueio. Tente novamente.')
+        setPhase('unlock_error')
       }
-    } else {
-      setAdState('transition')
-      transicaoTimeoutRef.current = setTimeout(() => {
-        transicaoTimeoutRef.current = null
-        adSequenceRef.current.isTransitioning = false
-        setAdState('showing_ad')
-      }, 1500)
-    }
-  }
+    })()
 
-  const handleAdFechado = () => {
-    if (adSequenceRef.current.isTransitioning || adState === 'unlocking' || adState === 'success') return
-    if (transicaoTimeoutRef.current !== null) {
-      clearTimeout(transicaoTimeoutRef.current)
-      transicaoTimeoutRef.current = null
-    }
-    adSequenceRef.current = { adsCompleted: 0, isTransitioning: false }
-    setAdState('idle')
-    // Mantém trilhaAlvo para que o BannerPro reabra em vez de voltar direto ao mapa.
-    // O usuário pode fechar o BannerPro manualmente se quiser sair do fluxo.
-  }
+    return () => { cancelled = true }
+  }, [phase, trilhaAlvo, marcarTrilhaDesbloqueadaPorAnuncio])
 
-  async function tentarPersistirNovamente() {
-    const trilha = trilhaAlvo
-    if (!trilha) return
-    setErroDesbloqueio(null)
-    setAdState('unlocking')
-    adSequenceRef.current.isTransitioning = true
-    try {
-      await persistirDesbloqueio(trilha)
-      setDesbloqueadasSessao(prev => new Set(prev).add(trilha.slug))
-      marcarTrilhaDesbloqueadaPorAnuncio(trilha.slug)
-      setAdState('success')
-    } catch {
-      setErroDesbloqueio('Não foi possível confirmar o desbloqueio. Tente novamente.')
-      adSequenceRef.current.isTransitioning = false
-      setAdState('idle')
-    }
-  }
+  const tentarDesbloqueioNovamente = useCallback(() => {
+    setUnlockError(null)
+    setPhase('unlocking')
+  }, [])
 
-  function handleBloqueadaClick(trilha: TrilhaData) {
-    setTrilhaAlvo(trilha)
-    setErroDesbloqueio(null)
-    setAdState('idle')
-  }
-
-  function entrarNaTrilha() {
+  const entrarNaTrilha = useCallback(() => {
     if (trilhaAlvo) router.push(`/trilha/${trilhaAlvo.slug}`)
-  }
+  }, [trilhaAlvo, router])
+
+  // ── Renderização ──────────────────────────────────────────────────────────
 
   return (
     <>
-      {/* Mobile: zigzag map */}
+      {/* Mobile: mapa em zigzag */}
       <div className="md:hidden flex flex-col items-center gap-4 py-4 px-4">
         {trilhas.map((trilha, i) => {
           const desbloqueadaNaturalmente =
@@ -170,7 +195,7 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
         })}
       </div>
 
-      {/* Desktop: grid */}
+      {/* Desktop: grade */}
       <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-4">
         {trilhas.map((trilha, i) => {
           const desbloqueadaNaturalmente =
@@ -195,30 +220,30 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
         })}
       </div>
 
+      {/* Confirmação: "Deseja assistir 2 anúncios?" */}
       <BannerPro
-        open={Boolean(trilhaAlvo) && adState === 'idle' && !erroDesbloqueio}
-        onClose={() => {
-          adSequenceRef.current = { adsCompleted: 0, isTransitioning: false }
-          setTrilhaAlvo(null)
-          setAdState('idle')
-        }}
-        onAssistirAnuncio={iniciarDesbloqueio}
+        open={phase === 'confirming'}
+        onClose={handleRejeitarOuFechar}
+        onRejeitar={handleRejeitarOuFechar}
+        onAssistirAnuncio={handleConfirmarAssistir}
       />
 
-      {adState === 'showing_ad' && (
+      {/* Anúncio 1 */}
+      {phase === 'watching_1' && (
         <AnuncioVideo
-          key={`trilha-rewarded-${adSequenceRef.current.adsCompleted + 1}`}
+          key="trilha-ad-1"
           isPro={false}
           adType="rewarded"
-          label={`Anúncio ${adSequenceRef.current.adsCompleted + 1} de 2`}
-          onConcluido={() => void handleAdConcluido()}
+          label="Anúncio 1 de 2"
+          onConcluido={handleAdConcluido}
           onFechar={handleAdFechado}
           onFalhou={handleAdFechado}
         />
       )}
 
+      {/* Transição entre anúncios */}
       <AnimatePresence>
-        {adState === 'transition' && (
+        {phase === 'between_ads' && (
           <motion.div
             className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-4 px-6"
             initial={{ opacity: 0 }}
@@ -226,14 +251,28 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
             exit={{ opacity: 0 }}
           >
             <div className="w-12 h-12 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
-            <p className="text-white/70 text-sm text-center">Preparando anúncio 2 de 2...</p>
+            <p className="text-white/70 text-sm text-center">Anúncio 1 concluído! Preparando anúncio 2...</p>
             <p className="text-white/30 text-xs text-center">Aguarde um momento</p>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* Anúncio 2 */}
+      {phase === 'watching_2' && (
+        <AnuncioVideo
+          key="trilha-ad-2"
+          isPro={false}
+          adType="rewarded"
+          label="Anúncio 2 de 2"
+          onConcluido={handleAdConcluido}
+          onFechar={handleAdFechado}
+          onFalhou={handleAdFechado}
+        />
+      )}
+
+      {/* Carregando desbloqueio */}
       <AnimatePresence>
-        {adState === 'unlocking' && (
+        {phase === 'unlocking' && (
           <motion.div
             className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-4 px-6"
             initial={{ opacity: 0 }}
@@ -246,16 +285,15 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
         )}
       </AnimatePresence>
 
-      {/* Tela de sucesso após liberar trilha */}
+      {/* Sucesso */}
       <AnimatePresence>
-        {adState === 'success' && trilhaAlvo && (
+        {phase === 'success' && trilhaAlvo && (
           <motion.div
             className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
           >
-            {/* Ícone de sucesso */}
             <motion.div
               className="w-24 h-24 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center"
               initial={{ scale: 0 }}
@@ -267,7 +305,6 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
               </svg>
             </motion.div>
 
-            {/* Textos */}
             <motion.div
               className="flex flex-col items-center gap-2 text-center"
               initial={{ opacity: 0, y: 10 }}
@@ -281,7 +318,6 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
               </p>
             </motion.div>
 
-            {/* Botão */}
             <motion.button
               onClick={entrarNaTrilha}
               className="w-full max-w-xs py-4 rounded-xl bg-[#8b5cf6] text-white font-bold text-lg"
@@ -296,8 +332,69 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
         )}
       </AnimatePresence>
 
+      {/* Anúncio fechado antes de completar */}
       <AnimatePresence>
-        {erroDesbloqueio && trilhaAlvo && adState === 'idle' && (
+        {phase === 'ad_dismissed' && trilhaAlvo && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="w-24 h-24 rounded-full bg-yellow-500/20 flex items-center justify-center"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', delay: 0.1 }}
+            >
+              <svg width="48" height="48" fill="none" viewBox="0 0 24 24">
+                <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#eab308" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col items-center gap-2 text-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="text-3xl">{trilhaAlvo.icone}</span>
+              <h2 className="text-white text-xl font-bold">Trilha não liberada</h2>
+              <p className="text-white/50 text-sm">
+                Para liberar gratuitamente você precisa assistir os{' '}
+                <span className="text-white/80 font-semibold">2 anúncios completos</span> sem fechar antes.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="w-full max-w-xs flex flex-col gap-3"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <button
+                onClick={() => {
+                  setAdIndex(1)
+                  setPhase('confirming')
+                }}
+                className="w-full py-4 rounded-xl bg-[#8b5cf6] text-white font-bold text-base"
+              >
+                Tentar novamente
+              </button>
+              <button
+                onClick={handleRejeitarOuFechar}
+                className="w-full py-3 rounded-xl bg-white/5 text-white/60 font-medium"
+              >
+                Voltar ao mapa
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Erro ao persistir desbloqueio */}
+      <AnimatePresence>
+        {phase === 'unlock_error' && trilhaAlvo && (
           <motion.div
             className="fixed inset-0 z-50 bg-[#080a0f] flex flex-col items-center justify-center gap-6 px-6"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -314,24 +411,36 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
                 <path d="M12 8v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#f87171" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </motion.div>
-            <div className="flex flex-col items-center gap-2 text-center">
+
+            <motion.div
+              className="flex flex-col items-center gap-2 text-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
               <h2 className="text-white text-2xl font-bold">Falha ao liberar trilha</h2>
-              <p className="text-white/60 text-sm">{erroDesbloqueio ?? 'Não foi possível finalizar agora.'}</p>
-            </div>
-            <div className="w-full max-w-xs flex flex-col gap-3">
+              <p className="text-white/60 text-sm">{unlockError ?? 'Não foi possível finalizar agora.'}</p>
+            </motion.div>
+
+            <motion.div
+              className="w-full max-w-xs flex flex-col gap-3"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
               <button
-                onClick={() => void tentarPersistirNovamente()}
+                onClick={tentarDesbloqueioNovamente}
                 className="w-full py-4 rounded-xl bg-[#8b5cf6] text-white font-bold text-lg"
               >
                 Tentar novamente
               </button>
               <button
-                onClick={() => setTrilhaAlvo(null)}
+                onClick={handleRejeitarOuFechar}
                 className="w-full py-3 rounded-xl bg-white/5 text-white/70 font-medium"
               >
                 Voltar
               </button>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

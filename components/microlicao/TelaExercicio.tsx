@@ -9,6 +9,9 @@ import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import { AdBanner } from '@/components/layout/AdBanner'
 import { DesafioSeguro, EnunciadoSeguro } from '@/components/seguranca/DesafioSeguro'
 import { useLocale } from '@/context/LocaleContext'
+import { useDicas } from '@/hooks/useDicas'
+import { PainelDicas } from '@/components/exercicio/PainelDicas'
+import { BotaoDica } from '@/components/exercicio/BotaoDica'
 import type {
   ConteudoExercicio,
   ConteudoExercicioQuiz,
@@ -199,7 +202,7 @@ function ModalEstrelas({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
+            transition={{ delay: 0.5 }}
           >
             <AdBanner placement="estrelas" showLabel />
           </motion.div>
@@ -225,11 +228,8 @@ function ExercicioQuiz({
   const { messages } = useLocale()
   const [estado, setEstado] = useState<Estado>('idle')
   const [mensagemErro, setMensagemErro] = useState('')
-  const [dicasReveladas, setDicasReveladas] = useState<string[]>([])
   const [jaTentouOuErrou, setJaTentouOuErrou] = useState(false)
   const [tentativas, setTentativas] = useState(0)
-  const [dicasUsadas, setDicasUsadas] = useState(0)
-  const [showAnuncioDica, setShowAnuncioDica] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [validandoServidor, setValidandoServidor] = useState(false)
   const [indiceSelecionado, setIndiceSelecionado] = useState<number | null>(null)
@@ -240,9 +240,34 @@ function ExercicioQuiz({
   const ultimoPayloadRef = useRef<Record<string, unknown>>({})
 
   const listaDicas = useMemo(() => normalizarDicas(conteudo), [conteudo])
-  const ultimaDicaRef = useRef<HTMLDivElement>(null)
+
+  function aplicarPreenchimentoReflexaoPrimeira() {
+    if (conteudo.quizTipo !== 'reflexao') return
+    const fill = conteudo.dicaPreenchimento?.trim()
+    if (!fill) return
+    setTextoReflexao(prev => {
+      const u = prev.trim()
+      if (!u) return fill
+      return `${fill}\n\n${u}`
+    })
+  }
+
+  const {
+    dicasReveladas,
+    dicasUsadas,
+    showAnuncioDica,
+    podeVerMaisDicas,
+    pedirDica,
+    liberarProximaDica,
+    fecharAnuncio,
+  } = useDicas({
+    listaDicas,
+    isPro,
+    onPrimeiraDica: aplicarPreenchimentoReflexaoPrimeira,
+  })
 
   // Rola suavemente até a dica recém-revelada para que ela fique visível
+  const ultimaDicaRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (dicasReveladas.length === 0) return
     const t = setTimeout(() => {
@@ -257,40 +282,6 @@ function ExercicioQuiz({
       : conteudo.quizTipo !== 'vf'
         ? conteudo.instrucao
         : ''
-
-  function aplicarPreenchimentoReflexaoPrimeira() {
-    if (conteudo.quizTipo !== 'reflexao') return
-    const fill = conteudo.dicaPreenchimento?.trim()
-    if (!fill) return
-    setTextoReflexao(prev => {
-      const u = prev.trim()
-      if (!u) return fill
-      return `${fill}\n\n${u}`
-    })
-  }
-
-  function pedirDica() {
-    if (listaDicas.length === 0) return
-    if (dicasReveladas.length >= listaDicas.length) return
-    if (isPro) {
-      if (dicasReveladas.length > 0) return
-      setDicasReveladas([...listaDicas])
-      setDicasUsadas(1)
-      aplicarPreenchimentoReflexaoPrimeira()
-      return
-    }
-    setShowAnuncioDica(true)
-  }
-
-  function liberarDica() {
-    setShowAnuncioDica(false)
-    const idx = dicasReveladas.length
-    if (idx >= listaDicas.length) return
-    if (idx === 0) aplicarPreenchimentoReflexaoPrimeira()
-    const next = listaDicas[idx]
-    setDicasReveladas(prev => [...prev, next])
-    setDicasUsadas(u => u + 1)
-  }
 
   async function verificar() {
     let payload: Record<string, unknown> = {}
@@ -496,30 +487,9 @@ function ExercicioQuiz({
           )}
         </AnimatePresence>
 
-        {dicasReveladas.length > 0 && estado !== 'acerto' && (
-          <div className="space-y-2">
-            <AnimatePresence initial={false}>
-              {dicasReveladas.map((texto, i) => {
-                const isUltima = i === dicasReveladas.length - 1
-                return (
-                  <motion.div
-                    key={i}
-                    ref={isUltima ? ultimaDicaRef : undefined}
-                    className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
-                      {messages.exercicio.dicaReveladaTitulo}
-                      {listaDicas.length > 1
-                        ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
-                        : ''}
-                    </p>
-                    <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
-                  </motion.div>
-                )
-              })}
-            </AnimatePresence>
+        {estado !== 'acerto' && (
+          <div ref={ultimaDicaRef}>
+            <PainelDicas dicasReveladas={dicasReveladas} totalDicas={listaDicas.length} />
           </div>
         )}
 
@@ -533,17 +503,15 @@ function ExercicioQuiz({
           >
             {messages.exercicio.verificar}
           </Button>
-          {jaTentouOuErrou &&
-            estado !== 'acerto' &&
-            dicasReveladas.length < listaDicas.length && (
-              <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
-                {isPro
-                  ? messages.exercicio.dica
-                  : dicasReveladas.length === 0
-                    ? messages.exercicio.dicaAnuncio
-                    : `${messages.exercicio.dicaAnuncio} (${dicasReveladas.length + 1}/${listaDicas.length})`}
-              </Button>
-            )}
+          <BotaoDica
+            isPro={isPro}
+            dicasReveladas={dicasReveladas.length}
+            totalDicas={listaDicas.length}
+            jaTentouOuErrou={jaTentouOuErrou}
+            podeVerMaisDicas={podeVerMaisDicas}
+            concluido={estado === 'acerto'}
+            onClick={pedirDica}
+          />
         </div>
 
         {showAnuncioDica && (
@@ -551,9 +519,9 @@ function ExercicioQuiz({
             isPro={false}
             adType="rewarded"
             label="Anúncio"
-            onConcluido={liberarDica}
-            onFechar={() => setShowAnuncioDica(false)}
-            onFalhou={() => setShowAnuncioDica(false)}
+            onConcluido={liberarProximaDica}
+            onFechar={fecharAnuncio}
+            onFalhou={fecharAnuncio}
           />
         )}
 
@@ -623,12 +591,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   const [query, setQuery] = useState('')
   const [estado, setEstado] = useState<Estado>('idle')
   const [mensagemErro, setMensagemErro] = useState('')
-  const [dicasReveladas, setDicasReveladas] = useState<string[]>([])
   const [jaTentouOuErrou, setJaTentouOuErrou] = useState(false)
   const [resultado, setResultado] = useState<QueryResult | null>(null)
   const [tentativas, setTentativas] = useState(0)
-  const [dicasUsadas, setDicasUsadas] = useState(0)
-  const [showAnuncioDica, setShowAnuncioDica] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [showPerformanceAviso, setShowPerformanceAviso] = useState(false)
   const [validandoServidor, setValidandoServidor] = useState(false)
@@ -639,15 +604,6 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
   const toolbarStartXRef = useRef(0)
 
   const listaDicas = useMemo(() => normalizarDicas(conteudoSql), [conteudoSql])
-  const ultimaDicaSqlRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (dicasReveladas.length === 0) return
-    const t = setTimeout(() => {
-      ultimaDicaSqlRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-    }, 120)
-    return () => clearTimeout(t)
-  }, [dicasReveladas.length])
 
   function aplicarPreenchimentoSqlPrimeira() {
     const fill = conteudoSql.dicaPreenchimento?.trim()
@@ -659,28 +615,28 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
     })
   }
 
-  function pedirDica() {
-    if (listaDicas.length === 0) return
-    if (dicasReveladas.length >= listaDicas.length) return
-    if (isPro) {
-      if (dicasReveladas.length > 0) return
-      setDicasReveladas([...listaDicas])
-      setDicasUsadas(1)
-      aplicarPreenchimentoSqlPrimeira()
-      return
-    }
-    setShowAnuncioDica(true)
-  }
+  const {
+    dicasReveladas,
+    dicasUsadas,
+    showAnuncioDica,
+    podeVerMaisDicas,
+    pedirDica,
+    liberarProximaDica,
+    fecharAnuncio,
+  } = useDicas({
+    listaDicas,
+    isPro,
+    onPrimeiraDica: aplicarPreenchimentoSqlPrimeira,
+  })
 
-  function liberarDica() {
-    setShowAnuncioDica(false)
-    const idx = dicasReveladas.length
-    if (idx >= listaDicas.length) return
-    if (idx === 0) aplicarPreenchimentoSqlPrimeira()
-    const next = listaDicas[idx]
-    setDicasReveladas(prev => [...prev, next])
-    setDicasUsadas(u => u + 1)
-  }
+  const ultimaDicaSqlRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (dicasReveladas.length === 0) return
+    const t = setTimeout(() => {
+      ultimaDicaSqlRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }, 120)
+    return () => clearTimeout(t)
+  }, [dicasReveladas.length])
 
   async function verificar() {
     if (!ready || !query.trim()) return
@@ -866,30 +822,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         )}
       </AnimatePresence>
 
-      {dicasReveladas.length > 0 && estado !== 'acerto' && (
-        <div className="space-y-2">
-          <AnimatePresence initial={false}>
-            {dicasReveladas.map((texto, i) => {
-              const isUltima = i === dicasReveladas.length - 1
-              return (
-                <motion.div
-                  key={i}
-                  ref={isUltima ? ultimaDicaSqlRef : undefined}
-                  className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 space-y-1"
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <p className="text-amber-200/90 text-xs font-semibold uppercase tracking-wide">
-                    {messages.exercicio.dicaReveladaTitulo}
-                    {listaDicas.length > 1
-                      ? ` ${i + 1} ${messages.exercicio.dicaContadorDe} ${listaDicas.length}`
-                      : ''}
-                  </p>
-                  <p className="text-amber-100/90 text-sm leading-relaxed">{texto}</p>
-                </motion.div>
-              )
-            })}
-          </AnimatePresence>
+      {estado !== 'acerto' && (
+        <div ref={ultimaDicaSqlRef}>
+          <PainelDicas dicasReveladas={dicasReveladas} totalDicas={listaDicas.length} />
         </div>
       )}
 
@@ -928,17 +863,15 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
         >
           {messages.exercicio.verificar}
         </Button>
-        {jaTentouOuErrou &&
-          estado !== 'acerto' &&
-          dicasReveladas.length < listaDicas.length && (
-            <Button onClick={pedirDica} fullWidth variant="ghost" size="sm">
-              {isPro
-                ? messages.exercicio.dica
-                : dicasReveladas.length === 0
-                  ? messages.exercicio.dicaAnuncio
-                  : `${messages.exercicio.dicaAnuncio} (${dicasReveladas.length + 1}/${listaDicas.length})`}
-            </Button>
-          )}
+        <BotaoDica
+          isPro={isPro}
+          dicasReveladas={dicasReveladas.length}
+          totalDicas={listaDicas.length}
+          jaTentouOuErrou={jaTentouOuErrou}
+          podeVerMaisDicas={podeVerMaisDicas}
+          concluido={estado === 'acerto' || estado === 'performance_aviso'}
+          onClick={pedirDica}
+        />
       </div>
 
       {/* Anúncio premiado antes de revelar a dica */}
@@ -947,9 +880,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           isPro={false}
           adType="rewarded"
           label="Anúncio"
-          onConcluido={liberarDica}
-          onFechar={() => setShowAnuncioDica(false)}
-          onFalhou={() => setShowAnuncioDica(false)}
+          onConcluido={liberarProximaDica}
+          onFechar={fecharAnuncio}
+          onFalhou={fecharAnuncio}
         />
       )}
 
