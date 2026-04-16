@@ -39,6 +39,7 @@
     "erroSQL": "Error executing SQL",
     "acertou": "Correct",
     "semDica": "No hint",
+    "comDica": "Used hint",
     "primeiraTentativa": "1st try",
     "elite": "Elite!",
     "bomTrabalho": "Good job!",

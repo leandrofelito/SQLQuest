@@ -57,12 +57,14 @@ function StarIcon({ filled, size = 40 }: { filled: boolean; size?: number }) {
 function ModalEstrelas({
   estrelas,
   xp,
+  dicasUsadas,
   explicacaoTecnica,
   isPro,
   onContinuar,
 }: {
   estrelas: number
   xp: number
+  dicasUsadas: number
   explicacaoTecnica?: string
   isPro: boolean
   onContinuar: () => void
@@ -117,7 +119,7 @@ function ModalEstrelas({
         <div className="flex justify-center gap-6 mb-6">
           {([
             { label: messages.exercicio.acertou },
-            { label: messages.exercicio.semDica },
+            { label: dicasUsadas > 0 ? messages.exercicio.comDica : messages.exercicio.semDica },
             { label: messages.exercicio.primeiraTentativa },
           ]).map(({ label }, idx) => {
             const i = idx + 1
@@ -557,7 +559,7 @@ function ExercicioQuiz({
 
         <AnimatePresence>
           {showModal && (
-            <ModalEstrelas estrelas={estrelasFinalRef.current} xp={xpModal} isPro={isPro} onContinuar={continuar} />
+            <ModalEstrelas estrelas={estrelasFinalRef.current} xp={xpModal} dicasUsadas={dicasUsadas} isPro={isPro} onContinuar={continuar} />
           )}
         </AnimatePresence>
       </div>
@@ -968,6 +970,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           <ModalEstrelas
             estrelas={estrelasFinalRef.current}
             xp={xpModal}
+            dicasUsadas={dicasUsadas}
             explicacaoTecnica={conteudoSql.explicacaoTecnica}
             isPro={isPro}
             onContinuar={continuar}
