@@ -1,5 +1,5 @@
 import sharp from 'sharp'
-import { mkdirSync } from 'fs'
+import { mkdirSync, writeFileSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -75,11 +75,51 @@ for (const { name, size, maskable } of sizes) {
   console.log(`✅ ${name}`)
 }
 
-// PNG 64×64 para fallback (a partir do favicon vetorial em public/icons/favicon.svg)
-await sharp(join(publicDir, 'icons', 'favicon.svg'))
-  .resize(64, 64)
-  .png()
-  .toFile(join(publicDir, 'icons', 'favicon.png'))
-console.log('✅ favicon.png (raster do favicon.svg)')
+// Favicon do site: PNG em public/icons/sqlquest-mark-sem-escrita.png
+// Atualizar copiando de Logosnovas/pngsemescrito/ (ex.: 6_icon_fixed.png). Gera 512² #0f1117 centrado + favicon.png 64.
+const iconsDir = join(publicDir, 'icons')
+const markPath = join(iconsDir, 'sqlquest-mark-sem-escrita.png')
+if (!existsSync(markPath)) {
+  console.warn('⚠️  sqlquest-mark-sem-escrita.png ausente — não gerou favicon a partir da marca.')
+} else {
+  const OUT = 512
+  const padding = 28
+  const inner = OUT - padding * 2
+
+  const markBuf = await sharp(markPath)
+    .ensureAlpha()
+    .trim()
+    .resize({
+      width: inner,
+      height: inner,
+      fit: 'inside',
+    })
+    .toBuffer()
+
+  await sharp({
+    create: {
+      width: OUT,
+      height: OUT,
+      channels: 4,
+      background: { r: 15, g: 17, b: 23, alpha: 1 },
+    },
+  })
+    .composite([{ input: markBuf, gravity: 'center' }])
+    .png()
+    .toFile(join(iconsDir, 'favicon-mark-512.png'))
+
+  await sharp(join(iconsDir, 'favicon-mark-512.png'))
+    .resize(64, 64)
+    .png()
+    .toFile(join(iconsDir, 'favicon.png'))
+
+  const faviconSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" viewBox="0 0 512 512">
+  <image width="512" height="512" href="favicon-mark-512.png" xlink:href="favicon-mark-512.png" preserveAspectRatio="xMidYMid meet"/>
+</svg>
+`
+  writeFileSync(join(iconsDir, 'favicon.svg'), faviconSvg, 'utf8')
+  console.log('✅ favicon-mark-512.png, favicon.png e favicon.svg (marca sqlquest-mark-sem-escrita.png)')
+}
 
 console.log('\n✨ Ícones gerados em public/icons/')
