@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { randomBytes } from 'crypto'
 import { sendVerificationEmail } from '@/lib/email'
 import { contemPalavrão } from '@/lib/nickname'
+import { checkRateLimitDB, getClientIp } from '@/lib/rate-limit'
 
 const schema = z.object({
   firstName: z.string().min(2, 'Nome deve ter ao menos 2 caracteres').max(25),
@@ -26,6 +27,16 @@ const schema = z.object({
 })
 
 export async function POST(req: Request) {
+  // 5 tentativas de cadastro por IP a cada hora — evita bomba de email e enumeração
+  const ip = getClientIp(req)
+  const rl = await checkRateLimitDB(`register:${ip}`, 5, 60 * 60 * 1000)
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Muitas tentativas. Tente novamente mais tarde.' },
+      { status: 429 }
+    )
+  }
+
   const body = await req.json()
 
   const parsed = schema.safeParse(body)
@@ -46,14 +57,18 @@ export async function POST(req: Request) {
     prisma.user.findUnique({ where: { nickname } }),
   ])
 
-  if (existenteEmail) {
-    return NextResponse.json({ error: 'Este email já está em uso' }, { status: 409 })
-  }
   if (existenteNick) {
     return NextResponse.json({ error: 'Este nickname já está em uso' }, { status: 409 })
   }
 
-  const hash = await bcrypt.hash(password, 12)
+  // Não revelamos se o email já existe — retornamos a mesma resposta de sucesso
+  // para evitar enumeração de emails cadastrados.
+  if (existenteEmail) {
+    return NextResponse.json({ ok: true })
+  }
+
+  // Custo 10: seguro e ~3× mais rápido que 12, evitando timeouts em serverless
+  const hash = await bcrypt.hash(password, 10)
 
   await prisma.user.create({
     data: { name, nickname, email, password: hash },

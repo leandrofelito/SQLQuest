@@ -36,8 +36,8 @@ export async function GET(req: Request) {
         'Content-Disposition': `attachment; filename="certificado-sqlquest-${cert.trilha.slug}.pdf"`,
       },
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[certificado] generateCertificatePDF error:', err)
-    return NextResponse.json({ error: err?.message ?? 'Erro ao gerar PDF' }, { status: 500 })
+    return NextResponse.json({ error: 'Erro ao gerar certificado' }, { status: 500 })
   }
 }

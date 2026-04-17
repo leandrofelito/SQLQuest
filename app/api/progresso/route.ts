@@ -9,6 +9,7 @@ import { calcularEstrelas, XP_POR_ESTRELAS, getLevel } from '@/lib/xp'
 import { verificarConquistasRanking } from '@/lib/ranking-conquistas'
 import { verificarToken } from '@/lib/validacao-token'
 import { computeNovoStreak } from '@/lib/streak'
+import { checkRateLimitDB } from '@/lib/rate-limit'
 import {
   TRILHA_CONQUISTA_SLUGS,
   TRILHA_CONQUISTAS,
@@ -36,6 +37,15 @@ export async function POST(req: Request) {
   if (!session?.user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const userId = (session.user as any).id
+
+  // 100 submissões de progresso por usuário por hora — evita XP farming automatizado
+  const rl = await checkRateLimitDB(`progresso:${userId}`, 100, 60 * 60 * 1000)
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: 'Muitas submissões. Tente novamente mais tarde.' },
+      { status: 429 }
+    )
+  }
 
   const parsed = schema.safeParse(await req.json())
   if (!parsed.success) {

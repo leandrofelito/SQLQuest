@@ -4,7 +4,6 @@ import { getLevelRankTitle } from './levelTitles'
 export const XP_POR_ESTRELAS: Record<number, number> = { 3: 100, 2: 60, 1: 30, 0: 0 }
 
 export function calcularEstrelas(tentativas: number, dicasUsadas: number): number {
-  if (tentativas >= 3) return 1
   if (dicasUsadas >= 1) return 1
   if (tentativas === 1) return 3
   return 2
