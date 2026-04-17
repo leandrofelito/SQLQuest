@@ -75,12 +75,15 @@ for (const { name, size, maskable } of sizes) {
   console.log(`✅ ${name}`)
 }
 
-// Favicon do site: PNG em public/icons/sqlquest-mark-sem-escrita.png
-// Atualizar copiando de Logosnovas/pngsemescrito/ (ex.: 6_icon_fixed.png). Gera 512² #0f1117 centrado + favicon.png 64.
+// Favicon do site: fonte em brand/sqlquest-mark-sem-escrita.svg (preferido) ou .png
+// Atualizar a partir de Logosnovas/svgsemescrito/1.svg (quadrado, alta resolução). Gera 512² #0f1117 + favicon.png 64.
 const iconsDir = join(publicDir, 'icons')
-const markPath = join(iconsDir, 'sqlquest-mark-sem-escrita.png')
+const brandDir = join(__dirname, '..', 'brand')
+const markSvg = join(brandDir, 'sqlquest-mark-sem-escrita.svg')
+const markPng = join(brandDir, 'sqlquest-mark-sem-escrita.png')
+const markPath = existsSync(markSvg) ? markSvg : markPng
 if (!existsSync(markPath)) {
-  console.warn('⚠️  sqlquest-mark-sem-escrita.png ausente — não gerou favicon a partir da marca.')
+  console.warn('⚠️  brand/sqlquest-mark-sem-escrita.svg ou .png ausente — não gerou favicon a partir da marca.')
 } else {
   const OUT = 512
   const padding = 28
@@ -119,7 +122,7 @@ if (!existsSync(markPath)) {
 </svg>
 `
   writeFileSync(join(iconsDir, 'favicon.svg'), faviconSvg, 'utf8')
-  console.log('✅ favicon-mark-512.png, favicon.png e favicon.svg (marca sqlquest-mark-sem-escrita.png)')
+  console.log(`✅ favicon-mark-512.png, favicon.png e favicon.svg (fonte: ${markPath.endsWith('.svg') ? 'svg' : 'png'})`)
 }
 
 console.log('\n✨ Ícones gerados em public/icons/')
