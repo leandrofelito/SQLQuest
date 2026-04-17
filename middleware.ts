@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 const MANUTENCAO = process.env.MAINTENANCE_MODE === 'true'
 
 // Rotas públicas — não exigem autenticação
-const PUBLIC_PATHS = ['/login', '/register', '/manutencao', '/cert', '/privacidade']
+const PUBLIC_PATHS = ['/login', '/register', '/manutencao', '/cert', '/privacidade', '/termos', '/']
 
 export default withAuth(
   function middleware(req) {
@@ -46,6 +46,6 @@ export default withAuth(
 export const config = {
   matcher: [
     // Exclui assets estáticos e api/auth do middleware
-    '/((?!_next/static|_next/image|favicon\\.ico|icons|images|api/auth|manutencao).*)',
+    '/((?!_next/static|_next/image|favicon\\.ico|icons|images|api/auth|api/ping|manutencao).*)',
   ],
 }

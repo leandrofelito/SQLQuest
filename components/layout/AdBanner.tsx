@@ -88,7 +88,19 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
     )
   }
 
-  if (!hasAdsenseBannerUnit(placement)) return null
+  if (!hasAdsenseBannerUnit(placement)) {
+    // Sem unidade AdSense configurada: reserva o espaço visual para evitar
+    // layout shift e garante que o banner apareça mesmo sem env vars no build.
+    if (!showLabel) return null
+    return (
+      <div className="flex flex-col items-center gap-1">
+        <span className="text-[10px] uppercase tracking-wider text-white/30">
+          {messages.exercicio.publicidade}
+        </span>
+        <div style={{ height: 50 }} aria-hidden="true" />
+      </div>
+    )
+  }
 
   const adClient = getAdsenseClientId()!
   const slotId = getAdsenseBannerSlotId(placement)!
@@ -100,7 +112,7 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
           {messages.exercicio.publicidade}
         </span>
       )}
-      <div className="flex justify-center w-full">
+      <div className="flex justify-center w-full" style={{ minHeight: 50 }}>
         <ins
           className="adsbygoogle"
           style={{ display: 'block', width: '100%', maxWidth: 320, height: 50 }}

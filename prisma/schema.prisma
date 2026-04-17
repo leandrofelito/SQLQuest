@@ -182,3 +182,12 @@ model TrilhaDesbloqueada {
   @@unique([userId, trilhaId])
   @@index([userId])
 }
+
+/// Contador distribuído de rate limiting — funciona em ambientes serverless com múltiplas instâncias.
+model RateLimit {
+  key     String   @id
+  count   Int      @default(1)
+  resetAt DateTime @map("reset_at")
+
+  @@map("rate_limit")
+}

@@ -32,6 +32,34 @@ const config = {
     config.resolve.fallback = { ...config.resolve.fallback, fs: false }
     return config
   },
+  async headers() {
+    return [
+      {
+        // Aplica a todas as rotas
+        source: '/(.*)',
+        headers: [
+          // Impede que o site seja embutido em iframes (clickjacking)
+          { key: 'X-Frame-Options', value: 'DENY' },
+          // Impede que o browser "adivinhe" o content-type (MIME sniffing)
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          // Controla quais informações de referência são enviadas
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          // Desabilita funcionalidades do browser que o app não usa
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          // Força HTTPS por 1 ano (só entra em efeito em produção com HTTPS)
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+        ],
+      },
+      {
+        // Headers específicos para rotas de API
+        source: '/api/(.*)',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+        ],
+      },
+    ]
+  },
 }
 
 module.exports = withPWA(config)
