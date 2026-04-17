@@ -331,9 +331,12 @@ export default function RegisterPage() {
             Entrar
           </Link>
         </p>
-        <p className="text-center text-white/25 text-xs pb-16 pt-2">
+        <p className="text-center text-white/25 text-xs pb-16 pt-2 flex justify-center gap-4">
           <Link href="/privacidade" className="hover:text-white/40 underline underline-offset-2">
             Política de privacidade
+          </Link>
+          <Link href="/termos" className="hover:text-white/40 underline underline-offset-2">
+            Termos de uso
           </Link>
         </p>
       </div>
