@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 const MANUTENCAO = process.env.MAINTENANCE_MODE === 'true'
 
 // Rotas públicas — não exigem autenticação
-const PUBLIC_PATHS = ['/login', '/register', '/manutencao', '/cert', '/privacidade']
+const PUBLIC_PATHS = ['/login', '/register', '/manutencao', '/cert', '/privacidade', '/termos', '/']
 
 export default withAuth(
   function middleware(req) {
