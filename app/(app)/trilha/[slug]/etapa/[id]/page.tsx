@@ -352,13 +352,8 @@ export default function EtapaPage() {
 
                     const seguirEmFrente = () => {
                       if (!isPro) {
-                        const key = 'sq_exercicios_count'
-                        const count = (parseInt(localStorage.getItem(key) ?? '0', 10) || 0) + 1
-                        localStorage.setItem(key, String(count))
-                        if (count % 3 === 0) {
-                          setShowAnuncio(true)
-                          return
-                        }
+                        setShowAnuncio(true)
+                        return
                       }
                       proximaEtapa()
                     }
@@ -452,7 +447,7 @@ export default function EtapaPage() {
         )}
       </AnimatePresence>
 
-      {/* Anúncio intersticial (a cada 3 exercícios) — navega ao concluir OU ao fechar */}
+      {/* Anúncio intersticial (após cada exercício concluído) — navega ao concluir OU ao fechar */}
       {showAnuncio && (
         <AnuncioVideo
           isPro={isPro}
