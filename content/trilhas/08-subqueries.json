@@ -21,56 +21,43 @@
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
-      "titulo": "Subqueries no WHERE: consultas aninhadas",
+      "titulo": "Consultas Aninhadas: O Poder das Subqueries",
       "conteudo": {
         "blocos": [
-          "**1. O conceito: a matrioshka do SQL** — Até agora suas consultas eram diretas. E se o filtro depender de um cálculo que o banco precisa fazer **antes**? Entram as **subqueries** (consultas aninhadas): um `SELECT` **dentro** de outro `SELECT`, como instrução auxiliar que entrega um valor à consulta **externa** (pai).",
-          "**2. Fluxo de execução** — O PostgreSQL segue uma hierarquia: como **matrioshkas**, resolve primeiro a query **interna** (filha), transforma o resultado em valor temporário e só então executa a **externa** usando esse valor.",
-          "**Caso de uso:** listar planetas com ID acima da média — você não sabe a média de cabeça; a subquery calcula na hora.",
-          "**3. Analogia: detetive** — Ele não sabe o nome do suspeito, mas sabe que mora no mesmo prédio que o 'Alvo X'. **Pergunta interna:** qual o endereço do Alvo X? **Pergunta externa:** quem mora nesse endereço? A subquery viabiliza o segundo passo.",
-          "**4. Ecossistemas** — No **PostgreSQL (Neon.tech)** as subqueries são poderosas; em volume muito grande, às vezes **JOINs** ou **CTEs** performam melhor — mas para filtros com agregações (médias, máximos), são a ferramenta clássica.",
+          "Até agora, suas consultas eram diretas. Mas no mundo real do **Neon.tech**, muitas vezes a resposta de uma pergunta depende do resultado de outra. Para resolver isso, usamos as **Subqueries** (ou Subconsultas).",
+          "Uma Subquery é uma consulta interna colocada dentro de uma consulta principal. O banco de dados executa a consulta interna primeiro e usa o resultado dela para completar a filtragem da consulta externa.",
+          {
+            "type": "definicao",
+            "termo": "Subquery",
+            "def": "Uma instrução SELECT aninhada dentro de outra instrução SQL, geralmente delimitada por parênteses."
+          },
+          "**Analogia do Processo de Seleção:** Imagine um processo de RH. Primeiro, o sistema gera uma lista de candidatos que passaram na prova técnica (**Subquery**). Depois, o gerente realiza a entrevista apenas com os nomes que estão naquela lista específica (**Consulta Principal**). Sem a primeira lista, a segunda ação não acontece.",
+          "As Subqueries são fundamentais quando você quer filtrar dados baseando-se em valores que você não conhece de antemão, como 'todos os planetas com população acima da média'.",
           {
             "type": "code",
-            "code": "SELECT nome\nFROM planetas\nWHERE id > (\n  SELECT AVG(id)\n  FROM planetas\n);",
-            "lese": "Consulta pai: nomes de planetas. Subquery: calcula a média dos IDs; o resultado alimenta o filtro `>` no WHERE."
-          },
-          "**Como se lê:** Selecione o **nome** dos planetas cujo **id** seja **maior** que a **média de todos os ids**, calculada pela subquery."
+            "code": "SELECT nome \nFROM planetas \nWHERE id IN (SELECT planeta_id FROM missoes);",
+            "lese": "Selecione o nome dos planetas cujo ID esteja presente na lista de IDs de planetas que possuem missões cadastradas."
+          }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Subqueries in WHERE: nested queries",
+          "titulo": "Nested Queries: The Power of Subqueries",
           "conteudo": {
             "blocos": [
-              "**1. The concept: SQL matryoshka** — So far your queries were straightforward. What if the filter depends on a calculation the engine must do **first**? Enter **subqueries**: a `SELECT` **inside** another `SELECT`, feeding the **outer** query.",
-              "**2. Execution flow** — PostgreSQL resolves the **inner** query first, turns the result into a temporary value, then runs the **outer** query with it.",
-              "**Use case:** list planets whose ID is above the average — the subquery computes the average at runtime.",
-              "**3. Detective analogy** — Inner question: where does 'Target X' live? Outer question: who lives at that address?",
-              "**4. Ecosystems** — **PostgreSQL (Neon.tech)** handles subqueries well; at very large scale, **JOINs** or **CTEs** may perform better, but for aggregate-based filters they remain the classic tool.",
-              {
-                "type": "code",
-                "code": "SELECT nome\nFROM planetas\nWHERE id > (\n  SELECT AVG(id)\n  FROM planetas\n);",
-                "lese": "Outer query: planet names. Inner query: average id; the result feeds the `>` filter."
-              },
-              "**How to read it:** Select **names** of planets whose **id** is **greater** than the **average of all ids** from the subquery."
+              "So far, your queries have been direct. But in **Neon.tech**, many times the answer to one question depends on the result of another. To solve this, we use **Subqueries**.",
+              "A Subquery is an inner query placed inside a main query. The database executes the inner query first and uses its result to complete the outer query's filtering.",
+              "**Selection Process Analogy:** Think of an HR process. First, the system generates a list of candidates who passed the technical test (**Subquery**). Then, the manager interviews only the names on that list (**Main Query**)."
             ]
           }
         },
         "es": {
-          "titulo": "Subqueries en el WHERE: consultas anidadas",
+          "titulo": "Consultas Anidadas: El Poder de las Subqueries",
           "conteudo": {
             "blocos": [
-              "**1. El concepto: la matrioska SQL** — Hasta ahora tus consultas eran directas. ¿Y si el filtro depende de un cálculo que el motor debe hacer **antes**? Entran las **subconsultas**: un `SELECT` **dentro** de otro `SELECT`.",
-              "**2. Flujo de ejecución** — PostgreSQL resuelve primero la consulta **interna** y luego la **externa** con ese valor.",
-              "**Caso de uso:** planetas con ID por encima de la media.",
-              "**3. Analogía del detective** — Pregunta interna: ¿dónde vive el 'Objetivo X'? Externa: ¿quién vive en esa dirección?",
-              "**4. Ecosistemas** — En **PostgreSQL (Neon.tech)** son potentes; a gran escala a veces conviene **JOIN** o **CTE**, pero para filtros con agregados siguen siendo el estándar.",
-              {
-                "type": "code",
-                "code": "SELECT nome\nFROM planetas\nWHERE id > (\n  SELECT AVG(id)\n  FROM planetas\n);",
-                "lese": "Consulta externa: nombres. Subconsulta: media de id para el filtro `>`."
-              },
-              "**Cómo se lee:** Nombres de planetas cuyo **id** sea **mayor** que la **media de todos los ids**."
+              "Hasta ahora, tus consultas han sido directas. Pero en **Neon.tech**, muchas veces la respuesta a una pregunta depende del resultado de otra. Para resolver esto, usamos as **Subqueries**.",
+              "Una Subquery es una consulta interna colocada dentro de una consulta principal. La base de datos ejecuta la consulta interna primero y usa su resultado para completar el filtrado de la consulta externa.",
+              "**Analogía del Proceso de Selección:** Imagina un proceso de RRHH. Primero, el sistema genera una lista de candidatos que aprobaron la prueba técnica (**Subquery**). Luego, el gerente entrevista solo a los nombres que están en esa lista (**Consulta Principal**)."
             ]
           }
         }
@@ -81,51 +68,49 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "Ordem lógica da subquery",
+      "titulo": "Perguntas Dentro de Perguntas",
       "conteudo": {
         "modo": "quiz",
         "quizTipo": "multipla",
-        "instrucao": "Em qual ordem lógica o banco de dados processa uma consulta que contém uma subquery dentro da cláusula WHERE?",
+        "instrucao": "Como é tecnicamente chamada uma consulta SQL que é executada dentro de outra consulta principal para fornecer dados de filtragem?",
         "opcoes": [
-          "A consulta externa é resolvida primeiro, e a interna depois.",
-          "Ambas são resolvidas simultaneamente para ganhar performance.",
-          "A consulta interna (subquery) é resolvida primeiro, e seu resultado é usado pela externa.",
-          "O banco de dados ignora a subquery se ela retornar mais de um valor."
+          "Subquery",
+          "Superquery",
+          "Join Interno",
+          "Agregador"
         ],
-        "indiceCorreto": 2,
-        "dica": "Analogia da boneca russa: o conteúdo entre parênteses é resolvido antes de aplicar o filtro da consulta pai."
+        "indiceCorreto": 0,
+        "dica": "Dica de Ouro: Pense em uma consulta que mora 'debaixo' ou 'dentro' de outra."
       },
       "traducoes": {
         "en": {
-          "titulo": "Logical order of the subquery",
+          "titulo": "Questions Within Questions",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "multipla",
-            "instrucao": "In what logical order does the database process a query containing a subquery in the WHERE clause?",
+            "instrucao": "What is the technical name for an SQL query that is executed inside another main query to provide filtering data?",
             "opcoes": [
-              "The outer query first, then the inner.",
-              "Both simultaneously for performance.",
-              "The inner query (subquery) first, and its result is used by the outer.",
-              "The database ignores the subquery if it returns multiple values."
+              "Subquery",
+              "Superquery",
+              "Internal Join",
+              "Aggregator"
             ],
-            "indiceCorreto": 2,
-            "dica": "Like matryoshka dolls: what is in parentheses is resolved before the parent filter applies."
+            "indiceCorreto": 0
           }
         },
         "es": {
-          "titulo": "Orden lógico de la subconsulta",
+          "titulo": "Preguntas Dentro de Preguntas",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "multipla",
-            "instrucao": "¿En qué orden lógico procesa la base de datos una consulta con subquery en el WHERE?",
+            "instrucao": "¿Cómo se llama técnicamente a una consulta SQL que se ejecuta dentro de otra consulta principal para proporcionar datos de filtrado?",
             "opcoes": [
-              "La consulta externa primero, luego la interna.",
-              "Ambas a la vez por rendimiento.",
-              "La consulta interna primero, y su resultado la usa la externa.",
-              "La base ignora la subconsulta si devuelve varios valores."
+              "Subquery",
+              "Superquery",
+              "Join Interno",
+              "Agregador"
             ],
-            "indiceCorreto": 2,
-            "dica": "Como matrioskas: lo entre paréntesis se resuelve antes que el filtro externo."
+            "indiceCorreto": 0
           }
         }
       }
@@ -135,36 +120,36 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "V ou F: parênteses na subquery",
+      "titulo": "V ou F: A Regra do Parêntese",
       "conteudo": {
         "modo": "quiz",
         "quizTipo": "vf",
-        "instrucao": "Analise a sintaxe de aninhamento no PostgreSQL:",
-        "afirmacao": "Para que o PostgreSQL reconheça uma instrução SELECT como uma subquery aninhada, ela deve obrigatoriamente estar envolvida entre parênteses.",
+        "instrucao": "Sobre a sintaxe das consultas aninhadas:",
+        "afirmacao": "Uma subquery deve ser sempre escrita obrigatoriamente entre parênteses para que o motor do banco de dados saiba que deve resolvê-la antes da consulta externa.",
         "respostaCorreta": true,
-        "dica": "Os parênteses isolam o escopo: o banco resolve primeiro o SELECT interno antes de comparar com a coluna externa."
+        "dica": "Dica de Ouro: Os parênteses servem como um isolante que diz ao SQL: 'resolva isso aqui primeiro'."
       },
       "traducoes": {
         "en": {
-          "titulo": "T/F: parentheses around the subquery",
+          "titulo": "T/F: The Parentheses Rule",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "vf",
-            "instrucao": "Analyze nested SELECT syntax in PostgreSQL:",
-            "afirmacao": "For PostgreSQL to treat a SELECT as a nested subquery, it must be enclosed in parentheses.",
+            "instrucao": "About nested query syntax:",
+            "afirmacao": "A subquery must always be written in parentheses so the database engine knows to solve it before the outer query.",
             "respostaCorreta": true,
-            "dica": "Parentheses delimit scope: the inner SELECT is resolved before the comparison."
+            "dica": "Golden Hint: Parentheses act as an insulator telling SQL: 'solve this first'."
           }
         },
         "es": {
-          "titulo": "V o F: paréntesis en la subconsulta",
+          "titulo": "V o F: La Regla del Paréntesis",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "vf",
-            "instrucao": "Analiza la sintaxis de SELECT anidado en PostgreSQL:",
-            "afirmacao": "Para que PostgreSQL trate un SELECT como subconsulta anidada, debe ir obligatoriamente entre paréntesis.",
+            "instrucao": "Sobre la sintaxis de las consultas anidadas:",
+            "afirmacao": "Una subquery debe escribirse siempre obligatoriamente entre paréntesis para que el motor de la base de datos sepa que debe resolverla antes de la consulta externa.",
             "respostaCorreta": true,
-            "dica": "Los paréntesis delimitan el alcance: primero se resuelve el SELECT interno."
+            "dica": "Pista de Oro: Los paréntesis sirven como um aislante que le dice al SQL: 'resuelve esto aquí primero'."
           }
         }
       }
@@ -174,45 +159,33 @@
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
-      "titulo": "Prática: acima da média dos IDs",
+      "titulo": "Mão na Massa: Planetas com Missões",
       "conteudo": {
-        "instrucao": "Selecione o nome dos planetas cujo id seja maior que a média (AVG) de todos os IDs da tabela planetas.",
-        "placeholder": "SELECT nome FROM planetas WHERE id > (SELECT ...",
-        "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO planetas (id, nome) VALUES (1,'Terra'),(2,'Marte'),(3,'Vênus'),(10,'Júpiter');",
-        "checkType": "count",
+        "modo": "sql",
+        "instrucao": "Selecione o nome de todos os planetas cujo id esteja na lista de IDs da tabela 'missoes' (utilize uma subquery com o operador IN na tabela missoes).",
+        "placeholder": "SELECT nome FROM planetas WHERE id IN (...);",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE missoes (id SERIAL PRIMARY KEY, planeta_id INT REFERENCES planetas(id)); INSERT INTO planetas (nome) VALUES ('Marte'), ('Júpiter'), ('Saturno'); INSERT INTO missoes (planeta_id) VALUES (1), (2);",
+        "checkType": "columns",
         "checkConfig": {
-          "expected_rows": 1
+          "required_columns": ["nome"],
+          "subquery_present": true
         },
-        "dica": "A subquery escalar retorna um único valor: SELECT AVG(id) FROM planetas. Compare com WHERE id > (...).",
-        "explicacaoTecnica": "AVG(1,2,3,10) = 4; apenas o id 10 é maior que 4 — uma linha ('Júpiter')."
+        "dica": "Dica de Ouro: A estrutura deve ser WHERE id IN (SELECT planeta_id FROM missoes).",
+        "explicacaoTecnica": "O PostgreSQL resolve primeiro o SELECT interno, gerando uma lista temporária de IDs, que o operador IN usa para filtrar os nomes na tabela externa."
       },
       "traducoes": {
         "en": {
-          "titulo": "Practice: above average IDs",
+          "titulo": "Hands-on: Planets with Missions",
           "conteudo": {
-            "instrucao": "Select the names of planets whose id is greater than the average (AVG) of all ids in planetas.",
-            "placeholder": "SELECT nome FROM planetas WHERE id > (SELECT ...",
-            "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO planetas (id, nome) VALUES (1,'Terra'),(2,'Marte'),(3,'Vênus'),(10,'Júpiter');",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 1
-            },
-            "dica": "The scalar subquery returns one value: SELECT AVG(id) FROM planetas. Use WHERE id > (...).",
-            "explicacaoTecnica": "AVG(1,2,3,10) = 4; only id 10 is greater — one row ('Júpiter')."
+            "instrucao": "Select the name of all planets whose id is in the list of IDs from the 'missoes' table (use a subquery with the IN operator on the missoes table).",
+            "dica": "Your internal subquery should be (SELECT planeta_id FROM missoes)."
           }
         },
         "es": {
-          "titulo": "Práctica: por encima de la media de IDs",
+          "titulo": "Manos a la obra: Planetas con Misiones",
           "conteudo": {
-            "instrucao": "Selecciona el nombre de los planetas cuyo id sea mayor que el promedio (AVG) de todos los ids en planetas.",
-            "placeholder": "SELECT nome FROM planetas WHERE id > (SELECT ...",
-            "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO planetas (id, nome) VALUES (1,'Terra'),(2,'Marte'),(3,'Vênus'),(10,'Júpiter');",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 1
-            },
-            "dica": "La subconsulta escalar devuelve un valor: SELECT AVG(id) FROM planetas. Usa WHERE id > (...).",
-            "explicacaoTecnica": "AVG(1,2,3,10) = 4; solo el id 10 supera la media — una fila ('Júpiter')."
+            "instrucao": "Selecciona el nombre de todos los planetas cuyo id esté en la lista de IDs de la tabla 'missoes' (utiliza una subquery con el operador IN en la tabla missoes).",
+            "dica": "Tu subquery interna debe ser (SELECT planeta_id FROM missoes)."
           }
         }
       }
@@ -222,53 +195,43 @@
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
-      "titulo": "Operadores IN e EXISTS com subqueries",
+      "titulo": "Filtros Inteligentes: Agregando na Subquery",
       "conteudo": {
         "blocos": [
-          "**1. IN: lista de pertencimento** — Para filtrar valores que pertençam a um conjunto, o **IN** valida se a coluna está entre os resultados de uma **subquery** ou de uma lista manual.",
-          "**2. EXISTS: sentinela de performance** — O **EXISTS** não se importa com *quais* colunas a subquery devolve, e sim se ela retorna **alguma linha**. Ao achar a primeira linha que satisfaz a condição, o PostgreSQL pode parar — comportamento booleano (há resultado ou não).",
-          "No **Neon.tech**, **EXISTS** costuma ser preferido em tabelas grandes: evita materializar listas enormes na memória como um **IN** com muitos valores.",
-          "**3. Analogia: portaria e sala** — **IN:** o porteiro lê a lista (resultado da subquery) e procura seu nome. **EXISTS:** ele só espi pela porta — se vê **uma** pessoa na sala, a condição vale; não precisa saber quem são todas.",
+          "Na etapa anterior, você usou subqueries que retornavam uma lista de IDs. Mas no **Neon.tech**, o verdadeiro poder analítico surge quando usamos subqueries que calculam um **valor único** (escalar), como uma média ou um recorde.",
+          "Isso permite que você faça perguntas dinâmicas. Em vez de filtrar por um número fixo (ex: populacao > 1000), você pede ao SQL para calcular a média primeiro e depois usar esse resultado para filtrar as linhas.",
+          {
+            "type": "definicao",
+            "termo": "Subquery Escalar",
+            "def": "Uma consulta interna que retorna exatamente uma linha e uma coluna (um único valor)."
+          },
+          "**Analogia do Recorde Mundial:** Imagine que você quer saber se o seu tempo em uma corrida foi excepcional. Você não sabe qual é o recorde atual de cabeça. Então, primeiro você consulta o livro dos recordes (**Subquery**) e, logo em seguida, verifica se o seu tempo é menor que aquele valor encontrado (**Consulta Principal**).",
+          "Destaque: Como a subquery retorna apenas um número, não usamos o IN. Usamos os operadores matemáticos tradicionais: `>`, `<`, `=`, `>=`, `<=`, ou `<>`.",
           {
             "type": "code",
-            "code": "-- IN: planetas em sistemas específicos\nSELECT nome\nFROM planetas\nWHERE sistema_id IN (1, 2, 3);\n\n-- EXISTS: planeta com ao menos um satélite\nSELECT p.nome\nFROM planetas p\nWHERE EXISTS (\n  SELECT 1\n  FROM satelites s\n  WHERE s.planeta_id = p.id\n);",
-            "lese": "IN compara com um conjunto de IDs; EXISTS filtra planetas para os quais existe pelo menos uma linha correlata em satélites."
-          },
-          "**Como se lê:** Com **IN**, nomes de planetas cujo **sistema_id** está na lista; com **EXISTS**, nomes de planetas para os quais **existe** pelo menos um registro relacionado (ex.: satélites)."
+            "code": "SELECT nome, populacao\nFROM planetas\nWHERE populacao > (SELECT AVG(populacao) FROM planetas);",
+            "lese": "Selecione planetas cuja população seja estritamente maior que a média calculada dinamicamente sobre toda a tabela."
+          }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "IN and EXISTS operators with subqueries",
+          "titulo": "Smart Filters: Aggregating in Subqueries",
           "conteudo": {
             "blocos": [
-              "**1. IN: membership list** — **IN** checks whether a column value appears among results from a **subquery** or a literal list.",
-              "**2. EXISTS: performance sentinel** — **EXISTS** cares whether the subquery returns **any row**, not *which* columns. Often stops at the first match — effectively a boolean test.",
-              "On **Neon.tech**, **EXISTS** is often preferred on large tables to avoid materializing huge lists for **IN**.",
-              "**3. Analogy: door and room** — **IN:** guard reads the full guest list. **EXISTS:** guard peeks in — if **one** person is visible, the condition is met.",
-              {
-                "type": "code",
-                "code": "-- IN: planets in specific systems\nSELECT nome\nFROM planetas\nWHERE sistema_id IN (1, 2, 3);\n\n-- EXISTS: planet with at least one moon\nSELECT p.nome\nFROM planetas p\nWHERE EXISTS (\n  SELECT 1\n  FROM satelites s\n  WHERE s.planeta_id = p.id\n);",
-                "lese": "IN matches a set of system IDs; EXISTS keeps planets that have at least one correlated satellites row."
-              },
-              "**How to read it:** With **IN**, planet names whose **sistema_id** is in the list; with **EXISTS**, names where **at least one** related row exists."
+              "In the previous stage, you used subqueries that returned a list. Now, you will learn to use subqueries that calculate a **single value** (scalar), like an average or a record.",
+              "This allows for dynamic questions. Instead of filtering by a fixed number, you ask SQL to calculate the average first and use that result.",
+              "**World Record Analogy:** To see if your race time was exceptional, you first check the record book (**Subquery**) and then verify if your time is lower than that value (**Main Query**)."
             ]
           }
         },
         "es": {
-          "titulo": "Operadores IN y EXISTS con subconsultas",
+          "titulo": "Filtros Inteligentes: Agregando en Subqueries",
           "conteudo": {
             "blocos": [
-              "**1. IN: lista de pertenencia** — **IN** comprueba si el valor está entre los resultados de una **subconsulta** o una lista.",
-              "**2. EXISTS: centinela de rendimiento** — **EXISTS** se fija en si la subconsulta devuelve **alguna fila**, no en *qué* columnas. Suele poder detenerse en el primer match.",
-              "En **Neon.tech** a menudo se prefiere **EXISTS** en tablas grandes frente a **IN** con listas enormes.",
-              "**3. Analogía: portería y sala** — **IN:** leer la lista completa. **EXISTS:** mirar si hay **alguien** dentro.",
-              {
-                "type": "code",
-                "code": "-- IN: planetas en sistemas concretos\nSELECT nome\nFROM planetas\nWHERE sistema_id IN (1, 2, 3);\n\n-- EXISTS: planeta con al menos un satélite\nSELECT p.nome\nFROM planetas p\nWHERE EXISTS (\n  SELECT 1\n  FROM satelites s\n  WHERE s.planeta_id = p.id\n);",
-                "lese": "IN compara con un conjunto de IDs; EXISTS filtra planetas con al menos un satélite correlacionado."
-              },
-              "**Cómo se lee:** Con **IN**, nombres cuyo **sistema_id** está en la lista; con **EXISTS**, donde **existe** al menos una fila relacionada."
+              "En la etapa anterior, usaste subqueries que devolvían una lista. Ahora, aprenderás a usar subqueries que calculan un **valor único** (escalar), como un promedio o un récord.",
+              "Esto permite hacer preguntas dinámicas. En lugar de filtrar por un número fijo, le pides a SQL que calcule el promedio primero y use ese resultado.",
+              "**Analogía del Récord Mundial:** Para ver si tu tiempo en una carrera fue excepcional, primero consultas el libro de récords (**Subquery**) y luego verificas si tu tiempo es menor que ese valor (**Consulta Principal**)."
             ]
           }
         }
@@ -279,41 +242,49 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "IN e conjuntos",
+      "titulo": "Operadores de Comparação",
       "conteudo": {
         "modo": "quiz",
         "quizTipo": "multipla",
-        "instrucao": "Qual operador é mais indicado para verificar se um valor individual pertence a um conjunto de múltiplos resultados retornados por uma subquery?",
+        "instrucao": "Qual tipo de operador deve ser usado junto com uma subquery que retorna um único valor numérico, como um AVG ou um MAX?",
         "opcoes": [
           "LIKE",
-          "IN",
           "BETWEEN",
-          "HAVING"
+          "Operadores matemáticos (>, <, =)",
+          "IN"
         ],
-        "indiceCorreto": 1,
-        "dica": "É o operador que compara a coluna com cada item de um conjunto entre parênteses — equivalente a vários OR."
+        "indiceCorreto": 2,
+        "dica": "Dica de Ouro: Quando o resultado é um número único, tratamos a subquery como se fosse uma constante matemática."
       },
       "traducoes": {
         "en": {
-          "titulo": "IN and sets",
+          "titulo": "Comparison Operators",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "multipla",
-            "instrucao": "Which operator is best suited to check if a single value belongs to a set of multiple results returned by a subquery?",
-            "opcoes": ["LIKE", "IN", "BETWEEN", "HAVING"],
-            "indiceCorreto": 1,
-            "dica": "It compares the column to each item in a parenthesized set — like multiple ORs."
+            "instrucao": "What type of operator should be used with a subquery that returns a single numeric value, like an AVG or MAX?",
+            "opcoes": [
+              "LIKE",
+              "BETWEEN",
+              "Mathematical operators (>, <, =)",
+              "IN"
+            ],
+            "indiceCorreto": 2
           }
         },
         "es": {
-          "titulo": "IN y conjuntos",
+          "titulo": "Operadores de Comparación",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "multipla",
-            "instrucao": "¿Qué operador es más indicado para comprobar si un valor pertenece a un conjunto de resultados de una subconsulta?",
-            "opcoes": ["LIKE", "IN", "BETWEEN", "HAVING"],
-            "indiceCorreto": 1,
-            "dica": "Compara la columna con cada elemento del conjunto entre paréntesis."
+            "instrucao": "¿Qué tipo de operador debe usarse junto con una subquery que devuelve un solo valor numérico, como un AVG o un MAX?",
+            "opcoes": [
+              "LIKE",
+              "BETWEEN",
+              "Operadores matemáticos (>, <, =)",
+              "IN"
+            ],
+            "indiceCorreto": 2
           }
         }
       }
@@ -323,36 +294,34 @@
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
-      "titulo": "V ou F: o que EXISTS devolve",
+      "titulo": "V ou F: O Perigo da Multiplicidade",
       "conteudo": {
         "modo": "quiz",
         "quizTipo": "vf",
-        "instrucao": "Analise o papel do EXISTS na consulta externa:",
-        "afirmacao": "O operador EXISTS retorna os dados reais da subquery (como nomes ou datas) para que eles sejam exibidos diretamente no SELECT principal.",
+        "instrucao": "Sobre as limitações das subqueries escalares:",
+        "afirmacao": "Uma subquery usada no WHERE para comparação direta (ex: >) pode retornar múltiplas linhas sem causar erro no SQL.",
         "respostaCorreta": false,
-        "dica": "EXISTS só responde se existe linha na subquery; quem projeta colunas é o SELECT externo, não a subquery dentro do EXISTS."
+        "dica": "Dica de Ouro: O operador '>' espera um único valor à sua direita. Se ele receber uma lista, o banco de dados 'fica confuso'."
       },
       "traducoes": {
         "en": {
-          "titulo": "T/F: what EXISTS returns",
+          "titulo": "T/F: The Danger of Multiplicity",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "vf",
-            "instrucao": "Analyze EXISTS in the outer query:",
-            "afirmacao": "EXISTS returns the actual rows from the subquery (names, dates, etc.) so they appear directly in the main SELECT.",
-            "respostaCorreta": false,
-            "dica": "EXISTS is a existence test; the outer SELECT projects columns, not the subquery inside EXISTS."
+            "instrucao": "About scalar subquery limitations:",
+            "afirmacao": "A subquery used in WHERE for direct comparison (e.g., >) can return multiple rows without causing an SQL error.",
+            "respostaCorreta": false
           }
         },
         "es": {
-          "titulo": "V o F: qué devuelve EXISTS",
+          "titulo": "V o F: El Peligro de la Multiplicidad",
           "conteudo": {
             "modo": "quiz",
             "quizTipo": "vf",
-            "instrucao": "Analiza el papel de EXISTS:",
-            "afirmacao": "EXISTS devuelve los datos reales de la subconsulta para mostrarlos directamente en el SELECT principal.",
-            "respostaCorreta": false,
-            "dica": "EXISTS solo indica si hay filas; las columnas del resultado vienen del SELECT externo."
+            "instrucao": "Sobre las limitaciones de las subqueries escalares:",
+            "afirmacao": "Una subquery usada en el WHERE para comparación directa (ej: >) puede devolver múltiples filas sin causar error en el SQL.",
+            "respostaCorreta": false
           }
         }
       }
@@ -362,45 +331,231 @@
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
-      "titulo": "Prática: filtro com IN",
+      "titulo": "Mão na Massa: Acima da Média",
       "conteudo": {
-        "instrucao": "Selecione o nome dos planetas que pertencem aos sistemas cujos IDs estão na lista (1, 2). Use o operador IN.",
-        "placeholder": "SELECT nome FROM planetas WHERE ...",
-        "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'Terra',1),(2,'Marte',2),(3,'Júpiter',3);",
-        "checkType": "count",
+        "modo": "sql",
+        "instrucao": "Selecione o nome e a populacao de todos os planetas cuja população seja estritamente maior que a média populacional de todos os planetas da tabela.",
+        "placeholder": "SELECT nome, populacao FROM planetas WHERE ... > (SELECT ...);",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, populacao BIGINT); INSERT INTO planetas (nome, populacao) VALUES ('Terra', 8000000000), ('Marte', 500000), ('Krypton', 1000000000);",
+        "checkType": "columns",
         "checkConfig": {
-          "expected_rows": 2
+          "required_columns": ["nome", "populacao"],
+          "subquery_present": true
         },
-        "dica": "Estrutura: SELECT nome FROM planetas WHERE sistema_id IN (1, 2);",
-        "explicacaoTecnica": "Terra (sistema 1) e Marte (sistema 2) entram na lista; Júpiter (sistema 3) fica de fora."
+        "dica": "Dica de Ouro: Sua estrutura deve ser: WHERE populacao > (SELECT AVG(populacao) FROM planetas).",
+        "explicacaoTecnica": "O SQL calcula primeiro o valor médio (escalar) e depois percorre a tabela comparando a população de cada linha com esse valor calculado."
       },
       "traducoes": {
         "en": {
-          "titulo": "Practice: filter with IN",
+          "titulo": "Hands-on: Above Average",
           "conteudo": {
-            "instrucao": "Select the names of planets that belong to systems whose IDs are in the list (1, 2). Use IN.",
-            "placeholder": "SELECT nome FROM planetas WHERE ...",
-            "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'Terra',1),(2,'Marte',2),(3,'Júpiter',3);",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 2
-            },
-            "dica": "Use: SELECT nome FROM planetas WHERE sistema_id IN (1, 2);",
-            "explicacaoTecnica": "Earth (1) and Mars (2) match; Jupiter (3) does not."
+            "instrucao": "Select the name and population of all planets whose population is strictly greater than the average population of all planets in the table.",
+            "dica": "The subquery should be (SELECT AVG(populacao) FROM planetas). Use the '>' operator to compare."
           }
         },
         "es": {
-          "titulo": "Práctica: filtro con IN",
+          "titulo": "Manos a la obra: Por Encima del Promedio",
           "conteudo": {
-            "instrucao": "Selecciona el nombre de los planetas que pertenecen a sistemas cuyos IDs están en la lista (1, 2). Usa IN.",
-            "placeholder": "SELECT nome FROM planetas WHERE ...",
-            "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'Terra',1),(2,'Marte',2),(3,'Júpiter',3);",
-            "checkType": "count",
+            "instrucao": "Selecciona el nombre y la población de todos los planetas cuya población sea estrictamente mayor que el promedio poblacional de todos los planetas de la tabla.",
+            "dica": "La subquery debe ser (SELECT AVG(populacao) FROM planetas). Usa el operador '>' para comparar."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 9,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Integração total: a sinfonia dos dados",
+      "conteudo": {
+        "blocos": [
+          "**1. Retrospectiva** — Você percorreu um caminho longo, desde `SELECT` simples até **subqueries**. Não é só puxar linhas: é **orquestrar** JOINs, agrupamentos e consultas aninhadas — o que separa o uso casual de um domínio sólido de SQL.",
+          "**2. Como ler: de dentro para fora** — Em queries grandes, leia como um compilador, **do miolo para a casca:**",
+          "• **Subqueries** — critérios ou dados que alimentam o restante.",
+          "• **JOINs** — de onde vêm as tabelas e como se relacionam.",
+          "• **GROUP BY** — a “lente” (perspectiva) sob a qual você soma ou conta.",
+          "• **HAVING** — filtro **depois** do agrupamento, sobre o resultado dos agregados.",
+          "**3. Desafio de elite** — Relatórios que cruzam tabelas, **agrupam** e ainda comparam com **subqueries** ou médias são o dia a dia de quem modela dados com seriedade.",
+          "**4. Futuro do modelo relacional** — Desde Codd (1970), o modelo relacional foi desafiado por várias tecnologias; a base matemática e a linguagem SQL continuam como alicerce — do **Neon.tech** a sistemas de grande escala.",
+          "**Como se lê:** Una as origens, **agrupe** na dimensão certa, aplique **agregações** e use **HAVING** para manter só os grupos que passam em critérios dinâmicos."
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Total integration: the data symphony",
+          "conteudo": {
+            "blocos": [
+              "**1. Look back** — From simple `SELECT` to **subqueries**, you are not just fetching rows — you are **orchestrating** JOINs, grouping, and nested queries.",
+              "**2. How to read: inside out** — On big queries, read like a compiler, **from the core outward:**",
+              "• **Subqueries** — criteria or data feeding the rest.",
+              "• **JOINs** — where tables come from and how they link.",
+              "• **GROUP BY** — the lens you sum or count through.",
+              "• **HAVING** — filter **after** grouping, on aggregate results.",
+              "**3. Elite challenge** — Reports that join tables, **group**, and compare with **subqueries** or averages are standard for serious data work.",
+              "**4. Future of the relational model** — Since Codd (1970), many technologies challenged it; its math and SQL remain foundational — from **Neon.tech** to large-scale systems.",
+              "**How to read it:** Join sources, **group** correctly, aggregate, and use **HAVING** to keep only groups that meet dynamic criteria."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Integración total: la sinfonía de los datos",
+          "conteudo": {
+            "blocos": [
+              "**1. Mirada atrás** — De `SELECT` simple a **subconsultas**: no solo extraes filas, **orquestas** JOINs, agrupaciones y anidamiento.",
+              "**2. Cómo leer: de dentro hacia afuera** — En consultas grandes, lee como un compilador:",
+              "• **Subconsultas** — criterios o datos que alimentan el resto.",
+              "• **JOINs** — de dónde salen las tablas y cómo se unen.",
+              "• **GROUP BY** — la perspectiva para sumar o contar.",
+              "• **HAVING** — filtro **después** del agrupamiento, sobre agregados.",
+              "**3. Reto de élite** — Informes que cruzan tablas, **agrupan** y comparan con **subconsultas** o promedios.",
+              "**4. Futuro del modelo relacional** — Desde Codd (1970), muchas tecnologías lo desafiaron; las bases matemáticas y SQL siguen siendo el cimiento.",
+              "**Cómo se lee:** Une orígenes, **agrupa**, agrega y usa **HAVING** para quedarte solo con los grupos que cumplen criterios dinámicos."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 10,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Onde entra o HAVING?",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Em uma consulta complexa que combina JOIN, GROUP BY e filtros de agregação, qual a posição correta da cláusula HAVING?",
+        "opcoes": [
+          "Antes do FROM, para filtrar as tabelas.",
+          "Imediatamente após o GROUP BY.",
+          "BETWEEN",
+          "O HAVING não pode ser usado junto com JOIN."
+        ],
+        "indiceCorreto": 1,
+        "dica": "HAVING filtra **grupos** já formados; na ordem lógica vem depois de JOIN e GROUP BY — não substitui WHERE nem mora dentro do ON."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Where does HAVING go?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "In a complex query with JOIN, GROUP BY, and aggregate filters, where does HAVING belong?",
+            "opcoes": [
+              "Before FROM, to filter tables.",
+              "Immediately after GROUP BY.",
+              "Inside the JOIN's ON clause.",
+              "HAVING cannot be used with JOIN."
+            ],
+            "indiceCorreto": 1,
+            "dica": "HAVING filters **groups** after they are formed — after JOIN and GROUP BY."
+          }
+        },
+        "es": {
+          "titulo": "¿Dónde va el HAVING?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "En una consulta compleja con JOIN, GROUP BY y filtros de agregación, ¿cuál es la posición correcta de HAVING?",
+            "opcoes": [
+              "Antes del FROM, para filtrar tablas.",
+              "Inmediatamente después del GROUP BY.",
+              "Dentro del ON del JOIN.",
+              "HAVING no puede usarse con JOIN."
+            ],
+            "indiceCorreto": 1,
+            "dica": "HAVING filtra **grupos** ya formados, después de JOIN y GROUP BY."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 11,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: TXT em vez do relacional?",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre o modelo relacional e o ecossistema SQL:",
+        "afirmacao": "O modelo relacional é uma tecnologia passageira que será totalmente substituída por arquivos de texto simples (TXT) devido à sua complexidade.",
+        "respostaCorreta": false,
+        "dica": "O modelo relacional tem base em álgebra de conjuntos; SGBDs oferecem integridade, concorrência e desempenho que arquivos TXT não substituem."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: plain text instead of relational?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About the relational model and SQL:",
+            "afirmacao": "The relational model is a passing fad that will be fully replaced by plain text (TXT) files because of its complexity.",
+            "respostaCorreta": false,
+            "dica": "The relational model rests on solid math; databases provide integrity and performance TXT files do not replace."
+          }
+        },
+        "es": {
+          "titulo": "V o F: ¿TXT en lugar del relacional?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre el modelo relacional y SQL:",
+            "afirmacao": "El modelo relacional es pasajero y será sustituido por archivos de texto (TXT) por su complejidad.",
+            "respostaCorreta": false,
+            "dica": "El modelo relacional tiene base matemática; los SGBD aportan integridad y rendimiento que un TXT no reemplaza."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
+      "titulo": "Desafio: sistemas e planetas",
+      "conteudo": {
+        "instrucao": "Selecione o nome do sistema (alias sistema) e a contagem total de planetas (alias total_planetas). Una sistemas e planetas com INNER JOIN e agrupe pelo nome do sistema.",
+        "placeholder": "SELECT sistemas.nome AS sistema, COUNT(...) AS total_planetas\nFROM sistemas\nINNER JOIN planetas ON ...\nGROUP BY ...",
+        "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["sistema", "total_planetas"],
+          "min_rows": 2
+        },
+        "dica": "SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
+        "explicacaoTecnica": "Alpha tem 2 planetas e Beta tem 1; o GROUP BY consolida uma linha por sistema com o COUNT correspondente."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Challenge: systems and planets",
+          "conteudo": {
+            "instrucao": "Select the system name (alias sistema) and total planet count (alias total_planetas). INNER JOIN sistemas and planetas and GROUP BY system name.",
+            "placeholder": "SELECT sistemas.nome AS sistema, COUNT(...) AS total_planetas\nFROM sistemas\nINNER JOIN planetas ON ...\nGROUP BY ...",
+            "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
+            "checkType": "columns",
             "checkConfig": {
-              "expected_rows": 2
+              "required_columns": ["sistema", "total_planetas"],
+              "min_rows": 2
             },
-            "dica": "Usa: SELECT nome FROM planetas WHERE sistema_id IN (1, 2);",
-            "explicacaoTecnica": "Tierra (1) y Marte (2) entran; Júpiter (3) no."
+            "dica": "Use: SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
+            "explicacaoTecnica": "Alpha has 2 planets and Beta has 1; GROUP BY yields one row per system."
+          }
+        },
+        "es": {
+          "titulo": "Desafío: sistemas y planetas",
+          "conteudo": {
+            "instrucao": "Selecciona el nombre del sistema (alias sistema) y el total de planetas (alias total_planetas). INNER JOIN entre sistemas y planetas y GROUP BY por nombre de sistema.",
+            "placeholder": "SELECT sistemas.nome AS sistema, COUNT(...) AS total_planetas\nFROM sistemas\nINNER JOIN planetas ON ...\nGROUP BY ...",
+            "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
+            "checkType": "columns",
+            "checkConfig": {
+              "required_columns": ["sistema", "total_planetas"],
+              "min_rows": 2
+            },
+            "dica": "Usa: SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
+            "explicacaoTecnica": "Alpha tiene 2 planetas y Beta 1; GROUP BY devuelve una fila por sistema."
           }
         }
       }

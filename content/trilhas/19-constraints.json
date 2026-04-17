@@ -47,66 +47,44 @@
       "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Por que Constraints Existem?",
+      "xpReward": 50,
+      "titulo": "Regras Inteligentes: UNIQUE e DEFAULT",
       "conteudo": {
         "blocos": [
+          "Agora que você já sabe construir a estrutura básica, é hora de dar 'cérebro' às suas colunas. No **Neon.tech**, um bom Arquiteto automatiza processos e protege os dados contra duplicidade usando regras inteligentes chamadas Constraints.",
+          "A restrição **UNIQUE** garante que nenhum valor se repita naquela coluna. É a forma perfeita de garantir que não existam dois planetas com o mesmo nome ou dois usuários com o mesmo e-mail no seu sistema.",
+          "Já o **DEFAULT** é o valor de 'preenchimento automático'. Se o usuário estiver com pressa e esquecer de informar um dado (como o clima de um planeta), o banco de dados não gera um erro; ele assume um valor padrão definido por você.",
           {
             "type": "definicao",
-            "termo": "Constraint (Restrição)",
-            "def": "Uma regra definida na estrutura da tabela que o banco de dados aplica automaticamente em todo INSERT, UPDATE e DELETE. Se a regra for violada, a operação é rejeitada."
+            "termo": "UNIQUE vs DEFAULT",
+            "def": "UNIQUE impede a duplicidade de valores. DEFAULT define um valor automático para campos não preenchidos."
           },
+          "**Analogia Prática:** **UNIQUE** é como um número de CPF ou o número de série de uma nave: não pode haver dois iguais no universo. **DEFAULT** é como as configurações de fábrica de um comunicador intergaláctico: se você não escolher um toque de chamada, ele já vem com um som padrão definido pela fábrica.",
           {
             "type": "code",
-            "code": "-- Sem constraint: dados inválidos entram\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- Preco negativo? O banco aceita sem constraints\n\n-- Com constraint CHECK: o banco rejeita\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- ERROR: new row violates check constraint",
-            "lese": "Sem constraints o banco aceita qualquer valor; com CHECK o banco valida automaticamente — você não precisa checar isso no código da aplicação"
-          },
-          {
-            "type": "nota",
-            "texto": "Princípio: valide dados na camada mais baixa possível. Constraints no banco garantem consistência mesmo que o código da aplicação tenha bugs."
+            "code": "CREATE TABLE satelites (\n  id SERIAL PRIMARY KEY,\n  codigo TEXT UNIQUE,\n  status TEXT DEFAULT 'Ativo'\n);",
+            "lese": "Crie uma tabela de satélites onde o código não pode se repetir e o status será 'Ativo' automaticamente se nada for informado."
           }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Why Do Constraints Exist?",
+          "titulo": "Smart Rules: UNIQUE and DEFAULT",
           "conteudo": {
             "blocos": [
-              {
-                "type": "definicao",
-                "termo": "Constraint",
-                "def": "A rule defined in the table structure that the database enforces automatically on every INSERT, UPDATE and DELETE. If the rule is violated, the operation is rejected."
-              },
-              {
-                "type": "code",
-                "code": "-- Sem constraint: dados inválidos entram\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- Preco negativo? O banco aceita sem constraints\n\n-- Com constraint CHECK: o banco rejeita\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- ERROR: new row violates check constraint",
-                "lese": "Without constraints the database accepts any value; with CHECK the database validates automatically — you don't need to check this in application code"
-              },
-              {
-                "type": "nota",
-                "texto": "Principle: validate data at the lowest layer possible. Database constraints ensure consistency even if the application code has bugs."
-              }
+              "Now that you know how to build basic structures, it's time to give your columns some 'brains'. In **Neon.tech**, a good Architect automates processes and protects data from duplication.",
+              "The **UNIQUE** constraint ensures that no value is repeated in that column. It's the perfect way to ensure no two planets have the same name.",
+              "**DEFAULT** is the 'autofill' value. If a user forgets to provide data, the database doesn't crash; it assumes a default value defined by you."
             ]
           }
         },
         "es": {
-          "titulo": "¿Por qué Existen los Constraints?",
+          "titulo": "Reglas Inteligentes: UNIQUE y DEFAULT",
           "conteudo": {
             "blocos": [
-              {
-                "type": "definicao",
-                "termo": "Constraint (Restricción)",
-                "def": "Una regla definida en la estructura de la tabla que la base de datos aplica automáticamente en cada INSERT, UPDATE y DELETE. Si la regla se viola, la operación es rechazada."
-              },
-              {
-                "type": "code",
-                "code": "-- Sem constraint: dados inválidos entram\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- Preco negativo? O banco aceita sem constraints\n\n-- Com constraint CHECK: o banco rejeita\nINSERT INTO Produtos (Nome, Preco) VALUES ('X', -500)\n-- ERROR: new row violates check constraint",
-                "lese": "Sin constraints la base acepta cualquier valor; con CHECK la base valida automáticamente — no necesitas verificar esto en el código de la aplicación"
-              },
-              {
-                "type": "nota",
-                "texto": "Principio: valida datos en la capa más baja posible. Los constraints en la base garantizan consistencia aunque el código de la aplicación tenga bugs."
-              }
+              "Ahora que ya sabes construir la estructura básica, es hora de darles 'cerebro' a tus columnas. En **Neon.tech**, un buen Arquitecto automatiza procesos y protege los datos contra la duplicidad.",
+              "La restricción **UNIQUE** garantiza que ningún valor se repita en esa columna. Es la forma perfecta de asegurar que no existan dos planetas con el mismo nombre.",
+              "**DEFAULT** es el valor de 'autocompletado'. Si el usuario olvida informar un dato, la base de datos no genera un error; asume un valor por defecto definido por ti."
             ]
           }
         }
@@ -114,99 +92,90 @@
     },
     {
       "ordem": 3,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "NOT NULL, DEFAULT e UNIQUE",
+      "xpReward": 100,
+      "titulo": "Identidade Exclusiva",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "code",
-            "code": "CREATE TABLE Usuarios (\n  UsuarioID  SERIAL        PRIMARY KEY,\n\n  -- NOT NULL: campo obrigatório\n  Nome       VARCHAR(100)  NOT NULL,\n\n  -- UNIQUE: sem duplicatas\n  Email      VARCHAR(150)  UNIQUE NOT NULL,\n\n  -- DEFAULT: valor padrão quando não informado\n  Ativo      BOOLEAN       DEFAULT true,\n  CriadoEm  TIMESTAMP     DEFAULT NOW(),\n\n  -- UNIQUE em múltiplas colunas\n  CONSTRAINT uq_usuario_doc UNIQUE (TipoDoc, NumeroDoc)\n)",
-            "lese": "NOT NULL impede valores vazios; UNIQUE impede duplicatas; DEFAULT preenche automaticamente quando não informado; UNIQUE em múltiplas colunas garante que a combinação seja única"
-          }
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual constraint deve ser aplicada a uma coluna para impedir que o sistema aceite dois e-mails idênticos em uma tabela de usuários cadastrados?",
+        "opcoes": [
+          "NOT NULL",
+          "CHECK",
+          "UNIQUE",
+          "DEFAULT"
         ]
+        ,
+        "indiceCorreto": 2,
+        "dica": "Dica de Ouro: Pense em algo que deve ser 'único' e exclusivo para cada registro."
       },
       "traducoes": {
         "en": {
-          "titulo": "NOT NULL, DEFAULT and UNIQUE",
+          "titulo": "Exclusive Identity",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "CREATE TABLE Usuarios (\n  UsuarioID  SERIAL        PRIMARY KEY,\n\n  -- NOT NULL: campo obrigatório\n  Nome       VARCHAR(100)  NOT NULL,\n\n  -- UNIQUE: sem duplicatas\n  Email      VARCHAR(150)  UNIQUE NOT NULL,\n\n  -- DEFAULT: valor padrão quando não informado\n  Ativo      BOOLEAN       DEFAULT true,\n  CriadoEm  TIMESTAMP     DEFAULT NOW(),\n\n  -- UNIQUE em múltiplas colunas\n  CONSTRAINT uq_usuario_doc UNIQUE (TipoDoc, NumeroDoc)\n)",
-                "lese": "NOT NULL prevents empty values; UNIQUE prevents duplicates; DEFAULT fills in automatically when not provided; UNIQUE on multiple columns ensures the combination is unique"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which constraint should be applied to a column to prevent the system from accepting two identical emails in a registered users table?",
+            "opcoes": [
+              "NOT NULL",
+              "CHECK",
+              "UNIQUE",
+              "DEFAULT"
+            ],
+            "indiceCorreto": 2
           }
         },
         "es": {
-          "titulo": "NOT NULL, DEFAULT y UNIQUE",
+          "titulo": "Identidad Exclusiva",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "CREATE TABLE Usuarios (\n  UsuarioID  SERIAL        PRIMARY KEY,\n\n  -- NOT NULL: campo obrigatório\n  Nome       VARCHAR(100)  NOT NULL,\n\n  -- UNIQUE: sem duplicatas\n  Email      VARCHAR(150)  UNIQUE NOT NULL,\n\n  -- DEFAULT: valor padrão quando não informado\n  Ativo      BOOLEAN       DEFAULT true,\n  CriadoEm  TIMESTAMP     DEFAULT NOW(),\n\n  -- UNIQUE em múltiplas colunas\n  CONSTRAINT uq_usuario_doc UNIQUE (TipoDoc, NumeroDoc)\n)",
-                "lese": "NOT NULL impide valores vacíos; UNIQUE impide duplicados; DEFAULT rellena automáticamente cuando no se informa; UNIQUE en múltiples columnas garantiza que la combinación sea única"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué restricción debe aplicarse a una columna para evitar que el sistema acepte dos correos electrónicos idénticos en una tabla de usuarios registrados?",
+            "opcoes": [
+              "NOT NULL",
+              "CHECK",
+              "UNIQUE",
+              "DEFAULT"
+            ],
+            "indiceCorreto": 2
           }
         }
       }
     },
     {
       "ordem": 4,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "CHECK — Validando Regras de Negócio",
+      "xpReward": 100,
+      "titulo": "V ou F: O Valor de Fábrica",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "definicao",
-            "termo": "CHECK",
-            "def": "Define uma expressão que deve ser verdadeira para qualquer valor inserido ou atualizado na coluna."
-          },
-          {
-            "type": "code",
-            "code": "CREATE TABLE Produtos (\n  ProdutoID  SERIAL  PRIMARY KEY,\n  Nome       TEXT    NOT NULL,\n\n  -- Preço deve ser positivo\n  Preco      DECIMAL(10,2) NOT NULL\n    CONSTRAINT chk_preco_positivo CHECK (Preco > 0),\n\n  -- Desconto entre 0% e 100%\n  Desconto   DECIMAL(5,2)  DEFAULT 0\n    CHECK (Desconto >= 0 AND Desconto <= 100),\n\n  -- Status só aceita valores definidos\n  Status     VARCHAR(20)\n    CHECK (Status IN ('ativo', 'inativo', 'rascunho'))\n)",
-            "lese": "Preco > 0 rejeita valores negativos ou zero; o segundo CHECK garante que desconto é uma porcentagem válida; o terceiro restringe Status a apenas três valores permitidos"
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre o comportamento da regra de valor padrão:",
+        "afirmacao": "Ao usar a constraint DEFAULT, o banco de dados gera um erro crítico de inserção se o usuário não fornecer um valor para aquela coluna específica durante o comando INSERT.",
+        "respostaCorreta": false,
+        "dica": "Dica de Ouro: O DEFAULT é um facilitador, não um bloqueador; ele entra em cena justamente para evitar o erro."
       },
       "traducoes": {
         "en": {
-          "titulo": "CHECK — Validating Business Rules",
+          "titulo": "T/F: The Factory Value",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "CHECK",
-                "def": "Defines an expression that must be true for any value inserted or updated in the column."
-              },
-              {
-                "type": "code",
-                "code": "CREATE TABLE Produtos (\n  ProdutoID  SERIAL  PRIMARY KEY,\n  Nome       TEXT    NOT NULL,\n\n  -- Preço deve ser positivo\n  Preco      DECIMAL(10,2) NOT NULL\n    CONSTRAINT chk_preco_positivo CHECK (Preco > 0),\n\n  -- Desconto entre 0% e 100%\n  Desconto   DECIMAL(5,2)  DEFAULT 0\n    CHECK (Desconto >= 0 AND Desconto <= 100),\n\n  -- Status só aceita valores definidos\n  Status     VARCHAR(20)\n    CHECK (Status IN ('ativo', 'inativo', 'rascunho'))\n)",
-                "lese": "Preco > 0 rejects negative or zero values; the second CHECK ensures the discount is a valid percentage; the third restricts Status to only three allowed values"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About default value behavior:",
+            "afirmacao": "When using the DEFAULT constraint, the database generates a critical insertion error if the user does not provide a value for that specific column during the INSERT command.",
+            "respostaCorreta": false
           }
         },
         "es": {
-          "titulo": "CHECK — Validando Reglas de Negocio",
+          "titulo": "V o F: El Valor de Fábrica",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "definicao",
-                "termo": "CHECK",
-                "def": "Define una expresión que debe ser verdadera para cualquier valor insertado o actualizado en la columna."
-              },
-              {
-                "type": "code",
-                "code": "CREATE TABLE Produtos (\n  ProdutoID  SERIAL  PRIMARY KEY,\n  Nome       TEXT    NOT NULL,\n\n  -- Preço deve ser positivo\n  Preco      DECIMAL(10,2) NOT NULL\n    CONSTRAINT chk_preco_positivo CHECK (Preco > 0),\n\n  -- Desconto entre 0% e 100%\n  Desconto   DECIMAL(5,2)  DEFAULT 0\n    CHECK (Desconto >= 0 AND Desconto <= 100),\n\n  -- Status só aceita valores definidos\n  Status     VARCHAR(20)\n    CHECK (Status IN ('ativo', 'inativo', 'rascunho'))\n)",
-                "lese": "Preco > 0 rechaza valores negativos o cero; el segundo CHECK garantiza que el descuento es un porcentaje válido; el tercero restringe Status a solo tres valores permitidos"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre el comportamiento de la regla de valor por defecto:",
+            "afirmacao": "Al usar la restricción DEFAULT, la base de datos genera un error crítico de inserción si el usuario no proporciona un valor para esa columna específica durante el comando INSERT.",
+            "respostaCorreta": false
           }
         }
       }
@@ -214,62 +183,41 @@
     {
       "ordem": 5,
       "tipo": "exercicio",
-      "temAnuncio": false,
-      "xpReward": 150,
-      "titulo": "Crie Tabela com CHECK",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Nomes Únicos",
       "conteudo": {
-        "instrucao": "Crie a tabela Funcionarios com: ID (INTEGER PRIMARY KEY), Nome (TEXT NOT NULL), Salario (REAL com CHECK que garante Salario > 0), e Nivel (TEXT com CHECK que aceita apenas 'junior', 'pleno', 'senior').",
-        "dica": "Cada coluna pode ter sua própria constraint CHECK com a condição entre parênteses. Para validar contra uma lista de valores permitidos, existe um operador que verifica se o valor está em uma lista — qual é ele?",
-        "placeholder": "CREATE TABLE Funcionarios (\n  ID      INTEGER PRIMARY KEY,\n  Nome    TEXT    NOT NULL,\n  Salario REAL    CHECK (Salario > 0),\n  Nivel   TEXT    CHECK (Nivel IN ('junior', 'pleno', 'senior'))\n)",
+        "modo": "sql",
+        "instrucao": "Crie uma tabela chamada 'estacoes' com uma coluna 'id' (SERIAL PRIMARY KEY) e uma coluna 'nome' (TEXT) que deve ser única.",
+        "placeholder": "CREATE TABLE ...",
         "schema": "",
         "checkType": "columns",
         "checkConfig": {
           "required_columns": [
-            "ID",
-            "Nome",
-            "Salario",
-            "Nivel"
+            "id",
+            "nome"
           ],
-          "min_rows": 0
-        }
+          "table_name": "estacoes",
+          "constraints": {
+            "nome": "UNIQUE"
+          }
+        },
+        "dica": "Dica de Ouro: A sintaxe é simples: nome_coluna tipo_dado UNIQUE.",
+        "explicacaoTecnica": "A restrição UNIQUE cria um índice interno no PostgreSQL para validar rapidamente se o novo valor já existe antes de permitir a gravação."
       },
       "traducoes": {
         "en": {
-          "titulo": "Create Table with CHECK",
+          "titulo": "Hands-on: Unique Names",
           "conteudo": {
-            "instrucao": "Create the Funcionarios table with: ID (INTEGER PRIMARY KEY), Nome (TEXT NOT NULL), Salario (REAL with CHECK ensuring Salario > 0), and Nivel (TEXT with CHECK accepting only 'junior', 'pleno', 'senior').",
-            "dica": "Each column can have its own CHECK constraint with the condition in parentheses. To validate against a list of allowed values, there's an operator that checks if the value is in a list — what is it?",
-            "placeholder": "CREATE TABLE Funcionarios (\n  ID      INTEGER PRIMARY KEY,\n  Nome    TEXT    NOT NULL,\n  Salario REAL    CHECK (Salario > 0),\n  Nivel   TEXT    CHECK (Nivel IN ('junior', 'pleno', 'senior'))\n)",
-            "schema": "",
-            "checkType": "columns",
-            "checkConfig": {
-              "required_columns": [
-                "ID",
-                "Nome",
-                "Salario",
-                "Nivel"
-              ],
-              "min_rows": 0
-            }
+            "instrucao": "Create a table named 'estacoes' with an 'id' column (SERIAL PRIMARY KEY) and a 'nome' column (TEXT) that must be unique.",
+            "dica": "Golden Hint: The syntax is simple: column_name data_type UNIQUE."
           }
         },
         "es": {
-          "titulo": "Crea Tabla con CHECK",
+          "titulo": "Manos a la obra: Nombres Únicos",
           "conteudo": {
-            "instrucao": "Crea la tabla Funcionarios con: ID (INTEGER PRIMARY KEY), Nome (TEXT NOT NULL), Salario (REAL con CHECK que garantice Salario > 0), y Nivel (TEXT con CHECK que acepte solo 'junior', 'pleno', 'senior').",
-            "dica": "Cada columna puede tener su propio constraint CHECK con la condición entre paréntesis. Para validar contra una lista de valores permitidos, existe un operador que verifica si el valor está en una lista — ¿cuál es?",
-            "placeholder": "CREATE TABLE Funcionarios (\n  ID      INTEGER PRIMARY KEY,\n  Nome    TEXT    NOT NULL,\n  Salario REAL    CHECK (Salario > 0),\n  Nivel   TEXT    CHECK (Nivel IN ('junior', 'pleno', 'senior'))\n)",
-            "schema": "",
-            "checkType": "columns",
-            "checkConfig": {
-              "required_columns": [
-                "ID",
-                "Nome",
-                "Salario",
-                "Nivel"
-              ],
-              "min_rows": 0
-            }
+            "instrucao": "Crea una tabla llamada 'estacoes' con una columna 'id' (SERIAL PRIMARY KEY) y una columna 'nome' (TEXT) que debe ser única.",
+            "dica": "Pista de Oro: La sintaxis es simple: nombre_columna tipo_dato UNIQUE."
           }
         }
       }
@@ -278,54 +226,44 @@
       "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "FOREIGN KEY — Integridade Referencial",
+      "xpReward": 50,
+      "titulo": "Validação de Elite: NOT NULL e CHECK",
       "conteudo": {
         "blocos": [
+          "Como Arquiteto de Dados no **Neon.tech**, sua missão é garantir que o banco de dados não aceite 'lixo'. Se um dado não faz sentido para o negócio, ele não deve ser gravado. Para isso, usamos filtros de entrada potentes.",
+          "A restrição **NOT NULL** é a lei do preenchimento obrigatório. Ela impede que um registro seja criado se o campo estiver vazio. É o fim dos registros incompletos que quebram relatórios.",
+          "O **CHECK** é a sua regra personalizada. Ele permite criar condições lógicas e matemáticas que o dado deve obedecer para ser aceito. Por exemplo: um preço não pode ser negativo, ou um estoque não pode ser menor que zero.",
           {
-            "type": "code",
-            "code": "CREATE TABLE Pedidos (\n  PedidoID  SERIAL  PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     DECIMAL(10,2) CHECK (Valor > 0),\n\n  CONSTRAINT fk_pedido_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE RESTRICT   -- impede deletar cliente com pedidos\n    ON UPDATE CASCADE    -- se o ID do cliente mudar, atualiza aqui\n)",
-            "lese": "ON DELETE RESTRICT é o comportamento mais seguro: impede apagar um cliente que ainda tem pedidos; ON UPDATE CASCADE propaga mudanças de ID automaticamente"
+            "type": "definicao",
+            "termo": "NOT NULL vs CHECK",
+            "def": "NOT NULL proíbe valores nulos. CHECK valida se o valor atende a uma condição lógica específica."
           },
+          "**Analogia Prática:** **NOT NULL** é como aquele campo obrigatório com um asterisco (*) em um formulário de cadastro; você não consegue clicar em 'enviar' se ele estiver em branco. **CHECK** é como um validador de idade em um site: 'Você deve ter mais de 18 anos para prosseguir'. Se você digitar 15, o sistema rejeita a sua entrada de forma automática.",
           {
             "type": "code",
-            "code": "-- Opções de ON DELETE:\nON DELETE RESTRICT   -- rejeita a deleção do pai\nON DELETE CASCADE    -- deleta os filhos junto\nON DELETE SET NULL   -- define a FK como NULL nos filhos\nON DELETE NO ACTION  -- similar ao RESTRICT (padrão)",
-            "lese": "RESTRICT é mais seguro (impede remoção acidental); CASCADE é conveniente para limpeza automática; SET NULL mantém o filho mas desvincula do pai"
+            "code": "CREATE TABLE produtos (\n  id SERIAL PRIMARY KEY,\n  nome TEXT NOT NULL,\n  preco NUMERIC CHECK (preco > 0)\n);",
+            "lese": "Crie uma tabela de produtos onde o nome é obrigatório e o preço deve ser obrigatoriamente maior que zero."
           }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "FOREIGN KEY — Referential Integrity",
+          "titulo": "Elite Validation: NOT NULL and CHECK",
           "conteudo": {
             "blocos": [
-              {
-                "type": "code",
-                "code": "CREATE TABLE Pedidos (\n  PedidoID  SERIAL  PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     DECIMAL(10,2) CHECK (Valor > 0),\n\n  CONSTRAINT fk_pedido_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE RESTRICT   -- impede deletar cliente com pedidos\n    ON UPDATE CASCADE    -- se o ID do cliente mudar, atualiza aqui\n)",
-                "lese": "ON DELETE RESTRICT is the safest behavior: prevents deleting a customer that still has orders; ON UPDATE CASCADE propagates ID changes automatically"
-              },
-              {
-                "type": "code",
-                "code": "-- Opções de ON DELETE:\nON DELETE RESTRICT   -- rejeita a deleção do pai\nON DELETE CASCADE    -- deleta os filhos junto\nON DELETE SET NULL   -- define a FK como NULL nos filhos\nON DELETE NO ACTION  -- similar ao RESTRICT (padrão)",
-                "lese": "RESTRICT is safer (prevents accidental removal); CASCADE is convenient for automatic cleanup; SET NULL keeps the child but unlinks it from the parent"
-              }
+              "As a Data Architect, your mission is to ensure the database doesn't accept 'garbage'. If data doesn't make business sense, it shouldn't be recorded.",
+              "**NOT NULL** is the law of mandatory filling. It prevents a record from being created if the field is empty.",
+              "**CHECK** is your custom rule. It allows you to create logical and mathematical conditions that data must obey to be accepted."
             ]
           }
         },
         "es": {
-          "titulo": "FOREIGN KEY — Integridad Referencial",
+          "titulo": "Validación de Élite: NOT NULL y CHECK",
           "conteudo": {
             "blocos": [
-              {
-                "type": "code",
-                "code": "CREATE TABLE Pedidos (\n  PedidoID  SERIAL  PRIMARY KEY,\n  ClienteID INTEGER NOT NULL,\n  Valor     DECIMAL(10,2) CHECK (Valor > 0),\n\n  CONSTRAINT fk_pedido_cliente\n    FOREIGN KEY (ClienteID)\n    REFERENCES Clientes(ClienteID)\n    ON DELETE RESTRICT   -- impede deletar cliente com pedidos\n    ON UPDATE CASCADE    -- se o ID do cliente mudar, atualiza aqui\n)",
-                "lese": "ON DELETE RESTRICT es el comportamiento más seguro: impide eliminar un cliente que aún tiene pedidos; ON UPDATE CASCADE propaga cambios de ID automáticamente"
-              },
-              {
-                "type": "code",
-                "code": "-- Opções de ON DELETE:\nON DELETE RESTRICT   -- rejeita a deleção do pai\nON DELETE CASCADE    -- deleta os filhos junto\nON DELETE SET NULL   -- define a FK como NULL nos filhos\nON DELETE NO ACTION  -- similar ao RESTRICT (padrão)",
-                "lese": "RESTRICT es más seguro (impide eliminación accidental); CASCADE es conveniente para limpieza automática; SET NULL mantiene el hijo pero lo desvincula del padre"
-              }
+              "Como Arquitecto de Datos, tu misión es asegurar que la base de datos no acepte 'basura'. Si un dato no tiene sentido para el negocio, no debe grabarse.",
+              "La restricción **NOT NULL** es la ley del llenado obligatorio. Evita que se cree un registro si el campo está vacío.",
+              "El **CHECK** es tu regla personalizada. Permite crear condiciones lógicas y matemáticas que el dato debe obedecer para ser aceptado."
             ]
           }
         }
@@ -333,42 +271,52 @@
     },
     {
       "ordem": 7,
-      "tipo": "texto",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Adicionando Constraints em Tabelas Existentes",
+      "xpReward": 100,
+      "titulo": "Preenchimento Obrigatório",
       "conteudo": {
-        "blocos": [
-          {
-            "type": "code",
-            "code": "-- Adicionar CHECK\nALTER TABLE Produtos\nADD CONSTRAINT chk_estoque_positivo CHECK (Estoque >= 0)\n\n-- Adicionar UNIQUE\nALTER TABLE Clientes\nADD CONSTRAINT uq_clientes_cpf UNIQUE (CPF)\n\n-- Adicionar FOREIGN KEY\nALTER TABLE Pedidos\nADD CONSTRAINT fk_pedidos_cliente\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n\n-- Remover constraint\nALTER TABLE Produtos\nDROP CONSTRAINT chk_estoque_positivo",
-            "lese": "ALTER TABLE ADD CONSTRAINT adiciona regras a tabelas que já existem; DROP CONSTRAINT remove uma constraint pelo nome — por isso sempre nomeie suas constraints"
-          }
-        ]
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual constraint garante que uma coluna nunca seja deixada vazia durante a execução de um comando INSERT?",
+        "opcoes": [
+          "UNIQUE",
+          "NOT NULL",
+          "DEFAULT",
+          "PRIMARY KEY"
+        ],
+        "indiceCorreto": 1,
+        "dica": "Dica de Ouro: O nome traduz-se literalmente como 'Não Nulo', ou seja, nada de vácuo aqui."
       },
       "traducoes": {
         "en": {
-          "titulo": "Adding Constraints to Existing Tables",
+          "titulo": "Mandatory Filling",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "-- Adicionar CHECK\nALTER TABLE Produtos\nADD CONSTRAINT chk_estoque_positivo CHECK (Estoque >= 0)\n\n-- Adicionar UNIQUE\nALTER TABLE Clientes\nADD CONSTRAINT uq_clientes_cpf UNIQUE (CPF)\n\n-- Adicionar FOREIGN KEY\nALTER TABLE Pedidos\nADD CONSTRAINT fk_pedidos_cliente\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n\n-- Remover constraint\nALTER TABLE Produtos\nDROP CONSTRAINT chk_estoque_positivo",
-                "lese": "ALTER TABLE ADD CONSTRAINT adds rules to already existing tables; DROP CONSTRAINT removes a constraint by name — that's why you should always name your constraints"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which constraint ensures that a column is never left empty during an INSERT command?",
+            "opcoes": [
+              "UNIQUE",
+              "NOT NULL",
+              "DEFAULT",
+              "PRIMARY KEY"
+            ],
+            "indiceCorreto": 1
           }
         },
         "es": {
-          "titulo": "Agregando Constraints a Tablas Existentes",
+          "titulo": "Llenado Obligatorio",
           "conteudo": {
-            "blocos": [
-              {
-                "type": "code",
-                "code": "-- Adicionar CHECK\nALTER TABLE Produtos\nADD CONSTRAINT chk_estoque_positivo CHECK (Estoque >= 0)\n\n-- Adicionar UNIQUE\nALTER TABLE Clientes\nADD CONSTRAINT uq_clientes_cpf UNIQUE (CPF)\n\n-- Adicionar FOREIGN KEY\nALTER TABLE Pedidos\nADD CONSTRAINT fk_pedidos_cliente\n  FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)\n\n-- Remover constraint\nALTER TABLE Produtos\nDROP CONSTRAINT chk_estoque_positivo",
-                "lese": "ALTER TABLE ADD CONSTRAINT agrega reglas a tablas ya existentes; DROP CONSTRAINT elimina un constraint por nombre — por eso siempre dale nombre a tus constraints"
-              }
-            ]
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué restricción garantiza que una columna nunca se deje vacía durante la ejecución de un comando INSERT?",
+            "opcoes": [
+              "UNIQUE",
+              "NOT NULL",
+              "DEFAULT",
+              "PRIMARY KEY"
+            ],
+            "indiceCorreto": 1
           }
         }
       }
@@ -376,44 +324,36 @@
     {
       "ordem": 8,
       "tipo": "exercicio",
-      "temAnuncio": true,
-      "xpReward": 150,
-      "titulo": "Teste as Constraints",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Regra de Negócio",
       "conteudo": {
-        "instrucao": "Tente inserir um funcionário com Salario = -100. O banco deve rejeitar. Depois insira um válido com Salario = 5000 e Nivel = 'pleno'.",
-        "dica": "A tabela já tem as constraints definidas. Para passar no exercício, insira um registro com valores válidos: Salario deve ser positivo e Nivel deve ser um dos valores que a constraint aceita. Veja o schema.",
-        "placeholder": "INSERT INTO Funcionarios (ID, Nome, Salario, Nivel)\nVALUES (1, 'Ana', 5000, 'pleno')",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
-        "checkType": "count",
-        "checkConfig": {
-          "expected_rows": 1
-        }
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a validação de regras personalizadas:",
+        "afirmacao": "A restrição CHECK permite definir uma regra lógica ou matemática para que o banco de dados rejeite automaticamente valores que não façam sentido para o negócio.",
+        "respostaCorreta": true,
+        "dica": "Dica de Ouro: O CHECK é como um segurança que só deixa entrar quem cumpre os requisitos matemáticos."
       },
       "traducoes": {
         "en": {
-          "titulo": "Test the Constraints",
+          "titulo": "T/F: The Business Rule",
           "conteudo": {
-            "instrucao": "Try to insert an employee with Salario = -100. The database should reject it. Then insert a valid one with Salario = 5000 and Nivel = 'pleno'.",
-            "dica": "The table already has the constraints defined. To pass the exercise, insert a record with valid values: Salario must be positive and Nivel must be one of the values the constraint accepts. Check the schema.",
-            "placeholder": "INSERT INTO Funcionarios (ID, Nome, Salario, Nivel)\nVALUES (1, 'Ana', 5000, 'pleno')",
-            "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 1
-            }
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About custom rule validation:",
+            "afirmacao": "The CHECK constraint allows defining a logical or mathematical rule so the database automatically rejects values that don't make business sense.",
+            "respostaCorreta": true
           }
         },
         "es": {
-          "titulo": "Prueba los Constraints",
+          "titulo": "V o F: La Regla de Negocio",
           "conteudo": {
-            "instrucao": "Intenta insertar un empleado con Salario = -100. La base debe rechazarlo. Luego inserta uno válido con Salario = 5000 y Nivel = 'pleno'.",
-            "dica": "La tabla ya tiene los constraints definidos. Para pasar el ejercicio, inserta un registro con valores válidos: Salario debe ser positivo y Nivel debe ser uno de los valores que el constraint acepta. Revisa el schema.",
-            "placeholder": "INSERT INTO Funcionarios (ID, Nome, Salario, Nivel)\nVALUES (1, 'Ana', 5000, 'pleno')",
-            "schema": "CREATE TABLE Funcionarios (ID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Salario REAL CHECK (Salario > 0), Nivel TEXT CHECK (Nivel IN ('junior','pleno','senior')));",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 1
-            }
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la validación de reglas personalizadas:",
+            "afirmacao": "La restricción CHECK permite definir una regla lógica o matemática para que la base de datos rechace automáticamente valores que no tengan sentido para el negocio.",
+            "respostaCorreta": true
           }
         }
       }
@@ -422,90 +362,89 @@
       "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
-      "xpReward": 150,
-      "titulo": "Adicione uma Constraint",
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Valores Positivos",
       "conteudo": {
-        "instrucao": "A tabela Produtos já existe sem validação de preço. Adicione uma constraint chamada chk_preco que garanta que Preco > 0.",
-        "dica": "Para adicionar uma constraint a uma tabela existente, use ALTER TABLE ADD CONSTRAINT. Você precisa dar um nome à constraint, dizer que é um CHECK e definir a condição entre parênteses.",
-        "placeholder": "ALTER TABLE Produtos\nADD CONSTRAINT chk_preco CHECK (Preco > 0)",
-        "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
-        "checkType": "count",
+        "modo": "sql",
+        "instrucao": "Crie uma tabela chamada 'precos' com uma coluna 'id' (SERIAL PRIMARY KEY) e uma coluna 'valor' (NUMERIC) que deve ser obrigatória e maior que zero.",
+        "placeholder": "CREATE TABLE ...",
+        "schema": "",
+        "checkType": "columns",
         "checkConfig": {
-          "expected_rows": 2
-        }
+          "required_columns": [
+            "id",
+            "valor"
+          ],
+          "table_name": "precos",
+          "constraints": {
+            "valor": [
+              "NOT NULL",
+              "CHECK"
+            ]
+          }
+        },
+        "dica": "Dica de Ouro: Você pode encadear restrições: valor NUMERIC NOT NULL CHECK (valor > 0).",
+        "explicacaoTecnica": "Ao combinar NOT NULL e CHECK, você cria uma barreira dupla: o dado deve existir e deve ser matematicamente válido."
       },
       "traducoes": {
         "en": {
-          "titulo": "Add a Constraint",
+          "titulo": "Hands-on: Positive Values",
           "conteudo": {
-            "instrucao": "The Produtos table already exists without price validation. Add a constraint called chk_preco that ensures Preco > 0.",
-            "dica": "To add a constraint to an existing table, use ALTER TABLE ADD CONSTRAINT. You need to give the constraint a name, say it's a CHECK and define the condition in parentheses.",
-            "placeholder": "ALTER TABLE Produtos\nADD CONSTRAINT chk_preco CHECK (Preco > 0)",
-            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 2
-            }
+            "instrucao": "Create a table named 'precos' with an 'id' column (SERIAL PRIMARY KEY) and a 'valor' column (NUMERIC) that must be mandatory and greater than zero.",
+            "dica": "Golden Hint: You can chain constraints: valor NUMERIC NOT NULL CHECK (valor > 0)."
           }
         },
         "es": {
-          "titulo": "Agrega un Constraint",
+          "titulo": "Manos a la obra: Valores Positivos",
           "conteudo": {
-            "instrucao": "La tabla Produtos ya existe sin validación de precio. Agrega un constraint llamado chk_preco que garantice que Preco > 0.",
-            "dica": "Para agregar un constraint a una tabla existente, usa ALTER TABLE ADD CONSTRAINT. Necesitas darle un nombre al constraint, decir que es un CHECK y definir la condición entre paréntesis.",
-            "placeholder": "ALTER TABLE Produtos\nADD CONSTRAINT chk_preco CHECK (Preco > 0)",
-            "schema": "CREATE TABLE Produtos (ProdutoID INTEGER PRIMARY KEY, Nome TEXT NOT NULL, Preco REAL); INSERT INTO Produtos VALUES (1,'Notebook',3200),(2,'Mouse',89);",
-            "checkType": "count",
-            "checkConfig": {
-              "expected_rows": 2
-            }
+            "instrucao": "Crea una tabla llamada 'precos' con una columna 'id' (SERIAL PRIMARY KEY) y una columna 'valor' (NUMERIC) que debe ser obligatoria y mayor que cero.",
+            "dica": "Pista de Oro: Puedes encadenar restricciones: valor NUMERIC NOT NULL CHECK (valor > 0)."
           }
         }
       }
     },
     {
       "ordem": 10,
-      "tipo": "resumo",
+      "tipo": "texto",
       "temAnuncio": false,
-      "xpReward": 0,
-      "titulo": "Resumo: Constraints",
+      "xpReward": 50,
+      "titulo": "Conexões Seguras: FOREIGN KEY",
       "conteudo": {
-        "cor": "azul",
-        "itens": [
-          "NOT NULL: campo obrigatório",
-          "UNIQUE: sem duplicatas (uma ou múltiplas colunas)",
-          "DEFAULT valor: preenche automaticamente",
-          "CHECK (condição): valida regra de negócio",
-          "FOREIGN KEY ... REFERENCES: integridade referencial",
-          "ON DELETE RESTRICT/CASCADE/SET NULL: comportamento na deleção"
+        "blocos": [
+          "Você já sabe validar dados dentro de uma tabela. Agora, como Arquiteto no **Neon.tech**, você aprenderá a conectar tabelas de forma que elas nunca percam o sentido entre si. O comando para isso é a **FOREIGN KEY** (Chave Estrangeira).",
+          "A FOREIGN KEY é a âncora que garante a **Integridade Referencial**. Ela impede que você crie um registro em uma tabela 'filha' que aponte para um registro inexistente na tabela 'pai'.",
+          {
+            "type": "definicao",
+            "termo": "Integridade Referencial",
+            "def": "Regra que garante que os relacionamentos entre tabelas permaneçam consistentes, impedindo dados órfãos."
+          },
+          "**Exemplo Prático:** Imagine que você tem uma tabela de `planetas`. Se você criar uma tabela de `missoes`, cada missão deve apontar para um planeta. A FOREIGN KEY garante que você nunca cadastre uma missão para um 'Planeta X' se esse planeta não estiver devidamente registrado na tabela principal.",
+          "**Analogia Prática:** Pense em uma pulseira de acesso de um evento galáctico. A pulseira (**Chave Estrangeira**) só faz sentido se existir um Evento correspondente (**Chave Primária**) cadastrado no sistema. Se o evento for cancelado ou nunca existiu, a pulseira é inválida e o segurança (SGBD) barra a entrada.",
+          {
+            "type": "code",
+            "code": "CREATE TABLE naves (\n  id SERIAL PRIMARY KEY,\n  nome TEXT,\n  planeta_id INT REFERENCES planetas(id)\n);",
+            "lese": "Crie uma tabela de naves onde a coluna planeta_id é uma chave estrangeira que faz referência à coluna id da tabela planetas."
+          }
         ]
       },
       "traducoes": {
         "en": {
-          "titulo": "Summary: Constraints",
+          "titulo": "Secure Connections: FOREIGN KEY",
           "conteudo": {
-            "cor": "azul",
-            "itens": [
-              "NOT NULL: required field",
-              "UNIQUE: no duplicates (one or multiple columns)",
-              "DEFAULT value: fills in automatically",
-              "CHECK (condition): validates business rule",
-              "FOREIGN KEY ... REFERENCES: referential integrity",
-              "ON DELETE RESTRICT/CASCADE/SET NULL: behavior on deletion"
+            "blocos": [
+              "You already know how to validate data within a table. Now you will learn to connect tables so they never lose their meaning. The command for this is the **FOREIGN KEY**.",
+              "The FOREIGN KEY is the anchor that guarantees **Referential Integrity**. It prevents you from creating a child record that points to a non-existent parent record.",
+              "**Analogoy:** Think of an event wristband. The wristband (Foreign Key) only makes sense if there's a corresponding Event (Primary Key) in the system."
             ]
           }
         },
         "es": {
-          "titulo": "Resumen: Constraints",
+          "titulo": "Conexiones Seguras: FOREIGN KEY",
           "conteudo": {
-            "cor": "azul",
-            "itens": [
-              "NOT NULL: campo obligatorio",
-              "UNIQUE: sin duplicados (una o múltiples columnas)",
-              "DEFAULT valor: rellena automáticamente",
-              "CHECK (condición): valida regla de negocio",
-              "FOREIGN KEY ... REFERENCES: integridad referencial",
-              "ON DELETE RESTRICT/CASCADE/SET NULL: comportamiento en la eliminación"
+            "blocos": [
+              "Ya sabes validar datos dentro de una tabla. Ahora aprenderás a conectar tablas para que nunca pierdan el sentido entre sí. El comando para esto es la **FOREIGN KEY**.",
+              "La FOREIGN KEY es el ancla que garantiza la **Integridad Referencial**. Evita que crees un registro 'hijo' que apunte a un registro 'padre' inexistente.",
+              "**Analogía:** Piensa en una pulsera de acceso a un evento. La pulsera (Clave Extranjera) solo tiene sentido si existe un Evento (Clave Primaria) en el sistema."
             ]
           }
         }
@@ -513,27 +452,135 @@
     },
     {
       "ordem": 11,
-      "tipo": "conclusao",
+      "tipo": "exercicio",
       "temAnuncio": false,
-      "xpReward": 50,
-      "titulo": "Constraints dominadas!",
+      "xpReward": 100,
+      "titulo": "O Elo de Ligação",
       "conteudo": {
-        "mensagem": "Seu banco agora se defende sozinho de dados inválidos. Constraints são a primeira linha de defesa de um sistema confiável!",
-        "xpGanho": 500
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Como se chama a restrição que garante que um valor em uma coluna corresponda obrigatoriamente a um valor já existente em outra tabela de referência?",
+        "opcoes": [
+          "UNIQUE KEY",
+          "FOREIGN KEY",
+          "CHECK CONSTRAINT",
+          "DEFAULT VALUE"
+        ],
+        "indiceCorreto": 1,
+        "dica": "Dica de Ouro: Pense em uma chave que vem de 'fora' (estrangeira) para criar um vínculo."
       },
       "traducoes": {
         "en": {
-          "titulo": "Constraints mastered!",
+          "titulo": "The Linking Bond",
           "conteudo": {
-            "mensagem": "Your database now defends itself against invalid data. Constraints are the first line of defense of a reliable system!",
-            "xpGanho": 500
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the name of the constraint that ensures a value in a column must correspond to an existing value in another reference table?",
+            "opcoes": [
+              "UNIQUE KEY",
+              "FOREIGN KEY",
+              "CHECK CONSTRAINT",
+              "DEFAULT VALUE"
+            ],
+            "indiceCorreto": 1
           }
         },
         "es": {
-          "titulo": "¡Constraints dominados!",
+          "titulo": "El Vínculo de Unión",
           "conteudo": {
-            "mensagem": "¡Tu base de datos ahora se defiende sola de datos inválidos. Los constraints son la primera línea de defensa de un sistema confiable!",
-            "xpGanho": 500
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cómo se llama la restricción que garantiza que un valor en una columna corresponda obligatoriamente a un valor ya existente en otra tabla de referencia?",
+            "opcoes": [
+              "UNIQUE KEY",
+              "FOREIGN KEY",
+              "CHECK CONSTRAINT",
+              "DEFAULT VALUE"
+            ],
+            "indiceCorreto": 1
+          }
+        }
+      }
+    },
+    {
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: Pai e Filho",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a hierarquia de dados:",
+        "afirmacao": "Uma Chave Estrangeira (FOREIGN KEY) permite que você cadastre livremente um registro 'filho' sem que o registro 'pai' correspondente exista na tabela de referência, visando flexibilidade.",
+        "respostaCorreta": false,
+        "dica": "Dica de Ouro: A regra serve justamente para impedir 'órfãos' no banco de dados."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: Parent and Child",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About data hierarchy:",
+            "afirmacao": "A FOREIGN KEY allows you to freely register a 'child' record without the corresponding 'parent' record existing in the reference table, aiming for flexibility.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: Padre e Hijo",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la jerarquía de datos:",
+            "afirmacao": "Una Clave Extranjera permite que registres libremente un registro 'hijo' sin que el registro 'padre' correspondiente exista en la tabla de referencia.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 13,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Missões Planetárias",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Crie uma tabela chamada 'missoes' com um 'id' (SERIAL PRIMARY KEY) e uma coluna 'planeta_id' (INT) que seja uma chave estrangeira referenciando a coluna 'id' da tabela 'planetas'.",
+        "placeholder": "CREATE TABLE ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": [
+            "id",
+            "planeta_id"
+          ],
+          "table_name": "missoes",
+          "foreign_keys": [
+            {
+              "column": "planeta_id",
+              "ref_table": "planetas",
+              "ref_column": "id"
+            }
+          ]
+        },
+        "dica": "Dica de Ouro: A sintaxe curta é: nome_coluna tipo REFERENCES tabela_pai(coluna_pai).",
+        "explicacaoTecnica": "A cláusula REFERENCES cria um vínculo de integridade no Neon.tech, impedindo a inserção de missões em planetas fantasmas."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Planetary Missions",
+          "conteudo": {
+            "instrucao": "Create a table named 'missoes' with an 'id' (SERIAL PRIMARY KEY) and a 'planeta_id' column (INT) that is a foreign key referencing the 'id' column of the 'planetas' table.",
+            "dica": "Golden Hint: The short syntax is: column_name type REFERENCES parent_table(parent_column)."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Misiones Planetarias",
+          "conteudo": {
+            "instrucao": "Crea una tabla llamada 'missoes' con un 'id' (SERIAL PRIMARY KEY) y una columna 'planeta_id' (INT) que sea una clave extranjera referenciando la columna 'id' de la tabla 'planetas'.",
+            "dica": "Pista de Oro: La sintaxis corta es: nombre_columna tipo REFERENCES tabla_padre(columna_padre)."
           }
         }
       }
