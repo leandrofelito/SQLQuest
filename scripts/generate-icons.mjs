@@ -75,4 +75,11 @@ for (const { name, size, maskable } of sizes) {
   console.log(`✅ ${name}`)
 }
 
+// PNG 64×64 para fallback (a partir do favicon vetorial em public/icons/favicon.svg)
+await sharp(join(publicDir, 'icons', 'favicon.svg'))
+  .resize(64, 64)
+  .png()
+  .toFile(join(publicDir, 'icons', 'favicon.png'))
+console.log('✅ favicon.png (raster do favicon.svg)')
+
 console.log('\n✨ Ícones gerados em public/icons/')
