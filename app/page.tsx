@@ -249,10 +249,10 @@ export default async function LandingPage() {
           Comece gratuitamente e avance até onde quiser. Faça upgrade para o plano Pro e desbloqueie tudo, de uma vez, para sempre.
         </p>
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-          <div className="bg-[#0f1117] border border-white/5 rounded-2xl p-8 text-left space-y-4">
+          <div className="bg-[#0f1117] border border-white/5 rounded-2xl p-8 text-left flex flex-col gap-4">
             <h3 className="font-bold text-xl text-white">Gratuito</h3>
             <p className="text-4xl font-bold text-white">R$0</p>
-            <ul className="space-y-2 text-sm text-white/60">
+            <ul className="space-y-2 text-sm text-white/60 flex-1">
               <li>✓ Trilhas iniciais de SQL</li>
               <li>✓ Exercícios práticos</li>
               <li>✓ Sistema de XP e ranking</li>
@@ -262,7 +262,7 @@ export default async function LandingPage() {
               Começar grátis
             </Link>
           </div>
-          <div className="bg-gradient-to-br from-[#3b0764] to-[#1e1b4b] border border-[#7c3aed]/40 rounded-2xl p-8 text-left space-y-4 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-[#3b0764] to-[#1e1b4b] border border-[#7c3aed]/40 rounded-2xl p-8 text-left flex flex-col gap-4 relative overflow-hidden">
             <div className="absolute top-4 right-4 bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-1 rounded-full border border-emerald-500/25">
               60% OFF
             </div>
@@ -272,7 +272,7 @@ export default async function LandingPage() {
               <p className="text-4xl font-bold text-[#a78bfa]">R$39,90</p>
               <p className="text-xs text-white/40 mt-1">Pagamento único · Acesso vitalício</p>
             </div>
-            <ul className="space-y-2 text-sm text-white/70">
+            <ul className="space-y-2 text-sm text-white/70 flex-1">
               <li>✓ Tudo do plano gratuito</li>
               <li>✓ Todas as trilhas desbloqueadas (21+)</li>
               <li>✓ Certificados PDF verificáveis</li>
