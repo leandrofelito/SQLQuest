@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   title: 'SQLQuest — Aprenda SQL jogando',
   description: 'Plataforma gamificada de ensino de SQL. Do básico ao avançado.',
   manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/icons/favicon.png', sizes: '64x64', type: 'image/png' },
+      { url: '/icons/favicon.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [{ url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' }],
+  },
   openGraph: {
     title: 'SQLQuest — Aprenda SQL jogando',
     description: 'Plataforma gamificada de ensino de SQL. Do básico ao avançado.',
@@ -38,10 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="SQLQuest" />
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-        <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" sizes="any" />
-        <link rel="icon" type="image/png" sizes="64x64" href="/icons/favicon.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+        {/* favicon: metadata.icons (PNG — SVG com <image> externo falha na aba em vários browsers) */}
         {/* AdSense: só carrega com NEXT_PUBLIC_ADSENSE_ID (e LOAD_SCRIPT !== false) */}
         {adsenseScriptSrc ? (
           /* eslint-disable-next-line @next/next/no-sync-scripts */

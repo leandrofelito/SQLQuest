@@ -1,5 +1,5 @@
 import sharp from 'sharp'
-import { mkdirSync, writeFileSync, existsSync } from 'fs'
+import { mkdirSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -116,13 +116,8 @@ if (!existsSync(markPath)) {
     .png()
     .toFile(join(iconsDir, 'favicon.png'))
 
-  const faviconSvg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" viewBox="0 0 512 512">
-  <image width="512" height="512" href="favicon-mark-512.png" xlink:href="favicon-mark-512.png" preserveAspectRatio="xMidYMid meet"/>
-</svg>
-`
-  writeFileSync(join(iconsDir, 'favicon.svg'), faviconSvg, 'utf8')
-  console.log(`✅ favicon-mark-512.png, favicon.png e favicon.svg (fonte: ${markPath.endsWith('.svg') ? 'svg' : 'png'})`)
+  // Não gerar favicon.svg com <image href="*.png"> — a maioria dos browsers não carrega o PNG dentro do favicon SVG na aba.
+  console.log(`✅ favicon-mark-512.png e favicon.png (fonte: ${markPath.endsWith('.svg') ? 'svg' : 'png'})`)
 }
 
 console.log('\n✨ Ícones gerados em public/icons/')
