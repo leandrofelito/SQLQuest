@@ -333,12 +333,19 @@ export default function EtapaPage() {
                   xpReward={etapa.xpReward}
                   isPro={isPro}
                   onConcluido={async (estrelas, dicasUsadas, tentativas, token) => {
+                    const seguirEmFrente = () => {
+                      if (!isPro) {
+                        setShowAnuncio(true)
+                        return
+                      }
+                      proximaEtapa()
+                    }
+
                     const data = await salvarProgresso(estrelas, dicasUsadas, tentativas, token)
 
                     if (data === null) {
-                      // Save HMAC falhou (token inválido/rede). Usa fallback: marca a etapa
-                      // com 0 XP para que o guard da próxima etapa passe. O usuário pode
-                      // refazer o exercício depois para ganhar XP.
+                      // Save HMAC falhou (token inválido/rede). Marca a etapa com 0 XP para
+                      // que o guard da próxima etapa passe, depois exibe o anúncio normalmente.
                       if (etapa && trilha) {
                         await fetch('/api/marcar-visitada', {
                           method: 'POST',
@@ -346,16 +353,8 @@ export default function EtapaPage() {
                           body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id, fallback: true }),
                         }).catch(() => {})
                       }
-                      proximaEtapa()
+                      seguirEmFrente()
                       return
-                    }
-
-                    const seguirEmFrente = () => {
-                      if (!isPro) {
-                        setShowAnuncio(true)
-                        return
-                      }
-                      proximaEtapa()
                     }
 
                     if (data?.nivelAtual > data?.nivelAnterior) {
