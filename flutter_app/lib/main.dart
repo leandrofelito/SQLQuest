@@ -32,9 +32,13 @@ const String _interstitialAdUnitId = String.fromEnvironment(
   defaultValue: 'ca-app-pub-4150729063109368/REPLACE_WITH_INTERSTITIAL_ID',
 );
 
-/// Banner de teste Google (somente debug). Não usar em release.
+/// IDs de teste oficiais do Google (somente debug). Não usar em release.
 const String _googleTestBannerAdUnitId =
     'ca-app-pub-3940256099942544/6300978111';
+const String _googleTestInterstitialAdUnitId =
+    'ca-app-pub-3940256099942544/1033173712';
+const String _googleTestRewardedAdUnitId =
+    'ca-app-pub-3940256099942544/5224354917';
 
 const String _bannerAdUnitIdFromEnv = String.fromEnvironment('ADMOB_BANNER_ID');
 
@@ -44,6 +48,20 @@ String _effectiveBannerAdUnitId() {
   if (kDebugMode) return _googleTestBannerAdUnitId;
   if (_bannerAdUnitIdFromEnv.isNotEmpty) return _bannerAdUnitIdFromEnv;
   return '';
+}
+
+/// ID efetivo do interstitial: teste em debug; em release o valor de
+/// `--dart-define=ADMOB_INTERSTITIAL_ID=...` (obrigatório para anúncio real).
+String _effectiveInterstitialAdUnitId() {
+  if (kDebugMode) return _googleTestInterstitialAdUnitId;
+  if (_interstitialAdUnitId.contains('REPLACE_WITH')) return '';
+  return _interstitialAdUnitId;
+}
+
+/// ID efetivo do rewarded: teste em debug; em release o ID hardcoded.
+String _effectiveRewardedAdUnitId() {
+  if (kDebugMode) return _googleTestRewardedAdUnitId;
+  return _rewardedAdUnitId;
 }
 
 const String _appUrl = String.fromEnvironment(
@@ -272,7 +290,7 @@ class _WebViewScreenState extends State<WebViewScreen>
 
   void _loadRewardedAd() {
     RewardedAd.load(
-      adUnitId: _rewardedAdUnitId,
+      adUnitId: _effectiveRewardedAdUnitId(),
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
@@ -340,7 +358,7 @@ class _WebViewScreenState extends State<WebViewScreen>
 
     // 2º anúncio em sequência: o pré-carregamento pode ainda não ter terminado.
     RewardedAd.load(
-      adUnitId: _rewardedAdUnitId,
+      adUnitId: _effectiveRewardedAdUnitId(),
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
@@ -358,8 +376,13 @@ class _WebViewScreenState extends State<WebViewScreen>
   // ── Interstitial ──────────────────────────────────────────────────────────
 
   void _loadInterstitialAd() {
+    final unitId = _effectiveInterstitialAdUnitId();
+    if (unitId.isEmpty) {
+      debugPrint('[AdMob] Interstitial: defina --dart-define=ADMOB_INTERSTITIAL_ID=ca-app-pub-…/…');
+      return;
+    }
     InterstitialAd.load(
-      adUnitId: _interstitialAdUnitId,
+      adUnitId: unitId,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
