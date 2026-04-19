@@ -7,8 +7,8 @@ interface CertPageProps {
 }
 
 export default async function CertPage({ params }: CertPageProps) {
-  const cert = await prisma.certificado.findUnique({
-    where: { hash: params.hash },
+  const cert = await prisma.certificado.findFirst({
+    where: { hash: { startsWith: params.hash } },
     include: {
       user: { select: { name: true } },
       trilha: { select: { titulo: true, icone: true, slug: true } },
