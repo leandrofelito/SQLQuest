@@ -47,12 +47,36 @@ export interface RankUser {
   name: string | null
   nickname: string | null
   image: string | null
-  /** XP do ciclo atual (nível / prestígio). */
   totalXp: number
-  /** XP acumulado para posição no ranking (não zera ao prestigiar). */
   xpRanking: number
   streak: number
   prestige: number
+}
+
+export interface ConquistaBasica {
+  id: string
+  emoji: string
+  lucideIcon?: string
+  nome: string
+  desc: string
+  desbloqueada: boolean
+  alcancadaEm?: string | null
+  posicao?: number | null
+  tier?: string
+  categoria?: string
+  secao?: string
+}
+
+export interface CertificadoBasico {
+  id: string
+  hash: string
+  emitidoEm: string
+  trilha: {
+    id: string
+    slug: string
+    titulo: string
+    icone: string
+  }
 }
 
 // ─── Module-level cache (survives React re-renders/remounts per browser tab) ──
@@ -69,6 +93,9 @@ const _cache = {
   progresso: { data: null as ProgressoBasico[] | null, loadedAt: 0, userKey: '' as string },
   ranking: { data: null as RankUser[] | null, loadedAt: 0 },
   etapas: {} as Record<string, { data: any; loadedAt: number; contentVersion: string }>,
+  conquistas: { data: null as ConquistaBasica[] | null, loadedAt: 0, userKey: '' as string },
+  prestige: { data: null as number | null, loadedAt: 0, userKey: '' as string },
+  certificados: { data: null as CertificadoBasico[] | null, loadedAt: 0, userKey: '' as string },
 }
 
 let _lastContentVersion = '1'
@@ -116,13 +143,10 @@ function resolveUserKey(
 
 interface AppDataContextType {
   trilhasLoading: boolean
-  /** True quando há dados em tela vindos do cache e uma revalidação em rede ainda está em andamento. */
   catalogRevalidating: boolean
-  /** Incrementado após revalidação em segundo plano — use como dependência para reler `getCachedTrilhas`. */
   trilhasRevision: number
   loadTrilhas: (lang?: string, force?: boolean) => Promise<TrilhaComProgresso[]>
   invalidateTrilhas: () => void
-  /** Após POST /api/desbloquear-trilha ok — mantém cache/IDB alinhado ao servidor. */
   marcarTrilhaDesbloqueadaPorAnuncio: (slug: string) => void
   getCachedTrilhas: () => TrilhaComProgresso[] | null
 
@@ -140,6 +164,17 @@ interface AppDataContextType {
   loadEtapa: (id: string, lang?: string) => Promise<any | null>
   prefetchEtapa: (id: string, lang?: string) => void
   getCachedEtapa: (id: string, lang?: string) => any | null
+
+  loadConquistas: (force?: boolean) => Promise<ConquistaBasica[]>
+  getCachedConquistas: () => ConquistaBasica[] | null
+  invalidateConquistas: () => void
+
+  loadPrestige: (force?: boolean) => Promise<number>
+  getCachedPrestige: () => number | null
+
+  loadCertificados: (force?: boolean) => Promise<CertificadoBasico[]>
+  getCachedCertificados: () => CertificadoBasico[] | null
+  invalidateCertificados: () => void
 }
 
 const AppDataContext = createContext<AppDataContextType | null>(null)
@@ -454,6 +489,127 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     return _cache.etapas[`${id}:${lang}`]?.data ?? null
   }, [])
 
+  // ── Conquistas ─────────────────────────────────────────────────────────────
+
+  const loadConquistas = useCallback(
+    async (force = false): Promise<ConquistaBasica[]> => {
+      const userKey = resolveUserKey(status, session)
+      if (userKey === 'anon') return []
+
+      const c = _cache.conquistas
+      if (!force && c.data !== null && c.userKey === userKey) {
+        // Revalida em background silenciosamente
+        void deduped(`conquistas:${userKey}`, async () => {
+          try {
+            const res = await fetch('/api/conquistas')
+            if (!res.ok) return
+            const data = await res.json()
+            _cache.conquistas = { data: Array.isArray(data) ? data : [], loadedAt: Date.now(), userKey }
+          } catch {}
+        })
+        return c.data
+      }
+
+      try {
+        const data = await deduped(`conquistas:${userKey}`, () =>
+          fetch('/api/conquistas').then(r => r.json()),
+        )
+        const arr = Array.isArray(data) ? data : []
+        _cache.conquistas = { data: arr, loadedAt: Date.now(), userKey }
+        return arr
+      } catch {
+        return _cache.conquistas.data ?? []
+      }
+    },
+    [session, status],
+  )
+
+  const getCachedConquistas = useCallback(() => _cache.conquistas.data, [])
+
+  const invalidateConquistas = useCallback(() => {
+    _cache.conquistas.data = null
+    _cache.conquistas.loadedAt = 0
+    _cache.conquistas.userKey = ''
+  }, [])
+
+  // ── Prestige ───────────────────────────────────────────────────────────────
+
+  const loadPrestige = useCallback(
+    async (force = false): Promise<number> => {
+      const userKey = resolveUserKey(status, session)
+      if (userKey === 'anon') return 0
+
+      const c = _cache.prestige
+      if (!force && c.data !== null && c.userKey === userKey) {
+        void deduped(`prestige:${userKey}`, async () => {
+          try {
+            const res = await fetch('/api/prestige')
+            if (!res.ok) return
+            const data = await res.json()
+            _cache.prestige = { data: data?.prestige ?? 0, loadedAt: Date.now(), userKey }
+          } catch {}
+        })
+        return c.data
+      }
+
+      try {
+        const data = await deduped(`prestige:${userKey}`, () =>
+          fetch('/api/prestige').then(r => r.json()),
+        )
+        const val = data?.prestige ?? 0
+        _cache.prestige = { data: val, loadedAt: Date.now(), userKey }
+        return val
+      } catch {
+        return _cache.prestige.data ?? 0
+      }
+    },
+    [session, status],
+  )
+
+  const getCachedPrestige = useCallback(() => _cache.prestige.data, [])
+
+  // ── Certificados ───────────────────────────────────────────────────────────
+
+  const loadCertificados = useCallback(
+    async (force = false): Promise<CertificadoBasico[]> => {
+      const userKey = resolveUserKey(status, session)
+      if (userKey === 'anon') return []
+
+      const c = _cache.certificados
+      if (!force && c.data !== null && c.userKey === userKey) {
+        void deduped(`certificados:${userKey}`, async () => {
+          try {
+            const res = await fetch('/api/certificados')
+            if (!res.ok) return
+            const data = await res.json()
+            _cache.certificados = { data: Array.isArray(data) ? data : [], loadedAt: Date.now(), userKey }
+          } catch {}
+        })
+        return c.data
+      }
+
+      try {
+        const data = await deduped(`certificados:${userKey}`, () =>
+          fetch('/api/certificados').then(r => r.json()),
+        )
+        const arr = Array.isArray(data) ? data : []
+        _cache.certificados = { data: arr, loadedAt: Date.now(), userKey }
+        return arr
+      } catch {
+        return _cache.certificados.data ?? []
+      }
+    },
+    [session, status],
+  )
+
+  const getCachedCertificados = useCallback(() => _cache.certificados.data, [])
+
+  const invalidateCertificados = useCallback(() => {
+    _cache.certificados.data = null
+    _cache.certificados.loadedAt = 0
+    _cache.certificados.userKey = ''
+  }, [])
+
   return (
     <AppDataContext.Provider
       value={{
@@ -476,6 +632,14 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         loadEtapa,
         prefetchEtapa,
         getCachedEtapa,
+        loadConquistas,
+        getCachedConquistas,
+        invalidateConquistas,
+        loadPrestige,
+        getCachedPrestige,
+        loadCertificados,
+        getCachedCertificados,
+        invalidateCertificados,
       }}
     >
       {children}

@@ -6,20 +6,10 @@ import { CardCertificado } from '@/components/certificado/CardCertificado'
 import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
 import { useRouter } from 'next/navigation'
-import { useAppData } from '@/context/AppDataContext'
+import { useAppData, type CertificadoBasico } from '@/context/AppDataContext'
 import { useLocale } from '@/context/LocaleContext'
 
-interface Cert {
-  id: string
-  hash: string
-  emitidoEm: string
-  trilha: {
-    id: string
-    slug: string
-    titulo: string
-    icone: string
-  }
-}
+type Cert = CertificadoBasico
 
 interface TrilhaPendente {
   id: string
@@ -58,34 +48,31 @@ function CertsSkeleton() {
 export default function CertificadosPage() {
   const { user, isPro } = useUser()
   const router = useRouter()
-  const { loadTrilhas, trilhasRevision } = useAppData()
+  const { loadTrilhas, trilhasRevision, loadCertificados, getCachedCertificados } = useAppData()
   const { messages } = useLocale()
   const m = messages.certificados
-  const [certs, setCerts] = useState<Cert[]>([])
+  const [certs, setCerts] = useState<Cert[]>(() => getCachedCertificados() ?? [])
   const [pendentes, setPendentes] = useState<TrilhaPendente[]>([])
   const [concluidasBloqueadas, setConcluidasBloqueadas] = useState<TrilhaConcluida[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(() => getCachedCertificados() === null)
 
   useEffect(() => {
     async function load() {
-      const [certsRes, trilhas] = await Promise.all([
-        fetch('/api/certificados').then(r => r.json()),
-        loadTrilhas(),
-      ])
-
       try {
-        const certsData = Array.isArray(certsRes) ? certsRes : []
+        const [certsData, trilhas] = await Promise.all([
+          loadCertificados(),
+          loadTrilhas(),
+        ])
         setCerts(certsData)
-
         const certTrilhaIds = new Set(certsData.map((c: Cert) => c.trilha.id))
         setPendentes(trilhas.filter(t => !certTrilhaIds.has(t.id) && t.percentualConcluido > 0 && t.percentualConcluido < 100))
         setConcluidasBloqueadas(trilhas.filter(t => !certTrilhaIds.has(t.id) && t.percentualConcluido === 100))
-      } catch {}
-
-      setLoading(false)
+      } finally {
+        setLoading(false)
+      }
     }
     load()
-  }, [loadTrilhas, trilhasRevision])
+  }, [loadTrilhas, loadCertificados, trilhasRevision])
 
   if (loading) {
     return (

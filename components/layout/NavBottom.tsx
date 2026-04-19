@@ -3,10 +3,36 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useLocale } from '@/context/LocaleContext'
+import { useAppData } from '@/context/AppDataContext'
 
 export function NavBottom() {
   const pathname = usePathname()
-  const { messages } = useLocale()
+  const { messages, locale } = useLocale()
+  const {
+    loadTrilhas,
+    loadProgresso,
+    loadConquistas,
+    loadPrestige,
+    loadCertificados,
+    loadRanking,
+  } = useAppData()
+
+  function prefetch(href: string) {
+    if (href === '/home') {
+      void loadTrilhas(locale)
+      void loadProgresso()
+    } else if (href === '/ranking') {
+      void loadRanking()
+    } else if (href === '/certificados') {
+      void loadCertificados()
+      void loadTrilhas(locale)
+    } else if (href === '/perfil') {
+      void loadConquistas()
+      void loadPrestige()
+      void loadCertificados()
+      void loadProgresso()
+    }
+  }
 
   const NAV = [
     {
@@ -56,6 +82,8 @@ export function NavBottom() {
             <Link
               key={item.href}
               href={item.href}
+              onMouseEnter={() => prefetch(item.href)}
+              onTouchStart={() => prefetch(item.href)}
               className={cn(
                 'flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-colors',
                 active ? 'text-[#a78bfa]' : 'text-white/30 hover:text-white/60'

@@ -2,6 +2,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import { useAppData } from '@/context/AppDataContext'
 
 const AUTH_PAGES = ['/login', '/register', '/verify', '/acesso-restrito']
 
@@ -9,6 +10,21 @@ export function SessionGuard() {
   const { status } = useSession()
   const pathname = usePathname()
   const checked = useRef(false)
+  const prefetched = useRef(false)
+  const { loadTrilhas, loadProgresso, loadConquistas, loadPrestige, loadCertificados, loadRanking } = useAppData()
+
+  useEffect(() => {
+    if (status !== 'authenticated') return
+    if (prefetched.current) return
+    prefetched.current = true
+    // Pré-carrega todos os dados em background logo após autenticação
+    void loadTrilhas()
+    void loadProgresso()
+    void loadConquistas()
+    void loadPrestige()
+    void loadCertificados()
+    void loadRanking()
+  }, [status, loadTrilhas, loadProgresso, loadConquistas, loadPrestige, loadCertificados, loadRanking])
 
   useEffect(() => {
     if (checked.current) return
@@ -16,7 +32,6 @@ export function SessionGuard() {
     if (AUTH_PAGES.some(p => pathname.startsWith(p))) return
     if (status !== 'authenticated') return
 
-    // Só marca como verificado após confirmar autenticação real
     checked.current = true
 
     const v2 = localStorage.getItem('sqlquest_auth_v2')

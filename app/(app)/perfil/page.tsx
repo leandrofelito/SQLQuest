@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
 import { getLevel, getLevelBadge } from '@/lib/xp'
 import { PrestigeBadge } from '@/components/ui/PrestigeBadge'
-import { useAppData } from '@/context/AppDataContext'
+import { useAppData, type ConquistaBasica } from '@/context/AppDataContext'
 import { useLocale } from '@/context/LocaleContext'
 import { type Locale } from '@/lib/locale'
 
@@ -33,19 +33,7 @@ const LUCIDE_ICONS: Record<string, LucideIcon> = {
   Cpu,
 }
 
-interface Conquista {
-  id: string
-  emoji: string
-  lucideIcon?: string
-  nome: string
-  desc: string
-  desbloqueada: boolean
-  alcancadaEm?: string | null
-  posicao?: number | null
-  tier?: string
-  categoria?: string
-  secao?: string
-}
+type Conquista = ConquistaBasica
 
 const ITENS_INICIAIS_POR_SECAO = 4
 
@@ -210,13 +198,25 @@ export default function PerfilPage() {
   const { user, isPro } = useUser()
   const { update: updateSession } = useSession()
   const router = useRouter()
-  const { loadProgresso, progressoRevision } = useAppData()
+  const {
+    loadProgresso,
+    progressoRevision,
+    loadConquistas,
+    getCachedConquistas,
+    loadPrestige,
+    getCachedPrestige,
+    loadCertificados,
+    getCachedCertificados,
+  } = useAppData()
   const { locale, setLocale, messages } = useLocale()
   const m = messages.perfil
-  const [stats, setStats] = useState({ etapas: 0, certificados: 0 })
-  const [conquistas, setConquistas] = useState<Conquista[]>([])
-  const [conquistasLoading, setConquistasLoading] = useState(true)
-  const [prestige, setPrestige] = useState(0)
+  const [stats, setStats] = useState(() => ({
+    etapas: 0,
+    certificados: getCachedCertificados()?.length ?? 0,
+  }))
+  const [conquistas, setConquistas] = useState<Conquista[]>(() => getCachedConquistas() ?? [])
+  const [conquistasLoading, setConquistasLoading] = useState(() => getCachedConquistas() === null)
+  const [prestige, setPrestige] = useState(() => getCachedPrestige() ?? 0)
   const [loading, setLoading] = useState(false)
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [filtroConquistas, setFiltroConquistas] = useState<'desbloqueadas' | 'todas' | 'bloqueadas'>('desbloqueadas')
@@ -275,22 +275,25 @@ export default function PerfilPage() {
 
   useEffect(() => {
     async function load() {
-      const [progressos, certsRes, conquistasRes, prestigeRes] = await Promise.all([
-        loadProgresso(),
-        fetch('/api/certificados').then(r => r.json()),
-        fetch('/api/conquistas').then(r => r.json()),
-        fetch('/api/prestige').then(r => r.json()),
-      ])
-      setStats({
-        etapas: Array.isArray(progressos) ? progressos.length : 0,
-        certificados: Array.isArray(certsRes) ? certsRes.length : 0,
-      })
-      setConquistas(Array.isArray(conquistasRes) ? conquistasRes : [])
-      setPrestige(prestigeRes?.prestige ?? 0)
-      setConquistasLoading(false)
+      try {
+        const [progressos, certs, conquistasData, prestigeVal] = await Promise.all([
+          loadProgresso(),
+          loadCertificados(),
+          loadConquistas(),
+          loadPrestige(),
+        ])
+        setStats({
+          etapas: Array.isArray(progressos) ? progressos.length : 0,
+          certificados: Array.isArray(certs) ? certs.length : 0,
+        })
+        setConquistas(Array.isArray(conquistasData) ? conquistasData : [])
+        setPrestige(prestigeVal)
+      } finally {
+        setConquistasLoading(false)
+      }
     }
     load()
-  }, [loadProgresso, progressoRevision])
+  }, [loadProgresso, loadConquistas, loadPrestige, loadCertificados, progressoRevision])
 
   async function handleSignOut() {
     setLoading(true)
