@@ -78,7 +78,7 @@ export interface LevelBadge {
 /** Faixas de cor da barra / avatar (mais amplas que as patentes de nome). */
 function getLevelVisualStyle(level: number): Pick<LevelBadge, 'cor' | 'brilho' | 'bg' | 'tier'> {
   if (level >= 100)
-    return { cor: '#FFD700', brilho: 'rgba(255,215,0,0.35)', bg: 'rgba(255,215,0,0.1)', tier: 'lendario' }
+    return { cor: '#ef4444', brilho: 'rgba(239,68,68,0.35)', bg: 'rgba(239,68,68,0.1)', tier: 'lendario' }
   if (level >= 75)
     return { cor: '#FF4466', brilho: 'rgba(255,68,102,0.35)', bg: 'rgba(255,68,102,0.1)', tier: 'expert' }
   if (level >= 50)
