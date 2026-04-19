@@ -10,6 +10,7 @@ import { TelaConclusao } from '@/components/microlicao/TelaConclusao'
 import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
 import { LevelUpModal } from '@/components/ui/LevelUpModal'
 import { ConquistaToast } from '@/components/ui/ConquistaToast'
+import { useSession } from 'next-auth/react'
 import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
 import { useAppData } from '@/context/AppDataContext'
@@ -37,6 +38,7 @@ export default function EtapaPage() {
   const { slug, id } = useParams() as { slug: string; id: string }
   const router = useRouter()
   const { isPro } = useUser()
+  const { update: updateSession } = useSession()
   const { messages, locale } = useLocale()
   const { loadTrilhas, loadProgresso, addProgressoOptimistic, loadEtapa, prefetchEtapa } = useAppData()
 
@@ -178,6 +180,7 @@ export default function EtapaPage() {
       setEstrelasGanhas(data.estrelas ?? estrelas)
       setShowXpPop(true)
       setTimeout(() => setShowXpPop(false), 3000)
+      updateSession()
     }
     if (data.novasConquistasRanking?.length > 0) {
       setNovaConquistaRanking(data.novasConquistasRanking[0])
