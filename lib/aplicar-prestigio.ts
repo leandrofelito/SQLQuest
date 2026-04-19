@@ -1,7 +1,7 @@
 import type { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db'
 import { getLevel } from '@/lib/xp'
-import { PRESTIGIO_NIVEL_MINIMO } from '@/lib/prestigio'
+import { PRESTIGIO_NIVEL_MINIMO, PRESTIGIO_CONQUISTAS_CAP } from '@/lib/prestigio'
 import { buildPrestigeConquistaNotificacao } from '@/lib/conquistas-definitions'
 
 export interface ConquistaNotificacaoPrestigio {
@@ -31,7 +31,7 @@ export async function aplicarPrestigioSeElegivelTx(
   })
   if (!user) return { applied: false }
 
-  if (getLevel(user.totalXp) < PRESTIGIO_NIVEL_MINIMO) {
+  if (getLevel(user.totalXp) < PRESTIGIO_NIVEL_MINIMO || user.prestige >= PRESTIGIO_CONQUISTAS_CAP) {
     return { applied: false, totalXp: user.totalXp, novoPrestige: user.prestige }
   }
 
