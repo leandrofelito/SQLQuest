@@ -22,7 +22,7 @@ export async function GET(req: Request) {
       const base = { titulo: t.titulo, descricao: t.descricao }
       const localized = applyLocale(base, t.traducoes as Record<string, Partial<typeof base>> | null, lang)
       return { ...t, ...localized, progressos: [] }
-    }))
+    }), { headers: { 'Cache-Control': 'public, max-age=300, stale-while-revalidate=60' } })
   }
 
   const userId = (session.user as any).id
@@ -73,5 +73,7 @@ export async function GET(req: Request) {
       })()
     : null
 
-  return NextResponse.json(result.map(t => ({ ...t, ultimaTrilha: t.id === ultimaTrilhaId })))
+  return NextResponse.json(result.map(t => ({ ...t, ultimaTrilha: t.id === ultimaTrilhaId })), {
+    headers: { 'Cache-Control': 'private, max-age=60, stale-while-revalidate=30' },
+  })
 }

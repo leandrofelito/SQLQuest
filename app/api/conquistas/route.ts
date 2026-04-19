@@ -124,5 +124,7 @@ export async function GET() {
     }
   })
 
-  return NextResponse.json([...conquistas.map(localizar), ...conquistasRankingFormatadas])
+  return NextResponse.json([...conquistas.map(localizar), ...conquistasRankingFormatadas], {
+    headers: { 'Cache-Control': 'private, max-age=120, stale-while-revalidate=60' },
+  })
 }

@@ -14,6 +14,21 @@ const withPWA = require('next-pwa')({
       handler: 'CacheFirst',
       options: { cacheName: 'wasm', expiration: { maxEntries: 1, maxAgeSeconds: 30 * 24 * 60 * 60 } },
     },
+    {
+      urlPattern: /\/api\/trilhas(\?.*)?$/,
+      handler: 'NetworkFirst',
+      options: { cacheName: 'api-trilhas', networkTimeoutSeconds: 4, expiration: { maxEntries: 5, maxAgeSeconds: 5 * 60 } },
+    },
+    {
+      urlPattern: /\/api\/etapa\?.*/,
+      handler: 'NetworkFirst',
+      options: { cacheName: 'api-etapas', networkTimeoutSeconds: 4, expiration: { maxEntries: 100, maxAgeSeconds: 10 * 60 } },
+    },
+    {
+      urlPattern: /\/api\/trilha-dashboard\?.*/,
+      handler: 'NetworkFirst',
+      options: { cacheName: 'api-trilha-dashboard', networkTimeoutSeconds: 4, expiration: { maxEntries: 30, maxAgeSeconds: 2 * 60 } },
+    },
   ],
 })
 

@@ -75,5 +75,5 @@ export async function GET(req: Request) {
     progressos,
     isPro,
     cert: certRow ? { hash: certRow.hash } : null,
-  })
+  }, { headers: { 'Cache-Control': 'private, max-age=60, stale-while-revalidate=30' } })
 }

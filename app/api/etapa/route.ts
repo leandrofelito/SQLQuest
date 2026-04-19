@@ -35,7 +35,9 @@ export async function GET(req: Request) {
   if (id) {
     const etapa = await prisma.etapa.findUnique({ where: { id }, select: etapaSelect })
     if (!etapa) return NextResponse.json({ error: 'Etapa não encontrada' }, { status: 404 })
-    return NextResponse.json(localizeEtapa(etapa, lang))
+    return NextResponse.json(localizeEtapa(etapa, lang), {
+      headers: { 'Cache-Control': 'private, max-age=300, stale-while-revalidate=60' },
+    })
   }
 
   if (trilhaSlug && ordem) {
@@ -47,7 +49,9 @@ export async function GET(req: Request) {
       select: etapaSelect,
     })
     if (!etapa) return NextResponse.json({ error: 'Etapa não encontrada' }, { status: 404 })
-    return NextResponse.json(localizeEtapa(etapa, lang))
+    return NextResponse.json(localizeEtapa(etapa, lang), {
+      headers: { 'Cache-Control': 'private, max-age=300, stale-while-revalidate=60' },
+    })
   }
 
   return NextResponse.json({ error: 'Parâmetros inválidos' }, { status: 400 })
