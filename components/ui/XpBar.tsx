@@ -1,5 +1,5 @@
 'use client'
-import { getLevel, getLevelLabel, getProgressoPct, getXpParaProximo, getLevelBadge } from '@/lib/xp'
+import { getLevel, getLevelLabel, getProgressoPct, getXpParaProximo, getLevelBadge, MAX_LEVEL } from '@/lib/xp'
 import { formatXP } from '@/lib/utils'
 import { Progress } from './Progress'
 import { useLocale } from '@/context/LocaleContext'
@@ -17,6 +17,7 @@ export function XpBar({ xp, showStats = false, className }: XpBarProps) {
   const pct = getProgressoPct(xp)
   const proximo = getXpParaProximo(xp)
   const badge = getLevelBadge(level, locale)
+  const isMaxLevel = level >= MAX_LEVEL
 
   return (
     <div className={className}>
@@ -42,7 +43,11 @@ export function XpBar({ xp, showStats = false, className }: XpBarProps) {
           />
         </div>
         <span className="text-xs text-white/40 whitespace-nowrap">
-          {formatXP(xp)} / {formatXP(proximo)} XP
+          {isMaxLevel ? (
+            <span style={{ color: badge.cor }} className="font-bold">PRESTÍGIO</span>
+          ) : (
+            <>{formatXP(xp)} / {formatXP(proximo)} XP</>
+          )}
         </span>
       </div>
       {showStats && (
@@ -57,7 +62,9 @@ export function XpBar({ xp, showStats = false, className }: XpBarProps) {
           </div>
           <div className="text-center">
             <div className="text-xs text-white/40">{messages.xpbar.proximo}</div>
-            <div className="text-sm font-bold text-white">{formatXP(proximo - xp)} XP</div>
+            <div className="text-sm font-bold text-white">
+              {isMaxLevel ? '—' : `${formatXP(proximo - xp)} XP`}
+            </div>
           </div>
         </div>
       )}

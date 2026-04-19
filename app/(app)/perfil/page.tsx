@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState, useRef, useMemo } from 'react'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Cpu, type LucideIcon } from 'lucide-react'
@@ -208,6 +208,7 @@ const LANG_OPTIONS: { value: Locale; flag: string; label: string }[] = [
 
 export default function PerfilPage() {
   const { user, isPro } = useUser()
+  const { update: updateSession } = useSession()
   const router = useRouter()
   const { loadProgresso, progressoRevision } = useAppData()
   const { locale, setLocale, messages } = useLocale()
@@ -266,6 +267,11 @@ export default function PerfilPage() {
   const streak = (user as any)?.streak ?? 0
   const nivel = getLevel(xp)
   const badge = getLevelBadge(nivel, locale)
+
+  // Força refresh da sessão para garantir XP/nível atualizados (sessão JWT pode estar em cache)
+  useEffect(() => {
+    updateSession()
+  }, [])
 
   useEffect(() => {
     async function load() {

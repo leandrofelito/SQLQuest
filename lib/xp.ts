@@ -33,12 +33,15 @@ export function xpParaNivel(n: number): number {
   return 150 * (n - 1) * n
 }
 
+/** Nível máximo por ciclo (coincide com o threshold de prestígio). */
+export const MAX_LEVEL = 100
+
 // Retorna o nível atual (1-indexado) com base no XP total
 export function getLevel(xp: number): number {
   if (xp <= 0) return 1
   // Inversa de 150*(n-1)*n: n = (1 + sqrt(1 + 4*xp/150)) / 2
   const n = Math.floor((1 + Math.sqrt(1 + (4 * xp) / 150)) / 2)
-  return Math.max(1, n)
+  return Math.min(MAX_LEVEL, Math.max(1, n))
 }
 
 export function getLevelLabel(xp: number): string {
@@ -47,6 +50,7 @@ export function getLevelLabel(xp: number): string {
 
 export function getProgressoPct(xp: number): number {
   const lv = getLevel(xp)
+  if (lv >= MAX_LEVEL) return 100
   const base = xpParaNivel(lv)
   const prox = xpParaNivel(lv + 1)
   if (prox === base) return 100
@@ -55,6 +59,7 @@ export function getProgressoPct(xp: number): number {
 
 export function getXpParaProximo(xp: number): number {
   const lv = getLevel(xp)
+  if (lv >= MAX_LEVEL) return xpParaNivel(MAX_LEVEL)
   return xpParaNivel(lv + 1)
 }
 
