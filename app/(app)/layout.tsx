@@ -1,11 +1,19 @@
 'use client'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { status } = useSession()
   const router = useRouter()
+  // Evita desmontar os filhos quando a sessão é apenas atualizada em background (status volta a 'loading' brevemente)
+  const everAuthenticated = useRef(false)
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      everAuthenticated.current = true
+    }
+  }, [status])
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -24,7 +32,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     }
   }, [status, router])
 
-  if (status === 'loading') {
+  if (status === 'loading' && !everAuthenticated.current) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-pulse text-[#8b5cf6] text-lg font-bold">SQLQuest</div>
