@@ -309,7 +309,7 @@ class _WebViewScreenState extends State<WebViewScreen>
   ///   senão o React trata como fechamento e cancela o 2º anúncio / liberação).
   /// - `dismissed` se fechou sem prêmio após [_rewardedDismissGrace].
   /// - `failed` se falhou ao carregar ou exibir (React pode cancelar sem liberar trilha).
-  void _showRewardedAd([String? requestId]) {
+  void _showRewardedAd([String? requestId, int retryCount = 0]) {
     void present(RewardedAd ad) {
       _rewardedDismissNotifyTimer?.cancel();
       _rewardedDismissNotifyTimer = null;
@@ -356,7 +356,7 @@ class _WebViewScreenState extends State<WebViewScreen>
       return;
     }
 
-    // 2º anúncio em sequência: o pré-carregamento pode ainda não ter terminado.
+    // Anúncio ainda não carregado: carrega sob demanda com 1 retry automático.
     RewardedAd.load(
       adUnitId: _effectiveRewardedAdUnitId(),
       request: const AdRequest(),
@@ -365,7 +365,13 @@ class _WebViewScreenState extends State<WebViewScreen>
           present(ad);
         },
         onAdFailedToLoad: (error) {
-          debugPrint('[AdMob] Rewarded falhou ao carregar: ${error.message}');
+          debugPrint('[AdMob] Rewarded falhou ao carregar (tentativa ${retryCount + 1}): ${error.message}');
+          if (retryCount < 1) {
+            Future.delayed(const Duration(seconds: 3), () {
+              if (mounted) _showRewardedAd(requestId, retryCount + 1);
+            });
+            return;
+          }
           _emitRewardedAdResult('failed', requestId);
           _loadRewardedAd();
         },
