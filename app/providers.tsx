@@ -18,9 +18,9 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   return (
     <NextSessionProvider>
       <NativeAppDetector />
-      <SessionGuard />
       <LocaleProvider>
         <AppDataProvider>
+          <SessionGuard />
           {children}
         </AppDataProvider>
       </LocaleProvider>
