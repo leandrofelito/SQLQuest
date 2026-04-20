@@ -138,6 +138,7 @@ As trilhas disponíveis (22 no total, do básico ao elite):
 - Cada etapa do tipo `exercicio` vale **XP variável** conforme estrelas (3 = 100 XP, 2 = 60 XP, 1 = 30 XP).
 - Bônus por acertar na **primeira tentativa** (+50 XP) e **sem usar dica** (+30 XP).
 - **Fórmula de nível:** `XP_para_nivel(n) = 150 × (n−1) × n` (quadrática).
+- **Nível máximo: 100** — ao atingi-lo, o usuário pode acionar o Prestígio.
 - **Badges de tier** por faixa de nível:
 
 | Faixa | Nome | Cor |
@@ -149,11 +150,17 @@ As trilhas disponíveis (22 no total, do básico ao elite):
 | 30–49 | Especialista | Roxo |
 | 50–74 | Mestre | Laranja |
 | 75–99 | Expert | Vermelho |
-| 100+ | Lendário | Dourado |
+| 100 | Lendário | Dourado |
 
 ### Sistema de Prestígio
 
-Ao atingir o **Nível 100**, o usuário pode acionar o Prestígio: o XP é zerado (voltando ao Nível 1) em troca de uma **Estrela de Prestígio** permanente no perfil. O contador de prestígio acumula indefinidamente.
+Ao atingir o **Nível 100**, o usuário pode acionar o Prestígio: o XP é zerado (voltando ao Nível 1) em troca de uma **Estrela de Prestígio** permanente no perfil. O `xpRanking` (usado no ranking global) **não zera**. Cap máximo de **250 estrelas de prestígio** (PRESTIGIO_CONQUISTAS_CAP).
+
+Tiers de prestígio:
+- 1–5 estrelas → Bronze
+- 6–10 estrelas → Prata
+- 11–15 estrelas → Ouro
+- 16–20 estrelas → Rubi
 
 ### Sistema de Estrelas
 
@@ -176,7 +183,7 @@ Divididas em categorias:
 | Habilidade (médias) | Sem Ajuda, Mente Afiada, Certeiro, Detetive SQL |
 | Desafio (difíceis) | Zero Erros, Maratonista, Mês Dedicado |
 | Lendárias | Perfeccionista, Mestre Certificado, Data God |
-| Nível | Marcos do Nível 5 ao Nível 1000 |
+| Nível | Marcos do Nível 5 ao Nível 100 |
 | Prestígio | Primeiro Prestígio, Veterano do Prestígio |
 | Platina | 3 estrelas em todos os exercícios de uma trilha |
 | Elite | Concluir e platinar a trilha Elite |
@@ -227,6 +234,15 @@ Acessível via `/admin` somente para emails listados em `ADMIN_EMAILS`.
 - Tabela dos últimos 10 pagamentos com status.
 - Botão **Sincronizar banco com JSONs**: lê todos os arquivos em `content/trilhas/*.json` e faz upsert de trilhas e etapas no banco sem apagar progresso dos usuários.
 - Gerenciamento de questões em `/admin/questoes`.
+
+### Performance e cache instantâneo
+
+O app usa um sistema de cache em memória (module-level) com stale-while-revalidate:
+
+- **AppDataContext** cacheia: trilhas, progresso, ranking, conquistas, prestige e certificados.
+- **SessionGuard** pré-carrega todos os dados em background logo após a autenticação — quando o usuário navega, os dados já estão prontos.
+- **NavBottom** dispara os fetches relevantes no `onTouchStart`/`onMouseEnter` de cada aba, aproveitando os ~150ms antes da navegação completar.
+- Páginas como Perfil e Certificados exibem dados **instantaneamente** na segunda visita (sem skeleton).
 
 ---
 
@@ -292,6 +308,9 @@ NEXT_PUBLIC_URL="http://localhost:3000"
 
 # Emails separados por vírgula com acesso ao /admin
 ADMIN_EMAILS="seu@email.com"
+
+# Chave HMAC para assinar tokens de validação de exercícios
+TOKEN_SECRET=""
 ```
 
 ---
@@ -405,3 +424,4 @@ Para o webhook do Stripe em produção, cadastre `https://seu-dominio.vercel.app
 | `Certificado` | Certificado emitido com hash único de validação |
 | `ConquistaRanking` | Registro de posição alcançada no ranking (Top 1/10/100/1000) |
 | `TrilhaDesbloqueada` | Trilhas desbloqueadas manualmente (conteúdo premium futuro) |
+| `RateLimit` | Controle de rate limiting distribuído (INSERT … ON CONFLICT atômico) |
