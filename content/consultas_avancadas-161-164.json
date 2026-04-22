@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "trilha_slug": "consultas_avancadas",
+    "substituir_ordens": [161, 162, 163, 164],
+    "nota": "Etapa 3 da Trilha 12: Introdução às subqueries correlacionadas dentro da cláusula SELECT."
+  },
+  "gabarito_declarado": {
+    "exercicio_multipla": {
+      "indiceCorreto": 0,
+      "letra": "A"
+    },
+    "exercicio_vf": {
+      "respostaCorreta": true
+    },
+    "exercicio_sql": {
+      "query_esperada": "SELECT nome, (SELECT COUNT(*) FROM missoes WHERE missoes.planeta_id = planetas.id) AS total_missoes FROM planetas;"
+    }
+  },
+  "dicas_ver_dica_gratuito": [
+    {
+      "exercicio": "multipla",
+      "pt": "Dica de Ouro: Pense na lista de campos que você define logo no início da sua consulta.",
+      "en": "Golden Hint: Think about the list of fields you define at the very beginning of your query.",
+      "es": "Pista de Oro: Piensa en la lista de campos que defines justo al principio de tu consulta."
+    },
+    {
+      "exercicio": "vf",
+      "pt": "Dica de Ouro: Uma célula em uma tabela SQL é como uma vaga de estacionamento para apenas um carro.",
+      "en": "Golden Hint: A cell in an SQL table is like a parking space for only one car.",
+      "es": "Pista de Oro: Una celda en una tabla SQL es como una plaza de aparcamiento para un solo coche."
+    },
+    {
+      "exercicio": "sql",
+      "pt": "Dica de Ouro: A estrutura deve ser SELECT nome, (SELECT ...) AS total_missoes FROM planetas.",
+      "en": "Golden Hint: The structure should be SELECT nome, (SELECT ...) AS total_missoes FROM planetas.",
+      "es": "Pista de Oro: La estructura debe ser SELECT nome, (SELECT ...) AS total_missoes FROM planetas."
+    }
+  ],
+  "etapas_formato_app": [
+    {
+      "ordem": 161,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Subqueries Correlacionadas: Colunas Dinâmicas",
+      "conteudo": {
+        "blocos": [
+          "Você já usou subqueries para filtrar linhas no WHERE. Agora, vamos elevar o nível: no **Neon.tech**, você pode usar uma subquery dentro do **SELECT** para criar colunas que não existem fisicamente na tabela, calculando dados linha por linha.",
+          "Quando uma consulta interna utiliza valores da consulta externa para realizar seu cálculo, chamamos isso de **Subquery Correlacionada**. É como se a consulta interna fizesse uma pergunta específica para cada linha que a consulta principal processa.",
+          {
+            "type": "definicao",
+            "termo": "Subquery Correlacionada",
+            "def": "Uma subconsulta que depende de valores da consulta externa para ser executada, criando um vínculo direto entre as duas."
+          },
+          "**Analogia do Crachá Inteligente:** Imagine um crachá de identificação de uma estação espacial. Além de mostrar seu nome, ele possui uma pequena tela digital. Toda vez que alguém olha para o seu crachá (cada linha do SELECT), a tela faz uma consulta rápida ao banco de dados em tempo real para mostrar quantos créditos você ainda tem no refeitório. A informação não está impressa no plástico, ela é gerada dinamicamente para VOCÊ.",
+          "**Regra de Ouro:** Uma subquery no SELECT deve ser escalar, ou seja, retornar exatamente um único valor (uma linha e uma coluna). Caso contrário, o banco de dados não saberá como encaixar múltiplos valores em uma única célula do relatório.",
+          {
+            "type": "code",
+            "code": "SELECT \n  nome, \n  (SELECT COUNT(*) FROM naves WHERE naves.planeta_id = planetas.id) AS total_naves\nFROM planetas;",
+            "lese": "Selecione o nome do planeta e, para cada linha, execute uma contagem de naves onde o ID do planeta na tabela naves seja igual ao ID do planeta atual."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Correlated Subqueries: Dynamic Columns",
+          "conteudo": {
+            "blocos": [
+              "You've used subqueries to filter rows in the WHERE clause. Now, in **Neon.tech**, you can use a subquery inside the **SELECT** to create columns that don't physically exist.",
+              "When an inner query uses values from the outer query, it's called a **Correlated Subquery**. It's as if the inner query asks a specific question for every row the main query processes.",
+              "**Smart Badge Analogy:** Imagine a space station ID badge. Along with your name, it has a digital screen. Every time someone looks at it (each row), the screen queries the database in real-time to show your cafeteria credits."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Subqueries Correlacionadas: Columnas Dinámicas",
+          "conteudo": {
+            "blocos": [
+              "Ya has usado subqueries para filtrar filas en el WHERE. Ahora, en **Neon.tech**, puedes usar una subquery dentro del **SELECT** para crear columnas que no existen físicamente.",
+              "Cuando una consulta interna utiliza valores de la consulta externa, la llamamos **Subquery Correlacionada**. Es como si la consulta interna hiciera una pregunta específica para cada fila.",
+              "**Analogía del Carnet Inteligente:** Imagina un carnet de identificación espacial. Además de tu nombre, tiene una pantalla digital. Cada vez que alguien mira el carnet (cada fila), la pantalla consulta la base de datos en tiempo real para mostrar tus créditos de comedor."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 162,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Posicionamento de Subqueries",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Onde mais, além da cláusula WHERE, uma subquery pode ser posicionada para gerar informações dinâmicas calculadas linha por linha no resultado final?",
+        "opcoes": [
+          "SELECT",
+          "GROUP BY",
+          "LIMIT",
+          "ORDER BY"
+        ],
+        "indiceCorreto": 0,
+        "dica": "Essa posição permite que o resultado da subquery apareça como uma nova coluna no seu relatório."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Subquery Positioning",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Where else, besides the WHERE clause, can a subquery be placed to generate dynamic information calculated row by row in the final result?",
+            "opcoes": ["SELECT", "GROUP BY", "LIMIT", "ORDER BY"],
+            "indiceCorreto": 0
+          }
+        },
+        "es": {
+          "titulo": "Posicionamiento de Subqueries",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿En qué otro lugar, además de la cláusula WHERE, se puede colocar una subquery para generar información dinámica calculada fila por fila?",
+            "opcoes": ["SELECT", "GROUP BY", "LIMIT", "ORDER BY"],
+            "indiceCorreto": 0
+          }
+        }
+      }
+    },
+    {
+      "ordem": 163,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Regra da Unicidade",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre subqueries no SELECT:",
+        "afirmacao": "Uma subquery utilizada dentro da lista de campos do SELECT deve obrigatoriamente retornar apenas um único valor por linha da consulta principal.",
+        "respostaCorreta": true,
+        "dica": "O SQL não consegue colocar uma 'lista' de valores dentro de uma única célula de resultado de forma convencional."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Uniqueness Rule",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About subqueries in the SELECT:",
+            "afirmacao": "A subquery used within the SELECT field list must return only a single value per row of the main query.",
+            "respostaCorreta": true
+          }
+        },
+        "es": {
+          "titulo": "V o F: La Regla de la Unicidad",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre subqueries en el SELECT:",
+            "afirmacao": "Una subquery utilizada dentro de la lista de campos del SELECT debe devolver obligatoriamente un único valor por fila de la consulta principal.",
+            "respostaCorreta": true
+          }
+        }
+      }
+    },
+    {
+      "ordem": 164,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Contagem Correlacionada",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Selecione o nome dos planetas e, em uma segunda coluna, conte quantas missões cada planeta possui através de uma subquery na tabela 'missoes'. Nomeie essa coluna calculada como 'total_missoes'.",
+        "placeholder": "SELECT nome, (SELECT ...) AS total_missoes FROM planetas;",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE missoes (id SERIAL PRIMARY KEY, planeta_id INT REFERENCES planetas(id)); INSERT INTO planetas (nome) VALUES ('Vênus'), ('Terra'); INSERT INTO missoes (planeta_id) VALUES (2), (2), (1);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "total_missoes"],
+          "correlated_subquery": true
+        },
+        "dica": "Sua subquery deve conter WHERE missoes.planeta_id = planetas.id para criar a correlação.",
+        "explicacaoTecnica": "Para cada linha da tabela planetas, o PostgreSQL executa a subquery interna filtrando as missões que pertencem àquele ID específico, gerando um resultado dinâmico por linha."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Correlated Counting",
+          "conteudo": {
+            "instrucao": "Select the planet names and, in a second column, count how many missions each planet has using a subquery on the 'missoes' table. Name this calculated column 'total_missoes'.",
+            "dica": "Your subquery must contain WHERE missoes.planeta_id = planetas.id to create the correlation."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Conteo Correlacionado",
+          "conteudo": {
+            "instrucao": "Selecciona el nombre de los planetas y, en una segunda columna, cuenta cuántas misiones tiene cada planeta mediante una subquery en la tabla 'missoes'. Nombra esta columna calculada como 'total_missoes'.",
+            "dica": "Tu subquery debe contener WHERE missoes.planeta_id = planetas.id para crear la correlación."
+          }
+        }
+      }
+    }
+  ]
+}

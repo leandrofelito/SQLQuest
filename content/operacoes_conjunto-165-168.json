@@ -1,0 +1,203 @@
+{
+  "meta": {
+    "trilha_slug": "operacoes_conjunto",
+    "substituir_ordens": [165, 166, 167, 168],
+    "nota": "Início da Trilha 13: Unificação vertical de resultados com operadores de conjunto UNION e UNION ALL."
+  },
+  "gabarito_declarado": {
+    "exercicio_multipla": {
+      "indiceCorreto": 0,
+      "letra": "A"
+    },
+    "exercicio_vf": {
+      "respostaCorreta": false
+    },
+    "exercicio_sql": {
+      "query_esperada": "SELECT nome FROM planetas UNION SELECT nome FROM estrelas;"
+    }
+  },
+  "dicas_ver_dica_gratuito": [
+    {
+      "exercicio": "multipla",
+      "pt": "Dica de Ouro: Esse operador funciona como a união de conjuntos na matemática, eliminando o que é repetido.",
+      "en": "Golden Hint: This operator works like the union of sets in mathematics, eliminating what is repeated.",
+      "es": "Pista de Oro: Este operador funciona como la unión de conjuntos en matemáticas, eliminando lo que se repite."
+    },
+    {
+      "exercicio": "vf",
+      "pt": "Dica de Ouro: Imagine tentar empilhar uma caixa larga sobre uma caixa estreita; para o SQL, as 'prateleiras' (colunas) devem alinhar perfeitamente.",
+      "en": "Golden Hint: Imagine trying to stack a wide box on a narrow one; for SQL, the 'shelves' (columns) must align perfectly.",
+      "es": "Pista de Oro: Imagina intentar apilar una caja ancha sobre una estrecha; para SQL, los 'estantes' (columnas) deben alinearse perfectamente."
+    },
+    {
+      "exercicio": "sql",
+      "pt": "Dica de Ouro: Selecione a coluna nome de uma tabela, coloque o UNION no meio e selecione a mesma coluna da outra tabela.",
+      "en": "Golden Hint: Select the name column from one table, put UNION in the middle, and select the same column from the other table.",
+      "es": "Pista de Oro: Selecciona la columna nome de una tabla, pon UNION en el medio y selecciona la misma columna de la otra tabla."
+    }
+  ],
+  "etapas_formato_app": [
+    {
+      "ordem": 165,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Empilhamento de Dados: UNION e UNION ALL",
+      "conteudo": {
+        "blocos": [
+          "Até agora, você usou o JOIN para unir tabelas 'lado a lado' (horizontalmente). No **Neon.tech**, às vezes precisamos unir tabelas 'uma em cima da outra' (verticalmente). Para isso, usamos os operadores de conjunto: **UNION** e **UNION ALL**.",
+          "O **UNION** combina o resultado de dois SELECTs em uma única lista e remove automaticamente as linhas duplicadas. Se um nome aparece nas duas tabelas, ele será exibido apenas uma vez.",
+          "O **UNION ALL** faz o mesmo empilhamento, mas **mantém todas as linhas**, mesmo as repetidas. Como o banco de dados não precisa gastar tempo procurando duplicatas, o UNION ALL é consideravelmente mais rápido.",
+          {
+            "type": "definicao",
+            "termo": "Regra de Ouro",
+            "def": "Para que a união funcione, ambos os SELECTs devem ter exatamente o mesmo número de colunas e os tipos de dados devem ser compatíveis."
+          },
+          "**Analogia das Listas de Convidados:** Imagine que você tem duas listas de convidados para festas espaciais. O **UNION** é a lista final consolidada onde você removeu os nomes repetidos para não enviar dois convites para a mesma pessoa. O **UNION ALL** é como apenas grampear uma folha na outra: você tem todos os nomes, mas não se importa se alguém foi convidado duas vezes.",
+          {
+            "type": "code",
+            "code": "SELECT nome FROM planetas\nUNION\nSELECT nome FROM estrelas;",
+            "lese": "Combine os nomes da tabela planetas com os nomes da tabela estrelas, removendo quaisquer nomes que apareçam em ambas."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Stacking Data: UNION and UNION ALL",
+          "conteudo": {
+            "blocos": [
+              "So far, you've used JOIN to merge tables 'side by side'. In **Neon.tech**, sometimes we need to merge tables 'one on top of the other'. For this, we use **UNION** and **UNION ALL**.",
+              "**UNION** combines results and removes duplicates. **UNION ALL** keeps everything, including repeats, making it faster.",
+              "**Guest List Analogy:** UNION is the consolidated list with duplicate names removed. UNION ALL is just stapling the sheets together without checking for repeats."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Apilamiento de Datos: UNION y UNION ALL",
+          "conteudo": {
+            "blocos": [
+              "Hasta ahora, has usado JOIN para unir tablas 'lado a lado'. En **Neon.tech**, a veces necesitamos unir tablas 'una encima de otra'. Para esto, usamos **UNION** y **UNION ALL**.",
+              "**UNION** combina los resultados y elimina los duplicados. **UNION ALL** mantiene todo, incluso las repeticiones, lo que lo hace más rápido.",
+              "**Analogía de las Listas de Invitados:** UNION es la lista final consolidada sin nombres repetidos. UNION ALL es simplemente grapar las hojas sin revisar si alguien fue invitado dos veces."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 166,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "União sem Repetições",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual operador de conjunto deve ser usado para unir dois resultados de consulta removendo automaticamente as linhas que aparecem em ambos os SELECTs?",
+        "opcoes": [
+          "UNION",
+          "UNION ALL",
+          "JOIN",
+          "INTERSECT"
+        ],
+        "indiceCorreto": 0,
+        "dica": "Esse operador garante que cada linha do resultado final seja única."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Union Without Repeats",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which set operator should be used to combine two query results while automatically removing rows that appear in both SELECTs?",
+            "opcoes": ["UNION", "UNION ALL", "JOIN", "INTERSECT"],
+            "indiceCorreto": 0
+          }
+        },
+        "es": {
+          "titulo": "Unión sin Repeticiones",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué operador de conjunto debe usarse para unir dos resultados de consulta eliminando automáticamente las filas que aparecen en ambos SELECTs?",
+            "opcoes": ["UNION", "UNION ALL", "JOIN", "INTERSECT"],
+            "indiceCorreto": 0
+          }
+        }
+      }
+    },
+    {
+      "ordem": 167,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: Estrutura de Empilhamento",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre as restrições técnicas dos operadores de conjunto:",
+        "afirmacao": "Para usar o operador UNION, as tabelas ou SELECTs envolvidos não precisam ter o mesmo número de colunas, desde que os nomes das tabelas sejam diferentes.",
+        "respostaCorreta": false,
+        "dica": "O SQL exige que a 'largura' de cada resultado seja exatamente a mesma para poder empilhá-los."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: Stacking Structure",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Regarding technical constraints of set operators:",
+            "afirmacao": "To use the UNION operator, the involved tables or SELECTs do not need to have the same number of columns, as long as the table names are different.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: Estructura de Apilamiento",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre las restricciones técnicas de los operadores de conjunto:",
+            "afirmacao": "Para usar el operador UNION, las tablas o SELECTs involucrados no necesitan tener el mismo número de columnas, siempre que los nombres de las tablas sean diferentes.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 168,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Lista Universal",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Una a coluna 'nome' da tabela 'planetas' com a coluna 'nome' da tabela 'estrelas' usando um operador que remova quaisquer duplicatas.",
+        "placeholder": "SELECT ... FROM planetas ... SELECT ... FROM estrelas;",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE estrelas (id SERIAL PRIMARY KEY, nome TEXT); INSERT INTO planetas (nome) VALUES ('Marte'), ('Vênus'); INSERT INTO estrelas (nome) VALUES ('Sol'), ('Marte');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome"],
+          "set_operator": "UNION"
+        },
+        "dica": "Escreva o primeiro SELECT, coloque UNION e depois escreva o segundo SELECT.",
+        "explicacaoTecnica": "O operador UNION executa um plano de classificação (sort) ou hash para identificar e eliminar linhas idênticas entre os conjuntos de resultados."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Universal List",
+          "conteudo": {
+            "instrucao": "Combine the 'nome' column from the 'planetas' table with the 'nome' column from the 'estrelas' table using an operator that removes any duplicates.",
+            "dica": "Write the first SELECT, place UNION, and then write the second SELECT."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Lista Universal",
+          "conteudo": {
+            "instrucao": "Une la columna 'nome' de la tabla 'planetas' con la columna 'nome' de la tabla 'estrelas' usando un operador que elimine cualquier duplicado.",
+            "dica": "Escribe el primer SELECT, pon UNION y luego escribe el segundo SELECT."
+          }
+        }
+      }
+    }
+  ]
+}

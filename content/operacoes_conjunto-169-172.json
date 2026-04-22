@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "trilha_slug": "operacoes_conjunto",
+    "substituir_ordens": [169, 170, 171, 172],
+    "nota": "Etapa 2 da Trilha 13: Operações de filtragem de conjuntos com INTERSECT e EXCEPT."
+  },
+  "gabarito_declarado": {
+    "exercicio_multipla": {
+      "indiceCorreto": 1,
+      "letra": "B"
+    },
+    "exercicio_vf": {
+      "respostaCorreta": false
+    },
+    "exercicio_sql": {
+      "query_esperada": "SELECT nome FROM planetas INTERSECT SELECT nome FROM estrelas;"
+    }
+  },
+  "dicas_ver_dica_gratuito": [
+    {
+      "exercicio": "multipla",
+      "pt": "Dica de Ouro: Pense na palavra em inglês para 'interseção'.",
+      "en": "Golden Hint: Think of the word for the common area between two sets.",
+      "es": "Pista de Oro: Piensa en la palabra para el área común entre dos conjuntos."
+    },
+    {
+      "exercicio": "vf",
+      "pt": "Dica de Ouro: Pense na matemática: 10 - 2 é o mesmo que 2 - 10? No EXCEPT, o primeiro conjunto é de onde subtraímos.",
+      "en": "Golden Hint: Think of math: is 10 - 2 the same as 2 - 10? In EXCEPT, the first set is what we subtract from.",
+      "es": "Pista de Oro: Piensa en las matemáticas: ¿es 10 - 2 lo mismo que 2 - 10? En EXCEPT, el primer conjunto é de donde restamos."
+    },
+    {
+      "exercicio": "sql",
+      "pt": "Dica de Ouro: A estrutura é idêntica ao UNION, mas trocamos a palavra-chave para INTERSECT.",
+      "en": "Golden Hint: The structure is identical to UNION, but we change the keyword to INTERSECT.",
+      "es": "Pista de Oro: La estructura es idéntica a UNION, pero cambiamos la palabra clave por INTERSECT."
+    }
+  ],
+  "etapas_formato_app": [
+    {
+      "ordem": 169,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Filtragem de Conjuntos: INTERSECT e EXCEPT",
+      "conteudo": {
+        "blocos": [
+          "Agora que você já sabe como somar listas com o UNION, é hora de aprender a comparar e subtrair resultados no **Neon.tech**. Para isso, usamos o **INTERSECT** e o **EXCEPT**.",
+          "O **INTERSECT** funciona como um filtro de confirmação: ele retorna apenas os registros que aparecem em **ambos** os SELECTs. Se um dado está na Lista A mas não está na Lista B, ele é descartado.",
+          "O **EXCEPT** funciona como uma subtração de conjuntos. Ele retorna tudo o que está no primeiro SELECT, mas remove qualquer coisa que também apareça no segundo SELECT. É a forma perfeita de encontrar 'o que falta' ou 'o que é exclusivo'.",
+          "**Analogia do Radar de Naves:** Imagine dois radares em bases diferentes. O **INTERSECT** mostra apenas as naves detectadas tanto pela Base A quanto pela Base B ao mesmo tempo (uma confirmação dupla de alvo). O **EXCEPT** (Base A EXCEPT Base B) mostra as naves que apenas a Base A detectou, mas a Base B não — o que pode indicar uma falha no segundo radar ou um invasor vindo de um ângulo específico.",
+          "Lembre-se: assim como no UNION, as colunas e tipos de dados devem ser compatíveis!",
+          {
+            "type": "code",
+            "code": "SELECT nome FROM planetas \nINTERSECT \nSELECT nome FROM estrelas;\n\nSELECT nome FROM planetas \nEXCEPT \nSELECT nome FROM estrelas;",
+            "lese": "Primeiro, encontre nomes que são ao mesmo tempo planetas e estrelas. Depois, encontre nomes de planetas que não são usados por nenhuma estrela."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Set Filtering: INTERSECT and EXCEPT",
+          "conteudo": {
+            "blocos": [
+              "After learning to add lists with UNION, it's time to learn how to compare and subtract results in **Neon.tech** using **INTERSECT** and **EXCEPT**.",
+              "**INTERSECT** acts as a confirmation filter: it only returns records that appear in **both** SELECTs.",
+              "**EXCEPT** acts as a set subtraction. It returns everything from the first SELECT, minus anything that also appears in the second one.",
+              "**Ship Radar Analogy:** INTERSECT shows ships detected by both radars (double confirmation). EXCEPT shows ships that only Radar A detected, helping to find exclusives or discrepancies."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Filtrado de Conjuntos: INTERSECT y EXCEPT",
+          "conteudo": {
+            "blocos": [
+              "Después de aprender a sumar listas con UNION, es hora de aprender a comparar y restar resultados en **Neon.tech** usando **INTERSECT** y **EXCEPT**.",
+              "**INTERSECT** funciona como un filtro de confirmación: solo devuelve los registros que aparecen en **ambos** SELECTs.",
+              "**EXCEPT** funciona como una resta de conjuntos. Devuelve todo lo del primer SELECT, menos cualquier cosa que también aparezca en el segundo.",
+              "**Analogía del Radar de Naves:** INTERSECT muestra naves detectadas por ambos radares (confirmación doble). EXCEPT muestra naves que solo el Radar A detectó, ayudando a encontrar exclusividades."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 170,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Pontos em Comum",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual operador de conjunto retorna apenas os valores que são comuns a ambos os resultados de consulta (a interseção)?",
+        "opcoes": [
+          "UNION",
+          "INTERSECT",
+          "EXCEPT",
+          "JOIN"
+        ],
+        "indiceCorreto": 1,
+        "dica": "O nome do operador é a tradução direta de 'interseção' para o inglês."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Common Points",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which set operator returns only the values that are common to both query results (the intersection)?",
+            "opcoes": ["UNION", "INTERSECT", "EXCEPT", "JOIN"],
+            "indiceCorreto": 1
+          }
+        },
+        "es": {
+          "titulo": "Puntos en Común",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué operador de conjunto devuelve solo los valores que son comunes a ambos resultados de consulta (la intersección)?",
+            "opcoes": ["UNION", "INTERSECT", "EXCEPT", "JOIN"],
+            "indiceCorreto": 1
+          }
+        }
+      }
+    },
+    {
+      "ordem": 171,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Ordem dos Fatores",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a lógica da subtração de conjuntos:",
+        "afirmacao": "Ao usar o operador EXCEPT, a ordem das tabelas não importa; o comando 'A EXCEPT B' sempre retornará o mesmo resultado que 'B EXCEPT A'.",
+        "respostaCorreta": false,
+        "dica": "Pense no EXCEPT como uma conta de menos (-). Mudar quem vem primeiro muda o que sobra."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Order of Factors",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About set subtraction logic:",
+            "afirmacao": "When using the EXCEPT operator, the order of the tables doesn't matter; 'A EXCEPT B' will always return the same result as 'B EXCEPT A'.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Orden de los Factores",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la lógica de la resta de conjuntos:",
+            "afirmacao": "Al usar el operador EXCEPT, el orden de las tablas no importa; el comando 'A EXCEPT B' siempre devolverá el mismo resultado que 'B EXCEPT A'.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 172,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Nomes Duplicados",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Encontre o nome dos planetas que também aparecem na tabela de 'estrelas' usando o operador de interseção.",
+        "placeholder": "SELECT nome FROM planetas ... SELECT nome FROM estrelas;",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE estrelas (id SERIAL PRIMARY KEY, nome TEXT); INSERT INTO planetas (nome) VALUES ('Marte'), ('Vênus'), ('Sirius'); INSERT INTO estrelas (nome) VALUES ('Sol'), ('Sirius');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome"],
+          "set_operator": "INTERSECT"
+        },
+        "dica": "O comando deve buscar o que é comum entre os dois SELECTs usando INTERSECT.",
+        "explicacaoTecnica": "O INTERSECT compara os dois conjuntos de resultados e mantém apenas os valores que possuem uma correspondência exata em ambos."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Duplicate Names",
+          "conteudo": {
+            "instrucao": "Find the name of planets that also appear in the 'estrelas' table using the intersection operator.",
+            "dica": "The command should look for what is common between the two SELECTs using INTERSECT."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Nombres Duplicados",
+          "conteudo": {
+            "instrucao": "Encuentra el nombre de los planetas que también aparecen en la tabla de 'estrelas' usando el operador de intersección.",
+            "dica": "El comando debe buscar lo que es común entre los dos SELECTs usando INTERSECT."
+          }
+        }
+      }
+    }
+  ]
+}
