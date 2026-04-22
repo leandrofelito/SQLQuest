@@ -138,13 +138,17 @@ export default function EtapaPage() {
   // Marca conclusao como visitada automaticamente ao renderizar (não tem botão Continuar próprio)
   useEffect(() => {
     if (etapa?.tipo === 'conclusao' && trilha) {
+      // Atualiza cache local para que o percentual da trilha reflita 100%
+      addProgressoOptimistic(etapa.id, trilha.id)
       fetch('/api/marcar-visitada', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id }),
       })
+      // Garante que a sessão reflita o XP acumulado na trilha
+      updateSession()
     }
-  }, [etapa?.id, etapa?.tipo, trilha?.id])
+  }, [etapa?.id, etapa?.tipo, trilha?.id, addProgressoOptimistic, updateSession])
 
   async function marcarVisitada() {
     if (!etapa || !trilha) return
