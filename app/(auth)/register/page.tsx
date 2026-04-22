@@ -120,6 +120,48 @@ export default function RegisterPage() {
 
   const meta = STRENGTH_META[strength]
 
+  if (emailEnviado) {
+    return (
+      <div className="min-h-screen bg-[#080a0f] flex flex-col items-center justify-center px-6">
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'linear-gradient(#8b5cf6 1px, transparent 1px), linear-gradient(90deg, #8b5cf6 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+        <div className="relative z-10 w-full max-w-sm sm:max-w-md">
+          <div className="flex justify-center mb-8">
+            <img src="/icons/sqlquest_logo_escrita.svg" alt="SQLQuest" className="w-[55%] max-w-[240px] h-auto" />
+          </div>
+          <div className="bg-[#0f1117] border border-[#2a2d3a] rounded-2xl px-8 py-10 text-center space-y-5">
+            <div className="flex justify-center">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-3xl">
+                ✉️
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-white text-xl font-bold">Verifique seu email</h2>
+              <p className="text-white/50 text-sm leading-relaxed">
+                Enviamos um link de confirmação para
+              </p>
+              <p className="text-[#a78bfa] text-sm font-semibold break-all">{form.email}</p>
+            </div>
+            <p className="text-white/30 text-xs leading-relaxed">
+              Clique no link do email para ativar sua conta. Não esqueça de verificar a pasta de spam.
+            </p>
+            <Link
+              href="/login"
+              className="block w-full py-3 rounded-xl bg-[#8b5cf6] hover:bg-[#7c3aed] text-white text-sm font-semibold transition-colors"
+            >
+              Ir para o login
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-[#080a0f] flex flex-col items-center justify-center px-6 pt-10">
       <div
@@ -281,15 +323,6 @@ export default function RegisterPage() {
             <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5">
               {erro}
             </p>
-          )}
-
-          {emailEnviado && (
-            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-3 space-y-1">
-              <p className="text-emerald-400 text-sm font-semibold">✅ Verifique seu email!</p>
-              <p className="text-emerald-300/70 text-xs leading-relaxed">
-                Enviamos um link de confirmação para <strong>{form.email}</strong>. Clique no link para ativar sua conta.
-              </p>
-            </div>
           )}
 
           <Button
