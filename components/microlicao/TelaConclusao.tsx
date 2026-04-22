@@ -22,11 +22,12 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
 
   return (
     <motion.div
-      className="flex flex-col items-center justify-between h-full px-6 py-10"
+      className="flex flex-col h-full px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center">
+      {/* Área rolável */}
+      <div className="flex-1 overflow-y-auto py-10 flex flex-col items-center gap-6 text-center">
         <motion.div
           animate={{ y: [0, -12, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
@@ -80,20 +81,21 @@ export function TelaConclusao({ conteudo, xpGanho, trilhaSlug, trilhaConcluida, 
         >
           <span className="text-amber-300 font-bold text-lg">+{xpGanho > 0 ? xpGanho : conteudo.xpGanho} XP</span>
         </motion.div>
+
+        {!isPro && (
+          <motion.div
+            className="w-full max-w-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.55 }}
+          >
+            <AdBanner />
+          </motion.div>
+        )}
       </div>
 
-      {!isPro && (
-        <motion.div
-          className="w-full max-w-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.55 }}
-        >
-          <AdBanner />
-        </motion.div>
-      )}
-
-      <div className="w-full">
+      {/* Botão fixo na base, sempre visível */}
+      <div className="w-full py-4">
         <Button
           onClick={() => router.push(`/trilha/${trilhaSlug}`)}
           fullWidth
