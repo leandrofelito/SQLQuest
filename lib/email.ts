@@ -1,14 +1,22 @@
 import { Resend } from 'resend'
 
+if (!process.env.RESEND_API_KEY) {
+  console.warn('[email] RESEND_API_KEY não definida — envio de emails desativado')
+}
+
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 const FROM_EMAIL = process.env.EMAIL_FROM ?? 'SQLQuest <noreply@sqlquest.com.br>'
 const APP_URL = process.env.NEXTAUTH_URL ?? 'http://localhost:3000'
 
 export async function sendVerificationEmail(to: string, name: string, token: string) {
-  if (!resend) return
+  if (!resend) {
+    console.warn('[email] sendVerificationEmail ignorado: RESEND_API_KEY não configurada')
+    return
+  }
 
   const verifyUrl = `${APP_URL}/api/auth/verify?token=${token}`
+  console.log('[email] enviando verificação para:', to)
 
   await resend.emails.send({
     from: FROM_EMAIL,
