@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "trilha_slug": "performance_otimizacao",
+    "substituir_ordens": [185, 186, 187, 188],
+    "nota": "Etapa Final da Trilha 15: O Grande Exame do Arquiteto. Encerramento da jornada SQLQuest."
+  },
+  "gabarito_declarado": {
+    "exercicio_multipla": {
+      "indiceCorreto": 1,
+      "letra": "B"
+    },
+    "exercicio_vf": {
+      "respostaCorreta": false
+    },
+    "exercicio_sql": {
+      "query_esperada": "SELECT planetas.nome, COUNT(naves.id) AS total_naves FROM planetas INNER JOIN naves ON planetas.id = naves.planeta_id GROUP BY planetas.nome HAVING COUNT(naves.id) > 2;"
+    }
+  },
+  "dicas_ver_dica_gratuito": [
+    {
+      "exercicio": "multipla",
+      "pt": "Dica de Ouro: Lembre-se do 'Modo de Segurança' que inicia o bloco e do comando que 'carimba' a vitória.",
+      "en": "Golden Hint: Remember the 'Safety Mode' that starts the block and the command that 'stamps' the victory.",
+      "es": "Pista de Oro: Recuerda el 'Modo de Seguridad' que inicia el bloque y el comando que 'sella' la victoria."
+    },
+    {
+      "exercicio": "vf",
+      "pt": "Dica de Ouro: Pense no peso extra de carregar mil sumários para um livro de apenas dez páginas.",
+      "en": "Golden Hint: Think of the extra weight of carrying a thousand summaries for a book with only ten pages.",
+      "es": "Pista de Oro: Piensa en el peso extra de cargar mil resúmenes para un libro de solo diez páginas."
+    },
+    {
+      "exercicio": "sql",
+      "pt": "Dica de Ouro: Una as tabelas pelo ID, agrupe pelo nome e use o HAVING para filtrar a contagem.",
+      "en": "Golden Hint: Join the tables by ID, group by name, and use HAVING to filter the count.",
+      "es": "Pista de Oro: Une las tablas por ID, agrupa por nombre y usa HAVING para filtrar el conteo."
+    }
+  ],
+  "etapas_formato_app": [
+    {
+      "ordem": 185,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 500,
+      "titulo": "O Grande Exame do Arquiteto",
+      "conteudo": {
+        "blocos": [
+          "Parabéns, Comandante! Você percorreu um caminho incrível. Desde as primeiras consultas simples com `SELECT` até a construção de arquiteturas complexas envolvendo transações seguras, subqueries inteligentes e índices de alta performance no **Neon.tech**.",
+          "Nesta jornada, você aprendeu que os dados não são apenas informações soltas; eles são a estrutura que mantém a galaxia organizada. Você aprendeu a criar (CREATE), ler (SELECT), atualizar (UPDATE) e deletar (DELETE) com responsabilidade e precisão.",
+          "**Analogia Final:** Você não é mais apenas alguém que lê o mapa. Agora, você é o **Comandante da Central de Dados**. Você constrói as rotas (Joins), protege as cargas (Transactions) e garante que as comunicações cheguem na velocidade da luz (Indexes). A galaxia dos dados agora obedece aos seus comandos.",
+          "Antes de receber seu selo final de mestre, vamos ao desafio derradeiro para testar sua visão sistêmica.",
+          "**Parabéns por completar a jornada SQLQuest! A galaxia dos dados está em boas mãos.**",
+          "**Congratulations on completing the SQLQuest journey! The data galaxy is in good hands.**",
+          "**¡Felicitaciones por completar el viaje de SQLQuest! La galaxia de datos está en buenas manos.**"
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Architect's Grand Exam",
+          "conteudo": {
+            "blocos": [
+              "Congratulations, Commander! You have traveled an incredible path. From simple `SELECT` queries to building complex architectures involving secure transactions and high-performance indexes.",
+              "You've learned that data is the structure that keeps the galaxy organized. You now lead the way as a Data Architect.",
+              "**Final Analogy:** You are the Commander of the Data Center. You build the routes (Joins), protect the cargo (Transactions), and ensure communication at light speed (Indexes)."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Gran Examen del Arquitecto",
+          "conteudo": {
+            "blocos": [
+              "¡Felicidades, Comandante! Has recorrido un camino increíble. Desde simples consultas `SELECT` hasta la construcción de arquitecturas con transacciones y índices de alto rendimiento.",
+              "Aprendiste que los datos son la estructura que mantiene organizada la galaxia. Ahora eres un Arquitecto de Datos consumado.",
+              "**Analogía Final:** Eres el Comandante de la Central de Datos. Construyes las rutas (Joins), proteges las cargas (Transactions) y garantizas velocidad de la luz (Indexes)."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 186,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 200,
+      "titulo": "Revisão: Segurança em Primeiro Lugar",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Em uma arquitetura de banco de dados profissional, qual é a sequência ideal de comandos para garantir que um conjunto de alterações seja salvo apenas se todas as etapas ocorrerem com sucesso?",
+        "opcoes": [
+          "SELECT -> UPDATE -> DELETE",
+          "BEGIN -> Operações -> COMMIT",
+          "CREATE -> INSERT -> DROP",
+          "BEGIN -> Operações -> ROLLBACK"
+        ],
+        "indiceCorreto": 1,
+        "dica": "O bloco deve ser aberto com segurança e fechado com a confirmação definitiva."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Review: Safety First",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "In a professional database architecture, what is the ideal sequence of commands to ensure a set of changes is saved only if all steps succeed?",
+            "opcoes": ["SELECT -> UPDATE -> DELETE", "BEGIN -> Operations -> COMMIT", "CREATE -> INSERT -> DROP", "BEGIN -> Operations -> ROLLBACK"],
+            "indiceCorreto": 1
+          }
+        },
+        "es": {
+          "titulo": "Revisión: Seguridad Ante Todo",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿En una arquitectura profesional, cuál es la secuencia ideal de comandos para garantizar que los cambios se guarden solo si todo sale bien?",
+            "opcoes": ["SELECT -> UPDATE -> DELETE", "BEGIN -> Operaciones -> COMMIT", "CREATE -> INSERT -> DROP", "BEGIN -> Operaciones -> ROLLBACK"],
+            "indiceCorreto": 1
+          }
+        }
+      }
+    },
+    {
+      "ordem": 187,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 200,
+      "titulo": "V ou F: O Paradoxo dos Índices",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a otimização de performance:",
+        "afirmacao": "Índices devem ser criados em todas as colunas de todas as tabelas para garantir que o banco de dados seja o mais rápido possível em qualquer situação de consulta.",
+        "respostaCorreta": false,
+        "dica": "Lembre-se que cada índice novo torna o ato de escrever (INSERT) mais pesado para o sistema."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Index Paradox",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About performance optimization:",
+            "afirmacao": "Indexes should be created on all columns of all tables to ensure the database is as fast as possible in any query situation.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: La Paradoja de los Índices",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la optimización del rendimiento:",
+            "afirmacao": "Los índices deben crearse en todas las columnas de todas las tablas para garantizar que la base de datos sea lo más rápida posible en cualquier situación.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 188,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 1000,
+      "titulo": "O DESAFIO FINAL",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "A frota precisa de um relatório final. Escreva uma única query que: 1. Selecione o nome do planeta. 2. Conte quantas naves ele possui (total_naves). 3. Una 'planetas' com 'naves' (INNER JOIN). 4. Agrupe por planeta. 5. Mostre apenas planetas com mais de 2 naves.",
+        "placeholder": "SELECT ... FROM planetas ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE naves (id SERIAL PRIMARY KEY, nome TEXT, planeta_id INT REFERENCES planetas(id)); INSERT INTO planetas (nome) VALUES ('Terra'), ('Marte'); INSERT INTO naves (nome, planeta_id) VALUES ('Nave A', 1), ('Nave B', 1), ('Nave C', 1), ('Nave D', 2);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "total_naves"],
+          "has_join": true,
+          "has_group_by": true,
+          "has_having": true
+        },
+        "dica": "Use SELECT planetas.nome, COUNT(naves.id) AS total_naves... JOIN naves ON... GROUP BY planetas.nome HAVING COUNT(naves.id) > 2;",
+        "explicacaoTecnica": "Este comando demonstra a maestria em DQL: filtragem lateral (JOIN), agregação (COUNT), segmentação (GROUP BY) e filtragem de grupo (HAVING)."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "THE FINAL CHALLENGE",
+          "conteudo": {
+            "instrucao": "The fleet needs a final report. Write a single query to: 1. Select planet name. 2. Count ships (total_naves). 3. Join 'planetas' and 'naves' (INNER JOIN). 4. Group by planet. 5. Show only planets with more than 2 ships.",
+            "dica": "Use SELECT, JOIN, GROUP BY, and HAVING in that specific order."
+          }
+        },
+        "es": {
+          "titulo": "EL DESAFÍO FINAL",
+          "conteudo": {
+            "instrucao": "La flota necesita un informe final. Escribe una sola consulta que: 1. Seleccione el nombre del planeta. 2. Cuente las naves (total_naves). 3. Una las tablas (INNER JOIN). 4. Agrupe por planeta. 5. Muestre solo planetas con más de 2 naves.",
+            "dica": "Usa SELECT, JOIN, GROUP BY y HAVING en ese orden específico."
+          }
+        }
+      }
+    }
+  ]
+}

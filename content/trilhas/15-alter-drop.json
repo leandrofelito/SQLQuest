@@ -4,7 +4,7 @@
   "descricao": "Modifique tabelas existentes adicionando colunas, alterando tipos e removendo estruturas com segurança.",
   "icone": "🔧",
   "ordem": 17,
-  "xpTotal": 750,
+  "xpTotal": 3000,
   "traducoes": {
     "en": {
       "titulo": "ALTER and DROP — Evolving Structures",
@@ -423,6 +423,336 @@
           "conteudo": {
             "mensagem": "Las bases de datos evolucionan con el sistema. ¡Ahora sabes cómo adaptar estructuras existentes sin recrear todo desde cero!",
             "xpGanho": 500
+          }
+        }
+      }
+    },
+    {
+      "ordem": 181,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Velocidade Máxima: O Poder dos Índices",
+      "conteudo": {
+        "blocos": [
+          "Você já é um mestre em manipular dados. Mas o que acontece quando sua tabela cresce para milhões de linhas? No **Neon.tech**, uma consulta que levava milissegundos pode começar a levar segundos. Para resolver isso, usamos o **INDEX**.",
+          "Um índice é uma estrutura de dados separada da tabela que funciona como um atalho. Sem ele, o banco realiza um **Sequential Scan** (leitura sequencial), folheando cada linha da tabela para encontrar o que você pediu. Com o índice, ele vai direto ao endereço físico do dado.",
+          {
+            "type": "definicao",
+            "termo": "B-Tree Index",
+            "def": "O tipo padrão de índice no PostgreSQL, organizado em uma árvore balanceada que permite buscas, inserções e remoções em tempo logarítmico."
+          },
+          "**O Custo da Velocidade:** Nem tudo são flores. Índices ocupam espaço extra em disco. Além disso, eles deixam operações de escrita como **INSERT**, **UPDATE** e **DELETE** um pouco mais lentas, pois o banco precisa atualizar o índice toda vez que os dados mudam.",
+          "**Analogia do Livro de Mil Páginas:** Imagine um livro técnico gigante. Se você quer achar o capítulo sobre 'Buracos Negros' e o livro não tem um sumário (índice), você teria que ler página por página até encontrar. Com o índice remissivo no final, você busca pela letra 'B', vê o número da página e pula direto para ela. Você economiza tempo, embora o livro seja um pouco mais grosso por causa das páginas extras do índice.",
+          {
+            "type": "code",
+            "code": "CREATE INDEX idx_populacao \nON planetas(populacao);",
+            "lese": "Crie uma estrutura de busca rápida chamada idx_populacao na tabela planetas, focada na coluna populacao."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Top Speed: The Power of Indexes",
+          "conteudo": {
+            "blocos": [
+              "You are a master of data manipulation. But what happens when your table grows to millions of rows? To fix slowness, we use **INDEXES**.",
+              "An index is a separate structure that acts as a shortcut. Without it, the DB performs a **Sequential Scan**, reading every line. With an index, it goes straight to the data's address.",
+              "**The Cost:** Indexes take up disk space and can make **INSERT** and **DELETE** slightly slower, as the index must be updated too."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Velocidad Máxima: El Poder de los Índices",
+          "conteudo": {
+            "blocos": [
+              "Ya eres un maestro manipulando datos. ¿Pero qué pasa cuando tu tabla crece a millones de filas? Para solucionar la lentitud, usamos **ÍNDICES**.",
+              "Un índice es una estructura separada que funciona como un acceso directo. Sin él, la base realiza un **Sequential Scan**, leyendo cada fila. Con un índice, va directo a la dirección del dato.",
+              "**El Costo:** Los índices ocupan espacio en disco y pueden hacer que el **INSERT** y o **DELETE** sean un poco más lentos, ya que el índice también debe actualizarse."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 182,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Por que indexar?",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual é a principal vantagem técnica de se criar um índice em uma coluna que é frequentemente utilizada em filtros (cláusula WHERE)?",
+        "opcoes": [
+          "Reduzir o tamanho físico da tabela original no disco.",
+          "Aumentar a velocidade das consultas de busca de dados.",
+          "Impedir que valores duplicados sejam inseridos na coluna.",
+          "Apagar automaticamente registros antigos para liberar espaço."
+        ],
+        "indiceCorreto": 1,
+        "dica": "O índice é como um sumário; ele serve para te levar ao destino mais rápido."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Why index?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the main technical advantage of creating an index on a column that is frequently used in filters (WHERE clause)?",
+            "opcoes": [
+              "Reduce the physical size of the table on disk.",
+              "Increase the speed of data retrieval queries.",
+              "Prevent duplicate values from being inserted.",
+              "Automatically delete old records to free up space."
+            ],
+            "indiceCorreto": 1
+          }
+        },
+        "es": {
+          "titulo": "¿Por qué indexar?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es la principal ventaja técnica de crear un índice en una columna que se utiliza frecuentemente en filtros (cláusula WHERE)?",
+            "opcoes": [
+              "Reducir el tamaño físico de la tabla en el disco.",
+              "Aumentar la velocidad de las consultas de búsqueda de datos.",
+              "Evitar que se inserten valores duplicados en la columna.",
+              "Eliminar automáticamente registros antiguos para liberar espacio."
+            ],
+            "indiceCorreto": 1
+          }
+        }
+      }
+    },
+    {
+      "ordem": 183,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: O Equilíbrio da Escrita",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a manutenção de índices:",
+        "afirmacao": "Quanto mais índices eu criar em uma única tabela, mais rápidos e eficientes serão os comandos de escrita, como INSERT e DELETE.",
+        "respostaCorreta": false,
+        "dica": "Imagine ter que atualizar 50 sumários diferentes toda vez que você escreve uma página nova no livro."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Writing Balance",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About index maintenance:",
+            "afirmacao": "The more indexes I create on a single table, the faster and more efficient the writing commands like INSERT and DELETE will be.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Equilibrio de la Escritura",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre el mantenimiento de índices:",
+            "afirmacao": "Cuantos más índices cree en una sola tabla, más rápidos y eficientes serán los comandos de escritura, como INSERT y DELETE.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 184,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Criando o Atalho",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Crie um índice chamado 'idx_nome_planeta' na coluna 'nome' da tabela 'planetas' para acelerar as buscas por nome.",
+        "placeholder": "CREATE INDEX ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, populacao BIGINT);",
+        "checkType": "columns",
+        "checkConfig": {
+          "create_index": "idx_nome_planeta",
+          "table": "planetas",
+          "column": "nome"
+        },
+        "dica": "A sintaxe é CREATE INDEX nome_do_indice ON nome_da_tabela(coluna).",
+        "explicacaoTecnica": "Ao criar este índice, o PostgreSQL constrói uma árvore B-Tree que mapeia os nomes dos planetas aos seus endereços físicos, evitando varreduras completas da tabela."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Creating the Shortcut",
+          "conteudo": {
+            "instrucao": "Create an index named 'idx_nome_planeta' on the 'nome' column of the 'planetas' table to speed up name searches.",
+            "dica": "The syntax is CREATE INDEX index_name ON table_name(column)."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Creando el Acceso Directo",
+          "conteudo": {
+            "instrucao": "Crea un índice llamado 'idx_nome_planeta' en la columna 'nome' de la tabla 'planetas' para acelerar las búsquedas por nombre.",
+            "dica": "La sintaxis es CREATE INDEX nombre_del_indice ON nombre_de_la_tabla(columna)."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 185,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 500,
+      "titulo": "O Grande Exame do Arquiteto",
+      "conteudo": {
+        "blocos": [
+          "Parabéns, Comandante! Você percorreu um caminho incrível. Desde as primeiras consultas simples com `SELECT` até a construção de arquiteturas complexas envolvendo transações seguras, subqueries inteligentes e índices de alta performance no **Neon.tech**.",
+          "Nesta jornada, você aprendeu que os dados não são apenas informações soltas; eles são a estrutura que mantém a galaxia organizada. Você aprendeu a criar (CREATE), ler (SELECT), atualizar (UPDATE) e deletar (DELETE) com responsabilidade e precisão.",
+          "**Analogia Final:** Você não é mais apenas alguém que lê o mapa. Agora, você é o **Comandante da Central de Dados**. Você constrói as rotas (Joins), protege as cargas (Transactions) e garante que as comunicações cheguem na velocidade da luz (Indexes). A galaxia dos dados agora obedece aos seus comandos.",
+          "Antes de receber seu selo final de mestre, vamos ao desafio derradeiro para testar sua visão sistêmica.",
+          "**Parabéns por completar a jornada SQLQuest! A galaxia dos dados está em boas mãos.**",
+          "**Congratulations on completing the SQLQuest journey! The data galaxy is in good hands.**",
+          "**¡Felicitaciones por completar el viaje de SQLQuest! La galaxia de datos está en buenas manos.**"
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "The Architect's Grand Exam",
+          "conteudo": {
+            "blocos": [
+              "Congratulations, Commander! You have traveled an incredible path. From simple `SELECT` queries to building complex architectures involving secure transactions and high-performance indexes.",
+              "You've learned that data is the structure that keeps the galaxy organized. You now lead the way as a Data Architect.",
+              "**Final Analogy:** You are the Commander of the Data Center. You build the routes (Joins), protect the cargo (Transactions), and ensure communication at light speed (Indexes)."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "El Gran Examen del Arquitecto",
+          "conteudo": {
+            "blocos": [
+              "¡Felicidades, Comandante! Has recorrido un camino increíble. Desde simples consultas `SELECT` hasta la construcción de arquitecturas con transacciones y índices de alto rendimiento.",
+              "Aprendiste que los datos son la estructura que mantiene organizada la galaxia. Ahora eres un Arquitecto de Datos consumado.",
+              "**Analogía Final:** Eres el Comandante de la Central de Datos. Construyes las rutas (Joins), proteges las cargas (Transactions) y garantizas velocidad de la luz (Indexes)."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 186,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 200,
+      "titulo": "Revisão: Segurança em Primeiro Lugar",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Em uma arquitetura de banco de dados profissional, qual é a sequência ideal de comandos para garantir que um conjunto de alterações seja salvo apenas se todas as etapas ocorrerem com sucesso?",
+        "opcoes": [
+          "SELECT -> UPDATE -> DELETE",
+          "BEGIN -> Operações -> COMMIT",
+          "CREATE -> INSERT -> DROP",
+          "BEGIN -> Operações -> ROLLBACK"
+        ],
+        "indiceCorreto": 1,
+        "dica": "O bloco deve ser aberto com segurança e fechado com a confirmação definitiva."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Review: Safety First",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "In a professional database architecture, what is the ideal sequence of commands to ensure a set of changes is saved only if all steps succeed?",
+            "opcoes": ["SELECT -> UPDATE -> DELETE", "BEGIN -> Operations -> COMMIT", "CREATE -> INSERT -> DROP", "BEGIN -> Operations -> ROLLBACK"],
+            "indiceCorreto": 1
+          }
+        },
+        "es": {
+          "titulo": "Revisión: Seguridad Ante Todo",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿En una arquitectura profesional, cuál es la secuencia ideal de comandos para garantizar que los cambios se guarden solo si todo sale bien?",
+            "opcoes": ["SELECT -> UPDATE -> DELETE", "BEGIN -> Operaciones -> COMMIT", "CREATE -> INSERT -> DROP", "BEGIN -> Operaciones -> ROLLBACK"],
+            "indiceCorreto": 1
+          }
+        }
+      }
+    },
+    {
+      "ordem": 187,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 200,
+      "titulo": "V ou F: O Paradoxo dos Índices",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a otimização de performance:",
+        "afirmacao": "Índices devem ser criados em todas as colunas de todas as tabelas para garantir que o banco de dados seja o mais rápido possível em qualquer situação de consulta.",
+        "respostaCorreta": false,
+        "dica": "Lembre-se que cada índice novo torna o ato de escrever (INSERT) mais pesado para o sistema."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Index Paradox",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About performance optimization:",
+            "afirmacao": "Indexes should be created on all columns of all tables to ensure the database is as fast as possible in any query situation.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: La Paradoja de los Índices",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la optimización del rendimiento:",
+            "afirmacao": "Los índices deben crearse en todas las columnas de todas las tablas para garantizar que la base de datos sea lo más rápida posible en cualquier situación.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 188,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 1000,
+      "titulo": "O DESAFIO FINAL",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "A frota precisa de um relatório final. Escreva uma única query que: 1. Selecione o nome do planeta. 2. Conte quantas naves ele possui (total_naves). 3. Una 'planetas' com 'naves' (INNER JOIN). 4. Agrupe por planeta. 5. Mostre apenas planetas com mais de 2 naves.",
+        "placeholder": "SELECT ... FROM planetas ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE naves (id SERIAL PRIMARY KEY, nome TEXT, planeta_id INT REFERENCES planetas(id)); INSERT INTO planetas (nome) VALUES ('Terra'), ('Marte'); INSERT INTO naves (nome, planeta_id) VALUES ('Nave A', 1), ('Nave B', 1), ('Nave C', 1), ('Nave D', 2);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": ["nome", "total_naves"],
+          "has_join": true,
+          "has_group_by": true,
+          "has_having": true
+        },
+        "dica": "Use SELECT planetas.nome, COUNT(naves.id) AS total_naves... JOIN naves ON... GROUP BY planetas.nome HAVING COUNT(naves.id) > 2;",
+        "explicacaoTecnica": "Este comando demonstra a maestria em DQL: filtragem lateral (JOIN), agregação (COUNT), segmentação (GROUP BY) e filtragem de grupo (HAVING)."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "THE FINAL CHALLENGE",
+          "conteudo": {
+            "instrucao": "The fleet needs a final report. Write a single query to: 1. Select planet name. 2. Count ships (total_naves). 3. Join 'planetas' and 'naves' (INNER JOIN). 4. Group by planet. 5. Show only planets with more than 2 ships.",
+            "dica": "Use SELECT, JOIN, GROUP BY, and HAVING in that specific order."
+          }
+        },
+        "es": {
+          "titulo": "EL DESAFÍO FINAL",
+          "conteudo": {
+            "instrucao": "La flota necesita un informe final. Escribe una sola consulta que: 1. Seleccione el nombre del planeta. 2. Cuente las naves (total_naves). 3. Una las tablas (INNER JOIN). 4. Agrupe por planeta. 5. Muestre solo planetas con más de 2 naves.",
+            "dica": "Usa SELECT, JOIN, GROUP BY y HAVING en ese orden específico."
           }
         }
       }

@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "trilha_slug": "seguranca_transacional",
+    "substituir_ordens": [173, 174, 175, 176],
+    "nota": "Início da Trilha 14: Conceitos fundamentais de atomicidade e controle de transações no PostgreSQL."
+  },
+  "gabarito_declarado": {
+    "exercicio_multipla": {
+      "indiceCorreto": 2,
+      "letra": "C"
+    },
+    "exercicio_vf": {
+      "respostaCorreta": false
+    },
+    "exercicio_sql": {
+      "query_esperada": "BEGIN; DELETE FROM temporaria; ROLLBACK;"
+    }
+  },
+  "dicas_ver_dica_gratuito": [
+    {
+      "exercicio": "multipla",
+      "pt": "Dica de Ouro: Pense no comando que faz a operação 'rolar para trás' ao estado anterior.",
+      "en": "Golden Hint: Think of the command that makes the operation 'roll back' to the previous state.",
+      "es": "Pista de Oro: Piensa en el comando que hace que la operación 'vuelva atrás' al estado anterior."
+    },
+    {
+      "exercicio": "vf",
+      "pt": "Dica de Ouro: O COMMIT é como escrever com caneta permanente no banco de dados; depois dele, não há borracha que apague.",
+      "en": "Golden Hint: COMMIT is like writing with permanent marker on the database; after it, there is no eraser.",
+      "es": "Pista de Oro: El COMMIT es como escribir con tinta permanente en la base de datos; después de él, no hay borrador que lo elimine."
+    },
+    {
+      "exercicio": "sql",
+      "pt": "Dica de Ouro: A sequência lógica deve ser: abrir o bloco, deletar e então usar o comando de cancelamento.",
+      "en": "Golden Hint: The logical sequence should be: open the block, delete, and then use the cancel command.",
+      "es": "Pista de Oro: La secuencia lógica debe ser: abrir el bloque, eliminar y luego usar el comando de cancelación."
+    }
+  ],
+  "etapas_formato_app": [
+    {
+      "ordem": 173,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Tudo ou Nada: O Poder das Transações",
+      "conteudo": {
+        "blocos": [
+          "Imagine que você está transferindo créditos de um planeta para outro no **Neon.tech**. Se o sistema subtrair os créditos da conta de origem, mas falhar antes de somar na conta de destino, o dinheiro sumiria no vácuo! Para evitar isso, usamos as **Transações**.",
+          "Uma transação é um bloco de comandos que o banco de dados trata como uma única unidade. Ou tudo acontece com sucesso, ou nada acontece.",
+          {
+            "type": "definicao",
+            "termo": "Atomicidade",
+            "def": "A propriedade que garante que uma transação seja completada totalmente ou revertida totalmente, sem estados intermediários."
+          },
+          "Os três pilares do controle transacional são:",
+          "* **BEGIN:** Inicia o modo de segurança. A partir daqui, nada é definitivo.",
+          "* **COMMIT:** O comando de 'salvamento'. Confirma todas as alterações feitas desde o BEGIN.",
+          "* **ROLLBACK:** O botão de pânico. Cancela todas as alterações e volta ao estado inicial como se nada tivesse acontecido.",
+          "**Analogia do Elevador Espacial:** Pense em um Elevador Espacial. Você entra e aperta os botões (**BEGIN**). O elevador processa a subida, mas ele só abre a porta no destino se todos os sistemas estiverem seguros (**COMMIT**). Se houver uma falha crítica no meio do caminho, ele volta para o andar inicial e ninguém sai (**ROLLBACK**). O importante é que ninguém fica preso no meio do vácuo.",
+          {
+            "type": "code",
+            "code": "BEGIN;\nUPDATE contas SET saldo = saldo - 100 WHERE id = 1;\nUPDATE contas SET saldo = saldo + 100 WHERE id = 2;\nCOMMIT;",
+            "lese": "Inicie uma transação, retire 100 da conta 1, adicione 100 na conta 2 e confirme ambas as operações simultaneamente."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "All or Nothing: The Power of Transactions",
+          "conteudo": {
+            "blocos": [
+              "Imagine transferring credits between planets in **Neon.tech**. If the system fails halfway, the money vanishes! To prevent this, we use **Transactions**.",
+              "A transaction is a block of commands treated as a single unit. Either everything succeeds, or nothing happens.",
+              "**Space Elevator Analogy:** You enter and press the buttons (**BEGIN**). The elevator only opens the door at the destination if everything is safe (**COMMIT**). If a failure occurs, it returns to the starting floor (**ROLLBACK**). No one gets stuck in the void."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Todo o Nada: El Poder de las Transacciones",
+          "conteudo": {
+            "blocos": [
+              "Imagina transferir créditos entre planetas en **Neon.tech**. Si el sistema falla a mitad de camino, ¡el dinero desaparece! Para evitar esto, usamos **Transacciones**.",
+              "Una transacción es un bloque de comandos que la base de datos trata como una única unidad. O todo sucede con éxito, o nada sucede.",
+              "**Analogía del Elevador Espacial:** Entras y pulsas los botones (**BEGIN**). El elevador solo abre la puerta en el destino si todo es seguro (**COMMIT**). Si hay una falla, vuelve al piso inicial (**ROLLBACK**). Nadie se queda atrapado en el vacío."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 174,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Desfazendo o Erro",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual comando SQL é usado para descartar todas as alterações feitas durante uma transação aberta, restaurando os dados ao estado anterior ao BEGIN?",
+        "opcoes": [
+          "CANCEL",
+          "UNDO",
+          "ROLLBACK",
+          "BACKSPACE"
+        ],
+        "indiceCorreto": 2,
+        "dica": "O nome sugere 'rolar para trás' a fita do tempo do banco de dados."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Undoing the Error",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which SQL command is used to discard all changes made during an open transaction, restoring data to the state before BEGIN?",
+            "opcoes": ["CANCEL", "UNDO", "ROLLBACK", "BACKSPACE"],
+            "indiceCorreto": 2
+          }
+        },
+        "es": {
+          "titulo": "Deshaciendo el Error",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué comando SQL se usa para descartar todos los cambios realizados durante una transacción abierta, restaurando los datos al estado anterior al BEGIN?",
+            "opcoes": ["CANCEL", "UNDO", "ROLLBACK", "BACKSPACE"],
+            "indiceCorreto": 2
+          }
+        }
+      }
+    },
+    {
+      "ordem": 175,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: O Ponto sem Retorno",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a persistência dos dados:",
+        "afirmacao": "Imediatamente após executar um comando COMMIT com sucesso, o Arquiteto ainda pode usar o ROLLBACK para desfazer aquela operação e voltar os dados ao estado original.",
+        "respostaCorreta": false,
+        "dica": "O COMMIT encerra o bloco de segurança e torna as mudanças permanentes no disco rígido."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Point of No Return",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About data persistence:",
+            "afirmacao": "Immediately after successfully executing a COMMIT command, the Architect can still use ROLLBACK to undo that operation and return data to the original state.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Punto sin Retorno",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la persistencia de los datos:",
+            "afirmacao": "Inmediatamente después de ejecutar con éxito un comando COMMIT, el Arquitecto aún puede usar ROLLBACK para deshacer esa operación y devolver los datos al estado original.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 176,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: O Teste de Segurança",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Simule o início de uma transação, apague todos os dados da tabela 'temporaria' e, em seguida, desfaça a operação para garantir que os dados não sejam perdidos de forma permanente.",
+        "placeholder": "BEGIN; ...",
+        "schema": "CREATE TABLE temporaria (id SERIAL PRIMARY KEY, info TEXT); INSERT INTO temporaria (info) VALUES ('Dado Vital 1'), ('Dado Vital 2');",
+        "checkType": "columns",
+        "checkConfig": {
+          "transaction_commands": ["BEGIN", "DELETE", "ROLLBACK"]
+        },
+        "dica": "A sequência deve ser BEGIN, depois o comando DELETE, e finalizar com ROLLBACK.",
+        "explicacaoTecnica": "Ao usar o ROLLBACK em vez do COMMIT, o PostgreSQL descarta o log de operações pendentes e mantém a versão original dos dados intacta."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: The Safety Test",
+          "conteudo": {
+            "instrucao": "Simulate the start of a transaction, delete all data from the 'temporaria' table, and then undo the operation to ensure data is not permanently lost.",
+            "dica": "The sequence should be BEGIN, then the DELETE command, and finish with ROLLBACK."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: La Prueba de Seguridad",
+          "conteudo": {
+            "instrucao": "Simula el inicio de una transacción, elimina todos los datos de la tabla 'temporaria' y luego deshace la operación para asegurar que los datos no se pierdan de forma permanente.",
+            "dica": "La secuencia debe ser BEGIN, luego el comando DELETE, y terminar con ROLLBACK."
+          }
+        }
+      }
+    }
+  ]
+}

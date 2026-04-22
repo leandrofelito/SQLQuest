@@ -1,0 +1,214 @@
+{
+  "meta": {
+    "trilha_slug": "performance_otimizacao",
+    "substituir_ordens": [181, 182, 183, 184],
+    "nota": "Início da Trilha 15: Otimização de performance com índices B-Tree no PostgreSQL."
+  },
+  "gabarito_declarado": {
+    "exercicio_multipla": {
+      "indiceCorreto": 1,
+      "letra": "B"
+    },
+    "exercicio_vf": {
+      "respostaCorreta": false
+    },
+    "exercicio_sql": {
+      "query_esperada": "CREATE INDEX idx_nome_planeta ON planetas(nome);"
+    }
+  },
+  "dicas_ver_dica_gratuito": [
+    {
+      "exercicio": "multipla",
+      "pt": "Dica de Ouro: Pense no que acontece quando você para de ler página por página e vai direto ao ponto.",
+      "en": "Golden Hint: Think about what happens when you stop reading page by page and go straight to the point.",
+      "es": "Pista de Oro: Piensa en lo que sucede cuando dejas de leer página por página y vas directo al grano."
+    },
+    {
+      "exercicio": "vf",
+      "pt": "Dica de Ouro: Manter o sumário atualizado dá trabalho. Cada vez que você escreve algo novo, o sumário precisa ser reescrito.",
+      "en": "Golden Hint: Keeping the index updated takes work. Every time you write something new, the index needs to be rewritten.",
+      "es": "Pista de Oro: Mantener el índice actualizado da trabajo. Cada vez que escribes algo nuevo, el índice debe reescribirse."
+    },
+    {
+      "exercicio": "sql",
+      "pt": "Dica de Ouro: A sintaxe é CREATE INDEX [nome_do_indice] ON [tabela]([coluna]);",
+      "en": "Golden Hint: The syntax is CREATE INDEX [index_name] ON [table]([column]);",
+      "es": "Pista de Oro: La sintaxis es CREATE INDEX [nombre_del_indice] ON [tabla]([columna]);"
+    }
+  ],
+  "etapas_formato_app": [
+    {
+      "ordem": 181,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Velocidade Máxima: O Poder dos Índices",
+      "conteudo": {
+        "blocos": [
+          "Você já é um mestre em manipular dados. Mas o que acontece quando sua tabela cresce para milhões de linhas? No **Neon.tech**, uma consulta que levava milissegundos pode começar a levar segundos. Para resolver isso, usamos o **INDEX**.",
+          "Um índice é uma estrutura de dados separada da tabela que funciona como um atalho. Sem ele, o banco realiza um **Sequential Scan** (leitura sequencial), folheando cada linha da tabela para encontrar o que você pediu. Com o índice, ele vai direto ao endereço físico do dado.",
+          {
+            "type": "definicao",
+            "termo": "B-Tree Index",
+            "def": "O tipo padrão de índice no PostgreSQL, organizado em uma árvore balanceada que permite buscas, inserções e remoções em tempo logarítmico."
+          },
+          "**O Custo da Velocidade:** Nem tudo são flores. Índices ocupam espaço extra em disco. Além disso, eles deixam operações de escrita como **INSERT**, **UPDATE** e **DELETE** um pouco mais lentas, pois o banco precisa atualizar o índice toda vez que os dados mudam.",
+          "**Analogia do Livro de Mil Páginas:** Imagine um livro técnico gigante. Se você quer achar o capítulo sobre 'Buracos Negros' e o livro não tem um sumário (índice), você teria que ler página por página até encontrar. Com o índice remissivo no final, você busca pela letra 'B', vê o número da página e pula direto para ela. Você economiza tempo, embora o livro seja um pouco mais grosso por causa das páginas extras do índice.",
+          {
+            "type": "code",
+            "code": "CREATE INDEX idx_populacao \nON planetas(populacao);",
+            "lese": "Crie uma estrutura de busca rápida chamada idx_populacao na tabela planetas, focada na coluna populacao."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Top Speed: The Power of Indexes",
+          "conteudo": {
+            "blocos": [
+              "You are a master of data manipulation. But what happens when your table grows to millions of rows? To fix slowness, we use **INDEXES**.",
+              "An index is a separate structure that acts as a shortcut. Without it, the DB performs a **Sequential Scan**, reading every line. With an index, it goes straight to the data's address.",
+              "**The Cost:** Indexes take up disk space and can make **INSERT** and **DELETE** slightly slower, as the index must be updated too."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Velocidad Máxima: El Poder de los Índices",
+          "conteudo": {
+            "blocos": [
+              "Ya eres un maestro manipulando datos. ¿Pero qué pasa cuando tu tabla crece a millones de filas? Para solucionar la lentitud, usamos **ÍNDICES**.",
+              "Un índice es una estructura separada que funciona como un acceso directo. Sin él, la base realiza un **Sequential Scan**, leyendo cada fila. Con un índice, va directo a la dirección del dato.",
+              "**El Costo:** Los índices ocupan espacio en disco y pueden hacer que el **INSERT** y o **DELETE** sean un poco más lentos, ya que el índice también debe actualizarse."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 182,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Por que indexar?",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual é a principal vantagem técnica de se criar um índice em uma coluna que é frequentemente utilizada em filtros (cláusula WHERE)?",
+        "opcoes": [
+          "Reduzir o tamanho físico da tabela original no disco.",
+          "Aumentar a velocidade das consultas de busca de dados.",
+          "Impedir que valores duplicados sejam inseridos na coluna.",
+          "Apagar automaticamente registros antigos para liberar espaço."
+        ],
+        "indiceCorreto": 1,
+        "dica": "O índice é como um sumário; ele serve para te levar ao destino mais rápido."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Why index?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the main technical advantage of creating an index on a column that is frequently used in filters (WHERE clause)?",
+            "opcoes": [
+              "Reduce the physical size of the table on disk.",
+              "Increase the speed of data retrieval queries.",
+              "Prevent duplicate values from being inserted.",
+              "Automatically delete old records to free up space."
+            ],
+            "indiceCorreto": 1
+          }
+        },
+        "es": {
+          "titulo": "¿Por qué indexar?",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es la principal ventaja técnica de crear un índice en una columna que se utiliza frecuentemente en filtros (cláusula WHERE)?",
+            "opcoes": [
+              "Reducir el tamaño físico de la tabla en el disco.",
+              "Aumentar la velocidad de las consultas de búsqueda de datos.",
+              "Evitar que se inserten valores duplicados en la columna.",
+              "Eliminar automáticamente registros antiguos para liberar espacio."
+            ],
+            "indiceCorreto": 1
+          }
+        }
+      }
+    },
+    {
+      "ordem": 183,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: O Equilíbrio da Escrita",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a manutenção de índices:",
+        "afirmacao": "Quanto mais índices eu criar em uma única tabela, mais rápidos e eficientes serão os comandos de escrita, como INSERT e DELETE.",
+        "respostaCorreta": false,
+        "dica": "Imagine ter que atualizar 50 sumários diferentes toda vez que você escreve uma página nova no livro."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Writing Balance",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About index maintenance:",
+            "afirmacao": "The more indexes I create on a single table, the faster and more efficient the writing commands like INSERT and DELETE will be.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Equilibrio de la Escritura",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre el mantenimiento de índices:",
+            "afirmacao": "Cuantos más índices cree en una sola tabla, más rápidos y eficientes serán los comandos de escritura, como INSERT y DELETE.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 184,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Criando o Atalho",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Crie um índice chamado 'idx_nome_planeta' na coluna 'nome' da tabela 'planetas' para acelerar as buscas por nome.",
+        "placeholder": "CREATE INDEX ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, populacao BIGINT);",
+        "checkType": "columns",
+        "checkConfig": {
+          "create_index": "idx_nome_planeta",
+          "table": "planetas",
+          "column": "nome"
+        },
+        "dica": "A sintaxe é CREATE INDEX nome_do_indice ON nome_da_tabela(coluna).",
+        "explicacaoTecnica": "Ao criar este índice, o PostgreSQL constrói uma árvore B-Tree que mapeia os nomes dos planetas aos seus endereços físicos, evitando varreduras completas da tabela."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Creating the Shortcut",
+          "conteudo": {
+            "instrucao": "Create an index named 'idx_nome_planeta' on the 'nome' column of the 'planetas' table to speed up name searches.",
+            "dica": "The syntax is CREATE INDEX index_name ON table_name(column)."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Creando el Acceso Directo",
+          "conteudo": {
+            "instrucao": "Crea un índice llamado 'idx_nome_planeta' en la columna 'nome' de la tabla 'planetas' para acelerar las búsquedas por nombre.",
+            "dica": "La sintaxis es CREATE INDEX nombre_del_indice ON nombre_de_la_tabla(columna)."
+          }
+        }
+      }
+    }
+  ]
+}
