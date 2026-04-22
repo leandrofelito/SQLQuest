@@ -44,9 +44,7 @@ export interface ProgressoBasico {
 
 export interface RankUser {
   id: string
-  name: string | null
   nickname: string | null
-  image: string | null
   totalXp: number
   xpRanking: number
   streak: number

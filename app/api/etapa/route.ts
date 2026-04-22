@@ -41,6 +41,8 @@ export async function GET(req: Request) {
   }
 
   if (trilhaSlug && ordem) {
+    if (!/^\d+$/.test(ordem)) return NextResponse.json({ error: 'Parâmetros inválidos' }, { status: 400 })
+
     const trilha = await prisma.trilha.findUnique({ where: { slug: trilhaSlug }, select: { id: true } })
     if (!trilha) return NextResponse.json({ error: 'Trilha não encontrada' }, { status: 404 })
 

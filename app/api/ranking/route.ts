@@ -10,9 +10,7 @@ export async function GET() {
       take: 20,
       select: {
         id: true,
-        name: true,
         nickname: true,
-        image: true,
         totalXp: true,
         xpRanking: true,
         streak: true,

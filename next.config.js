@@ -35,7 +35,10 @@ const withPWA = require('next-pwa')({
 /** @type {import('next').NextConfig} */
 const config = {
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: '**' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+      { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
+    ],
   },
   // Garante que o arquivo WASM esteja disponível no bundle serverless da rota de validação
   experimental: {
