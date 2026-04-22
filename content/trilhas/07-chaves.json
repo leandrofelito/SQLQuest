@@ -4,7 +4,7 @@
   "descricao": "Entenda PRIMARY KEY, FOREIGN KEY, tipos de relacionamento e como criar tabelas com integridade referencial.",
   "icone": "🔑",
   "ordem": 9,
-  "xpTotal": 700,
+  "xpTotal": 350,
   "traducoes": {
     "en": {
       "titulo": "Keys and Relationships",

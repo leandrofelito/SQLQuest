@@ -4,7 +4,7 @@
   "descricao": "Aprenda a usar PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK e NOT NULL para criar bancos à prova de dados inválidos.",
   "icone": "🛡️",
   "ordem": 21,
-  "xpTotal": 800,
+  "xpTotal": 1100,
   "traducoes": {
     "en": {
       "titulo": "Constraints — Rules that Protect Your Data",
@@ -105,8 +105,7 @@
           "CHECK",
           "UNIQUE",
           "DEFAULT"
-        ]
-        ,
+        ],
         "indiceCorreto": 2,
         "dica": "Dica de Ouro: Pense em algo que deve ser 'único' e exclusivo para cada registro."
       },
@@ -584,6 +583,34 @@
           }
         }
       }
+    },
+    {
+      "ordem": 14,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Trilha Concluída!",
+      "conteudo": {
+        "mensagem": "Banco protegido! Você aprendeu a usar constraints para blindar seus dados contra inconsistências. Um banco robusto começa aqui.",
+        "xpGanho": 1050
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Trail Complete!",
+          "conteudo": {
+            "mensagem": "Database protected! You learned to use constraints to shield your data against inconsistencies. A robust database starts here.",
+            "xpGanho": 1050
+          }
+        },
+        "es": {
+          "titulo": "¡Ruta Completada!",
+          "conteudo": {
+            "mensagem": "¡Base de datos protegida! Aprendiste a usar constraints para blindar tus datos contra inconsistencias. Una base de datos robusta empieza aquí.",
+            "xpGanho": 1050
+          }
+        }
+      }
     }
-  ]
+  ],
+  "totalEtapas": 14
 }

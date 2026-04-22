@@ -4,7 +4,7 @@
   "descricao": "Simplifique queries complexas usando Common Table Expressions (CTEs) com a cláusula WITH.",
   "icone": "📋",
   "ordem": 11,
-  "xpTotal": 750,
+  "xpTotal": 1350,
   "traducoes": {
     "en": {
       "titulo": "CTEs — WITH",
@@ -341,6 +341,422 @@
     },
     {
       "ordem": 8,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
+      "titulo": "CTE — Top Clientes",
+      "conteudo": {
+        "instrucao": "Use duas CTEs: a primeira calcula o total gasto por cliente, a segunda filtra apenas os que gastaram mais de 1000. Mostre o nome e o total.",
+        "dica": "Com duas CTEs separadas por vírgula: a primeira agrega os pedidos por cliente, a segunda filtra os que passaram do limite. A query final une o resultado com Clientes para trazer o nome.",
+        "placeholder": "WITH\n  TotalPorCliente AS (\n    SELECT ClienteID, SUM(Valor) AS Total\n    FROM Pedidos GROUP BY ClienteID\n  ),\n  ClientesTop AS (\n    SELECT * FROM TotalPorCliente WHERE Total > 1000\n  )\nSELECT c.Nome, ct.Total\nFROM Clientes c\nJOIN ...",
+        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'),(4,'João'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Teclado',150),(105,4,'Servidor',8500),(106,4,'Cadeira',890);",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": [
+            "Nome",
+            "Total"
+          ],
+          "min_rows": 3
+        }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "CTE — Top Customers",
+          "conteudo": {
+            "pergunta": "Use two CTEs: the first calculates total spent per customer, the second filters only those who spent more than 1000. Show name and total.",
+            "dica": "With two CTEs separated by a comma: the first aggregates orders by customer, the second filters those who exceeded the limit. The final query joins the result with Clientes to get the name."
+          }
+        },
+        "es": {
+          "titulo": "CTE — Top Clientes",
+          "conteudo": {
+            "pergunta": "Usa dos CTEs: la primera calcula el total gastado por cliente, la segunda filtra solo los que gastaron más de 1000. Muestra el nombre y el total.",
+            "dica": "Con dos CTEs separadas por coma: la primera agrega los pedidos por cliente, la segunda filtra los que superaron el límite. La query final une el resultado con Clientes para traer el nombre."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 9,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 150,
+      "titulo": "CTE — Média por Departamento",
+      "conteudo": {
+        "instrucao": "Use uma CTE para calcular a média salarial de cada departamento, depois mostre apenas os departamentos com média acima de 6000.",
+        "dica": "Crie a CTE calculando a média salarial por departamento com um alias (AS Media). Na query externa, você pode filtrar pelo alias da CTE diretamente no WHERE — isso não seria possível em um SELECT normal sem CTE ou subquery.",
+        "placeholder": "WITH MediaPorDepto AS (\n  SELECT Departamento, AVG(Salario) AS Media\n  FROM Funcionarios\n  GROUP BY Departamento\n)\nSELECT * FROM MediaPorDepto\nWHERE ...",
+        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
+        "checkType": "count",
+        "checkConfig": {
+          "expected_rows": 2
+        }
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "CTE — Average by Department",
+          "conteudo": {
+            "pergunta": "Use a CTE to calculate the average salary per department, then show only departments with an average above 6000.",
+            "dica": "Create the CTE calculating the average salary by department with an alias (AS Media). In the outer query, you can filter by the CTE's alias directly in WHERE — this wouldn't be possible in a normal SELECT without a CTE or subquery."
+          }
+        },
+        "es": {
+          "titulo": "CTE — Promedio por Departamento",
+          "conteudo": {
+            "pergunta": "Usa una CTE para calcular el salario promedio de cada departamento, luego muestra solo los departamentos con un promedio superior a 6000.",
+            "dica": "Crea la CTE calculando el salario promedio por departamento con un alias (AS Media). En la query externa, puedes filtrar por el alias de la CTE directamente en WHERE — esto no sería posible en un SELECT normal sin CTE o subquery."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 10,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Empilhamento de Dados: UNION e UNION ALL",
+      "conteudo": {
+        "blocos": [
+          "Até agora, você usou o JOIN para unir tabelas 'lado a lado' (horizontalmente). No **Neon.tech**, às vezes precisamos unir tabelas 'uma em cima da outra' (verticalmente). Para isso, usamos os operadores de conjunto: **UNION** e **UNION ALL**.",
+          "O **UNION** combina o resultado de dois SELECTs em uma única lista e remove automaticamente as linhas duplicadas. Se um nome aparece nas duas tabelas, ele será exibido apenas uma vez.",
+          "O **UNION ALL** faz o mesmo empilhamento, mas **mantém todas as linhas**, mesmo as repetidas. Como o banco de dados não precisa gastar tempo procurando duplicatas, o UNION ALL é consideravelmente mais rápido.",
+          {
+            "type": "definicao",
+            "termo": "Regra de Ouro",
+            "def": "Para que a união funcione, ambos os SELECTs devem ter exatamente o mesmo número de colunas e os tipos de dados devem ser compatíveis."
+          },
+          "**Analogia das Listas de Convidados:** Imagine que você tem duas listas de convidados para festas espaciais. O **UNION** é a lista final consolidada onde você removeu os nomes repetidos para não enviar dois convites para a mesma pessoa. O **UNION ALL** é como apenas grampear uma folha na outra: você tem todos os nomes, mas não se importa se alguém foi convidado duas vezes.",
+          {
+            "type": "code",
+            "code": "SELECT nome FROM planetas\nUNION\nSELECT nome FROM estrelas;",
+            "lese": "Combine os nomes da tabela planetas com os nomes da tabela estrelas, removendo quaisquer nomes que apareçam em ambas."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Stacking Data: UNION and UNION ALL",
+          "conteudo": {
+            "blocos": [
+              "So far, you've used JOIN to merge tables 'side by side'. In **Neon.tech**, sometimes we need to merge tables 'one on top of the other'. For this, we use **UNION** and **UNION ALL**.",
+              "**UNION** combines results and removes duplicates. **UNION ALL** keeps everything, including repeats, making it faster.",
+              "**Guest List Analogy:** UNION is the consolidated list with duplicate names removed. UNION ALL is just stapling the sheets together without checking for repeats."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Apilamiento de Datos: UNION y UNION ALL",
+          "conteudo": {
+            "blocos": [
+              "Hasta ahora, has usado JOIN para unir tablas 'lado a lado'. En **Neon.tech**, a veces necesitamos unir tablas 'una encima de otra'. Para esto, usamos **UNION** y **UNION ALL**.",
+              "**UNION** combina los resultados y elimina los duplicados. **UNION ALL** mantiene todo, incluso las repeticiones, lo que lo hace más rápido.",
+              "**Analogía de las Listas de Invitados:** UNION es la lista final consolidada sin nombres repetidos. UNION ALL es simplemente grapar las hojas sin revisar si alguien fue invitado dos veces."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 11,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "União sem Repetições",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual operador de conjunto deve ser usado para unir dois resultados de consulta removendo automaticamente as linhas que aparecem em ambos os SELECTs?",
+        "opcoes": [
+          "UNION",
+          "UNION ALL",
+          "JOIN",
+          "INTERSECT"
+        ],
+        "indiceCorreto": 0,
+        "dica": "Esse operador garante que cada linha do resultado final seja única."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Union Without Repeats",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which set operator should be used to combine two query results while automatically removing rows that appear in both SELECTs?",
+            "opcoes": [
+              "UNION",
+              "UNION ALL",
+              "JOIN",
+              "INTERSECT"
+            ],
+            "indiceCorreto": 0
+          }
+        },
+        "es": {
+          "titulo": "Unión sin Repeticiones",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué operador de conjunto debe usarse para unir dos resultados de consulta eliminando automáticamente las filas que aparecen en ambos SELECTs?",
+            "opcoes": [
+              "UNION",
+              "UNION ALL",
+              "JOIN",
+              "INTERSECT"
+            ],
+            "indiceCorreto": 0
+          }
+        }
+      }
+    },
+    {
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: Estrutura de Empilhamento",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre as restrições técnicas dos operadores de conjunto:",
+        "afirmacao": "Para usar o operador UNION, as tabelas ou SELECTs envolvidos não precisam ter o mesmo número de colunas, desde que os nomes das tabelas sejam diferentes.",
+        "respostaCorreta": false,
+        "dica": "O SQL exige que a 'largura' de cada resultado seja exatamente a mesma para poder empilhá-los."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: Stacking Structure",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Regarding technical constraints of set operators:",
+            "afirmacao": "To use the UNION operator, the involved tables or SELECTs do not need to have the same number of columns, as long as the table names are different.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: Estructura de Apilamiento",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre las restricciones técnicas de los operadores de conjunto:",
+            "afirmacao": "Para usar el operador UNION, las tablas o SELECTs involucrados no necesitan tener el mismo número de columnas, siempre que los nombres de las tablas sean diferentes.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 13,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Lista Universal",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Una a coluna 'nome' da tabela 'planetas' com a coluna 'nome' da tabela 'estrelas' usando um operador que remova quaisquer duplicatas.",
+        "placeholder": "SELECT ... FROM planetas ... SELECT ... FROM estrelas;",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE estrelas (id SERIAL PRIMARY KEY, nome TEXT); INSERT INTO planetas (nome) VALUES ('Marte'), ('Vênus'); INSERT INTO estrelas (nome) VALUES ('Sol'), ('Marte');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": [
+            "nome"
+          ],
+          "set_operator": "UNION"
+        },
+        "dica": "Escreva o primeiro SELECT, coloque UNION e depois escreva o segundo SELECT.",
+        "explicacaoTecnica": "O operador UNION executa um plano de classificação (sort) ou hash para identificar e eliminar linhas idênticas entre os conjuntos de resultados."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Universal List",
+          "conteudo": {
+            "instrucao": "Combine the 'nome' column from the 'planetas' table with the 'nome' column from the 'estrelas' table using an operator that removes any duplicates.",
+            "dica": "Write the first SELECT, place UNION, and then write the second SELECT."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Lista Universal",
+          "conteudo": {
+            "instrucao": "Une la columna 'nome' de la tabla 'planetas' con la columna 'nome' de la tabla 'estrelas' usando un operador que elimine cualquier duplicado.",
+            "dica": "Escribe el primer SELECT, pon UNION y luego escribe el segundo SELECT."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 14,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Filtragem de Conjuntos: INTERSECT e EXCEPT",
+      "conteudo": {
+        "blocos": [
+          "Agora que você já sabe como somar listas com o UNION, é hora de aprender a comparar e subtrair resultados no **Neon.tech**. Para isso, usamos o **INTERSECT** e o **EXCEPT**.",
+          "O **INTERSECT** funciona como um filtro de confirmação: ele retorna apenas os registros que aparecem em **ambos** os SELECTs. Se um dado está na Lista A mas não está na Lista B, ele é descartado.",
+          "O **EXCEPT** funciona como uma subtração de conjuntos. Ele retorna tudo o que está no primeiro SELECT, mas remove qualquer coisa que também apareça no segundo SELECT. É a forma perfeita de encontrar 'o que falta' ou 'o que é exclusivo'.",
+          "**Analogia do Radar de Naves:** Imagine dois radares em bases diferentes. O **INTERSECT** mostra apenas as naves detectadas tanto pela Base A quanto pela Base B ao mesmo tempo (uma confirmação dupla de alvo). O **EXCEPT** (Base A EXCEPT Base B) mostra as naves que apenas a Base A detectou, mas a Base B não — o que pode indicar uma falha no segundo radar ou um invasor vindo de um ângulo específico.",
+          "Lembre-se: assim como no UNION, as colunas e tipos de dados devem ser compatíveis!",
+          {
+            "type": "code",
+            "code": "SELECT nome FROM planetas \nINTERSECT \nSELECT nome FROM estrelas;\n\nSELECT nome FROM planetas \nEXCEPT \nSELECT nome FROM estrelas;",
+            "lese": "Primeiro, encontre nomes que são ao mesmo tempo planetas e estrelas. Depois, encontre nomes de planetas que não são usados por nenhuma estrela."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Set Filtering: INTERSECT and EXCEPT",
+          "conteudo": {
+            "blocos": [
+              "After learning to add lists with UNION, it's time to learn how to compare and subtract results in **Neon.tech** using **INTERSECT** and **EXCEPT**.",
+              "**INTERSECT** acts as a confirmation filter: it only returns records that appear in **both** SELECTs.",
+              "**EXCEPT** acts as a set subtraction. It returns everything from the first SELECT, minus anything that also appears in the second one.",
+              "**Ship Radar Analogy:** INTERSECT shows ships detected by both radars (double confirmation). EXCEPT shows ships that only Radar A detected, helping to find exclusives or discrepancies."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Filtrado de Conjuntos: INTERSECT y EXCEPT",
+          "conteudo": {
+            "blocos": [
+              "Después de aprender a sumar listas con UNION, es hora de aprender a comparar y restar resultados en **Neon.tech** usando **INTERSECT** y **EXCEPT**.",
+              "**INTERSECT** funciona como un filtro de confirmación: solo devuelve los registros que aparecen en **ambos** SELECTs.",
+              "**EXCEPT** funciona como una resta de conjuntos. Devuelve todo lo del primer SELECT, menos cualquier cosa que también aparezca en el segundo.",
+              "**Analogía del Radar de Naves:** INTERSECT muestra naves detectadas por ambos radares (confirmación doble). EXCEPT muestra naves que solo el Radar A detectó, ayudando a encontrar exclusividades."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 15,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "Pontos em Comum",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual operador de conjunto retorna apenas os valores que são comuns a ambos os resultados de consulta (a interseção)?",
+        "opcoes": [
+          "UNION",
+          "INTERSECT",
+          "EXCEPT",
+          "JOIN"
+        ],
+        "indiceCorreto": 1,
+        "dica": "O nome do operador é a tradução direta de 'interseção' para o inglês."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Common Points",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "Which set operator returns only the values that are common to both query results (the intersection)?",
+            "opcoes": [
+              "UNION",
+              "INTERSECT",
+              "EXCEPT",
+              "JOIN"
+            ],
+            "indiceCorreto": 1
+          }
+        },
+        "es": {
+          "titulo": "Puntos en Común",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Qué operador de conjunto devuelve solo los valores que son comunes a ambos resultados de consulta (la intersección)?",
+            "opcoes": [
+              "UNION",
+              "INTERSECT",
+              "EXCEPT",
+              "JOIN"
+            ],
+            "indiceCorreto": 1
+          }
+        }
+      }
+    },
+    {
+      "ordem": 16,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: A Ordem dos Fatores",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a lógica da subtração de conjuntos:",
+        "afirmacao": "Ao usar o operador EXCEPT, a ordem das tabelas não importa; o comando 'A EXCEPT B' sempre retornará o mesmo resultado que 'B EXCEPT A'.",
+        "respostaCorreta": false,
+        "dica": "Pense no EXCEPT como uma conta de menos (-). Mudar quem vem primeiro muda o que sobra."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: The Order of Factors",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About set subtraction logic:",
+            "afirmacao": "When using the EXCEPT operator, the order of the tables doesn't matter; 'A EXCEPT B' will always return the same result as 'B EXCEPT A'.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: El Orden de los Factores",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la lógica de la resta de conjuntos:",
+            "afirmacao": "Al usar el operador EXCEPT, el orden de las tablas no importa; el comando 'A EXCEPT B' siempre devolverá el mismo resultado que 'B EXCEPT A'.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 17,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Nomes Duplicados",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Encontre o nome dos planetas que também aparecem na tabela de 'estrelas' usando o operador de interseção.",
+        "placeholder": "SELECT nome FROM planetas ... SELECT nome FROM estrelas;",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE estrelas (id SERIAL PRIMARY KEY, nome TEXT); INSERT INTO planetas (nome) VALUES ('Marte'), ('Vênus'), ('Sirius'); INSERT INTO estrelas (nome) VALUES ('Sol'), ('Sirius');",
+        "checkType": "columns",
+        "checkConfig": {
+          "required_columns": [
+            "nome"
+          ],
+          "set_operator": "INTERSECT"
+        },
+        "dica": "O comando deve buscar o que é comum entre os dois SELECTs usando INTERSECT.",
+        "explicacaoTecnica": "O INTERSECT compara os dois conjuntos de resultados e mantém apenas os valores que possuem uma correspondência exata em ambos."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Duplicate Names",
+          "conteudo": {
+            "instrucao": "Find the name of planets that also appear in the 'estrelas' table using the intersection operator.",
+            "dica": "The command should look for what is common between the two SELECTs using INTERSECT."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Nombres Duplicados",
+          "conteudo": {
+            "instrucao": "Encuentra el nombre de los planetas que también aparecen en la tabla de 'estrelas' usando el operador de intersección.",
+            "dica": "El comando debe buscar lo que es común entre los dos SELECTs usando INTERSECT."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 18,
       "tipo": "resumo",
       "temAnuncio": false,
       "xpReward": 0,
@@ -424,77 +840,7 @@
       }
     },
     {
-      "ordem": 9,
-      "tipo": "exercicio",
-      "temAnuncio": true,
-      "xpReward": 150,
-      "titulo": "CTE — Top Clientes",
-      "conteudo": {
-        "instrucao": "Use duas CTEs: a primeira calcula o total gasto por cliente, a segunda filtra apenas os que gastaram mais de 1000. Mostre o nome e o total.",
-        "dica": "Com duas CTEs separadas por vírgula: a primeira agrega os pedidos por cliente, a segunda filtra os que passaram do limite. A query final une o resultado com Clientes para trazer o nome.",
-        "placeholder": "WITH\n  TotalPorCliente AS (\n    SELECT ClienteID, SUM(Valor) AS Total\n    FROM Pedidos GROUP BY ClienteID\n  ),\n  ClientesTop AS (\n    SELECT * FROM TotalPorCliente WHERE Total > 1000\n  )\nSELECT c.Nome, ct.Total\nFROM Clientes c\nJOIN ...",
-        "schema": "CREATE TABLE Clientes (ClienteID INTEGER, Nome TEXT); INSERT INTO Clientes VALUES (1,'Ana'),(2,'Carlos'),(3,'Maria'),(4,'João'); CREATE TABLE Pedidos (PedidoID INTEGER, ClienteID INTEGER, Produto TEXT, Valor REAL); INSERT INTO Pedidos VALUES (101,1,'Notebook',3200),(102,2,'Mouse',89),(103,1,'Monitor',1200),(104,3,'Teclado',150),(105,4,'Servidor',8500),(106,4,'Cadeira',890);",
-        "checkType": "columns",
-        "checkConfig": {
-          "required_columns": [
-            "Nome",
-            "Total"
-          ],
-          "min_rows": 3
-        }
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "CTE — Top Customers",
-          "conteudo": {
-            "pergunta": "Use two CTEs: the first calculates total spent per customer, the second filters only those who spent more than 1000. Show name and total.",
-            "dica": "With two CTEs separated by a comma: the first aggregates orders by customer, the second filters those who exceeded the limit. The final query joins the result with Clientes to get the name."
-          }
-        },
-        "es": {
-          "titulo": "CTE — Top Clientes",
-          "conteudo": {
-            "pergunta": "Usa dos CTEs: la primera calcula el total gastado por cliente, la segunda filtra solo los que gastaron más de 1000. Muestra el nombre y el total.",
-            "dica": "Con dos CTEs separadas por coma: la primera agrega los pedidos por cliente, la segunda filtra los que superaron el límite. La query final une el resultado con Clientes para traer el nombre."
-          }
-        }
-      }
-    },
-    {
-      "ordem": 10,
-      "tipo": "exercicio",
-      "temAnuncio": true,
-      "xpReward": 150,
-      "titulo": "CTE — Média por Departamento",
-      "conteudo": {
-        "instrucao": "Use uma CTE para calcular a média salarial de cada departamento, depois mostre apenas os departamentos com média acima de 6000.",
-        "dica": "Crie a CTE calculando a média salarial por departamento com um alias (AS Media). Na query externa, você pode filtrar pelo alias da CTE diretamente no WHERE — isso não seria possível em um SELECT normal sem CTE ou subquery.",
-        "placeholder": "WITH MediaPorDepto AS (\n  SELECT Departamento, AVG(Salario) AS Media\n  FROM Funcionarios\n  GROUP BY Departamento\n)\nSELECT * FROM MediaPorDepto\nWHERE ...",
-        "schema": "CREATE TABLE Funcionarios (ID INTEGER, Nome TEXT, Departamento TEXT, Salario REAL); INSERT INTO Funcionarios VALUES (1,'Ana','TI',7200),(2,'Carlos','Vendas',9800),(3,'Maria','TI',5500),(4,'João','TI',8100),(5,'Lucia','RH',4800),(6,'Pedro','Vendas',6200),(7,'Sofia','RH',5100);",
-        "checkType": "count",
-        "checkConfig": {
-          "expected_rows": 2
-        }
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "CTE — Average by Department",
-          "conteudo": {
-            "pergunta": "Use a CTE to calculate the average salary per department, then show only departments with an average above 6000.",
-            "dica": "Create the CTE calculating the average salary by department with an alias (AS Media). In the outer query, you can filter by the CTE's alias directly in WHERE — this wouldn't be possible in a normal SELECT without a CTE or subquery."
-          }
-        },
-        "es": {
-          "titulo": "CTE — Promedio por Departamento",
-          "conteudo": {
-            "pergunta": "Usa una CTE para calcular el salario promedio de cada departamento, luego muestra solo los departamentos con un promedio superior a 6000.",
-            "dica": "Crea la CTE calculando el salario promedio por departamento con un alias (AS Media). En la query externa, puedes filtrar por el alias de la CTE directamente en WHERE — esto no sería posible en un SELECT normal sin CTE o subquery."
-          }
-        }
-      }
-    },
-    {
-      "ordem": 11,
+      "ordem": 19,
       "tipo": "conclusao",
       "temAnuncio": false,
       "xpReward": 50,
@@ -518,5 +864,6 @@
         }
       }
     }
-  ]
+  ],
+  "totalEtapas": 19
 }

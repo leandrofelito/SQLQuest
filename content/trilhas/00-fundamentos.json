@@ -4,7 +4,7 @@
   "descricao": "Entenda o que é banco de dados, tabelas, registros e o vocabulário essencial do SQL antes de escrever a primeira linha.",
   "icone": "🗄️",
   "ordem": 1,
-  "xpTotal": 1350,
+  "xpTotal": 1400,
   "traducoes": {
     "en": {
       "titulo": "SQL Fundamentals",
@@ -18,6 +18,31 @@
   "etapas": [
     {
       "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Fundamentos do SQL",
+      "conteudo": {
+        "emoji": "🗄️",
+        "subtitulo": "Entenda o que é banco de dados, tabelas, registros e o vocabulário essencial do SQL antes de escrever a primeira linha."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "SQL Fundamentals",
+          "conteudo": {
+            "subtitulo": "Understand what a database, tables, records, and essential SQL vocabulary are before writing your first line of code."
+          }
+        },
+        "es": {
+          "titulo": "Fundamentos de SQL",
+          "conteudo": {
+            "subtitulo": "Comprende qué es una base de datos, tablas, registros y el vocabulario esencial de SQL antes de escribir la primera línea."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -143,7 +168,7 @@
       }
     },
     {
-      "ordem": 2,
+      "ordem": 3,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -212,7 +237,7 @@
       }
     },
     {
-      "ordem": 3,
+      "ordem": 4,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -266,7 +291,7 @@
       }
     },
     {
-      "ordem": 4,
+      "ordem": 5,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -335,7 +360,7 @@
       }
     },
     {
-      "ordem": 5,
+      "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -458,7 +483,7 @@
       }
     },
     {
-      "ordem": 6,
+      "ordem": 7,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -527,7 +552,7 @@
       }
     },
     {
-      "ordem": 7,
+      "ordem": 8,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -581,7 +606,7 @@
       }
     },
     {
-      "ordem": 8,
+      "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -650,7 +675,7 @@
       }
     },
     {
-      "ordem": 9,
+      "ordem": 10,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -728,7 +753,7 @@
       }
     },
     {
-      "ordem": 10,
+      "ordem": 11,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -797,7 +822,7 @@
       }
     },
     {
-      "ordem": 11,
+      "ordem": 12,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -851,7 +876,7 @@
       }
     },
     {
-      "ordem": 12,
+      "ordem": 13,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -920,7 +945,7 @@
       }
     },
     {
-      "ordem": 13,
+      "ordem": 14,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -998,7 +1023,7 @@
       }
     },
     {
-      "ordem": 14,
+      "ordem": 15,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -1067,7 +1092,7 @@
       }
     },
     {
-      "ordem": 15,
+      "ordem": 16,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -1121,7 +1146,7 @@
       }
     },
     {
-      "ordem": 16,
+      "ordem": 17,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -1188,6 +1213,34 @@
           }
         }
       }
+    },
+    {
+      "ordem": 18,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Trilha Concluída!",
+      "conteudo": {
+        "mensagem": "Você construiu a base! Agora conhece a estrutura de um banco relacional e está pronto para escrever consultas cada vez mais poderosas.",
+        "xpGanho": 1350
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Trail Complete!",
+          "conteudo": {
+            "mensagem": "Foundation built! You now understand relational database structure and are ready to write increasingly powerful queries.",
+            "xpGanho": 1350
+          }
+        },
+        "es": {
+          "titulo": "¡Ruta Completada!",
+          "conteudo": {
+            "mensagem": "¡Base construida! Ahora conoces la estructura de una base de datos relacional y estás listo para escribir consultas cada vez más poderosas.",
+            "xpGanho": 1350
+          }
+        }
+      }
     }
-  ]
+  ],
+  "totalEtapas": 18
 }

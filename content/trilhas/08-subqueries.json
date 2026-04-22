@@ -4,7 +4,7 @@
   "descricao": "Use subqueries no WHERE e além: consultas aninhadas, escalares, IN, EXISTS e tabelas derivadas.",
   "icone": "🔮",
   "ordem": 10,
-  "xpTotal": 1900,
+  "xpTotal": 1950,
   "traducoes": {
     "en": {
       "titulo": "Advanced Queries",
@@ -18,6 +18,31 @@
   "etapas": [
     {
       "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Consultas Avançadas",
+      "conteudo": {
+        "emoji": "🔮",
+        "subtitulo": "Use subqueries no WHERE e além: consultas aninhadas, escalares, IN, EXISTS e tabelas derivadas."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Advanced Queries",
+          "conteudo": {
+            "subtitulo": "Use subqueries in WHERE and beyond: nested queries, scalars, IN, EXISTS, and derived tables."
+          }
+        },
+        "es": {
+          "titulo": "Consultas Avanzadas",
+          "conteudo": {
+            "subtitulo": "Usa subconsultas en el WHERE y más: consultas anidadas, escalares, IN, EXISTS y tablas derivadas."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -64,7 +89,7 @@
       }
     },
     {
-      "ordem": 2,
+      "ordem": 3,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -116,7 +141,7 @@
       }
     },
     {
-      "ordem": 3,
+      "ordem": 4,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -155,7 +180,7 @@
       }
     },
     {
-      "ordem": 4,
+      "ordem": 5,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -167,7 +192,9 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE missoes (id SERIAL PRIMARY KEY, planeta_id INT REFERENCES planetas(id)); INSERT INTO planetas (nome) VALUES ('Marte'), ('Júpiter'), ('Saturno'); INSERT INTO missoes (planeta_id) VALUES (1), (2);",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["nome"],
+          "required_columns": [
+            "nome"
+          ],
           "subquery_present": true
         },
         "dica": "Dica de Ouro: A estrutura deve ser WHERE id IN (SELECT planeta_id FROM missoes).",
@@ -191,7 +218,7 @@
       }
     },
     {
-      "ordem": 5,
+      "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -238,7 +265,7 @@
       }
     },
     {
-      "ordem": 6,
+      "ordem": 7,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -290,7 +317,7 @@
       }
     },
     {
-      "ordem": 7,
+      "ordem": 8,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -327,7 +354,7 @@
       }
     },
     {
-      "ordem": 8,
+      "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -339,7 +366,10 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, populacao BIGINT); INSERT INTO planetas (nome, populacao) VALUES ('Terra', 8000000000), ('Marte', 500000), ('Krypton', 1000000000);",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["nome", "populacao"],
+          "required_columns": [
+            "nome",
+            "populacao"
+          ],
           "subquery_present": true
         },
         "dica": "Dica de Ouro: Sua estrutura deve ser: WHERE populacao > (SELECT AVG(populacao) FROM planetas).",
@@ -363,7 +393,7 @@
       }
     },
     {
-      "ordem": 9,
+      "ordem": 10,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -417,7 +447,7 @@
       }
     },
     {
-      "ordem": 10,
+      "ordem": 11,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -471,7 +501,7 @@
       }
     },
     {
-      "ordem": 11,
+      "ordem": 12,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -510,7 +540,7 @@
       }
     },
     {
-      "ordem": 12,
+      "ordem": 13,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 150,
@@ -521,7 +551,10 @@
         "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["sistema", "total_planetas"],
+          "required_columns": [
+            "sistema",
+            "total_planetas"
+          ],
           "min_rows": 2
         },
         "dica": "SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
@@ -536,7 +569,10 @@
             "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["sistema", "total_planetas"],
+              "required_columns": [
+                "sistema",
+                "total_planetas"
+              ],
               "min_rows": 2
             },
             "dica": "Use: SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
@@ -551,7 +587,10 @@
             "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["sistema", "total_planetas"],
+              "required_columns": [
+                "sistema",
+                "total_planetas"
+              ],
               "min_rows": 2
             },
             "dica": "Usa: SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
@@ -561,205 +600,7 @@
       }
     },
     {
-      "ordem": 9,
-      "tipo": "texto",
-      "temAnuncio": false,
-      "xpReward": 50,
-      "titulo": "Integração total: a sinfonia dos dados",
-      "conteudo": {
-        "blocos": [
-          "**1. Retrospectiva** — Você percorreu um caminho longo, desde `SELECT` simples até **subqueries**. Não é só puxar linhas: é **orquestrar** JOINs, agrupamentos e consultas aninhadas — o que separa o uso casual de um domínio sólido de SQL.",
-          "**2. Como ler: de dentro para fora** — Em queries grandes, leia como um compilador, **do miolo para a casca:**",
-          "• **Subqueries** — critérios ou dados que alimentam o restante.",
-          "• **JOINs** — de onde vêm as tabelas e como se relacionam.",
-          "• **GROUP BY** — a “lente” (perspectiva) sob a qual você soma ou conta.",
-          "• **HAVING** — filtro **depois** do agrupamento, sobre o resultado dos agregados.",
-          "**3. Desafio de elite** — Relatórios que cruzam tabelas, **agrupam** e ainda comparam com **subqueries** ou médias são o dia a dia de quem modela dados com seriedade.",
-          "**4. Futuro do modelo relacional** — Desde Codd (1970), o modelo relacional foi desafiado por várias tecnologias; a base matemática e a linguagem SQL continuam como alicerce — do **Neon.tech** a sistemas de grande escala.",
-          "**Como se lê:** Una as origens, **agrupe** na dimensão certa, aplique **agregações** e use **HAVING** para manter só os grupos que passam em critérios dinâmicos."
-        ]
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "Total integration: the data symphony",
-          "conteudo": {
-            "blocos": [
-              "**1. Look back** — From simple `SELECT` to **subqueries**, you are not just fetching rows — you are **orchestrating** JOINs, grouping, and nested queries.",
-              "**2. How to read: inside out** — On big queries, read like a compiler, **from the core outward:**",
-              "• **Subqueries** — criteria or data feeding the rest.",
-              "• **JOINs** — where tables come from and how they link.",
-              "• **GROUP BY** — the lens you sum or count through.",
-              "• **HAVING** — filter **after** grouping, on aggregate results.",
-              "**3. Elite challenge** — Reports that join tables, **group**, and compare with **subqueries** or averages are standard for serious data work.",
-              "**4. Future of the relational model** — Since Codd (1970), many technologies challenged it; its math and SQL remain foundational — from **Neon.tech** to large-scale systems.",
-              "**How to read it:** Join sources, **group** correctly, aggregate, and use **HAVING** to keep only groups that meet dynamic criteria."
-            ]
-          }
-        },
-        "es": {
-          "titulo": "Integración total: la sinfonía de los datos",
-          "conteudo": {
-            "blocos": [
-              "**1. Mirada atrás** — De `SELECT` simple a **subconsultas**: no solo extraes filas, **orquestas** JOINs, agrupaciones y anidamiento.",
-              "**2. Cómo leer: de dentro hacia afuera** — En consultas grandes, lee como un compilador:",
-              "• **Subconsultas** — criterios o datos que alimentan el resto.",
-              "• **JOINs** — de dónde salen las tablas y cómo se unen.",
-              "• **GROUP BY** — la perspectiva para sumar o contar.",
-              "• **HAVING** — filtro **después** del agrupamiento, sobre agregados.",
-              "**3. Reto de élite** — Informes que cruzan tablas, **agrupan** y comparan con **subconsultas** o promedios.",
-              "**4. Futuro del modelo relacional** — Desde Codd (1970), muchas tecnologías lo desafiaron; las bases matemáticas y SQL siguen siendo el cimiento.",
-              "**Cómo se lee:** Une orígenes, **agrupa**, agrega y usa **HAVING** para quedarte solo con los grupos que cumplen criterios dinámicos."
-            ]
-          }
-        }
-      }
-    },
-    {
-      "ordem": 10,
-      "tipo": "exercicio",
-      "temAnuncio": false,
-      "xpReward": 100,
-      "titulo": "Onde entra o HAVING?",
-      "conteudo": {
-        "modo": "quiz",
-        "quizTipo": "multipla",
-        "instrucao": "Em uma consulta complexa que combina JOIN, GROUP BY e filtros de agregação, qual a posição correta da cláusula HAVING?",
-        "opcoes": [
-          "Antes do FROM, para filtrar as tabelas.",
-          "Imediatamente após o GROUP BY.",
-          "Dentro da cláusula ON do JOIN.",
-          "O HAVING não pode ser usado junto com JOIN."
-        ],
-        "indiceCorreto": 1,
-        "dica": "HAVING filtra **grupos** já formados; na ordem lógica vem depois de JOIN e GROUP BY — não substitui WHERE nem mora dentro do ON."
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "Where does HAVING go?",
-          "conteudo": {
-            "modo": "quiz",
-            "quizTipo": "multipla",
-            "instrucao": "In a complex query with JOIN, GROUP BY, and aggregate filters, where does HAVING belong?",
-            "opcoes": [
-              "Before FROM, to filter tables.",
-              "Immediately after GROUP BY.",
-              "Inside the JOIN's ON clause.",
-              "HAVING cannot be used with JOIN."
-            ],
-            "indiceCorreto": 1,
-            "dica": "HAVING filters **groups** after they are formed — after JOIN and GROUP BY."
-          }
-        },
-        "es": {
-          "titulo": "¿Dónde va el HAVING?",
-          "conteudo": {
-            "modo": "quiz",
-            "quizTipo": "multipla",
-            "instrucao": "En una consulta compleja con JOIN, GROUP BY y filtros de agregación, ¿cuál es la posición correcta de HAVING?",
-            "opcoes": [
-              "Antes del FROM, para filtrar tablas.",
-              "Inmediatamente después del GROUP BY.",
-              "Dentro del ON del JOIN.",
-              "HAVING no puede usarse con JOIN."
-            ],
-            "indiceCorreto": 1,
-            "dica": "HAVING filtra **grupos** ya formados, después de JOIN y GROUP BY."
-          }
-        }
-      }
-    },
-    {
-      "ordem": 11,
-      "tipo": "exercicio",
-      "temAnuncio": false,
-      "xpReward": 100,
-      "titulo": "V ou F: TXT em vez do relacional?",
-      "conteudo": {
-        "modo": "quiz",
-        "quizTipo": "vf",
-        "instrucao": "Sobre o modelo relacional e o ecossistema SQL:",
-        "afirmacao": "O modelo relacional é uma tecnologia passageira que será totalmente substituída por arquivos de texto simples (TXT) devido à sua complexidade.",
-        "respostaCorreta": false,
-        "dica": "O modelo relacional tem base em álgebra de conjuntos; SGBDs oferecem integridade, concorrência e desempenho que arquivos TXT não substituem."
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "T/F: plain text instead of relational?",
-          "conteudo": {
-            "modo": "quiz",
-            "quizTipo": "vf",
-            "instrucao": "About the relational model and SQL:",
-            "afirmacao": "The relational model is a passing fad that will be fully replaced by plain text (TXT) files because of its complexity.",
-            "respostaCorreta": false,
-            "dica": "The relational model rests on solid math; databases provide integrity and performance TXT files do not replace."
-          }
-        },
-        "es": {
-          "titulo": "V o F: ¿TXT en lugar del relacional?",
-          "conteudo": {
-            "modo": "quiz",
-            "quizTipo": "vf",
-            "instrucao": "Sobre el modelo relacional y SQL:",
-            "afirmacao": "El modelo relacional es pasajero y será sustituido por archivos de texto (TXT) por su complejidad.",
-            "respostaCorreta": false,
-            "dica": "El modelo relacional tiene base matemática; los SGBD aportan integridad y rendimiento que un TXT no reemplaza."
-          }
-        }
-      }
-    },
-    {
-      "ordem": 12,
-      "tipo": "exercicio",
-      "temAnuncio": true,
-      "xpReward": 100,
-      "titulo": "Desafio: sistemas e planetas",
-      "conteudo": {
-        "instrucao": "Selecione o nome do sistema (alias sistema) e a contagem total de planetas (alias total_planetas). Una sistemas e planetas com INNER JOIN e agrupe pelo nome do sistema.",
-        "placeholder": "SELECT sistemas.nome AS sistema, COUNT(...) AS total_planetas\nFROM sistemas\nINNER JOIN planetas ON ...\nGROUP BY ...",
-        "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
-        "checkType": "columns",
-        "checkConfig": {
-          "required_columns": ["sistema", "total_planetas"],
-          "min_rows": 2
-        },
-        "dica": "SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
-        "explicacaoTecnica": "Alpha tem 2 planetas e Beta tem 1; o GROUP BY consolida uma linha por sistema com o COUNT correspondente."
-      },
-      "traducoes": {
-        "en": {
-          "titulo": "Challenge: systems and planets",
-          "conteudo": {
-            "instrucao": "Select the system name (alias sistema) and total planet count (alias total_planetas). INNER JOIN sistemas and planetas and GROUP BY system name.",
-            "placeholder": "SELECT sistemas.nome AS sistema, COUNT(...) AS total_planetas\nFROM sistemas\nINNER JOIN planetas ON ...\nGROUP BY ...",
-            "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
-            "checkType": "columns",
-            "checkConfig": {
-              "required_columns": ["sistema", "total_planetas"],
-              "min_rows": 2
-            },
-            "dica": "Use: SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
-            "explicacaoTecnica": "Alpha has 2 planets and Beta has 1; GROUP BY yields one row per system."
-          }
-        },
-        "es": {
-          "titulo": "Desafío: sistemas y planetas",
-          "conteudo": {
-            "instrucao": "Selecciona el nombre del sistema (alias sistema) y el total de planetas (alias total_planetas). INNER JOIN entre sistemas y planetas y GROUP BY por nombre de sistema.",
-            "placeholder": "SELECT sistemas.nome AS sistema, COUNT(...) AS total_planetas\nFROM sistemas\nINNER JOIN planetas ON ...\nGROUP BY ...",
-            "schema": "CREATE TABLE sistemas (id INTEGER PRIMARY KEY, nome TEXT); INSERT INTO sistemas (id, nome) VALUES (1,'Sistema Alpha'),(2,'Sistema Beta'); CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, sistema_id INTEGER); INSERT INTO planetas (id, nome, sistema_id) VALUES (1,'P1',1),(2,'P2',1),(3,'P3',2);",
-            "checkType": "columns",
-            "checkConfig": {
-              "required_columns": ["sistema", "total_planetas"],
-              "min_rows": 2
-            },
-            "dica": "Usa: SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
-            "explicacaoTecnica": "Alpha tiene 2 planetas y Beta 1; GROUP BY devuelve una fila por sistema."
-          }
-        }
-      }
-    },
-    {
-      "ordem": 13,
+      "ordem": 14,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -811,7 +652,7 @@
       }
     },
     {
-      "ordem": 14,
+      "ordem": 15,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 150,
@@ -844,7 +685,7 @@
       }
     },
     {
-      "ordem": 15,
+      "ordem": 16,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -895,7 +736,7 @@
       }
     },
     {
-      "ordem": 16,
+      "ordem": 17,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 150,
@@ -928,7 +769,7 @@
       }
     },
     {
-      "ordem": 17,
+      "ordem": 18,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -987,7 +828,7 @@
       }
     },
     {
-      "ordem": 18,
+      "ordem": 19,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 150,
@@ -1020,7 +861,7 @@
       }
     },
     {
-      "ordem": 161,
+      "ordem": 20,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -1067,7 +908,7 @@
       }
     },
     {
-      "ordem": 162,
+      "ordem": 21,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -1092,7 +933,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "Where else, besides the WHERE clause, can a subquery be placed to generate dynamic information calculated row by row in the final result?",
-            "opcoes": ["SELECT", "GROUP BY", "LIMIT", "ORDER BY"],
+            "opcoes": [
+              "SELECT",
+              "GROUP BY",
+              "LIMIT",
+              "ORDER BY"
+            ],
             "indiceCorreto": 0
           }
         },
@@ -1102,14 +948,19 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "¿En qué otro lugar, además de la cláusula WHERE, se puede colocar una subquery para generar información dinámica calculada fila por fila?",
-            "opcoes": ["SELECT", "GROUP BY", "LIMIT", "ORDER BY"],
+            "opcoes": [
+              "SELECT",
+              "GROUP BY",
+              "LIMIT",
+              "ORDER BY"
+            ],
             "indiceCorreto": 0
           }
         }
       }
     },
     {
-      "ordem": 163,
+      "ordem": 22,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -1146,7 +997,7 @@
       }
     },
     {
-      "ordem": 164,
+      "ordem": 23,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -1158,7 +1009,10 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE missoes (id SERIAL PRIMARY KEY, planeta_id INT REFERENCES planetas(id)); INSERT INTO planetas (nome) VALUES ('Vênus'), ('Terra'); INSERT INTO missoes (planeta_id) VALUES (2), (2), (1);",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["nome", "total_missoes"],
+          "required_columns": [
+            "nome",
+            "total_missoes"
+          ],
           "correlated_subquery": true
         },
         "dica": "Sua subquery deve conter WHERE missoes.planeta_id = planetas.id para criar a correlação.",
@@ -1182,7 +1036,7 @@
       }
     },
     {
-      "ordem": 19,
+      "ordem": 24,
       "tipo": "resumo",
       "temAnuncio": false,
       "xpReward": 0,
@@ -1230,7 +1084,7 @@
       }
     },
     {
-      "ordem": 20,
+      "ordem": 25,
       "tipo": "conclusao",
       "temAnuncio": false,
       "xpReward": 50,
@@ -1254,5 +1108,6 @@
         }
       }
     }
-  ]
+  ],
+  "totalEtapas": 25
 }

@@ -4,7 +4,7 @@
   "descricao": "Ordene resultados em ordem crescente ou decrescente, combine com LIMIT para pegar os top-N.",
   "icone": "📊",
   "ordem": 5,
-  "xpTotal": 600,
+  "xpTotal": 350,
   "traducoes": {
     "en": {
       "titulo": "ORDER BY — Sorting",

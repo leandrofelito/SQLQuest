@@ -4,7 +4,7 @@
   "descricao": "Aprenda a buscar dados com SELECT, escolher colunas, usar aliases e limitar resultados.",
   "icone": "🔍",
   "ordem": 3,
-  "xpTotal": 750,
+  "xpTotal": 450,
   "traducoes": {
     "en": {
       "titulo": "SELECT — Reading Data",

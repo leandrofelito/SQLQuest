@@ -18,6 +18,31 @@
   "etapas": [
     {
       "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Escrita de Dados",
+      "conteudo": {
+        "emoji": "✏️",
+        "subtitulo": "Aprenda a gravar e alterar dados com INSERT, UPDATE e DELETE — da primeira linha às boas práticas de segurança."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Data Writing",
+          "conteudo": {
+            "subtitulo": "Learn to write and change data with INSERT, UPDATE, and DELETE — from the first row to safety best practices."
+          }
+        },
+        "es": {
+          "titulo": "Escritura de Datos",
+          "conteudo": {
+            "subtitulo": "Aprende a grabar y cambiar datos con INSERT, UPDATE y DELETE — desde la primera fila hasta buenas prácticas de seguridad."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -74,7 +99,7 @@
       }
     },
     {
-      "ordem": 2,
+      "ordem": 3,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -83,7 +108,12 @@
         "modo": "quiz",
         "quizTipo": "multipla",
         "instrucao": "Qual é a palavra-chave obrigatória usada para introduzir a lista de dados gravados nas colunas mencionadas em um INSERT INTO?",
-        "opcoes": ["DATA", "VALUES", "SET", "ROWS"],
+        "opcoes": [
+          "DATA",
+          "VALUES",
+          "SET",
+          "ROWS"
+        ],
         "indiceCorreto": 1,
         "dica": "Ela vem antes dos parênteses com os valores; a forma canônica é INSERT INTO … (…) VALUES (…);"
       },
@@ -94,7 +124,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "Which keyword introduces the list of values written into the columns listed in INSERT INTO?",
-            "opcoes": ["DATA", "VALUES", "SET", "ROWS"],
+            "opcoes": [
+              "DATA",
+              "VALUES",
+              "SET",
+              "ROWS"
+            ],
             "indiceCorreto": 1,
             "dica": "It precedes the parenthesized values; the usual form is INSERT INTO … (…) VALUES (…);"
           }
@@ -105,7 +140,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "¿Qué palabra clave introduce la lista de datos que se graban en las columnas del INSERT INTO?",
-            "opcoes": ["DATA", "VALUES", "SET", "ROWS"],
+            "opcoes": [
+              "DATA",
+              "VALUES",
+              "SET",
+              "ROWS"
+            ],
             "indiceCorreto": 1,
             "dica": "Va antes del paréntesis con valores; la forma habitual es INSERT INTO … (…) VALUES (…);"
           }
@@ -113,7 +153,7 @@
       }
     },
     {
-      "ordem": 3,
+      "ordem": 4,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -152,7 +192,7 @@
       }
     },
     {
-      "ordem": 4,
+      "ordem": 5,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -200,7 +240,7 @@
       }
     },
     {
-      "ordem": 5,
+      "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -275,7 +315,7 @@
       }
     },
     {
-      "ordem": 6,
+      "ordem": 7,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -284,7 +324,12 @@
         "modo": "quiz",
         "quizTipo": "multipla",
         "instrucao": "Qual cláusula é vital para que o UPDATE altere só o registro desejado e não a tabela inteira?",
-        "opcoes": ["SELECT", "VALUES", "WHERE", "LIMIT"],
+        "opcoes": [
+          "SELECT",
+          "VALUES",
+          "WHERE",
+          "LIMIT"
+        ],
         "indiceCorreto": 2,
         "dica": "É o mesmo filtro que você usa no SELECT; sem ele, o SET vale para todas as linhas."
       },
@@ -295,7 +340,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "Which clause is vital so UPDATE changes only the intended rows, not the whole table?",
-            "opcoes": ["SELECT", "VALUES", "WHERE", "LIMIT"],
+            "opcoes": [
+              "SELECT",
+              "VALUES",
+              "WHERE",
+              "LIMIT"
+            ],
             "indiceCorreto": 2,
             "dica": "Same filter as in SELECT; without it, SET applies to every row."
           }
@@ -306,7 +356,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "¿Qué cláusula es vital para que UPDATE cambie solo las filas deseadas y no toda la tabla?",
-            "opcoes": ["SELECT", "VALUES", "WHERE", "LIMIT"],
+            "opcoes": [
+              "SELECT",
+              "VALUES",
+              "WHERE",
+              "LIMIT"
+            ],
             "indiceCorreto": 2,
             "dica": "Es el mismo filtro que en SELECT; sin él, SET afecta a todas las filas."
           }
@@ -314,7 +369,7 @@
       }
     },
     {
-      "ordem": 7,
+      "ordem": 8,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -353,7 +408,7 @@
       }
     },
     {
-      "ordem": 8,
+      "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -364,7 +419,9 @@
         "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas VALUES (1,'Terra','Temperado'),(2,'Marte','Árido'),(3,'Júpiter','Gasoso');",
         "checkType": "values",
         "checkConfig": {
-          "expected_values": ["Marte"]
+          "expected_values": [
+            "Marte"
+          ]
         },
         "dica": "UPDATE planetas SET clima = 'Terraformado' WHERE nome = 'Marte'; — textos entre aspas simples; use o SELECT de confirmação indicado.",
         "explicacaoTecnica": "Só Marte deve aparecer na consulta de confirmação; se o WHERE do UPDATE faltar, todos os climas mudam e o teste falha."
@@ -378,7 +435,9 @@
             "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas VALUES (1,'Terra','Temperado'),(2,'Marte','Árido'),(3,'Júpiter','Gasoso');",
             "checkType": "values",
             "checkConfig": {
-              "expected_values": ["Marte"]
+              "expected_values": [
+                "Marte"
+              ]
             },
             "dica": "UPDATE ... WHERE nome = 'Marte'; then run the confirmation SELECT shown.",
             "explicacaoTecnica": "Only Mars should appear in the confirmation query."
@@ -392,7 +451,9 @@
             "schema": "CREATE TABLE planetas (id INTEGER PRIMARY KEY, nome TEXT, clima TEXT); INSERT INTO planetas VALUES (1,'Terra','Temperado'),(2,'Marte','Árido'),(3,'Júpiter','Gasoso');",
             "checkType": "values",
             "checkConfig": {
-              "expected_values": ["Marte"]
+              "expected_values": [
+                "Marte"
+              ]
             },
             "dica": "UPDATE ... WHERE nome = 'Marte'; luego el SELECT de confirmación indicado.",
             "explicacaoTecnica": "Solo Marte debe aparecer en la consulta de confirmación."
@@ -401,7 +462,7 @@
       }
     },
     {
-      "ordem": 9,
+      "ordem": 10,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -461,7 +522,7 @@
       }
     },
     {
-      "ordem": 10,
+      "ordem": 11,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -515,7 +576,7 @@
       }
     },
     {
-      "ordem": 11,
+      "ordem": 12,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -554,7 +615,7 @@
       }
     },
     {
-      "ordem": 12,
+      "ordem": 13,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -602,7 +663,7 @@
       }
     },
     {
-      "ordem": 13,
+      "ordem": 14,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -682,7 +743,7 @@
       }
     },
     {
-      "ordem": 14,
+      "ordem": 15,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -737,7 +798,7 @@
       }
     },
     {
-      "ordem": 15,
+      "ordem": 16,
       "tipo": "resumo",
       "temAnuncio": false,
       "xpReward": 0,
@@ -788,7 +849,7 @@
       }
     },
     {
-      "ordem": 16,
+      "ordem": 17,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -821,7 +882,7 @@
       }
     },
     {
-      "ordem": 17,
+      "ordem": 18,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -860,7 +921,7 @@
       }
     },
     {
-      "ordem": 18,
+      "ordem": 19,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -893,7 +954,7 @@
       }
     },
     {
-      "ordem": 19,
+      "ordem": 20,
       "tipo": "conclusao",
       "temAnuncio": false,
       "xpReward": 50,
@@ -917,5 +978,6 @@
         }
       }
     }
-  ]
+  ],
+  "totalEtapas": 20
 }

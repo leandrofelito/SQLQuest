@@ -4,7 +4,7 @@
   "descricao": "Agrupe dados por categoria e filtre grupos com HAVING para relatórios e análises poderosas.",
   "icone": "🗂️",
   "ordem": 7,
-  "xpTotal": 750,
+  "xpTotal": 350,
   "traducoes": {
     "en": {
       "titulo": "GROUP BY and HAVING",

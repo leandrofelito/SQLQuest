@@ -4,7 +4,7 @@
   "descricao": "Filtre registros com WHERE, combine condições com AND/OR, use LIKE para padrões e IN para listas.",
   "icone": "🎯",
   "ordem": 4,
-  "xpTotal": 1850,
+  "xpTotal": 1500,
   "traducoes": {
     "en": {
       "titulo": "WHERE — Filtering Data",
@@ -17,7 +17,32 @@
   },
   "etapas": [
     {
-      "ordem": 37,
+      "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "WHERE — Filtrando Dados",
+      "conteudo": {
+        "emoji": "🎯",
+        "subtitulo": "Filtre registros com WHERE, combine condições com AND/OR, use LIKE para padrões e IN para listas."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "WHERE — Filtering Data",
+          "conteudo": {
+            "subtitulo": "Filter records with WHERE, combine conditions with AND/OR, use LIKE for patterns and IN for lists."
+          }
+        },
+        "es": {
+          "titulo": "WHERE — Filtrando Datos",
+          "conteudo": {
+            "subtitulo": "Filtra registros con WHERE, combina condiciones con AND/OR, usa LIKE para patrones e IN para listas."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -83,7 +108,7 @@
       }
     },
     {
-      "ordem": 38,
+      "ordem": 3,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -152,7 +177,7 @@
       }
     },
     {
-      "ordem": 39,
+      "ordem": 4,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -206,7 +231,7 @@
       }
     },
     {
-      "ordem": 40,
+      "ordem": 5,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -265,7 +290,7 @@
       }
     },
     {
-      "ordem": 41,
+      "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -331,7 +356,7 @@
       }
     },
     {
-      "ordem": 42,
+      "ordem": 7,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -400,7 +425,7 @@
       }
     },
     {
-      "ordem": 43,
+      "ordem": 8,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -454,7 +479,7 @@
       }
     },
     {
-      "ordem": 44,
+      "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -511,7 +536,7 @@
       }
     },
     {
-      "ordem": 45,
+      "ordem": 10,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -577,7 +602,7 @@
       }
     },
     {
-      "ordem": 46,
+      "ordem": 11,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -646,7 +671,7 @@
       }
     },
     {
-      "ordem": 47,
+      "ordem": 12,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -700,7 +725,7 @@
       }
     },
     {
-      "ordem": 48,
+      "ordem": 13,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -757,7 +782,7 @@
       }
     },
     {
-      "ordem": 49,
+      "ordem": 14,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -826,7 +851,7 @@
       }
     },
     {
-      "ordem": 50,
+      "ordem": 15,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -895,7 +920,7 @@
       }
     },
     {
-      "ordem": 51,
+      "ordem": 16,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -949,7 +974,7 @@
       }
     },
     {
-      "ordem": 52,
+      "ordem": 17,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -1006,7 +1031,7 @@
       }
     },
     {
-      "ordem": 53,
+      "ordem": 18,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -1054,7 +1079,7 @@
       }
     },
     {
-      "ordem": 54,
+      "ordem": 19,
       "tipo": "conclusao",
       "temAnuncio": false,
       "xpReward": 50,
@@ -1078,5 +1103,6 @@
         }
       }
     }
-  ]
+  ],
+  "totalEtapas": 19
 }

@@ -4,7 +4,7 @@
   "descricao": "SELECT, FROM, projeção de colunas, aliases (AS) e boas práticas de leitura no PostgreSQL.",
   "icone": "📊",
   "ordem": 2,
-  "xpTotal": 1550,
+  "xpTotal": 1600,
   "traducoes": {
     "en": {
       "titulo": "Data Manipulation (Reads)",
@@ -18,6 +18,31 @@
   "etapas": [
     {
       "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Manipulação de Dados",
+      "conteudo": {
+        "emoji": "📊",
+        "subtitulo": "SELECT, FROM, projeção de colunas, aliases (AS) e boas práticas de leitura no PostgreSQL."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Data Manipulation (Reads)",
+          "conteudo": {
+            "subtitulo": "SELECT, FROM, column projection, AS aliases, and good practices for reads in PostgreSQL."
+          }
+        },
+        "es": {
+          "titulo": "Manipulación de Datos",
+          "conteudo": {
+            "subtitulo": "SELECT, FROM, proyección de columnas, alias (AS) y buenas prácticas de lectura en PostgreSQL."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -83,7 +108,7 @@
       }
     },
     {
-      "ordem": 2,
+      "ordem": 3,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -152,7 +177,7 @@
       }
     },
     {
-      "ordem": 3,
+      "ordem": 4,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -206,7 +231,7 @@
       }
     },
     {
-      "ordem": 4,
+      "ordem": 5,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -265,7 +290,7 @@
       }
     },
     {
-      "ordem": 5,
+      "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -331,7 +356,7 @@
       }
     },
     {
-      "ordem": 6,
+      "ordem": 7,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -400,7 +425,7 @@
       }
     },
     {
-      "ordem": 7,
+      "ordem": 8,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -454,7 +479,7 @@
       }
     },
     {
-      "ordem": 8,
+      "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -512,7 +537,7 @@
       }
     },
     {
-      "ordem": 9,
+      "ordem": 10,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -590,7 +615,7 @@
       }
     },
     {
-      "ordem": 10,
+      "ordem": 11,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -659,7 +684,7 @@
       }
     },
     {
-      "ordem": 11,
+      "ordem": 12,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -713,7 +738,7 @@
       }
     },
     {
-      "ordem": 12,
+      "ordem": 13,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -771,7 +796,7 @@
       }
     },
     {
-      "ordem": 29,
+      "ordem": 14,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 0,
@@ -831,7 +856,7 @@
       }
     },
     {
-      "ordem": 30,
+      "ordem": 15,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -900,7 +925,7 @@
       }
     },
     {
-      "ordem": 31,
+      "ordem": 16,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -954,7 +979,7 @@
       }
     },
     {
-      "ordem": 32,
+      "ordem": 17,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -1013,7 +1038,7 @@
       }
     },
     {
-      "ordem": 33,
+      "ordem": 18,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -1091,7 +1116,7 @@
       }
     },
     {
-      "ordem": 34,
+      "ordem": 19,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -1160,7 +1185,7 @@
       }
     },
     {
-      "ordem": 35,
+      "ordem": 20,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -1214,7 +1239,7 @@
       }
     },
     {
-      "ordem": 36,
+      "ordem": 21,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -1269,6 +1294,34 @@
           }
         }
       }
+    },
+    {
+      "ordem": 22,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Trilha Concluída!",
+      "conteudo": {
+        "mensagem": "Excelente! Você dominou a leitura e projeção de dados com SELECT. Seu repertório SQL está crescendo a passos largos!",
+        "xpGanho": 1550
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Trail Complete!",
+          "conteudo": {
+            "mensagem": "Excellent! You mastered reading and projecting data with SELECT. Your SQL repertoire is growing fast!",
+            "xpGanho": 1550
+          }
+        },
+        "es": {
+          "titulo": "¡Ruta Completada!",
+          "conteudo": {
+            "mensagem": "¡Excelente! Dominaste la lectura y proyección de datos con SELECT. ¡Tu repertorio SQL está creciendo a pasos agigantados!",
+            "xpGanho": 1550
+          }
+        }
+      }
     }
-  ]
+  ],
+  "totalEtapas": 22
 }

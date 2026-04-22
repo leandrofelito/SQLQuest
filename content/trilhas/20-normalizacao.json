@@ -4,7 +4,7 @@
   "descricao": "Elimine redundância e inconsistências dominando as Formas Normais (1FN, 2FN, 3FN) e saiba quando desnormalizar.",
   "icone": "📐",
   "ordem": 22,
-  "xpTotal": 800,
+  "xpTotal": 500,
   "traducoes": {
     "en": {
       "titulo": "Normalization — Designing Professional Databases",

@@ -4,7 +4,7 @@
   "descricao": "Domine ROW_NUMBER, RANK, LAG, LEAD e OVER PARTITION BY para análises avançadas sem perder o detalhe das linhas.",
   "icone": "🪟",
   "ordem": 12,
-  "xpTotal": 900,
+  "xpTotal": 500,
   "traducoes": {
     "en": {
       "titulo": "Window Functions",

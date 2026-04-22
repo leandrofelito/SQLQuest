@@ -4,7 +4,7 @@
   "descricao": "Salve consultas complexas como tabelas virtuais reutilizáveis com CREATE VIEW e simplifique seu SQL.",
   "icone": "🪟",
   "ordem": 14,
-  "xpTotal": 750,
+  "xpTotal": 850,
   "traducoes": {
     "en": {
       "titulo": "Views — Queries That Become Tables",
@@ -426,6 +426,180 @@
     },
     {
       "ordem": 10,
+      "tipo": "texto",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Views: Tabelas Virtuais e Atalhos",
+      "conteudo": {
+        "blocos": [
+          "Você já criou queries gigantescas com múltiplos JOINS e agregações. Mas e se você precisasse rodar essa mesma consulta todos os dias no **Neon.tech**? Em vez de digitar tudo de novo, você pode criar uma **VIEW**.",
+          "Uma **VIEW** é uma tabela virtual. Ela não armazena dados no disco; ela armazena apenas a 'receita' (o comando SELECT). Sempre que você consulta uma View, o banco de dados executa a query original por trás dos panos e te entrega o resultado fresco.",
+          {
+            "type": "definicao",
+            "termo": "VIEW",
+            "def": "Um objeto de banco de dados que representa o resultado de uma consulta SELECT salva, funcionando como uma tabela para o usuário."
+          },
+          "**Vantagens:** Além de economizar tempo, elas aumentam a segurança (você pode dar acesso a uma View que esconde colunas de senhas, por exemplo) e simplificam a vida de quem não conhece SQL avançado.",
+          "**Analogia do Filtro de Foto:** Pense em um Filtro do Instagram. A foto original (os dados reais nas tabelas) continua intacta. A View é como um filtro que você aplica para ver a imagem de um jeito específico (preto e branco, com mais brilho, ou recortada) sempre que quiser, sem precisar editar a foto original manualmente toda vez.",
+          {
+            "type": "code",
+            "code": "CREATE VIEW resumo_naves AS \nSELECT nome, modelo \nFROM naves \nWHERE ativa = true;",
+            "lese": "Cria um atalho chamado resumo_naves que sempre mostrará apenas o nome e modelo das naves que estão com o status ativo."
+          }
+        ]
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Views: Virtual Tables and Shortcuts",
+          "conteudo": {
+            "blocos": [
+              "You've built giant queries with multiple JOINS. But what if you needed to run that same query every day in **Neon.tech**? Instead of typing it all again, you can create a **VIEW**.",
+              "A **VIEW** is a virtual table. It doesn't store data on disk; it only stores the 'recipe' (the SELECT command).",
+              "**Photo Filter Analogy:** Think of an Instagram Filter. The original photo (real data) remains intact. The View is like a filter you apply to see the image in a specific way whenever you want."
+            ]
+          }
+        },
+        "es": {
+          "titulo": "Views: Tablas Virtuales y Accesos Directos",
+          "conteudo": {
+            "blocos": [
+              "Ya has creado consultas gigantescas. ¿Pero qué pasa si necesitas ejecutar esa misma consulta todos los días en **Neon.tech**? En lugar de escribirlo todo de nuevo, puedes crear una **VIEW**.",
+              "Una **VIEW** es una tabla virtual. No almacena datos en el disco; solo almacena la 'receta' (el comando SELECT).",
+              "**Analogía del Filtro de Fotos:** Piensa en un Filtro de Instagram. La foto original (datos reales) permanece intacta. La View es como un filtro que aplicas para ver la imagen de una manera específica."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "ordem": 11,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "A Natureza da View",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "multipla",
+        "instrucao": "Qual é a principal característica técnica de uma VIEW no sistema PostgreSQL?",
+        "opcoes": [
+          "É uma tabela virtual que executa uma consulta salva sempre que é acessada.",
+          "É uma cópia física dos dados que ocupa o dobro de espaço no disco.",
+          "É um comando que apaga os dados originais após a consulta.",
+          "É uma tabela que só pode ser visualizada uma única vez."
+        ],
+        "indiceCorreto": 0,
+        "dica": "Ela funciona como um 'espelho' dinâmico da consulta SELECT original."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Nature of the View",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "What is the main technical characteristic of a VIEW in the PostgreSQL system?",
+            "opcoes": [
+              "It is a virtual table that executes a saved query whenever accessed.",
+              "It is a physical copy of data that takes up double disk space.",
+              "It is a command that deletes original data after the query.",
+              "It is a table that can only be viewed once."
+            ],
+            "indiceCorreto": 0
+          }
+        },
+        "es": {
+          "titulo": "La Naturaleza de la View",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "multipla",
+            "instrucao": "¿Cuál es la principal característica técnica de una VIEW en el sistema PostgreSQL?",
+            "opcoes": [
+              "Es una tabla virtual que ejecuta una consulta guardada cada vez que se accede.",
+              "Es una copia física de los datos que ocupa el doble de espacio.",
+              "Es un comando que borra los datos originales tras la consulta.",
+              "Es una tabla que solo se puede visualizar una única vez."
+            ],
+            "indiceCorreto": 0
+          }
+        }
+      }
+    },
+    {
+      "ordem": 12,
+      "tipo": "exercicio",
+      "temAnuncio": false,
+      "xpReward": 100,
+      "titulo": "V ou F: Armazenamento Físico",
+      "conteudo": {
+        "modo": "quiz",
+        "quizTipo": "vf",
+        "instrucao": "Sobre a atualização dos dados em uma VIEW:",
+        "afirmacao": "Ao apagar um registro diretamente da tabela original, a VIEW continuará exibindo o dado antigo, pois ela armazena uma cópia física dos registros no momento da sua criação.",
+        "respostaCorreta": false,
+        "dica": "A View é dinâmica; ela sempre 'olha' para a tabela original no momento da execução."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "T/F: Physical Storage",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "About data updates in a VIEW:",
+            "afirmacao": "When deleting a record directly from the original table, the VIEW will continue to display the old data because it stores a physical copy of records at creation time.",
+            "respostaCorreta": false
+          }
+        },
+        "es": {
+          "titulo": "V o F: Almacenamiento Físico",
+          "conteudo": {
+            "modo": "quiz",
+            "quizTipo": "vf",
+            "instrucao": "Sobre la actualización de datos en una VIEW:",
+            "afirmacao": "Al borrar un registro directamente de la tabla original, la VIEW seguirá mostrando el dato antiguo, ya que almacena una copia física de los registros al momento de su creación.",
+            "respostaCorreta": false
+          }
+        }
+      }
+    },
+    {
+      "ordem": 13,
+      "tipo": "exercicio",
+      "temAnuncio": true,
+      "xpReward": 100,
+      "titulo": "Mão na Massa: Criando sua Vista",
+      "conteudo": {
+        "modo": "sql",
+        "instrucao": "Crie uma VIEW chamada 'vista_planetas' que selecione apenas a coluna 'nome' de todos os registros da tabela 'planetas'.",
+        "placeholder": "CREATE VIEW ... AS SELECT ...",
+        "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT, populacao BIGINT); INSERT INTO planetas (nome, populacao) VALUES ('Terra', 8000000000), ('Marte', 500000);",
+        "checkType": "columns",
+        "checkConfig": {
+          "create_view": "vista_planetas",
+          "required_columns": [
+            "nome"
+          ]
+        },
+        "dica": "Use o comando CREATE VIEW vista_planetas AS seguido do seu SELECT nome FROM planetas.",
+        "explicacaoTecnica": "O comando CREATE VIEW registra a definição da consulta no catálogo do banco de dados sem duplicar os dados da tabela original."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Hands-on: Creating your View",
+          "conteudo": {
+            "instrucao": "Create a VIEW named 'vista_planetas' that selects only the 'nome' column from all records in the 'planetas' table.",
+            "dica": "Use the command CREATE VIEW vista_planetas AS followed by your SELECT nome FROM planetas."
+          }
+        },
+        "es": {
+          "titulo": "Manos a la obra: Creando tu Vista",
+          "conteudo": {
+            "instrucao": "Crea una VIEW llamada 'vista_planetas' que seleccione solo la columna 'nome' de todos los registros de la tabla 'planetas'.",
+            "dica": "Usa el comando CREATE VIEW vista_planetas AS seguido de tu SELECT nome FROM planetas."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 14,
       "tipo": "resumo",
       "temAnuncio": false,
       "xpReward": 0,
@@ -473,7 +647,7 @@
       }
     },
     {
-      "ordem": 11,
+      "ordem": 15,
       "tipo": "conclusao",
       "temAnuncio": false,
       "xpReward": 50,
@@ -497,5 +671,6 @@
         }
       }
     }
-  ]
+  ],
+  "totalEtapas": 15
 }

@@ -18,6 +18,31 @@
   "etapas": [
     {
       "ordem": 1,
+      "tipo": "intro",
+      "temAnuncio": false,
+      "xpReward": 0,
+      "titulo": "Relacionamento de Dados",
+      "conteudo": {
+        "emoji": "🔗",
+        "subtitulo": "Una tabelas com INNER, LEFT, RIGHT e FULL OUTER JOIN, usando PK/FK e NULL em junções externas."
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Data Relationships",
+          "conteudo": {
+            "subtitulo": "Join tables with INNER, LEFT, RIGHT, and FULL OUTER JOIN using PK/FK keys and NULLs in outer joins."
+          }
+        },
+        "es": {
+          "titulo": "Relacionamiento de Datos",
+          "conteudo": {
+            "subtitulo": "Une tablas con INNER, LEFT, RIGHT y FULL OUTER JOIN usando claves PK/FK y NULL en uniones externas."
+          }
+        }
+      }
+    },
+    {
+      "ordem": 2,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -64,7 +89,7 @@
       }
     },
     {
-      "ordem": 2,
+      "ordem": 3,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -116,7 +141,7 @@
       }
     },
     {
-      "ordem": 3,
+      "ordem": 4,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -153,7 +178,7 @@
       }
     },
     {
-      "ordem": 4,
+      "ordem": 5,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -192,7 +217,7 @@
       }
     },
     {
-      "ordem": 5,
+      "ordem": 6,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -239,7 +264,7 @@
       }
     },
     {
-      "ordem": 6,
+      "ordem": 7,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -264,7 +289,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "In a LEFT JOIN, what does the database put in the columns of the right table when it finds no match for the left row?",
-            "opcoes": ["NULL", "0 (Zero)", "Blank space", "Syntax Error"],
+            "opcoes": [
+              "NULL",
+              "0 (Zero)",
+              "Blank space",
+              "Syntax Error"
+            ],
             "indiceCorreto": 0
           }
         },
@@ -274,14 +304,19 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "En un LEFT JOIN, ¿qué pone la base de datos en las columnas de la tabla de la derecha cuando no encuentra una correspondencia para la fila de la izquierda?",
-            "opcoes": ["NULL", "0 (Zero)", "Espacio en blanco", "Error de Sintaxis"],
+            "opcoes": [
+              "NULL",
+              "0 (Zero)",
+              "Espacio en blanco",
+              "Error de Sintaxis"
+            ],
             "indiceCorreto": 0
           }
         }
       }
     },
     {
-      "ordem": 7,
+      "ordem": 8,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -318,7 +353,7 @@
       }
     },
     {
-      "ordem": 8,
+      "ordem": 9,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -330,7 +365,10 @@
         "schema": "CREATE TABLE planetas (id SERIAL PRIMARY KEY, nome TEXT); CREATE TABLE missoes (id SERIAL PRIMARY KEY, planeta_id INT REFERENCES planetas(id)); INSERT INTO planetas (nome) VALUES ('Terra'), ('Marte'); INSERT INTO missoes (planeta_id) VALUES (1);",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["nome", "id"],
+          "required_columns": [
+            "nome",
+            "id"
+          ],
           "join_type": "LEFT JOIN"
         },
         "dica": "Dica de Ouro: A tabela planetas deve vir primeiro (à esquerda). A sintaxe é: FROM planetas LEFT JOIN missoes ON...",
@@ -354,7 +392,7 @@
       }
     },
     {
-      "ordem": 9,
+      "ordem": 10,
       "tipo": "texto",
       "temAnuncio": false,
       "xpReward": 50,
@@ -403,7 +441,7 @@
       }
     },
     {
-      "ordem": 10,
+      "ordem": 11,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -455,7 +493,7 @@
       }
     },
     {
-      "ordem": 11,
+      "ordem": 12,
       "tipo": "exercicio",
       "temAnuncio": false,
       "xpReward": 100,
@@ -492,7 +530,7 @@
       }
     },
     {
-      "ordem": 12,
+      "ordem": 13,
       "tipo": "exercicio",
       "temAnuncio": true,
       "xpReward": 100,
@@ -529,6 +567,34 @@
           }
         }
       }
+    },
+    {
+      "ordem": 14,
+      "tipo": "conclusao",
+      "temAnuncio": false,
+      "xpReward": 50,
+      "titulo": "Trilha Concluída!",
+      "conteudo": {
+        "mensagem": "Parabéns! Você aprendeu a unir tabelas e enxergar dados de múltiplas fontes como um verdadeiro arquiteto de consultas.",
+        "xpGanho": 1050
+      },
+      "traducoes": {
+        "en": {
+          "titulo": "Trail Complete!",
+          "conteudo": {
+            "mensagem": "Congratulations! You learned to join tables and see data from multiple sources like a true query architect.",
+            "xpGanho": 1050
+          }
+        },
+        "es": {
+          "titulo": "¡Ruta Completada!",
+          "conteudo": {
+            "mensagem": "¡Felicidades! Aprendiste a unir tablas y ver datos de múltiples fuentes como un verdadero arquitecto de consultas.",
+            "xpGanho": 1050
+          }
+        }
+      }
     }
-  ]
+  ],
+  "totalEtapas": 14
 }
