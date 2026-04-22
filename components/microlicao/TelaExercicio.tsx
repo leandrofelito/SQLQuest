@@ -386,7 +386,7 @@ function ExercicioQuiz({
 
   return (
     <DesafioSeguro>
-      <div className="flex flex-col h-full px-4 py-6 gap-4">
+      <div className="flex flex-col min-h-full px-4 py-6 gap-4">
         <div>
           <div className="text-xs font-semibold text-[#8b5cf6] uppercase tracking-widest mb-1">{titulo}</div>
           {instrucaoTopo ? (
@@ -744,7 +744,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
 
   return (
     <DesafioSeguro>
-    <div className="flex flex-col h-full px-4 py-6 gap-4">
+    <div className="flex flex-col min-h-full px-4 py-6 gap-4">
       <div>
         <div className="text-xs font-semibold text-[#8b5cf6] uppercase tracking-widest mb-1">{titulo}</div>
         <EnunciadoSeguro texto={conteudoSql.instrucao} className="text-white/80 text-base leading-snug" />
