@@ -81,9 +81,11 @@ export async function POST(req: Request) {
     data: { identifier: email, token, expires },
   })
 
-  sendVerificationEmail(email, name, token).catch(err => {
+  try {
+    await sendVerificationEmail(email, name, token)
+  } catch (err) {
     console.error('[register] falha ao enviar email de verificação:', JSON.stringify(err))
-  })
+  }
 
   return NextResponse.json({ ok: true })
 }
