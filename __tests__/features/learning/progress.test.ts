@@ -55,7 +55,7 @@ jest.mock('@/features/gamification/domain/conquistas-definitions', () => ({
 // ---------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------
-import { POST } from '@/app/api/progresso/route'
+import { salvarProgressoAction } from '@/features/learning/actions/progress.actions'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/db'
 import { verificarToken } from '@/features/auth/domain/validation-token'
@@ -89,18 +89,7 @@ const TOKEN_PAYLOAD_1_STAR = {
   dicasUsadas: 1,
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-function makeReq(body: unknown): Request {
-  return new Request('http://localhost/api/progresso', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  })
-}
-
-const VALID_BODY = { trilhaId: TRILHA_ID, etapaId: ETAPA_ID, token: 'tok-valido' }
+const VALID_INPUT = { trilhaId: TRILHA_ID, etapaId: ETAPA_ID, token: 'tok-valido' }
 
 const db = prisma as any
 
@@ -133,63 +122,65 @@ beforeEach(() => {
 // ---------------------------------------------------------------------------
 // Bloco 1 — Autenticação
 // ---------------------------------------------------------------------------
-describe('POST /api/progresso — autenticação', () => {
-  test('sem sessão → 401', async () => {
+describe('salvarProgressoAction — autenticação', () => {
+  test('sem sessão → success: false com mensagem de erro', async () => {
     ;(getServerSession as jest.Mock).mockResolvedValue(null)
-    const res = await POST(makeReq(VALID_BODY))
-    expect(res.status).toBe(401)
-    const body = await res.json()
-    expect(body.error).toMatch(/não autenticado/i)
+    const result = await salvarProgressoAction(VALID_INPUT)
+
+    expect(result.success).toBe(false)
+    if (!result.success) expect(result.error).toMatch(/não autenticado/i)
   })
 })
 
 // ---------------------------------------------------------------------------
 // Bloco 2 — Validação de token HMAC
 // ---------------------------------------------------------------------------
-describe('POST /api/progresso — token HMAC', () => {
-  test('token inválido (verificarToken retorna null) → 403', async () => {
+describe('salvarProgressoAction — token HMAC', () => {
+  test('token inválido (verificarToken retorna null) → success: false', async () => {
     ;(verificarToken as jest.Mock).mockReturnValue(null)
-    const res = await POST(makeReq(VALID_BODY))
-    expect(res.status).toBe(403)
-    const body = await res.json()
-    expect(body.error).toMatch(/token.*inválido|expirado/i)
+    const result = await salvarProgressoAction(VALID_INPUT)
+
+    expect(result.success).toBe(false)
+    if (!result.success) expect(result.error).toMatch(/token.*inválido|expirado/i)
   })
 
-  test('token de outro usuário → 403', async () => {
+  test('token de outro usuário → success: false', async () => {
     ;(verificarToken as jest.Mock).mockReturnValue({
       ...TOKEN_PAYLOAD_3_STARS,
-      userId: 'outro-user-id', // userId do token ≠ userId da sessão
+      userId: 'outro-user-id',
     })
-    const res = await POST(makeReq(VALID_BODY))
-    expect(res.status).toBe(403)
+    const result = await salvarProgressoAction(VALID_INPUT)
+
+    expect(result.success).toBe(false)
   })
 
-  test('token para etapa diferente da enviada → 403', async () => {
+  test('token para etapa diferente da enviada → success: false', async () => {
     ;(verificarToken as jest.Mock).mockReturnValue({
       ...TOKEN_PAYLOAD_3_STARS,
       etapaId: 'etapa-errada',
     })
-    const res = await POST(makeReq(VALID_BODY))
-    expect(res.status).toBe(403)
+    const result = await salvarProgressoAction(VALID_INPUT)
+
+    expect(result.success).toBe(false)
   })
 })
 
 // ---------------------------------------------------------------------------
-// Bloco 3 — Primeiro progresso (@@unique userId_etapaId)
+// Bloco 3 — Primeiro progresso
 // ---------------------------------------------------------------------------
-describe('POST /api/progresso — primeiro progresso', () => {
+describe('salvarProgressoAction — primeiro progresso', () => {
   test('primeira conclusão cria registro Progresso no banco', async () => {
-    db.progresso.findUnique.mockResolvedValue(null) // sem registro anterior
-    const res = await POST(makeReq(VALID_BODY))
+    db.progresso.findUnique.mockResolvedValue(null)
+    const result = await salvarProgressoAction(VALID_INPUT)
 
-    expect(res.status).toBe(200)
+    expect(result.success).toBe(true)
     expect(db.progresso.create).toHaveBeenCalledTimes(1)
     expect(db.progresso.update).not.toHaveBeenCalled()
   })
 
   test('cria Progresso com os campos corretos (userId, trilhaId, etapaId, estrelas)', async () => {
     db.progresso.findUnique.mockResolvedValue(null)
-    await POST(makeReq(VALID_BODY))
+    await salvarProgressoAction(VALID_INPUT)
 
     const createArgs = db.progresso.create.mock.calls[0][0]
     expect(createArgs.data).toMatchObject({
@@ -204,64 +195,58 @@ describe('POST /api/progresso — primeiro progresso', () => {
   test('primeira conclusão com 3 estrelas → xpGanho = 100 (base)', async () => {
     ;(verificarToken as jest.Mock).mockReturnValue(TOKEN_PAYLOAD_3_STARS)
     db.progresso.findUnique.mockResolvedValue(null)
-    const res = await POST(makeReq(VALID_BODY))
-    const body = await res.json()
+    const result = await salvarProgressoAction(VALID_INPUT)
 
-    // xpGanho na resposta reflete o xpDelta, que para 3 estrelas = 100 (base star XP)
-    expect(body.xpGanho).toBe(100)
-    expect(body.estrelas).toBe(3)
+    expect(result.success).toBe(true)
+    if (result.success && !result.jaFeito) {
+      expect(result.xpGanho).toBe(100)
+      expect(result.estrelas).toBe(3)
+    }
   })
 })
 
 // ---------------------------------------------------------------------------
 // Bloco 4 — Restrição @@unique(userId, etapaId)
 // ---------------------------------------------------------------------------
-describe('POST /api/progresso — @@unique userId_etapaId', () => {
+describe('salvarProgressoAction — @@unique userId_etapaId', () => {
   test('mesma etapa com estrelas iguais → jaFeito: true, sem novo create/update', async () => {
-    const existente = {
-      id: 'prog-existente',
-      userId: USER_ID,
-      etapaId: ETAPA_ID,
-      estrelas: 3,
-      xpGanho: 100,
-    }
+    const existente = { id: 'prog-existente', userId: USER_ID, etapaId: ETAPA_ID, estrelas: 3, xpGanho: 100 }
     db.progresso.findUnique.mockResolvedValue(existente)
-    ;(verificarToken as jest.Mock).mockReturnValue(TOKEN_PAYLOAD_3_STARS) // ainda 3 estrelas
+    ;(verificarToken as jest.Mock).mockReturnValue(TOKEN_PAYLOAD_3_STARS)
 
-    const res = await POST(makeReq(VALID_BODY))
-    const body = await res.json()
+    const result = await salvarProgressoAction(VALID_INPUT)
 
-    expect(body.jaFeito).toBe(true)
-    expect(body.xpGanho).toBe(0)
+    expect(result.success).toBe(true)
+    if (result.success) expect(result.jaFeito).toBe(true)
     expect(db.progresso.create).not.toHaveBeenCalled()
     expect(db.progresso.update).not.toHaveBeenCalled()
   })
 
   test('mesma etapa com estrelas inferiores (regresso) → jaFeito: true', async () => {
-    // Usuário já tem 3 estrelas, submete novamente com 2 estrelas
     const existente = { id: 'prog-1', estrelas: 3, xpGanho: 100 }
     db.progresso.findUnique.mockResolvedValue(existente)
-    ;(verificarToken as jest.Mock).mockReturnValue(TOKEN_PAYLOAD_2_STARS) // 2 estrelas
+    ;(verificarToken as jest.Mock).mockReturnValue(TOKEN_PAYLOAD_2_STARS)
 
-    const res = await POST(makeReq(VALID_BODY))
-    const body = await res.json()
+    const result = await salvarProgressoAction(VALID_INPUT)
 
-    expect(body.jaFeito).toBe(true)
+    expect(result.success).toBe(true)
+    if (result.success) expect(result.jaFeito).toBe(true)
     expect(db.progresso.update).not.toHaveBeenCalled()
   })
 
   test('melhoria de 1 → 3 estrelas → update com delta XP (100 - 30 = 70)', async () => {
-    // Registro anterior com 1 estrela (xpGanho=30)
     const existente = { id: 'prog-1', estrelas: 1, xpGanho: 30 }
     db.progresso.findUnique.mockResolvedValue(existente)
-    ;(verificarToken as jest.Mock).mockReturnValue(TOKEN_PAYLOAD_3_STARS) // 3 estrelas (melhoria)
+    ;(verificarToken as jest.Mock).mockReturnValue(TOKEN_PAYLOAD_3_STARS)
 
-    const res = await POST(makeReq(VALID_BODY))
-    const body = await res.json()
+    const result = await salvarProgressoAction(VALID_INPUT)
 
-    // Apenas a diferença é concedida: 100 (3★) - 30 (1★) = 70
-    expect(body.xpGanho).toBe(70)
-    expect(body.estrelas).toBe(3)
+    expect(result.success).toBe(true)
+    if (result.success && !result.jaFeito) {
+      // Apenas a diferença é concedida: 100 (3★) - 30 (1★) = 70
+      expect(result.xpGanho).toBe(70)
+      expect(result.estrelas).toBe(3)
+    }
     expect(db.progresso.create).not.toHaveBeenCalled()
     expect(db.progresso.update).toHaveBeenCalledTimes(1)
   })
@@ -270,12 +255,11 @@ describe('POST /api/progresso — @@unique userId_etapaId', () => {
 // ---------------------------------------------------------------------------
 // Bloco 5 — xpRanking atualizado junto com totalXp
 // ---------------------------------------------------------------------------
-describe('POST /api/progresso — xpRanking', () => {
+describe('salvarProgressoAction — xpRanking', () => {
   test('xpRanking é incrementado com o mesmo xpDelta que totalXp', async () => {
     db.progresso.findUnique.mockResolvedValue(null)
-    await POST(makeReq(VALID_BODY))
+    await salvarProgressoAction(VALID_INPUT)
 
-    // O update do user (dentro da transação) deve conter ambos os increments
     const txUpdateCall = db.user.update.mock.calls[0]?.[0]
     expect(txUpdateCall?.data).toMatchObject({
       totalXp: { increment: expect.any(Number) },

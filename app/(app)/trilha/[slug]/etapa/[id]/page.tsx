@@ -15,6 +15,8 @@ import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
 import { useAppData } from '@/context/AppDataContext'
 import type { ConteudoIntro, ConteudoTexto, ConteudoResumo, ConteudoExercicio, ConteudoConclusao } from '@/types'
+import { salvarProgressoAction } from '@/features/learning/actions/progress.actions'
+import { marcarVisitadaAction } from '@/features/learning/actions/stage.actions'
 
 interface EtapaDB {
   id: string
@@ -140,11 +142,7 @@ export default function EtapaPage() {
     if (etapa?.tipo === 'conclusao' && trilha) {
       // Atualiza cache local para que o percentual da trilha reflita 100%
       addProgressoOptimistic(etapa.id, trilha.id)
-      fetch('/api/marcar-visitada', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id }),
-      })
+      marcarVisitadaAction({ trilhaId: trilha.id, etapaId: etapa.id })
       // Garante que a sessão reflita o XP acumulado na trilha
       updateSession()
     }
@@ -155,11 +153,7 @@ export default function EtapaPage() {
     // Atualiza o cache local imediatamente para que o guard da próxima etapa passe
     addProgressoOptimistic(etapa.id, trilha.id)
     // Registra etapas de leitura/intro/resumo/conclusao como concluídas para desbloquear a próxima
-    await fetch('/api/marcar-visitada', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id }),
-    })
+    await marcarVisitadaAction({ trilhaId: trilha.id, etapaId: etapa.id })
   }
 
   async function salvarProgresso(estrelas: number, dicasUsadas: number, tentativas: number, token: string) {
@@ -168,40 +162,39 @@ export default function EtapaPage() {
     // Optimistic update — atualiza o cache antes da resposta do servidor
     addProgressoOptimistic(etapa.id, trilha.id, 0, estrelas)
 
-    const res = await fetch('/api/progresso', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        trilhaId: trilha.id,
-        etapaId: etapa.id,
-        token,
-      }),
+    const result = await salvarProgressoAction({
+      trilhaId: trilha.id,
+      etapaId: etapa.id,
+      token,
     })
-    if (!res.ok) return null
-    const data = await res.json()
-    if (data.xpGanho > 0) {
-      setXpGanho(data.xpGanho)
-      setEstrelasGanhas(data.estrelas ?? estrelas)
+
+    if (!result.success) return null
+
+    if (result.jaFeito) return result
+
+    if (result.xpGanho > 0) {
+      setXpGanho(result.xpGanho)
+      setEstrelasGanhas(result.estrelas)
       setShowXpPop(true)
       setTimeout(() => setShowXpPop(false), 3000)
       updateSession()
     }
-    if (data.novasConquistasRanking?.length > 0) {
-      setNovaConquistaRanking(data.novasConquistasRanking[0])
+    if (result.novasConquistasRanking.length > 0) {
+      setNovaConquistaRanking(result.novasConquistasRanking[0])
       setTimeout(() => setNovaConquistaRanking(null), 8000)
     }
-    if (data.nivelAtual > data.nivelAnterior) {
-      if (data.novasConquistas?.length > 0) {
-        deferredLevelUpRef.current = { anterior: data.nivelAnterior, atual: data.nivelAtual }
+    if (result.nivelAtual > result.nivelAnterior) {
+      if (result.novasConquistas.length > 0) {
+        deferredLevelUpRef.current = { anterior: result.nivelAnterior, atual: result.nivelAtual }
       } else {
-        setLevelUp({ anterior: data.nivelAnterior, atual: data.nivelAtual })
+        setLevelUp({ anterior: result.nivelAnterior, atual: result.nivelAtual })
       }
     }
-    if (data.novasConquistas?.length > 0) {
-      conquistasPendentesRef.current = [...data.novasConquistas]
-      setConquistasFila([...data.novasConquistas])
+    if (result.novasConquistas.length > 0) {
+      conquistasPendentesRef.current = [...result.novasConquistas]
+      setConquistasFila([...result.novasConquistas])
     }
-    return data
+    return result
   }
 
   function proximaEtapa() {
@@ -354,19 +347,15 @@ export default function EtapaPage() {
                       // Save HMAC falhou (token inválido/rede). Marca a etapa com 0 XP para
                       // que o guard da próxima etapa passe, depois exibe o anúncio normalmente.
                       if (etapa && trilha) {
-                        await fetch('/api/marcar-visitada', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ trilhaId: trilha.id, etapaId: etapa.id, fallback: true }),
-                        }).catch(() => {})
+                        marcarVisitadaAction({ trilhaId: trilha.id, etapaId: etapa.id, fallback: true }).catch(() => {})
                       }
                       seguirEmFrente()
                       return
                     }
 
-                    if (data?.nivelAtual > data?.nivelAnterior) {
+                    if (data && !data.jaFeito && data.nivelAtual > data.nivelAnterior) {
                       proximaEtapaAposLevelUpRef.current = seguirEmFrente
-                    } else if ((data?.novasConquistas?.length ?? 0) > 0) {
+                    } else if (data && !data.jaFeito && data.novasConquistas.length > 0) {
                       proximaEtapaAposConquistasRef.current = seguirEmFrente
                     } else {
                       seguirEmFrente()
