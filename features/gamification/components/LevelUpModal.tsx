@@ -1,6 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
-import { getLevelBadge } from '@/lib/xp'
+import { getLevelBadge } from '@/features/gamification/domain/xp'
 import { useLocale } from '@/context/LocaleContext'
 
 interface LevelUpModalProps {

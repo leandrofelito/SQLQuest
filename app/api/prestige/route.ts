@@ -3,9 +3,9 @@ import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { getLevel } from '@/lib/xp'
-import { PRESTIGIO_NIVEL_MINIMO } from '@/lib/prestigio'
-import { aplicarPrestigioSeElegivel } from '@/lib/aplicar-prestigio'
+import { getLevel } from '@/features/gamification/domain/xp'
+import { PRESTIGIO_NIVEL_MINIMO } from '@/features/gamification/domain/prestige'
+import { aplicarPrestigioSeElegivel } from '@/features/gamification/domain/apply-prestige'
 import { COOKIE_NAME } from '@/lib/locale'
 
 // POST /api/prestige — mesmo efeito do prestígio automático (compatível com chamadas legadas)

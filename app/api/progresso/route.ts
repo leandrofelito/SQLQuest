@@ -3,12 +3,12 @@ import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { aplicarPrestigioSeElegivelTx } from '@/lib/aplicar-prestigio'
+import { aplicarPrestigioSeElegivelTx } from '@/features/gamification/domain/apply-prestige'
 import { COOKIE_NAME } from '@/lib/locale'
-import { calcularEstrelas, XP_POR_ESTRELAS, getLevel } from '@/lib/xp'
-import { verificarConquistasRanking } from '@/lib/ranking-conquistas'
-import { verificarToken } from '@/lib/validacao-token'
-import { computeNovoStreak } from '@/lib/streak'
+import { calcularEstrelas, XP_POR_ESTRELAS, getLevel } from '@/features/gamification/domain/xp'
+import { verificarConquistasRanking } from '@/features/ranking/domain/ranking-conquistas'
+import { verificarToken } from '@/features/auth/domain/validation-token'
+import { computeNovoStreak } from '@/features/gamification/domain/streak'
 import { checkRateLimitDB } from '@/lib/rate-limit'
 import {
   TRILHA_CONQUISTA_SLUGS,
@@ -19,7 +19,7 @@ import {
   novasConquistasNivel,
   novasConquistasStreak,
   type TrilhaConquistaSlug,
-} from '@/lib/conquistas-definitions'
+} from '@/features/gamification/domain/conquistas-definitions'
 import { z } from 'zod'
 
 const schema = z.object({

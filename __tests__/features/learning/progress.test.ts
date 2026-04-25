@@ -28,21 +28,21 @@ jest.mock('@/lib/rate-limit', () => ({
   checkRateLimitDB: jest.fn().mockResolvedValue({ allowed: true }),
 }))
 
-jest.mock('@/lib/validacao-token', () => ({ verificarToken: jest.fn() }))
+jest.mock('@/features/auth/domain/validation-token', () => ({ verificarToken: jest.fn() }))
 
-jest.mock('@/lib/aplicar-prestigio', () => ({
+jest.mock('@/features/gamification/domain/apply-prestige', () => ({
   aplicarPrestigioSeElegivelTx: jest.fn().mockResolvedValue({ applied: false }),
 }))
 
-jest.mock('@/lib/ranking-conquistas', () => ({
+jest.mock('@/features/ranking/domain/ranking-conquistas', () => ({
   verificarConquistasRanking: jest.fn().mockResolvedValue([]),
 }))
 
-jest.mock('@/lib/streak', () => ({
+jest.mock('@/features/gamification/domain/streak', () => ({
   computeNovoStreak: jest.fn().mockReturnValue(1),
 }))
 
-jest.mock('@/lib/conquistas-definitions', () => ({
+jest.mock('@/features/gamification/domain/conquistas-definitions', () => ({
   TRILHA_CONQUISTA_SLUGS: [],
   TRILHA_CONQUISTAS: {},
   TRES_ESTRELAS_CONQUISTA: { id: 'tres-estrelas', emoji: '⭐', nome: '3 Estrelas' },
@@ -55,11 +55,11 @@ jest.mock('@/lib/conquistas-definitions', () => ({
 // ---------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------
-import { POST } from '../../app/api/progresso/route'
+import { POST } from '@/app/api/progresso/route'
 import { getServerSession } from 'next-auth'
 import { prisma } from '@/lib/db'
-import { verificarToken } from '@/lib/validacao-token'
-import { aplicarPrestigioSeElegivelTx } from '@/lib/aplicar-prestigio'
+import { verificarToken } from '@/features/auth/domain/validation-token'
+import { aplicarPrestigioSeElegivelTx } from '@/features/gamification/domain/apply-prestige'
 
 // ---------------------------------------------------------------------------
 // Constantes de teste

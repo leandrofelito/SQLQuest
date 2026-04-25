@@ -3,15 +3,15 @@ import { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { useSQL } from '@/hooks/useSQL'
-import { checkAnswer } from '@/lib/check-answer'
-import { calcularEstrelas, XP_POR_ESTRELAS } from '@/lib/xp'
-import { AnuncioVideo } from '@/components/anuncio/AnuncioVideo'
+import { checkAnswer } from '@/features/sql-engine/domain/check-answer'
+import { calcularEstrelas, XP_POR_ESTRELAS } from '@/features/gamification/domain/xp'
+import { AnuncioVideo } from '@/features/ads/components/AnuncioVideo'
 import { AdBanner } from '@/components/layout/AdBanner'
-import { DesafioSeguro, EnunciadoSeguro } from '@/components/seguranca/DesafioSeguro'
+import { DesafioSeguro, EnunciadoSeguro } from '@/components/shared/DesafioSeguro'
 import { useLocale } from '@/context/LocaleContext'
 import { useDicas } from '@/hooks/useDicas'
-import { PainelDicas } from '@/components/exercicio/PainelDicas'
-import { BotaoDica } from '@/components/exercicio/BotaoDica'
+import { PainelDicas } from '@/features/learning/components/exercise/PainelDicas'
+import { BotaoDica } from '@/features/learning/components/exercise/BotaoDica'
 import type {
   ConteudoExercicio,
   ConteudoExercicioQuiz,
@@ -19,7 +19,7 @@ import type {
   QueryResult,
 } from '@/types'
 import { isQuizExercicio } from '@/types'
-import { normalizarDicas } from '@/lib/dicas-exercicio'
+import { normalizarDicas } from '@/features/learning/domain/hints-exercise'
 
 interface TelaExercicioProps {
   titulo: string

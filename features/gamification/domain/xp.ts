@@ -1,5 +1,5 @@
-import type { Locale } from './locale'
-import { getLevelRankTitle } from './levelTitles'
+import type { Locale } from '@/lib/locale'
+import { getLevelRankTitle } from './level-titles'
 
 export const XP_POR_ESTRELAS: Record<number, number> = { 3: 100, 2: 60, 1: 30, 0: 0 }
 

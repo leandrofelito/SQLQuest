@@ -1,5 +1,5 @@
-import { calculateProgress } from '../lib/calculateProgress'
-import { getLevelBadge, xpParaNivel } from '../lib/xp'
+import { calculateProgress } from '@/features/learning/domain/calculate-progress'
+import { getLevelBadge, xpParaNivel } from '@/features/gamification/domain/xp'
 
 // ---------------------------------------------------------------------------
 // Constantes auxiliares (derivadas da fórmula 150*(n-1)*n)

@@ -1,4 +1,4 @@
-import type { Locale } from './locale'
+import type { Locale } from '@/lib/locale'
 
 type RankCopy = { nome: string; emoji: string }
 

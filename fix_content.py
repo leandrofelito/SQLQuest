@@ -18,19 +18,19 @@ from collections import defaultdict
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-TRILHAS_DIR = Path("content/trilhas")
+TRILHAS_DIR = Path("content/trilhas/core")
 
 # ─── Mapeamento: arquivo orfão → trilha alvo ────────────────────────────────
 # consultas_avancadas-161-164 já está dentro de 08-subqueries (ordens 161-164)
 # A correção do 08-subqueries reorganiza essas etapas automaticamente.
 ORPHAN_MAP = [
     # (arquivo_solto,                                   trilha_alvo)
-    ("content/arquitetura_avancada-177-180.json",      "12-views.json"),
-    ("content/operacoes_conjunto-165-168.json",        "09-ctes.json"),
-    ("content/operacoes_conjunto-169-172.json",        "09-ctes.json"),
-    ("content/seguranca_transacional-173-176.json",    "18-transacoes.json"),
-    ("content/performance_otimizacao-181-184.json",    "21-elite-tuning-performance.json"),
-    ("content/performance_otimizacao-185-188.json",    "21-elite-tuning-performance.json"),
+    ("content/trilhas/advanced/arquitetura_avancada-177-180.json",      "12-views.json"),
+    ("content/trilhas/advanced/operacoes_conjunto-165-168.json",        "09-ctes.json"),
+    ("content/trilhas/advanced/operacoes_conjunto-169-172.json",        "09-ctes.json"),
+    ("content/trilhas/advanced/seguranca_transacional-173-176.json",    "18-transacoes.json"),
+    ("content/trilhas/advanced/performance_otimizacao-181-184.json",    "21-elite-tuning-performance.json"),
+    ("content/trilhas/advanced/performance_otimizacao-185-188.json",    "21-elite-tuning-performance.json"),
 ]
 
 # ─── Trilhas que precisam de intro / conclusao ──────────────────────────────

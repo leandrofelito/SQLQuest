@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { z } from 'zod'
-import { contemPalavrão } from '@/lib/nickname'
+import { contemPalavrão } from '@/features/auth/domain/nickname'
 
 const schema = z.object({
   nickname: z

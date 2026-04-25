@@ -1,8 +1,8 @@
 import type { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/db'
-import { getLevel } from '@/lib/xp'
-import { PRESTIGIO_NIVEL_MINIMO, PRESTIGIO_CONQUISTAS_CAP } from '@/lib/prestigio'
-import { buildPrestigeConquistaNotificacao } from '@/lib/conquistas-definitions'
+import { getLevel } from '@/features/gamification/domain/xp'
+import { PRESTIGIO_NIVEL_MINIMO, PRESTIGIO_CONQUISTAS_CAP } from '@/features/gamification/domain/prestige'
+import { buildPrestigeConquistaNotificacao } from '@/features/gamification/domain/conquistas-definitions'
 
 export interface ConquistaNotificacaoPrestigio {
   id: string

@@ -1,4 +1,4 @@
-import { calcularEstrelas, getLevel, XP_EVENTOS, XP_POR_ESTRELAS } from './xp'
+import { calcularEstrelas, getLevel, XP_EVENTOS, XP_POR_ESTRELAS } from '@/features/gamification/domain/xp'
 
 export interface ProgressResult {
   estrelas: number

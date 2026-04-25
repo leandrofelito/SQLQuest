@@ -18,7 +18,7 @@ export default async function AdminDashboard() {
     'use server'
     const fs = await import('fs')
     const path = await import('path')
-    const dir = path.join(process.cwd(), 'content/trilhas')
+    const dir = path.join(process.cwd(), 'content/trilhas/core')
     const files = fs.readdirSync(dir).filter((f: string) => f.endsWith('.json')).sort()
 
     for (const file of files) {

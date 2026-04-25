@@ -17,8 +17,8 @@ import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
 
 import { prisma } from '../lib/db'
-import { XP_POR_ESTRELAS, xpParaNivel, getLevel } from '../lib/xp'
-import { PRESTIGIO_CONQUISTAS_CAP, PRESTIGIO_NIVEL_MINIMO } from '../lib/prestigio'
+import { XP_POR_ESTRELAS, xpParaNivel, getLevel } from '../features/gamification/domain/xp'
+import { PRESTIGIO_CONQUISTAS_CAP, PRESTIGIO_NIVEL_MINIMO } from '../features/gamification/domain/prestige'
 
 const XP_3 = XP_POR_ESTRELAS[3] ?? 100
 const STREAK_ALVO = 3650

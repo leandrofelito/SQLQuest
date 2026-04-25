@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import { useSession } from 'next-auth/react'
 import { type Locale, DEFAULT_LOCALE, COOKIE_NAME, getMessages } from '@/lib/locale'
-import ptMessages from '@/messages/pt.json'
+import ptMessages from '@/i18n/pt.json'
 
 interface LocaleContextValue {
   locale: Locale

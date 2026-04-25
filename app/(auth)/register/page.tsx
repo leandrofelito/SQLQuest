@@ -3,7 +3,7 @@ import { useState, useMemo } from 'react'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
-import { contemPalavrão } from '@/lib/nickname'
+import { contemPalavrão } from '@/features/auth/domain/nickname'
 
 // ── Força da senha ──────────────────────────────────────────────────
 interface PasswordCheck {

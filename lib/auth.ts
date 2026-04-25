@@ -5,11 +5,11 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { cookies } from 'next/headers'
 import { prisma } from './db'
 import bcrypt from 'bcryptjs'
-import { aplicarPrestigioSeElegivel } from './aplicar-prestigio'
+import { aplicarPrestigioSeElegivel } from '@/features/gamification/domain/apply-prestige'
 import { COOKIE_NAME } from './locale'
-import { PRESTIGIO_NIVEL_MINIMO } from './prestigio'
-import { computeNovoStreak } from './streak'
-import { getLevel } from './xp'
+import { PRESTIGIO_NIVEL_MINIMO } from '@/features/gamification/domain/prestige'
+import { computeNovoStreak } from '@/features/gamification/domain/streak'
+import { getLevel } from '@/features/gamification/domain/xp'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { Header } from '@/components/layout/Header'
 import { NavBottom } from '@/components/layout/NavBottom'
-import { CardCertificado } from '@/components/certificado/CardCertificado'
+import { CardCertificado } from '@/features/certificates/components/CardCertificado'
 import { Button } from '@/components/ui/Button'
 import { useUser } from '@/hooks/useUser'
 import { useRouter } from 'next/navigation'

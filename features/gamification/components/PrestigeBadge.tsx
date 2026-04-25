@@ -1,4 +1,4 @@
-import { PRESTIGIO_ESTRELAS_POR_TIER } from '@/lib/prestigio'
+import { PRESTIGIO_ESTRELAS_POR_TIER } from '@/features/gamification/domain/prestige'
 
 interface PrestigeBadgeProps {
   prestige: number

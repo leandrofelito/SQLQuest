@@ -6,7 +6,7 @@ import fs from 'fs'
 import path from 'path'
 
 async function seed() {
-  const dir = path.join(process.cwd(), 'content/trilhas')
+  const dir = path.join(process.cwd(), 'content/trilhas/core')
   const files = fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort()
 
   console.log(`\n🌱 Iniciando seed com ${files.length} trilhas...\n`)

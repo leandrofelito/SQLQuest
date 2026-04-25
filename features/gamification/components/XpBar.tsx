@@ -1,7 +1,7 @@
 'use client'
-import { getLevel, getLevelLabel, getProgressoPct, getXpParaProximo, getLevelBadge, MAX_LEVEL } from '@/lib/xp'
+import { getLevel, getLevelLabel, getProgressoPct, getXpParaProximo, getLevelBadge, MAX_LEVEL } from '@/features/gamification/domain/xp'
 import { formatXP } from '@/lib/utils'
-import { Progress } from './Progress'
+import { Progress } from '@/components/ui/Progress'
 import { useLocale } from '@/context/LocaleContext'
 
 interface XpBarProps {

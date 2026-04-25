@@ -15,7 +15,7 @@ import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
 
 import { prisma } from '../lib/db'
-import { XP_POR_ESTRELAS } from '../lib/xp'
+import { XP_POR_ESTRELAS } from '../features/gamification/domain/xp'
 
 const XP_3 = XP_POR_ESTRELAS[3] ?? 100
 

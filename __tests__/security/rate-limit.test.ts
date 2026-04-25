@@ -24,7 +24,7 @@ jest.mock('@/lib/db', () => ({
   },
 }))
 
-import { checkRateLimit, checkRateLimitDB } from '../../lib/rate-limit'
+import { checkRateLimit, checkRateLimitDB } from '@/lib/rate-limit'
 import { prisma } from '@/lib/db'
 
 // ---------------------------------------------------------------------------

@@ -3,9 +3,9 @@ import { getServerSession } from 'next-auth'
 import { cookies } from 'next/headers'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { getRankingConquistasLocalizadas, getConquistasRankingUsuario } from '@/lib/ranking-conquistas'
+import { getRankingConquistasLocalizadas, getConquistasRankingUsuario } from '@/features/ranking/domain/ranking-conquistas'
 import { COOKIE_NAME } from '@/lib/locale'
-import { getLevel } from '@/lib/xp'
+import { getLevel } from '@/features/gamification/domain/xp'
 import {
   CONQUISTAS_I18N,
   EXERCISE_MILESTONES,
@@ -22,7 +22,7 @@ import {
   totalExerciciosConcluidosGlobal,
   type ConquistaDef,
   type ProgressoConquistaInput,
-} from '@/lib/conquistas-definitions'
+} from '@/features/gamification/domain/conquistas-definitions'
 
 export async function GET() {
   const session = await getServerSession(authOptions)

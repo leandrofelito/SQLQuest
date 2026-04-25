@@ -2,7 +2,7 @@ import {
   PRESTIGIO_CONQUISTAS_CAP,
   PRESTIGIO_ESTRELAS_POR_TIER,
   PRESTIGIO_NIVEL_MINIMO,
-} from './prestigio'
+} from './prestige'
 
 /** Metadados de toast / carta (sem descrição longa) */
 export interface ConquistaToastMeta {

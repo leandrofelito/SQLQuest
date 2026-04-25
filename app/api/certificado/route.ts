@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
-import { generateCertificatePDF } from '@/lib/certificate'
+import { generateCertificatePDF } from '@/features/certificates/domain/certificate'
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions)

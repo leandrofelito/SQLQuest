@@ -12,8 +12,8 @@ const config: Config = {
   // Exclui os testes E2E do Playwright (rodados separadamente via `npm run test:e2e`)
   testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
   collectCoverageFrom: [
-    'lib/calculateProgress.ts',
-    'lib/aplicar-prestigio.ts',
+    'features/learning/domain/calculate-progress.ts',
+    'features/gamification/domain/apply-prestige.ts',
     'app/api/auth/register/route.ts',
     'app/api/progresso/route.ts',
   ],

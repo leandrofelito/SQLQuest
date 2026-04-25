@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/db'
-import { EtapaForm } from '@/components/admin/EtapaForm'
+import { EtapaForm } from '@/app/admin/_components/EtapaForm'
 
 async function togglePublicada(trilhaId: string, publicada: boolean) {
   'use server'

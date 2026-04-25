@@ -5,7 +5,7 @@ jest.mock('@/lib/db', () => ({
   prisma: { $transaction: jest.fn() },
 }))
 
-jest.mock('@/lib/conquistas-definitions', () => ({
+jest.mock('@/features/gamification/domain/conquistas-definitions', () => ({
   buildPrestigeConquistaNotificacao: jest.fn().mockReturnValue({
     id: 'prestige-conquista-1',
     emoji: '⭐',
@@ -16,9 +16,9 @@ jest.mock('@/lib/conquistas-definitions', () => ({
 // ---------------------------------------------------------------------------
 // Imports — lib/xp e lib/prestigio são reais (lógica de negócio)
 // ---------------------------------------------------------------------------
-import { aplicarPrestigioSeElegivelTx } from '../../lib/aplicar-prestigio'
-import { xpParaNivel } from '../../lib/xp'
-import { PRESTIGIO_NIVEL_MINIMO, PRESTIGIO_CONQUISTAS_CAP } from '../../lib/prestigio'
+import { aplicarPrestigioSeElegivelTx } from '@/features/gamification/domain/apply-prestige'
+import { xpParaNivel } from '@/features/gamification/domain/xp'
+import { PRESTIGIO_NIVEL_MINIMO, PRESTIGIO_CONQUISTAS_CAP } from '@/features/gamification/domain/prestige'
 
 // ---------------------------------------------------------------------------
 // Helper: cria um mock de Prisma.TransactionClient focado nas operações usadas

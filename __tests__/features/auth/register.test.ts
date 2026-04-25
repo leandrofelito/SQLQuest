@@ -17,7 +17,7 @@ jest.mock('@/lib/email', () => ({
   sendVerificationEmail: jest.fn().mockReturnValue(Promise.resolve()),
 }))
 
-jest.mock('@/lib/nickname', () => ({
+jest.mock('@/features/auth/domain/nickname', () => ({
   contemPalavrão: jest.fn(),
 }))
 
@@ -28,10 +28,10 @@ jest.mock('bcryptjs', () => ({
 // ---------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------
-import { POST } from '../../app/api/auth/register/route'
+import { POST } from '@/app/api/auth/register/route'
 import { prisma } from '@/lib/db'
 import { checkRateLimitDB } from '@/lib/rate-limit'
-import { contemPalavrão } from '@/lib/nickname'
+import { contemPalavrão } from '@/features/auth/domain/nickname'
 
 // Atalhos tipados para os mocks
 const db = prisma as {

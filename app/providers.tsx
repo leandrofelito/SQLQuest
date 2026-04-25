@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { SessionProvider as NextSessionProvider } from 'next-auth/react'
 import { LocaleProvider } from '@/context/LocaleContext'
 import { AppDataProvider } from '@/context/AppDataContext'
-import { SessionGuard } from '@/components/SessionGuard'
+import { SessionGuard } from '@/components/layout/SessionGuard'
 
 function NativeAppDetector() {
   useEffect(() => {

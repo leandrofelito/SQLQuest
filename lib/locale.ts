@@ -1,6 +1,6 @@
-import ptMessages from '@/messages/pt.json'
-import enMessages from '@/messages/en.json'
-import esMessages from '@/messages/es.json'
+import ptMessages from '@/i18n/pt.json'
+import enMessages from '@/i18n/en.json'
+import esMessages from '@/i18n/es.json'
 
 export type Locale = 'pt' | 'en' | 'es'
 

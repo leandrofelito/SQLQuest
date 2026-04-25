@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
-import { contemPalavrão } from '@/lib/nickname'
+import { contemPalavrão } from '@/features/auth/domain/nickname'
 
 export default function EscolherNicknamePage() {
   const { data: session, update } = useSession()

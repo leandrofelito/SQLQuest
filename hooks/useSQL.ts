@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { initSQL, closeSQL, executarSQL, type QueryResult } from '@/lib/sql-runner'
+import { initSQL, closeSQL, executarSQL, type QueryResult } from '@/features/sql-engine/domain/sql-runner'
 
 export function useSQL() {
   const [ready, setReady] = useState(false)

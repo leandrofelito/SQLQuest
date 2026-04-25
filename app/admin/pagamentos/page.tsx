@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/db'
-import { PagamentosTable } from '@/components/admin/PagamentosTable'
+import { PagamentosTable } from '@/app/admin/_components/PagamentosTable'
 
 interface PagamentosPageProps {
   searchParams: { periodo?: string }

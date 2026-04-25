@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { randomBytes } from 'crypto'
 import { sendVerificationEmail } from '@/lib/email'
-import { contemPalavrão } from '@/lib/nickname'
+import { contemPalavrão } from '@/features/auth/domain/nickname'
 import { checkRateLimitDB, getClientIp } from '@/lib/rate-limit'
 
 const schema = z.object({
