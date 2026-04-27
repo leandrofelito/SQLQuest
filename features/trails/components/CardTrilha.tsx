@@ -90,7 +90,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
       )}
 
       {/* Ícone */}
-      <div className="h-[175px] flex items-center justify-center bg-gradient-to-b from-[#161820] to-[#0f1117]">
+      <div className="py-8 px-4 flex items-center justify-center bg-gradient-to-b from-[#161820] to-[#0f1117]">
         {!desbloqueada ? (
           <span className="text-5xl opacity-50">🔒</span>
         ) : (
@@ -99,7 +99,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
       </div>
 
       {/* Info */}
-      <div className="px-3 pt-3 pb-4 space-y-2">
+      <div className="px-4 pt-3 pb-4 space-y-2">
         <p className="text-[12px] font-bold text-white leading-tight">{trilha.titulo}</p>
 
         <Progress
