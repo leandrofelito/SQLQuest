@@ -163,8 +163,8 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
 
   return (
     <>
-      {/* Mobile: mapa em zigzag */}
-      <div className="md:hidden flex flex-col items-center gap-4 py-4 px-4">
+      {/* Mobile: grade 2 colunas */}
+      <div className="md:hidden grid grid-cols-2 gap-4 py-4 px-4">
         {trilhas.map((trilha, i) => {
           const desbloqueadaNaturalmente =
             i === 0 ||
@@ -174,23 +174,16 @@ export function MapaTrilhas({ trilhas }: MapaTrilhasProps) {
           const desbloqueada = isPro || desbloqueadaNaturalmente
           const liberadaPorPro = isPro && !desbloqueadaNaturalmente && (trilha.percentualConcluido ?? 0) === 0
           return (
-            <div
+            <CardTrilha
               key={trilha.id}
-              className="relative flex flex-col items-center"
-              style={{ alignSelf: i % 2 === 0 ? 'flex-start' : 'flex-end', marginLeft: i % 2 === 0 ? 20 : 0, marginRight: i % 2 === 0 ? 0 : 20 }}
-            >
-              {i > 0 && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-px h-4 border-l-2 border-dashed border-[#2a2d3a]" />
-              )}
-              <CardTrilha
-                trilha={trilha}
-                desbloqueada={desbloqueada}
-                liberadaPorPro={liberadaPorPro}
-                ultimaTrilha={trilha.ultimaTrilha}
-                index={i}
-                onBloqueadaClick={() => handleBloqueadaClick(trilha)}
-              />
-            </div>
+              trilha={trilha}
+              desbloqueada={desbloqueada}
+              liberadaPorPro={liberadaPorPro}
+              ultimaTrilha={trilha.ultimaTrilha}
+              index={i}
+              onBloqueadaClick={() => handleBloqueadaClick(trilha)}
+              fullWidth
+            />
           )
         })}
       </div>

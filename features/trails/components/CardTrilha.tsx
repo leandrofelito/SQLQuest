@@ -55,7 +55,8 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
       onClick={handleClick}
       className={cn(
         'relative rounded-2xl border bg-[#0f1117] cursor-pointer select-none overflow-hidden',
-        fullWidth ? 'w-full' : 'w-[165px]',
+        fullWidth ? 'w-full' : 'w-[175px]',
+        'min-h-[260px]',
         border,
         !desbloqueada && 'opacity-60'
       )}
@@ -89,17 +90,17 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
       )}
 
       {/* Ícone */}
-      <div className="h-[140px] flex items-center justify-center bg-gradient-to-b from-[#161820] to-[#0f1117]">
+      <div className="h-[175px] flex items-center justify-center bg-gradient-to-b from-[#161820] to-[#0f1117]">
         {!desbloqueada ? (
-          <span className="text-4xl opacity-50">🔒</span>
+          <span className="text-5xl opacity-50">🔒</span>
         ) : (
-          <span className="text-5xl">{trilha.icone}</span>
+          <span className="text-6xl">{trilha.icone}</span>
         )}
       </div>
 
       {/* Info */}
-      <div className="px-3 pt-2 pb-3 space-y-2">
-        <p className="text-[11px] font-bold text-white leading-tight">{trilha.titulo}</p>
+      <div className="px-3 pt-3 pb-4 space-y-2">
+        <p className="text-[12px] font-bold text-white leading-tight">{trilha.titulo}</p>
 
         <Progress
           value={pct}
