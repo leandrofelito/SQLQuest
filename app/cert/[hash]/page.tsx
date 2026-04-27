@@ -24,7 +24,7 @@ export default async function CertPage({ params }: CertPageProps) {
         <div className="text-center">
           <div className="flex justify-center items-center gap-2 mb-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icons/favicon-mark-512.png" alt="" className="h-10 w-10" />
+            <img src="/logo.png" alt="" className="h-10 w-10" />
             <span className="text-2xl font-bold text-[#a78bfa]">SQLQuest</span>
           </div>
           <div className="text-white/30 text-xs uppercase tracking-widest">Verificação de Certificado</div>

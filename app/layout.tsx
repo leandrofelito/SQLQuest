@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: [
-      { url: '/icons/favicon-mark-512.png', sizes: '512x512', type: 'image/png' },
-      { url: '/icons/favicon.png', sizes: '64x64', type: 'image/png' },
-      { url: '/icons/favicon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logo.png', sizes: '512x512', type: 'image/png' },
+      { url: '/logo.png', sizes: '64x64', type: 'image/png' },
+      { url: '/logo.png', sizes: '32x32', type: 'image/png' },
     ],
-    apple: [{ url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' }],
+    apple: [{ url: '/logo.png', sizes: '192x192', type: 'image/png' }],
   },
   openGraph: {
     title: 'SQLQuest — Aprenda SQL jogando',
