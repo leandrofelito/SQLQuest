@@ -46,7 +46,7 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
   })
 
   // ── Logo oficial (ícone PNG)
-  const logoPath = path.join(process.cwd(), 'public', 'icons', 'sqlquest-logo-cert.png')
+  const logoPath = path.join(process.cwd(), 'public', 'icons', 'favicon-mark-512.png')
   const logoPng  = fs.readFileSync(logoPath)
   const logoImg  = await pdfDoc.embedPng(logoPng)
   const logoSize = 180

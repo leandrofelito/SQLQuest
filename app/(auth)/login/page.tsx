@@ -86,12 +86,9 @@ function LoginForm() {
 
       <div className="relative z-10 w-full max-w-sm sm:max-w-md space-y-3">
         {/* Logo */}
-        <div className="flex justify-center pt-2 pb-0">
-          <img
-            src="/icons/sqlquest_logo_escrita.svg"
-            alt="SQLQuest"
-            className="w-[65%] max-w-[280px] h-auto"
-          />
+        <div className="flex justify-center items-center gap-3 pt-2 pb-0">
+          <img src="/icons/favicon-mark-512.png" alt="" className="w-12 h-12" />
+          <span className="text-3xl font-bold text-[#a78bfa] font-syne">SQLQuest</span>
         </div>
 
         {/* Google */}

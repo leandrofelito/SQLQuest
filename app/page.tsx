@@ -84,7 +84,7 @@ export default async function LandingPage() {
       <nav className="border-b border-white/5 px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/icons/icone_app.svg" alt="" className="w-7 h-7" />
+            <img src="/icons/favicon.png" alt="" className="w-7 h-7" />
             <span className="text-xl font-bold text-[#a78bfa]">SQLQuest</span>
           </div>
           <div className="flex items-center gap-4">

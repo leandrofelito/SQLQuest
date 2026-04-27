@@ -131,8 +131,9 @@ export default function RegisterPage() {
           }}
         />
         <div className="relative z-10 w-full max-w-sm sm:max-w-md">
-          <div className="flex justify-center mb-8">
-            <img src="/icons/sqlquest_logo_escrita.svg" alt="SQLQuest" className="w-[55%] max-w-[240px] h-auto" />
+          <div className="flex justify-center items-center gap-3 mb-8">
+            <img src="/icons/favicon-mark-512.png" alt="" className="w-11 h-11" />
+            <span className="text-3xl font-bold text-[#a78bfa] font-syne">SQLQuest</span>
           </div>
           <div className="bg-[#0f1117] border border-[#2a2d3a] rounded-2xl px-8 py-10 text-center space-y-5">
             <div className="flex justify-center">
@@ -174,12 +175,9 @@ export default function RegisterPage() {
 
       <div className="relative z-10 w-full max-w-sm sm:max-w-md space-y-6">
         {/* Logo */}
-        <div className="flex justify-center pt-2 pb-0">
-          <img
-            src="/icons/sqlquest_logo_escrita.svg"
-            alt="SQLQuest"
-            className="w-[65%] max-w-[280px] h-auto"
-          />
+        <div className="flex justify-center items-center gap-3 pt-2 pb-0">
+          <img src="/icons/favicon-mark-512.png" alt="" className="w-12 h-12" />
+          <span className="text-3xl font-bold text-[#a78bfa] font-syne">SQLQuest</span>
         </div>
         <p className="text-white/40 text-sm text-center -mt-4">Crie sua conta gratuita</p>
 
