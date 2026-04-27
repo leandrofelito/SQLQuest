@@ -16,7 +16,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* Sidebar */}
       <aside className="w-56 bg-[#0f1117] border-r border-[#1e2028] flex flex-col">
         <div className="p-4 border-b border-[#1e2028]">
-          <div className="text-[#a78bfa] font-bold text-sm">SQLQuest</div>
+          <div className="text-[#a78bfa] font-bold text-sm">SQL<span className="text-[#facc15]">Quest</span></div>
           <div className="text-white/30 text-xs">Admin Panel</div>
         </div>
         <nav className="flex-1 p-3 space-y-1">

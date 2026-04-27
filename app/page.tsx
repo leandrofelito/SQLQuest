@@ -85,7 +85,7 @@ export default async function LandingPage() {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/icons/favicon.png" alt="" className="w-7 h-7" />
-            <span className="text-xl font-bold text-[#a78bfa]">SQLQuest</span>
+            <span className="text-xl font-bold text-[#a78bfa]">SQL<span className="text-[#facc15]">Quest</span></span>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login" className="text-sm text-white/60 hover:text-white transition-colors">
@@ -305,7 +305,7 @@ export default async function LandingPage() {
       {/* Footer */}
       <footer className="border-t border-white/5 py-8">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/35">
-          <span className="font-bold text-[#a78bfa]">SQLQuest</span>
+          <span className="font-bold text-[#a78bfa]">SQL<span className="text-[#facc15]">Quest</span></span>
           <div className="flex items-center gap-6">
             <Link href="/blog" className="hover:text-white/60 transition-colors">Blog SQL</Link>
             <Link href="/sobre" className="hover:text-white/60 transition-colors">Sobre</Link>

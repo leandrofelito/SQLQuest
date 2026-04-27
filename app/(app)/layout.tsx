@@ -35,7 +35,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   if (status === 'loading' && !everAuthenticated.current) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-[#8b5cf6] text-lg font-bold">SQLQuest</div>
+        <div className="animate-pulse text-[#8b5cf6] text-lg font-bold">SQL<span className="text-[#facc15]">Quest</span></div>
       </div>
     )
   }

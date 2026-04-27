@@ -152,7 +152,7 @@ export default function CertificadosPage() {
                   />
                   <div className="relative">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-[#a78bfa] font-bold text-sm">SQLQuest</span>
+                      <span className="text-[#a78bfa] font-bold text-sm">SQL<span className="text-[#facc15]">Quest</span></span>
                       <span className="text-white/30 text-xs">CERTIFICADO DE CONCLUSÃO</span>
                     </div>
                     <div className="border-t border-[#8b5cf6]/20 pt-4 space-y-2">
