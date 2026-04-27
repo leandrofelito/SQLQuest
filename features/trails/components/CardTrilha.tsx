@@ -89,7 +89,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
       )}
 
       {/* Ícone */}
-      <div className="h-[110px] flex items-center justify-center bg-gradient-to-b from-[#161820] to-[#0f1117]">
+      <div className="h-[140px] flex items-center justify-center bg-gradient-to-b from-[#161820] to-[#0f1117]">
         {!desbloqueada ? (
           <span className="text-4xl opacity-50">🔒</span>
         ) : (
