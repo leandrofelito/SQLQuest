@@ -307,8 +307,10 @@ export default async function LandingPage() {
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/35">
           <span className="font-bold text-[#a78bfa]">SQLQuest</span>
           <div className="flex items-center gap-6">
-            <Link href="/privacidade" className="hover:text-white/60 transition-colors">Política de Privacidade</Link>
-            <Link href="/termos" className="hover:text-white/60 transition-colors">Termos de Uso</Link>
+            <Link href="/blog" className="hover:text-white/60 transition-colors">Blog SQL</Link>
+            <Link href="/sobre" className="hover:text-white/60 transition-colors">Sobre</Link>
+            <Link href="/privacidade" className="hover:text-white/60 transition-colors">Privacidade</Link>
+            <Link href="/termos" className="hover:text-white/60 transition-colors">Termos</Link>
             <a href="mailto:suporte@sqlquest.com.br" className="hover:text-white/60 transition-colors">Suporte</a>
           </div>
           <span>© {new Date().getFullYear()} SQLQuest. Todos os direitos reservados.</span>
