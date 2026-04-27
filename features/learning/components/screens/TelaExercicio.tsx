@@ -83,12 +83,13 @@ function ModalEstrelas({
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+      style={{ backgroundColor: 'rgba(8, 10, 15, 0.8)' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      {/* Backdrop blur (decorativo; background garantido via style inline) */}
+      <div className="absolute inset-0 backdrop-blur-sm" />
 
       {/* Card */}
       <motion.div
@@ -547,11 +548,12 @@ function PainelPerformanceAviso({
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+      style={{ backgroundColor: 'rgba(8, 10, 15, 0.8)' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 backdrop-blur-sm" />
       <motion.div
         className="relative z-10 w-full max-w-sm mx-4 mb-6 sm:mb-0 bg-[#12141c] border border-amber-500/40 rounded-3xl p-8 text-center shadow-2xl"
         initial={{ y: 80, scale: 0.92 }}

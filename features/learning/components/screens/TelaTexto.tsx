@@ -130,7 +130,7 @@ export function TelaTexto({ titulo, conteudo, onContinuar }: TelaTextoProps) {
         </AnimatePresence>
       </div>
 
-      <div className="mt-8 pb-6 flex gap-3">
+      <div className="mt-8 flex gap-3" style={{ paddingBottom: 'calc(1.5rem + var(--safe-area-bottom, 0px))' }}>
         {blocoAtual > 0 && (
           <Button onClick={() => setBlocoAtual(b => b - 1)} variant="secondary" size="lg" className="flex-1 gap-1.5">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-4 h-4 flex-shrink-0" aria-hidden="true">
