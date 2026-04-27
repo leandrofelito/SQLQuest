@@ -15,7 +15,7 @@ import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
 import { useAppData } from '@/context/AppDataContext'
 import type { ConteudoIntro, ConteudoTexto, ConteudoResumo, ConteudoExercicio, ConteudoConclusao } from '@/types'
-import { salvarProgressoAction } from '@/features/learning/actions/progress.actions'
+import { salvarProgressoAction, type SalvarProgressoResult } from '@/features/learning/actions/progress.actions'
 import { marcarVisitadaAction } from '@/features/learning/actions/stage.actions'
 
 interface EtapaDB {
@@ -79,6 +79,7 @@ export default function EtapaPage() {
   const [erroConexao, setErroConexao] = useState(false)
   const [retryCount, setRetryCount] = useState(0)
   const proximaEtapaAposLevelUpRef = useRef<(() => void) | null>(null)
+  const progressoSaveRef = useRef<Promise<SalvarProgressoResult> | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -156,17 +157,25 @@ export default function EtapaPage() {
     await marcarVisitadaAction({ trilhaId: trilha.id, etapaId: etapa.id })
   }
 
+  function iniciarSalvarProgresso(estrelas: number, _dicasUsadas: number, _tentativas: number, token: string) {
+    if (!etapa || !trilha || progressoSaveRef.current) return
+    addProgressoOptimistic(etapa.id, trilha.id, 0, estrelas)
+    progressoSaveRef.current = salvarProgressoAction({ trilhaId: trilha.id, etapaId: etapa.id, token })
+  }
+
   async function salvarProgresso(estrelas: number, dicasUsadas: number, tentativas: number, token: string) {
     if (!etapa || !trilha) return null
 
-    // Optimistic update — atualiza o cache antes da resposta do servidor
-    addProgressoOptimistic(etapa.id, trilha.id, 0, estrelas)
+    const earlyPromise = progressoSaveRef.current
+    progressoSaveRef.current = null
 
-    const result = await salvarProgressoAction({
-      trilhaId: trilha.id,
-      etapaId: etapa.id,
-      token,
-    })
+    let result: SalvarProgressoResult
+    if (earlyPromise) {
+      result = await earlyPromise
+    } else {
+      addProgressoOptimistic(etapa.id, trilha.id, 0, estrelas)
+      result = await salvarProgressoAction({ trilhaId: trilha.id, etapaId: etapa.id, token })
+    }
 
     if (!result.success) return null
 
@@ -293,7 +302,7 @@ export default function EtapaPage() {
                 <TelaIntro
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoIntro}
-                  onContinuar={async () => { await marcarVisitada(); proximaEtapa() }}
+                  onContinuar={() => { marcarVisitada().catch(() => {}); proximaEtapa() }}
                 />
               </div>
             </motion.div>
@@ -305,7 +314,7 @@ export default function EtapaPage() {
                 <TelaTexto
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoTexto}
-                  onContinuar={async () => { await marcarVisitada(); proximaEtapa() }}
+                  onContinuar={() => { marcarVisitada().catch(() => {}); proximaEtapa() }}
                 />
               </div>
             </motion.div>
@@ -317,7 +326,7 @@ export default function EtapaPage() {
                 <TelaResumo
                   titulo={etapa.titulo}
                   conteudo={etapa.conteudo as ConteudoResumo}
-                  onContinuar={async () => { await marcarVisitada(); proximaEtapa() }}
+                  onContinuar={() => { marcarVisitada().catch(() => {}); proximaEtapa() }}
                 />
               </div>
             </motion.div>
@@ -332,6 +341,7 @@ export default function EtapaPage() {
                   conteudo={etapa.conteudo as ConteudoExercicio}
                   xpReward={etapa.xpReward}
                   isPro={isPro}
+                  onAcerto={iniciarSalvarProgresso}
                   onConcluido={async (estrelas, dicasUsadas, tentativas, token) => {
                     const seguirEmFrente = () => {
                       if (!isPro) {

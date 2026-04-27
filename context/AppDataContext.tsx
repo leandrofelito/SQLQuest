@@ -97,6 +97,8 @@ const _cache = {
 }
 
 let _lastContentVersion = '1'
+let _contentVersionFetchedAt = 0
+const _CONTENT_VERSION_TTL = 30_000
 
 // Inflight promise deduplication — prevents parallel identical fetches
 const _inflight: Record<string, Promise<any>> = {}
@@ -111,12 +113,16 @@ async function deduped<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
 }
 
 async function fetchContentVersion(): Promise<string> {
+  if (Date.now() - _contentVersionFetchedAt < _CONTENT_VERSION_TTL) {
+    return _lastContentVersion
+  }
   try {
     const r = await fetch('/api/conteudo-version')
-    if (!r.ok) return '1'
+    if (!r.ok) return _lastContentVersion
     const j = await r.json()
     const v = typeof j.version === 'string' ? j.version : '1'
     _lastContentVersion = v
+    _contentVersionFetchedAt = Date.now()
     return v
   } catch {
     return _lastContentVersion

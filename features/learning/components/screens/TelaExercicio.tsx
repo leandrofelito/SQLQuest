@@ -27,6 +27,7 @@ interface TelaExercicioProps {
   conteudo: ConteudoExercicio
   xpReward: number
   isPro: boolean
+  onAcerto?: (estrelas: number, dicasUsadas: number, tentativas: number, token: string) => void
   onConcluido: (estrelas: number, dicasUsadas: number, tentativas: number, token: string) => void
 }
 
@@ -131,6 +132,11 @@ function ModalEstrelas({
             return (
               <div key={i} className="flex flex-col items-center gap-1.5">
                 <motion.div
+                  className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                    filled
+                      ? 'bg-amber-500/20 border border-amber-400/30'
+                      : 'bg-white/5 border border-white/10'
+                  }`}
                   initial={{ scale: 0, rotate: -90 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{
@@ -140,7 +146,7 @@ function ModalEstrelas({
                     damping: 18,
                   }}
                 >
-                  <StarIcon filled={filled} size={44} />
+                  <StarIcon filled={filled} size={40} />
                 </motion.div>
                 <motion.span
                   className={`text-[10px] font-semibold ${filled ? 'text-amber-400' : 'text-white/20'}`}
@@ -218,12 +224,14 @@ function ExercicioQuiz({
   etapaId,
   conteudo,
   isPro,
+  onAcerto,
   onConcluido,
 }: {
   titulo: string
   etapaId: string
   conteudo: ConteudoExercicioQuiz
   isPro: boolean
+  onAcerto?: (estrelas: number, dicasUsadas: number, tentativas: number, token: string) => void
   onConcluido: (estrelas: number, dicasUsadas: number, tentativas: number, token: string) => void
 }) {
   const { messages } = useLocale()
@@ -338,6 +346,7 @@ function ExercicioQuiz({
           estrelasFinalRef.current = estrelas
           setEstado('acerto')
           setShowModal(true)
+          onAcerto?.(estrelas, dicasUsadas, novaTentativa, data.token)
           return
         }
       }
@@ -580,10 +589,10 @@ function PainelPerformanceAviso({
   )
 }
 
-export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onConcluido }: TelaExercicioProps) {
+export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onAcerto, onConcluido }: TelaExercicioProps) {
   if (isQuizExercicio(conteudo)) {
     return (
-      <ExercicioQuiz titulo={titulo} etapaId={etapaId} conteudo={conteudo} isPro={isPro} onConcluido={onConcluido} />
+      <ExercicioQuiz titulo={titulo} etapaId={etapaId} conteudo={conteudo} isPro={isPro} onAcerto={onAcerto} onConcluido={onConcluido} />
     )
   }
 
@@ -690,6 +699,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
           setShowPerformanceAviso(true)
         } else {
           setShowModal(true)
+          if (tokenRef.current) {
+            onAcerto?.(estrelasFinalRef.current, dicasUsadas, novaTentativa, tokenRef.current)
+          }
         }
       } else {
         setJaTentouOuErrou(true)
@@ -734,6 +746,9 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onCo
     setShowPerformanceAviso(false)
     setEstado('acerto')
     setShowModal(true)
+    if (tokenRef.current) {
+      onAcerto?.(estrelasFinalRef.current, dicasUsadas, tentativas, tokenRef.current)
+    }
   }
 
   function tentarOtimizar() {
