@@ -2,10 +2,10 @@
 import { useLocale } from '@/context/LocaleContext'
 import type { Locale } from '@/lib/locale'
 
-const OPTIONS: { value: Locale; flag: string; short: string }[] = [
-  { value: 'pt', flag: '🇧🇷', short: 'PT' },
+const OPTIONS: { value: Locale; flag: string; short: string; beta?: boolean }[] = [
+  { value: 'pt', flag: '🇧🇷', short: 'PT', beta: true },
   { value: 'en', flag: '🇺🇸', short: 'EN' },
-  { value: 'es', flag: '🇪🇸', short: 'ES' },
+  { value: 'es', flag: '🇪🇸', short: 'ES', beta: true },
 ]
 
 const CONFIRM_MSG: Record<Locale, string> = {
@@ -39,6 +39,9 @@ export function LanguageSelector({ compact = false }: { compact?: boolean }) {
         >
           <span>{opt.flag}</span>
           {!compact && <span>{opt.short}</span>}
+          {opt.beta && (
+            <span className="text-[9px] font-bold text-yellow-400/80 leading-none">Beta</span>
+          )}
         </button>
       ))}
     </div>
