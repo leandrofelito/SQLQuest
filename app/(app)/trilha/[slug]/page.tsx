@@ -90,7 +90,7 @@ export default function TrilhaPage() {
     let cancelled = false
     ;(async () => {
       try {
-        const res = await fetch(`/api/trilha-dashboard?slug=${encodeURIComponent(slug)}&lang=${locale}`)
+        const res = await fetch(`/api/trilha-dashboard?slug=${encodeURIComponent(slug)}&lang=${locale}`, { cache: 'no-store' })
         if (cancelled) return
         if (!res.ok) {
           if (res.status === 404) router.push('/home')

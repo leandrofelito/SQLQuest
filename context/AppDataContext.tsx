@@ -219,7 +219,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         setCatalogRevalidating(true)
         void deduped(`trilhas-net:${lang}:${userKey}`, async () => {
           try {
-            const res = await fetch(`/api/trilhas?lang=${lang}`)
+            const res = await fetch(`/api/trilhas?lang=${lang}`, { cache: 'no-store' })
             const data = await res.json()
             const fresh = Array.isArray(data) ? data : []
             _cache.trilhas = { data: fresh, loadedAt: Date.now(), lang, userKey }
@@ -246,7 +246,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       setCatalogRevalidating(false)
       try {
         const data = await deduped(`trilhas-net:${lang}:${userKey}`, async () => {
-          const res = await fetch(`/api/trilhas?lang=${lang}`)
+          const res = await fetch(`/api/trilhas?lang=${lang}`, { cache: 'no-store' })
           return res.json()
         })
         const arr = Array.isArray(data) ? data : []
@@ -310,7 +310,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       const revalidateProgresso = () => {
         void deduped(`progresso-net:${userKey}`, async () => {
           try {
-            const res = await fetch('/api/progresso')
+            const res = await fetch('/api/progresso', { cache: 'no-store' })
             if (!res.ok) return []
             const data = await res.json()
             const arr = Array.isArray(data) ? data : []
@@ -336,7 +336,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
       setProgressoLoading(true)
       try {
-        const res = await fetch('/api/progresso')
+        const res = await fetch('/api/progresso', { cache: 'no-store' })
         if (!res.ok) {
           return _cache.progresso.data ?? []
         }
