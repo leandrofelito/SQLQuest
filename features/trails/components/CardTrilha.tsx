@@ -34,7 +34,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
     : emAndamento
     ? 'border-[#8b5cf6]/40'
     : liberadaPorPro
-    ? 'border-sky-500/30'
+    ? 'border-[#facc15]/40'
     : desbloqueada
     ? 'border-[#2a2d3a]'
     : 'border-[#1e2028]'
@@ -58,7 +58,8 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
         fullWidth ? 'w-full' : 'w-[175px]',
         'min-h-[260px]',
         border,
-        !desbloqueada && 'opacity-60'
+        !desbloqueada && !liberadaPorPro && 'opacity-60',
+        liberadaPorPro && !desbloqueada && 'opacity-90 shadow-[0_0_12px_rgba(250,204,21,0.12)]'
       )}
     >
       {/* Badge de progresso ou estado */}
@@ -74,8 +75,8 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
           </span>
         )}
         {liberadaPorPro && !emAndamento && !concluida && (
-          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300">
-            PRO
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#facc15]/20 text-[#facc15] border border-[#facc15]/30">
+            ⭐ PRO
           </span>
         )}
       </div>
@@ -104,7 +105,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
 
         <Progress
           value={pct}
-          barClassName={concluida ? 'bg-emerald-400' : liberadaPorPro ? 'bg-sky-400' : 'bg-[#8b5cf6]'}
+          barClassName={concluida ? 'bg-emerald-400' : liberadaPorPro ? 'bg-[#facc15]' : 'bg-[#8b5cf6]'}
           className="h-1"
         />
 
@@ -115,7 +116,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
             : emAndamento
             ? 'bg-[#8b5cf6]/10 text-[#a78bfa]'
             : liberadaPorPro
-            ? 'bg-sky-500/10 text-sky-400'
+            ? 'bg-[#facc15]/10 text-[#facc15]'
             : desbloqueada
             ? 'bg-[#8b5cf6] text-white'
             : 'bg-[#1e2028] text-white/30'
