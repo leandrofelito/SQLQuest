@@ -45,8 +45,8 @@ export async function generateCertificatePDF(data: CertData): Promise<Uint8Array
     thickness: 0.5, color: cBorder,
   })
 
-  // ── Logo oficial (ícone PNG)
-  const logoPath = path.join(process.cwd(), 'public', 'icons', 'favicon-mark-512.png')
+  // ── Logo oficial com fundo transparente
+  const logoPath = path.join(process.cwd(), 'public', 'brand', 'logo.png')
   const logoPng  = fs.readFileSync(logoPath)
   const logoImg  = await pdfDoc.embedPng(logoPng)
   const logoSize = 180
