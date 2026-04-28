@@ -45,7 +45,8 @@ export function TelaIntro({ titulo, conteudo, onContinuar }: TelaIntroProps) {
       </div>
 
       <motion.div
-        className="w-full pb-6"
+        className="w-full"
+        style={{ paddingBottom: 'calc(1.5rem + var(--safe-area-bottom, 0px))' }}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}

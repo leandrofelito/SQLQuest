@@ -814,7 +814,7 @@ export function TelaExercicio({ titulo, etapaId, conteudo, xpReward, isPro, onAc
                   ta.setSelectionRange(start + insert.length, start + insert.length)
                 })
               }}
-              className="flex-shrink-0 px-2.5 py-1 bg-[#1e2028] border border-[#2a2d3a] rounded-lg text-[#a78bfa] font-mono text-xs whitespace-nowrap active:bg-[#8b5cf6]/20"
+              className="flex-shrink-0 px-2.5 py-2.5 min-h-[40px] bg-[#1e2028] border border-[#2a2d3a] rounded-lg text-[#a78bfa] font-mono text-xs whitespace-nowrap active:bg-[#8b5cf6]/20"
             >
               {key}
             </button>

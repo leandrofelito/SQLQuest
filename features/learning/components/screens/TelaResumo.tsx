@@ -47,7 +47,7 @@ export function TelaResumo({ titulo, conteudo, onContinuar }: TelaResumoProps) {
         </motion.div>
       </div>
 
-      <div className="mt-6 pb-6">
+      <div className="mt-6" style={{ paddingBottom: 'calc(1.5rem + var(--safe-area-bottom, 0px))' }}>
         <Button onClick={onContinuar} fullWidth size="lg">
           {messages.resumo.proximo}
         </Button>
