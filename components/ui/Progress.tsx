@@ -14,8 +14,8 @@ export function Progress({ value, max = 100, className, barClassName, barStyle, 
   const pct = Math.min(100, Math.max(0, (value / max) * 100))
 
   return (
-    <div className={cn('relative w-full', className)}>
-      <div className="w-full bg-[#1e2028] rounded-full overflow-hidden h-2">
+    <div className="relative w-full">
+      <div className={cn('w-full bg-[#1e2028] rounded-full overflow-hidden h-2', className)}>
         <div
           className={cn('h-full rounded-full transition-all duration-500', barClassName ?? 'bg-[#8b5cf6]')}
           style={{ width: `${pct}%`, ...barStyle }}

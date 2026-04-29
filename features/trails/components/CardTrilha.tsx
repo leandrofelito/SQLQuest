@@ -26,7 +26,7 @@ interface CardTrilhaProps {
 export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha, index, onBloqueadaClick, fullWidth }: CardTrilhaProps) {
   const router = useRouter()
   const pct = trilha.percentualConcluido ?? 0
-  const concluida = pct === 100
+  const concluida = pct >= 100
   const emAndamento = desbloqueada && pct > 0 && pct < 100
 
   const border = concluida
@@ -63,7 +63,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
       )}
     >
       {/* Badge de progresso ou estado */}
-      <div className="absolute top-2 right-2 z-10">
+      <div className="absolute top-3 right-3 z-10">
         {concluida && (
           <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">
             ✓
@@ -83,7 +83,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
 
       {/* Badge "Parou aqui" */}
       {ultimaTrilha && emAndamento && (
-        <div className="absolute top-2 left-2 z-10">
+        <div className="absolute top-3 left-3 z-10">
           <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
             Parou aqui
           </span>
@@ -104,9 +104,9 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
         <p className="text-[12px] font-bold text-white leading-tight">{trilha.titulo}</p>
 
         <Progress
-          value={pct}
+          value={concluida ? 100 : pct}
           barClassName={concluida ? 'bg-emerald-400' : liberadaPorPro ? 'bg-[#facc15]' : 'bg-[#8b5cf6]'}
-          className="h-1"
+          className="h-1.5"
         />
 
         <div className={cn(
