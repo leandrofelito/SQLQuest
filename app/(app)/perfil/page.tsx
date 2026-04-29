@@ -188,10 +188,10 @@ function ConquistaTile({
   )
 }
 
-const LANG_OPTIONS: { value: Locale; flag: string; label: string }[] = [
+const LANG_OPTIONS: { value: Locale; flag: string; label: string; beta?: boolean }[] = [
   { value: 'pt', flag: '🇧🇷', label: 'Português' },
-  { value: 'en', flag: '🇺🇸', label: 'English' },
-  { value: 'es', flag: '🇪🇸', label: 'Español' },
+  { value: 'en', flag: '🇺🇸', label: 'English', beta: true },
+  { value: 'es', flag: '🇪🇸', label: 'Español', beta: true },
 ]
 
 export default function PerfilPage() {
@@ -483,14 +483,21 @@ export default function PerfilPage() {
                 <button
                   key={opt.value}
                   onClick={() => setLocale(opt.value)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                  className={`flex flex-col items-center px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                     locale === opt.value
                       ? 'bg-[#8b5cf6] text-white shadow-sm'
                       : 'text-white/40 hover:text-white/70'
                   }`}
                 >
-                  <span>{opt.flag}</span>
-                  <span>{opt.label}</span>
+                  <span className="flex items-center gap-1.5">
+                    <span>{opt.flag}</span>
+                    <span>{opt.label}</span>
+                  </span>
+                  {opt.beta && (
+                    <span className="text-[9px] font-semibold text-yellow-400/70 leading-tight tracking-wide">
+                      beta
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
