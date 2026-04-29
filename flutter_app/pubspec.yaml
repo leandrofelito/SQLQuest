@@ -65,8 +65,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/sqlquest_logo_escrita.svg
-    - assets/sqlquest_logo.png
     - assets/icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -554,7 +554,7 @@ class _WebViewScreenState extends State<WebViewScreen>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'assets/sqlquest_logo.png',
+                                'assets/icon.png',
                                 width: MediaQuery.of(context).size.width * 0.58,
                                 fit: BoxFit.contain,
                               ),
