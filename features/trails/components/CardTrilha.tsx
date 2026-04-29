@@ -75,7 +75,7 @@ export function CardTrilha({ trilha, desbloqueada, liberadaPorPro, ultimaTrilha,
           </span>
         )}
         {liberadaPorPro && !emAndamento && !concluida && (
-          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#facc15]/20 text-[#facc15] border border-[#facc15]/30">
+          <span className="text-[10px] font-bold px-2 py-1 rounded-full bg-[#facc15]/20 text-[#facc15] border border-[#facc15]/30">
             ⭐ PRO
           </span>
         )}
