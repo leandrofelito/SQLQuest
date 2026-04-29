@@ -36,10 +36,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen bg-[#080a0f] flex flex-col items-center justify-center gap-6">
         <img src="/brand/logooficialSQLQUESTpng-Photoroom.png" alt="SQLQuest" className="w-40 h-40 object-contain animate-pulse" />
-        <p className="text-4xl font-bold tracking-tight">
-          <span className="text-[#8b5cf6]">SQL</span>
-          <span className="text-[#FBBF24]">Quest</span>
-        </p>
         <div className="w-8 h-8 rounded-full border-2 border-[#8b5cf6] border-t-transparent animate-spin" />
       </div>
     )
