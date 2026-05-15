@@ -4,6 +4,7 @@ import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Cpu, type LucideIcon } from 'lucide-react'
+import Link from 'next/link'
 import { SECOES_CONQUISTA_ORDEM, type SecaoConquista } from '@/features/gamification/domain/conquistas-definitions'
 import { Header } from '@/components/layout/Header'
 import { NavBottom } from '@/components/layout/NavBottom'
@@ -14,6 +15,7 @@ import { getLevel, getLevelBadge } from '@/features/gamification/domain/xp'
 import { PrestigeBadge } from '@/features/gamification/components/PrestigeBadge'
 import { useAppData, type ConquistaBasica } from '@/context/AppDataContext'
 import { useLocale } from '@/context/LocaleContext'
+import { usePrivacyConsent } from '@/context/PrivacyConsentContext'
 import { type Locale } from '@/lib/locale'
 
 function ConquistasSkeleton() {
@@ -209,6 +211,7 @@ export default function PerfilPage() {
     getCachedCertificados,
   } = useAppData()
   const { locale, setLocale, messages } = useLocale()
+  const { adsConsent, resetAdsConsent } = usePrivacyConsent()
   const m = messages.perfil
   const [stats, setStats] = useState(() => ({
     etapas: 0,
@@ -304,6 +307,24 @@ export default function PerfilPage() {
       (window as any).SessionBridge?.postMessage('logout')
     }
     await signOut({ callbackUrl: '/login' })
+  }
+
+  async function handleExportData() {
+    const res = await fetch('/api/user/export')
+    if (!res.ok) {
+      alert('Não foi possível exportar seus dados agora. Tente novamente mais tarde.')
+      return
+    }
+
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'sqlquest-meus-dados.json'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
   }
 
   return (
@@ -500,6 +521,44 @@ export default function PerfilPage() {
                   )}
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Privacidade */}
+        <div className="bg-[#0f1117] border border-[#1e2028] rounded-2xl p-4 space-y-3">
+          <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide">Privacidade</h3>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-white/60">Publicidade personalizada</span>
+              <button
+                type="button"
+                onClick={resetAdsConsent}
+                className="rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/70"
+              >
+                {adsConsent === 'accepted' ? 'Permitida' : adsConsent === 'rejected' ? 'Recusada' : 'Configurar'}
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={handleExportData}
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left text-white/70 transition-colors hover:bg-white/10"
+            >
+              Baixar meus dados
+            </button>
+            <a
+              href={`mailto:suporte@sqlquest.com.br?subject=${encodeURIComponent('Solicitação LGPD - SQLQuest')}&body=${encodeURIComponent('Olá, SQLQuest.\n\nQuero exercer meus direitos de titular de dados. Meu e-mail cadastrado é: ' + (user?.email ?? '') + '\n\nSolicitação: ')}`}
+              className="block w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-white/70 transition-colors hover:bg-white/10"
+            >
+              Solicitar correção ou exclusão da conta
+            </a>
+            <div className="flex flex-wrap gap-3 pt-1 text-xs">
+              <Link href="/privacidade" className="text-[#a78bfa] hover:underline">
+                Política de privacidade
+              </Link>
+              <Link href="/termos" className="text-[#a78bfa] hover:underline">
+                Termos de uso
+              </Link>
             </div>
           </div>
         </div>

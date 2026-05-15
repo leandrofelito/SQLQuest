@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Syne, JetBrains_Mono } from 'next/font/google'
 import { SessionProvider } from './providers'
-import { getAdsenseScriptSrc } from '@/lib/adsense-config'
 import './globals.css'
 
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne', display: 'swap' })
@@ -34,8 +33,6 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const adsenseScriptSrc = getAdsenseScriptSrc()
-
   return (
     <html lang="pt-BR" className={`${syne.variable} ${jetbrains.variable}`}>
       <head>
@@ -47,11 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="SQLQuest" />
         {/* favicon: metadata.icons (PNG — SVG com <image> externo falha na aba em vários browsers) */}
-        {/* AdSense: só carrega com NEXT_PUBLIC_ADSENSE_ID (e LOAD_SCRIPT !== false) */}
-        {adsenseScriptSrc ? (
-          /* eslint-disable-next-line @next/next/no-sync-scripts */
-          <script async src={adsenseScriptSrc} crossOrigin="anonymous" />
-        ) : null}
+        {/* AdSense é carregado no cliente somente após consentimento de publicidade. */}
       </head>
       <body className="bg-[#080a0f] text-white font-syne antialiased">
         <SessionProvider>{children}</SessionProvider>

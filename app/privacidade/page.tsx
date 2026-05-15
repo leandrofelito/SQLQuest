@@ -11,7 +11,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section className="space-y-3">
       <h2 className="text-base font-semibold text-white">{title}</h2>
-      <div className="text-sm leading-relaxed text-white/75 space-y-3">{children}</div>
+      <div className="space-y-3 text-sm leading-relaxed text-white/75">{children}</div>
     </section>
   )
 }
@@ -19,186 +19,181 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export default function PrivacidadePage() {
   return (
     <div className="min-h-screen bg-[#080a0f] text-white/90">
-      <div className="max-w-2xl mx-auto px-6 py-12 pb-24">
-        <p className="text-xs text-white/40 mb-6">
+      <div className="mx-auto max-w-2xl px-6 py-12 pb-24">
+        <p className="mb-6 text-xs text-white/40">
           <Link href="/login" className="text-[#a78bfa] hover:underline">
             ← Voltar ao login
           </Link>
         </p>
 
-        <h1 className="text-2xl font-bold text-white mb-1">Política de Privacidade</h1>
-        <p className="text-sm text-white/45 mb-10">Última atualização: abril de 2026</p>
+        <h1 className="mb-1 text-2xl font-bold text-white">Política de Privacidade</h1>
+        <p className="mb-10 text-sm text-white/45">Última atualização: maio de 2026</p>
 
         <div className="space-y-8 text-sm leading-relaxed text-white/75">
-
-          <Section title="1. Controlador dos dados">
+          <Section title="1. Controlador e contato">
             <p>
-              O SQLQuest é o controlador dos dados pessoais coletados nesta plataforma, nos termos
-              da Lei n.º 13.709/2018 (Lei Geral de Proteção de Dados — LGPD). É responsável por
-              definir como e por que seus dados são utilizados.
+              O SQLQuest é o controlador dos dados pessoais tratados na plataforma, nos termos da Lei
+              nº 13.709/2018, a Lei Geral de Proteção de Dados Pessoais (LGPD).
             </p>
             <p>
-              Para entrar em contato com o encarregado de dados (DPO), envie um e-mail para{' '}
-              <a href="mailto:contato@sqlquest.com.br" className="text-[#a78bfa] hover:underline">
-                contato@sqlquest.com.br
+              Para dúvidas ou solicitações relacionadas a dados pessoais, fale com o canal de
+              privacidade pelo e-mail{' '}
+              <a href="mailto:suporte@sqlquest.com.br" className="text-[#a78bfa] hover:underline">
+                suporte@sqlquest.com.br
               </a>
               .
             </p>
           </Section>
 
-          <Section title="2. Quais dados pessoais coletamos">
-            <p>Coletamos os seguintes dados pessoais para operar a plataforma:</p>
-            <ul className="list-disc list-inside space-y-1 pl-1">
-              <li>Nome ou apelido (nickname) escolhido no cadastro</li>
-              <li>Endereço de e-mail</li>
-              <li>Dados de autenticação (identificador de sessão, token de acesso)</li>
-              <li>Progresso nas trilhas de aprendizado e pontuações</li>
-              <li>Dados técnicos de acesso: endereço IP, tipo de navegador e sistema operacional</li>
+          <Section title="2. Dados pessoais tratados">
+            <p>Podemos tratar os seguintes dados para operar o SQLQuest:</p>
+            <ul className="list-inside list-disc space-y-1 pl-1">
+              <li>nome, sobrenome, nickname, e-mail e imagem de perfil quando fornecida pelo login social;</li>
+              <li>dados de autenticação, sessões e identificadores de provedores como Google;</li>
+              <li>senha em formato criptografado quando o cadastro for por e-mail e senha;</li>
+              <li>progresso nas trilhas, XP, ranking, streak, conquistas, certificados e preferências;</li>
+              <li>dados de pagamento necessários ao plano Pro, como identificador da sessão Stripe, valor e status;</li>
+              <li>dados técnicos como IP, navegador, sistema operacional, logs de acesso e registros de segurança;</li>
+              <li>cookies, armazenamento local e identificadores de publicidade quando houver consentimento aplicável.</li>
             </ul>
             <p>
-              Não coletamos dados sensíveis, como informações de saúde, origem racial ou etnia,
-              opiniões políticas ou crenças religiosas.
+              Não solicitamos dados pessoais sensíveis, como saúde, biometria, religião, opinião
+              política, origem racial ou étnica.
             </p>
           </Section>
 
-          <Section title="3. Finalidade e base legal do tratamento">
-            <p>
-              Seus dados são tratados com base nas seguintes hipóteses legais previstas na LGPD:
-            </p>
-            <ul className="list-disc list-inside space-y-1 pl-1">
+          <Section title="3. Finalidades e bases legais">
+            <ul className="list-inside list-disc space-y-1 pl-1">
               <li>
-                <strong className="text-white/90">Execução de contrato</strong> — para criar e
-                manter sua conta, registrar seu progresso e fornecer o serviço contratado (art. 7.º,
-                V da LGPD).
+                <strong className="text-white/90">Execução de contrato:</strong> criar conta,
+                autenticar usuários, registrar progresso, emitir certificados e entregar o plano Pro.
               </li>
               <li>
-                <strong className="text-white/90">Legítimo interesse</strong> — para garantir a
-                segurança da plataforma, prevenir fraudes e melhorar a experiência do usuário (art.
-                7.º, IX da LGPD).
+                <strong className="text-white/90">Cumprimento de obrigação legal:</strong> manter
+                registros fiscais, contábeis, solicitações de titulares e informações necessárias à
+                defesa de direitos.
               </li>
               <li>
-                <strong className="text-white/90">Consentimento</strong> — para exibição de
-                publicidade personalizada por meio do Google AdSense, quando aplicável (art. 7.º, I
-                da LGPD).
+                <strong className="text-white/90">Legítimo interesse:</strong> segurança,
+                prevenção de fraude, rate limit, melhoria da plataforma e suporte ao usuário.
+              </li>
+              <li>
+                <strong className="text-white/90">Consentimento:</strong> cookies e identificadores
+                usados para publicidade personalizada e mensuração de anúncios.
               </li>
             </ul>
           </Section>
 
-          <Section title="4. Cookies e tecnologias de rastreamento">
+          <Section title="4. Cookies e publicidade">
             <p>
-              Utilizamos cookies e mecanismos de armazenamento local do navegador para as seguintes
-              finalidades:
+              Cookies essenciais e armazenamento local são usados para login, idioma, preferências,
+              segurança e funcionamento da plataforma. Esses recursos são necessários para prestar o
+              serviço.
             </p>
-            <ul className="list-disc list-inside space-y-1 pl-1">
-              <li>Manter a sessão autenticada durante o uso da plataforma</li>
-              <li>Armazenar preferências de navegação</li>
-              <li>Garantir funcionalidades de segurança</li>
-            </ul>
             <p>
-              Você pode recusar ou excluir cookies a qualquer momento nas configurações do seu
-              navegador. A exclusão de cookies de sessão resultará na desconexão da sua conta.
+              Cookies e identificadores de publicidade do Google AdSense, Google AdMob ou serviços
+              equivalentes só devem ser ativados após o seu consentimento. Você pode recusar a
+              publicidade personalizada e alterar essa escolha pelo perfil.
             </p>
-          </Section>
-
-          <Section title="5. Publicidade — Google AdSense">
             <p>
-              Usuários que utilizam o plano gratuito do SQLQuest podem visualizar anúncios
-              fornecidos pelo Google AdSense. O Google, na condição de operador independente, pode
-              usar cookies e identificadores de dispositivo para personalizar e mensurar anúncios,
-              de acordo com sua própria{' '}
+              O Google pode tratar dados de publicidade conforme suas próprias políticas. Saiba mais
+              em{' '}
               <a
                 href="https://policies.google.com/technologies/ads"
                 className="text-[#a78bfa] hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Política de Privacidade e Publicidade
+                Políticas de publicidade do Google
               </a>
               .
             </p>
-            <p>
-              Para ajustar ou retirar seu consentimento para anúncios personalizados, acesse as{' '}
-              <a
-                href="https://adssettings.google.com"
-                className="text-[#a78bfa] hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                configurações de anúncios do Google
-              </a>
-              . Assinantes do plano Pro não estão sujeitos à exibição de anúncios.
-            </p>
           </Section>
 
-          <Section title="6. Compartilhamento de dados">
-            <p>
-              Não vendemos, alugamos nem comercializamos seus dados pessoais com terceiros. O
-              compartilhamento ocorre apenas nas seguintes situações:
-            </p>
-            <ul className="list-disc list-inside space-y-1 pl-1">
-              <li>
-                Com fornecedores de infraestrutura (hospedagem, banco de dados), vinculados por
-                obrigações contratuais de confidencialidade
-              </li>
-              <li>Com o Google, nos limites da exibição de anúncios descrita na seção 5</li>
-              <li>Quando exigido por ordem judicial ou autoridade competente</li>
+          <Section title="5. Compartilhamento com fornecedores">
+            <p>Não vendemos seus dados pessoais. Podemos compartilhar dados apenas quando necessário com:</p>
+            <ul className="list-inside list-disc space-y-1 pl-1">
+              <li>Google, para login social, AdSense/AdMob e serviços relacionados;</li>
+              <li>Stripe, para processamento de pagamentos do plano Pro;</li>
+              <li>Resend, para envio de e-mails transacionais, como verificação de conta;</li>
+              <li>Cloudflare, para DNS, túnel, segurança e entrega do site;</li>
+              <li>provedores de hospedagem, banco de dados, backups e infraestrutura técnica;</li>
+              <li>autoridades públicas, quando houver obrigação legal, ordem judicial ou defesa de direitos.</li>
             </ul>
           </Section>
 
-          <Section title="7. Prazo de retenção dos dados">
+          <Section title="6. Ranking e certificados públicos">
             <p>
-              Seus dados pessoais são mantidos pelo período em que sua conta estiver ativa ou pelo
-              tempo necessário para cumprir as finalidades descritas nesta política. Após a exclusão
-              da conta, os dados são removidos ou anonimizados, salvo quando a retenção for exigida
-              por obrigação legal.
+              O ranking global exibe nickname, XP e informações de progresso competitivo. O e-mail
+              não é exibido no ranking público.
+            </p>
+            <p>
+              Certificados possuem link público de verificação. Ao gerar ou compartilhar um
+              certificado, o nome associado à conta, a trilha concluída, a data e o código de
+              validação podem ficar visíveis para quem tiver o link.
             </p>
           </Section>
 
-          <Section title="8. Segurança dos dados">
+          <Section title="7. Retenção, backups e exclusão">
             <p>
-              Adotamos medidas técnicas e organizacionais adequadas para proteger seus dados pessoais
-              contra acesso não autorizado, perda, alteração ou divulgação indevida. Isso inclui o
-              uso de conexões criptografadas (HTTPS) e controles de acesso restritos aos sistemas
-              da plataforma.
+              Mantemos os dados enquanto a conta estiver ativa ou pelo período necessário para
+              cumprir as finalidades desta política, obrigações legais, prevenção de fraude, suporte
+              e defesa de direitos.
             </p>
             <p>
-              Em caso de incidente de segurança que possa afetar seus dados, notificaremos a
-              Autoridade Nacional de Proteção de Dados (ANPD) e os titulares afetados nos prazos
-              previstos pela LGPD.
+              Pagamentos e registros associados podem ser mantidos pelo prazo legal aplicável.
+              Backups podem reter dados por período limitado até sua substituição ou expiração
+              operacional.
+            </p>
+            <p>
+              Após solicitação válida de exclusão, dados de conta e progresso serão removidos ou
+              anonimizados, salvo quando a retenção for necessária por obrigação legal ou exercício
+              regular de direitos.
             </p>
           </Section>
 
-          <Section title="9. Seus direitos como titular de dados">
+          <Section title="8. Segurança">
             <p>
-              Nos termos dos arts. 17 a 22 da LGPD, você tem direito a:
+              Adotamos medidas técnicas e administrativas para proteger dados pessoais contra acesso
+              não autorizado, perda, alteração ou divulgação indevida, incluindo HTTPS, controle de
+              acesso, senhas criptografadas, rate limit e restrição de acesso ao banco de dados.
             </p>
-            <ul className="list-disc list-inside space-y-1 pl-1">
-              <li>Confirmar a existência de tratamento dos seus dados</li>
-              <li>Acessar os dados que temos sobre você</li>
-              <li>Solicitar a correção de dados incompletos, inexatos ou desatualizados</li>
-              <li>Solicitar a anonimização, bloqueio ou eliminação de dados desnecessários</li>
-              <li>Solicitar a portabilidade dos seus dados a outro fornecedor de serviço</li>
-              <li>Revogar o consentimento dado, a qualquer momento</li>
-              <li>Opor-se ao tratamento realizado com base em legítimo interesse</li>
+            <p>
+              Nenhuma operação digital é livre de risco. Em caso de incidente de segurança que possa
+              causar risco ou dano relevante, avaliaremos o caso e comunicaremos a ANPD e os
+              titulares afetados conforme a legislação aplicável.
+            </p>
+          </Section>
+
+          <Section title="9. Direitos do titular">
+            <p>Você pode solicitar, nos termos da LGPD:</p>
+            <ul className="list-inside list-disc space-y-1 pl-1">
+              <li>confirmação da existência de tratamento;</li>
+              <li>acesso aos dados pessoais;</li>
+              <li>correção de dados incompletos, inexatos ou desatualizados;</li>
+              <li>anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos;</li>
+              <li>portabilidade, quando aplicável;</li>
+              <li>informações sobre compartilhamento de dados;</li>
+              <li>revogação do consentimento e oposição a tratamentos cabíveis.</li>
             </ul>
             <p>
-              Para exercer qualquer desses direitos, entre em contato pelo e-mail{' '}
-              <a href="mailto:contato@sqlquest.com.br" className="text-[#a78bfa] hover:underline">
-                contato@sqlquest.com.br
+              Acesse a área de Privacidade no perfil para baixar seus dados ou envie uma solicitação
+              para{' '}
+              <a href="mailto:suporte@sqlquest.com.br" className="text-[#a78bfa] hover:underline">
+                suporte@sqlquest.com.br
               </a>
-              . Responderemos no prazo de 15 dias corridos.
+              . Solicitações de acesso e confirmação serão respondidas nos prazos previstos pela
+              LGPD.
             </p>
           </Section>
 
-          <Section title="10. Alterações nesta política">
+          <Section title="10. Alterações">
             <p>
-              Esta política pode ser atualizada periodicamente para refletir mudanças no serviço,
-              na legislação ou em nossas práticas. A data no topo desta página indica a versão mais
-              recente. Em caso de alterações relevantes, notificaremos os usuários pelo e-mail
-              cadastrado ou por aviso na plataforma.
+              Esta política pode ser atualizada para refletir mudanças no produto, nos fornecedores,
+              na legislação ou nas práticas de segurança. Alterações relevantes poderão ser
+              comunicadas por aviso na plataforma ou e-mail cadastrado.
             </p>
           </Section>
-
         </div>
       </div>
     </div>

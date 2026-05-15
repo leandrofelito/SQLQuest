@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useUser } from '@/hooks/useUser'
 import { useLocale } from '@/context/LocaleContext'
+import { usePrivacyConsent } from '@/context/PrivacyConsentContext'
 import { useNativeAdHost } from '@/hooks/useNativeAdHost'
 import {
   getAdsenseClientId,
@@ -20,13 +21,14 @@ interface AdBannerProps {
 export function AdBanner({ placement = 'default', showLabel = false }: AdBannerProps) {
   const { isPro } = useUser()
   const { messages } = useLocale()
+  const { canLoadAds } = usePrivacyConsent()
   const ref = useRef<HTMLDivElement>(null)
   const pushed = useRef(false)
   const nativeHost = useNativeAdHost()
   const [bannerNativeFailed, setBannerNativeFailed] = useState(false)
 
   useEffect(() => {
-    if (isPro) return
+    if (isPro || !canLoadAds) return
     if (nativeHost === 'pending') return
 
     if (nativeHost === 'native') {
@@ -56,9 +58,9 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
     try {
       ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
     } catch {}
-  }, [isPro, placement, nativeHost])
+  }, [canLoadAds, isPro, placement, nativeHost])
 
-  if (isPro) return null
+  if (isPro || !canLoadAds) return null
 
   if (nativeHost === 'pending') {
     return (

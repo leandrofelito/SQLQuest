@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getAdsenseClientId, hasAdsenseModalUnit } from '@/lib/adsense-config'
 import { useNativeAdHost } from '@/hooks/useNativeAdHost'
+import { usePrivacyConsent } from '@/context/PrivacyConsentContext'
 
 export type AdType = 'rewarded' | 'interstitial'
 
@@ -25,6 +26,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   const [flutterAdState, setFlutterAdState] = useState<'loading' | 'showing' | 'done'>('loading')
   const [confirmandoSaida, setConfirmandoSaida] = useState(false)
   const nativeHost = useNativeAdHost()
+  const { canLoadAds, adsConsent, acceptAds, rejectAds } = usePrivacyConsent()
   const pushed = useRef(false)
   const adRef = useRef<HTMLModElement>(null)
   // Ref para sempre chamar a versão mais recente do callback sem reiniciar o efeito
@@ -67,6 +69,14 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
     resolvedRef.current = false
     if (isPro) {
       resolveOnce('completed')
+      return
+    }
+
+    if (!canLoadAds) {
+      if (adsConsent === 'rejected') {
+        setAdFailed(true)
+        setTempo(0)
+      }
       return
     }
 
@@ -216,9 +226,56 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       clearTimeout(timer)
       clearInterval(interval)
     }
-  }, [isPro, adType, nativeHost])
+  }, [adsConsent, canLoadAds, isPro, adType, nativeHost])
 
   if (isPro) return null
+
+  if (!canLoadAds && adsConsent === 'unknown') {
+    return (
+      <motion.div
+        className="fixed inset-0 z-50 bg-[#080a0f] flex items-center justify-center px-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#12141c] p-6 text-center">
+          <h3 className="text-lg font-bold text-white">Privacidade e publicidade</h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/55">
+            Para mostrar anúncios e liberar esta ação, precisamos da sua permissão para cookies e
+            identificadores de publicidade.
+          </p>
+          <div className="mt-5 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={acceptAds}
+              className="w-full rounded-xl bg-[#8b5cf6] py-3 font-bold text-white"
+            >
+              Permitir anúncios
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                rejectAds()
+                setAdFailed(true)
+                setTempo(0)
+              }}
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-3 font-semibold text-white/70"
+            >
+              Continuar sem personalização
+            </button>
+            {onFechar && (
+              <button
+                type="button"
+                onClick={onFechar}
+                className="w-full rounded-xl py-2 text-sm font-semibold text-white/35"
+              >
+                Voltar
+              </button>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    )
+  }
 
   // Modal de confirmação — texto neutro para funcionar em qualquer contexto
   const modalConfirmacao = (
