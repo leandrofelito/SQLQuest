@@ -28,7 +28,7 @@ export function TelaIntro({ titulo, conteudo, onContinuar }: TelaIntroProps) {
           transition={{ delay: 0.1, type: 'spring', stiffness: 200, damping: 15 }}
         >
           <div className="absolute inset-0 rounded-full bg-[#8b5cf6]/20 blur-3xl" />
-          <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-[#8b5cf6]/30 to-[#161820] flex items-center justify-center border border-[#8b5cf6]/30">
+          <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-[#8b5cf6]/30 to-[#161820] flex items-center justify-center border border-[#8b5cf6]/30">
             <span className="text-6xl">{conteudo.emoji}</span>
           </div>
         </motion.div>
