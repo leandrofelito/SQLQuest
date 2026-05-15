@@ -1,0 +1,83 @@
+SQLQuest - Worker de Manutencao na Cloudflare
+=============================================
+
+Objetivo
+--------
+
+Mostrar uma pagina de manutencao quando o site/app nao estiver disponivel.
+
+A mensagem NAO informa detalhes de infraestrutura. Para o usuario final aparece apenas:
+
+"Site e app em manutencao"
+
+
+Arquivo criado
+--------------
+
+cloudflare-worker-sqlquest-fallback.js
+
+
+Configuracao necessaria na Cloudflare
+-------------------------------------
+
+1. Manter o tunnel apontando para o app:
+
+   origin.sqlquest.com.br -> http://localhost:3000
+
+2. Criar um Worker com o codigo do arquivo:
+
+   cloudflare-worker-sqlquest-fallback.js
+
+3. Configurar a rota do Worker:
+
+   sqlquest.com.br/*
+
+4. Funcionamento esperado:
+
+   Usuario acessa https://sqlquest.com.br
+   Worker tenta buscar origin.sqlquest.com.br
+   Se responder, mostra o SQLQuest normalmente
+   Se falhar, mostra pagina de manutencao
+
+
+Passo a passo no painel
+-----------------------
+
+1. Cloudflare > Websites > sqlquest.com.br.
+2. DNS > Records:
+   - Garanta que origin.sqlquest.com.br aponta para o tunnel.
+3. Zero Trust > Networks > Tunnels > sqlquest:
+   - Adicione Public Hostname:
+     Subdomain: origin
+     Domain: sqlquest.com.br
+     Type: HTTP
+     URL: localhost:3000
+4. Workers & Pages:
+   - Create Worker
+   - Cole o codigo de cloudflare-worker-sqlquest-fallback.js
+   - Deploy
+5. Worker > Settings > Domains & Routes:
+   - Add route:
+     sqlquest.com.br/*
+
+
+Teste
+-----
+
+Com o app normal:
+
+https://sqlquest.com.br/api/ping
+
+Resultado esperado:
+
+{"ok":true}
+
+Com o app parado:
+
+Abra:
+
+https://sqlquest.com.br
+
+Resultado esperado:
+
+Pagina "Site e app em manutencao".
