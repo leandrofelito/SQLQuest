@@ -34,6 +34,7 @@ const withPWA = require('next-pwa')({
 
 /** @type {import('next').NextConfig} */
 const config = {
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },

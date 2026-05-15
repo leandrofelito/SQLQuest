@@ -16,4 +16,4 @@ if ($portInUse) {
 "$(Get-Date -Format o) Starting SQLQuest production server..." | Add-Content $LogFile
 
 $env:NODE_ENV = 'production'
-npm.cmd run start *>> $LogFile
+npx.cmd next start -H 127.0.0.1 -p 3000 *>> $LogFile
