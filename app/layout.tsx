@@ -22,14 +22,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'SQLQuest — Aprenda SQL jogando',
     description: 'Plataforma gamificada de ensino de SQL. Do básico ao avançado.',
-    images: [{ url: '/brand/logo.png', width: 512, height: 512 }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SQLQuest — Aprenda SQL jogando',
     description: 'Plataforma gamificada de ensino de SQL. Do básico ao avançado.',
-    images: ['/brand/logo.png'],
+    images: ['/og-image.png'],
   },
 }
 

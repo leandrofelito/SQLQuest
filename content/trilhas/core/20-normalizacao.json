@@ -300,7 +300,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 5
-        }
+        },
+        "dicas": [
+          "A tabela já está normalizada (1FN). Basta um SELECT com as colunas pedidas. Use ORDER BY PedidoID para organizar — isso ajuda a visualizar que cada produto tem sua própria linha.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -448,7 +453,12 @@
             "Produto"
           ],
           "min_rows": 4
-        }
+        },
+        "dicas": [
+          "Para trazer nome do cliente e nome do produto, você precisa passar por 4 tabelas. Comece por ItensPedido (centro) e faça JOINs em cada direção: um caminho leva ao cliente, o outro ao produto.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -505,7 +515,12 @@
             "TotalGasto"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "O total gasto é Quantidade multiplicada pelo PrecoUnit — você calcula isso no SUM. Você precisa de JOINs para chegar ao nome do cliente. Após agregar, quais colunas devem aparecer no GROUP BY?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

@@ -45,7 +45,7 @@
       "titulo": "Empilhamento de Dados: UNION e UNION ALL",
       "conteudo": {
         "blocos": [
-          "Até agora, você usou o JOIN para unir tabelas 'lado a lado' (horizontalmente). No **Neon.tech**, às vezes precisamos unir tabelas 'uma em cima da outra' (verticalmente). Para isso, usamos os operadores de conjunto: **UNION** e **UNION ALL**.",
+          "Até agora, você usou o JOIN para unir tabelas 'lado a lado' (horizontalmente). No **PostgreSQL**, às vezes precisamos unir tabelas 'uma em cima da outra' (verticalmente). Para isso, usamos os operadores de conjunto: **UNION** e **UNION ALL**.",
           "O **UNION** combina o resultado de dois SELECTs em uma única lista e remove automaticamente as linhas duplicadas. Se um nome aparece nas duas tabelas, ele será exibido apenas uma vez.",
           "O **UNION ALL** faz o mesmo empilhamento, mas **mantém todas as linhas**, mesmo as repetidas. Como o banco de dados não precisa gastar tempo procurando duplicatas, o UNION ALL é consideravelmente mais rápido.",
           {
@@ -66,7 +66,7 @@
           "titulo": "Stacking Data: UNION and UNION ALL",
           "conteudo": {
             "blocos": [
-              "So far, you've used JOIN to merge tables 'side by side'. In **Neon.tech**, sometimes we need to merge tables 'one on top of the other'. For this, we use **UNION** and **UNION ALL**.",
+              "So far, you've used JOIN to merge tables 'side by side'. In **PostgreSQL**, sometimes we need to merge tables 'one on top of the other'. For this, we use **UNION** and **UNION ALL**.",
               "**UNION** combines results and removes duplicates. **UNION ALL** keeps everything, including repeats, making it faster.",
               "**Guest List Analogy:** UNION is the consolidated list with duplicate names removed. UNION ALL is just stapling the sheets together without checking for repeats."
             ]
@@ -76,7 +76,7 @@
           "titulo": "Apilamiento de Datos: UNION y UNION ALL",
           "conteudo": {
             "blocos": [
-              "Hasta ahora, has usado JOIN para unir tablas 'lado a lado'. En **Neon.tech**, a veces necesitamos unir tablas 'una encima de otra'. Para esto, usamos **UNION** y **UNION ALL**.",
+              "Hasta ahora, has usado JOIN para unir tablas 'lado a lado'. En **PostgreSQL**, a veces necesitamos unir tablas 'una encima de otra'. Para esto, usamos **UNION** y **UNION ALL**.",
               "**UNION** combina los resultados y elimina los duplicados. **UNION ALL** mantiene todo, incluso las repeticiones, lo que lo hace más rápido.",
               "**Analogía de las Listas de Invitados:** UNION es la lista final consolidada sin nombres repetidos. UNION ALL es simplemente grapar las hojas sin revisar si alguien fue invitado dos veces."
             ]

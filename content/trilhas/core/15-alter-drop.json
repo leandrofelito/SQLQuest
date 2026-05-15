@@ -117,7 +117,12 @@
           "MODIFY TABLE galaxias ADD populacao INT;"
         ],
         "indiceCorreto": 1,
-        "dica": "Dica de Ouro: Você precisa primeiro 'alterar a tabela' e depois dizer qual ação deseja (adicionar coluna)."
+        "dica": "Dica de Ouro: Você precisa primeiro 'alterar a tabela' e depois dizer qual ação deseja (adicionar coluna).",
+        "dicas": [
+          "Dica de Ouro: Você precisa primeiro 'alterar a tabela' e depois dizer qual ação deseja (adicionar coluna).",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -166,7 +171,12 @@
         "instrucao": "Sobre a renomeação de colunas:",
         "afirmacao": "Ao usar o comando ALTER TABLE para renomear uma coluna, todos os dados que estavam nela são automaticamente excluídos pelo banco de dados de forma definitiva.",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: Renomear é apenas trocar a etiqueta de uma caixa. O que está dentro da caixa continua lá."
+        "dica": "Dica de Ouro: Renomear é apenas trocar a etiqueta de uma caixa. O que está dentro da caixa continua lá.",
+        "dicas": [
+          "Dica de Ouro: Renomear é apenas trocar a etiqueta de uma caixa. O que está dentro da caixa continua lá.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -212,7 +222,12 @@
           "table_name": "galaxias"
         },
         "dica": "Dica de Ouro: Use a sintaxe: ALTER TABLE nome_tabela ADD COLUMN nome_coluna tipo_dado;",
-        "explicacaoTecnica": "O comando ALTER TABLE modifica o catálogo do sistema de forma a permitir que novos registros aceitem o campo 'populacao'."
+        "explicacaoTecnica": "O comando ALTER TABLE modifica o catálogo do sistema de forma a permitir que novos registros aceitem o campo 'populacao'.",
+        "dicas": [
+          "Dica de Ouro: Use a sintaxe: ALTER TABLE nome_tabela ADD COLUMN nome_coluna tipo_dado;",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -239,7 +254,7 @@
       "titulo": "Demolição e Limpeza: DROP e TRUNCATE",
       "conteudo": {
         "blocos": [
-          "Chegamos à etapa final da arquitetura de tabelas. Como um Arquiteto no **Neon.tech**, você deve saber não apenas construir, mas também como remover de forma eficiente o que não serve mais. Existem duas maneiras de fazer isso, com propósitos bem distintos: o **DROP TABLE** e o **TRUNCATE**.",
+          "Chegamos à etapa final da arquitetura de tabelas. Como um Arquiteto no **PostgreSQL**, você deve saber não apenas construir, mas também como remover de forma eficiente o que não serve mais. Existem duas maneiras de fazer isso, com propósitos bem distintos: o **DROP TABLE** e o **TRUNCATE**.",
           "O **DROP TABLE** é o comando de demolição total. Quando você o executa, o PostgreSQL apaga todos os dados e a própria definição da tabela. É como se o prédio fosse implodido e o terreno ficasse vazio: a estrutura deixa de existir no banco de dados.",
           "Já o **TRUNCATE** é o 'botão de reset'. Ele esvazia todas as linhas da tabela de uma vez só, mas mantém a 'casca' (as colunas, tipos e restrições) intacta. Em termos de performance, o TRUNCATE é muito mais rápido que o DELETE para tabelas gigantes, pois ele desaloca o espaço de forma direta, sem analisar linha por linha.",
           "**Analogia Final:** Imagine o prédio que você construiu. **DROP** é implodir o edifício para liberar o espaço. **TRUNCATE** é retirar todos os móveis e moradores, deixando o prédio de pé, limpo e pronto para novos inquilinos.",
@@ -291,7 +306,12 @@
           "TRUNCATE permite usar a cláusula WHERE para filtrar linhas, o DROP não."
         ],
         "indiceCorreto": 2,
-        "dica": "Dica de Ouro: O DROP 'derruba' a estrutura; o TRUNCATE apenas 'limpa' o interior."
+        "dica": "Dica de Ouro: O DROP 'derruba' a estrutura; o TRUNCATE apenas 'limpa' o interior.",
+        "dicas": [
+          "Dica de Ouro: O DROP 'derruba' a estrutura; o TRUNCATE apenas 'limpa' o interior.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -340,7 +360,12 @@
         "instrucao": "Sobre a operação de limpeza:",
         "afirmacao": "O comando TRUNCATE é ideal quando queremos apagar apenas algumas linhas específicas de uma tabela de forma seletiva usando a cláusula WHERE.",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: O TRUNCATE é uma operação bruta e rápida; ele não perde tempo escolhendo linhas."
+        "dica": "Dica de Ouro: O TRUNCATE é uma operação bruta e rápida; ele não perde tempo escolhendo linhas.",
+        "dicas": [
+          "Dica de Ouro: O TRUNCATE é uma operação bruta e rápida; ele não perde tempo escolhendo linhas.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -381,7 +406,12 @@
           "table_must_not_exist": "galaxias"
         },
         "dica": "Dica de Ouro: O comando é curto e fatal: DROP TABLE seguido do nome da tabela.",
-        "explicacaoTecnica": "O comando DROP TABLE envia uma instrução ao catálogo do PostgreSQL para remover todos os metadados e arquivos de dados associados àquela relação."
+        "explicacaoTecnica": "O comando DROP TABLE envia uma instrução ao catálogo do PostgreSQL para remover todos os metadados e arquivos de dados associados àquela relação.",
+        "dicas": [
+          "Dica de Ouro: O comando é curto e fatal: DROP TABLE seguido do nome da tabela.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

@@ -45,7 +45,7 @@
       "titulo": "Tudo ou Nada: O Poder das Transações",
       "conteudo": {
         "blocos": [
-          "Imagine que você está transferindo créditos de um planeta para outro no **Neon.tech**. Se o sistema subtrair os créditos da conta de origem, mas falhar antes de somar na conta de destino, o dinheiro sumiria no vácuo! Para evitar isso, usamos as **Transações**.",
+          "Imagine que você está transferindo créditos de um planeta para outro no **PostgreSQL**. Se o sistema subtrair os créditos da conta de origem, mas falhar antes de somar na conta de destino, o dinheiro sumiria no vácuo! Para evitar isso, usamos as **Transações**.",
           "Uma transação é um bloco de comandos que o banco de dados trata como uma única unidade. Ou tudo acontece com sucesso, ou nada acontece.",
           {
             "type": "definicao",
@@ -69,7 +69,7 @@
           "titulo": "All or Nothing: The Power of Transactions",
           "conteudo": {
             "blocos": [
-              "Imagine transferring credits between planets in **Neon.tech**. If the system fails halfway, the money vanishes! To prevent this, we use **Transactions**.",
+              "Imagine transferring credits between planets in **PostgreSQL**. If the system fails halfway, the money vanishes! To prevent this, we use **Transactions**.",
               "A transaction is a block of commands treated as a single unit. Either everything succeeds, or nothing happens.",
               "**Space Elevator Analogy:** You enter and press the buttons (**BEGIN**). The elevator only opens the door at the destination if everything is safe (**COMMIT**). If a failure occurs, it returns to the starting floor (**ROLLBACK**). No one gets stuck in the void."
             ]
@@ -79,7 +79,7 @@
           "titulo": "Todo o Nada: El Poder de las Transacciones",
           "conteudo": {
             "blocos": [
-              "Imagina transferir créditos entre planetas en **Neon.tech**. Si el sistema falla a mitad de camino, ¡el dinero desaparece! Para evitar esto, usamos **Transacciones**.",
+              "Imagina transferir créditos entre planetas en **PostgreSQL**. Si el sistema falla a mitad de camino, ¡el dinero desaparece! Para evitar esto, usamos **Transacciones**.",
               "Una transacción es un bloque de comandos que la base de datos trata como una única unidad. O todo sucede con éxito, o nada sucede.",
               "**Analogía del Elevador Espacial:** Entras y pulsas los botones (**BEGIN**). El elevador solo abre la puerta en el destino si todo es seguro (**COMMIT**). Si hay una falla, vuelve al piso inicial (**ROLLBACK**). Nadie se queda atrapado en el vacío."
             ]

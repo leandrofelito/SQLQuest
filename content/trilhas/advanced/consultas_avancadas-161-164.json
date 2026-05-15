@@ -45,7 +45,7 @@
       "titulo": "Subqueries Correlacionadas: Colunas Dinâmicas",
       "conteudo": {
         "blocos": [
-          "Você já usou subqueries para filtrar linhas no WHERE. Agora, vamos elevar o nível: no **Neon.tech**, você pode usar uma subquery dentro do **SELECT** para criar colunas que não existem fisicamente na tabela, calculando dados linha por linha.",
+          "Você já usou subqueries para filtrar linhas no WHERE. Agora, vamos elevar o nível: no **PostgreSQL**, você pode usar uma subquery dentro do **SELECT** para criar colunas que não existem fisicamente na tabela, calculando dados linha por linha.",
           "Quando uma consulta interna utiliza valores da consulta externa para realizar seu cálculo, chamamos isso de **Subquery Correlacionada**. É como se a consulta interna fizesse uma pergunta específica para cada linha que a consulta principal processa.",
           {
             "type": "definicao",
@@ -66,7 +66,7 @@
           "titulo": "Correlated Subqueries: Dynamic Columns",
           "conteudo": {
             "blocos": [
-              "You've used subqueries to filter rows in the WHERE clause. Now, in **Neon.tech**, you can use a subquery inside the **SELECT** to create columns that don't physically exist.",
+              "You've used subqueries to filter rows in the WHERE clause. Now, in **PostgreSQL**, you can use a subquery inside the **SELECT** to create columns that don't physically exist.",
               "When an inner query uses values from the outer query, it's called a **Correlated Subquery**. It's as if the inner query asks a specific question for every row the main query processes.",
               "**Smart Badge Analogy:** Imagine a space station ID badge. Along with your name, it has a digital screen. Every time someone looks at it (each row), the screen queries the database in real-time to show your cafeteria credits."
             ]
@@ -76,7 +76,7 @@
           "titulo": "Subqueries Correlacionadas: Columnas Dinámicas",
           "conteudo": {
             "blocos": [
-              "Ya has usado subqueries para filtrar filas en el WHERE. Ahora, en **Neon.tech**, puedes usar una subquery dentro del **SELECT** para crear columnas que no existen físicamente.",
+              "Ya has usado subqueries para filtrar filas en el WHERE. Ahora, en **PostgreSQL**, puedes usar una subquery dentro del **SELECT** para crear columnas que no existen físicamente.",
               "Cuando una consulta interna utiliza valores de la consulta externa, la llamamos **Subquery Correlacionada**. Es como si la consulta interna hiciera una pregunta específica para cada fila.",
               "**Analogía del Carnet Inteligente:** Imagina un carnet de identificación espacial. Además de tu nombre, tiene una pantalla digital. Cada vez que alguien mira el carnet (cada fila), la pantalla consulta la base de datos en tiempo real para mostrar tus créditos de comedor."
             ]

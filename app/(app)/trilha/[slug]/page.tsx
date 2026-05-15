@@ -144,6 +144,8 @@ export default function TrilhaPage() {
     )
   }
 
+  const proximaEtapa = trilha.etapas.find(etapa => !etapa.concluida)
+
   return (
     <div className="min-h-screen bg-[#080a0f] pb-8">
       <Header showBack backHref="/home" title={trilha.titulo} />
@@ -166,6 +168,15 @@ export default function TrilhaPage() {
           <div className="max-w-xs mx-auto">
             <Progress value={trilha.percentualConcluido} showLabel />
           </div>
+          {proximaEtapa && (
+            <button
+              type="button"
+              onClick={() => router.push(`/trilha/${slug}/etapa/${proximaEtapa.id}`)}
+              className="mx-auto mt-2 flex w-full max-w-xs items-center justify-center rounded-2xl bg-[#8b5cf6] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#7c3aed]"
+            >
+              {trilha.etapasConcluidas > 0 ? 'Continuar de onde parei' : 'Começar primeira etapa'}
+            </button>
+          )}
         </div>
 
         {trilha.percentualConcluido === 100 && (

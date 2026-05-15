@@ -45,7 +45,7 @@
       "titulo": "O Grande Exame do Arquiteto",
       "conteudo": {
         "blocos": [
-          "Parabéns, Comandante! Você percorreu um caminho incrível. Desde as primeiras consultas simples com `SELECT` até a construção de arquiteturas complexas envolvendo transações seguras, subqueries inteligentes e índices de alta performance no **Neon.tech**.",
+          "Parabéns, Comandante! Você percorreu um caminho incrível. Desde as primeiras consultas simples com `SELECT` até a construção de arquiteturas complexas envolvendo transações seguras, subqueries inteligentes e índices de alta performance no **PostgreSQL**.",
           "Nesta jornada, você aprendeu que os dados não são apenas informações soltas; eles são a estrutura que mantém a galaxia organizada. Você aprendeu a criar (CREATE), ler (SELECT), atualizar (UPDATE) e deletar (DELETE) com responsabilidade e precisão.",
           "**Analogia Final:** Você não é mais apenas alguém que lê o mapa. Agora, você é o **Comandante da Central de Dados**. Você constrói as rotas (Joins), protege as cargas (Transactions) e garante que as comunicações cheguem na velocidade da luz (Indexes). A galaxia dos dados agora obedece aos seus comandos.",
           "Antes de receber seu selo final de mestre, vamos ao desafio derradeiro para testar sua visão sistêmica.",

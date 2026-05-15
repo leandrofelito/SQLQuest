@@ -133,7 +133,8 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
       )}
 
       {/* Certificado visual */}
-      <div id="certificado-card" className="bg-gradient-to-br from-[#161820] to-[#0a0c12] p-6 space-y-4">
+      <div id="certificado-card" className="relative bg-gradient-to-br from-[#161820] to-[#0a0c12] p-6 space-y-4">
+        <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[#8b5cf6] via-[#a78bfa] to-[#facc15]" />
         {/* Grid decorativo */}
         <div className="absolute inset-0 opacity-5 pointer-events-none"
           style={{
@@ -145,7 +146,7 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
             <span className="text-[#a78bfa] font-bold text-sm">SQLQuest</span>
-            <span className="text-white/30 text-xs">CERTIFICADO DE CONCLUSÃO</span>
+            <span className="text-white/30 text-xs">CERTIFICADO</span>
           </div>
 
           <div className="border-t border-[#8b5cf6]/20 pt-4 space-y-2">
@@ -164,6 +165,11 @@ export function CardCertificado({ certificado, userName, isPro }: CardCertificad
               <p className="text-white/30 text-[10px]">Código</p>
               <p className="text-white/70 text-xs font-mono">{certificado.hash.substring(0, 12).toUpperCase()}</p>
             </div>
+          </div>
+          <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2">
+            <p className="text-white/35 text-[10px] leading-relaxed">
+              Link público verificável para compartilhar no currículo ou LinkedIn.
+            </p>
           </div>
         </div>
       </div>

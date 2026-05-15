@@ -169,7 +169,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 1
-        }
+        },
+        "dicas": [
+          "A CTE (com WITH) define uma tabela temporária nomeada. Dentro dela, calcule o total de vendas por vendedor. Na query principal, consulte essa CTE como se fosse uma tabela e filtre por quem ultrapassou o limite.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -251,7 +256,12 @@
             "Total"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "Defina a CTE calculando o total de pedidos agrupado por ClienteID. Na query principal, faça JOIN dessa CTE com a tabela Clientes pelo mesmo ID para trazer o nome. A CTE sozinha não tem o nome — precisa do JOIN.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -357,7 +367,12 @@
             "Total"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "Com duas CTEs separadas por vírgula: a primeira agrega os pedidos por cliente, a segunda filtra os que passaram do limite. A query final une o resultado com Clientes para trazer o nome.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -390,7 +405,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 2
-        }
+        },
+        "dicas": [
+          "Crie a CTE calculando a média salarial por departamento com um alias (AS Media). Na query externa, você pode filtrar pelo alias da CTE diretamente no WHERE — isso não seria possível em um SELECT normal sem CTE ou subquery.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -417,7 +437,7 @@
       "titulo": "Empilhamento de Dados: UNION e UNION ALL",
       "conteudo": {
         "blocos": [
-          "Até agora, você usou o JOIN para unir tabelas 'lado a lado' (horizontalmente). No **Neon.tech**, às vezes precisamos unir tabelas 'uma em cima da outra' (verticalmente). Para isso, usamos os operadores de conjunto: **UNION** e **UNION ALL**.",
+          "Até agora, você usou o JOIN para unir tabelas 'lado a lado' (horizontalmente). No **PostgreSQL**, às vezes precisamos unir tabelas 'uma em cima da outra' (verticalmente). Para isso, usamos os operadores de conjunto: **UNION** e **UNION ALL**.",
           "O **UNION** combina o resultado de dois SELECTs em uma única lista e remove automaticamente as linhas duplicadas. Se um nome aparece nas duas tabelas, ele será exibido apenas uma vez.",
           "O **UNION ALL** faz o mesmo empilhamento, mas **mantém todas as linhas**, mesmo as repetidas. Como o banco de dados não precisa gastar tempo procurando duplicatas, o UNION ALL é consideravelmente mais rápido.",
           {
@@ -438,7 +458,7 @@
           "titulo": "Stacking Data: UNION and UNION ALL",
           "conteudo": {
             "blocos": [
-              "So far, you've used JOIN to merge tables 'side by side'. In **Neon.tech**, sometimes we need to merge tables 'one on top of the other'. For this, we use **UNION** and **UNION ALL**.",
+              "So far, you've used JOIN to merge tables 'side by side'. In **PostgreSQL**, sometimes we need to merge tables 'one on top of the other'. For this, we use **UNION** and **UNION ALL**.",
               "**UNION** combines results and removes duplicates. **UNION ALL** keeps everything, including repeats, making it faster.",
               "**Guest List Analogy:** UNION is the consolidated list with duplicate names removed. UNION ALL is just stapling the sheets together without checking for repeats."
             ]
@@ -448,7 +468,7 @@
           "titulo": "Apilamiento de Datos: UNION y UNION ALL",
           "conteudo": {
             "blocos": [
-              "Hasta ahora, has usado JOIN para unir tablas 'lado a lado'. En **Neon.tech**, a veces necesitamos unir tablas 'una encima de otra'. Para esto, usamos **UNION** y **UNION ALL**.",
+              "Hasta ahora, has usado JOIN para unir tablas 'lado a lado'. En **PostgreSQL**, a veces necesitamos unir tablas 'una encima de otra'. Para esto, usamos **UNION** y **UNION ALL**.",
               "**UNION** combina los resultados y elimina los duplicados. **UNION ALL** mantiene todo, incluso las repeticiones, lo que lo hace más rápido.",
               "**Analogía de las Listas de Invitados:** UNION es la lista final consolidada sin nombres repetidos. UNION ALL es simplemente grapar las hojas sin revisar si alguien fue invitado dos veces."
             ]
@@ -473,7 +493,12 @@
           "INTERSECT"
         ],
         "indiceCorreto": 0,
-        "dica": "Esse operador garante que cada linha do resultado final seja única."
+        "dica": "Esse operador garante que cada linha do resultado final seja única.",
+        "dicas": [
+          "Esse operador garante que cada linha do resultado final seja única.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -520,7 +545,12 @@
         "instrucao": "Sobre as restrições técnicas dos operadores de conjunto:",
         "afirmacao": "Para usar o operador UNION, as tabelas ou SELECTs envolvidos não precisam ter o mesmo número de colunas, desde que os nomes das tabelas sejam diferentes.",
         "respostaCorreta": false,
-        "dica": "O SQL exige que a 'largura' de cada resultado seja exatamente a mesma para poder empilhá-los."
+        "dica": "O SQL exige que a 'largura' de cada resultado seja exatamente a mesma para poder empilhá-los.",
+        "dicas": [
+          "O SQL exige que a 'largura' de cada resultado seja exatamente a mesma para poder empilhá-los.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -564,7 +594,12 @@
           "set_operator": "UNION"
         },
         "dica": "Escreva o primeiro SELECT, coloque UNION e depois escreva o segundo SELECT.",
-        "explicacaoTecnica": "O operador UNION executa um plano de classificação (sort) ou hash para identificar e eliminar linhas idênticas entre os conjuntos de resultados."
+        "explicacaoTecnica": "O operador UNION executa um plano de classificação (sort) ou hash para identificar e eliminar linhas idênticas entre os conjuntos de resultados.",
+        "dicas": [
+          "Escreva o primeiro SELECT, coloque UNION e depois escreva o segundo SELECT.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -591,7 +626,7 @@
       "titulo": "Filtragem de Conjuntos: INTERSECT e EXCEPT",
       "conteudo": {
         "blocos": [
-          "Agora que você já sabe como somar listas com o UNION, é hora de aprender a comparar e subtrair resultados no **Neon.tech**. Para isso, usamos o **INTERSECT** e o **EXCEPT**.",
+          "Agora que você já sabe como somar listas com o UNION, é hora de aprender a comparar e subtrair resultados no **PostgreSQL**. Para isso, usamos o **INTERSECT** e o **EXCEPT**.",
           "O **INTERSECT** funciona como um filtro de confirmação: ele retorna apenas os registros que aparecem em **ambos** os SELECTs. Se um dado está na Lista A mas não está na Lista B, ele é descartado.",
           "O **EXCEPT** funciona como uma subtração de conjuntos. Ele retorna tudo o que está no primeiro SELECT, mas remove qualquer coisa que também apareça no segundo SELECT. É a forma perfeita de encontrar 'o que falta' ou 'o que é exclusivo'.",
           "**Analogia do Radar de Naves:** Imagine dois radares em bases diferentes. O **INTERSECT** mostra apenas as naves detectadas tanto pela Base A quanto pela Base B ao mesmo tempo (uma confirmação dupla de alvo). O **EXCEPT** (Base A EXCEPT Base B) mostra as naves que apenas a Base A detectou, mas a Base B não — o que pode indicar uma falha no segundo radar ou um invasor vindo de um ângulo específico.",
@@ -608,7 +643,7 @@
           "titulo": "Set Filtering: INTERSECT and EXCEPT",
           "conteudo": {
             "blocos": [
-              "After learning to add lists with UNION, it's time to learn how to compare and subtract results in **Neon.tech** using **INTERSECT** and **EXCEPT**.",
+              "After learning to add lists with UNION, it's time to learn how to compare and subtract results in **PostgreSQL** using **INTERSECT** and **EXCEPT**.",
               "**INTERSECT** acts as a confirmation filter: it only returns records that appear in **both** SELECTs.",
               "**EXCEPT** acts as a set subtraction. It returns everything from the first SELECT, minus anything that also appears in the second one.",
               "**Ship Radar Analogy:** INTERSECT shows ships detected by both radars (double confirmation). EXCEPT shows ships that only Radar A detected, helping to find exclusives or discrepancies."
@@ -619,7 +654,7 @@
           "titulo": "Filtrado de Conjuntos: INTERSECT y EXCEPT",
           "conteudo": {
             "blocos": [
-              "Después de aprender a sumar listas con UNION, es hora de aprender a comparar y restar resultados en **Neon.tech** usando **INTERSECT** y **EXCEPT**.",
+              "Después de aprender a sumar listas con UNION, es hora de aprender a comparar y restar resultados en **PostgreSQL** usando **INTERSECT** y **EXCEPT**.",
               "**INTERSECT** funciona como un filtro de confirmación: solo devuelve los registros que aparecen en **ambos** SELECTs.",
               "**EXCEPT** funciona como una resta de conjuntos. Devuelve todo lo del primer SELECT, menos cualquier cosa que también aparezca en el segundo.",
               "**Analogía del Radar de Naves:** INTERSECT muestra naves detectadas por ambos radares (confirmación doble). EXCEPT muestra naves que solo el Radar A detectó, ayudando a encontrar exclusividades."
@@ -645,7 +680,12 @@
           "JOIN"
         ],
         "indiceCorreto": 1,
-        "dica": "O nome do operador é a tradução direta de 'interseção' para o inglês."
+        "dica": "O nome do operador é a tradução direta de 'interseção' para o inglês.",
+        "dicas": [
+          "O nome do operador é a tradução direta de 'interseção' para o inglês.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -692,7 +732,12 @@
         "instrucao": "Sobre a lógica da subtração de conjuntos:",
         "afirmacao": "Ao usar o operador EXCEPT, a ordem das tabelas não importa; o comando 'A EXCEPT B' sempre retornará o mesmo resultado que 'B EXCEPT A'.",
         "respostaCorreta": false,
-        "dica": "Pense no EXCEPT como uma conta de menos (-). Mudar quem vem primeiro muda o que sobra."
+        "dica": "Pense no EXCEPT como uma conta de menos (-). Mudar quem vem primeiro muda o que sobra.",
+        "dicas": [
+          "Pense no EXCEPT como uma conta de menos (-). Mudar quem vem primeiro muda o que sobra.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -736,7 +781,12 @@
           "set_operator": "INTERSECT"
         },
         "dica": "O comando deve buscar o que é comum entre os dois SELECTs usando INTERSECT.",
-        "explicacaoTecnica": "O INTERSECT compara os dois conjuntos de resultados e mantém apenas os valores que possuem uma correspondência exata em ambos."
+        "explicacaoTecnica": "O INTERSECT compara os dois conjuntos de resultados e mantém apenas os valores que possuem uma correspondência exata em ambos.",
+        "dicas": [
+          "O comando deve buscar o que é comum entre os dois SELECTs usando INTERSECT.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

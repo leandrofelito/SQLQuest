@@ -51,7 +51,7 @@
       "titulo": "Regras Inteligentes: UNIQUE e DEFAULT",
       "conteudo": {
         "blocos": [
-          "Agora que você já sabe construir a estrutura básica, é hora de dar 'cérebro' às suas colunas. No **Neon.tech**, um bom Arquiteto automatiza processos e protege os dados contra duplicidade usando regras inteligentes chamadas Constraints.",
+          "Agora que você já sabe construir a estrutura básica, é hora de dar 'cérebro' às suas colunas. No **PostgreSQL**, um bom Arquiteto automatiza processos e protege os dados contra duplicidade usando regras inteligentes chamadas Constraints.",
           "A restrição **UNIQUE** garante que nenhum valor se repita naquela coluna. É a forma perfeita de garantir que não existam dois planetas com o mesmo nome ou dois usuários com o mesmo e-mail no seu sistema.",
           "Já o **DEFAULT** é o valor de 'preenchimento automático'. Se o usuário estiver com pressa e esquecer de informar um dado (como o clima de um planeta), o banco de dados não gera um erro; ele assume um valor padrão definido por você.",
           {
@@ -72,7 +72,7 @@
           "titulo": "Smart Rules: UNIQUE and DEFAULT",
           "conteudo": {
             "blocos": [
-              "Now that you know how to build basic structures, it's time to give your columns some 'brains'. In **Neon.tech**, a good Architect automates processes and protects data from duplication.",
+              "Now that you know how to build basic structures, it's time to give your columns some 'brains'. In **PostgreSQL**, a good Architect automates processes and protects data from duplication.",
               "The **UNIQUE** constraint ensures that no value is repeated in that column. It's the perfect way to ensure no two planets have the same name.",
               "**DEFAULT** is the 'autofill' value. If a user forgets to provide data, the database doesn't crash; it assumes a default value defined by you."
             ]
@@ -82,7 +82,7 @@
           "titulo": "Reglas Inteligentes: UNIQUE y DEFAULT",
           "conteudo": {
             "blocos": [
-              "Ahora que ya sabes construir la estructura básica, es hora de darles 'cerebro' a tus columnas. En **Neon.tech**, un buen Arquitecto automatiza procesos y protege los datos contra la duplicidad.",
+              "Ahora que ya sabes construir la estructura básica, es hora de darles 'cerebro' a tus columnas. En **PostgreSQL**, un buen Arquitecto automatiza procesos y protege los datos contra la duplicidad.",
               "La restricción **UNIQUE** garantiza que ningún valor se repita en esa columna. Es la forma perfecta de asegurar que no existan dos planetas con el mismo nombre.",
               "**DEFAULT** es el valor de 'autocompletado'. Si el usuario olvida informar un dato, la base de datos no genera un error; asume un valor por defecto definido por ti."
             ]
@@ -107,7 +107,12 @@
           "DEFAULT"
         ],
         "indiceCorreto": 2,
-        "dica": "Dica de Ouro: Pense em algo que deve ser 'único' e exclusivo para cada registro."
+        "dica": "Dica de Ouro: Pense em algo que deve ser 'único' e exclusivo para cada registro.",
+        "dicas": [
+          "Dica de Ouro: Pense em algo que deve ser 'único' e exclusivo para cada registro.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -154,7 +159,12 @@
         "instrucao": "Sobre o comportamento da regra de valor padrão:",
         "afirmacao": "Ao usar a constraint DEFAULT, o banco de dados gera um erro crítico de inserção se o usuário não fornecer um valor para aquela coluna específica durante o comando INSERT.",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: O DEFAULT é um facilitador, não um bloqueador; ele entra em cena justamente para evitar o erro."
+        "dica": "Dica de Ouro: O DEFAULT é um facilitador, não um bloqueador; ele entra em cena justamente para evitar o erro.",
+        "dicas": [
+          "Dica de Ouro: O DEFAULT é um facilitador, não um bloqueador; ele entra em cena justamente para evitar o erro.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -202,7 +212,12 @@
           }
         },
         "dica": "Dica de Ouro: A sintaxe é simples: nome_coluna tipo_dado UNIQUE.",
-        "explicacaoTecnica": "A restrição UNIQUE cria um índice interno no PostgreSQL para validar rapidamente se o novo valor já existe antes de permitir a gravação."
+        "explicacaoTecnica": "A restrição UNIQUE cria um índice interno no PostgreSQL para validar rapidamente se o novo valor já existe antes de permitir a gravação.",
+        "dicas": [
+          "Dica de Ouro: A sintaxe é simples: nome_coluna tipo_dado UNIQUE.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -229,7 +244,7 @@
       "titulo": "Validação de Elite: NOT NULL e CHECK",
       "conteudo": {
         "blocos": [
-          "Como Arquiteto de Dados no **Neon.tech**, sua missão é garantir que o banco de dados não aceite 'lixo'. Se um dado não faz sentido para o negócio, ele não deve ser gravado. Para isso, usamos filtros de entrada potentes.",
+          "Como Arquiteto de Dados no **PostgreSQL**, sua missão é garantir que o banco de dados não aceite 'lixo'. Se um dado não faz sentido para o negócio, ele não deve ser gravado. Para isso, usamos filtros de entrada potentes.",
           "A restrição **NOT NULL** é a lei do preenchimento obrigatório. Ela impede que um registro seja criado se o campo estiver vazio. É o fim dos registros incompletos que quebram relatórios.",
           "O **CHECK** é a sua regra personalizada. Ele permite criar condições lógicas e matemáticas que o dado deve obedecer para ser aceito. Por exemplo: um preço não pode ser negativo, ou um estoque não pode ser menor que zero.",
           {
@@ -285,7 +300,12 @@
           "PRIMARY KEY"
         ],
         "indiceCorreto": 1,
-        "dica": "Dica de Ouro: O nome traduz-se literalmente como 'Não Nulo', ou seja, nada de vácuo aqui."
+        "dica": "Dica de Ouro: O nome traduz-se literalmente como 'Não Nulo', ou seja, nada de vácuo aqui.",
+        "dicas": [
+          "Dica de Ouro: O nome traduz-se literalmente como 'Não Nulo', ou seja, nada de vácuo aqui.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -332,7 +352,12 @@
         "instrucao": "Sobre a validação de regras personalizadas:",
         "afirmacao": "A restrição CHECK permite definir uma regra lógica ou matemática para que o banco de dados rejeite automaticamente valores que não façam sentido para o negócio.",
         "respostaCorreta": true,
-        "dica": "Dica de Ouro: O CHECK é como um segurança que só deixa entrar quem cumpre os requisitos matemáticos."
+        "dica": "Dica de Ouro: O CHECK é como um segurança que só deixa entrar quem cumpre os requisitos matemáticos.",
+        "dicas": [
+          "Dica de Ouro: O CHECK é como um segurança que só deixa entrar quem cumpre os requisitos matemáticos.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -383,7 +408,12 @@
           }
         },
         "dica": "Dica de Ouro: Você pode encadear restrições: valor NUMERIC NOT NULL CHECK (valor > 0).",
-        "explicacaoTecnica": "Ao combinar NOT NULL e CHECK, você cria uma barreira dupla: o dado deve existir e deve ser matematicamente válido."
+        "explicacaoTecnica": "Ao combinar NOT NULL e CHECK, você cria uma barreira dupla: o dado deve existir e deve ser matematicamente válido.",
+        "dicas": [
+          "Dica de Ouro: Você pode encadear restrições: valor NUMERIC NOT NULL CHECK (valor > 0).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -410,7 +440,7 @@
       "titulo": "Conexões Seguras: FOREIGN KEY",
       "conteudo": {
         "blocos": [
-          "Você já sabe validar dados dentro de uma tabela. Agora, como Arquiteto no **Neon.tech**, você aprenderá a conectar tabelas de forma que elas nunca percam o sentido entre si. O comando para isso é a **FOREIGN KEY** (Chave Estrangeira).",
+          "Você já sabe validar dados dentro de uma tabela. Agora, como Arquiteto no **PostgreSQL**, você aprenderá a conectar tabelas de forma que elas nunca percam o sentido entre si. O comando para isso é a **FOREIGN KEY** (Chave Estrangeira).",
           "A FOREIGN KEY é a âncora que garante a **Integridade Referencial**. Ela impede que você crie um registro em uma tabela 'filha' que aponte para um registro inexistente na tabela 'pai'.",
           {
             "type": "definicao",
@@ -466,7 +496,12 @@
           "DEFAULT VALUE"
         ],
         "indiceCorreto": 1,
-        "dica": "Dica de Ouro: Pense em uma chave que vem de 'fora' (estrangeira) para criar um vínculo."
+        "dica": "Dica de Ouro: Pense em uma chave que vem de 'fora' (estrangeira) para criar um vínculo.",
+        "dicas": [
+          "Dica de Ouro: Pense em uma chave que vem de 'fora' (estrangeira) para criar um vínculo.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -513,7 +548,12 @@
         "instrucao": "Sobre a hierarquia de dados:",
         "afirmacao": "Uma Chave Estrangeira (FOREIGN KEY) permite que você cadastre livremente um registro 'filho' sem que o registro 'pai' correspondente exista na tabela de referência, visando flexibilidade.",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: A regra serve justamente para impedir 'órfãos' no banco de dados."
+        "dica": "Dica de Ouro: A regra serve justamente para impedir 'órfãos' no banco de dados.",
+        "dicas": [
+          "Dica de Ouro: A regra serve justamente para impedir 'órfãos' no banco de dados.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -565,7 +605,12 @@
           ]
         },
         "dica": "Dica de Ouro: A sintaxe curta é: nome_coluna tipo REFERENCES tabela_pai(coluna_pai).",
-        "explicacaoTecnica": "A cláusula REFERENCES cria um vínculo de integridade no Neon.tech, impedindo a inserção de missões em planetas fantasmas."
+        "explicacaoTecnica": "A cláusula REFERENCES cria um vínculo de integridade no PostgreSQL, impedindo a inserção de missões em planetas fantasmas.",
+        "dicas": [
+          "Dica de Ouro: A sintaxe curta é: nome_coluna tipo REFERENCES tabela_pai(coluna_pai).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

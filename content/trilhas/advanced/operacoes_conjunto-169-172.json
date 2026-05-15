@@ -45,7 +45,7 @@
       "titulo": "Filtragem de Conjuntos: INTERSECT e EXCEPT",
       "conteudo": {
         "blocos": [
-          "Agora que você já sabe como somar listas com o UNION, é hora de aprender a comparar e subtrair resultados no **Neon.tech**. Para isso, usamos o **INTERSECT** e o **EXCEPT**.",
+          "Agora que você já sabe como somar listas com o UNION, é hora de aprender a comparar e subtrair resultados no **PostgreSQL**. Para isso, usamos o **INTERSECT** e o **EXCEPT**.",
           "O **INTERSECT** funciona como um filtro de confirmação: ele retorna apenas os registros que aparecem em **ambos** os SELECTs. Se um dado está na Lista A mas não está na Lista B, ele é descartado.",
           "O **EXCEPT** funciona como uma subtração de conjuntos. Ele retorna tudo o que está no primeiro SELECT, mas remove qualquer coisa que também apareça no segundo SELECT. É a forma perfeita de encontrar 'o que falta' ou 'o que é exclusivo'.",
           "**Analogia do Radar de Naves:** Imagine dois radares em bases diferentes. O **INTERSECT** mostra apenas as naves detectadas tanto pela Base A quanto pela Base B ao mesmo tempo (uma confirmação dupla de alvo). O **EXCEPT** (Base A EXCEPT Base B) mostra as naves que apenas a Base A detectou, mas a Base B não — o que pode indicar uma falha no segundo radar ou um invasor vindo de um ângulo específico.",
@@ -62,7 +62,7 @@
           "titulo": "Set Filtering: INTERSECT and EXCEPT",
           "conteudo": {
             "blocos": [
-              "After learning to add lists with UNION, it's time to learn how to compare and subtract results in **Neon.tech** using **INTERSECT** and **EXCEPT**.",
+              "After learning to add lists with UNION, it's time to learn how to compare and subtract results in **PostgreSQL** using **INTERSECT** and **EXCEPT**.",
               "**INTERSECT** acts as a confirmation filter: it only returns records that appear in **both** SELECTs.",
               "**EXCEPT** acts as a set subtraction. It returns everything from the first SELECT, minus anything that also appears in the second one.",
               "**Ship Radar Analogy:** INTERSECT shows ships detected by both radars (double confirmation). EXCEPT shows ships that only Radar A detected, helping to find exclusives or discrepancies."
@@ -73,7 +73,7 @@
           "titulo": "Filtrado de Conjuntos: INTERSECT y EXCEPT",
           "conteudo": {
             "blocos": [
-              "Después de aprender a sumar listas con UNION, es hora de aprender a comparar y restar resultados en **Neon.tech** usando **INTERSECT** y **EXCEPT**.",
+              "Después de aprender a sumar listas con UNION, es hora de aprender a comparar y restar resultados en **PostgreSQL** usando **INTERSECT** y **EXCEPT**.",
               "**INTERSECT** funciona como un filtro de confirmación: solo devuelve los registros que aparecen en **ambos** SELECTs.",
               "**EXCEPT** funciona como una resta de conjuntos. Devuelve todo lo del primer SELECT, menos cualquier cosa que también aparezca en el segundo.",
               "**Analogía del Radar de Naves:** INTERSECT muestra naves detectadas por ambos radares (confirmación doble). EXCEPT muestra naves que solo el Radar A detectó, ayudando a encontrar exclusividades."

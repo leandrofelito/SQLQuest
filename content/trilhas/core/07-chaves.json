@@ -178,7 +178,12 @@
             "Valor"
           ],
           "min_rows": 4
-        }
+        },
+        "dicas": [
+          "Você parte da tabela Pedidos e precisa trazer o nome do cliente. Qual coluna aparece nas duas tabelas e serve como elo de ligação? Use ela no ON para conectar Pedidos com Clientes.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -337,7 +342,12 @@
             "TotalPedidos"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "Após unir as tabelas com JOIN, você vai contar os pedidos de cada cliente. Para isso, agrupe pelos dados do cliente e use uma função de contagem. Lembre que toda coluna não-agregada no SELECT deve aparecer no GROUP BY.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -487,7 +497,12 @@
             "NomeDepartamento"
           ],
           "min_rows": 5
-        }
+        },
+        "dicas": [
+          "Para obter o nome do departamento de cada funcionário, você precisa unir duas tabelas. Qual coluna aparece em Funcionarios que corresponde à chave primária de Departamentos?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

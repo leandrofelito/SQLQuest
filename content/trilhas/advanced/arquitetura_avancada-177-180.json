@@ -45,7 +45,7 @@
       "titulo": "Views: Tabelas Virtuais e Atalhos",
       "conteudo": {
         "blocos": [
-          "Você já criou queries gigantescas com múltiplos JOINS e agregações. Mas e se você precisasse rodar essa mesma consulta todos os dias no **Neon.tech**? Em vez de digitar tudo de novo, você pode criar uma **VIEW**.",
+          "Você já criou queries gigantescas com múltiplos JOINS e agregações. Mas e se você precisasse rodar essa mesma consulta todos os dias no **PostgreSQL**? Em vez de digitar tudo de novo, você pode criar uma **VIEW**.",
           "Uma **VIEW** é uma tabela virtual. Ela não armazena dados no disco; ela armazena apenas a 'receita' (o comando SELECT). Sempre que você consulta uma View, o banco de dados executa a query original por trás dos panos e te entrega o resultado fresco.",
           {
             "type": "definicao",
@@ -66,7 +66,7 @@
           "titulo": "Views: Virtual Tables and Shortcuts",
           "conteudo": {
             "blocos": [
-              "You've built giant queries with multiple JOINS. But what if you needed to run that same query every day in **Neon.tech**? Instead of typing it all again, you can create a **VIEW**.",
+              "You've built giant queries with multiple JOINS. But what if you needed to run that same query every day in **PostgreSQL**? Instead of typing it all again, you can create a **VIEW**.",
               "A **VIEW** is a virtual table. It doesn't store data on disk; it only stores the 'recipe' (the SELECT command).",
               "**Photo Filter Analogy:** Think of an Instagram Filter. The original photo (real data) remains intact. The View is like a filter you apply to see the image in a specific way whenever you want."
             ]
@@ -76,7 +76,7 @@
           "titulo": "Views: Tablas Virtuales y Accesos Directos",
           "conteudo": {
             "blocos": [
-              "Ya has creado consultas gigantescas. ¿Pero qué pasa si necesitas ejecutar esa misma consulta todos los días en **Neon.tech**? En lugar de escribirlo todo de nuevo, puedes crear una **VIEW**.",
+              "Ya has creado consultas gigantescas. ¿Pero qué pasa si necesitas ejecutar esa misma consulta todos los días en **PostgreSQL**? En lugar de escribirlo todo de nuevo, puedes crear una **VIEW**.",
               "Una **VIEW** es una tabla virtual. No almacena datos en el disco; solo almacena la 'receta' (el comando SELECT).",
               "**Analogía del Filtro de Fotos:** Piensa en un Filtro de Instagram. La foto original (datos reales) permanece intacta. La View es como un filtro que aplicas para ver la imagen de una manera específica."
             ]

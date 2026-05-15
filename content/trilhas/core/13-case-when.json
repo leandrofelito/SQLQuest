@@ -181,7 +181,12 @@
             "Faixa"
           ],
           "min_rows": 6
-        }
+        },
+        "dicas": [
+          "CASE funciona como if/elseif/else. Começa com CASE, tem WHEN condição THEN resultado para cada faixa, ELSE para o caso padrão e termina com END. Dê um alias à coluna resultante com AS.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -316,7 +321,12 @@
             "Categoria"
           ],
           "min_rows": 4
-        }
+        },
+        "dicas": [
+          "Você precisa calcular o total gasto por cliente (JOIN + GROUP BY + SUM) e depois classificar esse total. O CASE WHEN fica no SELECT, avaliando o resultado do SUM. A ordem: join → agrupa por cliente → classifica o total.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -354,7 +364,12 @@
             "PedidosPendentes"
           ],
           "min_rows": 1
-        }
+        },
+        "dicas": [
+          "Para contar condicionalmente, coloque o CASE WHEN dentro do SUM: some 1 quando a condição é verdadeira, 0 caso contrário. Repita essa estrutura para cada status — uma coluna por tipo de contagem.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

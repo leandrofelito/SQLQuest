@@ -132,7 +132,12 @@
           "min_rows": 3
         },
         "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
-        "explicacaoTecnica": "No PostgreSQL, `WHERE UPPER(cidade) = 'SÃO PAULO'` impede o uso do índice em `cidade` — o banco força um **Sequential Scan** em toda a tabela (custo O(n)). Com `WHERE cidade = 'São Paulo'`, o planner usa um **Index Scan** (custo O(log n)). Adicionar `INCLUDE (nome, email)` ao índice transforma isso em um **Index-Only Scan** — sem nem tocar a tabela. Isso é visível em `EXPLAIN ANALYZE` pela linha `Index Only Scan using idx_clientes_cidade...`."
+        "explicacaoTecnica": "No PostgreSQL, `WHERE UPPER(cidade) = 'SÃO PAULO'` impede o uso do índice em `cidade` — o banco força um **Sequential Scan** em toda a tabela (custo O(n)). Com `WHERE cidade = 'São Paulo'`, o planner usa um **Index Scan** (custo O(log n)). Adicionar `INCLUDE (nome, email)` ao índice transforma isso em um **Index-Only Scan** — sem nem tocar a tabela. Isso é visível em `EXPLAIN ANALYZE` pela linha `Index Only Scan using idx_clientes_cidade...`.",
+        "dicas": [
+          "SARGable significa que o predicado respeita o índice. Regra: nunca aplique funções sobre a coluna indexada no WHERE — compare direto com o valor. Quais duas colunas o exercício pede? Selecione só elas, não use SELECT *.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -195,7 +200,12 @@
           "min_rows": 3
         },
         "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
-        "explicacaoTecnica": "Com `SELECT *`, o PostgreSQL vai ao índice para encontrar os IDs dos pedidos entregues, mas depois precisa voltar à tabela (heap) para buscar todas as colunas — chamado de **heap fetch**. Com `CREATE INDEX ON pedidos(status) INCLUDE (produto, valor)`, as colunas ficam dentro do índice. Usando `SELECT produto, valor WHERE status = 'entregue'`, o PostgreSQL executa um **Index-Only Scan** sem tocar a tabela. O `EXPLAIN ANALYZE` mostraria `Heap Fetches: 0`, o que indica performance máxima."
+        "explicacaoTecnica": "Com `SELECT *`, o PostgreSQL vai ao índice para encontrar os IDs dos pedidos entregues, mas depois precisa voltar à tabela (heap) para buscar todas as colunas — chamado de **heap fetch**. Com `CREATE INDEX ON pedidos(status) INCLUDE (produto, valor)`, as colunas ficam dentro do índice. Usando `SELECT produto, valor WHERE status = 'entregue'`, o PostgreSQL executa um **Index-Only Scan** sem tocar a tabela. O `EXPLAIN ANALYZE` mostraria `Heap Fetches: 0`, o que indica performance máxima.",
+        "dicas": [
+          "Para um Index-Only Scan, o SELECT deve projetar apenas colunas que existem no índice. Com SELECT *, o banco precisa buscar na tabela mesmo com o índice. Projete exatamente as colunas pedidas e filtre pelo valor exato do status.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -258,7 +268,12 @@
           "min_rows": 3
         },
         "performanceAviso": "Sua query funcionou, mas em um banco real ela seria lenta. Tente especificar as colunas para ganhar a 3ª estrela!",
-        "explicacaoTecnica": "Sem filtros explícitos, o PostgreSQL pode usar um **Hash Join** que carrega todas as linhas na memória antes de filtrar. Com `WHERE d.nome = 'Engenharia' AND f.salario > 8000`, o **predicate pushdown** reduz o volume antes da junção — o planner pode escolher um **Nested Loop** mais eficiente quando o conjunto já é pequeno. O `EXPLAIN ANALYZE` mostraria `Rows Removed by Filter` muito menor e o custo total cai drasticamente em tabelas reais com milhões de registros."
+        "explicacaoTecnica": "Sem filtros explícitos, o PostgreSQL pode usar um **Hash Join** que carrega todas as linhas na memória antes de filtrar. Com `WHERE d.nome = 'Engenharia' AND f.salario > 8000`, o **predicate pushdown** reduz o volume antes da junção — o planner pode escolher um **Nested Loop** mais eficiente quando o conjunto já é pequeno. O `EXPLAIN ANALYZE` mostraria `Rows Removed by Filter` muito menor e o custo total cai drasticamente em tabelas reais com milhões de registros.",
+        "dicas": [
+          "Coloque AMBOS os filtros no WHERE: um para o nome do departamento e outro para o salário mínimo. O planner usa isso para reduzir o número de linhas antes de processar o JOIN, o que é muito mais eficiente.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -309,7 +324,7 @@
       "titulo": "Velocidade Máxima: O Poder dos Índices",
       "conteudo": {
         "blocos": [
-          "Você já é um mestre em manipular dados. Mas o que acontece quando sua tabela cresce para milhões de linhas? No **Neon.tech**, uma consulta que levava milissegundos pode começar a levar segundos. Para resolver isso, usamos o **INDEX**.",
+          "Você já é um mestre em manipular dados. Mas o que acontece quando sua tabela cresce para milhões de linhas? No **PostgreSQL**, uma consulta que levava milissegundos pode começar a levar segundos. Para resolver isso, usamos o **INDEX**.",
           "Um índice é uma estrutura de dados separada da tabela que funciona como um atalho. Sem ele, o banco realiza um **Sequential Scan** (leitura sequencial), folheando cada linha da tabela para encontrar o que você pediu. Com o índice, ele vai direto ao endereço físico do dado.",
           {
             "type": "definicao",
@@ -365,7 +380,12 @@
           "Apagar automaticamente registros antigos para liberar espaço."
         ],
         "indiceCorreto": 1,
-        "dica": "O índice é como um sumário; ele serve para te levar ao destino mais rápido."
+        "dica": "O índice é como um sumário; ele serve para te levar ao destino mais rápido.",
+        "dicas": [
+          "O índice é como um sumário; ele serve para te levar ao destino mais rápido.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -412,7 +432,12 @@
         "instrucao": "Sobre a manutenção de índices:",
         "afirmacao": "Quanto mais índices eu criar em uma única tabela, mais rápidos e eficientes serão os comandos de escrita, como INSERT e DELETE.",
         "respostaCorreta": false,
-        "dica": "Imagine ter que atualizar 50 sumários diferentes toda vez que você escreve uma página nova no livro."
+        "dica": "Imagine ter que atualizar 50 sumários diferentes toda vez que você escreve uma página nova no livro.",
+        "dicas": [
+          "Imagine ter que atualizar 50 sumários diferentes toda vez que você escreve uma página nova no livro.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -455,7 +480,12 @@
           "column": "nome"
         },
         "dica": "A sintaxe é CREATE INDEX nome_do_indice ON nome_da_tabela(coluna).",
-        "explicacaoTecnica": "Ao criar este índice, o PostgreSQL constrói uma árvore B-Tree que mapeia os nomes dos planetas aos seus endereços físicos, evitando varreduras completas da tabela."
+        "explicacaoTecnica": "Ao criar este índice, o PostgreSQL constrói uma árvore B-Tree que mapeia os nomes dos planetas aos seus endereços físicos, evitando varreduras completas da tabela.",
+        "dicas": [
+          "A sintaxe é CREATE INDEX nome_do_indice ON nome_da_tabela(coluna).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -482,7 +512,7 @@
       "titulo": "O Grande Exame do Arquiteto",
       "conteudo": {
         "blocos": [
-          "Parabéns, Comandante! Você percorreu um caminho incrível. Desde as primeiras consultas simples com `SELECT` até a construção de arquiteturas complexas envolvendo transações seguras, subqueries inteligentes e índices de alta performance no **Neon.tech**.",
+          "Parabéns, Comandante! Você percorreu um caminho incrível. Desde as primeiras consultas simples com `SELECT` até a construção de arquiteturas complexas envolvendo transações seguras, subqueries inteligentes e índices de alta performance no **PostgreSQL**.",
           "Nesta jornada, você aprendeu que os dados não são apenas informações soltas; eles são a estrutura que mantém a galaxia organizada. Você aprendeu a criar (CREATE), ler (SELECT), atualizar (UPDATE) e deletar (DELETE) com responsabilidade e precisão.",
           "**Analogia Final:** Você não é mais apenas alguém que lê o mapa. Agora, você é o **Comandante da Central de Dados**. Você constrói as rotas (Joins), protege as cargas (Transactions) e garante que as comunicações cheguem na velocidade da luz (Indexes). A galaxia dos dados agora obedece aos seus comandos.",
           "Antes de receber seu selo final de mestre, vamos ao desafio derradeiro para testar sua visão sistêmica.",
@@ -531,7 +561,12 @@
           "BEGIN -> Operações -> ROLLBACK"
         ],
         "indiceCorreto": 1,
-        "dica": "O bloco deve ser aberto com segurança e fechado com a confirmação definitiva."
+        "dica": "O bloco deve ser aberto com segurança e fechado com a confirmação definitiva.",
+        "dicas": [
+          "O bloco deve ser aberto com segurança e fechado com a confirmação definitiva.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -578,7 +613,12 @@
         "instrucao": "Sobre a otimização de performance:",
         "afirmacao": "Índices devem ser criados em todas as colunas de todas as tabelas para garantir que o banco de dados seja o mais rápido possível em qualquer situação de consulta.",
         "respostaCorreta": false,
-        "dica": "Lembre-se que cada índice novo torna o ato de escrever (INSERT) mais pesado para o sistema."
+        "dica": "Lembre-se que cada índice novo torna o ato de escrever (INSERT) mais pesado para o sistema.",
+        "dicas": [
+          "Lembre-se que cada índice novo torna o ato de escrever (INSERT) mais pesado para o sistema.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -625,7 +665,12 @@
           "has_having": true
         },
         "dica": "Use SELECT planetas.nome, COUNT(naves.id) AS total_naves... JOIN naves ON... GROUP BY planetas.nome HAVING COUNT(naves.id) > 2;",
-        "explicacaoTecnica": "Este comando demonstra a maestria em DQL: filtragem lateral (JOIN), agregação (COUNT), segmentação (GROUP BY) e filtragem de grupo (HAVING)."
+        "explicacaoTecnica": "Este comando demonstra a maestria em DQL: filtragem lateral (JOIN), agregação (COUNT), segmentação (GROUP BY) e filtragem de grupo (HAVING).",
+        "dicas": [
+          "Use SELECT planetas.nome, COUNT(naves.id) AS total_naves... JOIN naves ON... GROUP BY planetas.nome HAVING COUNT(naves.id) > 2;",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

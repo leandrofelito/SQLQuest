@@ -810,7 +810,7 @@
             "termo": "LIMIT",
             "def": "Uma restrição aplicada ao final da consulta que determina a quantidade máxima de linhas retornadas pelo SGBD."
           },
-          "No **Neon.tech**, usar o LIMIT é uma questão de sobrevivência e performance. Buscar apenas os 10 primeiros registros em uma tabela de 1 milhão economiza memória, processamento e largura de banda, tornando seu aplicativo extremamente veloz.",
+          "No **PostgreSQL**, usar o LIMIT é uma questão de sobrevivência e performance. Buscar apenas os 10 primeiros registros em uma tabela de 1 milhão economiza memória, processamento e largura de banda, tornando seu aplicativo extremamente veloz.",
           {
             "type": "code",
             "code": "SELECT * FROM planetas \nLIMIT 5;",
@@ -834,7 +834,7 @@
                 "termo": "LIMIT",
                 "def": "A constraint applied at the end of the query that determines the maximum number of rows returned by the DBMS."
               },
-              "In **Neon.tech**, using LIMIT is about survival and performance. Fetching only the first 10 records in a table of 1 million saves memory and bandwidth."
+              "In **PostgreSQL**, using LIMIT is about survival and performance. Fetching only the first 10 records in a table of 1 million saves memory and bandwidth."
             ]
           }
         },
@@ -849,7 +849,7 @@
                 "termo": "LIMIT",
                 "def": "Una restricción aplicada al final de la consulta que determina la cantidad máxima de filas devueltas por el SGBD."
               },
-              "En **Neon.tech**, usar LIMIT es una cuestión de supervivencia y rendimiento. Buscar solo los primeros 10 registros en una tabla de 1 millón ahorra memoria y ancho de banda."
+              "En **PostgreSQL**, usar LIMIT es una cuestión de supervivencia y rendimiento. Buscar solo los primeros 10 registros en una tabla de 1 millón ahorra memoria y ancho de banda."
             ]
           }
         }
@@ -1052,7 +1052,7 @@
             "termo": "Modificadores de Ordem",
             "def": "ASC (Ascendente) organiza do menor para o maior (A-Z, 0-9). DESC (Descendente) faz o inverso (Z-A, 9-0)."
           },
-          "Você pode ordenar tanto por números (como IDs ou preços) quanto por textos (ordem alfabética). No Neon.tech, a ordenação é fundamental para relatórios e listas de usuários.",
+          "Você pode ordenar tanto por números (como IDs ou preços) quanto por textos (ordem alfabética). No PostgreSQL, a ordenação é fundamental para relatórios e listas de usuários.",
           {
             "type": "code",
             "code": "SELECT nome \nFROM planetas \nORDER BY nome DESC;",
@@ -1076,7 +1076,7 @@
                 "termo": "Order Modifiers",
                 "def": "ASC (Ascending) organizes from smallest to largest (A-Z, 0-9). DESC (Descending) does the opposite (Z-A, 9-0)."
               },
-              "You can sort by numbers (such as IDs or prices) or by text (alphabetical order). On Neon.tech, sorting is essential for reports and user lists.",
+              "You can sort by numbers (such as IDs or prices) or by text (alphabetical order). On PostgreSQL, sorting is essential for reports and user lists.",
               {
                 "type": "code",
                 "code": "SELECT nome \nFROM planetas \nORDER BY nome DESC;",
@@ -1100,7 +1100,7 @@
                 "termo": "Modificadores de Orden",
                 "def": "ASC (Ascendente) organiza de menor a mayor (A-Z, 0-9). DESC (Descendente) hace lo contrario (Z-A, 9-0)."
               },
-              "Puedes ordenar por números (como IDs o precios) o por textos (orden alfabético). En Neon.tech, la ordenación es fundamental para informes y listas de usuarios.",
+              "Puedes ordenar por números (como IDs o precios) o por textos (orden alfabético). En PostgreSQL, la ordenación es fundamental para informes y listas de usuarios.",
               {
                 "type": "code",
                 "code": "SELECT nome \nFROM planetas \nORDER BY nome DESC;",
@@ -1257,7 +1257,7 @@
           "min_rows": 4
         },
         "dica": "Use a cláusula ORDER BY seguida do nome da coluna 'nome'. O padrão já é alfabético (ASC).",
-        "explicacaoTecnica": "A ordenação ocorre após o processamento da cláusula FROM, mas antes da exibição final, permitindo que o Neon.tech entregue dados prontos para o consumo humano.",
+        "explicacaoTecnica": "A ordenação ocorre após o processamento da cláusula FROM, mas antes da exibição final, permitindo que o PostgreSQL entregue dados prontos para o consumo humano.",
         "dicas": [
           "Use a cláusula ORDER BY seguida do nome da coluna 'nome'.",
           "O padrão já é alfabético (ASC).",
@@ -1271,7 +1271,7 @@
             "instrucao": "Select the name of all planets, organizing them in alphabetical order (A-Z).",
             "placeholder": "SELECT ... FROM ... ORDER BY ...",
             "dica": "Use the ORDER BY clause followed by the column name 'nome'. The default is already alphabetical (ASC).",
-            "explicacaoTecnica": "Sorting occurs after FROM processing but before final display, allowing Neon.tech to deliver data ready for human consumption.",
+            "explicacaoTecnica": "Sorting occurs after FROM processing but before final display, allowing PostgreSQL to deliver data ready for human consumption.",
             "dicas": [
               "Use the ORDER BY clause followed by the column name 'nome'.",
               "The default is already alphabetical (ASC).",
@@ -1285,7 +1285,7 @@
             "instrucao": "Selecciona el nombre de todos los planetas, organizándolos en orden alfabético (A-Z).",
             "placeholder": "SELECT ... FROM ... ORDER BY ...",
             "dica": "Usa la cláusula ORDER BY seguida del nombre de la columna 'nome'. El estándar ya es alfabético (ASC).",
-            "explicacaoTecnica": "La ordenación ocurre después del procesamiento de FROM pero antes de la visualización final, permitiendo que Neon.tech entregue datos listos para el consumo humano.",
+            "explicacaoTecnica": "La ordenación ocurre después del procesamiento de FROM pero antes de la visualización final, permitiendo que PostgreSQL entregue datos listos para el consumo humano.",
             "dicas": [
               "Usa la cláusula ORDER BY seguida del nombre de la columna 'nome'.",
               "El estándar ya es alfabético (ASC).",

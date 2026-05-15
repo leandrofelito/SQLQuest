@@ -165,7 +165,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Para inserir vários registros de uma vez, liste todos os conjuntos de valores separados por vírgula após VALUES. Cada grupo fica entre parênteses. Quais são as colunas e os dados de cada produto?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -270,7 +275,12 @@
             "Preco"
           ],
           "min_rows": 5
-        }
+        },
+        "dicas": [
+          "No SET, você pode referenciar o valor atual da coluna para calcular o novo valor. O WHERE filtra quais produtos receberão o desconto. Qual operador matemático representa 'reduzir em 15%'?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -413,7 +423,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Para deletar registros com uma condição específica, use DELETE FROM tabela WHERE condição. Sem WHERE você apagaria tudo. Qual é a condição que identifica os produtos sem estoque?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

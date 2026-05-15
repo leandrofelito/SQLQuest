@@ -181,7 +181,12 @@
             "DataPedido"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "A sintaxe para criar um índice é: CREATE INDEX nome ON tabela(coluna). Use a convenção de nomenclatura idx_tabela_coluna. Qual coluna está sendo consultada frequentemente nessa tabela?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -328,7 +333,12 @@
             "DataVenda"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "Um índice composto cobre múltiplas colunas — basta listá-las separadas por vírgula dentro dos parênteses. A ordem das colunas importa: coloque a mais seletiva primeiro.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -361,7 +371,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Para um índice que também garante que não haja valores duplicados na coluna, adicione a palavra UNIQUE entre CREATE e INDEX. Além de acelerar buscas, isso funciona como uma constraint de unicidade.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

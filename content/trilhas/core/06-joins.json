@@ -49,7 +49,7 @@
       "titulo": "A Interseção Perfeita: INNER JOIN",
       "conteudo": {
         "blocos": [
-          "Agora que você já sabe como conectar as tabelas através de Chaves Estrangeiras, é hora de aprender a consultar esses dados cruzados. No **Neon.tech**, o comando que realiza essa mágica é o **INNER JOIN**.",
+          "Agora que você já sabe como conectar as tabelas através de Chaves Estrangeiras, é hora de aprender a consultar esses dados cruzados. No **PostgreSQL**, o comando que realiza essa mágica é o **INNER JOIN**.",
           "O INNER JOIN combina linhas de duas tabelas diferentes, mas com uma condição rígida: ele só traz os resultados onde há uma correspondência exata entre elas. É a ferramenta ideal para mostrar, por exemplo, o nome de uma nave e o nome do planeta onde ela está estacionada.",
           {
             "type": "definicao",
@@ -70,7 +70,7 @@
           "titulo": "The Perfect Intersection: INNER JOIN",
           "conteudo": {
             "blocos": [
-              "Now that you know how to connect tables via Foreign Keys, it's time to learn how to query this cross-data. In **Neon.tech**, the command that performs this magic is **INNER JOIN**.",
+              "Now that you know how to connect tables via Foreign Keys, it's time to learn how to query this cross-data. In **PostgreSQL**, the command that performs this magic is **INNER JOIN**.",
               "INNER JOIN combines rows from two different tables with a strict condition: it only brings results where there is an exact match between them.",
               "**Analogy:** Think of INNER JOIN as a 'Soulmate Encounter'. It only displays the result if the 'perfect match' exists on both sides."
             ]
@@ -80,7 +80,7 @@
           "titulo": "La Intersección Perfecta: INNER JOIN",
           "conteudo": {
             "blocos": [
-              "Ahora que ya sabes conectar tablas mediante Claves Externas, es hora de aprender a consultar esos datos cruzados. En **Neon.tech**, el comando que realiza esta magia es el **INNER JOIN**.",
+              "Ahora que ya sabes conectar tablas mediante Claves Externas, es hora de aprender a consultar esos datos cruzados. En **PostgreSQL**, el comando que realiza esta magia es el **INNER JOIN**.",
               "El INNER JOIN combina filas de dos tablas diferentes con una condición estricta: solo trae los resultados donde hay una correspondencia exacta entre ellas.",
               "**Analogía:** Piensa en el INNER JOIN como un 'Encuentro de Almas'. Solo muestra el resultado si la 'pareja perfecta' existe en ambos lados."
             ]
@@ -105,7 +105,12 @@
           "WITH"
         ],
         "indiceCorreto": 2,
-        "dica": "Dica de Ouro: Pense na palavra que significa 'ligado' ou 'sobre'. É ela que ativa a conexão."
+        "dica": "Dica de Ouro: Pense na palavra que significa 'ligado' ou 'sobre'. É ela que ativa a conexão.",
+        "dicas": [
+          "Dica de Ouro: Pense na palavra que significa 'ligado' ou 'sobre'. É ela que ativa a conexão.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -152,7 +157,12 @@
         "instrucao": "Sobre o comportamento do INNER JOIN:",
         "afirmacao": "O comando INNER JOIN retorna todos os registros da primeira tabela (a da esquerda), mesmo aqueles que não possuem qualquer correspondência na segunda tabela (a da direita).",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: O INNER JOIN é exclusivo. Ele só quer saber de quem tem um par completo."
+        "dica": "Dica de Ouro: O INNER JOIN é exclusivo. Ele só quer saber de quem tem um par completo.",
+        "dicas": [
+          "Dica de Ouro: O INNER JOIN é exclusivo. Ele só quer saber de quem tem um par completo.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -197,7 +207,12 @@
           "join_type": "INNER JOIN"
         },
         "dica": "Dica de Ouro: Use a sintaxe: FROM naves INNER JOIN planetas ON naves.planeta_id = planetas.id.",
-        "explicacaoTecnica": "O INNER JOIN cruza os dados em tempo real, filtrando apenas as tuplas onde a chave estrangeira (planeta_id) aponta para uma chave primária (id) existente."
+        "explicacaoTecnica": "O INNER JOIN cruza os dados em tempo real, filtrando apenas as tuplas onde a chave estrangeira (planeta_id) aponta para uma chave primária (id) existente.",
+        "dicas": [
+          "Dica de Ouro: Use a sintaxe: FROM naves INNER JOIN planetas ON naves.planeta_id = planetas.id.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -280,7 +295,12 @@
           "Erro de Sintaxe"
         ],
         "indiceCorreto": 0,
-        "dica": "Dica de Ouro: Pense no valor que o SQL usa para representar o 'vazio' ou a ausência de informação."
+        "dica": "Dica de Ouro: Pense no valor que o SQL usa para representar o 'vazio' ou a ausência de informação.",
+        "dicas": [
+          "Dica de Ouro: Pense no valor que o SQL usa para representar o 'vazio' ou a ausência de informação.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -327,7 +347,12 @@
         "instrucao": "Sobre a comparação entre tipos de JOIN:",
         "afirmacao": "O comando LEFT JOIN e o INNER JOIN retornam exatamente a mesma quantidade de linhas se todos os registros da esquerda possuírem pelo menos um par correspondente na direita.",
         "respostaCorreta": true,
-        "dica": "Dica de Ouro: Se cada peça da esquerda tem um encaixe perfeito na direita, não haverá sobras em nenhum dos comandos."
+        "dica": "Dica de Ouro: Se cada peça da esquerda tem um encaixe perfeito na direita, não haverá sobras em nenhum dos comandos.",
+        "dicas": [
+          "Dica de Ouro: Se cada peça da esquerda tem um encaixe perfeito na direita, não haverá sobras em nenhum dos comandos.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -372,7 +397,12 @@
           "join_type": "LEFT JOIN"
         },
         "dica": "Dica de Ouro: A tabela planetas deve vir primeiro (à esquerda). A sintaxe é: FROM planetas LEFT JOIN missoes ON...",
-        "explicacaoTecnica": "O LEFT JOIN mantém a integridade da lista de planetas, exibindo 'Marte' com ID de missão NULL, já que ele não possui correspondência na tabela missoes."
+        "explicacaoTecnica": "O LEFT JOIN mantém a integridade da lista de planetas, exibindo 'Marte' com ID de missão NULL, já que ele não possui correspondência na tabela missoes.",
+        "dicas": [
+          "Dica de Ouro: A tabela planetas deve vir primeiro (à esquerda). A sintaxe é: FROM planetas LEFT JOIN missoes ON...",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -399,7 +429,7 @@
       "titulo": "União Total: RIGHT e FULL JOIN",
       "conteudo": {
         "blocos": [
-          "Você já domina o INNER e o LEFT JOIN. Agora, vamos completar o seu arsenal de uniões no **Neon.tech** com o **RIGHT JOIN** e o poderoso **FULL OUTER JOIN**.",
+          "Você já domina o INNER e o LEFT JOIN. Agora, vamos completar o seu arsenal de uniões no **PostgreSQL** com o **RIGHT JOIN** e o poderoso **FULL OUTER JOIN**.",
           "O **RIGHT JOIN** é o espelho do LEFT JOIN. Ele prioriza a tabela da direita (a segunda mencionada). Na prática, `A LEFT JOIN B` entrega o mesmo resultado que `B RIGHT JOIN A`. É apenas uma questão de qual lado você escolhe como base da sua consulta.",
           "O **FULL OUTER JOIN** é a união democrática e total. Ele preserva os registros de **ambos os lados**. Se um planeta não tem naves, ele aparece. Se uma nave não tem planeta, ela também aparece. Onde houver um 'vazio', o SQL preenche com **NULL**.",
           {
@@ -457,7 +487,12 @@
           "CROSS JOIN"
         ],
         "indiceCorreto": 2,
-        "dica": "Dica de Ouro: Pense na palavra que significa 'completo' ou 'total'. É o JOIN que não deixa ninguém de fora."
+        "dica": "Dica de Ouro: Pense na palavra que significa 'completo' ou 'total'. É o JOIN que não deixa ninguém de fora.",
+        "dicas": [
+          "Dica de Ouro: Pense na palavra que significa 'completo' ou 'total'. É o JOIN que não deixa ninguém de fora.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -504,7 +539,12 @@
         "instrucao": "Analise a regra de prioridade do RIGHT JOIN:",
         "afirmacao": "O comando RIGHT JOIN prioriza os dados da tabela que aparece logo após a palavra-chave FROM, garantindo que ela nunca tenha registros omitidos.",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: O nome do comando (RIGHT) indica qual lado ele protege. O FROM é sempre o lado esquerdo."
+        "dica": "Dica de Ouro: O nome do comando (RIGHT) indica qual lado ele protege. O FROM é sempre o lado esquerdo.",
+        "dicas": [
+          "Dica de Ouro: O nome do comando (RIGHT) indica qual lado ele protege. O FROM é sempre o lado esquerdo.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -549,7 +589,12 @@
           "join_type": "FULL JOIN"
         },
         "dica": "Dica de Ouro: Use a palavra-chave FULL JOIN para abraçar os dados de ambas as tabelas de forma simultânea.",
-        "explicacaoTecnica": "O FULL OUTER JOIN no Neon.tech combina os resultados de um LEFT e um RIGHT JOIN em uma única operação de conjunto, preenchendo as lacunas com NULL."
+        "explicacaoTecnica": "O FULL OUTER JOIN no PostgreSQL combina os resultados de um LEFT e um RIGHT JOIN em uma única operação de conjunto, preenchendo as lacunas com NULL.",
+        "dicas": [
+          "Dica de Ouro: Use a palavra-chave FULL JOIN para abraçar os dados de ambas as tabelas de forma simultânea.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

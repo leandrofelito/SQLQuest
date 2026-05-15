@@ -121,7 +121,7 @@ export default function UpgradePage() {
           </div>
 
           <Button onClick={handleCheckout} loading={loading} fullWidth size="lg">
-            OBTENHA PRO PARA VIDA ÚTIL
+            Desbloquear Pro vitalício
           </Button>
 
           <button

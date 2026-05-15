@@ -49,7 +49,7 @@
       "titulo": "Consultas Aninhadas: O Poder das Subqueries",
       "conteudo": {
         "blocos": [
-          "Até agora, suas consultas eram diretas. Mas no mundo real do **Neon.tech**, muitas vezes a resposta de uma pergunta depende do resultado de outra. Para resolver isso, usamos as **Subqueries** (ou Subconsultas).",
+          "Até agora, suas consultas eram diretas. Mas no mundo real do **PostgreSQL**, muitas vezes a resposta de uma pergunta depende do resultado de outra. Para resolver isso, usamos as **Subqueries** (ou Subconsultas).",
           "Uma Subquery é uma consulta interna colocada dentro de uma consulta principal. O banco de dados executa a consulta interna primeiro e usa o resultado dela para completar a filtragem da consulta externa.",
           {
             "type": "definicao",
@@ -70,7 +70,7 @@
           "titulo": "Nested Queries: The Power of Subqueries",
           "conteudo": {
             "blocos": [
-              "So far, your queries have been direct. But in **Neon.tech**, many times the answer to one question depends on the result of another. To solve this, we use **Subqueries**.",
+              "So far, your queries have been direct. But in **PostgreSQL**, many times the answer to one question depends on the result of another. To solve this, we use **Subqueries**.",
               "A Subquery is an inner query placed inside a main query. The database executes the inner query first and uses its result to complete the outer query's filtering.",
               "**Selection Process Analogy:** Think of an HR process. First, the system generates a list of candidates who passed the technical test (**Subquery**). Then, the manager interviews only the names on that list (**Main Query**)."
             ]
@@ -80,7 +80,7 @@
           "titulo": "Consultas Anidadas: El Poder de las Subqueries",
           "conteudo": {
             "blocos": [
-              "Hasta ahora, tus consultas han sido directas. Pero en **Neon.tech**, muchas veces la respuesta a una pregunta depende del resultado de otra. Para resolver esto, usamos as **Subqueries**.",
+              "Hasta ahora, tus consultas han sido directas. Pero en **PostgreSQL**, muchas veces la respuesta a una pregunta depende del resultado de otra. Para resolver esto, usamos as **Subqueries**.",
               "Una Subquery es una consulta interna colocada dentro de una consulta principal. La base de datos ejecuta la consulta interna primero y usa su resultado para completar el filtrado de la consulta externa.",
               "**Analogía del Proceso de Selección:** Imagina un proceso de RRHH. Primero, el sistema genera una lista de candidatos que aprobaron la prueba técnica (**Subquery**). Luego, el gerente entrevista solo a los nombres que están en esa lista (**Consulta Principal**)."
             ]
@@ -105,7 +105,12 @@
           "Agregador"
         ],
         "indiceCorreto": 0,
-        "dica": "Dica de Ouro: Pense em uma consulta que mora 'debaixo' ou 'dentro' de outra."
+        "dica": "Dica de Ouro: Pense em uma consulta que mora 'debaixo' ou 'dentro' de outra.",
+        "dicas": [
+          "Dica de Ouro: Pense em uma consulta que mora 'debaixo' ou 'dentro' de outra.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -152,7 +157,12 @@
         "instrucao": "Sobre a sintaxe das consultas aninhadas:",
         "afirmacao": "Uma subquery deve ser sempre escrita obrigatoriamente entre parênteses para que o motor do banco de dados saiba que deve resolvê-la antes da consulta externa.",
         "respostaCorreta": true,
-        "dica": "Dica de Ouro: Os parênteses servem como um isolante que diz ao SQL: 'resolva isso aqui primeiro'."
+        "dica": "Dica de Ouro: Os parênteses servem como um isolante que diz ao SQL: 'resolva isso aqui primeiro'.",
+        "dicas": [
+          "Dica de Ouro: Os parênteses servem como um isolante que diz ao SQL: 'resolva isso aqui primeiro'.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -198,7 +208,12 @@
           "subquery_present": true
         },
         "dica": "Dica de Ouro: A estrutura deve ser WHERE id IN (SELECT planeta_id FROM missoes).",
-        "explicacaoTecnica": "O PostgreSQL resolve primeiro o SELECT interno, gerando uma lista temporária de IDs, que o operador IN usa para filtrar os nomes na tabela externa."
+        "explicacaoTecnica": "O PostgreSQL resolve primeiro o SELECT interno, gerando uma lista temporária de IDs, que o operador IN usa para filtrar os nomes na tabela externa.",
+        "dicas": [
+          "Dica de Ouro: A estrutura deve ser WHERE id IN (SELECT planeta_id FROM missoes).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -225,7 +240,7 @@
       "titulo": "Filtros Inteligentes: Agregando na Subquery",
       "conteudo": {
         "blocos": [
-          "Na etapa anterior, você usou subqueries que retornavam uma lista de IDs. Mas no **Neon.tech**, o verdadeiro poder analítico surge quando usamos subqueries que calculam um **valor único** (escalar), como uma média ou um recorde.",
+          "Na etapa anterior, você usou subqueries que retornavam uma lista de IDs. Mas no **PostgreSQL**, o verdadeiro poder analítico surge quando usamos subqueries que calculam um **valor único** (escalar), como uma média ou um recorde.",
           "Isso permite que você faça perguntas dinâmicas. Em vez de filtrar por um número fixo (ex: populacao > 1000), você pede ao SQL para calcular a média primeiro e depois usar esse resultado para filtrar as linhas.",
           {
             "type": "definicao",
@@ -281,7 +296,12 @@
           "IN"
         ],
         "indiceCorreto": 2,
-        "dica": "Dica de Ouro: Quando o resultado é um número único, tratamos a subquery como se fosse uma constante matemática."
+        "dica": "Dica de Ouro: Quando o resultado é um número único, tratamos a subquery como se fosse uma constante matemática.",
+        "dicas": [
+          "Dica de Ouro: Quando o resultado é um número único, tratamos a subquery como se fosse uma constante matemática.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -328,7 +348,12 @@
         "instrucao": "Sobre as limitações das subqueries escalares:",
         "afirmacao": "Uma subquery usada no WHERE para comparação direta (ex: >) pode retornar múltiplas linhas sem causar erro no SQL.",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: O operador '>' espera um único valor à sua direita. Se ele receber uma lista, o banco de dados 'fica confuso'."
+        "dica": "Dica de Ouro: O operador '>' espera um único valor à sua direita. Se ele receber uma lista, o banco de dados 'fica confuso'.",
+        "dicas": [
+          "Dica de Ouro: O operador '>' espera um único valor à sua direita. Se ele receber uma lista, o banco de dados 'fica confuso'.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -373,7 +398,12 @@
           "subquery_present": true
         },
         "dica": "Dica de Ouro: Sua estrutura deve ser: WHERE populacao > (SELECT AVG(populacao) FROM planetas).",
-        "explicacaoTecnica": "O SQL calcula primeiro o valor médio (escalar) e depois percorre a tabela comparando a população de cada linha com esse valor calculado."
+        "explicacaoTecnica": "O SQL calcula primeiro o valor médio (escalar) e depois percorre a tabela comparando a população de cada linha com esse valor calculado.",
+        "dicas": [
+          "Dica de Ouro: Sua estrutura deve ser: WHERE populacao > (SELECT AVG(populacao) FROM planetas).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -407,7 +437,7 @@
           "• **GROUP BY** — a “lente” (perspectiva) sob a qual você soma ou conta.",
           "• **HAVING** — filtro **depois** do agrupamento, sobre o resultado dos agregados.",
           "**3. Desafio de elite** — Relatórios que cruzam tabelas, **agrupam** e ainda comparam com **subqueries** ou médias são o dia a dia de quem modela dados com seriedade.",
-          "**4. Futuro do modelo relacional** — Desde Codd (1970), o modelo relacional foi desafiado por várias tecnologias; a base matemática e a linguagem SQL continuam como alicerce — do **Neon.tech** a sistemas de grande escala.",
+          "**4. Futuro do modelo relacional** — Desde Codd (1970), o modelo relacional foi desafiado por várias tecnologias; a base matemática e a linguagem SQL continuam como alicerce — do **PostgreSQL** a sistemas de grande escala.",
           "**Como se lê:** Una as origens, **agrupe** na dimensão certa, aplique **agregações** e use **HAVING** para manter só os grupos que passam em critérios dinâmicos."
         ]
       },
@@ -423,7 +453,7 @@
               "• **GROUP BY** — the lens you sum or count through.",
               "• **HAVING** — filter **after** grouping, on aggregate results.",
               "**3. Elite challenge** — Reports that join tables, **group**, and compare with **subqueries** or averages are standard for serious data work.",
-              "**4. Future of the relational model** — Since Codd (1970), many technologies challenged it; its math and SQL remain foundational — from **Neon.tech** to large-scale systems.",
+              "**4. Future of the relational model** — Since Codd (1970), many technologies challenged it; its math and SQL remain foundational — from **PostgreSQL** to large-scale systems.",
               "**How to read it:** Join sources, **group** correctly, aggregate, and use **HAVING** to keep only groups that meet dynamic criteria."
             ]
           }
@@ -463,7 +493,12 @@
           "O HAVING não pode ser usado junto com JOIN."
         ],
         "indiceCorreto": 1,
-        "dica": "HAVING filtra **grupos** já formados; na ordem lógica vem depois de JOIN e GROUP BY — não substitui WHERE nem mora dentro do ON."
+        "dica": "HAVING filtra **grupos** já formados; na ordem lógica vem depois de JOIN e GROUP BY — não substitui WHERE nem mora dentro do ON.",
+        "dicas": [
+          "HAVING filtra **grupos** já formados; na ordem lógica vem depois de JOIN e GROUP BY — não substitui WHERE nem mora dentro do ON.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -512,7 +547,12 @@
         "instrucao": "Sobre o modelo relacional e o ecossistema SQL:",
         "afirmacao": "O modelo relacional é uma tecnologia passageira que será totalmente substituída por arquivos de texto simples (TXT) devido à sua complexidade.",
         "respostaCorreta": false,
-        "dica": "O modelo relacional tem base em álgebra de conjuntos; SGBDs oferecem integridade, concorrência e desempenho que arquivos TXT não substituem."
+        "dica": "O modelo relacional tem base em álgebra de conjuntos; SGBDs oferecem integridade, concorrência e desempenho que arquivos TXT não substituem.",
+        "dicas": [
+          "O modelo relacional tem base em álgebra de conjuntos; SGBDs oferecem integridade, concorrência e desempenho que arquivos TXT não substituem.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -558,7 +598,12 @@
           "min_rows": 2
         },
         "dica": "SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
-        "explicacaoTecnica": "Alpha tem 2 planetas e Beta tem 1; o GROUP BY consolida uma linha por sistema com o COUNT correspondente."
+        "explicacaoTecnica": "Alpha tem 2 planetas e Beta tem 1; o GROUP BY consolida uma linha por sistema com o COUNT correspondente.",
+        "dicas": [
+          "SELECT sistemas.nome AS sistema, COUNT(planetas.id) AS total_planetas FROM sistemas INNER JOIN planetas ON sistemas.id = planetas.sistema_id GROUP BY sistemas.nome;",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -665,7 +710,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 2
-        }
+        },
+        "dicas": [
+          "Você quer clientes cujo ID aparece na tabela Pedidos. O operador IN pode receber não só uma lista fixa, mas também o resultado de outra query entre parênteses — quais IDs você quer buscar na tabela Pedidos?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -749,7 +799,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 2
-        }
+        },
+        "dicas": [
+          "A subquery dentro do FROM cria uma tabela temporária — ela calcula a média por departamento. A query externa filtra essa tabela temporária. Lembre que subqueries no FROM precisam de um alias (AS nomeAlias).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -841,7 +896,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "EXISTS verifica se a subquery retorna ao menos um resultado. Na subquery interna você precisa cruzar com o cliente atual da query externa — use o mesmo ClienteID dos dois lados para correlacionar.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -868,7 +928,7 @@
       "titulo": "Subqueries Correlacionadas: Colunas Dinâmicas",
       "conteudo": {
         "blocos": [
-          "Você já usou subqueries para filtrar linhas no WHERE. Agora, vamos elevar o nível: no **Neon.tech**, você pode usar uma subquery dentro do **SELECT** para criar colunas que não existem fisicamente na tabela, calculando dados linha por linha.",
+          "Você já usou subqueries para filtrar linhas no WHERE. Agora, vamos elevar o nível: no **PostgreSQL**, você pode usar uma subquery dentro do **SELECT** para criar colunas que não existem fisicamente na tabela, calculando dados linha por linha.",
           "Quando uma consulta interna utiliza valores da consulta externa para realizar seu cálculo, chamamos isso de **Subquery Correlacionada**. É como se a consulta interna fizesse uma pergunta específica para cada linha que a consulta principal processa.",
           {
             "type": "definicao",
@@ -889,7 +949,7 @@
           "titulo": "Correlated Subqueries: Dynamic Columns",
           "conteudo": {
             "blocos": [
-              "You've used subqueries to filter rows in the WHERE clause. Now, in **Neon.tech**, you can use a subquery inside the **SELECT** to create columns that don't physically exist.",
+              "You've used subqueries to filter rows in the WHERE clause. Now, in **PostgreSQL**, you can use a subquery inside the **SELECT** to create columns that don't physically exist.",
               "When an inner query uses values from the outer query, it's called a **Correlated Subquery**. It's as if the inner query asks a specific question for every row the main query processes.",
               "**Smart Badge Analogy:** Imagine a space station ID badge. Along with your name, it has a digital screen. Every time someone looks at it (each row), the screen queries the database in real-time to show your cafeteria credits."
             ]
@@ -899,7 +959,7 @@
           "titulo": "Subqueries Correlacionadas: Columnas Dinámicas",
           "conteudo": {
             "blocos": [
-              "Ya has usado subqueries para filtrar filas en el WHERE. Ahora, en **Neon.tech**, puedes usar una subquery dentro del **SELECT** para crear columnas que no existen físicamente.",
+              "Ya has usado subqueries para filtrar filas en el WHERE. Ahora, en **PostgreSQL**, puedes usar una subquery dentro del **SELECT** para crear columnas que no existen físicamente.",
               "Cuando una consulta interna utiliza valores de la consulta externa, la llamamos **Subquery Correlacionada**. Es como si la consulta interna hiciera una pregunta específica para cada fila.",
               "**Analogía del Carnet Inteligente:** Imagina un carnet de identificación espacial. Además de tu nombre, tiene una pantalla digital. Cada vez que alguien mira el carnet (cada fila), la pantalla consulta la base de datos en tiempo real para mostrar tus créditos de comedor."
             ]
@@ -924,7 +984,12 @@
           "ORDER BY"
         ],
         "indiceCorreto": 0,
-        "dica": "Essa posição permite que o resultado da subquery apareça como uma nova coluna no seu relatório."
+        "dica": "Essa posição permite que o resultado da subquery apareça como uma nova coluna no seu relatório.",
+        "dicas": [
+          "Essa posição permite que o resultado da subquery apareça como uma nova coluna no seu relatório.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -971,7 +1036,12 @@
         "instrucao": "Sobre subqueries no SELECT:",
         "afirmacao": "Uma subquery utilizada dentro da lista de campos do SELECT deve obrigatoriamente retornar apenas um único valor por linha da consulta principal.",
         "respostaCorreta": true,
-        "dica": "O SQL não consegue colocar uma 'lista' de valores dentro de uma única célula de resultado de forma convencional."
+        "dica": "O SQL não consegue colocar uma 'lista' de valores dentro de uma única célula de resultado de forma convencional.",
+        "dicas": [
+          "O SQL não consegue colocar uma 'lista' de valores dentro de uma única célula de resultado de forma convencional.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -1016,7 +1086,12 @@
           "correlated_subquery": true
         },
         "dica": "Sua subquery deve conter WHERE missoes.planeta_id = planetas.id para criar a correlação.",
-        "explicacaoTecnica": "Para cada linha da tabela planetas, o PostgreSQL executa a subquery interna filtrando as missões que pertencem àquele ID específico, gerando um resultado dinâmico por linha."
+        "explicacaoTecnica": "Para cada linha da tabela planetas, o PostgreSQL executa a subquery interna filtrando as missões que pertencem àquele ID específico, gerando um resultado dinâmico por linha.",
+        "dicas": [
+          "Sua subquery deve conter WHERE missoes.planeta_id = planetas.id para criar a correlação.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

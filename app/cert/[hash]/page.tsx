@@ -19,7 +19,13 @@ export default async function CertPage({ params }: CertPageProps) {
 
   return (
     <div className="min-h-screen bg-[#080a0f] flex flex-col items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md space-y-6">
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: 'linear-gradient(#8b5cf6 1px, transparent 1px), linear-gradient(90deg, #8b5cf6 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
+      <div className="relative w-full max-w-md space-y-6">
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center items-center gap-2 mb-2">
@@ -31,10 +37,11 @@ export default async function CertPage({ params }: CertPageProps) {
         </div>
 
         {/* Card Certificado */}
-        <div className="bg-gradient-to-br from-[#161820] to-[#0a0c12] rounded-3xl border border-[#8b5cf6]/20 p-8 space-y-6">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#161820] to-[#0a0c12] rounded-3xl border border-[#8b5cf6]/30 p-8 space-y-6 shadow-2xl">
+          <div className="absolute left-0 top-0 h-1.5 w-full bg-gradient-to-r from-[#8b5cf6] via-[#a78bfa] to-[#facc15]" />
           {/* Ícone válido */}
           <div className="flex items-center justify-center">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center shadow-[0_0_28px_rgba(16,185,129,0.18)]">
               <span className="text-3xl">✓</span>
             </div>
           </div>
@@ -55,6 +62,11 @@ export default async function CertPage({ params }: CertPageProps) {
               <p className="text-white/30 text-xs mb-0.5">Código</p>
               <p className="text-white/80 text-sm font-mono">{cert.hash.substring(0, 12).toUpperCase()}</p>
             </div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-center">
+            <p className="text-xs leading-relaxed text-white/45">
+              Documento verificável por link público. A validação consulta diretamente a base do SQLQuest.
+            </p>
           </div>
         </div>
 

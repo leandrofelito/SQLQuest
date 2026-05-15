@@ -689,7 +689,7 @@
             "termo": "Projeção",
             "def": "O ato de selecionar apenas as colunas específicas que você deseja retornar, filtrando a estrutura vertical da tabela."
           },
-          "O uso de SELECT * (asterisco) ilumina o quarto inteiro de uma vez. Embora pareça prático, em bancos de dados profissionais (por exemplo, em ambientes como Neon), isso pode ser lento e desperdiçar memória se a tabela for gigante.",
+          "O uso de SELECT * (asterisco) ilumina o quarto inteiro de uma vez. Embora pareça prático, em bancos de dados profissionais (por exemplo, em ambientes como PostgreSQL), isso pode ser lento e desperdiçar memória se a tabela for gigante.",
           {
             "type": "code",
             "code": "SELECT nome, email \nFROM usuarios;",

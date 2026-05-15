@@ -233,7 +233,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "A estrutura para criar uma view é: CREATE VIEW nome AS (sua query SELECT aqui). O que vai dentro é um SELECT normal com o filtro desejado. O nome da view deve ser exatamente o indicado no enunciado.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -372,7 +377,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Dentro da definição da view, use a mesma lógica de agrupamento que usaria em um SELECT. O que você está contando? Agrupe pelo campo que identifica cada cliente. O alias deve ser exatamente TotalPedidos.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -405,7 +415,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "Uma view se consulta exatamente como uma tabela normal — use SELECT FROM com o nome da view. Adicione WHERE para filtrar os resultados. Qual campo e qual valor você quer filtrar?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -432,7 +447,7 @@
       "titulo": "Views: Tabelas Virtuais e Atalhos",
       "conteudo": {
         "blocos": [
-          "Você já criou queries gigantescas com múltiplos JOINS e agregações. Mas e se você precisasse rodar essa mesma consulta todos os dias no **Neon.tech**? Em vez de digitar tudo de novo, você pode criar uma **VIEW**.",
+          "Você já criou queries gigantescas com múltiplos JOINS e agregações. Mas e se você precisasse rodar essa mesma consulta todos os dias no **PostgreSQL**? Em vez de digitar tudo de novo, você pode criar uma **VIEW**.",
           "Uma **VIEW** é uma tabela virtual. Ela não armazena dados no disco; ela armazena apenas a 'receita' (o comando SELECT). Sempre que você consulta uma View, o banco de dados executa a query original por trás dos panos e te entrega o resultado fresco.",
           {
             "type": "definicao",
@@ -453,7 +468,7 @@
           "titulo": "Views: Virtual Tables and Shortcuts",
           "conteudo": {
             "blocos": [
-              "You've built giant queries with multiple JOINS. But what if you needed to run that same query every day in **Neon.tech**? Instead of typing it all again, you can create a **VIEW**.",
+              "You've built giant queries with multiple JOINS. But what if you needed to run that same query every day in **PostgreSQL**? Instead of typing it all again, you can create a **VIEW**.",
               "A **VIEW** is a virtual table. It doesn't store data on disk; it only stores the 'recipe' (the SELECT command).",
               "**Photo Filter Analogy:** Think of an Instagram Filter. The original photo (real data) remains intact. The View is like a filter you apply to see the image in a specific way whenever you want."
             ]
@@ -463,7 +478,7 @@
           "titulo": "Views: Tablas Virtuales y Accesos Directos",
           "conteudo": {
             "blocos": [
-              "Ya has creado consultas gigantescas. ¿Pero qué pasa si necesitas ejecutar esa misma consulta todos los días en **Neon.tech**? En lugar de escribirlo todo de nuevo, puedes crear una **VIEW**.",
+              "Ya has creado consultas gigantescas. ¿Pero qué pasa si necesitas ejecutar esa misma consulta todos los días en **PostgreSQL**? En lugar de escribirlo todo de nuevo, puedes crear una **VIEW**.",
               "Una **VIEW** es una tabla virtual. No almacena datos en el disco; solo almacena la 'receta' (el comando SELECT).",
               "**Analogía del Filtro de Fotos:** Piensa en un Filtro de Instagram. La foto original (datos reales) permanece intacta. La View es como un filtro que aplicas para ver la imagen de una manera específica."
             ]
@@ -488,7 +503,12 @@
           "É uma tabela que só pode ser visualizada uma única vez."
         ],
         "indiceCorreto": 0,
-        "dica": "Ela funciona como um 'espelho' dinâmico da consulta SELECT original."
+        "dica": "Ela funciona como um 'espelho' dinâmico da consulta SELECT original.",
+        "dicas": [
+          "Ela funciona como um 'espelho' dinâmico da consulta SELECT original.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -535,7 +555,12 @@
         "instrucao": "Sobre a atualização dos dados em uma VIEW:",
         "afirmacao": "Ao apagar um registro diretamente da tabela original, a VIEW continuará exibindo o dado antigo, pois ela armazena uma cópia física dos registros no momento da sua criação.",
         "respostaCorreta": false,
-        "dica": "A View é dinâmica; ela sempre 'olha' para a tabela original no momento da execução."
+        "dica": "A View é dinâmica; ela sempre 'olha' para a tabela original no momento da execução.",
+        "dicas": [
+          "A View é dinâmica; ela sempre 'olha' para a tabela original no momento da execução.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -579,7 +604,12 @@
           ]
         },
         "dica": "Use o comando CREATE VIEW vista_planetas AS seguido do seu SELECT nome FROM planetas.",
-        "explicacaoTecnica": "O comando CREATE VIEW registra a definição da consulta no catálogo do banco de dados sem duplicar os dados da tabela original."
+        "explicacaoTecnica": "O comando CREATE VIEW registra a definição da consulta no catálogo do banco de dados sem duplicar os dados da tabela original.",
+        "dicas": [
+          "Use o comando CREATE VIEW vista_planetas AS seguido do seu SELECT nome FROM planetas.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

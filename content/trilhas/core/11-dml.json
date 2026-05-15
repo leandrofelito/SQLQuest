@@ -56,7 +56,7 @@
             "code": "INSERT INTO nome_da_tabela (coluna1, coluna2)\nVALUES ('Valor Texto', 100);",
             "lese": "O primeiro valor após VALUES vai para a primeira coluna listada; o segundo para a segunda — correspondência posicional."
           },
-          "**Aspas e tipos (PostgreSQL / Neon.tech)** — Textos e datas entre **aspas simples** (`'texto'`). Números e booleanos sem aspas (`10`, `TRUE`, `4.50`).",
+          "**Aspas e tipos (PostgreSQL / PostgreSQL)** — Textos e datas entre **aspas simples** (`'texto'`). Números e booleanos sem aspas (`10`, `TRUE`, `4.50`).",
           "**Analogia** — Cada tabela é um formulário com campos fixos (colunas). Tipo errado no campo errado e o SGBD recusa o registro.",
           "**Como se lê:** “Insira na tabela X nas colunas A e B os valores …” — `VALUES` é a cláusula que traz os dados de fato."
         ]
@@ -73,7 +73,7 @@
                 "code": "INSERT INTO table_name (col1, col2)\nVALUES ('Text', 100);",
                 "lese": "The first value after VALUES maps to the first listed column; the second to the second."
               },
-              "**Quotes and types (PostgreSQL / Neon.tech)** — Strings and dates in **single quotes**. Numbers and booleans without quotes.",
+              "**Quotes and types (PostgreSQL / PostgreSQL)** — Strings and dates in **single quotes**. Numbers and booleans without quotes.",
               "**Analogy** — Each table is a form with fixed fields. Wrong type in the wrong field and the DB rejects the row.",
               "**How to read it:** “Insert into table X columns A and B the values …” — **VALUES** carries the actual data."
             ]
@@ -90,7 +90,7 @@
                 "code": "INSERT INTO nombre_tabla (col1, col2)\nVALUES ('Texto', 100);",
                 "lese": "El primer valor tras VALUES va a la primera columna listada; el segundo a la segunda."
               },
-              "**Comillas y tipos (PostgreSQL / Neon.tech)** — Textos y fechas entre **comillas simples**. Números y booleanos sin comillas.",
+              "**Comillas y tipos (PostgreSQL / PostgreSQL)** — Textos y fechas entre **comillas simples**. Números y booleanos sin comillas.",
               "**Analogía** — Cada tabla es un formulario con campos fijos. Tipo incorrecto y el SGBD rechaza el registro.",
               "**Cómo se lee:** “Inserta en la tabla X en las columnas A y B los valores …” — **VALUES** aporta los datos."
             ]
@@ -115,7 +115,12 @@
           "ROWS"
         ],
         "indiceCorreto": 1,
-        "dica": "Ela vem antes dos parênteses com os valores; a forma canônica é INSERT INTO … (…) VALUES (…);"
+        "dica": "Ela vem antes dos parênteses com os valores; a forma canônica é INSERT INTO … (…) VALUES (…);",
+        "dicas": [
+          "Ela vem antes dos parênteses com os valores; a forma canônica é INSERT INTO … (…) VALUES (…);",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -164,7 +169,12 @@
         "instrucao": "Sobre colunas geradas automaticamente ou com valor padrão:",
         "afirmacao": "Se uma coluna é SERIAL (autoincremento) ou tem DEFAULT, ela pode ser omitida tanto da lista de colunas quanto da lista de valores no INSERT.",
         "respostaCorreta": true,
-        "dica": "Se a coluna não aparece no INSERT, o PostgreSQL aplica DEFAULT ou o próximo valor da sequência (SERIAL)."
+        "dica": "Se a coluna não aparece no INSERT, o PostgreSQL aplica DEFAULT ou o próximo valor da sequência (SERIAL).",
+        "dicas": [
+          "Se a coluna não aparece no INSERT, o PostgreSQL aplica DEFAULT ou o próximo valor da sequência (SERIAL).",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -206,7 +216,12 @@
           "expected_rows": 4
         },
         "dica": "INSERT INTO planetas (nome, clima) VALUES ('Netuno', 'Congelante'); — textos entre aspas simples; termine com SELECT * FROM planetas;",
-        "explicacaoTecnica": "No simulador usamos INTEGER AUTOINCREMENT (SQLite); no PostgreSQL você usaria SERIAL ou IDENTITY — o efeito é o mesmo: omitir id e deixar o banco gerar."
+        "explicacaoTecnica": "No simulador usamos INTEGER AUTOINCREMENT (SQLite); no PostgreSQL você usaria SERIAL ou IDENTITY — o efeito é o mesmo: omitir id e deixar o banco gerar.",
+        "dicas": [
+          "INSERT INTO planetas (nome, clima) VALUES ('Netuno', 'Congelante'); — textos entre aspas simples; termine com SELECT * FROM planetas;",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -331,7 +346,12 @@
           "LIMIT"
         ],
         "indiceCorreto": 2,
-        "dica": "É o mesmo filtro que você usa no SELECT; sem ele, o SET vale para todas as linhas."
+        "dica": "É o mesmo filtro que você usa no SELECT; sem ele, o SET vale para todas as linhas.",
+        "dicas": [
+          "É o mesmo filtro que você usa no SELECT; sem ele, o SET vale para todas as linhas.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -380,7 +400,12 @@
         "instrucao": "Sobre um único comando UPDATE no PostgreSQL:",
         "afirmacao": "É possível atualizar mais de uma coluna ao mesmo tempo, separando as atribuições por vírgula após o SET.",
         "respostaCorreta": true,
-        "dica": "Ex.: SET col1 = val1, col2 = val2 — um WHERE delimita quais linhas recebem todas essas mudanças."
+        "dica": "Ex.: SET col1 = val1, col2 = val2 — um WHERE delimita quais linhas recebem todas essas mudanças.",
+        "dicas": [
+          "Ex.: SET col1 = val1, col2 = val2 — um WHERE delimita quais linhas recebem todas essas mudanças.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -424,7 +449,12 @@
           ]
         },
         "dica": "UPDATE planetas SET clima = 'Terraformado' WHERE nome = 'Marte'; — textos entre aspas simples; use o SELECT de confirmação indicado.",
-        "explicacaoTecnica": "Só Marte deve aparecer na consulta de confirmação; se o WHERE do UPDATE faltar, todos os climas mudam e o teste falha."
+        "explicacaoTecnica": "Só Marte deve aparecer na consulta de confirmação; se o WHERE do UPDATE faltar, todos os climas mudam e o teste falha.",
+        "dicas": [
+          "UPDATE planetas SET clima = 'Terraformado' WHERE nome = 'Marte'; — textos entre aspas simples; use o SELECT de confirmação indicado.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -477,7 +507,7 @@
             "lese": "Só as linhas que satisfazem o WHERE são apagadas."
           },
           "**ALERTA** — **DELETE sem WHERE** apaga **todas** as linhas. O PostgreSQL não pede confirmação extra: a tabela fica vazia em um instante.",
-          "**Dados vs. estrutura** — DELETE remove **conteúdo** (linhas), não a **definição** da tabela. No **Neon.tech**, colunas e constraints permanecem; só o volume de dados zera.",
+          "**Dados vs. estrutura** — DELETE remove **conteúdo** (linhas), não a **definição** da tabela. No **PostgreSQL**, colunas e constraints permanecem; só o volume de dados zera.",
           "**Analogia** — WHERE escolhe qual “tripulante” ejetar; sem WHERE, a escotilha abre para todos.",
           "**Como se lê:** “Remova da tabela X apenas os registros em que a condição Y for verdadeira.”"
         ]
@@ -495,7 +525,7 @@
                 "lese": "Only matching rows are removed."
               },
               "**WARNING** — **DELETE without WHERE** wipes **all** rows. PostgreSQL will not ask for a second confirmation.",
-              "**Data vs. structure** — DELETE clears **rows**, not the **table object**. Columns and constraints remain (e.g. on **Neon.tech**).",
+              "**Data vs. structure** — DELETE clears **rows**, not the **table object**. Columns and constraints remain (e.g. on **PostgreSQL**).",
               "**Analogy** — WHERE picks who leaves the airlock; without it, everyone does.",
               "**How to read it:** “From table X delete only rows where condition Y is true.”"
             ]
@@ -538,7 +568,12 @@
           "A tabela inteira, incluindo sua estrutura, será excluída do banco."
         ],
         "indiceCorreto": 2,
-        "dica": "Sem WHERE, o efeito do DELETE vale para todas as linhas — a estrutura da tabela (CREATE) não é DROP."
+        "dica": "Sem WHERE, o efeito do DELETE vale para todas as linhas — a estrutura da tabela (CREATE) não é DROP.",
+        "dicas": [
+          "Sem WHERE, o efeito do DELETE vale para todas as linhas — a estrutura da tabela (CREATE) não é DROP.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -587,7 +622,12 @@
         "instrucao": "Sobre identificadores gerados no PostgreSQL:",
         "afirmacao": "Ao deletar um registro, o PostgreSQL reorganiza automaticamente os IDs SERIAL para não deixar buracos na numeração.",
         "respostaCorreta": false,
-        "dica": "A sequência segue em frente; buracos são normais e evitam reaproveitar IDs ligados a histórico ou integridade."
+        "dica": "A sequência segue em frente; buracos são normais e evitam reaproveitar IDs ligados a histórico ou integridade.",
+        "dicas": [
+          "A sequência segue em frente; buracos são normais e evitam reaproveitar IDs ligados a histórico ou integridade.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -629,7 +669,12 @@
           "expected_rows": 3
         },
         "dica": "DELETE FROM planetas WHERE nome = 'Plutão'; — texto entre aspas simples; termine com SELECT * FROM planetas;",
-        "explicacaoTecnica": "Restam três linhas (Terra, Marte, Júpiter); sem WHERE no DELETE, o SELECT viria vazio."
+        "explicacaoTecnica": "Restam três linhas (Terra, Marte, Júpiter); sem WHERE no DELETE, o SELECT viria vazio.",
+        "dicas": [
+          "DELETE FROM planetas WHERE nome = 'Plutão'; — texto entre aspas simples; termine com SELECT * FROM planetas;",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -862,7 +907,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 4
-        }
+        },
+        "dicas": [
+          "A estrutura do INSERT é: INSERT INTO tabela (coluna1, coluna2, ...) VALUES (valor1, valor2, ...). Liste as colunas que o enunciado pede, depois os valores correspondentes. Texto usa aspas simples, números não.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -901,7 +951,12 @@
             "Categoria"
           ],
           "min_rows": 3
-        }
+        },
+        "dicas": [
+          "A estrutura do UPDATE é: UPDATE tabela SET coluna = novo_valor WHERE condição. Sempre use WHERE para não atualizar todos os registros. Qual coluna identifica o produto que você quer atualizar?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -934,7 +989,12 @@
         "checkType": "count",
         "checkConfig": {
           "expected_rows": 3
-        }
+        },
+        "dicas": [
+          "A estrutura do DELETE é: DELETE FROM tabela WHERE condição. Sem WHERE você apagaria TUDO. Use o ID do produto como condição para deletar apenas o registro correto.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

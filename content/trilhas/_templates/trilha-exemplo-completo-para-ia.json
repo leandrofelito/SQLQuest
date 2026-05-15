@@ -94,8 +94,16 @@
       "no_inicio_da_resposta_declarar": {
         "trilha_alvo": {
           "slug": "obrigatório: slug da trilha que JÁ EXISTE em content/trilhas/*.json (ex: fundamentos)",
-          "titulo": { "pt": "", "en": "", "es": "" },
-          "descricao": { "pt": "", "en": "", "es": "" },
+          "titulo": {
+            "pt": "",
+            "en": "",
+            "es": ""
+          },
+          "descricao": {
+            "pt": "",
+            "en": "",
+            "es": ""
+          },
           "nota": "titulo/descricao só se forem alterados; senão omitir e mandar só slug + etapas."
         },
         "substituicao_de_etapas": {
@@ -135,13 +143,24 @@
     "exemplo_saida_modulo_gemini": {
       "meta": {
         "trilha_slug": "fundamentos",
-        "substituir_ordens": [9, 10, 11],
+        "substituir_ordens": [
+          9,
+          10,
+          11
+        ],
         "nota": "Exemplo: substituir no arquivo fundamentos.json as etapas com ordem 9, 10 e 11 por este bloco. Não é trilha nova. Se só 3 quizzes, meta.substituir_ordens lista essas três ordens; incluir teoria antes implica mais ordens no mesmo array substituir_ordens."
       },
       "gabarito_declarado": {
-        "exercicio_multipla": { "indiceCorreto": 1, "letra": "B" },
-        "exercicio_vf": { "respostaCorreta": true },
-        "exercicio_reflexao": { "minLength": 40 }
+        "exercicio_multipla": {
+          "indiceCorreto": 1,
+          "letra": "B"
+        },
+        "exercicio_vf": {
+          "respostaCorreta": true
+        },
+        "exercicio_reflexao": {
+          "minLength": 40
+        }
       },
       "dicas_ver_dica_gratuito": [
         {
@@ -174,7 +193,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "Pergunta em PT?",
-            "opcoes": ["A PT", "B PT correta", "C PT", "D PT"],
+            "opcoes": [
+              "A PT",
+              "B PT correta",
+              "C PT",
+              "D PT"
+            ],
             "indiceCorreto": 1,
             "dica": "Igual ao dicas_ver_dica_gratuito[0].pt"
           },
@@ -185,7 +209,12 @@
                 "modo": "quiz",
                 "quizTipo": "multipla",
                 "instrucao": "Question in EN?",
-                "opcoes": ["A EN", "B EN correct", "C EN", "D EN"],
+                "opcoes": [
+                  "A EN",
+                  "B EN correct",
+                  "C EN",
+                  "D EN"
+                ],
                 "indiceCorreto": 1,
                 "dica": "Same as dicas_ver_dica_gratuito[0].en"
               }
@@ -196,7 +225,12 @@
                 "modo": "quiz",
                 "quizTipo": "multipla",
                 "instrucao": "¿Pregunta ES?",
-                "opcoes": ["A ES", "B ES correcta", "C ES", "D ES"],
+                "opcoes": [
+                  "A ES",
+                  "B ES correcta",
+                  "C ES",
+                  "D ES"
+                ],
                 "indiceCorreto": 1,
                 "dica": "Igual a dicas_ver_dica_gratuito[0].es"
               }
@@ -354,10 +388,22 @@
           },
           {
             "type": "tabela",
-            "cabecalhos": ["Coluna A", "Coluna B", "Coluna C"],
+            "cabecalhos": [
+              "Coluna A",
+              "Coluna B",
+              "Coluna C"
+            ],
             "linhas": [
-              ["Linha 1 A", "Linha 1 B", "Linha 1 C"],
-              ["Linha 2 A", "Linha 2 B", "Linha 2 C"]
+              [
+                "Linha 1 A",
+                "Linha 1 B",
+                "Linha 1 C"
+              ],
+              [
+                "Linha 2 A",
+                "Linha 2 B",
+                "Linha 2 C"
+              ]
             ]
           }
         ]
@@ -384,10 +430,22 @@
               },
               {
                 "type": "tabela",
-                "cabecalhos": ["A", "B", "C"],
+                "cabecalhos": [
+                  "A",
+                  "B",
+                  "C"
+                ],
                 "linhas": [
-                  ["R1A", "R1B", "R1C"],
-                  ["R2A", "R2B", "R2C"]
+                  [
+                    "R1A",
+                    "R1B",
+                    "R1C"
+                  ],
+                  [
+                    "R2A",
+                    "R2B",
+                    "R2C"
+                  ]
                 ]
               }
             ]
@@ -414,10 +472,22 @@
               },
               {
                 "type": "tabela",
-                "cabecalhos": ["A", "B", "C"],
+                "cabecalhos": [
+                  "A",
+                  "B",
+                  "C"
+                ],
                 "linhas": [
-                  ["F1A", "F1B", "F1C"],
-                  ["F2A", "F2B", "F2C"]
+                  [
+                    "F1A",
+                    "F1B",
+                    "F1C"
+                  ],
+                  [
+                    "F2A",
+                    "F2B",
+                    "F2C"
+                  ]
                 ]
               }
             ]
@@ -438,9 +508,18 @@
         "schema": "CREATE TABLE ExemploIA (id INTEGER, nome TEXT, valor REAL); INSERT INTO ExemploIA VALUES (1,'Alpha',10.5),(2,'Beta',20.0);",
         "checkType": "columns",
         "checkConfig": {
-          "required_columns": ["id", "nome", "valor"],
+          "required_columns": [
+            "id",
+            "nome",
+            "valor"
+          ],
           "min_rows": 2
-        }
+        },
+        "dicas": [
+          "Use SELECT * e o nome exato da tabela indicada no enunciado. Esta dica é mostrada após o anúncio para usuários gratuitos.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -452,7 +531,11 @@
             "schema": "CREATE TABLE ExemploIA (id INTEGER, nome TEXT, valor REAL); INSERT INTO ExemploIA VALUES (1,'Alpha',10.5),(2,'Beta',20.0);",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["id", "nome", "valor"],
+              "required_columns": [
+                "id",
+                "nome",
+                "valor"
+              ],
               "min_rows": 2
             }
           }
@@ -466,7 +549,11 @@
             "schema": "CREATE TABLE ExemploIA (id INTEGER, nome TEXT, valor REAL); INSERT INTO ExemploIA VALUES (1,'Alpha',10.5),(2,'Beta',20.0);",
             "checkType": "columns",
             "checkConfig": {
-              "required_columns": ["id", "nome", "valor"],
+              "required_columns": [
+                "id",
+                "nome",
+                "valor"
+              ],
               "min_rows": 2
             }
           }
@@ -490,7 +577,12 @@
           "HAVING"
         ],
         "indiceCorreto": 1,
-        "dica": "Pense na cláusula que restringe quais linhas entram no resultado. Dica pós-anúncio para gratuito."
+        "dica": "Pense na cláusula que restringe quais linhas entram no resultado. Dica pós-anúncio para gratuito.",
+        "dicas": [
+          "Pense na cláusula que restringe quais linhas entram no resultado. Dica pós-anúncio para gratuito.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -499,7 +591,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "Which clause filters rows in SQL?",
-            "opcoes": ["ORDER BY", "WHERE", "GROUP BY", "HAVING"],
+            "opcoes": [
+              "ORDER BY",
+              "WHERE",
+              "GROUP BY",
+              "HAVING"
+            ],
             "indiceCorreto": 1,
             "dica": "Think which clause restricts rows. Hint after ad for free users."
           }
@@ -510,7 +607,12 @@
             "modo": "quiz",
             "quizTipo": "multipla",
             "instrucao": "¿Qué cláusula filtra filas en SQL?",
-            "opcoes": ["ORDER BY", "WHERE", "GROUP BY", "HAVING"],
+            "opcoes": [
+              "ORDER BY",
+              "WHERE",
+              "GROUP BY",
+              "HAVING"
+            ],
             "indiceCorreto": 1,
             "dica": "Piensa qué cláusula restringe filas. Pista tras el anuncio."
           }
@@ -529,7 +631,12 @@
         "instrucao": "A assertiva abaixo é verdadeira ou falsa?",
         "afirmacao": "Em um banco relacional, uma linha de uma tabela representa tipicamente um registro (tupla) sobre a entidade modelada.",
         "respostaCorreta": true,
-        "dica": "Relação ↔ tabela; tupla ↔ linha. Dica após anúncio (gratuito)."
+        "dica": "Relação ↔ tabela; tupla ↔ linha. Dica após anúncio (gratuito).",
+        "dicas": [
+          "Relação ↔ tabela; tupla ↔ linha. Dica após anúncio (gratuito).",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -569,7 +676,12 @@
         "cenario": "Loja online: tabelas Clientes e Pedidos.",
         "placeholder": "Digite sua resposta (mínimo de caracteres definido em minLength).",
         "minLength": 40,
-        "dica": "Pense em identificador estável (ID) e vínculo entre tabelas (chave estrangeira). Dica pós-anúncio."
+        "dica": "Pense em identificador estável (ID) e vínculo entre tabelas (chave estrangeira). Dica pós-anúncio.",
+        "dicas": [
+          "Pense em identificador estável (ID) e vínculo entre tabelas (chave estrangeira). Dica pós-anúncio.",
+          "Use um exemplo simples para conectar a teoria com uma situa??o real.",
+          "Finalize mencionando o comando, cl?usula ou conceito SQL principal."
+        ]
       },
       "traducoes": {
         "en": {

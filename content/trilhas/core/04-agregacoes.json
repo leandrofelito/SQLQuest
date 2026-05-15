@@ -49,7 +49,7 @@
       "titulo": "Inteligência de Dados: COUNT, SUM e AVG",
       "conteudo": {
         "blocos": [
-          "Até agora, você aprendeu a buscar linhas individuais e a unir mundos diferentes. Mas no **Neon.tech**, o verdadeiro poder de um Arquiteto de Dados surge ao transformar milhares de linhas em um único número estratégico. Para isso, usamos as **Funções de Agregação**.",
+          "Até agora, você aprendeu a buscar linhas individuais e a unir mundos diferentes. Mas no **PostgreSQL**, o verdadeiro poder de um Arquiteto de Dados surge ao transformar milhares de linhas em um único número estratégico. Para isso, usamos as **Funções de Agregação**.",
           "Essas funções processam um conjunto de valores e retornam um único resultado resumido. Elas são a base de qualquer relatório de inteligência.",
           {
             "type": "definicao",
@@ -73,7 +73,7 @@
           "titulo": "Data Intelligence: COUNT, SUM, and AVG",
           "conteudo": {
             "blocos": [
-              "So far, you've learned to fetch individual rows. In **Neon.tech**, real power comes from turning thousands of rows into a single strategic number using **Aggregate Functions**.",
+              "So far, you've learned to fetch individual rows. In **PostgreSQL**, real power comes from turning thousands of rows into a single strategic number using **Aggregate Functions**.",
               "These functions process a set of values and return a single summarized result.",
               "**Galactic Census Analogy:** Imagine a galaxy-wide census. **COUNT** tells you how many citizens exist. **SUM** reveals how much energy they all consume together. **AVG** gives the average consumption per person."
             ]
@@ -83,7 +83,7 @@
           "titulo": "Inteligencia de Datos: COUNT, SUM y AVG",
           "conteudo": {
             "blocos": [
-              "Hasta ahora, has aprendido a buscar filas individuales. En **Neon.tech**, el verdadero poder surge al transformar miles de filas en un único número estratégico usando **Funciones de Agregación**.",
+              "Hasta ahora, has aprendido a buscar filas individuales. En **PostgreSQL**, el verdadero poder surge al transformar miles de filas en un único número estratégico usando **Funciones de Agregación**.",
               "Estas funciones procesan un conjunto de valores y devuelven un único resultado resumido.",
               "**Analogía del Censo Galáctico:** Imagina un censo en una galaxia. **COUNT** dice cuántos ciudadanos existen. **SUM** revela cuánta energía consumen todos juntos. **AVG** informa el consumo promedio por persona."
             ]
@@ -108,7 +108,12 @@
           "TOTAL"
         ],
         "indiceCorreto": 1,
-        "dica": "Dica de Ouro: Pense na operação matemática de adição. Qual nome em inglês representa o total somado?"
+        "dica": "Dica de Ouro: Pense na operação matemática de adição. Qual nome em inglês representa o total somado?",
+        "dicas": [
+          "Dica de Ouro: Pense na operação matemática de adição. Qual nome em inglês representa o total somado?",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -155,7 +160,12 @@
         "instrucao": "Sobre o comportamento da função de contagem:",
         "afirmacao": "A função COUNT(*) conta todas as linhas presentes na tabela, incluindo aquelas que possuem valores nulos (NULL) em suas colunas.",
         "respostaCorreta": true,
-        "dica": "Dica de Ouro: O asterisco (*) indica ao banco que ele deve olhar para a linha como um todo, não para uma coluna específica."
+        "dica": "Dica de Ouro: O asterisco (*) indica ao banco que ele deve olhar para a linha como um todo, não para uma coluna específica.",
+        "dicas": [
+          "Dica de Ouro: O asterisco (*) indica ao banco que ele deve olhar para a linha como um todo, não para uma coluna específica.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -199,7 +209,12 @@
           "aggregate_function": "AVG"
         },
         "dica": "Dica de Ouro: Use a sintaxe SELECT FUNCÃO(coluna) AS apelido FROM tabela. A função de média é o AVG.",
-        "explicacaoTecnica": "A função AVG soma os valores da coluna populacao e divide pelo número de registros encontrados, gerando um resultado do tipo float/numeric."
+        "explicacaoTecnica": "A função AVG soma os valores da coluna populacao e divide pelo número de registros encontrados, gerando um resultado do tipo float/numeric.",
+        "dicas": [
+          "Dica de Ouro: Use a sintaxe SELECT FUNCÃO(coluna) AS apelido FROM tabela. A função de média é o AVG.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -226,7 +241,7 @@
       "titulo": "Organizando a Galaxia: O Comando GROUP BY",
       "conteudo": {
         "blocos": [
-          "Você já sabe como resumir toda uma tabela em um único número. Mas e se você precisasse saber o total de naves **para cada planeta** separadamente? No **Neon.tech**, usamos o **GROUP BY** para fatiar nossos dados em categorias.",
+          "Você já sabe como resumir toda uma tabela em um único número. Mas e se você precisasse saber o total de naves **para cada planeta** separadamente? No **PostgreSQL**, usamos o **GROUP BY** para fatiar nossos dados em categorias.",
           "O GROUP BY divide as linhas da tabela em grupos com base nos valores de uma ou mais colunas. Depois de criar esses grupos, o SQL aplica a função de agregação (como COUNT ou SUM) em cada um deles de forma individual.",
           {
             "type": "definicao",
@@ -247,7 +262,7 @@
           "titulo": "Organizing the Galaxy: The GROUP BY Command",
           "conteudo": {
             "blocos": [
-              "You already know how to summarize a whole table into a single number. But what if you needed to know the total of ships **for each planet** separately? In **Neon.tech**, we use **GROUP BY** to slice our data into categories.",
+              "You already know how to summarize a whole table into a single number. But what if you needed to know the total of ships **for each planet** separately? In **PostgreSQL**, we use **GROUP BY** to slice our data into categories.",
               "GROUP BY divides table rows into groups based on values. After creating these groups, SQL applies the aggregate function (like COUNT or SUM) to each one individually.",
               "**Coin Analogy:** Imagine you have a bag of coins from different countries. To find out how much you have of each, you first **group** them into piles (Brazil, USA, Japan). Only then do you count (COUNT) or sum (SUM) each pile."
             ]
@@ -257,7 +272,7 @@
           "titulo": "Organizando la Galaxia: El Comando GROUP BY",
           "conteudo": {
             "blocos": [
-              "Ya sabes resumir toda una tabla en un solo número. ¿Pero qué pasa si necesitas saber el total de naves **por cada planeta** por separado? En **Neon.tech**, usamos **GROUP BY** para segmentar nuestros datos en categorías.",
+              "Ya sabes resumir toda una tabla en un solo número. ¿Pero qué pasa si necesitas saber el total de naves **por cada planeta** por separado? En **PostgreSQL**, usamos **GROUP BY** para segmentar nuestros datos en categorías.",
               "GROUP BY divide las filas de la tabla en grupos basados en valores. Después de crear estos grupos, SQL aplica la función de agregación (como COUNT o SUM) a cada uno individualmente.",
               "**Analogía de las Monedas:** Imagina que tienes una bolsa de monedas de varios países. Para saber cuánto tienes de cada una, primero las **agrupas** en montones (Brasil, EE.UU., Japón). Solo después las cuentas (COUNT) o sumas (SUM) por separado."
             ]
@@ -282,7 +297,12 @@
           "HAVING"
         ],
         "indiceCorreto": 2,
-        "dica": "Dica de Ouro: Pense no comando que separa os dados em 'caixas' antes de realizar o cálculo."
+        "dica": "Dica de Ouro: Pense no comando que separa os dados em 'caixas' antes de realizar o cálculo.",
+        "dicas": [
+          "Dica de Ouro: Pense no comando que separa os dados em 'caixas' antes de realizar o cálculo.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -329,7 +349,12 @@
         "instrucao": "Sobre as regras de sintaxe do agrupamento:",
         "afirmacao": "Ao usar o comando GROUP BY, é perfeitamente possível exibir o nome de uma coluna individual no SELECT sem que ela esteja presente na cláusula de agrupamento ou dentro de uma função.",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: Lembre-se da Regra de Ouro: se a coluna está 'sozinha' no SELECT, ela deve estar no agrupamento."
+        "dica": "Dica de Ouro: Lembre-se da Regra de Ouro: se a coluna está 'sozinha' no SELECT, ela deve estar no agrupamento.",
+        "dicas": [
+          "Dica de Ouro: Lembre-se da Regra de Ouro: se a coluna está 'sozinha' no SELECT, ela deve estar no agrupamento.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -374,7 +399,12 @@
           "group_by_column": "planeta_id"
         },
         "dica": "Dica de Ouro: A estrutura é SELECT coluna, COUNT(*) AS apelido FROM tabela GROUP BY coluna.",
-        "explicacaoTecnica": "O GROUP BY aglutina as linhas com o mesmo planeta_id, permitindo que o COUNT(*) calcule o total de ocorrências dentro de cada balde (bucket) de ID."
+        "explicacaoTecnica": "O GROUP BY aglutina as linhas com o mesmo planeta_id, permitindo que o COUNT(*) calcule o total de ocorrências dentro de cada balde (bucket) de ID.",
+        "dicas": [
+          "Dica de Ouro: A estrutura é SELECT coluna, COUNT(*) AS apelido FROM tabela GROUP BY coluna.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -409,7 +439,7 @@
             "def": "WHERE filtra linhas individuais (input). HAVING filtra grupos calculados (output)."
           },
           "**Analogia do Torneio Intergaláctico:** Imagine a organização de um torneio. Primeiro, você agrupa os atletas por planeta. O **WHERE** seria usado para eliminar atletas individuais (ex: 'onde idade > 18'). O **HAVING**, por outro lado, eliminaria delegações inteiras (ex: 'tendo mais de 10 atletas'). Se um planeta trouxe apenas 2 atletas, o grupo todo é descartado pelo HAVING.",
-          "No **Neon.tech**, entender essa distinção é a chave para criar painéis de controle e relatórios analíticos de alta precisão.",
+          "No **PostgreSQL**, entender essa distinção é a chave para criar painéis de controle e relatórios analíticos de alta precisão.",
           {
             "type": "code",
             "code": "SELECT planeta_id, COUNT(*) \nFROM naves \nGROUP BY planeta_id \nHAVING COUNT(*) > 5;",
@@ -457,7 +487,12 @@
           "HAVING"
         ],
         "indiceCorreto": 3,
-        "dica": "Dica de Ouro: O WHERE age no registro individual. Qual cláusula age no resultado final do grupo?"
+        "dica": "Dica de Ouro: O WHERE age no registro individual. Qual cláusula age no resultado final do grupo?",
+        "dicas": [
+          "Dica de Ouro: O WHERE age no registro individual. Qual cláusula age no resultado final do grupo?",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -504,7 +539,12 @@
         "instrucao": "Sobre a lógica de filtragem do banco de dados:",
         "afirmacao": "É possível substituir completamente a cláusula HAVING pela cláusula WHERE para filtrar a soma de uma coluna agrupada (ex: WHERE SUM(valor) > 100).",
         "respostaCorreta": false,
-        "dica": "Dica de Ouro: O SQL tem uma ordem de execução rígida: as linhas são filtradas (WHERE) antes de serem contadas."
+        "dica": "Dica de Ouro: O SQL tem uma ordem de execução rígida: as linhas são filtradas (WHERE) antes de serem contadas.",
+        "dicas": [
+          "Dica de Ouro: O SQL tem uma ordem de execução rígida: as linhas são filtradas (WHERE) antes de serem contadas.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -549,7 +589,12 @@
           "having_clause": "COUNT(*) > 1"
         },
         "dica": "Dica de Ouro: Sua query deve seguir a ordem: SELECT -> FROM -> GROUP BY -> HAVING.",
-        "explicacaoTecnica": "O PostgreSQL primeiro agrupa os registros por ID, conta quantos existem em cada grupo e, por fim, remove do resultado os grupos que não atendem à condição do HAVING."
+        "explicacaoTecnica": "O PostgreSQL primeiro agrupa os registros por ID, conta quantos existem em cada grupo e, por fim, remove do resultado os grupos que não atendem à condição do HAVING.",
+        "dicas": [
+          "Dica de Ouro: Sua query deve seguir a ordem: SELECT -> FROM -> GROUP BY -> HAVING.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

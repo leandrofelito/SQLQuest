@@ -129,7 +129,7 @@ export default function SobrePage() {
 
           <Section title="Tecnologia">
             <p>
-              O SQLQuest é construído com tecnologias modernas: Next.js para o frontend e backend, PostgreSQL como banco de dados principal (via Neon) e um motor de validação de SQL embutido que executa e verifica suas queries diretamente no navegador, sem latência de rede.
+              O SQLQuest é construído com tecnologias modernas: Next.js para o frontend e backend, PostgreSQL como banco de dados principal e um motor de validação de SQL embutido que executa e verifica suas queries diretamente no navegador, sem latência de rede.
             </p>
             <p>
               Isso significa que o feedback das suas queries é instantâneo — você não precisa esperar um servidor processar cada resposta.

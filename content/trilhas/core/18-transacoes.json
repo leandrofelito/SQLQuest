@@ -191,7 +191,12 @@
             "Saldo"
           ],
           "min_rows": 2
-        }
+        },
+        "dicas": [
+          "Uma transação tem três partes: abra com BEGIN, execute as operações (dois UPDATEs aqui), e confirme com COMMIT. O débito e o crédito precisam usar o operador correto — um subtrai, o outro soma.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -375,7 +380,12 @@
             "Total"
           ],
           "min_rows": 1
-        }
+        },
+        "dicas": [
+          "Abra a transação com BEGIN, execute o INSERT e então use ROLLBACK para cancelar tudo. Depois consulte com SELECT COUNT(*) — o número deve ser igual ao de antes, pois o ROLLBACK desfez o INSERT.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -431,7 +441,12 @@
             "Estoque"
           ],
           "min_rows": 1
-        }
+        },
+        "dicas": [
+          "Dentro de uma mesma transação você executa duas operações sequenciais: reduza o estoque com UPDATE (use o valor atual da coluna) e registre a venda com INSERT. Finalize com COMMIT para confirmar ambas.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -480,7 +495,7 @@
       "titulo": "Tudo ou Nada: O Poder das Transações",
       "conteudo": {
         "blocos": [
-          "Imagine que você está transferindo créditos de um planeta para outro no **Neon.tech**. Se o sistema subtrair os créditos da conta de origem, mas falhar antes de somar na conta de destino, o dinheiro sumiria no vácuo! Para evitar isso, usamos as **Transações**.",
+          "Imagine que você está transferindo créditos de um planeta para outro no **PostgreSQL**. Se o sistema subtrair os créditos da conta de origem, mas falhar antes de somar na conta de destino, o dinheiro sumiria no vácuo! Para evitar isso, usamos as **Transações**.",
           "Uma transação é um bloco de comandos que o banco de dados trata como uma única unidade. Ou tudo acontece com sucesso, ou nada acontece.",
           {
             "type": "definicao",
@@ -504,7 +519,7 @@
           "titulo": "All or Nothing: The Power of Transactions",
           "conteudo": {
             "blocos": [
-              "Imagine transferring credits between planets in **Neon.tech**. If the system fails halfway, the money vanishes! To prevent this, we use **Transactions**.",
+              "Imagine transferring credits between planets in **PostgreSQL**. If the system fails halfway, the money vanishes! To prevent this, we use **Transactions**.",
               "A transaction is a block of commands treated as a single unit. Either everything succeeds, or nothing happens.",
               "**Space Elevator Analogy:** You enter and press the buttons (**BEGIN**). The elevator only opens the door at the destination if everything is safe (**COMMIT**). If a failure occurs, it returns to the starting floor (**ROLLBACK**). No one gets stuck in the void."
             ]
@@ -514,7 +529,7 @@
           "titulo": "Todo o Nada: El Poder de las Transacciones",
           "conteudo": {
             "blocos": [
-              "Imagina transferir créditos entre planetas en **Neon.tech**. Si el sistema falla a mitad de camino, ¡el dinero desaparece! Para evitar esto, usamos **Transacciones**.",
+              "Imagina transferir créditos entre planetas en **PostgreSQL**. Si el sistema falla a mitad de camino, ¡el dinero desaparece! Para evitar esto, usamos **Transacciones**.",
               "Una transacción es un bloque de comandos que la base de datos trata como una única unidad. O todo sucede con éxito, o nada sucede.",
               "**Analogía del Elevador Espacial:** Entras y pulsas los botones (**BEGIN**). El elevador solo abre la puerta en el destino si todo es seguro (**COMMIT**). Si hay una falla, vuelve al piso inicial (**ROLLBACK**). Nadie se queda atrapado en el vacío."
             ]
@@ -539,7 +554,12 @@
           "BACKSPACE"
         ],
         "indiceCorreto": 2,
-        "dica": "O nome sugere 'rolar para trás' a fita do tempo do banco de dados."
+        "dica": "O nome sugere 'rolar para trás' a fita do tempo do banco de dados.",
+        "dicas": [
+          "O nome sugere 'rolar para trás' a fita do tempo do banco de dados.",
+          "Elimine alternativas que estejam fora da ordem l?gica do SQL.",
+          "Fique com a op??o que resolve exatamente o que o enunciado pediu, sem sobrar nem faltar."
+        ]
       },
       "traducoes": {
         "en": {
@@ -586,7 +606,12 @@
         "instrucao": "Sobre a persistência dos dados:",
         "afirmacao": "Imediatamente após executar um comando COMMIT com sucesso, o Arquiteto ainda pode usar o ROLLBACK para desfazer aquela operação e voltar os dados ao estado original.",
         "respostaCorreta": false,
-        "dica": "O COMMIT encerra o bloco de segurança e torna as mudanças permanentes no disco rígido."
+        "dica": "O COMMIT encerra o bloco de segurança e torna as mudanças permanentes no disco rígido.",
+        "dicas": [
+          "O COMMIT encerra o bloco de segurança e torna as mudanças permanentes no disco rígido.",
+          "Compare a afirma??o com a regra SQL apresentada na explica??o anterior.",
+          "Se a frase inverter o papel dos comandos ou exagerar com sempre/nunca, desconfie."
+        ]
       },
       "traducoes": {
         "en": {
@@ -631,7 +656,12 @@
           ]
         },
         "dica": "A sequência deve ser BEGIN, depois o comando DELETE, e finalizar com ROLLBACK.",
-        "explicacaoTecnica": "Ao usar o ROLLBACK em vez do COMMIT, o PostgreSQL descarta o log de operações pendentes e mantém a versão original dos dados intacta."
+        "explicacaoTecnica": "Ao usar o ROLLBACK em vez do COMMIT, o PostgreSQL descarta o log de operações pendentes e mantém a versão original dos dados intacta.",
+        "dicas": [
+          "A sequência deve ser BEGIN, depois o comando DELETE, e finalizar com ROLLBACK.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

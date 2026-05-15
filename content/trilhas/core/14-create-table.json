@@ -231,7 +231,12 @@
             "Estoque"
           ],
           "min_rows": 0
-        }
+        },
+        "dicas": [
+          "A sintaxe é: CREATE TABLE nome (coluna1 TIPO restrições, coluna2 TIPO restrições). Olhe o enunciado coluna por coluna — qual é o tipo de cada uma? Qual tem NOT NULL, DEFAULT ou PRIMARY KEY?",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -419,7 +424,12 @@
             "Valor"
           ],
           "min_rows": 0
-        }
+        },
+        "dicas": [
+          "Após listar as colunas, adicione a definição da chave estrangeira dentro dos parênteses do CREATE TABLE. A sintaxe é: FOREIGN KEY (coluna_local) REFERENCES tabela_pai(coluna_pai).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -481,7 +491,12 @@
             "Publicado"
           ],
           "min_rows": 0
-        }
+        },
+        "dicas": [
+          "Siga o enunciado coluna a coluna. Para DEFAULT, a sintaxe é: TIPO DEFAULT valor. Para uma coluna opcional (sem NOT NULL), basta declarar o tipo. Garanta que os nomes das colunas sejam exatamente os pedidos.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {

@@ -45,7 +45,7 @@
       "titulo": "Velocidade Máxima: O Poder dos Índices",
       "conteudo": {
         "blocos": [
-          "Você já é um mestre em manipular dados. Mas o que acontece quando sua tabela cresce para milhões de linhas? No **Neon.tech**, uma consulta que levava milissegundos pode começar a levar segundos. Para resolver isso, usamos o **INDEX**.",
+          "Você já é um mestre em manipular dados. Mas o que acontece quando sua tabela cresce para milhões de linhas? No **PostgreSQL**, uma consulta que levava milissegundos pode começar a levar segundos. Para resolver isso, usamos o **INDEX**.",
           "Um índice é uma estrutura de dados separada da tabela que funciona como um atalho. Sem ele, o banco realiza um **Sequential Scan** (leitura sequencial), folheando cada linha da tabela para encontrar o que você pediu. Com o índice, ele vai direto ao endereço físico do dado.",
           {
             "type": "definicao",

@@ -102,30 +102,68 @@ export default async function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 py-20 text-center">
-        <div className="inline-block bg-[#7c3aed]/20 border border-[#7c3aed]/30 text-[#c4b5fd] text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
-          100% gratuito para começar
-        </div>
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-          Aprenda SQL de verdade,{' '}
-          <span className="text-[#a78bfa]">jogando</span>
-        </h1>
-        <p className="text-lg text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-          SQLQuest é uma plataforma gamificada para aprender SQL do zero ao avançado. Ganhe XP, conquiste badges, suba no ranking e receba certificados verificáveis — tudo enquanto pratica com exercícios reais.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            href="/register"
-            className="bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-8 py-4 rounded-2xl font-bold text-base transition-colors"
-          >
-            Criar conta gratuita
-          </Link>
-          <Link
-            href="/login"
-            className="border border-white/10 hover:border-white/20 text-white/70 hover:text-white px-8 py-4 rounded-2xl font-semibold text-base transition-colors"
-          >
-            Já tenho conta
-          </Link>
+      <section className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+        <div className="grid items-center gap-12 md:grid-cols-[1.05fr_0.95fr]">
+          <div className="text-center md:text-left">
+            <div className="inline-block bg-[#7c3aed]/20 border border-[#7c3aed]/30 text-[#c4b5fd] text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+              100% gratuito para começar
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+              Aprenda SQL de verdade,{' '}
+              <span className="text-[#a78bfa]">jogando</span>
+            </h1>
+            <p className="text-lg text-white/60 max-w-2xl mx-auto md:mx-0 mb-10 leading-relaxed">
+              SQLQuest é uma plataforma gamificada para aprender SQL do zero ao avançado. Ganhe XP, conquiste badges, suba no ranking e receba certificados verificáveis — tudo enquanto pratica com exercícios reais.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+              <Link
+                href="/register"
+                className="bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-8 py-4 rounded-2xl font-bold text-base transition-colors"
+              >
+                Criar conta gratuita
+              </Link>
+              <Link
+                href="/login"
+                className="border border-white/10 hover:border-white/20 text-white/70 hover:text-white px-8 py-4 rounded-2xl font-semibold text-base transition-colors"
+              >
+                Já tenho conta
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-sm">
+            <div className="absolute -inset-4 rounded-[2rem] bg-[#8b5cf6]/10 blur-2xl" />
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-[#8b5cf6]/30 bg-[#0f1117] shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/5 px-5 py-4">
+                <div className="flex items-center gap-2">
+                  <img src="/brand/logo.png" alt="" className="h-8 w-8" />
+                  <span className="text-sm font-bold text-[#a78bfa]">SQL<span className="text-[#facc15]">Quest</span></span>
+                </div>
+                <span className="rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-bold text-emerald-300">PROGRESSO</span>
+              </div>
+              <div className="space-y-4 p-5">
+                {[
+                  ['Fundamentos do SQL', '68%', 'w-[68%]'],
+                  ['JOINs e Relacionamentos', '34%', 'w-[34%]'],
+                  ['Window Functions', '12%', 'w-[12%]'],
+                ].map(([titulo, pct, width], i) => (
+                  <div key={titulo} className="rounded-2xl border border-white/5 bg-[#080a0f] p-4">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                      <p className="text-sm font-bold text-white">{titulo}</p>
+                      <span className="text-xs font-bold text-[#a78bfa]">{pct}</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-[#1e2028]">
+                      <div className={`h-full rounded-full ${i === 0 ? 'bg-[#8b5cf6]' : i === 1 ? 'bg-emerald-400' : 'bg-[#facc15]'} ${width}`} />
+                    </div>
+                  </div>
+                ))}
+                <div className="rounded-2xl border border-[#facc15]/20 bg-[#facc15]/10 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#facc15]">Próximo desafio</p>
+                  <p className="mt-1 text-sm text-white/75">Escreva uma query com SELECT, FROM e WHERE.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -291,7 +329,7 @@ export default async function LandingPage() {
         <div className="max-w-2xl mx-auto px-6">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Comece hoje, de graça</h2>
           <p className="text-white/50 mb-8 leading-relaxed">
-            Milhares de pessoas já usam o SQLQuest para aprender SQL de forma prática e eficiente. Crie sua conta em segundos e comece sua primeira trilha agora mesmo.
+            Crie sua conta em segundos e comece sua primeira trilha agora mesmo. Você aprende lendo pouco, praticando bastante e recebendo feedback a cada etapa.
           </p>
           <Link
             href="/register"
@@ -309,6 +347,8 @@ export default async function LandingPage() {
           <div className="flex items-center gap-6">
             <Link href="/blog" className="hover:text-white/60 transition-colors">Blog SQL</Link>
             <Link href="/sobre" className="hover:text-white/60 transition-colors">Sobre</Link>
+            <Link href="/roadmap" className="hover:text-white/60 transition-colors">Roadmap</Link>
+            <Link href="/status" className="hover:text-white/60 transition-colors">Status</Link>
             <Link href="/privacidade" className="hover:text-white/60 transition-colors">Privacidade</Link>
             <Link href="/termos" className="hover:text-white/60 transition-colors">Termos</Link>
             <a href="mailto:suporte@sqlquest.com.br" className="hover:text-white/60 transition-colors">Suporte</a>

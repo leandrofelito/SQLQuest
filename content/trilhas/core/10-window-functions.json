@@ -201,7 +201,12 @@
             "Posicao"
           ],
           "min_rows": 6
-        }
+        },
+        "dicas": [
+          "Window functions usam a sintaxe: função() OVER (...). Para numerar linhas sem colapsar o resultado, use a função que gera um número sequencial único. O que vai dentro do OVER() define a ordem da numeração.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -297,7 +302,12 @@
             "RankDept"
           ],
           "min_rows": 7
-        }
+        },
+        "dicas": [
+          "Para criar um ranking independente por departamento, o OVER() precisa de duas partes: PARTITION BY (que reinicia o cálculo para cada grupo) e ORDER BY (que define a ordem dentro de cada grupo).",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
@@ -461,7 +471,12 @@
             "MesAnterior"
           ],
           "min_rows": 5
-        }
+        },
+        "dicas": [
+          "Para acessar o valor do mês anterior, existe uma função window que 'olha para trás' na janela de dados. Ela recebe o nome da coluna como parâmetro e usa OVER() com ORDER BY para definir a sequência temporal.",
+          "Confira no schema os nomes exatos de tabelas e colunas antes de executar.",
+          "Se a resposta pede colunas espec?ficas, projete s? essas colunas em vez de usar SELECT *."
+        ]
       },
       "traducoes": {
         "en": {
