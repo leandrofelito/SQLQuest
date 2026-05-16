@@ -26,7 +26,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
   const [flutterAdState, setFlutterAdState] = useState<'loading' | 'showing' | 'done'>('loading')
   const [confirmandoSaida, setConfirmandoSaida] = useState(false)
   const nativeHost = useNativeAdHost()
-  const { canLoadAds, adsConsent, acceptAds, rejectAds } = usePrivacyConsent()
+  const { canLoadAds, canLoadPersonalizedAds, adsConsent, acceptAds, rejectAds } = usePrivacyConsent()
   const pushed = useRef(false)
   const adRef = useRef<HTMLModElement>(null)
   // Ref para sempre chamar a versão mais recente do callback sem reiniciar o efeito
@@ -72,13 +72,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       return
     }
 
-    if (!canLoadAds) {
-      if (adsConsent === 'rejected') {
-        setAdFailed(true)
-        setTempo(0)
-      }
-      return
-    }
+    if (!canLoadAds) return
 
     if (nativeHost === 'pending') {
       return
@@ -162,13 +156,21 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       const timer = setTimeout(() => {
         setFlutterAdState('showing')
         if (adType === 'interstitial') {
-          ;(window as any).AdMobBridge.postMessage('showInterstitialAd')
+          ;(window as any).AdMobBridge.postMessage(
+            JSON.stringify({ action: 'showInterstitialAd', nonPersonalizedAds: !canLoadPersonalizedAds }),
+          )
         } else if (expectedRequestId) {
           ;(window as any).AdMobBridge.postMessage(
-            JSON.stringify({ action: 'showRewardedAd', requestId: expectedRequestId }),
+            JSON.stringify({
+              action: 'showRewardedAd',
+              requestId: expectedRequestId,
+              nonPersonalizedAds: !canLoadPersonalizedAds,
+            }),
           )
         } else {
-          ;(window as any).AdMobBridge.postMessage('showRewardedAd')
+          ;(window as any).AdMobBridge.postMessage(
+            JSON.stringify({ action: 'showRewardedAd', nonPersonalizedAds: !canLoadPersonalizedAds }),
+          )
         }
       }, 300)
 
@@ -198,7 +200,9 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
           return
         }
         try {
-          ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+          const ads = ((window as any).adsbygoogle = (window as any).adsbygoogle || [])
+          ads.requestNonPersonalizedAds = canLoadPersonalizedAds ? 0 : 1
+          ads.push({})
 
           setTimeout(() => {
             const ins = adRef.current
@@ -226,7 +230,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
       clearTimeout(timer)
       clearInterval(interval)
     }
-  }, [adsConsent, canLoadAds, isPro, adType, nativeHost])
+  }, [adsConsent, canLoadAds, canLoadPersonalizedAds, isPro, adType, nativeHost])
 
   if (isPro) return null
 
@@ -240,8 +244,8 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
         <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#12141c] p-6 text-center">
           <h3 className="text-lg font-bold text-white">Privacidade e publicidade</h3>
           <p className="mt-2 text-sm leading-relaxed text-white/55">
-            Para mostrar anúncios e liberar esta ação, precisamos da sua permissão para cookies e
-            identificadores de publicidade.
+            Para mostrar anúncios e liberar esta ação, escolha suas preferências de publicidade.
+            Você também pode continuar com anúncios não personalizados.
           </p>
           <div className="mt-5 flex flex-col gap-2">
             <button
@@ -255,8 +259,6 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
               type="button"
               onClick={() => {
                 rejectAds()
-                setAdFailed(true)
-                setTempo(0)
               }}
               className="w-full rounded-xl border border-white/10 bg-white/5 py-3 font-semibold text-white/70"
             >
@@ -404,6 +406,7 @@ export function AnuncioVideo({ isPro, onConcluido, onFechar, onFalhou, label, ad
               data-ad-slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TRILHA_MODAL}
               data-ad-format="auto"
               data-full-width-responsive="true"
+              data-npa={canLoadPersonalizedAds ? undefined : '1'}
             />
           )}
         </div>

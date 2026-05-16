@@ -30,7 +30,6 @@ function ConquistasSkeleton() {
     </div>
   )
 }
-
 const LUCIDE_ICONS: Record<string, LucideIcon> = {
   Cpu,
 }
@@ -221,6 +220,12 @@ export default function PerfilPage() {
   const [conquistasLoading, setConquistasLoading] = useState(() => getCachedConquistas() === null)
   const [prestige, setPrestige] = useState(() => getCachedPrestige() ?? 0)
   const [loading, setLoading] = useState(false)
+  const [deletionLoading, setDeletionLoading] = useState(false)
+  const [deletionConfirmOpen, setDeletionConfirmOpen] = useState(false)
+  const [deletionInfo, setDeletionInfo] = useState<{
+    deletionRequestedAt: string | null
+    deletionScheduledAt: string | null
+  }>({ deletionRequestedAt: null, deletionScheduledAt: null })
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [filtroConquistas, setFiltroConquistas] = useState<'desbloqueadas' | 'todas' | 'bloqueadas'>('desbloqueadas')
   const [visiblePorSecao, setVisiblePorSecao] = useState<Record<SecaoConquista, number>>(() =>
@@ -277,6 +282,21 @@ export default function PerfilPage() {
   }, [])
 
   useEffect(() => {
+    async function loadDeletionStatus() {
+      try {
+        const res = await fetch('/api/user/deletion', { cache: 'no-store' })
+        if (!res.ok) return
+        const data = await res.json()
+        setDeletionInfo({
+          deletionRequestedAt: data.deletionRequestedAt ?? null,
+          deletionScheduledAt: data.deletionScheduledAt ?? null,
+        })
+      } catch {}
+    }
+    loadDeletionStatus()
+  }, [])
+
+  useEffect(() => {
     async function load() {
       try {
         const [progressos, certs, conquistasData, prestigeVal] = await Promise.all([
@@ -320,12 +340,65 @@ export default function PerfilPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'sqlquest-meus-dados.json'
+    a.download = 'sqlquest-meus-dados.html'
     document.body.appendChild(a)
     a.click()
     a.remove()
     URL.revokeObjectURL(url)
   }
+
+  async function handleRequestDeletion() {
+    setDeletionLoading(true)
+    try {
+      const res = await fetch('/api/user/deletion', { method: 'POST' })
+      const data = await res.json().catch(() => ({}))
+
+      if (!res.ok) {
+        alert(data?.error ?? 'Não foi possível solicitar a exclusão da conta agora.')
+        return
+      }
+
+      setDeletionInfo({
+        deletionRequestedAt: data.deletionRequestedAt ?? null,
+        deletionScheduledAt: data.deletionScheduledAt ?? null,
+      })
+      setDeletionConfirmOpen(false)
+      alert('Solicitação registrada. Você pode reativar a conta entrando novamente em até 7 dias.')
+    } finally {
+      setDeletionLoading(false)
+    }
+  }
+
+  async function handleCancelDeletion() {
+    setDeletionLoading(true)
+    try {
+      const res = await fetch('/api/user/deletion', { method: 'DELETE' })
+      const data = await res.json().catch(() => ({}))
+
+      if (!res.ok) {
+        alert(data?.error ?? 'Não foi possível reativar a conta agora.')
+        return
+      }
+
+      setDeletionInfo({
+        deletionRequestedAt: data.deletionRequestedAt ?? null,
+        deletionScheduledAt: data.deletionScheduledAt ?? null,
+      })
+      alert('Conta reativada. A exclusão foi cancelada.')
+    } finally {
+      setDeletionLoading(false)
+    }
+  }
+
+  const deletionScheduledLabel = deletionInfo.deletionScheduledAt
+    ? new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(new Date(deletionInfo.deletionScheduledAt))
+    : null
 
   return (
     <div className="min-h-screen bg-[#080a0f] pb-[calc(5rem+var(--safe-area-bottom,0px))]">
@@ -529,6 +602,23 @@ export default function PerfilPage() {
         <div className="bg-[#0f1117] border border-[#1e2028] rounded-2xl p-4 space-y-3">
           <h3 className="text-white/50 text-xs font-semibold uppercase tracking-wide">Privacidade</h3>
           <div className="space-y-2 text-sm">
+            {deletionScheduledLabel ? (
+              <div className="rounded-xl border border-yellow-400/25 bg-yellow-400/10 px-3 py-3 text-yellow-100">
+                <p className="font-semibold">Exclusão de conta solicitada</p>
+                <p className="mt-1 text-xs leading-relaxed text-yellow-100/80">
+                  Sua conta está programada para exclusão permanente em {deletionScheduledLabel}. Para cancelar,
+                  basta reativar a conta antes desse prazo.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCancelDeletion}
+                  disabled={deletionLoading}
+                  className="mt-3 rounded-xl border border-yellow-100/20 bg-yellow-100/10 px-3 py-2 text-xs font-semibold text-yellow-50 transition-colors hover:bg-yellow-100/15 disabled:opacity-60"
+                >
+                  Reativar minha conta
+                </button>
+              </div>
+            ) : null}
             <div className="flex items-center justify-between gap-3">
               <span className="text-white/60">Publicidade personalizada</span>
               <button
@@ -544,14 +634,16 @@ export default function PerfilPage() {
               onClick={handleExportData}
               className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left text-white/70 transition-colors hover:bg-white/10"
             >
-              Baixar meus dados
+              Baixar relatório da minha conta
             </button>
-            <a
-              href={`mailto:suporte@sqlquest.com.br?subject=${encodeURIComponent('Solicitação LGPD - SQLQuest')}&body=${encodeURIComponent('Olá, SQLQuest.\n\nQuero exercer meus direitos de titular de dados. Meu e-mail cadastrado é: ' + (user?.email ?? '') + '\n\nSolicitação: ')}`}
-              className="block w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-white/70 transition-colors hover:bg-white/10"
+            <button
+              type="button"
+              onClick={() => setDeletionConfirmOpen(true)}
+              disabled={Boolean(deletionScheduledLabel)}
+              className="block w-full rounded-xl border border-red-400/20 bg-red-500/10 px-3 py-2 text-left text-red-100 transition-colors hover:bg-red-500/15 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Solicitar correção ou exclusão da conta
-            </a>
+              Solicitar exclusão da conta
+            </button>
             <div className="flex flex-wrap gap-3 pt-1 text-xs">
               <Link href="/privacidade" className="text-[#a78bfa] hover:underline">
                 Política de privacidade
@@ -584,6 +676,45 @@ export default function PerfilPage() {
           {m.sair}
         </Button>
       </div>
+
+      {deletionConfirmOpen ? (
+        <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/70 px-4 py-4 sm:items-center">
+          <div className="w-full max-w-md rounded-2xl border border-red-400/20 bg-[#0f1117] p-5 shadow-2xl">
+            <h2 className="text-lg font-bold text-white">Excluir conta?</h2>
+            <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70">
+              <p>
+                A exclusão não acontece na hora. Sua conta fica em espera por 7 dias para você poder mudar de ideia.
+              </p>
+              <p>
+                Se você entrar novamente nesse período, a conta será reativada automaticamente. Depois dos 7 dias,
+                ela será excluída permanentemente.
+              </p>
+              <p>
+                Se você criar uma nova conta com o mesmo e-mail depois disso, o acesso premium será restaurado
+                automaticamente caso esse e-mail tenha uma assinatura ativa.
+              </p>
+            </div>
+            <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setDeletionConfirmOpen(false)}
+                disabled={deletionLoading}
+                className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75 transition-colors hover:bg-white/10 disabled:opacity-60"
+              >
+                Manter minha conta
+              </button>
+              <button
+                type="button"
+                onClick={handleRequestDeletion}
+                disabled={deletionLoading}
+                className="rounded-xl border border-red-400/30 bg-red-500/20 px-4 py-2 text-sm font-semibold text-red-50 transition-colors hover:bg-red-500/30 disabled:opacity-60"
+              >
+                {deletionLoading ? 'Solicitando...' : 'Solicitar exclusão'}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <NavBottom />
     </div>

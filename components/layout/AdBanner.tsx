@@ -21,7 +21,7 @@ interface AdBannerProps {
 export function AdBanner({ placement = 'default', showLabel = false }: AdBannerProps) {
   const { isPro } = useUser()
   const { messages } = useLocale()
-  const { canLoadAds } = usePrivacyConsent()
+  const { canLoadAds, canLoadPersonalizedAds } = usePrivacyConsent()
   const ref = useRef<HTMLDivElement>(null)
   const pushed = useRef(false)
   const nativeHost = useNativeAdHost()
@@ -39,7 +39,9 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
       ;(window as any).onBannerAdResult = onResult
       // Solicita banner nativo ao AdMob via bridge
       try {
-        ;(window as any).AdMobBridge.postMessage('showBanner')
+        ;(window as any).AdMobBridge.postMessage(
+          JSON.stringify({ action: 'showBanner', nonPersonalizedAds: !canLoadPersonalizedAds }),
+        )
       } catch {}
       return () => {
         try {
@@ -56,9 +58,11 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
     if (pushed.current) return
     pushed.current = true
     try {
-      ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+      const ads = ((window as any).adsbygoogle = (window as any).adsbygoogle || [])
+      ads.requestNonPersonalizedAds = canLoadPersonalizedAds ? 0 : 1
+      ads.push({})
     } catch {}
-  }, [canLoadAds, isPro, placement, nativeHost])
+  }, [canLoadAds, canLoadPersonalizedAds, isPro, placement, nativeHost])
 
   if (isPro || !canLoadAds) return null
 
@@ -122,6 +126,7 @@ export function AdBanner({ placement = 'default', showLabel = false }: AdBannerP
           data-ad-slot={slotId}
           data-ad-format="auto"
           data-full-width-responsive="true"
+          data-npa={canLoadPersonalizedAds ? undefined : '1'}
         />
       </div>
     </div>

@@ -100,9 +100,9 @@ export default function TermosPage() {
               consentimento quando exigido pela legislação aplicável.
             </p>
             <p>
-              Se você recusar publicidade personalizada, algumas experiências com anúncios podem ser
-              limitadas, substituídas por espera ou ajustadas para preservar sua escolha de
-              privacidade.
+              Cookies essenciais são necessários para login, segurança e funcionamento da conta. A
+              publicidade personalizada é opcional: você pode recusá-la e continuar usando a conta
+              com os cookies essenciais.
             </p>
           </Section>
 

@@ -93,7 +93,7 @@ export default function PrivacidadePage() {
             <p>
               Cookies e identificadores de publicidade do Google AdSense, Google AdMob ou serviços
               equivalentes só devem ser ativados após o seu consentimento. Você pode recusar a
-              publicidade personalizada e alterar essa escolha pelo perfil.
+              publicidade personalizada e continuar usando a conta com os cookies essenciais.
             </p>
             <p>
               O Google pode tratar dados de publicidade conforme suas próprias políticas. Saiba mais

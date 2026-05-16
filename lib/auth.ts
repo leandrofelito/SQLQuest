@@ -10,6 +10,13 @@ import { COOKIE_NAME } from './locale'
 import { PRESTIGIO_NIVEL_MINIMO } from '@/features/gamification/domain/prestige'
 import { computeNovoStreak } from '@/features/gamification/domain/streak'
 import { getLevel } from '@/features/gamification/domain/xp'
+import { purgeExpiredAccountDeletions, reactivateAccountIfInGracePeriod } from '@/lib/account-deletion'
+
+const PRIVACY_CONSENT_COOKIE_NAME = 'sqlquest_ads_consent'
+
+function hasEssentialCookieConsent(value?: string) {
+  return value === 'accepted' || value === 'rejected'
+}
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
@@ -32,6 +39,10 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
+
+        await purgeExpiredAccountDeletions()
+        const reactivation = await reactivateAccountIfInGracePeriod(credentials.email)
+        if (reactivation.status === 'expired') return null
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
@@ -57,6 +68,15 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   callbacks: {
     async signIn({ user, account }) {
+      const cookieStore = await cookies()
+      if (!hasEssentialCookieConsent(cookieStore.get(PRIVACY_CONSENT_COOKIE_NAME)?.value)) {
+        return false
+      }
+      if (user?.email) {
+        await purgeExpiredAccountDeletions()
+        const reactivation = await reactivateAccountIfInGracePeriod(user.email)
+        if (reactivation.status === 'expired') return false
+      }
       if (account?.provider === 'google' && user?.email) {
         return true
       }

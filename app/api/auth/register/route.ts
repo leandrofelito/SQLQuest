@@ -3,9 +3,11 @@ import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { randomBytes } from 'crypto'
+import { cookies } from 'next/headers'
 import { sendVerificationEmail } from '@/lib/email'
 import { contemPalavrão } from '@/features/auth/domain/nickname'
 import { checkRateLimitDB, getClientIp } from '@/lib/rate-limit'
+import { applyPremiumEntitlementByEmail, purgeExpiredAccountDeletions } from '@/lib/account-deletion'
 
 const schema = z.object({
   firstName: z.string().min(2, 'Nome deve ter ao menos 2 caracteres').max(25),
@@ -26,8 +28,24 @@ const schema = z.object({
     .refine(p => /[^A-Za-z0-9]/.test(p), 'Senha deve conter ao menos um caractere especial'),
 })
 
+const PRIVACY_CONSENT_COOKIE_NAME = 'sqlquest_ads_consent'
+
+function hasEssentialCookieConsent(value?: string) {
+  return value === 'accepted' || value === 'rejected'
+}
+
 export async function POST(req: Request) {
+  const cookieStore = await cookies()
+  if (!hasEssentialCookieConsent(cookieStore.get(PRIVACY_CONSENT_COOKIE_NAME)?.value)) {
+    return NextResponse.json(
+      { error: 'Escolha suas preferências de cookies para criar sua conta.' },
+      { status: 403 }
+    )
+  }
+
   // 5 tentativas de cadastro por IP a cada hora — evita bomba de email e enumeração
+  await purgeExpiredAccountDeletions()
+
   const ip = getClientIp(req)
   const rl = await checkRateLimitDB(`register:${ip}`, 5, 60 * 60 * 1000)
   if (!rl.allowed) {
@@ -70,9 +88,11 @@ export async function POST(req: Request) {
   // Custo 10: seguro e ~3× mais rápido que 12, evitando timeouts em serverless
   const hash = await bcrypt.hash(password, 10)
 
-  await prisma.user.create({
+  const novoUsuario = await prisma.user.create({
     data: { name, nickname, email, password: hash },
   })
+
+  await applyPremiumEntitlementByEmail(novoUsuario.id, email)
 
   const token = randomBytes(32).toString('hex')
   const expires = new Date(Date.now() + 24 * 60 * 60 * 1000)

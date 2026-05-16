@@ -4,6 +4,7 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { contemPalavrão } from '@/features/auth/domain/nickname'
+import { usePrivacyConsent } from '@/context/PrivacyConsentContext'
 
 // ── Força da senha ──────────────────────────────────────────────────
 interface PasswordCheck {
@@ -53,6 +54,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [emailEnviado, setEmailEnviado] = useState(false)
   const [showChecks, setShowChecks] = useState(false)
+  const { adsConsent, canAuthenticate, resetAdsConsent } = usePrivacyConsent()
 
   const checks = useMemo(() => getPasswordChecks(form.password), [form.password])
   const strength = useMemo(() => getStrength(form.password), [form.password])
@@ -66,6 +68,14 @@ export default function RegisterPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
+    if (!canAuthenticate) {
+      setErro(
+        adsConsent === 'rejected'
+          ? 'Confirme sua escolha de privacidade para criar conta.'
+          : 'Escolha as preferências de cookies para criar sua conta.'
+      )
+      return
+    }
     if (!allChecksPassed) {
       setErro('A senha não atende aos requisitos de segurança')
       return
@@ -322,6 +332,24 @@ export default function RegisterPage() {
               {erro}
             </p>
           )}
+          {!canAuthenticate && !erro && (
+            <div className="text-yellow-200/85 text-xs bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-2.5 leading-relaxed">
+              <p>
+                {adsConsent === 'rejected'
+                  ? 'Publicidade personalizada recusada. Você já pode criar conta usando apenas cookies essenciais.'
+                  : 'Escolha suas preferências de cookies no aviso de privacidade para criar sua conta.'}
+              </p>
+              {adsConsent !== 'unknown' && (
+                <button
+                  type="button"
+                  onClick={resetAdsConsent}
+                  className="mt-2 font-bold text-yellow-100 underline underline-offset-2"
+                >
+                  Alterar escolha
+                </button>
+              )}
+            </div>
+          )}
 
           <Button
             type="submit"
@@ -329,7 +357,7 @@ export default function RegisterPage() {
             fullWidth
             size="lg"
             className="mt-2"
-            disabled={form.password.length > 0 && !allChecksPassed}
+            disabled={!canAuthenticate || (form.password.length > 0 && !allChecksPassed)}
           >
             Criar conta
           </Button>
@@ -344,8 +372,19 @@ export default function RegisterPage() {
 
         {/* Google */}
         <button
-          onClick={() => signIn('google', { callbackUrl: '/home' })}
-          className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-[#2a2d3a] bg-[#0f1117] text-white/70 text-sm hover:border-[#8b5cf6]/50 hover:text-white transition-all"
+          onClick={() => {
+            if (!canAuthenticate) {
+              setErro(
+                adsConsent === 'rejected'
+                  ? 'Confirme sua escolha de privacidade para continuar com Google.'
+                  : 'Escolha as preferências de cookies para continuar com Google.'
+              )
+              return
+            }
+            signIn('google', { callbackUrl: '/home' })
+          }}
+          disabled={!canAuthenticate}
+          className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-[#2a2d3a] bg-[#0f1117] text-white/70 text-sm hover:border-[#8b5cf6]/50 hover:text-white transition-all disabled:opacity-50"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

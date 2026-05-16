@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
+import { usePrivacyConsent } from '@/context/PrivacyConsentContext'
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthCallback: 'Erro ao autenticar com Google. Tente novamente.',
@@ -25,6 +26,7 @@ function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [loadingGoogle, setLoadingGoogle] = useState(false)
   const [manterLogado, setManterLogado] = useState(false)
+  const { adsConsent, canAuthenticate, resetAdsConsent } = usePrivacyConsent()
 
   useEffect(() => {
     if (status === 'authenticated') router.push('/home')
@@ -48,6 +50,14 @@ function LoginForm() {
 
   async function handleEmailLogin(e: React.FormEvent) {
     e.preventDefault()
+    if (!canAuthenticate) {
+      setErro(
+        adsConsent === 'rejected'
+          ? 'Confirme sua escolha de privacidade para entrar no SQLQuest.'
+          : 'Escolha as preferências de cookies para entrar no SQLQuest.'
+      )
+      return
+    }
     setLoading(true)
     const res = await signIn('credentials', {
       email: form.email,
@@ -93,6 +103,14 @@ function LoginForm() {
         {/* Google */}
         <button
           onClick={() => {
+            if (!canAuthenticate) {
+              setErro(
+                adsConsent === 'rejected'
+                  ? 'Confirme sua escolha de privacidade para entrar com Google.'
+                  : 'Escolha as preferências de cookies para entrar com Google.'
+              )
+              return
+            }
             setLoadingGoogle(true)
             // Seta flags antes do redirect para que SessionGuard não dispare signOut no retorno
             // (sessionStorage não sobrevive ao redirect OAuth externo, mas localStorage sim)
@@ -100,7 +118,7 @@ function LoginForm() {
             localStorage.setItem('sqlquest_keep_logged_in', '1')
             signIn('google', { callbackUrl: '/home' })
           }}
-          disabled={loadingGoogle}
+          disabled={loadingGoogle || !canAuthenticate}
           className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl bg-white text-gray-800 text-sm font-semibold hover:bg-gray-100 transition-all disabled:opacity-60"
         >
           {loadingGoogle ? (
@@ -165,6 +183,24 @@ function LoginForm() {
               {erro}
             </p>
           )}
+          {!canAuthenticate && !erro && (
+            <div className="text-yellow-200/85 text-xs bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-2.5 leading-relaxed">
+              <p>
+                {adsConsent === 'rejected'
+                  ? 'Publicidade personalizada recusada. Você já pode entrar usando apenas cookies essenciais.'
+                  : 'Escolha suas preferências de cookies no aviso de privacidade para entrar.'}
+              </p>
+              {adsConsent !== 'unknown' && (
+                <button
+                  type="button"
+                  onClick={resetAdsConsent}
+                  className="mt-2 font-bold text-yellow-100 underline underline-offset-2"
+                >
+                  Alterar escolha
+                </button>
+              )}
+            </div>
+          )}
 
           <label className="flex items-center gap-2.5 cursor-pointer select-none">
             <div
@@ -189,7 +225,7 @@ function LoginForm() {
             </span>
           </label>
 
-          <Button type="submit" loading={loading} fullWidth size="lg">
+          <Button type="submit" loading={loading} fullWidth size="lg" disabled={!canAuthenticate}>
             Entrar
           </Button>
         </form>

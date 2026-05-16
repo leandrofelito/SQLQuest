@@ -125,6 +125,8 @@ class _WebViewScreenState extends State<WebViewScreen>
   InterstitialAd? _interstitialAd;
   BannerAd? _bannerAd;
   bool _showingBanner = false;
+  bool? _rewardedAdNonPersonalized;
+  bool? _interstitialAdNonPersonalized;
 
   /// Evita enviar `dismissed` ao JS antes de `onUserEarnedReward` (mediação / bridge).
   Timer? _rewardedDismissNotifyTimer;
@@ -141,9 +143,6 @@ class _WebViewScreenState extends State<WebViewScreen>
       curve: Curves.easeIn,
     );
     _fadeController.forward();
-    _loadRewardedAd();
-    _loadInterstitialAd();
-
     // Se já logado, abre direto na home — evita o flash da tela de login
     final initialUrl =
         widget.isLoggedIn ? '$_appUrl/home' : _appUrl;
@@ -250,6 +249,7 @@ class _WebViewScreenState extends State<WebViewScreen>
   void _handleAdMobBridgeMessage(String raw) {
     var action = raw;
     String? requestId;
+    var nonPersonalizedAds = false;
     final trimmed = raw.trimLeft();
     if (trimmed.startsWith('{')) {
       try {
@@ -260,17 +260,19 @@ class _WebViewScreenState extends State<WebViewScreen>
           if (a is String) action = a;
           final r = m['requestId'];
           if (r is String && r.isNotEmpty) requestId = r;
+          final npa = m['nonPersonalizedAds'];
+          if (npa is bool) nonPersonalizedAds = npa;
         }
       } catch (_) {
         // mantém action = raw
       }
     }
     if (action == 'showAd' || action == 'showRewardedAd') {
-      _showRewardedAd(requestId);
+      _showRewardedAd(requestId, nonPersonalizedAds: nonPersonalizedAds);
     } else if (action == 'showInterstitialAd') {
-      _showInterstitialAd();
+      _showInterstitialAd(nonPersonalizedAds: nonPersonalizedAds);
     } else if (action == 'showBanner') {
-      _loadBannerAd();
+      _loadBannerAd(nonPersonalizedAds: nonPersonalizedAds);
     } else if (action == 'hideBanner') {
       _hideBanner();
     }
@@ -288,17 +290,31 @@ class _WebViewScreenState extends State<WebViewScreen>
 
   // ── Rewarded ──────────────────────────────────────────────────────────────
 
-  void _loadRewardedAd() {
+  AdRequest _adRequest({required bool nonPersonalizedAds}) {
+    return AdRequest(nonPersonalizedAds: nonPersonalizedAds);
+  }
+
+  void _loadRewardedAd({required bool nonPersonalizedAds}) {
     RewardedAd.load(
       adUnitId: _effectiveRewardedAdUnitId(),
-      request: const AdRequest(),
+      request: _adRequest(nonPersonalizedAds: nonPersonalizedAds),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
-          if (mounted) setState(() => _rewardedAd = ad);
+          if (mounted) {
+            setState(() {
+              _rewardedAd = ad;
+              _rewardedAdNonPersonalized = nonPersonalizedAds;
+            });
+          }
         },
         onAdFailedToLoad: (error) {
           debugPrint('[AdMob] Rewarded falhou ao carregar: ${error.message}');
-          if (mounted) setState(() => _rewardedAd = null);
+          if (mounted) {
+            setState(() {
+              _rewardedAd = null;
+              _rewardedAdNonPersonalized = null;
+            });
+          }
         },
       ),
     );
@@ -309,7 +325,7 @@ class _WebViewScreenState extends State<WebViewScreen>
   ///   senão o React trata como fechamento e cancela o 2º anúncio / liberação).
   /// - `dismissed` se fechou sem prêmio após [_rewardedDismissGrace].
   /// - `failed` se falhou ao carregar ou exibir (React pode cancelar sem liberar trilha).
-  void _showRewardedAd([String? requestId, int retryCount = 0]) {
+  void _showRewardedAd(String? requestId, {required bool nonPersonalizedAds, int retryCount = 0}) {
     void present(RewardedAd ad) {
       _rewardedDismissNotifyTimer?.cancel();
       _rewardedDismissNotifyTimer = null;
@@ -318,7 +334,12 @@ class _WebViewScreenState extends State<WebViewScreen>
       ad.fullScreenContentCallback = FullScreenContentCallback(
         onAdDismissedFullScreenContent: (ad) {
           ad.dispose();
-          if (mounted) setState(() => _rewardedAd = null);
+          if (mounted) {
+            setState(() {
+              _rewardedAd = null;
+              _rewardedAdNonPersonalized = null;
+            });
+          }
           // Adia `dismissed`: se `onUserEarnedReward` vier depois do dismiss (rede
           // mediada / timing WebView), o React não deve fechar o overlay antes do
           // `completed` — senão remove `window.onAdMobResult` e a dica não libera.
@@ -330,13 +351,18 @@ class _WebViewScreenState extends State<WebViewScreen>
               _emitRewardedAdResult('dismissed', requestId);
             }
           });
-          _loadRewardedAd();
+          _loadRewardedAd(nonPersonalizedAds: nonPersonalizedAds);
         },
         onAdFailedToShowFullScreenContent: (ad, error) {
           debugPrint('[AdMob] Rewarded falhou ao exibir: ${error.message}');
           ad.dispose();
-          if (mounted) setState(() => _rewardedAd = null);
-          _loadRewardedAd();
+          if (mounted) {
+            setState(() {
+              _rewardedAd = null;
+              _rewardedAdNonPersonalized = null;
+            });
+          }
+          _loadRewardedAd(nonPersonalizedAds: nonPersonalizedAds);
           _emitRewardedAdResult('failed', requestId);
         },
       );
@@ -348,9 +374,16 @@ class _WebViewScreenState extends State<WebViewScreen>
       );
     }
 
+    if (_rewardedAd != null && _rewardedAdNonPersonalized != nonPersonalizedAds) {
+      _rewardedAd!.dispose();
+      _rewardedAd = null;
+      _rewardedAdNonPersonalized = null;
+    }
+
     if (_rewardedAd != null) {
       final ad = _rewardedAd!;
       _rewardedAd = null;
+      _rewardedAdNonPersonalized = null;
       if (mounted) setState(() {});
       present(ad);
       return;
@@ -359,7 +392,7 @@ class _WebViewScreenState extends State<WebViewScreen>
     // Anúncio ainda não carregado: carrega sob demanda com 1 retry automático.
     RewardedAd.load(
       adUnitId: _effectiveRewardedAdUnitId(),
-      request: const AdRequest(),
+      request: _adRequest(nonPersonalizedAds: nonPersonalizedAds),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
           present(ad);
@@ -368,12 +401,18 @@ class _WebViewScreenState extends State<WebViewScreen>
           debugPrint('[AdMob] Rewarded falhou ao carregar (tentativa ${retryCount + 1}): ${error.message}');
           if (retryCount < 1) {
             Future.delayed(const Duration(seconds: 3), () {
-              if (mounted) _showRewardedAd(requestId, retryCount + 1);
+              if (mounted) {
+                _showRewardedAd(
+                  requestId,
+                  nonPersonalizedAds: nonPersonalizedAds,
+                  retryCount: retryCount + 1,
+                );
+              }
             });
             return;
           }
           _emitRewardedAdResult('failed', requestId);
-          _loadRewardedAd();
+          _loadRewardedAd(nonPersonalizedAds: nonPersonalizedAds);
         },
       ),
     );
@@ -381,7 +420,7 @@ class _WebViewScreenState extends State<WebViewScreen>
 
   // ── Interstitial ──────────────────────────────────────────────────────────
 
-  void _loadInterstitialAd() {
+  void _loadInterstitialAd({required bool nonPersonalizedAds}) {
     final unitId = _effectiveInterstitialAdUnitId();
     if (unitId.isEmpty) {
       debugPrint('[AdMob] Interstitial: defina --dart-define=ADMOB_INTERSTITIAL_ID=ca-app-pub-…/…');
@@ -389,24 +428,40 @@ class _WebViewScreenState extends State<WebViewScreen>
     }
     InterstitialAd.load(
       adUnitId: unitId,
-      request: const AdRequest(),
+      request: _adRequest(nonPersonalizedAds: nonPersonalizedAds),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
-          if (mounted) setState(() => _interstitialAd = ad);
+          if (mounted) {
+            setState(() {
+              _interstitialAd = ad;
+              _interstitialAdNonPersonalized = nonPersonalizedAds;
+            });
+          }
         },
         onAdFailedToLoad: (error) {
           debugPrint('[AdMob] Interstitial falhou ao carregar: ${error.message}');
-          if (mounted) setState(() => _interstitialAd = null);
+          if (mounted) {
+            setState(() {
+              _interstitialAd = null;
+              _interstitialAdNonPersonalized = null;
+            });
+          }
         },
       ),
     );
   }
 
-  void _showInterstitialAd() {
+  void _showInterstitialAd({required bool nonPersonalizedAds}) {
+    if (_interstitialAd != null && _interstitialAdNonPersonalized != nonPersonalizedAds) {
+      _interstitialAd!.dispose();
+      _interstitialAd = null;
+      _interstitialAdNonPersonalized = null;
+    }
+
     if (_interstitialAd == null) {
       // Sem anúncio disponível: React avança de qualquer forma para interstitial
       _controller.runJavaScript("window.onAdMobResult('dismissed')");
-      _loadInterstitialAd();
+      _loadInterstitialAd(nonPersonalizedAds: nonPersonalizedAds);
       return;
     }
 
@@ -414,7 +469,8 @@ class _WebViewScreenState extends State<WebViewScreen>
       onAdDismissedFullScreenContent: (ad) {
         ad.dispose();
         _interstitialAd = null;
-        _loadInterstitialAd();
+        _interstitialAdNonPersonalized = null;
+        _loadInterstitialAd(nonPersonalizedAds: nonPersonalizedAds);
         // AnuncioVideo.tsx avança ao receber qualquer resultado para interstitial
         _controller.runJavaScript("window.onAdMobResult('dismissed')");
       },
@@ -422,7 +478,8 @@ class _WebViewScreenState extends State<WebViewScreen>
         debugPrint('[AdMob] Interstitial falhou ao exibir: ${error.message}');
         ad.dispose();
         _interstitialAd = null;
-        _loadInterstitialAd();
+        _interstitialAdNonPersonalized = null;
+        _loadInterstitialAd(nonPersonalizedAds: nonPersonalizedAds);
         _controller.runJavaScript("window.onAdMobResult('dismissed')");
       },
     );
@@ -440,7 +497,7 @@ class _WebViewScreenState extends State<WebViewScreen>
     );
   }
 
-  void _loadBannerAd() {
+  void _loadBannerAd({required bool nonPersonalizedAds}) {
     if (_showingBanner) return; // já exibindo
 
     final unitId = _effectiveBannerAdUnitId();
@@ -456,7 +513,7 @@ class _WebViewScreenState extends State<WebViewScreen>
     final banner = BannerAd(
       adUnitId: unitId,
       size: AdSize.banner, // 320×50 — alinhado ao placeholder de 50px do AdBanner.tsx
-      request: const AdRequest(),
+      request: _adRequest(nonPersonalizedAds: nonPersonalizedAds),
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           if (mounted) {

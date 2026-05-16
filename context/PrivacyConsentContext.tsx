@@ -17,42 +17,48 @@ type ConsentValue = 'unknown' | 'accepted' | 'rejected'
 interface PrivacyConsentContextValue {
   adsConsent: ConsentValue
   canLoadAds: boolean
+  canLoadPersonalizedAds: boolean
+  canAuthenticate: boolean
   acceptAds: () => void
   rejectAds: () => void
   resetAdsConsent: () => void
 }
 
-const STORAGE_KEY = 'sqlquest_ads_consent_v1'
-const COOKIE_NAME = 'sqlquest_ads_consent'
+export const PRIVACY_CONSENT_STORAGE_KEY = 'sqlquest_ads_consent_v1'
+export const PRIVACY_CONSENT_COOKIE_NAME = 'sqlquest_ads_consent'
 
 const PrivacyConsentContext = createContext<PrivacyConsentContextValue>({
   adsConsent: 'unknown',
   canLoadAds: false,
+  canLoadPersonalizedAds: false,
+  canAuthenticate: false,
   acceptAds: () => {},
   rejectAds: () => {},
   resetAdsConsent: () => {},
 })
 
 function writeConsentCookie(value: Exclude<ConsentValue, 'unknown'>) {
-  document.cookie = `${COOKIE_NAME}=${value};path=/;max-age=31536000;SameSite=Lax`
+  document.cookie = `${PRIVACY_CONSENT_COOKIE_NAME}=${value};path=/;max-age=31536000;SameSite=Lax`
 }
 
 function clearConsentCookie() {
-  document.cookie = `${COOKIE_NAME}=;path=/;max-age=0;SameSite=Lax`
+  document.cookie = `${PRIVACY_CONSENT_COOKIE_NAME}=;path=/;max-age=0;SameSite=Lax`
 }
 
 function readStoredConsent(): ConsentValue {
   if (typeof window === 'undefined') return 'unknown'
-  const value = window.localStorage.getItem(STORAGE_KEY)
+  const value = window.localStorage.getItem(PRIVACY_CONSENT_STORAGE_KEY)
   return value === 'accepted' || value === 'rejected' ? value : 'unknown'
 }
 
-function AdsScriptLoader({ enabled }: { enabled: boolean }) {
+function AdsScriptLoader({ enabled, nonPersonalized }: { enabled: boolean; nonPersonalized: boolean }) {
   useEffect(() => {
     if (!enabled) return
 
     const src = getAdsenseScriptSrc()
     if (!src) return
+    const ads = ((window as any).adsbygoogle = (window as any).adsbygoogle || [])
+    ads.requestNonPersonalizedAds = nonPersonalized ? 1 : 0
     if (document.querySelector(`script[data-sqlquest-adsense="true"]`)) return
 
     const script = document.createElement('script')
@@ -61,7 +67,7 @@ function AdsScriptLoader({ enabled }: { enabled: boolean }) {
     script.src = src
     script.dataset.sqlquestAdsense = 'true'
     document.head.appendChild(script)
-  }, [enabled])
+  }, [enabled, nonPersonalized])
 
   return null
 }
@@ -71,34 +77,38 @@ function CookieConsentBanner() {
   if (adsConsent !== 'unknown') return null
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-[80] px-4 pb-[calc(1rem+var(--safe-area-bottom,0px))]">
-      <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-[#10131b]/95 p-4 shadow-2xl backdrop-blur">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1">
-            <p className="text-sm font-semibold text-white">Privacidade e publicidade</p>
-            <p className="text-xs leading-relaxed text-white/60">
-              Usamos cookies essenciais para login e preferências. Cookies de publicidade só são
-              ativados se você permitir. Você pode continuar usando o SQLQuest recusando anúncios
-              personalizados.
+    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/55 px-3 pb-[calc(0.75rem+var(--safe-area-bottom,0px))] pt-6 backdrop-blur-sm sm:items-center sm:px-4 sm:py-6">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/10 bg-[#10131b] p-4 shadow-2xl sm:p-5">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <p className="text-base font-bold text-white">Privacidade e cookies</p>
+            <p className="text-sm leading-relaxed text-white/65">
+              Usamos cookies essenciais e armazenamento local para manter seu login, salvar
+              preferências e proteger sua conta. Esses recursos são necessários para usar a área
+              logada.
+            </p>
+            <p className="rounded-xl border border-yellow-400/20 bg-yellow-400/10 px-3 py-2 text-xs leading-relaxed text-yellow-100/85">
+              A publicidade personalizada é opcional. Você pode permitir anúncios personalizados ou
+              continuar com anúncios não personalizados.
             </p>
             <Link href="/privacidade" className="text-xs font-semibold text-[#a78bfa] hover:underline">
               Ver política de privacidade
             </Link>
           </div>
-          <div className="flex shrink-0 flex-col gap-2 sm:w-44">
+          <div className="grid gap-2 sm:grid-cols-2">
             <button
               type="button"
               onClick={acceptAds}
-              className="rounded-xl bg-[#8b5cf6] px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#7c3aed]"
+              className="min-h-12 rounded-xl bg-[#8b5cf6] px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-[#7c3aed]"
             >
-              Permitir anúncios
+              Aceitar e permitir anúncios
             </button>
             <button
               type="button"
               onClick={rejectAds}
-              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/70 transition-colors hover:bg-white/10"
+              className="min-h-12 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/70 transition-colors hover:bg-white/10"
             >
-              Recusar
+              Continuar sem anúncios personalizados
             </button>
           </div>
         </div>
@@ -115,7 +125,7 @@ export function PrivacyConsentProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const setStoredConsent = useCallback((value: Exclude<ConsentValue, 'unknown'>) => {
-    window.localStorage.setItem(STORAGE_KEY, value)
+    window.localStorage.setItem(PRIVACY_CONSENT_STORAGE_KEY, value)
     writeConsentCookie(value)
     setAdsConsent(value)
   }, [])
@@ -123,7 +133,7 @@ export function PrivacyConsentProvider({ children }: { children: ReactNode }) {
   const acceptAds = useCallback(() => setStoredConsent('accepted'), [setStoredConsent])
   const rejectAds = useCallback(() => setStoredConsent('rejected'), [setStoredConsent])
   const resetAdsConsent = useCallback(() => {
-    window.localStorage.removeItem(STORAGE_KEY)
+    window.localStorage.removeItem(PRIVACY_CONSENT_STORAGE_KEY)
     clearConsentCookie()
     setAdsConsent('unknown')
   }, [])
@@ -131,7 +141,9 @@ export function PrivacyConsentProvider({ children }: { children: ReactNode }) {
   const value = useMemo<PrivacyConsentContextValue>(
     () => ({
       adsConsent,
-      canLoadAds: adsConsent === 'accepted',
+      canLoadAds: adsConsent !== 'unknown',
+      canLoadPersonalizedAds: adsConsent === 'accepted',
+      canAuthenticate: adsConsent !== 'unknown',
       acceptAds,
       rejectAds,
       resetAdsConsent,
@@ -141,7 +153,7 @@ export function PrivacyConsentProvider({ children }: { children: ReactNode }) {
 
   return (
     <PrivacyConsentContext.Provider value={value}>
-      <AdsScriptLoader enabled={value.canLoadAds} />
+      <AdsScriptLoader enabled={value.canLoadAds} nonPersonalized={!value.canLoadPersonalizedAds} />
       {children}
       <CookieConsentBanner />
     </PrivacyConsentContext.Provider>
