@@ -1,78 +1,153 @@
 # Setup do SQLQuest
 
-## Passo 1 — Criar o banco de dados (gratuito)
+Este guia descreve o setup atual do projeto: PostgreSQL local, Next.js local e, em producao, publicacao por Cloudflare Tunnel.
 
-1. Acesse https://neon.tech e crie uma conta gratuita
-2. Clique em "New Project"
-3. Dê um nome (ex: sqlquest)
-4. Copie a "Connection string" que aparece — começa com `postgresql://...`
+## Passo 1 - Instalar o PostgreSQL local
 
-## Passo 2 — Configurar as variáveis de ambiente
+1. Instale o PostgreSQL no computador/servidor.
+2. Crie um banco para o projeto, por exemplo `sqlquest_local`.
+3. Crie um usuario proprio para a aplicacao.
+4. Guarde a senha somente no `.env.local`.
 
-Abra o arquivo `.env.local` e preencha:
+Exemplo de conexao esperada:
 
+```text
+postgresql://USER:PASSWORD@127.0.0.1:5432/sqlquest_local
 ```
-# Neon: em produção use POOLER na DATABASE_URL (*.pooler.neon.tech) com ?sslmode=require
-DATABASE_URL="cole-aqui-a-connection-string-com-pooler"
-# Conexão direta (host sem pooler, porta 5432) — obrigatória para `npx prisma db push` / migrate
-DIRECT_URL="cole-aqui-a-connection-string-direta"
+
+## Passo 2 - Configurar variaveis de ambiente
+
+Copie `.env.example` para `.env.local` e preencha os valores reais:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1:5432/sqlquest_local"
+DIRECT_URL="postgresql://USER:PASSWORD@127.0.0.1:5432/sqlquest_local"
 NEXTAUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_URL="http://localhost:3000"
 ADMIN_EMAILS="seu@email.com"
-# Opcional: incremente ao publicar conteúdo novo (cache offline no app)
 CONTENT_VERSION="1"
 ```
 
-Sem pooler no ambiente local? Use a **mesma** string em `DATABASE_URL` e `DIRECT_URL`.
+Em producao local, use:
 
-> `NEXTAUTH_SECRET` já está preenchido automaticamente.
-> As outras variáveis (Google, Stripe, AdSense) podem ficar vazias por enquanto — o app roda sem elas em desenvolvimento.
-
-## Passo 3 — Configurar o banco
-
-```bash
-npx prisma db push
-npm run seed
+```env
+NEXTAUTH_URL="https://sqlquest.com.br"
+NEXT_PUBLIC_URL="https://sqlquest.com.br"
 ```
 
-## Passo 4 — Rodar o projeto
+As demais variaveis de Google, Stripe, Resend e AdSense podem ficar vazias em desenvolvimento, mas devem ser configuradas em producao se esses recursos estiverem ativos.
 
-```bash
-npm run dev
-```
-
-Acesse: http://localhost:3000
-
----
-
-## Opcional — Autenticação Google
-
-1. Acesse https://console.cloud.google.com
-2. Crie um projeto
-3. APIs & Services > Credentials > OAuth 2.0 Client ID
-4. Authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`
-5. Copie Client ID e Client Secret para o `.env.local`
-
-## Opcional — Stripe (pagamentos)
-
-1. Acesse https://dashboard.stripe.com
-2. Developers > API Keys > copie a Secret Key
-3. Para webhook local: `npx stripe listen --forward-to localhost:3000/api/webhook`
-
----
-
-## Verificação: ordem correta dos comandos
+## Passo 3 - Instalar dependencias
 
 ```bash
 npm install
-npx prisma generate
-npx prisma db push        # só após configurar DATABASE_URL
-npm run seed              # só após o db push funcionar
+```
+
+## Passo 4 - Configurar o banco
+
+```bash
+npm run db:generate
+npm run db:push
+npm run seed
+```
+
+## Passo 5 - Rodar em desenvolvimento
+
+```bash
 npm run dev
+```
+
+Acesse:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## Producao local
+
+1. Garanta que o PostgreSQL esta ligado.
+2. Gere o build:
+
+```bash
+npm run build
+```
+
+3. Inicie o servidor Next.js local:
+
+```powershell
+Start-Process powershell.exe -ArgumentList @(
+  '-NoProfile',
+  '-ExecutionPolicy',
+  'Bypass',
+  '-File',
+  (Join-Path (Get-Location) 'scripts\production-start.ps1')
+) -WindowStyle Hidden
+```
+
+4. Inicie/valide o Cloudflare Tunnel:
+
+```powershell
+.\scripts\cloudflare-tunnel-run.ps1
+```
+
+5. Verifique:
+
+```powershell
+.\scripts\production-health.ps1
+```
+
+O site publico deve responder em:
+
+```text
+https://sqlquest.com.br
+```
+
+## Parar producao local
+
+```powershell
+.\scripts\production-stop.ps1
+```
+
+## Google OAuth
+
+No Google Cloud Console, configure:
+
+```text
+Origem JavaScript:
+https://sqlquest.com.br
+https://www.sqlquest.com.br
+
+Redirect URI:
+https://sqlquest.com.br/api/auth/callback/google
+https://www.sqlquest.com.br/api/auth/callback/google
+```
+
+Para desenvolvimento local, tambem pode cadastrar:
+
+```text
+http://localhost:3000/api/auth/callback/google
+```
+
+## Stripe
+
+Webhook local:
+
+```bash
+npx stripe listen --forward-to localhost:3000/api/webhook
+```
+
+Webhook em producao:
+
+```text
+https://sqlquest.com.br/api/webhook
 ```
 
 ## Dicas importantes
 
-- Não commite o `.env.local` no git (já está no `.gitignore`)
-- O banco Neon tem plano gratuito generoso: 512MB — suficiente para desenvolvimento
-- O seed pode ser rodado múltiplas vezes sem duplicar dados (usa upsert)
-- Para verificar se o banco está configurado antes do seed: `npm run db:check`
+- Nunca commite `.env.local`.
+- Nao coloque senhas reais em README, SETUP ou commits.
+- Rode `npm run seed` sempre que atualizar os JSONs de `content/trilhas/`.
+- Rode `npm run db:check` para validar se o banco esta coerente.
+- Se o computador/servidor desligar, sera necessario religar PostgreSQL, Next.js de producao e Cloudflare Tunnel.

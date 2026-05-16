@@ -1,6 +1,6 @@
 -- =============================================================================
--- SQLQuest — Security Setup for Neon PostgreSQL
--- Run this once as the superuser/owner role in your Neon project.
+-- SQLQuest - Security Setup for local PostgreSQL
+-- Run this once as the superuser/owner role in your SQLQuest database.
 -- =============================================================================
 
 -- ---------------------------------------------------------------------------
@@ -13,7 +13,7 @@
 CREATE ROLE sqlquest_sandbox WITH LOGIN PASSWORD 'STRONG_RANDOM_PASSWORD';
 
 -- Allow connection to the database
-GRANT CONNECT ON DATABASE neondb TO sqlquest_sandbox;
+GRANT CONNECT ON DATABASE sqlquest_local TO sqlquest_sandbox;
 
 -- Allow navigation of the public schema
 GRANT USAGE ON SCHEMA public TO sqlquest_sandbox;
@@ -159,7 +159,7 @@ $$;
 
 -- Revoke public execute so only the application role can call it
 REVOKE EXECUTE ON FUNCTION registrar_progresso FROM PUBLIC;
-GRANT  EXECUTE ON FUNCTION registrar_progresso TO neondb_owner; -- replace with your app role
+GRANT  EXECUTE ON FUNCTION registrar_progresso TO sqlquest; -- replace with your app role
 
 -- ---------------------------------------------------------------------------
 -- 4. ROW-LEVEL SECURITY (optional hardening)

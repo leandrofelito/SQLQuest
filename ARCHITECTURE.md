@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-SQLQuest é uma plataforma gamificada de aprendizado SQL construída com Next.js 14 (App Router), Prisma e PostgreSQL (Neon). O projeto usa uma arquitetura baseada em **features por domínio**, separando infraestrutura genérica (`lib/`) de regras de negócio (`features/`).
+SQLQuest é uma plataforma gamificada de aprendizado SQL construída com Next.js 14 (App Router), Prisma e PostgreSQL local. Em produção, o Next.js roda localmente e é publicado por Cloudflare Tunnel em `https://sqlquest.com.br`. O projeto usa uma arquitetura baseada em **features por domínio**, separando infraestrutura genérica (`lib/`) de regras de negócio (`features/`).
 
 ---
 
